@@ -14,29 +14,31 @@ DOCUMENTATION = r"""
 module: wired_campus_automation_workflow_manager
 short_description: Manage wired campus automation operations in Cisco Catalyst Center
 description: |
-  - BETA MODULE - CISCO INTERNAL USE ONLY
-  - This module is currently in beta and is intended for Cisco internal purposes only.
-  - It is not available for customer consumption and should not be used in production environments.
-  - This module provides comprehensive management of Layer 2 wired network configurations in
-    Cisco Catalyst Center.
-  - Configure VLANs, STP, CDP, LLDP, VTP, DHCP Snooping, IGMP/MLD Snooping, authentication,
-    port channels, and interface settings.
-  - Supports both creation and updating of configurations on network devices.
-  - Provides automated deployment of intended configurations to devices.
-  - Includes comprehensive validation of all configuration parameters before applying changes.
-  - Feature Support Matrix
-  - VLANs - create, update, delete
-  - CDP - create, update, delete
-  - LLDP - create, update, delete
-  - STP - create, update (delete not supported due to API limitations)
-  - VTP - create, update, delete
-  - DHCP Snooping - create, update, delete
-  - IGMP Snooping - create, update (delete not supported due to API limitations)
-  - MLD Snooping - create, update (delete not supported due to API limitations)
-  - Authentication - create, update, delete
-  - Logical Ports - create, update (delete not supported due to API limitations)
-  - Port Configuration - create, update (delete not supported due to API limitations)
-  - Known API Limitations
+  BETA MODULE - CISCO INTERNAL USE ONLY
+  This module is currently in beta and is intended for Cisco internal purposes only.
+  It is not available for customer consumption and should not be used in production environments.
+  This module provides comprehensive management of Layer 2 wired network configurations in
+  Cisco Catalyst Center.
+  Configure VLANs, STP, CDP, LLDP, VTP, DHCP Snooping, IGMP/MLD Snooping, authentication,
+  port channels, and interface settings.
+  Supports both creation and updating of configurations on network devices.
+  Provides automated deployment of intended configurations to devices.
+  Includes comprehensive validation of all configuration parameters before applying changes.
+
+  Feature Support Matrix:
+  - "VLANs" - create, update, delete
+  - "CDP" - create, update, delete
+  - "LLDP" - create, update, delete
+  - "STP" - create, update (delete not supported due to API limitations)
+  - "VTP" - create, update, delete
+  - "DHCP Snooping" - create, update, delete
+  - "IGMP Snooping" - create, update (delete not supported due to API limitations)
+  - "MLD Snooping" - create, update (delete not supported due to API limitations)
+  - "Authentication" - create, update, delete
+  - "Logical Ports" - create, update (delete not supported due to API limitations)
+  - "Port Configuration" - create, update (delete not supported due to API limitations)
+
+  Known API Limitations:
   - The deleted state is not supported for STP, IGMP Snooping, MLD Snooping,
     Port Configuration, and Logical Ports due to underlying beta API limitations.
   - Several known issues exist with the beta APIs that may affect functionality.
@@ -58,12 +60,11 @@ options:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
     choices:
-    - merged
-    - deleted
-    default: merged
+      - "merged"
+      - "deleted"
+    default: "merged"
   config:
-    description: |
-      - List of wired campus automation configurations to be applied to network devices.
+    description: List of wired campus automation configurations to be applied to network devices.
     type: list
     elements: dict
     required: true
@@ -71,9 +72,10 @@ options:
       ip_address:
         description: |
           - The management IP address of the network device to configure.
-          - Must be a valid IPv4 address format (e.g., "192.168.1.1").
+          - Must be a valid IPv4 address format.
           - Either ip_address or hostname must be provided to identify the device.
           - If both are provided, ip_address takes precedence.
+          - Example - "192.168.1.1"
         type: str
         required: false
       hostname:
@@ -130,7 +132,7 @@ options:
                   - Cannot contain whitespace characters (spaces, tabs, newlines) or question marks (?).
                   - Use underscores (_) or hyphens (-) instead of spaces for better compatibility.
                   - Empty strings are not allowed and will cause API validation errors.
-                  - Examples "SALES_VLAN", "IOT_DEVICES", "GUEST_NETWORK"
+                  - Examples - "SALES_VLAN", "IOT_DEVICES", "GUEST_NETWORK"
                 type: str
                 required: false
               vlan_admin_status:
@@ -139,7 +141,7 @@ options:
                   - When true, the VLAN is active and can carry traffic.
                   - When false, the VLAN is administratively shut down.
                   - Disabled VLANs do not forward traffic but retain their configuration.
-                  - Note "vlan_admin_status" Can only be modified for VLAN IDs 2-1001.
+                  - NOTE - "vlan_admin_status" Can only be modified for VLAN IDs 2-1001.
                   - Extended range VLANs (1002-4094) do not support admin status updates.
                 type: bool
                 required: false
@@ -261,37 +263,41 @@ options:
             suboptions:
               stp_mode:
                 description: |
-                  - Spanning Tree Protocol mode to operate in.
-                  - PVST (Per-VLAN Spanning Tree Plus) - Cisco proprietary, one instance per VLAN.
-                  - RSTP (Rapid Spanning Tree Protocol) - IEEE 802.1w, faster convergence than PVST.
-                  - MST (Multiple Spanning Tree) - IEEE 802.1s, maps multiple VLANs to instances.
-                  - Choose based on network size, convergence requirements, and vendor compatibility.
+                  Spanning Tree Protocol mode to operate in.
+                    - "PVST" (Per-VLAN Spanning Tree Plus) - Cisco proprietary, one instance per VLAN.
+                    - "RSTP" (Rapid Spanning Tree Protocol) - IEEE 802.1w, faster convergence than PVST.
+                    - "MST" (Multiple Spanning Tree) - IEEE 802.1s, maps multiple VLANs to instances.
+                  Choose based on network size, convergence requirements, and vendor compatibility.
                 type: str
                 required: false
                 choices:
-                - PVST
-                - RSTP
-                - MST
-                default: RSTP
+                  - "PVST"
+                  - "RSTP"
+                  - "MST"
+                default: "RSTP"
               stp_portfast_mode:
                 description: |
-                  - Global PortFast mode configuration for edge ports.
-                  - ENABLE - Enables PortFast on all access ports globally.
-                  - DISABLE - Disables PortFast globally.
-                  - EDGE - Enables PortFast on edge ports (recommended for end devices).
-                  - NETWORK - Configures network ports (inter-switch links).
-                  - PortFast bypasses listening and learning states for faster convergence.
-                  - Advanced portfast modes (EDGE, NETWORK, TRUNK) are only supported on
-                    Catalyst 9600 Series and specific Catalyst 9500 Series models
-                    (C9500-32C, C9500-32QC, C9500-48Y4C, C9500-24Y4C, C9500X-28C8D).
+                  Global PortFast mode configuration for edge ports:
+                    - "ENABLE" - Enables PortFast on all access ports globally.
+                    - "DISABLE" - Disables PortFast globally.
+                    - "EDGE" - Enables PortFast on edge ports (recommended for end devices).
+                    - "NETWORK" - Configures network ports (inter-switch links).
+                  PortFast bypasses listening and learning states for faster convergence.
+                  Advanced portfast modes (EDGE, NETWORK, TRUNK) are only supported on
+                  Catalyst 9600 Series and specific Catalyst 9500 Series models:
+                    - C9500-32C
+                    - C9500-32QC
+                    - C9500-48Y4C
+                    - C9500-24Y4C
+                    - C9500X-28C8D
                 type: str
                 required: false
                 choices:
-                - ENABLE
-                - DISABLE
-                - EDGE
-                - NETWORK
-                - TRUNK
+                  - "ENABLE"
+                  - "DISABLE"
+                  - "EDGE"
+                  - "NETWORK"
+                  - "TRUNK"
               stp_bpdu_guard:
                 description: |
                   - Global BPDU Guard configuration for PortFast-enabled ports.
@@ -455,7 +461,7 @@ options:
                       - Must be between 4 and 30 seconds.
                       - Time spent in listening and learning states during convergence.
                       - Should be coordinated with max age and hello interval.
-                      - Affects convergence time - shorter delays mean faster convergence.
+                      - Affects convergence time, shorter delays mean faster convergence.
                     type: int
                     required: false
                     default: 15
@@ -470,32 +476,32 @@ options:
             suboptions:
               vtp_mode:
                 description: |
-                  - VTP operational mode for this switch.
-                  - SERVER - Can create, modify, and delete VLANs; propagates changes.
-                  - CLIENT - Cannot modify VLANs locally; accepts updates from servers.
-                  - TRANSPARENT - Can modify VLANs locally; forwards but doesn't process updates.
-                  - OFF - VTP is disabled; no VTP processing or forwarding.
-                  - Choose based on network role and VLAN management strategy.
-                  - VTP modes SERVER and CLIENT do not support extended range VLANs (1006-4094).
-                  - If extended range VLANs are configured on the device, VTP mode
-                    must be set to TRANSPARENT or OFF.
+                  VTP operational mode for this switch:
+                    - "SERVER" - Can create, modify, and delete VLANs; propagates changes.
+                    - "CLIENT" - Cannot modify VLANs locally; accepts updates from servers.
+                    - "TRANSPARENT" - Can modify VLANs locally; forwards but doesn't process updates.
+                    - "OFF" - VTP is disabled; no VTP processing or forwarding.
+                  Choose based on network role and VLAN management strategy.
+                  VTP modes SERVER and CLIENT do not support extended range VLANs (1006-4094).
+                  If extended range VLANs are configured on the device, VTP mode
+                  must be set to TRANSPARENT or OFF.
                 type: str
                 required: false
-                choices: ['SERVER', 'CLIENT', 'TRANSPARENT', 'OFF']
+                choices: ["SERVER", "CLIENT", "TRANSPARENT", "OFF"]
                 default: SERVER
               vtp_version:
                 description: |
-                  - VTP protocol version to use.
-                  - VERSION_1 - Original VTP implementation, basic functionality.
-                  - VERSION_2 - Adds support for Token Ring and unrecognized TLVs.
-                  - VERSION_3 - Adds extended VLANs, private VLANs, and MST support.
-                  - Higher versions provide more features but require compatible switches.
+                  VTP protocol version to use.
+                  - "VERSION_1" - Original VTP implementation, basic functionality.
+                  - "VERSION_2" - Adds support for Token Ring and unrecognized TLVs.
+                  - "VERSION_3" - Adds extended VLANs, private VLANs, and MST support.
+                  Higher versions provide more features but require compatible switches.
                 type: str
                 required: false
                 choices:
-                - VERSION_1
-                - VERSION_2
-                - VERSION_3
+                - "VERSION_1"
+                - "VERSION_2"
+                - "VERSION_3"
                 default: VERSION_1
               vtp_domain_name:
                 description: |
@@ -514,7 +520,7 @@ options:
                   - Maximum 244 characters for custom filenames.
                   - Useful for backup and recovery procedures.
                   - Should include full path if not in default location.
-                  - NOTE Due to API limitations, this parameter does not support
+                  - NOTE - Due to API limitations, this parameter does not support
                     empty string values ("") for resetting to default.
                   - To reset this parameter, the entire VTP configuration has
                     to be reset using the "deleted" state.
@@ -526,8 +532,8 @@ options:
                   - Specifies which interface IP becomes the VTP updater address.
                   - Useful for identifying which switch made the last update.
                   - Should be a consistently available interface like a loopback.
-                  - Format interface type and number (e.g., "GigabitEthernet1/0/1").
-                  - NOTE Due to API limitations, this parameter does not support
+                  - Format interface type and number (Example, "GigabitEthernet1/0/1").
+                  - NOTE - Due to API limitations, this parameter does not support
                     empty string values ("") for resetting to default.
                   - To reset this parameter, the entire VTP configuration
                     has to be reset using the "deleted" state.
@@ -586,19 +592,28 @@ options:
                 default: false
               dhcp_snooping_database_agent_url:
                 description:
-                  - URL for storing DHCP Snooping binding database remotely.
-                  - Supports TFTP, FTP, and other file transfer protocols.
-                  - Provides persistence of bindings across switch reboots.
-                  - Minimum 5 characters, maximum 227 characters.
-                  - Format protocol://server_ip/filename
-                  - The URL must start with one of the following protocol prefixes
-                   "bootflash:", "crashinfo:", "flash:", "ftp:", "http:",
-                   "https:", "rcp:", "scp:", "sftp:", or "tftp:"
-                  - Examples of valid URLs
-                    tftp URL  "tftp://192.168.1.100/dhcp_bindings.db",
-                    ftp URL "ftp://server.example.com/backups/dhcp_bindings.db",
-                    flash URL "flash:dhcp_bindings.db",
-                    bootflash URL "bootflash:dhcp_bindings.db"
+                  URL for storing DHCP Snooping binding database remotely.
+                  Supports TFTP, FTP, and other file transfer protocols.
+                  Provides persistence of bindings across switch reboots.
+                  Minimum 5 characters, maximum 227 characters.
+                  Format: 
+                    - "protocol://server_ip/filename"
+                  The URL must start with one of the following protocol prefixes:
+                    - "bootflash:"
+                    - "crashinfo:"
+                    - "flash:"
+                    - "ftp:"
+                    - "http:"
+                    - "https:"
+                    - "rcp:"
+                    - "scp:"
+                    - "sftp:"
+                    - "tftp:"
+                  Examples of valid URLs:
+                    - tftp URL - "tftp://192.168.1.100/dhcp_bindings.db",
+                    - ftp URL - "ftp://server.example.com/backups/dhcp_bindings.db",
+                    - flash URL - "flash:dhcp_bindings.db",
+                    - bootflash URL - "bootflash:dhcp_bindings.db"
                 type: str
                 required: false
               dhcp_snooping_database_timeout:
@@ -674,18 +689,18 @@ options:
                 required: false
               igmp_snooping_querier_version:
                 description: |
-                  - IGMP version for query messages.
-                  - VERSION_1 - Basic join/leave functionality.
-                  - VERSION_2 - Adds leave group messages and group-specific queries.
-                  - VERSION_3 - Adds source-specific multicast (SSM) support.
-                  - Choose based on receiver capabilities and application requirements.
+                  IGMP version for query messages.
+                    - "VERSION_1" - Basic join/leave functionality.
+                    - "VERSION_2" - Adds leave group messages and group-specific queries.
+                    - "VERSION_3" - Adds source-specific multicast (SSM) support.
+                  Choose based on receiver capabilities and application requirements.
                 type: str
                 required: false
                 choices:
-                - VERSION_1
-                - VERSION_2
-                - VERSION_3
-                default: VERSION_2
+                - "VERSION_1"
+                - "VERSION_2"
+                - "VERSION_3"
+                default: "VERSION_2"
               igmp_snooping_querier_query_interval:
                 description: |
                   - Interval in seconds between IGMP general query messages.
@@ -755,16 +770,15 @@ options:
                   igmp_snooping_querier_version:
                     description: |
                       - IGMP version for this VLAN's query messages.
-                      - VERSION_1, VERSION_2, or VERSION_3.
                       - Can be different from the global IGMP version.
                       - Choose based on VLAN-specific application requirements.
                     type: str
                     required: false
                     choices:
-                    - VERSION_1
-                    - VERSION_2
-                    - VERSION_3
-                    default: VERSION_2
+                    - "VERSION_1"
+                    - "VERSION_2"
+                    - "VERSION_3"
+                    default: "VERSION_2"
                   igmp_snooping_querier_query_interval:
                     description: |
                       - Query interval for this specific VLAN in seconds.
@@ -778,7 +792,7 @@ options:
                       - List of interface names that connect to multicast routers.
                       - Interfaces in this list are treated as mrouter ports.
                       - Multicast traffic is always forwarded to these ports.
-                      - Format interface type and number (e.g., "GigabitEthernet1/0/1").
+                      - Format interface type and number (Example, "GigabitEthernet1/0/1").
                       - Essential for proper multicast routing integration.
                     type: list
                     elements: str
@@ -823,17 +837,17 @@ options:
                 required: false
               mld_snooping_querier_version:
                 description: |
-                  - MLD version for query messages.
-                  - VERSION_1 - Basic IPv6 multicast listener functionality.
-                  - VERSION_2 - Adds source-specific multicast and enhanced features.
+                  MLD version for query messages.
+                  - "VERSION_1" - Basic IPv6 multicast listener functionality.
+                  - "VERSION_2" - Adds source-specific multicast and enhanced features.
                   - Choose based on IPv6 application requirements and receiver capabilities.
-                  - VERSION_2 is recommended for modern IPv6 networks.
+                  - "VERSION_2" is recommended for modern IPv6 networks.
                 type: str
                 required: false
                 choices:
-                - VERSION_1
-                - VERSION_2
-                default: VERSION_2
+                - "VERSION_1"
+                - "VERSION_2"
+                default: "VERSION_2"
               mld_snooping_listener:
                 description: |
                   - Enable listener message suppression for MLD.
@@ -911,15 +925,14 @@ options:
                   mld_snooping_querier_version:
                     description: |
                       - MLD version for this VLAN's query messages.
-                      - VERSION_1 or VERSION_2.
                       - Can be different from the global MLD version.
                       - Choose based on VLAN-specific IPv6 application requirements.
                     type: str
                     required: false
                     choices:
-                    - VERSION_1
-                    - VERSION_2
-                    default: VERSION_1
+                    - "VERSION_1"
+                    - "VERSION_2"
+                    default: "VERSION_1"
                   mld_snooping_querier_query_interval:
                     description: |
                       - Query interval for this specific VLAN in seconds.
@@ -933,7 +946,7 @@ options:
                       - List of interface names that connect to IPv6 multicast routers.
                       - Interfaces in this list are treated as IPv6 mrouter ports.
                       - IPv6 multicast traffic is always forwarded to these ports.
-                      - Format interface type and number (e.g., "GigabitEthernet1/0/1").
+                      - Format interface type and number (Example, "GigabitEthernet1/0/1").
                       - Essential for proper IPv6 multicast routing integration.
                     type: list
                     elements: str
@@ -959,18 +972,18 @@ options:
                 default: false
               authentication_config_mode:
                 description: |
-                  - Authentication configuration mode (legacy vs. new style).
-                  - LEGACY - Traditional authentication manager configuration mode.
-                  - NEW_STYLE - Identity-Based Networking Services (IBNS) mode.
-                  - NEW_STYLE is recommended for modern authentication deployments.
-                  - Affects how authentication policies are configured and applied.
-                  - Once the authentication configuration mode is set, it cannot be changed.
+                  Authentication configuration mode (legacy vs. new style).
+                  - "LEGACY" - Traditional authentication manager configuration mode.
+                  - "NEW_STYLE" - Identity-Based Networking Services (IBNS) mode.
+                  "NEW_STYLE" is recommended for modern authentication deployments.
+                  Affects how authentication policies are configured and applied.
+                  Once the authentication configuration mode is set, it cannot be changed.
                 type: str
                 required: false
                 choices:
-                - LEGACY
-                - NEW_STYLE
-                default: LEGACY
+                - "LEGACY"
+                - "NEW_STYLE"
+                default: "LEGACY"
           logical_ports:
             description: |
               - Port channel (EtherChannel) configuration for link aggregation.
@@ -1002,34 +1015,38 @@ options:
                 default: 32768
               port_channel_load_balancing_method:
                 description: |
-                  - Method for distributing traffic across port channel members.\n- SRC_MAC, DST_MAC, SRC_DST_MAC\
-                  \ - Based on MAC addresses.\n- SRC_IP, DST_IP, SRC_DST_IP - Based on IP addresses.\n- SRC_PORT, DST_PORT,\
-                  \ SRC_DST_PORT - Based on TCP/UDP ports.\n- Mixed options combine multiple criteria for better distribution.\n\
-                  - Choose based on traffic patterns and load balancing requirements.\n- VLAN-based load balancing methods\
-                  \ \n  (VLAN_SRC_IP, VLAN_DST_IP, VLAN_SRC_DST_IP, VLAN_SRC_MIXED_IP_PORT,\n  VLAN_DST_MIXED_IP_PORT, VLAN_SRC_DST_MIXED_IP_PORT)\n\
-                  \  for port channels are only supported on Cisco Catalyst 9600 Series Switches.\n"
+                  Method for distributing traffic across port channel members:
+                  - Based on MAC addresses - "SRC_MAC", "DST_MAC", "SRC_DST_MAC".
+                  - Based on IP addresses - "SRC_IP", "DST_IP", "SRC_DST_IP".
+                  - Based on TCP/UDP ports - "RC_PORT", "DST_PORT", "SRC_DST_PORT".
+                  - VLAN-based load balancing methods - "VLAN_SRC_IP", "VLAN_DST_IP", "VLAN_SRC_DST_IP", 
+                    "VLAN_SRC_MIXED_IP_PORT", "VLAN_DST_MIXED_IP_PORT", "VLAN_SRC_DST_MIXED_IP_PORT".
+                  VLAN-based load balancing methods for port channels are only
+                  supported on Cisco Catalyst 9600 Series Switches.
+                  Choose based on traffic patterns and load balancing requirements.
+                  Mixed options combine multiple criteria for better distribution.
                 type: str
                 required: false
                 choices:
-                - SRC_MAC
-                - DST_MAC
-                - SRC_DST_MAC
-                - SRC_IP
-                - DST_IP
-                - SRC_DST_IP
-                - SRC_PORT
-                - DST_PORT
-                - SRC_DST_PORT
-                - SRC_DST_MIXED_IP_PORT
-                - SRC_MIXED_IP_PORT
-                - DST_MIXED_IP_PORT
-                - VLAN_SRC_IP
-                - VLAN_DST_IP
-                - VLAN_SRC_DST_IP
-                - VLAN_SRC_MIXED_IP_PORT
-                - VLAN_DST_MIXED_IP_PORT
-                - VLAN_SRC_DST_MIXED_IP_PORT
-                default: SRC_DST_IP
+                  - "SRC_MAC"
+                  - "DST_MAC"
+                  - "SRC_DST_MAC"
+                  - "SRC_IP"
+                  - "DST_IP"
+                  - "SRC_DST_IP"
+                  - "SRC_PORT"
+                  - "DST_PORT"
+                  - "SRC_DST_PORT"
+                  - "SRC_DST_MIXED_IP_PORT"
+                  - "SRC_MIXED_IP_PORT"
+                  - "DST_MIXED_IP_PORT"
+                  - "VLAN_SRC_IP"
+                  - "VLAN_DST_IP"
+                  - "VLAN_SRC_DST_IP"
+                  - "VLAN_SRC_MIXED_IP_PORT"
+                  - "VLAN_DST_MIXED_IP_PORT"
+                  - "VLAN_SRC_DST_MIXED_IP_PORT"
+                default: "SRC_DST_IP"
               port_channels:
                 description: |
                   - List of port channel configurations to create.
@@ -1043,17 +1060,17 @@ options:
                 suboptions:
                   port_channel_protocol:
                     description: |
-                      - Protocol to use for this port channel.
-                      - LACP - IEEE 802.3ad standard, recommended for most environments.
-                      - PAGP - Cisco proprietary protocol, for Cisco-only environments.
-                      - NONE - Static port channel without negotiation protocol.
-                      - LACP provides better standards compliance and interoperability.
+                      Protocol to use for this port channel:
+                        - "LACP" - IEEE 802.3ad standard, recommended for most environments.
+                        - "PAGP" - Cisco proprietary protocol, for Cisco-only environments.
+                        - "NONE" - Static port channel without negotiation protocol.
+                      LACP provides better standards compliance and interoperability.
                     type: str
                     required: true
                     choices:
-                    - LACP
-                    - PAGP
-                    - NONE
+                      - "LACP"
+                      - "PAGP"
+                      - "NONE"
                   port_channel_name:
                     description: |
                       - Name identifier for the port channel interface.
@@ -1087,26 +1104,33 @@ options:
                         description: |
                           - Name of the physical interface to add to the port channel.
                           - Must be a valid interface on the switch.
-                          - Format interface type and number (e.g., "GigabitEthernet1/0/1").
+                          - Format interface type and number (Example, "GigabitEthernet1/0/1").
                           - Interface must not be a member of another port channel.
                           - Interface configuration must be compatible with other members.
                         type: str
                         required: true
                       port_channel_mode:
                         description: |
-                          - Port channel mode for this member interface.
-                          - For LACP ACTIVE (initiates negotiation), PASSIVE (responds only).
-                          - For PAgP AUTO, AUTO_NON_SILENT, DESIRABLE, DESIRABLE_NON_SILENT.
-                          - For NONE ON (static aggregation without negotiation).
-                          - Choose based on desired negotiation behavior and protocol.
+                          Port channel mode for this member interface.
+                          For "LACP" protocol:
+                           - "ACTIVE" - (initiates negotiation)
+                           - "PASSIVE" - (responds only).
+                          For "PAgP" protocol:
+                           - "AUTO"
+                           - "AUTO_NON_SILENT"
+                           - "DESIRABLE"
+                           - "DESIRABLE_NON_SILENT"
+                          For "NONE" protocol:
+                           - "ON" - (static aggregation without negotiation).
+                          Choose based on desired negotiation behavior and protocol.
                         type: str
                         required: false
-                        choices: ['ACTIVE', 'PASSIVE', 'AUTO', 'AUTO_NON_SILENT', 'DESIRABLE', 'DESIRABLE_NON_SILENT', 'ON']
+                        choices: [ACTIVE, "PASSIVE", "AUTO", "AUTO_NON_SILENT", "DESIRABLE", "DESIRABLE_NON_SILENT", "ON"]
                       port_channel_port_priority:
                         description: |
                           - Priority for this interface in port channel selection.
-                          - For LACP 0-65535 (lower values have higher priority).
-                          - For PAgP 0-255 (lower values have higher priority).
+                          - For "LACP" protocol - 0-65535 (lower values have higher priority).
+                          - For "PAgP" protocol - 0-255 (lower values have higher priority).
                           - Used when more interfaces are available than can be active.
                           - Helps determine which interfaces carry traffic in standby scenarios.
                         type: int
@@ -1121,29 +1145,29 @@ options:
                         type: int
                         required: false
                         choices:
-                        - 1
-                        - 30
+                          - 1
+                          - 30
                         default: 30
                       port_channel_learn_method:
                         description: |
-                          - Learning method for PAgP protocol (PAgP only).
-                          - AGGREGATION_PORT - Learn on the port channel interface.
-                          - PHYSICAL_PORT - Learn on individual physical interfaces.
-                          - Affects MAC address learning and forwarding behavior.
-                          - Only applicable when using PAgP protocol.
+                          Learning method for PAgP protocol (PAgP only):
+                          - "AGGREGATION_PORT" - Learn on the port channel interface.
+                          - "PHYSICAL_PORT" - Learn on individual physical interfaces.
+                          Affects MAC address learning and forwarding behavior.
+                          Only applicable when using PAgP protocol.
                         type: str
                         required: false
                         choices:
-                        - AGGREGATION_PORT
-                        - PHYSICAL_PORT
-                        default: AGGREGATION_PORT
+                          - "AGGREGATION_PORT"
+                          - "PHYSICAL_PORT"
+                        default: "AGGREGATION_PORT"
           port_configuration:
             description: |
               - Individual interface configuration settings for all port types.
               - Allows per-interface customization of Layer 2 features.
               - Each interface can have unique switchport, security, and protocol settings.
               - Essential for fine-grained network access control and optimization.
-              - Note configure switchport_interface_config FIRST before other interface features
+              - NOTE - configure switchport_interface_config FIRST before other interface features
             type: list
             elements: dict
             required: false
@@ -1152,7 +1176,7 @@ options:
                 description: |
                   - Name of the interface to configure.
                   - Must be a valid interface identifier on the target switch.
-                  - Format interface type and number (e.g., "GigabitEthernet1/0/1").
+                  - Format interface type and number (Example, "GigabitEthernet1/0/1").
                   - Interface must exist on the device and be configurable.
                   - Used as the key to identify which interface to configure.
                 type: str
@@ -1177,26 +1201,26 @@ options:
                     required: false
                   switchport_mode:
                     description: |
-                      - Switchport operational mode.
-                      - ACCESS - Interface carries traffic for a single VLAN.
-                      - TRUNK - Interface carries traffic for multiple VLANs.
-                      - DYNAMIC_AUTO - Negotiates mode with neighbor (becomes trunk if neighbor is trunk/desirable).
-                      - DYNAMIC_DESIRABLE - Actively negotiates to become trunk.
-                      - DOT1Q_TUNNEL - Interface acts as a tunnel port for service provider networks.
+                      Switchport operational mode:
+                        - "ACCESS" - Interface carries traffic for a single VLAN.
+                        - "TRUNK" - Interface carries traffic for multiple VLANs.
+                        - "DYNAMIC_AUTO" - Negotiates mode with neighbor (becomes trunk if neighbor is trunk/desirable).
+                        - "DYNAMIC_DESIRABLE" - Actively negotiates to become trunk.
+                        - "DOT1Q_TUNNEL" - Interface acts as a tunnel port for service provider networks.
                     type: str
                     required: false
                     choices:
-                    - ACCESS
-                    - TRUNK
-                    - DYNAMIC_AUTO
-                    - DYNAMIC_DESIRABLE
-                    - DOT1Q_TUNNEL
+                      - "ACCESS"
+                      - "TRUNK"
+                      - "DYNAMIC_AUTO"
+                      - "DYNAMIC_DESIRABLE"
+                      - "DOT1Q_TUNNEL"
                     default: ACCESS
                   access_vlan:
                     description: |
                       - VLAN ID for untagged traffic when interface is in access mode.
                       - Must be between 1 and 4094.
-                      - Only applicable when switchport_mode is ACCESS.
+                      - Only applicable when switchport_mode is "ACCESS".
                       - VLAN must exist before assigning to interface.
                       - Defines which VLAN untagged traffic will be placed in.
                     type: int
@@ -1260,9 +1284,9 @@ options:
                     type: str
                     required: false
                     choices:
-                    - ENABLE
-                    - DISABLE
-                    default: ENABLE
+                      - "ENABLE"
+                      - "DISABLE"
+                    default: "ENABLE"
                   protected:
                     description: |
                       - Enable protected port functionality.
@@ -1296,9 +1320,9 @@ options:
                       - Determines how the interface handles authentication requests.
                     type: str
                     choices:
-                    - AUTO
-                    - FORCE_AUTHORIZED
-                    - FORCE_UNAUTHORIZED
+                      - "AUTO"
+                      - "FORCE_AUTHORIZED"
+                      - "FORCE_UNAUTHORIZED"
                     required: false
                   dot1x_interface_pae_type:
                     description: |
@@ -1306,9 +1330,9 @@ options:
                       - Defines the role of the interface in the authentication process.
                     type: str
                     choices:
-                    - AUTHENTICATOR
-                    - SUPPLICANT
-                    - BOTH
+                      - "AUTHENTICATOR"
+                      - "SUPPLICANT"
+                      - "BOTH"
                     required: false
                   dot1x_interface_control_direction:
                     description: |
@@ -1316,8 +1340,8 @@ options:
                       - Specifies which traffic direction is controlled by authentication.
                     type: str
                     choices:
-                    - BOTH
-                    - IN
+                      - "BOTH"
+                      - "IN"
                     required: false
                   dot1x_interface_host_mode:
                     description: |
@@ -1325,10 +1349,10 @@ options:
                       - Determines how many hosts can authenticate on a single port.
                     type: str
                     choices:
-                    - SINGLE_HOST
-                    - MULTI_HOST
-                    - MULTI_AUTH
-                    - MULTI_DOMAIN
+                      - "SINGLE_HOST"
+                      - "MULTI_HOST"
+                      - "MULTI_AUTH"
+                      - "MULTI_DOMAIN"
                     required: false
                   dot1x_interface_enable_inactivity_timer_from_server:
                     description: |
@@ -1351,9 +1375,9 @@ options:
                     type: list
                     elements: str
                     choices:
-                    - DOT1X
-                    - MAB
-                    - WEBAUTH
+                      - "DOT1X"
+                      - "MAB"
+                      - "WEBAUTH"
                     required: false
                   dot1x_interface_enable_reauth:
                     description: |
@@ -1367,9 +1391,9 @@ options:
                       - Determines the initial authorization state of the port.
                     type: str
                     choices:
-                    - AUTO
-                    - FORCE_AUTHORIZED
-                    - FORCE_UNAUTHORIZED
+                      - "AUTO"
+                      - "FORCE_AUTHORIZED"
+                      - "FORCE_UNAUTHORIZED"
                     required: false
                   dot1x_interface_priority:
                     description: |
@@ -1435,25 +1459,25 @@ options:
                 suboptions:
                   stp_interface_portfast_mode:
                     description: |
-                      - PortFast mode configuration for this interface.
-                      - NONE - No PortFast configuration (uses global setting).
-                      - DISABLE - Explicitly disable PortFast on this interface.
-                      - EDGE - Enable PortFast for edge ports (end device connections).
-                      - EDGE_TRUNK - Enable PortFast on trunk ports to edge devices.
-                      - NETWORK - Configure as network port (inter-switch links).
-                      - TRUNK - Enable PortFast on all trunk ports.
-                      - Advanced portfast modes (EDGE_TRUNK, NETWORK, TRUNK) are only supported on
-                        Catalyst 9600 Series switches and specific Catalyst 9500 Series models
-                        (C9500-32C, C9500-32QC, C9500-48Y4C, C9500-24Y4C, C9500X-28C8D).
+                      PortFast mode configuration for this interface:
+                        - "NONE" - No PortFast configuration (uses global setting).
+                        - "DISABLE" - Explicitly disable PortFast on this interface.
+                        - "EDGE" - Enable PortFast for edge ports (end device connections).
+                        - "EDGE_TRUNK" - Enable PortFast on trunk ports to edge devices.
+                        - "NETWORK" - Configure as network port (inter-switch links).
+                        - "TRUNK" - Enable PortFast on all trunk ports.
+                      Advanced portfast modes (EDGE_TRUNK, NETWORK, TRUNK) are only supported on
+                      Catalyst 9600 Series switches and specific Catalyst 9500 Series models
+                      (C9500-32C, C9500-32QC, C9500-48Y4C, C9500-24Y4C, C9500X-28C8D).
                     type: str
                     required: false
                     choices:
-                    - NONE
-                    - DISABLE
-                    - EDGE
-                    - EDGE_TRUNK
-                    - NETWORK
-                    - TRUNK
+                      - "NONE"
+                      - "DISABLE"
+                      - "EDGE"
+                      - "EDGE_TRUNK"
+                      - "NETWORK"
+                      - "TRUNK"
                   stp_interface_bpdu_filter:
                     description: |
                       - BPDU Filter configuration for this interface.
@@ -1485,17 +1509,17 @@ options:
                     required: false
                   stp_interface_guard:
                     description: |
-                      - Guard mode configuration for this interface.
-                      - LOOP - Enable Loop Guard to prevent loops from unidirectional failures.
-                      - ROOT - Enable Root Guard to prevent inferior BPDUs.
-                      - NONE - Disable guard features on this interface.
-                      - Choose based on interface role and protection requirements.
+                      Guard mode configuration for this interface:
+                        - "LOOP" - Enable Loop Guard to prevent loops from unidirectional failures.
+                        - "ROOT" - Enable Root Guard to prevent inferior BPDUs.
+                        - "NONE" - Disable guard features on this interface.
+                      Choose based on interface role and protection requirements.
                     type: str
                     required: false
                     choices:
-                    - LOOP
-                    - ROOT
-                    - NONE
+                      - "LOOP"
+                      - "ROOT"
+                      - "NONE"
                   stp_interface_priority:
                     description: |
                       - Port priority for this interface in STP tie-breaking.
@@ -1627,20 +1651,20 @@ options:
                 suboptions:
                   lldp_interface_receive_transmit:
                     description: |
-                      - Configure LLDP transmission and reception behavior for this interface.
-                      - TRANSMIT_ONLY - Only send LLDP packets, do not process received packets.
-                      - RECEIVE_ONLY - Only receive and process LLDP packets, do not transmit.
-                      - TRANSMIT_AND_RECEIVE - Both send and receive LLDP packets (default behavior).
-                      - DISABLED - Completely disable LLDP on this interface.
-                      - Choose based on security requirements and interface role in the network.
+                      Configure LLDP transmission and reception behavior for this interface:
+                        - "TRANSMIT_ONLY" - Only send LLDP packets, do not process received packets.
+                        - "RECEIVE_ONLY" - Only receive and process LLDP packets, do not transmit.
+                        - "TRANSMIT_AND_RECEIVE" - Both send and receive LLDP packets (default behavior).
+                        - "DISABLED" - Completely disable LLDP on this interface.
+                      Choose based on security requirements and interface role in the network.
                     type: str
                     required: false
                     choices:
-                    - TRANSMIT_ONLY
-                    - RECEIVE_ONLY
-                    - TRANSMIT_AND_RECEIVE
-                    - DISABLED
-                    default: TRANSMIT_AND_RECEIVE
+                      - "TRANSMIT_ONLY"
+                      - "RECEIVE_ONLY"
+                      - "TRANSMIT_AND_RECEIVE"
+                      - "DISABLED"
+                    default: "TRANSMIT_AND_RECEIVE"
               vtp_interface_config:
                 description: |
                   - VLAN Trunking Protocol (VTP) interface configuration for this specific interface.
@@ -1685,609 +1709,607 @@ notes:
 EXAMPLES = r"""
 - name: Create multiple VLANs with comprehensive settings
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: merged
     config:
-    - ip_address: 204.1.2.3
-      device_collection_status_check: false
-      layer2_configuration:
-        vlans:
-        - vlan_id: 100
-          vlan_name: Production_Network
-          vlan_admin_status: true
-        - vlan_id: 200
-          vlan_name: Development_Network
-          vlan_admin_status: true
-        - vlan_id: 300
-          vlan_name: Guest_Network
-          vlan_admin_status: false
+      - ip_address: 204.1.2.3
+        device_collection_status_check: false
+        layer2_configuration:
+          vlans:
+            - vlan_id: 100
+              vlan_name: Production_Network
+              vlan_admin_status: true
+            - vlan_id: 200
+              vlan_name: Development_Network
+              vlan_admin_status: true
+            - vlan_id: 300
+              vlan_name: Guest_Network
+              vlan_admin_status: false
+
 - name: Update VLAN settings
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: merged
     config:
-    - ip_address: 204.1.2.3
-      layer2_configuration:
-        vlans:
-        - vlan_id: 300
-          vlan_name: Guest_Network_Updated
-          vlan_admin_status: true
+      - ip_address: 204.1.2.3
+        layer2_configuration:
+          vlans:
+            - vlan_id: 300
+              vlan_name: Guest_Network_Updated
+              vlan_admin_status: true
+
 - name: Delete VLANs
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: deleted
     config:
-    - ip_address: 204.1.2.3
-      layer2_configuration:
-        vlans:
-        - vlan_id: 300
+      - ip_address: 204.1.2.3
+        layer2_configuration:
+          vlans:
+            - vlan_id: 300
+
 - name: Configure CDP discovery protocol
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: merged
     config:
-    - ip_address: 204.1.2.3
-      layer2_configuration:
-        cdp:
-          cdp_admin_status: true
-          cdp_hold_time: 180
-          cdp_timer: 60
-          cdp_advertise_v2: true
-          cdp_log_duplex_mismatch: true
+      - ip_address: 204.1.2.3
+        layer2_configuration:
+          cdp:
+            cdp_admin_status: true
+            cdp_hold_time: 180
+            cdp_timer: 60
+            cdp_advertise_v2: true
+            cdp_log_duplex_mismatch: true
+
 - name: Configure LLDP discovery protocol
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: merged
     config:
-    - ip_address: 204.1.2.3
-      layer2_configuration:
-        lldp:
-          lldp_admin_status: true
-          lldp_hold_time: 240
-          lldp_timer: 30
-          lldp_reinitialization_delay: 3
+      - ip_address: 204.1.2.3
+        layer2_configuration:
+          lldp:
+            lldp_admin_status: true
+            lldp_hold_time: 240
+            lldp_timer: 30
+            lldp_reinitialization_delay: 3
+
 - name: Configure Spanning Tree Protocol
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: merged
     config:
-    - ip_address: 204.1.2.3
-      layer2_configuration:
-        stp:
-          stp_mode: MST
-          stp_portfast_mode: ENABLE
-          stp_bpdu_guard: true
-          stp_bpdu_filter: false
-          stp_backbonefast: true
-          stp_extended_system_id: true
-          stp_logging: true
-          stp_loopguard: false
-          stp_transmit_hold_count: 8
-          stp_uplinkfast: false
-          stp_uplinkfast_max_update_rate: 200
-          stp_etherchannel_guard: true
-          stp_instances:
-          - stp_instance_vlan_id: 100
-            stp_instance_priority: 32768
-            enable_stp: true
-            stp_instance_max_age_timer: 20
-            stp_instance_hello_interval_timer: 2
-            stp_instance_forward_delay_timer: 15
-          - stp_instance_vlan_id: 200
-            stp_instance_priority: 16384
-            enable_stp: true
+      - ip_address: 204.1.2.3
+        layer2_configuration:
+          stp:
+            stp_mode: MST
+            stp_portfast_mode: ENABLE
+            stp_bpdu_guard: true
+            stp_bpdu_filter: false
+            stp_backbonefast: true
+            stp_extended_system_id: true
+            stp_logging: true
+            stp_loopguard: false
+            stp_transmit_hold_count: 8
+            stp_uplinkfast: false
+            stp_uplinkfast_max_update_rate: 200
+            stp_etherchannel_guard: true
+            stp_instances:
+              - stp_instance_vlan_id: 100
+                stp_instance_priority: 32768
+                enable_stp: true
+                stp_instance_max_age_timer: 20
+                stp_instance_hello_interval_timer: 2
+                stp_instance_forward_delay_timer: 15
+              - stp_instance_vlan_id: 200
+                stp_instance_priority: 16384
+                enable_stp: true
+
 - name: Configure VLAN Trunking Protocol
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: merged
     config:
-    - ip_address: 204.1.2.3
-      layer2_configuration:
-        vtp:
-          vtp_mode: TRANSPARENT
-          vtp_version: VERSION_2
-          vtp_domain_name: CORPORATE_DOMAIN
-          vtp_pruning: true
-          vtp_configuration_file_name: flash:vtp_config.dat
-          vtp_source_interface: Loopback0
+      - ip_address: 204.1.2.3
+        layer2_configuration:
+          vtp:
+            vtp_mode: TRANSPARENT
+            vtp_version: VERSION_2
+            vtp_domain_name: CORPORATE_DOMAIN
+            vtp_pruning: true
+            vtp_configuration_file_name: flash:vtp_config.dat
+            vtp_source_interface: Loopback0
+
 - name: Configure DHCP Snooping
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: merged
     config:
-    - ip_address: 204.1.2.3
-      layer2_configuration:
-        dhcp_snooping:
-          dhcp_admin_status: true
-          dhcp_snooping_vlans:
-          - 100
-          - 200
-          - 300
-          dhcp_snooping_glean: true
-          dhcp_snooping_database_agent_url: tftp://192.168.1.100/dhcp_binding.db
-          dhcp_snooping_database_timeout: 600
-          dhcp_snooping_database_write_delay: 300
-          dhcp_snooping_proxy_bridge_vlans:
-          - 100
-          - 200
+      - ip_address: 204.1.2.3
+          layer2_configuration:
+            dhcp_snooping:
+              dhcp_admin_status: true
+              dhcp_snooping_vlans:
+                - 100
+                - 200
+                - 300
+              dhcp_snooping_glean: true
+              dhcp_snooping_database_agent_url: tftp://192.168.1.100/dhcp_binding.db
+              dhcp_snooping_database_timeout: 600
+              dhcp_snooping_database_write_delay: 300
+              dhcp_snooping_proxy_bridge_vlans:
+                - 100
+                - 200
+
 - name: Configure IGMP Snooping for multicast
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: merged
     config:
-    - ip_address: 204.1.2.3
-      layer2_configuration:
-        igmp_snooping:
-          enable_igmp_snooping: true
-          igmp_snooping_querier: false
-          igmp_snooping_querier_address: 192.168.1.10
-          igmp_snooping_querier_version: VERSION_2
-          igmp_snooping_querier_query_interval: 125
-          igmp_snooping_vlans:
-          - igmp_snooping_vlan_id: 100
+      - ip_address: 204.1.2.3
+        layer2_configuration:
+            igmp_snooping:
             enable_igmp_snooping: true
             igmp_snooping_querier: false
-            igmp_snooping_querier_address: 192.168.1.11
+            igmp_snooping_querier_address: 192.168.1.10
             igmp_snooping_querier_version: VERSION_2
             igmp_snooping_querier_query_interval: 125
-            igmp_snooping_mrouter_port_list:
-            - GigabitEthernet1/0/1
-            - GigabitEthernet1/0/2
-          - igmp_snooping_vlan_id: 200
-            enable_igmp_snooping: true
-            igmp_snooping_querier: true
-            igmp_snooping_querier_version: VERSION_3
-            igmp_snooping_querier_query_interval: 90
+            igmp_snooping_vlans:
+              - igmp_snooping_vlan_id: 100
+                enable_igmp_snooping: true
+                igmp_snooping_querier: false
+                igmp_snooping_querier_address: 192.168.1.11
+                igmp_snooping_querier_version: VERSION_2
+                igmp_snooping_querier_query_interval: 125
+                igmp_snooping_mrouter_port_list:
+                  - GigabitEthernet1/0/1
+                  - GigabitEthernet1/0/2
+              - igmp_snooping_vlan_id: 200
+                enable_igmp_snooping: true
+                igmp_snooping_querier: true
+                igmp_snooping_querier_version: VERSION_3
+                igmp_snooping_querier_query_interval: 90
+
 - name: Configure MLD Snooping for IPv6 multicast
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: merged
     config:
-    - ip_address: 204.1.2.3
-      layer2_configuration:
-        mld_snooping:
-          enable_mld_snooping: true
-          mld_snooping_querier: false
-          mld_snooping_querier_address: fe80::1
-          mld_snooping_querier_version: VERSION_2
-          mld_snooping_listener: true
-          mld_snooping_querier_query_interval: 125
-          mld_snooping_vlans:
-          - mld_snooping_vlan_id: 100
+      - ip_address: 204.1.2.3
+        layer2_configuration:
+          mld_snooping:
             enable_mld_snooping: true
-            mld_snooping_enable_immediate_leave: false
             mld_snooping_querier: false
-            mld_snooping_querier_address: fe80::10
+            mld_snooping_querier_address: fe80::1
             mld_snooping_querier_version: VERSION_2
+            mld_snooping_listener: true
             mld_snooping_querier_query_interval: 125
-            mld_snooping_mrouter_port_list:
-            - GigabitEthernet1/0/3
-            - GigabitEthernet1/0/4
+            mld_snooping_vlans:
+              - mld_snooping_vlan_id: 100
+                enable_mld_snooping: true
+                mld_snooping_enable_immediate_leave: false
+                mld_snooping_querier: false
+                mld_snooping_querier_address: fe80::10
+                mld_snooping_querier_version: VERSION_2
+                mld_snooping_querier_query_interval: 125
+                mld_snooping_mrouter_port_list:
+                  - GigabitEthernet1/0/3
+                  - GigabitEthernet1/0/4
+
 - name: Configure 802.1X Authentication
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: merged
     config:
-    - ip_address: 204.1.2.3
-      layer2_configuration:
-        authentication:
-          enable_dot1x_authentication: true
-          authentication_config_mode: NEW_STYLE
+        - ip_address: 204.1.2.3
+          layer2_configuration:
+            authentication:
+            enable_dot1x_authentication: true
+            authentication_config_mode: NEW_STYLE
+
 - name: Configure LACP and PAGP Port Channels
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: merged
     config:
-    - ip_address: 204.1.2.3
-      layer2_configuration:
-        logical_ports:
-          port_channel_auto: false
-          port_channel_lacp_system_priority: 4096
-          port_channel_load_balancing_method: SRC_DST_MIXED_IP_PORT
-          port_channels:
-          - port_channel_protocol: LACP
-            port_channel_name: Port-channel1
-            port_channel_min_links: 2
-            port_channel_members:
-            - port_channel_interface_name: GigabitEthernet1/0/10
-              port_channel_mode: ACTIVE
-              port_channel_port_priority: 128
-              port_channel_rate: 30
-            - port_channel_interface_name: GigabitEthernet1/0/11
-              port_channel_mode: ACTIVE
-              port_channel_port_priority: 128
-              port_channel_rate: 30
-          - port_channel_protocol: PAGP
-            port_channel_name: Port-channel2
-            port_channel_min_links: 1
-            port_channel_members:
-            - port_channel_interface_name: GigabitEthernet1/0/12
-              port_channel_mode: DESIRABLE
-              port_channel_port_priority: 128
-              port_channel_learn_method: AGGREGATION_PORT
+      - ip_address: 204.1.2.3
+        layer2_configuration:
+          logical_ports:
+            port_channel_auto: false
+            port_channel_lacp_system_priority: 4096
+            port_channel_load_balancing_method: SRC_DST_MIXED_IP_PORT
+            port_channels:
+              - port_channel_protocol: LACP
+                port_channel_name: Port-channel1
+                port_channel_min_links: 2
+                port_channel_members:
+                  - port_channel_interface_name: GigabitEthernet1/0/10
+                    port_channel_mode: ACTIVE
+                    port_channel_port_priority: 128
+                    port_channel_rate: 30
+                  - port_channel_interface_name: GigabitEthernet1/0/11
+                    port_channel_mode: ACTIVE
+                    port_channel_port_priority: 128
+                    port_channel_rate: 30
+              - port_channel_protocol: PAGP
+                port_channel_name: Port-channel2
+                port_channel_min_links: 1
+                port_channel_members:
+                  - port_channel_interface_name: GigabitEthernet1/0/12
+                    port_channel_mode: DESIRABLE
+                    port_channel_port_priority: 128
+                    port_channel_learn_method: AGGREGATION_PORT
+
 - name: Configure Access Port with authentication and security
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: merged
     config:
-    - ip_address: 204.1.2.3
-      layer2_configuration:
-        port_configuration:
-        - interface_name: GigabitEthernet1/0/5
-          switchport_interface_config:
-            switchport_description: Access Port - Production Network
-            switchport_mode: ACCESS
-            access_vlan: 100
-            admin_status: true
-            voice_vlan: 200
-          vlan_trunking_interface_config:
-            enable_dtp_negotiation: false
-            protected: false
-          dot1x_interface_config:
-            dot1x_interface_authentication_order:
-            - DOT1X
-            - MAB
-            dot1x_interface_authentication_mode: OPEN
-            dot1x_interface_pae_type: AUTHENTICATOR
-            dot1x_interface_control_direction: BOTH
-            dot1x_interface_host_mode: MULTI_AUTHENTICATION
-            dot1x_interface_port_control: AUTO
-            dot1x_interface_inactivity_timer: 300
-            dot1x_interface_max_reauth_requests: 3
-            dot1x_interface_reauth_timer: 3600
-          mab_interface_config:
-            mab_interface_enable: true
-          stp_interface_config:
-            stp_interface_enable_portfast: true
-            stp_interface_enable_bpdu_guard: true
-            stp_interface_enable_bpdu_filter: false
-            stp_interface_enable_root_guard: false
-            stp_interface_enable_loop_guard: false
-            stp_interface_port_priority: 128
-            stp_interface_cost: 19
-          dhcp_snooping_interface_config:
-            dhcp_snooping_interface_rate_limit: 100
-            dhcp_snooping_interface_trust: true
-          cdp_interface_config:
-            cdp_interface_admin_status: true
-            cdp_interface_logging: true
-          lldp_interface_config:
-            lldp_interface_transmit: true
-            lldp_interface_receive: true
-          vtp_interface_config:
-            vtp_interface_admin_status: true
+        - ip_address: 204.1.2.3
+          layer2_configuration:
+            port_configuration:
+            - interface_name: GigabitEthernet1/0/5
+              switchport_interface_config:
+                switchport_description: Access Port - Production Network
+                switchport_mode: ACCESS
+                access_vlan: 100
+                admin_status: true
+                voice_vlan: 200
+              vlan_trunking_interface_config:
+                enable_dtp_negotiation: false
+                protected: false
+              dot1x_interface_config:
+                dot1x_interface_authentication_order:
+                  - DOT1X
+                  - MAB
+                dot1x_interface_authentication_mode: OPEN
+                dot1x_interface_pae_type: AUTHENTICATOR
+                dot1x_interface_control_direction: BOTH
+                dot1x_interface_host_mode: MULTI_AUTHENTICATION
+                dot1x_interface_port_control: AUTO
+                dot1x_interface_inactivity_timer: 300
+                dot1x_interface_max_reauth_requests: 3
+                dot1x_interface_reauth_timer: 3600
+              mab_interface_config:
+                mab_interface_enable: true
+              stp_interface_config:
+                stp_interface_enable_portfast: true
+                stp_interface_enable_bpdu_guard: true
+                stp_interface_enable_bpdu_filter: false
+                stp_interface_enable_root_guard: false
+                stp_interface_enable_loop_guard: false
+                stp_interface_port_priority: 128
+                stp_interface_cost: 19
+              dhcp_snooping_interface_config:
+                dhcp_snooping_interface_rate_limit: 100
+                dhcp_snooping_interface_trust: true
+              cdp_interface_config:
+                cdp_interface_admin_status: true
+                cdp_interface_logging: true
+              lldp_interface_config:
+                lldp_interface_transmit: true
+                lldp_interface_receive: true
+              vtp_interface_config:
+                vtp_interface_admin_status: true
+
 - name: Configure Trunk Port for inter-switch links
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: merged
     config:
-    - ip_address: 204.1.2.3
-      layer2_configuration:
-        port_configuration:
-        - interface_name: GigabitEthernet1/0/6
-          switchport_interface_config:
-            switchport_description: Trunk Port - Inter-Switch Link
-            switchport_mode: TRUNK
-            allowed_vlans:
-            - 100
-            - 200
-            - 300
-            - 400
-            native_vlan_id: 100
-            admin_status: true
-          vlan_trunking_interface_config:
-            enable_dtp_negotiation: true
-            protected: true
-            pruning_vlan_ids:
-            - 300
-            - 400
-          stp_interface_config:
-            stp_interface_enable_portfast: false
-            stp_interface_enable_bpdu_guard: false
-            stp_interface_enable_bpdu_filter: false
-            stp_interface_enable_root_guard: true
-            stp_interface_enable_loop_guard: true
-            stp_interface_port_priority: 64
-            stp_interface_cost: 100
+      - ip_address: 204.1.2.3
+        layer2_configuration:
+          port_configuration:
+            - interface_name: GigabitEthernet1/0/6
+              switchport_interface_config:
+                switchport_description: Trunk Port - Inter-Switch Link
+                switchport_mode: TRUNK
+                allowed_vlans:
+                  - 100
+                  - 200
+                  - 300
+                  - 400
+                native_vlan_id: 100
+                admin_status: true
+              vlan_trunking_interface_config:
+                enable_dtp_negotiation: true
+                protected: true
+                pruning_vlan_ids:
+                  - 300
+                  - 400
+              stp_interface_config:
+                stp_interface_enable_portfast: false
+                stp_interface_enable_bpdu_guard: false
+                stp_interface_enable_bpdu_filter: false
+                stp_interface_enable_root_guard: true
+                stp_interface_enable_loop_guard: true
+                stp_interface_port_priority: 64
+                stp_interface_cost: 100
+
 - name: Comprehensive network configuration with all Layer 2 features
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: merged
     config:
-    - ip_address: 204.1.2.3
-      device_collection_status_check: false
-      layer2_configuration:
-        vlans:
-        - vlan_id: 10
-          vlan_name: Management
-          vlan_admin_status: true
-        - vlan_id: 20
-          vlan_name: Production
-          vlan_admin_status: true
-        - vlan_id: 30
-          vlan_name: Development
-          vlan_admin_status: true
-        - vlan_id: 40
-          vlan_name: Guest
-          vlan_admin_status: true
-        cdp:
-          cdp_admin_status: true
-          cdp_hold_time: 180
-          cdp_timer: 60
-          cdp_advertise_v2: true
-          cdp_log_duplex_mismatch: true
-        lldp:
-          lldp_admin_status: true
-          lldp_hold_time: 240
-          lldp_timer: 30
-          lldp_reinitialization_delay: 3
-        stp:
-          stp_mode: RSTP
-          stp_portfast_mode: ENABLE
-          stp_bpdu_guard: true
-          stp_bpdu_filter: false
-          stp_backbonefast: true
-          stp_extended_system_id: true
-          stp_logging: true
-          stp_instances:
-          - stp_instance_vlan_id: 10
-            stp_instance_priority: 32768
-            enable_stp: true
-          - stp_instance_vlan_id: 20
-            stp_instance_priority: 16384
-            enable_stp: true
-        vtp:
-          vtp_mode: SERVER
-          vtp_version: VERSION_2
-          vtp_domain_name: ENTERPRISE_DOMAIN
-          vtp_pruning: true
-        dhcp_snooping:
-          dhcp_admin_status: true
-          dhcp_snooping_vlans:
-          - 20
-          - 30
-          - 40
-          dhcp_snooping_glean: true
-        igmp_snooping:
-          enable_igmp_snooping: true
-          igmp_snooping_querier: false
-          igmp_snooping_querier_version: VERSION_2
-          igmp_snooping_vlans:
-          - igmp_snooping_vlan_id: 20
+      - ip_address: 204.1.2.3
+        device_collection_status_check: false
+        layer2_configuration:
+          vlans:
+            - vlan_id: 10
+              vlan_name: Management
+              vlan_admin_status: true
+            - vlan_id: 20
+              vlan_name: Production
+              vlan_admin_status: true
+            - vlan_id: 30
+              vlan_name: Development
+              vlan_admin_status: true
+            - vlan_id: 40
+              vlan_name: Guest
+              vlan_admin_status: true
+          cdp:
+            cdp_admin_status: true
+            cdp_hold_time: 180
+            cdp_timer: 60
+            cdp_advertise_v2: true
+            cdp_log_duplex_mismatch: true
+          lldp:
+            lldp_admin_status: true
+            lldp_hold_time: 240
+            lldp_timer: 30
+            lldp_reinitialization_delay: 3
+          stp:
+            stp_mode: RSTP
+            stp_portfast_mode: ENABLE
+            stp_bpdu_guard: true
+            stp_bpdu_filter: false
+            stp_backbonefast: true
+            stp_extended_system_id: true
+            stp_logging: true
+            stp_instances:
+              - stp_instance_vlan_id: 10
+                stp_instance_priority: 32768
+                enable_stp: true
+              - stp_instance_vlan_id: 20
+                stp_instance_priority: 16384
+                enable_stp: true
+          vtp:
+            vtp_mode: SERVER
+            vtp_version: VERSION_2
+            vtp_domain_name: ENTERPRISE_DOMAIN
+            vtp_pruning: true
+          dhcp_snooping:
+            dhcp_admin_status: true
+            dhcp_snooping_vlans:
+              - 20
+              - 30
+              - 40
+            dhcp_snooping_glean: true
+          igmp_snooping:
             enable_igmp_snooping: true
             igmp_snooping_querier: false
-        authentication:
-          enable_dot1x_authentication: true
-          authentication_config_mode: NEW_STYLE
-        logical_ports:
-          port_channel_auto: false
-          port_channel_lacp_system_priority: 8192
-          port_channel_load_balancing_method: SRC_DST_IP
-          port_channels:
-          - port_channel_protocol: LACP
-            port_channel_name: Port-channel10
-            port_channel_min_links: 2
-            port_channel_members:
-            - port_channel_interface_name: GigabitEthernet1/0/16
-              port_channel_mode: ACTIVE
-              port_channel_port_priority: 128
-              port_channel_rate: 30
-            - port_channel_interface_name: GigabitEthernet1/0/17
-              port_channel_mode: ACTIVE
-              port_channel_port_priority: 128
-              port_channel_rate: 30
-        port_configuration:
-        - interface_name: GigabitEthernet1/0/1
-          switchport_interface_config:
-            switchport_description: Management Port
-            switchport_mode: ACCESS
-            access_vlan: 10
-            admin_status: true
-          stp_interface_config:
-            stp_interface_enable_portfast: true
-            stp_interface_enable_bpdu_guard: true
-          dhcp_snooping_interface_config:
-            dhcp_snooping_interface_trust: true
-        - interface_name: GigabitEthernet1/0/2
-          switchport_interface_config:
-            switchport_description: Production User Port
-            switchport_mode: ACCESS
-            access_vlan: 20
-            admin_status: true
-          dot1x_interface_config:
-            dot1x_interface_authentication_order:
-            - DOT1X
-            - MAB
-            dot1x_interface_port_control: AUTO
-          stp_interface_config:
-            stp_interface_enable_portfast: true
+            igmp_snooping_querier_version: VERSION_2
+            igmp_snooping_vlans:
+              - igmp_snooping_vlan_id: 20
+                enable_igmp_snooping: true
+                igmp_snooping_querier: false
+          authentication:
+            enable_dot1x_authentication: true
+            authentication_config_mode: NEW_STYLE
+          logical_ports:
+            port_channel_auto: false
+            port_channel_lacp_system_priority: 8192
+            port_channel_load_balancing_method: SRC_DST_IP
+            port_channels:
+              - port_channel_protocol: LACP
+                port_channel_name: Port-channel10
+                port_channel_min_links: 2
+                port_channel_members:
+                  - port_channel_interface_name: GigabitEthernet1/0/16
+                    port_channel_mode: ACTIVE
+                    port_channel_port_priority: 128
+                    port_channel_rate: 30
+                  - port_channel_interface_name: GigabitEthernet1/0/17
+                    port_channel_mode: ACTIVE
+                    port_channel_port_priority: 128
+                    port_channel_rate: 30
+          port_configuration:
+            - interface_name: GigabitEthernet1/0/1
+              switchport_interface_config:
+                switchport_description: Management Port
+                switchport_mode: ACCESS
+                access_vlan: 10
+                admin_status: true
+              stp_interface_config:
+                stp_interface_enable_portfast: true
+                stp_interface_enable_bpdu_guard: true
+              dhcp_snooping_interface_config:
+                dhcp_snooping_interface_trust: true
+            - interface_name: GigabitEthernet1/0/2
+              switchport_interface_config:
+                switchport_description: Production User Port
+                switchport_mode: ACCESS
+                access_vlan: 20
+                admin_status: true
+              dot1x_interface_config:
+                dot1x_interface_authentication_order:
+                  - DOT1X
+                  - MAB
+                dot1x_interface_port_control: AUTO
+              stp_interface_config:
+                stp_interface_enable_portfast: true
+
 - name: Reset CDP to default settings
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: deleted
     config:
-    - ip_address: 204.1.2.3
-      layer2_configuration:
-        cdp: {}
+      - ip_address: 204.1.2.3
+        layer2_configuration:
+          cdp: {}
+
 - name: Reset LLDP to default settings
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: deleted
     config:
-    - ip_address: 204.1.2.3
-      layer2_configuration:
-        lldp: {}
-- name: Delete specific STP instances
-  cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
-    state: deleted
-    config:
-    - ip_address: 204.1.2.3
-      layer2_configuration:
-        stp:
-          stp_instances:
-          - stp_instance_vlan_id: 100
-          - stp_instance_vlan_id: 200
+      - ip_address: 204.1.2.3
+        layer2_configuration:
+          lldp: {}
+
 - name: Comprehensive cleanup of all Layer 2 configurations
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: deleted
     config:
-    - ip_address: 204.1.2.3
-      layer2_configuration:
-        vlans:
-        - vlan_id: 10
-        - vlan_id: 20
-        - vlan_id: 30
-        - vlan_id: 40
-        - vlan_id: 100
-        - vlan_id: 200
-        - vlan_id: 300
-        cdp: {}
-        lldp: {}
-        vtp: {}
-        dhcp_snooping: {}
-        igmp_snooping: {}
-        mld_snooping: {}
-        authentication: {}
-        stp: {}
+      - ip_address: 204.1.2.3
+        layer2_configuration:
+          vlans:
+            - vlan_id: 10
+            - vlan_id: 20
+            - vlan_id: 30
+            - vlan_id: 40
+            - vlan_id: 100
+            - vlan_id: 200
+            - vlan_id: 300
+          cdp: {}
+          lldp: {}
+          vtp: {}
+          dhcp_snooping: {}
+          authentication: {}
+
 - name: Configure using device hostname
   cisco.dnac.wired_campus_automation_workflow_manager:
-    dnac_host: '{{ dnac_host }}'
-    dnac_username: '{{ dnac_username }}'
-    dnac_password: '{{ dnac_password }}'
-    dnac_verify: '{{ dnac_verify }}'
-    dnac_port: '{{ dnac_port }}'
-    dnac_version: '{{ dnac_version }}'
-    dnac_debug: '{{ dnac_debug }}'
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     state: merged
     config:
-    - hostname: switch01.example.com
-      device_collection_status_check: true
-      config_verification_wait_time: 15
-      layer2_configuration:
-        vlans:
-        - vlan_id: 100
-          vlan_name: Finance_VLAN
-          vlan_admin_status: true
-        cdp:
-          cdp_admin_status: true
-          cdp_hold_time: 200
-          cdp_timer: 90
+      - hostname: switch01.example.com
+        device_collection_status_check: true
+        config_verification_wait_time: 15
+        layer2_configuration:
+          vlans:
+            - vlan_id: 100
+              vlan_name: Finance_VLAN
+              vlan_admin_status: true
+          cdp:
+            cdp_admin_status: true
+            cdp_hold_time: 200
+            cdp_timer: 90
 """
 
 RETURN = r"""
@@ -3485,7 +3507,7 @@ class WiredCampusAutomation(DnacBase):
         """
         Validates a specific configuration against the provided validation rules.
         Args:
-            config_name (str): The name of the configuration (e.g., "vlan").
+            config_name (str): The name of the configuration (Example, "vlan").
             config_values (dict): The configuration values provided by the user.
             rules (dict): The validation rules for the configuration.
         Raises:
@@ -7336,7 +7358,7 @@ class WiredCampusAutomation(DnacBase):
         """
         Maps user-provided configuration parameters to API-compatible format for a specific Layer 2 feature.
         Args:
-            feature_name (str): The name of the Layer 2 feature (e.g., "vlans", "cdp", "lldp").
+            feature_name (str): The name of the Layer 2 feature (Example, "vlans", "cdp", "lldp").
             config_data (dict/list): The configuration data for the feature.
         Returns:
             dict: The mapped configuration parameters in API-compatible format.
@@ -7408,7 +7430,7 @@ class WiredCampusAutomation(DnacBase):
     #     Retrieves the configurations for an intended layer 2 feature on a wired device.
     #     Args:
     #         device_id (str): Network device ID of the wired device.
-    #         feature (str): Name of the layer 2 feature to retrieve (e.g., 'vlan', 'cdp', 'stp').
+    #         feature (str): Name of the layer 2 feature to retrieve (Example, 'vlan', 'cdp', 'stp').
     #     Returns:
     #         dict: The configuration details of the intended layer 2 feature.
     #     """
@@ -7519,7 +7541,7 @@ class WiredCampusAutomation(DnacBase):
         Retrieves the configurations for a deployed layer 2 feature on a wired device.
         Args:
             device_id (str): Network device ID of the wired device.
-            feature (str): Name of the layer 2 feature to retrieve (e.g., 'vlan', 'cdp', 'stp').
+            feature (str): Name of the layer 2 feature to retrieve (Example, 'vlan', 'cdp', 'stp').
         Returns:
             dict: The configuration details of the deployed layer 2 feature.
         """
@@ -7545,7 +7567,7 @@ class WiredCampusAutomation(DnacBase):
         Creates configurations for an intended layer 2 feature on a wired device.
         Args:
             device_id (str): Network device ID of the wired device to configure.
-            feature (str): Name of the layer 2 feature to configure (e.g., 'vlan', 'cdp', 'stp').
+            feature (str): Name of the layer 2 feature to configure (Example, 'vlan', 'cdp', 'stp').
             config_params (dict): A dictionary containing the configuration parameters for the feature.
                 The keys should match the expected parameter names for the feature.
         Returns:
@@ -7586,7 +7608,7 @@ class WiredCampusAutomation(DnacBase):
         Updates configurations for an intended layer 2 feature on a wired device.
         Args:
             device_id (str): Network device ID of the wired device to configure.
-            feature (str): Name of the layer 2 feature to update (e.g., 'vlan', 'cdp', 'stp').
+            feature (str): Name of the layer 2 feature to update (Example, 'vlan', 'cdp', 'stp').
             config_params (dict): A dictionary containing the updated configuration parameters for the feature.
                 The keys should match the expected parameter names for the feature.
         Returns:
@@ -7625,7 +7647,7 @@ class WiredCampusAutomation(DnacBase):
         Deletes configurations for an intended layer 2 feature on a wired device.
         Args:
             device_id (str): Network device ID of the wired device to configure.
-            feature (str): Name of the layer 2 feature to delete (e.g., 'vlan', 'cdp', 'stp').
+            feature (str): Name of the layer 2 feature to delete (Example, 'vlan', 'cdp', 'stp').
         Returns:
             dict: The response containing the task ID for the delete operation.
         """
@@ -7959,7 +7981,7 @@ class WiredCampusAutomation(DnacBase):
         """
         Determines the required operation (create/update intent) and final configuration for an API feature.
         Args:
-            api_feature_name (str): Name of the API feature (e.g., 'vlanConfig', 'cdpGlobalConfig')
+            api_feature_name (str): Name of the API feature (Example, 'vlanConfig', 'cdpGlobalConfig')
             desired_config (dict): Desired configuration from user input
             deployed_config (dict): Current deployed configuration from device
             intended_config (dict): Current intended configuration from Catalyst Center
@@ -8904,7 +8926,7 @@ class WiredCampusAutomation(DnacBase):
 
     def _compare_name_based_list(self, desired_list, current_list):
         """
-        Compares lists of items that have name as identifier (e.g., port channels).
+        Compares lists of items that have name as identifier (Example, port channels).
         Args:
             desired_list (list): Desired list with name-based items
             current_list (list): Current list with name-based items
@@ -9024,7 +9046,7 @@ class WiredCampusAutomation(DnacBase):
             if i < len(deployed_items):
                 deployed_item = deployed_items[i]
                 self.log(
-                    "Comparing desired item {0} with deployed item {1}".format(i, i),
+                    "Comparing desired and deployed configurations for item at index {0}".format(i),
                     "DEBUG",
                 )
 
@@ -11298,7 +11320,7 @@ class WiredCampusAutomation(DnacBase):
             5. Returns success/failure status with detailed information
         Args:
             network_device_id (str): Network device ID
-            api_feature_name (str): API feature name (e.g., 'vlanConfig')
+            api_feature_name (str): API feature name (Example, 'vlanConfig')
             operation_details (dict): Operation details including intent operation and final config
             user_feature_name (str): User-friendly feature name for logging
         Returns:
@@ -11503,9 +11525,9 @@ class WiredCampusAutomation(DnacBase):
             can understand in error messages and logs. This ensures that failure
             messages use terminology familiar to network administrators.
         Args:
-            api_feature_name (str): API feature name (e.g., 'vlanConfig')
+            api_feature_name (str): API feature name (Example, 'vlanConfig')
         Returns:
-            str: User-friendly feature name (e.g., 'VLAN Configuration')
+            str: User-friendly feature name (Example, 'VLAN Configuration')
         """
         feature_mapping = {
             "vlanConfig": "VLAN Configuration",
@@ -11539,7 +11561,7 @@ class WiredCampusAutomation(DnacBase):
         Args:
             failed_features (list): List of failed feature details with user-friendly names
             device_identifier (str): Device identifier for the error message
-            operation_type (str): Type of operation (e.g., "intent configuration", "deployment")
+            operation_type (str): Type of operation (Example, "intent configuration", "deployment")
         Returns:
             str: Detailed failure message with enumerated failure details
         """
@@ -11583,7 +11605,7 @@ class WiredCampusAutomation(DnacBase):
         """
         Logs the configuration state in a structured format.
         Args:
-            state_label (str): Label for the state (e.g., "Pre-operation", "Post-operation")
+            state_label (str): Label for the state (Example, "Pre-operation", "Post-operation")
             want_feature_mappings (dict): User feature mappings for context
             deployed_configs (dict): Deployed configurations to log
         """
@@ -13975,7 +13997,7 @@ class WiredCampusAutomation(DnacBase):
         Validates input parameters, extracts Layer2 feature mappings, and prepares the desired state.
         Args:
             config (dict): The configuration details from the playbook
-            state (str): The desired state of the configuration (e.g., "merged", "deleted")
+            state (str): The desired state of the configuration (Example, "merged", "deleted")
         Returns:
             self: Returns the instance with the updated "want" attribute containing desired state
         """
@@ -14457,7 +14479,7 @@ class WiredCampusAutomation(DnacBase):
                 "Initiating post-operation configuration retrieval from Catalyst Center",
                 "DEBUG",
             )
-            post_operation_deployed_configs, _ = self.get_current_configs_for_features(
+            post_operation_deployed_configs, post_operation_intended_configs = self.get_current_configs_for_features(
                 network_device_id, discovered_features
             )
 
