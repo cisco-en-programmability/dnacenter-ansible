@@ -491,7 +491,7 @@ options:
                 default: SERVER
               vtp_version:
                 description: |
-                  VTP protocol version to use.
+                  VTP protocol version to use:
                   - "VERSION_1" - Original VTP implementation, basic functionality.
                   - "VERSION_2" - Adds support for Token Ring and unrecognized TLVs.
                   - "VERSION_3" - Adds extended VLANs, private VLANs, and MST support.
@@ -596,8 +596,7 @@ options:
                   Supports TFTP, FTP, and other file transfer protocols.
                   Provides persistence of bindings across switch reboots.
                   Minimum 5 characters, maximum 227 characters.
-                  Format for the URL:
-                    - "protocol://server_ip/filename"
+                  Format for the URL - "protocol://server_ip/filename"
                   The URL must start with one of the following protocol prefixes:
                     - "bootflash:"
                     - "crashinfo:"
