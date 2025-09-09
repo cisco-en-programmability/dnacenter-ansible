@@ -269,9 +269,9 @@ options:
               stp_mode:
                 description:
                   - Spanning Tree Protocol mode to operate in.
-                  - "PVST" (Per-VLAN Spanning Tree Plus) - Cisco proprietary, one instance per VLAN.
-                  - "RSTP" (Rapid Spanning Tree Protocol) - IEEE 802.1w, faster convergence than PVST.
-                  - "MST" (Multiple Spanning Tree) - IEEE 802.1s, maps multiple VLANs to instances.
+                  - PVST (Per-VLAN Spanning Tree Plus) - Cisco proprietary, one instance per VLAN.
+                  - RSTP (Rapid Spanning Tree Protocol) - IEEE 802.1w, faster convergence than PVST.
+                  - MST (Multiple Spanning Tree) - IEEE 802.1s, maps multiple VLANs to instances.
                   - Choose based on network size, convergence requirements, and vendor compatibility.
                 type: str
                 required: false
@@ -283,10 +283,10 @@ options:
               stp_portfast_mode:
                 description: 
                   - Global PortFast mode configuration for edge ports.
-                  - "ENABLE" - Enables PortFast on all access ports globally.
-                  - "DISABLE" - Disables PortFast globally.
-                  - "EDGE" - Enables PortFast on edge ports (recommended for end devices).
-                  - "NETWORK" - Configures network ports (inter-switch links).
+                  - ENABLE - Enables PortFast on all access ports globally.
+                  - DISABLE - Disables PortFast globally.
+                  - EDGE - Enables PortFast on edge ports (recommended for end devices).
+                  - NETWORK - Configures network ports (inter-switch links).
                   - PortFast bypasses listening and learning states for faster convergence.
                   - Advanced portfast modes (EDGE, NETWORK, TRUNK) are only supported on
                     Catalyst 9600 Series and specific Catalyst 9500 Series models (C9500-32C,
@@ -478,10 +478,10 @@ options:
               vtp_mode:
                 description:
                   - VTP operational mode for this switch.
-                  - "SERVER" - Can create, modify, and delete VLANs; propagates changes.
-                  - "CLIENT" - Cannot modify VLANs locally; accepts updates from servers.
-                  - "TRANSPARENT" - Can modify VLANs locally; forwards but doesn't process updates.
-                  - "OFF" - VTP is disabled; no VTP processing or forwarding.
+                  - SERVER - Can create, modify, and delete VLANs; propagates changes.
+                  - CLIENT - Cannot modify VLANs locally; accepts updates from servers.
+                  - TRANSPARENT - Can modify VLANs locally; forwards but doesn't process updates.
+                  - OFF - VTP is disabled; no VTP processing or forwarding.
                   - Choose based on network role and VLAN management strategy.
                   - VTP modes SERVER and CLIENT do not support extended range VLANs (1006-4094).
                   - If extended range VLANs are configured on the device, VTP mode
@@ -493,9 +493,9 @@ options:
               vtp_version:
                 description:
                   - VTP protocol version to use.
-                  - "VERSION_1" - Original VTP implementation, basic functionality.
-                  - "VERSION_2" - Adds support for Token Ring and unrecognized TLVs.
-                  - "VERSION_3" - Adds extended VLANs, private VLANs, and MST support.
+                  - VERSION_1 - Original VTP implementation, basic functionality.
+                  - VERSION_2 - Adds support for Token Ring and unrecognized TLVs.
+                  - VERSION_3 - Adds extended VLANs, private VLANs, and MST support.
                   - Higher versions provide more features but require compatible switches.
                 type: str
                 required: false
@@ -593,28 +593,19 @@ options:
                 default: false
               dhcp_snooping_database_agent_url:
                 description:
-                  URL for storing DHCP Snooping binding database remotely.
-                  Supports TFTP, FTP, and other file transfer protocols.
-                  Provides persistence of bindings across switch reboots.
-                  Minimum 5 characters, maximum 227 characters.
-                  Format for the URL:
-                    - "protocol://server_ip/filename"
-                  The URL must start with one of the following protocol prefixes:
-                    - "bootflash:"
-                    - "crashinfo:"
-                    - "flash:"
-                    - "ftp:"
-                    - "http:"
-                    - "https:"
-                    - "rcp:"
-                    - "scp:"
-                    - "sftp:"
-                    - "tftp:"
-                  Examples of valid URLs:
-                    - tftp URL - "tftp://192.168.1.100/dhcp_bindings.db",
-                    - ftp URL - "ftp://server.example.com/backups/dhcp_bindings.db",
-                    - flash URL - "flash:dhcp_bindings.db",
-                    - bootflash URL - "bootflash:dhcp_bindings.db"
+                  - URL for storing DHCP Snooping binding database remotely.
+                  - Supports TFTP, FTP, and other file transfer protocols.
+                  - Provides persistence of bindings across switch reboots.
+                  - Minimum 5 characters, maximum 227 characters.
+                  - Format for the URL - "protocol://server_ip/filename"
+                  - The URL must start with one of the following protocol prefixes
+                    ("bootflash:", "crashinfo:", "flash:", "ftp:", "http:", "https:"
+                    "rcp:", "scp:", "sftp:", "tftp:")
+                  - Examples of valid URLs
+                  - tftp URL - "tftp://192.168.1.100/dhcp_bindings.db",
+                  - ftp URL - "ftp://server.example.com/backups/dhcp_bindings.db",
+                  - flash URL - "flash:dhcp_bindings.db",
+                  - bootflash URL - "bootflash:dhcp_bindings.db"
                 type: str
                 required: false
               dhcp_snooping_database_timeout:
@@ -691,9 +682,9 @@ options:
               igmp_snooping_querier_version:
                 description:
                   - IGMP version for query messages.
-                  - "VERSION_1" - Basic join/leave functionality.
-                  - "VERSION_2" - Adds leave group messages and group-specific queries.
-                  - "VERSION_3" - Adds source-specific multicast (SSM) support.
+                  - VERSION_1 - Basic join/leave functionality.
+                  - VERSION_2 - Adds leave group messages and group-specific queries.
+                  - VERSION_3 - Adds source-specific multicast (SSM) support.
                   - Choose based on receiver capabilities and application requirements.
                 type: str
                 required: false
@@ -839,10 +830,10 @@ options:
               mld_snooping_querier_version:
                 description:
                   - MLD version for query messages.
-                  - "VERSION_1" - Basic IPv6 multicast listener functionality.
-                  - "VERSION_2" - Adds source-specific multicast and enhanced features.
+                  - VERSION_1 - Basic IPv6 multicast listener functionality.
+                  - VERSION_2 - Adds source-specific multicast and enhanced features.
                   - Choose based on IPv6 application requirements and receiver capabilities.
-                  - "VERSION_2" is recommended for modern IPv6 networks.
+                  - VERSION_2" is recommended for modern IPv6 networks.
                 type: str
                 required: false
                 choices:
@@ -974,9 +965,9 @@ options:
               authentication_config_mode:
                 description:
                   - Authentication configuration mode (legacy vs. new style).
-                  - "LEGACY" - Traditional authentication manager configuration mode.
-                  - "NEW_STYLE" - Identity-Based Networking Services (IBNS) mode.
-                  - "NEW_STYLE" is recommended for modern authentication deployments.
+                  - LEGACY - Traditional authentication manager configuration mode.
+                  - NEW_STYLE - Identity-Based Networking Services (IBNS) mode.
+                  - NEW_STYLE is recommended for modern authentication deployments.
                   - Affects how authentication policies are configured and applied.
                   - Once the authentication configuration mode is set, it cannot be changed.
                 type: str
@@ -1062,9 +1053,9 @@ options:
                   port_channel_protocol:
                     description:
                       - Protocol to use for this port channel.
-                      - "LACP" - IEEE 802.3ad standard, recommended for most environments.
-                      - "PAGP" - Cisco proprietary protocol, for Cisco-only environments.
-                      - "NONE" - Static port channel without negotiation protocol.
+                      - LACP - IEEE 802.3ad standard, recommended for most environments.
+                      - PAGP - Cisco proprietary protocol, for Cisco-only environments.
+                      - NONE - Static port channel without negotiation protocol.
                       - LACP provides better standards compliance and interoperability.
                     type: str
                     required: true
@@ -1113,16 +1104,16 @@ options:
                       port_channel_mode:
                         description:
                           - Port channel mode for this member interface.
-                          - For "LACP" protocol
-                          - "ACTIVE" - (initiates negotiation)
-                          - "PASSIVE" - (responds only).
+                          - For "LACP" protocol 
+                          - ACTIVE - (initiates negotiation).
+                          - PASSIVE - (responds only).
                           - For "PAgP" protocol
-                          - "AUTO"
-                          - "AUTO_NON_SILENT"
-                          - "DESIRABLE"
-                          - "DESIRABLE_NON_SILENT"
+                          - AUTO - (responds only).
+                          - AUTO_NON_SILENT - (responds only, with more frequent messages).
+                          - DESIRABLE - (initiates negotiation).
+                          - DESIRABLE_NON_SILENT - (initiates negotiation, with more frequent messages).
                           - For "NONE" protocol
-                          - "ON" - (static aggregation without negotiation).
+                          - ON - (static aggregation without negotiation).
                           - Choose based on desired negotiation behavior and protocol.
                         type: str
                         required: false
@@ -1152,8 +1143,8 @@ options:
                       port_channel_learn_method:
                         description:
                           - Learning method for PAgP protocol (PAgP only).
-                          - "AGGREGATION_PORT" - Learn on the port channel interface.
-                          - "PHYSICAL_PORT" - Learn on individual physical interfaces.
+                          - AGGREGATION_PORT - Learn on the port channel interface.
+                          - PHYSICAL_PORT - Learn on individual physical interfaces.
                           - Affects MAC address learning and forwarding behavior.
                           - Only applicable when using PAgP protocol.
                         type: str
@@ -1203,11 +1194,11 @@ options:
                   switchport_mode:
                     description:
                       - Switchport operational mode.
-                      - "ACCESS" - Interface carries traffic for a single VLAN.
-                      - "TRUNK" - Interface carries traffic for multiple VLANs.
-                      - "DYNAMIC_AUTO" - Negotiates mode with neighbor (becomes trunk if neighbor is trunk/desirable).
-                      - "DYNAMIC_DESIRABLE" - Actively negotiates to become trunk.
-                      - "DOT1Q_TUNNEL" - Interface acts as a tunnel port for service provider networks.
+                      - ACCESS - Interface carries traffic for a single VLAN.
+                      - TRUNK - Interface carries traffic for multiple VLANs.
+                      - DYNAMIC_AUTO - Negotiates mode with neighbor (becomes trunk if neighbor is trunk/desirable).
+                      - DYNAMIC_DESIRABLE - Actively negotiates to become trunk.
+                      - DOT1Q_TUNNEL - Interface acts as a tunnel port for service provider networks.
                     type: str
                     required: false
                     choices:
@@ -1458,12 +1449,12 @@ options:
                   stp_interface_portfast_mode:
                     description:
                       - PortFast mode configuration for this interface
-                      - "NONE" - No PortFast configuration (uses global setting).
-                      - "DISABLE" - Explicitly disable PortFast on this interface.
-                      - "EDGE" - Enable PortFast for edge ports (end device connections).
-                      - "EDGE_TRUNK" - Enable PortFast on trunk ports to edge devices.
-                      - "NETWORK" - Configure as network port (inter-switch links).
-                      - "TRUNK" - Enable PortFast on all trunk ports.
+                      - NONE - No PortFast configuration (uses global setting).
+                      - DISABLE - Explicitly disable PortFast on this interface.
+                      - EDGE - Enable PortFast for edge ports (end device connections).
+                      - EDGE_TRUNK - Enable PortFast on trunk ports to edge devices.
+                      - NETWORK - Configure as network port (inter-switch links).
+                      - TRUNK - Enable PortFast on all trunk ports.
                       - Advanced portfast modes (EDGE_TRUNK, NETWORK, TRUNK) are only supported on
                         Catalyst 9600 Series switches and specific Catalyst 9500 Series models
                         (C9500-32C, C9500-32QC, C9500-48Y4C, C9500-24Y4C, C9500X-28C8D).
@@ -1508,9 +1499,9 @@ options:
                   stp_interface_guard:
                     description:
                       - Guard mode configuration for this interface
-                      - "LOOP" - Enable Loop Guard to prevent loops from unidirectional failures.
-                      - "ROOT" - Enable Root Guard to prevent inferior BPDUs.
-                      - "NONE" - Disable guard features on this interface.
+                      - LOOP - Enable Loop Guard to prevent loops from unidirectional failures.
+                      - ROOT - Enable Root Guard to prevent inferior BPDUs.
+                      - NONE - Disable guard features on this interface.
                       - Choose based on interface role and protection requirements.
                     type: str
                     required: false
@@ -1650,10 +1641,10 @@ options:
                   lldp_interface_receive_transmit:
                     description:
                       - Configure LLDP transmission and reception behavior for this interface.
-                      - "TRANSMIT_ONLY" - Only send LLDP packets, do not process received packets.
-                      - "RECEIVE_ONLY" - Only receive and process LLDP packets, do not transmit.
-                      - "TRANSMIT_AND_RECEIVE" - Both send and receive LLDP packets (default behavior).
-                      - "DISABLED" - Completely disable LLDP on this interface.
+                      - TRANSMIT_ONLY - Only send LLDP packets, do not process received packets.
+                      - RECEIVE_ONLY - Only receive and process LLDP packets, do not transmit.
+                      - TRANSMIT_AND_RECEIVE - Both send and receive LLDP packets (default behavior).
+                      - DISABLED - Completely disable LLDP on this interface.
                       - Choose based on security requirements and interface role in the network.
                     type: str
                     required: false
