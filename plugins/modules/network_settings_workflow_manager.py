@@ -3279,10 +3279,11 @@ class NetworkSettings(DnacBase):
             if normalized_pool_type not in VALID_POOL_TYPES:
                 self.log(
                     f"Invalid or missing pool_type '{user_pool_type}'. "
-                    f"Valid options are {VALID_POOL_TYPES}. Skipping this pool.",
+                    f"Valid options are {VALID_POOL_TYPES}.",
                     "ERROR"
                 )
-                continue
+                self.msg = f"Invalid or missing pool_type '{user_pool_type}'. Valid options are {VALID_POOL_TYPES}."
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             pool_values = {
                 "addressSpace": {
