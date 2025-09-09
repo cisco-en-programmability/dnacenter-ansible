@@ -281,7 +281,7 @@ options:
                   - "MST"
                 default: "RSTP"
               stp_portfast_mode:
-                description: 
+                description:
                   - Global PortFast mode configuration for edge ports.
                   - ENABLE - Enables PortFast on all access ports globally.
                   - DISABLE - Disables PortFast globally.
@@ -1104,16 +1104,16 @@ options:
                       port_channel_mode:
                         description:
                           - Port channel mode for this member interface.
-                          - For "LACP" protocol 
-                          - ACTIVE - (initiates negotiation).
-                          - PASSIVE - (responds only).
+                          - For "LACP" protocol
+                          - ACTIVE - (initiates negotiation)
+                          - PASSIVE - (responds only)
                           - For "PAgP" protocol
-                          - AUTO - (responds only).
-                          - AUTO_NON_SILENT - (responds only, with more frequent messages).
-                          - DESIRABLE - (initiates negotiation).
-                          - DESIRABLE_NON_SILENT - (initiates negotiation, with more frequent messages).
+                          - AUTO - (responds only)
+                          - AUTO_NON_SILENT - (responds only, with more frequent messages)
+                          - DESIRABLE - (initiates negotiation)
+                          - DESIRABLE_NON_SILENT - (initiates negotiation, with more frequent messages)
                           - For "NONE" protocol
-                          - ON - (static aggregation without negotiation).
+                          - ON - (static aggregation without negotiation)
                           - Choose based on desired negotiation behavior and protocol.
                         type: str
                         required: false
