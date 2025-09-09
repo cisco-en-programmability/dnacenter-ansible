@@ -14,19 +14,19 @@ DOCUMENTATION = r"""
 ---
 module: wired_campus_automation_workflow_manager
 short_description: Manage wired campus automation operations in Cisco Catalyst Center
-description: |
-  BETA MODULE - CISCO INTERNAL USE ONLY
-  This module is currently in beta and is intended for Cisco internal purposes only.
-  It is not available for customer consumption and should not be used in production environments.
-  This module provides comprehensive management of Layer 2 wired network configurations in
-  Cisco Catalyst Center.
-  Configure VLANs, STP, CDP, LLDP, VTP, DHCP Snooping, IGMP/MLD Snooping, authentication,
-  port channels, and interface settings.
-  Supports both creation and updating of configurations on network devices.
-  Provides automated deployment of intended configurations to devices.
-  Includes comprehensive validation of all configuration parameters before applying changes.
+description:
+  - BETA MODULE, CISCO INTERNAL USE ONLY
+  - This module is currently in beta and is intended for Cisco internal purposes only.
+  - It is not available for customer consumption and should not be used in production environments.
+  - This module provides comprehensive management of Layer 2 wired network configurations in
+  - Cisco Catalyst Center.
+  - Configure VLANs, STP, CDP, LLDP, VTP, DHCP Snooping, IGMP/MLD Snooping, authentication,
+  - port channels, and interface settings.
+  - Supports both creation and updating of configurations on network devices.
+  - Provides automated deployment of intended configurations to devices.
+  - Includes comprehensive validation of all configuration parameters before applying changes.
 
-  Feature Support Matrix:
+  - Feature Support Matrix
   - "VLANs" - create, update, delete
   - "CDP" - create, update, delete
   - "LLDP" - create, update, delete
@@ -39,22 +39,26 @@ description: |
   - "Logical Ports" - create, update (delete not supported due to API limitations)
   - "Port Configuration" - create, update (delete not supported due to API limitations)
 
-  Known API Limitations:
+  - Known API Limitations
   - The deleted state is not supported for STP, IGMP Snooping, MLD Snooping,
     Port Configuration, and Logical Ports due to underlying beta API limitations.
   - Several known issues exist with the beta APIs that may affect functionality.
   - Refer to the following bug tracking numbers for known issues - CSCwr00884,
     CSCwr0107, CSCwr01764, CSCwr01131, CSCwr01195, CSCwr01309, CSCwr01255,
     CSCwr01321, CSCwr01327, CSCwr01879, CSCwr01895, CSCwr01148.
+
 version_added: "6.20.0"
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author:
   - Rugvedi Kapse (@rukapse)
   - Madhan Sankaranarayanan (@madhansansel)
+
 options:
   config_verify:
-    description: Set to true to verify the Cisco Catalyst Center configuration after applying the playbook configuration.
+    description: Set to true to verify the Cisco Catalyst
+      Center configuration after applying the playbook
+      configuration.
     type: bool
     default: false
   state:
@@ -71,24 +75,24 @@ options:
     required: true
     suboptions:
       ip_address:
-        description: |
+        description:
           - The management IP address of the network device to configure.
           - Must be a valid IPv4 address format.
-          - Either ip_address or hostname must be provided to identify the device.
+          - Either "ip_address" or "hostname" must be provided to identify the device.
           - If both are provided, ip_address takes precedence.
           - Example - "192.168.1.1"
         type: str
         required: false
       hostname:
-        description: |
+        description:
           - The hostname of the network device to configure.
           - Used when IP address is not available or preferred.
           - Must match the hostname registered in Catalyst Center.
-          - Either ip_address or hostname must be provided to identify the device.
+          - Either "ip_address" or "hostname" must be provided to identify the device.
         type: str
         required: false
       device_collection_status_check:
-        description: |
+        description:
           - Controls whether to verify the device's collection status before applying configurations.
           - When true, ensures the device is in "Managed" or "In Progress" state before proceeding.
           - When false, skips the collection status check (useful for devices being onboarded).
@@ -97,7 +101,7 @@ options:
         required: false
         default: true
       layer2_configuration:
-        description: |
+        description:
           - Comprehensive Layer 2 configuration settings for the network device.
           - Contains all supported Layer 2 protocols and features.
           - Each feature is optional and can be configured independently.
@@ -105,7 +109,7 @@ options:
         required: false
         suboptions:
           vlans:
-            description: |
+            description:
               - List of VLAN configurations to create or modify on the device.
               - VLANs are fundamental building blocks for network segmentation.
               - Each VLAN must have a unique ID within the valid range (1-4094).
@@ -115,7 +119,7 @@ options:
             required: false
             suboptions:
               vlan_id:
-                description: |
+                description:
                   - Unique identifier for the VLAN.
                   - Must be within the valid range of 1 to 4094.
                   - VLAN 1 is the default VLAN and exists on all switches.
@@ -124,7 +128,7 @@ options:
                 type: int
                 required: true
               vlan_name:
-                description: |
+                description:
                   - Descriptive name for the VLAN to aid in identification and management.
                   - Maximum length depends on VTP version (32 chars for v1/v2, 128 chars for v3).
                   - Should be descriptive and follow organizational naming conventions.
@@ -137,7 +141,7 @@ options:
                 type: str
                 required: false
               vlan_admin_status:
-                description: |
+                description:
                   - Administrative status of the VLAN (enabled or disabled).
                   - When true, the VLAN is active and can carry traffic.
                   - When false, the VLAN is administratively shut down.
@@ -148,7 +152,7 @@ options:
                 required: false
                 default: true
           cdp:
-            description: |
+            description:
               - Cisco Discovery Protocol (CDP) global configuration settings.
               - CDP is a Cisco proprietary protocol for discovering neighboring Cisco devices.
               - Runs over Layer 2 and provides device information like platform, capabilities, and addresses.
@@ -157,7 +161,7 @@ options:
             required: false
             suboptions:
               cdp_admin_status:
-                description: |
+                description:
                   - Globally enable or disable CDP on the device.
                   - When true, CDP is enabled globally (equivalent to "cdp run" command).
                   - When false, CDP is disabled globally on all interfaces.
@@ -166,7 +170,7 @@ options:
                 required: false
                 default: true
               cdp_hold_time:
-                description: |
+                description:
                   - Time in seconds that receiving devices should hold CDP information before discarding it.
                   - Must be between 10 and 255 seconds.
                   - Should be set higher than the timer interval to prevent information loss.
@@ -176,7 +180,7 @@ options:
                 required: false
                 default: 180
               cdp_timer:
-                description: |
+                description:
                   - Frequency in seconds at which CDP advertisements are sent.
                   - Must be between 5 and 254 seconds.
                   - Lower values provide more current information but increase network overhead.
@@ -186,7 +190,7 @@ options:
                 required: false
                 default: 60
               cdp_advertise_v2:
-                description: |
+                description:
                   - Enable CDP version 2 advertisements.
                   - When true, sends CDP version 2 advertisements (default and recommended).
                   - When false, sends CDP version 1 advertisements (legacy compatibility).
@@ -196,7 +200,7 @@ options:
                 required: false
                 default: true
               cdp_log_duplex_mismatch:
-                description: |
+                description:
                   - Enable logging of duplex mismatches detected by CDP.
                   - When true, logs warnings when CDP detects duplex mismatches with neighbors.
                   - When false, duplex mismatch detection is disabled.
@@ -206,7 +210,7 @@ options:
                 required: false
                 default: true
           lldp:
-            description: |
+            description:
               - Link Layer Discovery Protocol (LLDP) global configuration settings.
               - LLDP is an IEEE 802.1AB standard protocol for discovering neighboring devices.
               - Vendor-neutral alternative to CDP, supported by multiple vendors.
@@ -215,7 +219,7 @@ options:
             required: false
             suboptions:
               lldp_admin_status:
-                description: |
+                description:
                   - Globally enable or disable LLDP on the device.
                   - When true, LLDP is enabled globally (equivalent to "lldp run" command).
                   - When false, LLDP is disabled globally on all interfaces.
@@ -224,7 +228,7 @@ options:
                 required: false
                 default: false
               lldp_hold_time:
-                description: |
+                description:
                   - Time in seconds that receiving devices should hold LLDP information before discarding it.
                   - Must be between 0 and 32767 seconds.
                   - Should be set higher than the timer interval to prevent information loss.
@@ -234,7 +238,7 @@ options:
                 required: false
                 default: 120
               lldp_timer:
-                description: |
+                description:
                   - Frequency in seconds at which LLDP advertisements are sent.
                   - Must be between 5 and 32767 seconds.
                   - Lower values provide more current information but increase network overhead.
@@ -244,7 +248,7 @@ options:
                 required: false
                 default: 30
               lldp_reinitialization_delay:
-                description: |
+                description:
                   - Delay in seconds for LLDP initialization on any interface.
                   - Must be between 2 and 5 seconds.
                   - Prevents rapid enable/disable cycles during interface initialization.
@@ -254,7 +258,7 @@ options:
                 required: false
                 default: 2
           stp:
-            description: |
+            description:
               - Spanning Tree Protocol (STP) global and per-VLAN configuration settings.
               - STP prevents loops in redundant network topologies while providing path redundancy.
               - Supports PVST+, RSTP, and MST modes for different network requirements.
@@ -263,12 +267,12 @@ options:
             required: false
             suboptions:
               stp_mode:
-                description: |
-                  Spanning Tree Protocol mode to operate in.
-                    - "PVST" (Per-VLAN Spanning Tree Plus) - Cisco proprietary, one instance per VLAN.
-                    - "RSTP" (Rapid Spanning Tree Protocol) - IEEE 802.1w, faster convergence than PVST.
-                    - "MST" (Multiple Spanning Tree) - IEEE 802.1s, maps multiple VLANs to instances.
-                  Choose based on network size, convergence requirements, and vendor compatibility.
+                description:
+                  - Spanning Tree Protocol mode to operate in.
+                  - "PVST" (Per-VLAN Spanning Tree Plus) - Cisco proprietary, one instance per VLAN.
+                  - "RSTP" (Rapid Spanning Tree Protocol) - IEEE 802.1w, faster convergence than PVST.
+                  - "MST" (Multiple Spanning Tree) - IEEE 802.1s, maps multiple VLANs to instances.
+                  - Choose based on network size, convergence requirements, and vendor compatibility.
                 type: str
                 required: false
                 choices:
@@ -277,20 +281,16 @@ options:
                   - "MST"
                 default: "RSTP"
               stp_portfast_mode:
-                description: |
-                  Global PortFast mode configuration for edge ports:
-                    - "ENABLE" - Enables PortFast on all access ports globally.
-                    - "DISABLE" - Disables PortFast globally.
-                    - "EDGE" - Enables PortFast on edge ports (recommended for end devices).
-                    - "NETWORK" - Configures network ports (inter-switch links).
-                  PortFast bypasses listening and learning states for faster convergence.
-                  Advanced portfast modes (EDGE, NETWORK, TRUNK) are only supported on
-                  Catalyst 9600 Series and specific Catalyst 9500 Series models:
-                    - C9500-32C
-                    - C9500-32QC
-                    - C9500-48Y4C
-                    - C9500-24Y4C
-                    - C9500X-28C8D
+                description: 
+                  - Global PortFast mode configuration for edge ports.
+                  - "ENABLE" - Enables PortFast on all access ports globally.
+                  - "DISABLE" - Disables PortFast globally.
+                  - "EDGE" - Enables PortFast on edge ports (recommended for end devices).
+                  - "NETWORK" - Configures network ports (inter-switch links).
+                  - PortFast bypasses listening and learning states for faster convergence.
+                  - Advanced portfast modes (EDGE, NETWORK, TRUNK) are only supported on
+                    Catalyst 9600 Series and specific Catalyst 9500 Series models (C9500-32C,
+                    C9500-32QC, C9500-48Y4C, C9500-24Y4C, C9500X-28C8D).
                 type: str
                 required: false
                 choices:
@@ -300,7 +300,7 @@ options:
                   - "NETWORK"
                   - "TRUNK"
               stp_bpdu_guard:
-                description: |
+                description:
                   - Global BPDU Guard configuration for PortFast-enabled ports.
                   - When true, shuts down PortFast ports that receive BPDUs.
                   - Protects against accidental switch connections to access ports.
@@ -310,7 +310,7 @@ options:
                 required: false
                 default: false
               stp_bpdu_filter:
-                description: |
+                description:
                   - Global BPDU Filter configuration for PortFast-enabled ports.
                   - When true, prevents sending and receiving BPDUs on PortFast ports.
                   - Should be used with caution as it can create loops if misconfigured.
@@ -320,7 +320,7 @@ options:
                 required: false
                 default: false
               stp_backbonefast:
-                description: |
+                description:
                   - Enable BackboneFast for faster convergence on indirect link failures.
                   - When true, enables BackboneFast to detect indirect failures quickly.
                   - Reduces convergence time from 50 seconds to 30 seconds for indirect failures.
@@ -330,7 +330,7 @@ options:
                 required: false
                 default: false
               stp_extended_system_id:
-                description: |
+                description:
                   - Enable extended system ID for bridge priority calculation.
                   - When true, uses VLAN ID as part of bridge ID calculation.
                   - Required for PVST plus operation with more than 64 VLANs.
@@ -340,7 +340,7 @@ options:
                 required: false
                 default: true
               stp_logging:
-                description: |
+                description:
                   - Enable STP event logging for troubleshooting.
                   - When true, logs STP state changes and events.
                   - Useful for monitoring STP behavior and troubleshooting issues.
@@ -350,7 +350,7 @@ options:
                 required: false
                 default: false
               stp_loopguard:
-                description: |
+                description:
                   - Global Loop Guard configuration to prevent loops from unidirectional failures.
                   - When true, prevents alternate/root ports from becoming designated ports.
                   - Protects against loops caused by unidirectional link failures.
@@ -360,7 +360,7 @@ options:
                 required: false
                 default: false
               stp_transmit_hold_count:
-                description: |
+                description:
                   - Maximum number of BPDUs sent per hello interval.
                   - Must be between 1 and 20.
                   - Controls BPDU transmission rate to prevent overwhelming neighbors.
@@ -370,7 +370,7 @@ options:
                 required: false
                 default: 6
               stp_uplinkfast:
-                description: |
+                description:
                   - Enable UplinkFast for faster convergence on direct link failures.
                   - When true, enables UplinkFast for access layer switches.
                   - Provides sub-second convergence for direct uplink failures.
@@ -380,7 +380,7 @@ options:
                 required: false
                 default: false
               stp_uplinkfast_max_update_rate:
-                description: |
+                description:
                   - Maximum rate of update packets sent when UplinkFast is enabled.
                   - Must be between 0 and 32000 packets per second.
                   - Controls the rate of multicast packets sent during convergence.
@@ -390,7 +390,7 @@ options:
                 required: false
                 default: 150
               stp_etherchannel_guard:
-                description: |
+                description:
                   - Enable EtherChannel Guard to detect EtherChannel misconfigurations.
                   - When true, detects when one side has EtherChannel configured but the other doesn't.
                   - Prevents loops and inconsistencies in EtherChannel configurations.
@@ -400,7 +400,7 @@ options:
                 required: false
                 default: true
               stp_instances:
-                description: |
+                description:
                   - List of per-VLAN STP instance configurations.
                   - Allows customization of STP parameters for specific VLANs.
                   - Each instance can have different priorities and timers.
@@ -410,7 +410,7 @@ options:
                 required: false
                 suboptions:
                   stp_instance_vlan_id:
-                    description: |
+                    description:
                       - VLAN ID for this STP instance configuration.
                       - Must be between 1 and 4094.
                       - Each VLAN can have its own STP parameters.
@@ -418,7 +418,7 @@ options:
                     type: int
                     required: true
                   stp_instance_priority:
-                    description: |
+                    description:
                       - Bridge priority for this VLAN's STP instance.
                       - Must be between 0 and 61440 in increments of 4096.
                       - Lower values have higher priority (more likely to be root).
@@ -428,7 +428,7 @@ options:
                     required: false
                     default: 32768
                   enable_stp:
-                    description: |
+                    description:
                       - Enable or disable STP for this specific VLAN.
                       - When true, STP is active for this VLAN.
                       - When false, STP is disabled for this VLAN (use with caution).
@@ -437,7 +437,7 @@ options:
                     required: false
                     default: true
                   stp_instance_max_age_timer:
-                    description: |
+                    description:
                       - Maximum age timer for this STP instance in seconds.
                       - Must be between 6 and 40 seconds.
                       - Time to wait for BPDUs before aging out port information.
@@ -447,7 +447,7 @@ options:
                     required: false
                     default: 20
                   stp_instace_hello_interval_timer:
-                    description: |
+                    description:
                       - Hello interval timer for this STP instance in seconds.
                       - Must be between 1 and 10 seconds.
                       - Frequency of BPDU transmission by the root bridge.
@@ -457,7 +457,7 @@ options:
                     required: false
                     default: 2
                   stp_instace_forward_delay_timer:
-                    description: |
+                    description:
                       - Forward delay timer for this STP instance in seconds.
                       - Must be between 4 and 30 seconds.
                       - Time spent in listening and learning states during convergence.
@@ -467,7 +467,7 @@ options:
                     required: false
                     default: 15
           vtp:
-            description: |
+            description:
               - VLAN Trunking Protocol (VTP) configuration settings.
               - VTP synchronizes VLAN configuration across switches in a domain.
               - Enables centralized VLAN management for large switched networks.
@@ -476,36 +476,36 @@ options:
             required: false
             suboptions:
               vtp_mode:
-                description: |
-                  VTP operational mode for this switch:
-                    - "SERVER" - Can create, modify, and delete VLANs; propagates changes.
-                    - "CLIENT" - Cannot modify VLANs locally; accepts updates from servers.
-                    - "TRANSPARENT" - Can modify VLANs locally; forwards but doesn't process updates.
-                    - "OFF" - VTP is disabled; no VTP processing or forwarding.
-                  Choose based on network role and VLAN management strategy.
-                  VTP modes SERVER and CLIENT do not support extended range VLANs (1006-4094).
-                  If extended range VLANs are configured on the device, VTP mode
-                  must be set to TRANSPARENT or OFF.
+                description:
+                  - VTP operational mode for this switch.
+                  - "SERVER" - Can create, modify, and delete VLANs; propagates changes.
+                  - "CLIENT" - Cannot modify VLANs locally; accepts updates from servers.
+                  - "TRANSPARENT" - Can modify VLANs locally; forwards but doesn't process updates.
+                  - "OFF" - VTP is disabled; no VTP processing or forwarding.
+                  - Choose based on network role and VLAN management strategy.
+                  - VTP modes SERVER and CLIENT do not support extended range VLANs (1006-4094).
+                  - If extended range VLANs are configured on the device, VTP mode
+                    must be set to TRANSPARENT or OFF.
                 type: str
                 required: false
                 choices: ["SERVER", "CLIENT", "TRANSPARENT", "OFF"]
                 default: "SERVER"
               vtp_version:
-                description: |
-                  VTP protocol version to use:
+                description:
+                  - VTP protocol version to use.
                   - "VERSION_1" - Original VTP implementation, basic functionality.
                   - "VERSION_2" - Adds support for Token Ring and unrecognized TLVs.
                   - "VERSION_3" - Adds extended VLANs, private VLANs, and MST support.
-                  Higher versions provide more features but require compatible switches.
+                  - Higher versions provide more features but require compatible switches.
                 type: str
                 required: false
                 choices:
-                - "VERSION_1"
-                - "VERSION_2"
-                - "VERSION_3"
+                  - "VERSION_1"
+                  - "VERSION_2"
+                  - "VERSION_3"
                 default: "VERSION_1"
               vtp_domain_name:
-                description: |
+                description:
                   - VTP domain name for switch participation.
                   - Maximum 32 characters for VTP domains.
                   - All switches in the same domain share VLAN information.
@@ -515,7 +515,7 @@ options:
                 type: str
                 required: false
               vtp_configuration_file_name:
-                description: |
+                description:
                   - Custom filename for VTP configuration storage.
                   - Default is "vlan.dat" in the flash file system.
                   - Maximum 244 characters for custom filenames.
@@ -528,7 +528,7 @@ options:
                 type: str
                 required: false
               vtp_source_interface:
-                description: |
+                description:
                   - Interface to use as the source for VTP updates.
                   - Specifies which interface IP becomes the VTP updater address.
                   - Useful for identifying which switch made the last update.
@@ -541,7 +541,7 @@ options:
                 type: str
                 required: false
               vtp_pruning:
-                description: |
+                description:
                   - Enable VTP pruning to optimize bandwidth usage.
                   - When true, restricts flooded traffic to only necessary trunk links.
                   - Reduces unnecessary broadcast traffic in the VTP domain.
@@ -551,7 +551,7 @@ options:
                 required: false
                 default: false
           dhcp_snooping:
-            description: |
+            description:
               - DHCP Snooping configuration for securing DHCP operations.
               - Prevents rogue DHCP servers and protects against DHCP-based attacks.
               - Maintains a binding table of legitimate DHCP assignments.
@@ -560,7 +560,7 @@ options:
             required: false
             suboptions:
               dhcp_admin_status:
-                description: |
+                description:
                   - Globally enable or disable DHCP Snooping on the device.
                   - When true, enables DHCP Snooping globally.
                   - When false, disables DHCP Snooping on all VLANs.
@@ -570,7 +570,7 @@ options:
                 required: false
                 default: false
               dhcp_snooping_vlans:
-                description: |
+                description:
                   - List of VLAN IDs where DHCP Snooping should be enabled.
                   - Each VLAN ID must be between 1 and 4094.
                   - Only VLANs in this list will have DHCP packets inspected.
@@ -582,7 +582,7 @@ options:
                 elements: int
                 required: false
               dhcp_snooping_glean:
-                description: |
+                description:
                   - Enable DHCP gleaning for learning bindings from DHCP traffic.
                   - When true, learns DHCP bindings by monitoring DHCP acknowledgments.
                   - Useful for populating the binding table in existing networks.
@@ -592,7 +592,7 @@ options:
                 required: false
                 default: false
               dhcp_snooping_database_agent_url:
-                description: |
+                description:
                   URL for storing DHCP Snooping binding database remotely.
                   Supports TFTP, FTP, and other file transfer protocols.
                   Provides persistence of bindings across switch reboots.
@@ -618,7 +618,7 @@ options:
                 type: str
                 required: false
               dhcp_snooping_database_timeout:
-                description: |
+                description:
                   - Timeout in seconds for database operations.
                   - Must be between 0 and 86400 seconds (24 hours).
                   - Time to wait for database read/write operations to complete.
@@ -628,7 +628,7 @@ options:
                 required: false
                 default: 300
               dhcp_snooping_database_write_delay:
-                description: |
+                description:
                   - Delay in seconds between database write operations.
                   - Must be between 15 and 86400 seconds.
                   - Batches multiple binding changes to reduce I/O overhead.
@@ -638,7 +638,7 @@ options:
                 required: false
                 default: 300
               dhcp_snooping_proxy_bridge_vlans:
-                description: |
+                description:
                   - List of VLAN IDs to enable in bridge mode for DHCP relay.
                   - Each VLAN ID must be between 1 and 4094.
                   - Enables DHCP relay functionality in bridge mode.
@@ -649,7 +649,7 @@ options:
                 elements: int
                 required: false
           igmp_snooping:
-            description: |
+            description:
               - Internet Group Management Protocol (IGMP) Snooping configuration.
               - Optimizes multicast traffic delivery in Layer 2 networks.
               - Prevents unnecessary multicast flooding by learning group memberships.
@@ -658,7 +658,7 @@ options:
             required: false
             suboptions:
               enable_igmp_snooping:
-                description: |
+                description:
                   - Globally enable or disable IGMP Snooping.
                   - When true, enables IGMP Snooping globally on the switch.
                   - When false, disables IGMP Snooping and floods all multicast traffic.
@@ -670,7 +670,7 @@ options:
                 required: false
                 default: true
               igmp_snooping_querier:
-                description: |
+                description:
                   - Enable IGMP Querier functionality globally.
                   - When true, the switch can act as an IGMP querier.
                   - When false, relies on external queriers (routers).
@@ -680,7 +680,7 @@ options:
                 required: false
                 default: false
               igmp_snooping_querier_address:
-                description: |
+                description:
                   - Source IP address for IGMP query messages.
                   - Must be a valid IPv4 or IPv6 address.
                   - Used when the switch acts as an IGMP querier.
@@ -689,21 +689,21 @@ options:
                 type: str
                 required: false
               igmp_snooping_querier_version:
-                description: |
-                  IGMP version for query messages.
-                    - "VERSION_1" - Basic join/leave functionality.
-                    - "VERSION_2" - Adds leave group messages and group-specific queries.
-                    - "VERSION_3" - Adds source-specific multicast (SSM) support.
-                  Choose based on receiver capabilities and application requirements.
+                description:
+                  - IGMP version for query messages.
+                  - "VERSION_1" - Basic join/leave functionality.
+                  - "VERSION_2" - Adds leave group messages and group-specific queries.
+                  - "VERSION_3" - Adds source-specific multicast (SSM) support.
+                  - Choose based on receiver capabilities and application requirements.
                 type: str
                 required: false
                 choices:
-                - "VERSION_1"
-                - "VERSION_2"
-                - "VERSION_3"
+                  - "VERSION_1"
+                  - "VERSION_2"
+                  - "VERSION_3"
                 default: "VERSION_2"
               igmp_snooping_querier_query_interval:
-                description: |
+                description:
                   - Interval in seconds between IGMP general query messages.
                   - Must be between 1 and 18000 seconds.
                   - Lower values provide faster detection of membership changes.
@@ -713,7 +713,7 @@ options:
                 required: false
                 default: 125
               igmp_snooping_vlans:
-                description: |
+                description:
                   - List of per-VLAN IGMP Snooping configurations.
                   - Allows customization of IGMP Snooping parameters per VLAN.
                   - Each VLAN can have different querier settings and mrouter ports.
@@ -723,7 +723,7 @@ options:
                 required: false
                 suboptions:
                   igmp_snooping_vlan_id:
-                    description: |
+                    description:
                       - VLAN ID for this IGMP Snooping configuration.
                       - Must be between 1 and 4094.
                       - VLAN must exist before configuring IGMP Snooping.
@@ -731,7 +731,7 @@ options:
                     type: int
                     required: true
                   enable_igmp_snooping:
-                    description: |
+                    description:
                       - Enable IGMP Snooping for this specific VLAN.
                       - When true, IGMP Snooping is active for this VLAN.
                       - When false, multicast traffic is flooded in this VLAN.
@@ -740,7 +740,7 @@ options:
                     required: false
                     default: true
                   igmp_snooping_immediate_leave:
-                    description: |
+                    description:
                       - Enable immediate leave processing for IGMP in this VLAN.
                       - When true, immediately removes port from multicast group upon leave message.
                       - When false, waits for query timeout before removing port from group.
@@ -751,7 +751,7 @@ options:
                     required: false
                     default: true
                   igmp_snooping_querier:
-                    description: |
+                    description:
                       - Enable IGMP Querier for this specific VLAN.
                       - When true, this VLAN can have its own querier.
                       - When false, relies on external queriers for this VLAN.
@@ -761,7 +761,7 @@ options:
                     required: false
                     default: false
                   igmp_snooping_querier_address:
-                    description: |
+                    description:
                       - Source IP address for IGMP queries in this VLAN.
                       - Must be a valid IPv4 or IPv6 address.
                       - Should be an address within the VLAN's subnet.
@@ -769,19 +769,19 @@ options:
                     type: str
                     required: false
                   igmp_snooping_querier_version:
-                    description: |
+                    description:
                       - IGMP version for this VLAN's query messages.
                       - Can be different from the global IGMP version.
                       - Choose based on VLAN-specific application requirements.
                     type: str
                     required: false
                     choices:
-                    - "VERSION_1"
-                    - "VERSION_2"
-                    - "VERSION_3"
+                      - "VERSION_1"
+                      - "VERSION_2"
+                      - "VERSION_3"
                     default: "VERSION_2"
                   igmp_snooping_querier_query_interval:
-                    description: |
+                    description:
                       - Query interval for this specific VLAN in seconds.
                       - Must be between 1 and 18000 seconds.
                       - Can be optimized based on VLAN's multicast traffic patterns.
@@ -789,7 +789,7 @@ options:
                     type: int
                     required: false
                   igmp_snooping_mrouter_port_list:
-                    description: |
+                    description:
                       - List of interface names that connect to multicast routers.
                       - Interfaces in this list are treated as mrouter ports.
                       - Multicast traffic is always forwarded to these ports.
@@ -799,7 +799,7 @@ options:
                     elements: str
                     required: false
           mld_snooping:
-            description: |
+            description:
               - Multicast Listener Discovery (MLD) Snooping configuration for IPv6.
               - IPv6 equivalent of IGMP Snooping for optimizing IPv6 multicast traffic.
               - Prevents unnecessary IPv6 multicast flooding in Layer 2 networks.
@@ -808,7 +808,7 @@ options:
             required: false
             suboptions:
               enable_mld_snooping:
-                description: |
+                description:
                   - Globally enable or disable MLD Snooping.
                   - When true, enables MLD Snooping globally on the switch.
                   - When false, disables MLD Snooping and floods all IPv6 multicast traffic.
@@ -818,7 +818,7 @@ options:
                 required: false
                 default: false
               mld_snooping_querier:
-                description: |
+                description:
                   - Enable MLD Querier functionality globally.
                   - When true, the switch can act as an MLD querier.
                   - When false, relies on external queriers (IPv6 routers).
@@ -828,7 +828,7 @@ options:
                 required: false
                 default: false
               mld_snooping_querier_address:
-                description: |
+                description:
                   - Source IPv6 address for MLD query messages.
                   - Querier Address must be a valid IPv6 Link-Local address.
                   - Used when the switch acts as an MLD querier.
@@ -837,8 +837,8 @@ options:
                 type: str
                 required: false
               mld_snooping_querier_version:
-                description: |
-                  MLD version for query messages.
+                description:
+                  - MLD version for query messages.
                   - "VERSION_1" - Basic IPv6 multicast listener functionality.
                   - "VERSION_2" - Adds source-specific multicast and enhanced features.
                   - Choose based on IPv6 application requirements and receiver capabilities.
@@ -846,11 +846,11 @@ options:
                 type: str
                 required: false
                 choices:
-                - "VERSION_1"
-                - "VERSION_2"
+                  - "VERSION_1"
+                  - "VERSION_2"
                 default: "VERSION_2"
               mld_snooping_listener:
-                description: |
+                description:
                   - Enable listener message suppression for MLD.
                   - When true, suppresses duplicate listener reports to reduce overhead.
                   - When false, forwards all listener reports to queriers.
@@ -860,7 +860,7 @@ options:
                 required: false
                 default: true
               mld_snooping_querier_query_interval:
-                description: |
+                description:
                   - Interval in seconds between MLD general query messages.
                   - Must be between 1 and 18000 seconds.
                   - Lower values provide faster detection of IPv6 membership changes.
@@ -870,7 +870,7 @@ options:
                 required: false
                 default: 125
               mld_snooping_vlans:
-                description: |
+                description:
                   - List of per-VLAN MLD Snooping configurations.
                   - Allows customization of MLD Snooping parameters per VLAN.
                   - Each VLAN can have different querier settings and mrouter ports.
@@ -880,7 +880,7 @@ options:
                 required: false
                 suboptions:
                   mld_snooping_vlan_id:
-                    description: |
+                    description:
                       - VLAN ID for this MLD Snooping configuration.
                       - Must be between 1 and 4094.
                       - VLAN must exist before configuring MLD Snooping.
@@ -888,7 +888,7 @@ options:
                     type: int
                     required: true
                   enable_mld_snooping:
-                    description: |
+                    description:
                       - Enable MLD Snooping for this specific VLAN.
                       - When true, MLD Snooping is active for this VLAN.
                       - When false, IPv6 multicast traffic is flooded in this VLAN.
@@ -897,7 +897,7 @@ options:
                     required: false
                     default: false
                   mld_snooping_enable_immediate_leave:
-                    description: |
+                    description:
                       - Enable immediate leave processing for MLDv1 in this VLAN.
                       - When true, immediately removes port from multicast group upon leave.
                       - When false, waits for query timeout before removing port.
@@ -907,7 +907,7 @@ options:
                     required: false
                     default: false
                   mld_snooping_querier:
-                    description: |
+                    description:
                       - Enable MLD Querier for this specific VLAN.
                       - When true, this VLAN can have its own MLD querier.
                       - When false, relies on external queriers for this VLAN.
@@ -916,7 +916,7 @@ options:
                     required: false
                     default: false
                   mld_snooping_querier_address:
-                    description: |
+                    description:
                       - Source IPv6 address for MLD queries in this VLAN.
                       - Must be a valid IPv6 address format.
                       - Should be an address within the VLAN's IPv6 prefix.
@@ -924,18 +924,18 @@ options:
                     type: str
                     required: false
                   mld_snooping_querier_version:
-                    description: |
+                    description:
                       - MLD version for this VLAN's query messages.
                       - Can be different from the global MLD version.
                       - Choose based on VLAN-specific IPv6 application requirements.
                     type: str
                     required: false
                     choices:
-                    - "VERSION_1"
-                    - "VERSION_2"
+                      - "VERSION_1"
+                      - "VERSION_2"
                     default: "VERSION_1"
                   mld_snooping_querier_query_interval:
-                    description: |
+                    description:
                       - Query interval for this specific VLAN in seconds.
                       - Must be between 1 and 18000 seconds.
                       - Can be optimized based on VLAN's IPv6 multicast traffic patterns.
@@ -943,7 +943,7 @@ options:
                     type: int
                     required: false
                   mld_snooping_mrouter_port_list:
-                    description: |
+                    description:
                       - List of interface names that connect to IPv6 multicast routers.
                       - Interfaces in this list are treated as IPv6 mrouter ports.
                       - IPv6 multicast traffic is always forwarded to these ports.
@@ -953,7 +953,7 @@ options:
                     elements: str
                     required: false
           authentication:
-            description: |
+            description:
               - IEEE 802.1X authentication configuration settings.
               - Provides port-based network access control for enhanced security.
               - Authenticates devices before granting network access.
@@ -962,7 +962,7 @@ options:
             required: false
             suboptions:
               enable_dot1x_authentication:
-                description: |
+                description:
                   - Globally enable or disable 802.1X authentication.
                   - When true, enables 802.1X authentication globally.
                   - When false, disables 802.1X authentication on all ports.
@@ -972,21 +972,21 @@ options:
                 required: false
                 default: false
               authentication_config_mode:
-                description: |
-                  Authentication configuration mode (legacy vs. new style).
+                description:
+                  - Authentication configuration mode (legacy vs. new style).
                   - "LEGACY" - Traditional authentication manager configuration mode.
                   - "NEW_STYLE" - Identity-Based Networking Services (IBNS) mode.
-                  "NEW_STYLE" is recommended for modern authentication deployments.
-                  Affects how authentication policies are configured and applied.
-                  Once the authentication configuration mode is set, it cannot be changed.
+                  - "NEW_STYLE" is recommended for modern authentication deployments.
+                  - Affects how authentication policies are configured and applied.
+                  - Once the authentication configuration mode is set, it cannot be changed.
                 type: str
                 required: false
                 choices:
-                - "LEGACY"
-                - "NEW_STYLE"
+                  - "LEGACY"
+                  - "NEW_STYLE"
                 default: "LEGACY"
           logical_ports:
-            description: |
+            description:
               - Port channel (EtherChannel) configuration for link aggregation.
               - Combines multiple physical links into a single logical interface.
               - Provides increased bandwidth and redundancy for critical connections.
@@ -995,7 +995,7 @@ options:
             required: false
             suboptions:
               port_channel_auto:
-                description: |
+                description:
                   - Enable automatic port channel creation (Auto-LAG).
                   - When true, enables automatic detection and creation of port channels.
                   - When false, requires manual port channel configuration.
@@ -1005,7 +1005,7 @@ options:
                 required: false
                 default: false
               port_channel_lacp_system_priority:
-                description: |
+                description:
                   - System priority for LACP protocol negotiation.
                   - Must be between 0 and 65535.
                   - Lower values have higher priority in LACP negotiations.
@@ -1015,17 +1015,17 @@ options:
                 required: false
                 default: 32768
               port_channel_load_balancing_method:
-                description: |
-                  Method for distributing traffic across port channel members:
+                description:
+                  - Method for distributing traffic across port channel members.
                   - Based on MAC addresses - "SRC_MAC", "DST_MAC", "SRC_DST_MAC".
                   - Based on IP addresses - "SRC_IP", "DST_IP", "SRC_DST_IP".
                   - Based on TCP/UDP ports - "RC_PORT", "DST_PORT", "SRC_DST_PORT".
                   - VLAN-based load balancing methods - "VLAN_SRC_IP", "VLAN_DST_IP", "VLAN_SRC_DST_IP",
                     "VLAN_SRC_MIXED_IP_PORT", "VLAN_DST_MIXED_IP_PORT", "VLAN_SRC_DST_MIXED_IP_PORT".
-                  VLAN-based load balancing methods for port channels are only
-                  supported on Cisco Catalyst 9600 Series Switches.
-                  Choose based on traffic patterns and load balancing requirements.
-                  Mixed options combine multiple criteria for better distribution.
+                  - VLAN-based load balancing methods for port channels are only
+                    supported on Cisco Catalyst 9600 Series Switches.
+                  - Choose based on traffic patterns and load balancing requirements.
+                  - Mixed options combine multiple criteria for better distribution.
                 type: str
                 required: false
                 choices:
@@ -1049,7 +1049,7 @@ options:
                   - "VLAN_SRC_DST_MIXED_IP_PORT"
                 default: "SRC_DST_IP"
               port_channels:
-                description: |
+                description:
                   - List of port channel configurations to create.
                   - Each port channel aggregates multiple physical interfaces.
                   - Supports different protocols (LACP, PAgP, static).
@@ -1060,12 +1060,12 @@ options:
                 required: false
                 suboptions:
                   port_channel_protocol:
-                    description: |
-                      Protocol to use for this port channel:
-                        - "LACP" - IEEE 802.3ad standard, recommended for most environments.
-                        - "PAGP" - Cisco proprietary protocol, for Cisco-only environments.
-                        - "NONE" - Static port channel without negotiation protocol.
-                      LACP provides better standards compliance and interoperability.
+                    description:
+                      - Protocol to use for this port channel.
+                      - "LACP" - IEEE 802.3ad standard, recommended for most environments.
+                      - "PAGP" - Cisco proprietary protocol, for Cisco-only environments.
+                      - "NONE" - Static port channel without negotiation protocol.
+                      - LACP provides better standards compliance and interoperability.
                     type: str
                     required: true
                     choices:
@@ -1073,7 +1073,7 @@ options:
                       - "PAGP"
                       - "NONE"
                   port_channel_name:
-                    description: |
+                    description:
                       - Name identifier for the port channel interface.
                       - Must be between 13 and 15 characters.
                       - Format typically follows "Port-channelX" where X is the number.
@@ -1082,7 +1082,7 @@ options:
                     type: str
                     required: true
                   port_channel_min_links:
-                    description: |
+                    description:
                       - Minimum number of active links required for port channel to be operational.
                       - Must be between 2 and 8.
                       - Port channel goes down if active links fall below this threshold.
@@ -1092,7 +1092,7 @@ options:
                     required: false
                     default: 1
                   port_channel_members:
-                    description: |
+                    description:
                       - List of physical interfaces that belong to this port channel.
                       - All member interfaces must have compatible configuration.
                       - Includes interface names and protocol-specific parameters.
@@ -1102,7 +1102,7 @@ options:
                     required: true
                     suboptions:
                       port_channel_interface_name:
-                        description: |
+                        description:
                           - Name of the physical interface to add to the port channel.
                           - Must be a valid interface on the switch.
                           - Format interface type and number (Example, "GigabitEthernet1/0/1").
@@ -1111,24 +1111,24 @@ options:
                         type: str
                         required: true
                       port_channel_mode:
-                        description: |
-                          Port channel mode for this member interface.
-                          For "LACP" protocol:
-                           - "ACTIVE" - (initiates negotiation)
-                           - "PASSIVE" - (responds only).
-                          For "PAgP" protocol:
-                           - "AUTO"
-                           - "AUTO_NON_SILENT"
-                           - "DESIRABLE"
-                           - "DESIRABLE_NON_SILENT"
-                          For "NONE" protocol:
-                           - "ON" - (static aggregation without negotiation).
-                          Choose based on desired negotiation behavior and protocol.
+                        description:
+                          - Port channel mode for this member interface.
+                          - For "LACP" protocol
+                          - "ACTIVE" - (initiates negotiation)
+                          - "PASSIVE" - (responds only).
+                          - For "PAgP" protocol
+                          - "AUTO"
+                          - "AUTO_NON_SILENT"
+                          - "DESIRABLE"
+                          - "DESIRABLE_NON_SILENT"
+                          - For "NONE" protocol
+                          - "ON" - (static aggregation without negotiation).
+                          - Choose based on desired negotiation behavior and protocol.
                         type: str
                         required: false
                         choices: ["ACTIVE", "PASSIVE", "AUTO", "AUTO_NON_SILENT", "DESIRABLE", "DESIRABLE_NON_SILENT", "ON"]
                       port_channel_port_priority:
-                        description: |
+                        description:
                           - Priority for this interface in port channel selection.
                           - For "LACP" protocol - 0-65535 (lower values have higher priority).
                           - For "PAgP" protocol - 0-255 (lower values have higher priority).
@@ -1137,7 +1137,7 @@ options:
                         type: int
                         required: false
                       port_channel_rate:
-                        description: |
+                        description:
                           - LACP packet transmission rate (LACP protocol only).
                           - 1 - Fast rate (1 second intervals).
                           - 30 - Normal rate (30 second intervals).
@@ -1150,12 +1150,12 @@ options:
                           - 30
                         default: 30
                       port_channel_learn_method:
-                        description: |
-                          Learning method for PAgP protocol (PAgP only):
+                        description:
+                          - Learning method for PAgP protocol (PAgP only).
                           - "AGGREGATION_PORT" - Learn on the port channel interface.
                           - "PHYSICAL_PORT" - Learn on individual physical interfaces.
-                          Affects MAC address learning and forwarding behavior.
-                          Only applicable when using PAgP protocol.
+                          - Affects MAC address learning and forwarding behavior.
+                          - Only applicable when using PAgP protocol.
                         type: str
                         required: false
                         choices:
@@ -1163,7 +1163,7 @@ options:
                           - "PHYSICAL_PORT"
                         default: "AGGREGATION_PORT"
           port_configuration:
-            description: |
+            description:
               - Individual interface configuration settings for all port types.
               - Allows per-interface customization of Layer 2 features.
               - Each interface can have unique switchport, security, and protocol settings.
@@ -1174,7 +1174,7 @@ options:
             required: false
             suboptions:
               interface_name:
-                description: |
+                description:
                   - Name of the interface to configure.
                   - Must be a valid interface identifier on the target switch.
                   - Format interface type and number (Example, "GigabitEthernet1/0/1").
@@ -1183,7 +1183,7 @@ options:
                 type: str
                 required: true
               switchport_interface_config:
-                description: |
+                description:
                   - Basic switchport configuration for Layer 2 operation.
                   - Defines interface mode, VLAN assignments, and administrative settings.
                   - Essential for connecting end devices and configuring trunk links.
@@ -1192,7 +1192,7 @@ options:
                 required: false
                 suboptions:
                   switchport_description:
-                    description: |
+                    description:
                       - Descriptive text for interface documentation and identification.
                       - Maximum 230 characters of descriptive text.
                       - Should follow organizational naming conventions.
@@ -1201,13 +1201,13 @@ options:
                     type: str
                     required: false
                   switchport_mode:
-                    description: |
-                      Switchport operational mode:
-                        - "ACCESS" - Interface carries traffic for a single VLAN.
-                        - "TRUNK" - Interface carries traffic for multiple VLANs.
-                        - "DYNAMIC_AUTO" - Negotiates mode with neighbor (becomes trunk if neighbor is trunk/desirable).
-                        - "DYNAMIC_DESIRABLE" - Actively negotiates to become trunk.
-                        - "DOT1Q_TUNNEL" - Interface acts as a tunnel port for service provider networks.
+                    description:
+                      - Switchport operational mode.
+                      - "ACCESS" - Interface carries traffic for a single VLAN.
+                      - "TRUNK" - Interface carries traffic for multiple VLANs.
+                      - "DYNAMIC_AUTO" - Negotiates mode with neighbor (becomes trunk if neighbor is trunk/desirable).
+                      - "DYNAMIC_DESIRABLE" - Actively negotiates to become trunk.
+                      - "DOT1Q_TUNNEL" - Interface acts as a tunnel port for service provider networks.
                     type: str
                     required: false
                     choices:
@@ -1218,7 +1218,7 @@ options:
                       - "DOT1Q_TUNNEL"
                     default: "ACCESS"
                   access_vlan:
-                    description: |
+                    description:
                       - VLAN ID for untagged traffic when interface is in access mode.
                       - Must be between 1 and 4094.
                       - Only applicable when switchport_mode is "ACCESS".
@@ -1228,7 +1228,7 @@ options:
                     required: false
                     default: 1
                   voice_vlan:
-                    description: |
+                    description:
                       - VLAN ID for IP phone traffic on access ports.
                       - Must be between 1 and 4094.
                       - Allows IP phones to use a separate VLAN for voice traffic.
@@ -1237,7 +1237,7 @@ options:
                     type: int
                     required: false
                   admin_status:
-                    description: |
+                    description:
                       - Administrative status of the interface.
                       - When true, interface is administratively enabled (no shutdown).
                       - When false, interface is administratively disabled (shutdown).
@@ -1247,7 +1247,7 @@ options:
                     required: false
                     default: true
                   allowed_vlans:
-                    description: |
+                    description:
                       - List of VLAN IDs allowed on trunk interfaces.
                       - Each VLAN ID must be between 1 and 4094.
                       - Only applicable when switchport_mode is TRUNK.
@@ -1257,7 +1257,7 @@ options:
                     elements: int
                     required: false
                   native_vlan_id:
-                    description: |
+                    description:
                       - Native VLAN ID for trunk interfaces (untagged traffic).
                       - Must be between 1 and 4094.
                       - Only applicable when switchport_mode is TRUNK.
@@ -1267,7 +1267,7 @@ options:
                     required: false
                     default: 1
               vlan_trunking_interface_config:
-                description: |
+                description:
                   - VLAN trunking specific configuration for trunk interfaces.
                   - Controls DTP negotiation, protection, and VLAN pruning.
                   - Optimizes trunk operation and enhances security.
@@ -1275,7 +1275,7 @@ options:
                 required: false
                 suboptions:
                   enable_dtp_negotiation:
-                    description: |
+                    description:
                       - Dynamic Trunking Protocol (DTP) negotiation setting.
                       - Controls whether the interface participates in DTP negotiation.
                       - When enabled, interface can negotiate trunking with neighbor.
@@ -1286,7 +1286,7 @@ options:
                     required: false
                     default: true
                   protected:
-                    description: |
+                    description:
                       - Enable protected port functionality.
                       - When true, prevents traffic between protected ports at Layer 2.
                       - Traffic between protected ports must traverse a Layer 3 device.
@@ -1296,7 +1296,7 @@ options:
                     required: false
                     default: false
                   pruning_vlan_ids:
-                    description: |
+                    description:
                       - List of VLAN IDs eligible for VTP pruning on this trunk.
                       - Each VLAN ID must be between 1 and 4094.
                       - Controls which VLANs can be pruned from this trunk.
@@ -1306,14 +1306,14 @@ options:
                     elements: int
                     required: false
               dot1x_interface_config:
-                description: |
+                description:
                   - 802.1X authentication configuration for the interface.
                   - Configures authentication settings, timers, and behavior for network access control.
                 type: dict
                 required: false
                 suboptions:
                   dot1x_interface_authentication_mode:
-                    description: |
+                    description:
                       - Sets the 802.1X authentication mode for the interface.
                       - Determines how the interface handles authentication requests.
                     type: str
@@ -1323,7 +1323,7 @@ options:
                       - "FORCE_UNAUTHORIZED"
                     required: false
                   dot1x_interface_pae_type:
-                    description: |
+                    description:
                       - Port Access Entity (PAE) type for 802.1X authentication.
                       - Defines the role of the interface in the authentication process.
                     type: str
@@ -1333,7 +1333,7 @@ options:
                       - "BOTH"
                     required: false
                   dot1x_interface_control_direction:
-                    description: |
+                    description:
                       - Control direction for 802.1X authentication on the interface.
                       - Specifies which traffic direction is controlled by authentication.
                     type: str
@@ -1342,7 +1342,7 @@ options:
                       - "IN"
                     required: false
                   dot1x_interface_host_mode:
-                    description: |
+                    description:
                       - Host mode for 802.1X authentication on the interface.
                       - Determines how many hosts can authenticate on a single port.
                     type: str
@@ -1353,20 +1353,20 @@ options:
                       - "MULTI_DOMAIN"
                     required: false
                   dot1x_interface_enable_inactivity_timer_from_server:
-                    description: |
+                    description:
                       - Enable receiving inactivity timer value from RADIUS server.
                       - When enabled, uses server-provided inactivity timeout values.
                     type: bool
                     required: false
                   dot1x_interface_inactivity_timer:
-                    description: |
+                    description:
                       - Inactivity timer value in seconds for 802.1X authentication.
                       - Time after which an inactive authenticated session is terminated.
                       - Valid range is 1-65535 seconds.
                     type: int
                     required: false
                   dot1x_interface_authentication_order:
-                    description: |
+                    description:
                       - Authentication method order for the interface.
                       - Defines the sequence in which authentication methods are tried.
                       - Methods are attempted in the order specified in the list.
@@ -1378,13 +1378,13 @@ options:
                       - "WEBAUTH"
                     required: false
                   dot1x_interface_enable_reauth:
-                    description: |
+                    description:
                       - Enable periodic re-authentication for 802.1X on the interface.
                       - When enabled, authenticated clients are re-authenticated periodically.
                     type: bool
                     required: false
                   dot1x_interface_port_control:
-                    description: |
+                    description:
                       - Port control mode for 802.1X authentication.
                       - Determines the initial authorization state of the port.
                     type: str
@@ -1394,41 +1394,41 @@ options:
                       - "FORCE_UNAUTHORIZED"
                     required: false
                   dot1x_interface_priority:
-                    description: |
+                    description:
                       - Authentication priority list for the interface.
                       - Defines priority order for authentication methods when multiple are configured.
                     type: list
                     elements: str
                     required: false
                   dot1x_interface_max_reauth_requests:
-                    description: |
+                    description:
                       - Maximum number of re-authentication requests sent to a client.
                       - After this limit, the client is considered unreachable.
                       - Valid range is 1-10 requests.
                     type: int
                     required: false
                   dot1x_interface_enable_reauth_timer_from_server:
-                    description: |
+                    description:
                       - Enable receiving re-authentication timer value from RADIUS server.
                       - When enabled, uses server-provided re-authentication timeout values.
                     type: bool
                     required: false
                   dot1x_interface_reauth_timer:
-                    description: |
+                    description:
                       - Re-authentication timer value in seconds for 802.1X authentication.
                       - Time interval between periodic re-authentication attempts.
                       - Valid range is 1-65535 seconds.
                     type: int
                     required: false
                   dot1x_interface_tx_period:
-                    description: |
+                    description:
                       - Transmission period for EAP Request/Identity frames.
                       - Time interval between successive EAP Request/Identity transmissions.
                       - Valid range is 1-65535 seconds.
                     type: int
                     required: false
               mab_interface_config:
-                description: |
+                description:
                   - MAC Authentication Bypass (MAB) configuration for this interface.
                   - Provides authentication for devices that don't support 802.1X.
                   - Uses device MAC address as the authentication credential.
@@ -1437,7 +1437,7 @@ options:
                 required: false
                 suboptions:
                   enable_mab:
-                    description: |
+                    description:
                       - Enable MAC Authentication Bypass on this interface.
                       - When true, allows authentication using device MAC address.
                       - When false, disables MAB authentication method.
@@ -1447,7 +1447,7 @@ options:
                     required: false
                     default: false
               stp_interface_config:
-                description: |
+                description:
                   - Spanning Tree Protocol configuration for this specific interface.
                   - Controls STP behavior, timers, and protection features per port.
                   - Allows fine-tuning of STP operation for different interface types.
@@ -1456,17 +1456,17 @@ options:
                 required: false
                 suboptions:
                   stp_interface_portfast_mode:
-                    description: |
-                      PortFast mode configuration for this interface:
-                        - "NONE" - No PortFast configuration (uses global setting).
-                        - "DISABLE" - Explicitly disable PortFast on this interface.
-                        - "EDGE" - Enable PortFast for edge ports (end device connections).
-                        - "EDGE_TRUNK" - Enable PortFast on trunk ports to edge devices.
-                        - "NETWORK" - Configure as network port (inter-switch links).
-                        - "TRUNK" - Enable PortFast on all trunk ports.
-                      Advanced portfast modes (EDGE_TRUNK, NETWORK, TRUNK) are only supported on
-                      Catalyst 9600 Series switches and specific Catalyst 9500 Series models
-                      (C9500-32C, C9500-32QC, C9500-48Y4C, C9500-24Y4C, C9500X-28C8D).
+                    description:
+                      - PortFast mode configuration for this interface
+                      - "NONE" - No PortFast configuration (uses global setting).
+                      - "DISABLE" - Explicitly disable PortFast on this interface.
+                      - "EDGE" - Enable PortFast for edge ports (end device connections).
+                      - "EDGE_TRUNK" - Enable PortFast on trunk ports to edge devices.
+                      - "NETWORK" - Configure as network port (inter-switch links).
+                      - "TRUNK" - Enable PortFast on all trunk ports.
+                      - Advanced portfast modes (EDGE_TRUNK, NETWORK, TRUNK) are only supported on
+                        Catalyst 9600 Series switches and specific Catalyst 9500 Series models
+                        (C9500-32C, C9500-32QC, C9500-48Y4C, C9500-24Y4C, C9500X-28C8D).
                     type: str
                     required: false
                     choices:
@@ -1477,7 +1477,7 @@ options:
                       - "NETWORK"
                       - "TRUNK"
                   stp_interface_bpdu_filter:
-                    description: |
+                    description:
                       - BPDU Filter configuration for this interface.
                       - When true, prevents sending and receiving BPDUs on PortFast ports.
                       - When false, allows normal BPDU processing.
@@ -1487,7 +1487,7 @@ options:
                     required: false
                     default: false
                   stp_interface_bpdu_guard:
-                    description: |
+                    description:
                       - BPDU Guard configuration for this interface.
                       - When true, shuts down PortFast ports that receive BPDUs.
                       - When false, disables BPDU Guard protection.
@@ -1497,7 +1497,7 @@ options:
                     required: false
                     default: false
                   stp_interface_cost:
-                    description: |
+                    description:
                       - Path cost for this interface in STP calculations.
                       - Must be between 1 and 20000000.
                       - Lower costs are preferred paths in STP topology.
@@ -1506,12 +1506,12 @@ options:
                     type: int
                     required: false
                   stp_interface_guard:
-                    description: |
-                      Guard mode configuration for this interface:
-                        - "LOOP" - Enable Loop Guard to prevent loops from unidirectional failures.
-                        - "ROOT" - Enable Root Guard to prevent inferior BPDUs.
-                        - "NONE" - Disable guard features on this interface.
-                      Choose based on interface role and protection requirements.
+                    description:
+                      - Guard mode configuration for this interface
+                      - "LOOP" - Enable Loop Guard to prevent loops from unidirectional failures.
+                      - "ROOT" - Enable Root Guard to prevent inferior BPDUs.
+                      - "NONE" - Disable guard features on this interface.
+                      - Choose based on interface role and protection requirements.
                     type: str
                     required: false
                     choices:
@@ -1519,7 +1519,7 @@ options:
                       - "ROOT"
                       - "NONE"
                   stp_interface_priority:
-                    description: |
+                    description:
                       - Port priority for this interface in STP tie-breaking.
                       - Must be between 0 and 240 in increments of 16.
                       - Lower values have higher priority for forwarding state.
@@ -1529,7 +1529,7 @@ options:
                     required: false
                     default: 128
                   stp_interface_per_vlan_cost:
-                    description: |
+                    description:
                       - Per-VLAN cost configuration for this interface.
                       - Allows different costs for different VLANs on the same interface.
                       - Enables per-VLAN load balancing in PVST plus environments.
@@ -1538,7 +1538,7 @@ options:
                     required: false
                     suboptions:
                       priority:
-                        description: |
+                        description:
                           - Cost value to apply to the specified VLANs.
                           - Must be between 1 and 20000000.
                           - Lower costs make this path preferred for the specified VLANs.
@@ -1546,7 +1546,7 @@ options:
                         type: int
                         required: false
                       vlan_ids:
-                        description: |
+                        description:
                           - List of VLAN IDs to apply this cost setting to.
                           - Each VLAN ID must be between 1 and 4094.
                           - Allows grouping VLANs with the same cost requirements.
@@ -1555,7 +1555,7 @@ options:
                         elements: int
                         required: false
                   stp_interface_per_vlan_priority:
-                    description: |
+                    description:
                       - Per-VLAN priority configuration for this interface.
                       - Allows different priorities for different VLANs on the same interface.
                       - Enables per-VLAN load balancing and traffic engineering.
@@ -1564,7 +1564,7 @@ options:
                     required: false
                     suboptions:
                       priority:
-                        description: |
+                        description:
                           - Priority value to apply to the specified VLANs.
                           - Must be between 0 and 240 in increments of 16.
                           - Lower values have higher priority for forwarding state.
@@ -1572,7 +1572,7 @@ options:
                         type: int
                         required: false
                       vlan_ids:
-                        description: |
+                        description:
                           - List of VLAN IDs to apply this priority setting to.
                           - Each VLAN ID must be between 1 and 4094.
                           - Allows grouping VLANs with the same priority requirements.
@@ -1581,7 +1581,7 @@ options:
                         elements: int
                         required: false
               dhcp_snooping_interface_config:
-                description: |
+                description:
                   - DHCP Snooping interface configuration for this specific interface.
                   - Controls DHCP security features and trust settings per interface.
                   - Provides granular control over DHCP packet processing on individual ports.
@@ -1590,7 +1590,7 @@ options:
                 required: false
                 suboptions:
                   dhcp_snooping_interface_rate:
-                    description: |
+                    description:
                       - Maximum rate of DHCP packets per second allowed on this interface.
                       - Must be between 1 and 2048 packets per second.
                       - Helps prevent DHCP flooding attacks by rate-limiting DHCP traffic.
@@ -1600,7 +1600,7 @@ options:
                     required: false
                     default: 100
                   dhcp_snooping_interface_trust:
-                    description: |
+                    description:
                       - Configure this interface as trusted for DHCP operations.
                       - When true, interface is trusted and DHCP packets are forwarded without inspection.
                       - When false, interface is untrusted and DHCP packets are inspected and filtered.
@@ -1610,7 +1610,7 @@ options:
                     required: false
                     default: false
               cdp_interface_config:
-                description: |
+                description:
                   - Cisco Discovery Protocol (CDP) interface configuration for this specific interface.
                   - Controls CDP operation on individual interfaces independent of global settings.
                   - Allows per-interface customization of CDP behavior and logging.
@@ -1619,7 +1619,7 @@ options:
                 required: false
                 suboptions:
                   cdp_interface_admin_status:
-                    description: |
+                    description:
                       - Enable or disable CDP on this specific interface.
                       - When true, CDP is enabled on this interface (sends and receives CDP packets).
                       - When false, CDP is disabled on this interface.
@@ -1629,7 +1629,7 @@ options:
                     required: false
                     default: true
                   cdp_interface_log_duplex_mismatch:
-                    description: |
+                    description:
                       - Enable logging of duplex mismatches detected by CDP on this interface.
                       - When true, logs warnings when CDP detects duplex mismatches with the neighbor.
                       - When false, duplex mismatch detection logging is disabled for this interface.
@@ -1639,7 +1639,7 @@ options:
                     required: false
                     default: true
               lldp_interface_config:
-                description: |
+                description:
                   - Link Layer Discovery Protocol (LLDP) interface configuration for this specific interface.
                   - Controls LLDP packet transmission and reception behavior per interface.
                   - Provides granular control over LLDP operation on individual ports.
@@ -1648,13 +1648,13 @@ options:
                 required: false
                 suboptions:
                   lldp_interface_receive_transmit:
-                    description: |
-                      Configure LLDP transmission and reception behavior for this interface:
-                        - "TRANSMIT_ONLY" - Only send LLDP packets, do not process received packets.
-                        - "RECEIVE_ONLY" - Only receive and process LLDP packets, do not transmit.
-                        - "TRANSMIT_AND_RECEIVE" - Both send and receive LLDP packets (default behavior).
-                        - "DISABLED" - Completely disable LLDP on this interface.
-                      Choose based on security requirements and interface role in the network.
+                    description:
+                      - Configure LLDP transmission and reception behavior for this interface.
+                      - "TRANSMIT_ONLY" - Only send LLDP packets, do not process received packets.
+                      - "RECEIVE_ONLY" - Only receive and process LLDP packets, do not transmit.
+                      - "TRANSMIT_AND_RECEIVE" - Both send and receive LLDP packets (default behavior).
+                      - "DISABLED" - Completely disable LLDP on this interface.
+                      - Choose based on security requirements and interface role in the network.
                     type: str
                     required: false
                     choices:
@@ -1664,7 +1664,7 @@ options:
                       - "DISABLED"
                     default: "TRANSMIT_AND_RECEIVE"
               vtp_interface_config:
-                description: |
+                description:
                   - VLAN Trunking Protocol (VTP) interface configuration for this specific interface.
                   - Controls VTP advertisement processing on individual interfaces.
                   - Allows per-interface control of VTP participation.
@@ -1673,7 +1673,7 @@ options:
                 required: false
                 suboptions:
                   vtp_interface_admin_status:
-                    description: |
+                    description:
                       - Enable or disable VTP on this specific interface.
                       - When true, VTP advertisements are processed on this interface.
                       - When false, VTP advertisements are blocked on this interface.
