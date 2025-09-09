@@ -27,17 +27,17 @@ description:
   - Includes comprehensive validation of all configuration parameters before applying changes.
 
   - Feature Support Matrix
-  - "VLANs" - create, update, delete
-  - "CDP" - create, update, delete
-  - "LLDP" - create, update, delete
-  - "STP" - create, update (delete not supported due to API limitations)
-  - "VTP" - create, update, delete
-  - "DHCP Snooping" - create, update, delete
-  - "IGMP Snooping" - create, update (delete not supported due to API limitations)
-  - "MLD Snooping" - create, update (delete not supported due to API limitations)
-  - "Authentication" - create, update, delete
-  - "Logical Ports" - create, update (delete not supported due to API limitations)
-  - "Port Configuration" - create, update (delete not supported due to API limitations)
+  - VLANs - create, update, delete
+  - CDP - create, update, delete
+  - LLDP - create, update, delete
+  - STP - create, update (delete not supported due to API limitations)
+  - VTP - create, update, delete
+  - DHCP Snooping - create, update, delete
+  - IGMP Snooping - create, update (delete not supported due to API limitations)
+  - MLD Snooping - create, update (delete not supported due to API limitations)
+  - Authentication - create, update, delete
+  - Logical Ports - create, update (delete not supported due to API limitations)
+  - Port Configuration - create, update (delete not supported due to API limitations)
 
   - Known API Limitations
   - The deleted state is not supported for STP, IGMP Snooping, MLD Snooping,
