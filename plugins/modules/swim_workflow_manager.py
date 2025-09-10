@@ -3387,6 +3387,7 @@ class Swim(DnacBase):
 
                 if response and self.status not in ["failed", "exited"]:
                     device_ip = ", ".join(elg_device_list)
+                    self.bulk_distribution_success_ips = device_ip
                     self.msg = "Bulk image distribution completed successfully - {0}.".format(device_ip)
                     self.bulk_distribution_success = True
                     success_distribution_list.extend([(ip, None) for ip in elg_device_list])
@@ -4229,11 +4230,11 @@ class Swim(DnacBase):
         elif self.bulk_distribution_success:
             if image_id:
                 self.msg = """The requested image '{0}', with ID '{1}', has been successfully distributed
-                  to all specified devices in the Cisco Catalyst Center.""".format(
-                    image_name, image_id
+                  to all specified devices - '{2}'  in the Cisco Catalyst Center.""".format(
+                    image_name, image_id, self.bulk_distribution_success_ips
                 )
             else:
-                self.msg = """The golden image has been successfully distributed to all specified devices in the Cisco Catalyst Center."""
+                self.msg = """The golden image has been successfully distributed to all specified devices '{0}' in the Cisco Catalyst Center.""".format(self.bulk_distribution_success_ips)
 
             self.log(self.msg, "INFO")
 
