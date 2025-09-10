@@ -185,7 +185,7 @@ options:
                 type: list
                 elements: str
                 required: false
-                examples:
+                examples: |
                     - ["Enterprise_Security_Profile", "QoS_Voice_Profile"]
                     - ["Campus_Switching_Profile"]
                     - ["WAN_Edge_Profile", "Security_Baseline_Profile", "Monitoring_Profile"]
@@ -3172,7 +3172,7 @@ class Template(NetworkProfileFunctions):
         # Get profile ID
         profile_index = next(
             (index for index, profile in enumerate(self.have["profile_list"])
-            if profile.get("name") == profile_name), -1
+             if profile.get("name") == profile_name), -1
         )
 
         if profile_index == -1:
@@ -3265,7 +3265,7 @@ class Template(NetworkProfileFunctions):
             supports multiple device types and maps them to appropriate network profile categories for API calls.
         """
         self.log("Initiating profile details collection for device type '{0}' with profiles: {1} and template '{2}'".format(
-        device_type, input_profiles, template_name), "DEBUG")
+            device_type, input_profiles, template_name), "DEBUG")
 
         # Input validation
         if not device_type:
@@ -5769,7 +5769,7 @@ class Template(NetworkProfileFunctions):
             result_msg_list.append(no_profile_assign_msg)
 
         if (self.profile_exists and not self.profile_detached
-            and not self.profile_not_detached and not self.profile_already_detached):
+           and not self.profile_not_detached and not self.profile_already_detached):
             profile_exists_msg = "Profile(s) '{0}' already exist and cannot be assigned to the template.".format(str(
                 self.profile_exists))
             result_msg_list.append(profile_exists_msg)
