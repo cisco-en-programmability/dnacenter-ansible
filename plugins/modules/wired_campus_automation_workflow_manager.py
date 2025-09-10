@@ -823,7 +823,7 @@ options:
                 required: false
                 default: false
               mld_snooping_querier_address:
-                description: 
+                description:
                   - Source IPv6 address for MLD query messages.
                   - Querier Address must be a valid IPv6 Link-Local address.
                   - Used when the switch acts as an MLD querier.
@@ -833,7 +833,7 @@ options:
                 required: false
               mld_snooping_querier_version:
                 description:
-                  - MLD version for query messages:
+                  - MLD version for query messages.
                   - C(VERSION_1) - Basic IPv6 multicast listener functionality.
                   - C(VERSION_2) - Adds source-specific multicast and enhanced features.
                   - Choose based on IPv6 application requirements and receiver capabilities.
