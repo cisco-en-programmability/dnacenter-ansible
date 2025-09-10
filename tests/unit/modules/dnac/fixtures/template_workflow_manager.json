@@ -2515,10 +2515,9 @@
               "version_description": "Adding and committing the new template",
               "language": "velocity",
               "software_type": "IOS-XE",
-              "profiles": [
+              "profile_names": [
                 "TestProfile"
               ],
-              "detach_profiles": false,
               "device_types": [
                 {
                   "product_family": "Switches and Hubs"
@@ -2557,10 +2556,9 @@
               "version_description": "Adding and committing the updated template",
               "language": "velocity",
               "software_type": "IOS-XE",
-              "profiles": [
+              "profile_names": [
                 "TestProfile"
               ],
-              "detach_profiles": true,
               "device_types": [
                 {
                   "product_family": "Switches and Hubs"
