@@ -13,11 +13,14 @@ __author__ = ["A Mohamed Rafeek, Madhan Sankaranarayanan"]
 DOCUMENTATION = r"""
 ---
 module: network_profile_switching_workflow_manager
-short_description: Resource module for managing switch profiles in Cisco Catalyst Center
+short_description: Resource module for managing network switch profiles with template and site assignments in Cisco Catalyst Center
 description: >
-  This module facilitates the creation and deletion of network switch profiles in Cisco Catalyst Center.
-  - Supports creating and deleting switch profiles.
-  - Enables assignment of profiles to sites, onboarding templates, and Day-N templates.
+  This module facilitates comprehensive network switch profile management in Cisco Catalyst Center.
+  - Supports creating, updating, and deleting switch profiles with Day-N template assignments.
+  - Enables profile assignment to sites within the site hierarchy for network standardization.
+  - Provides selective site and template unassignment capabilities for profile lifecycle management.
+  - Supports bulk profile operations for enterprise-scale network infrastructure deployment.
+  - Integrates with Cisco Catalyst Center's network profile framework for consistent switching configuration.
 version_added: "6.31.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -33,9 +36,11 @@ options:
     default: false
   state:
     description: >
-      Specifies the desired state for the configuration.
-      If set to `merged`, the module will create or update the configuration by adding new settings or modifying existing ones.
-      If set to `deleted`, the module will remove the specified settings.
+      Specifies the desired operational state for switch profile configuration management.
+      - merged: Creates new switch profiles or updates existing profiles by adding/modifying
+        template assignments and site associations. Supports incremental profile enhancement.
+      - deleted: Removes switch profiles, unassigns sites, or detaches templates based on
+        the configuration provided. Supports selective deletion for profile lifecycle management.
     type: str
     choices:
       - merged
@@ -43,33 +48,49 @@ options:
     default: merged
   config:
     description: >
-      A list containing the details required for network switch profile creation.
+      A list containing the comprehensive details required for network switch profile creation,
+      assignment, and lifecycle management. Each profile configuration supports template
+      assignments, site associations, and operational state management for enterprise
+      network infrastructure standardization and automation.
     type: list
     elements: dict
     required: true
     suboptions:
       profile_name:
         description: >
-          The name of the switch profile to be created.
+          The unique name of the switch profile to be created or managed.
+          Profile names must be unique within the Cisco Catalyst Center instance
+          and should follow organizational naming conventions for network infrastructure.
+          Maximum length: 255 characters.
         type: str
         required: true
       site_names:
         description: >
-          A list of site names specified in the full site hierarchy format.
-          For example: 'Global/Country/City/Building'.
+          A list of site names specified in the full site hierarchy format for profile assignment.
+          Sites must exist in the Catalyst Center site hierarchy before profile assignment.
+          Format examples: 'Global/Country/City/Building' or 'Global/Region/Campus/Floor'.
+          Maximum length per site: 200 characters.
+          Supports bulk site assignment for scalable network profile deployment.
         type: list
         elements: str
         required: false
       onboarding_templates:
         description: >
-          A list of onboarding template names assigned to the profile.
-          Note: Onboarding templates are currently unavailable due to SDK/API constraints.
+          A list of onboarding template names to be assigned to the profile for device provisioning.
+          Note: Onboarding templates are currently unavailable due to SDK/API upgrade constraints.
+          This feature will be available in an upcoming release with enhanced template support.
+          Reserved for future functionality - do not use in current implementations.
         type: list
         elements: str
         required: false
       day_n_templates:
         description: >
-          A list of Day-N template names assigned to the profile.
+          A list of Day-N template names assigned to the profile for ongoing device configuration.
+          Day-N templates provide post-deployment configuration management including compliance,
+          monitoring, and operational configuration updates for network devices.
+          Templates must exist in Catalyst Center before assignment to profiles.
+          Maximum length per template: 200 characters.
+          Supports multiple template assignment for comprehensive device lifecycle management.
         type: list
         elements: str
         required: false
@@ -103,7 +124,8 @@ EXAMPLES = r"""
   gather_facts: false
   connection: local
   tasks:
-    - name: Create network profile for switch
+    # Create a comprehensive switching profile with Day-N templates and site assignments
+    - name: Create enterprise switching profile for campus network infrastructure
       cisco.dnac.network_profile_switching_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -123,9 +145,11 @@ EXAMPLES = r"""
             day_n_templates:
               - "Campus_Switch_Config_Update"
             site_names:
-              - "Global/Chennai"
-              - "Global/Abc"
-    - name: Update network profile for switch
+              - "Global/India/Chennai"
+              - "Global/India/Mumbai"
+
+    # Update existing switching profile with additional templates and sites
+    - name: Update enterprise switching profile for multi-region deployment
       cisco.dnac.network_profile_switching_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -144,31 +168,14 @@ EXAMPLES = r"""
           - profile_name: "Enterprise_Switching_Profile"
             day_n_templates:
               - "Periodic_Config_Audit"
+              - "Security_Compliance_Check"
             site_names:
               - "Global/India/Chennai/Main_Office"
               - "Global/India/Madurai/Branch_Office"
-              - "Global/USA/San Francisco/Regional_HQ"
-    - name: Idempotent redelete multiple switching profile
-      cisco.dnac.network_profile_switching_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        config_verify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
-        state: deleted
-        config:
-          - profile_name: Enterprise_Switching_Profile
-          - profile_name: Local_Switching_Profile
+              - "Global/USA/San_Francisco/Regional_HQ"
 
-    # Delete a switching profile by providing its profile name
-    - name: Delete Specified Switching Profile
+    # Demonstrate idempotent deletion of multiple switching profiles
+    - name: Remove obsolete switching profiles from network infrastructure
       cisco.dnac.network_profile_switching_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -184,10 +191,11 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: deleted
         config:
-          - profile_name: Enterprise_Switching_Profile
+          - profile_name: "Legacy_Switching_Profile"
+          - profile_name: "Deprecated_Local_Profile"
 
-    # Unassign sites from a switching profile but do not delete the profile
-    - name: Unassign Sites from Switching Profile
+    # Complete profile removal including all associated configurations
+    - name: Delete switching profile and verify removal from network infrastructure
       cisco.dnac.network_profile_switching_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -203,12 +211,31 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: deleted
         config:
-          - profile_name: Enterprise_Switching_Profile
+          - profile_name: "Enterprise_Switching_Profile"
+
+    # Selective site unassignment while preserving profile and templates
+    - name: Unassign specific sites from switching profile for network reorganization
+      cisco.dnac.network_profile_switching_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: deleted
+        config:
+          - profile_name: "Enterprise_Switching_Profile"
             site_names:
-              - Global/India/Chennai/Main_Office
+              - "Global/India/Chennai/Main_Office"
 
-    # Unassign a template from a switching profile but do not delete the profile
-    - name: Unassign Template from Switching Profile
+    # Selective template unassignment for configuration template management
+    - name: Remove specific templates from switching profile for template lifecycle management
       cisco.dnac.network_profile_switching_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -224,9 +251,39 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: deleted
         config:
-          - profile_name: Enterprise_Switching_Profile
+          - profile_name: "Enterprise_Switching_Profile"
             day_n_templates:
-              - Periodic_Config_Audit
+              - "Outdated_Config_Template"
+
+    # Bulk profile creation for large-scale network deployment
+    - name: Create multiple switching profiles for enterprise network standardization
+      cisco.dnac.network_profile_switching_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          - profile_name: "Campus_Core_Switching"
+            day_n_templates:
+              - "Core_Switch_Config"
+              - "OSPF_Configuration"
+            site_names:
+              - "Global/Headquarters/Core_Network"
+          - profile_name: "Branch_Access_Switching"
+            day_n_templates:
+              - "Access_Switch_Config"
+              - "VLAN_Configuration"
+            site_names:
+              - "Global/Branch_Offices/Remote_Sites"
 """
 
 RETURN = r"""
