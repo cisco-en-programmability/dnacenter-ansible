@@ -182,13 +182,13 @@ options:
                     - Each profile in the list must be a valid string representing an existing network profile name.
                     - If no profiles are specified, the template will not be associated with any profiles by default.
                     - Profile names can be detached from the template based on deleted state operations.
-                type: list
-                elements: str
-                required: false
-                examples: |
+                    - C(examples):
                     - ["Enterprise_Security_Profile", "QoS_Voice_Profile"]
                     - ["Campus_Switching_Profile"]
                     - ["WAN_Edge_Profile", "Security_Baseline_Profile", "Monitoring_Profile"]
+                type: list
+                elements: str
+                required: false
               tags:
                 description: A list of dictionaries
                   representing tags associated with
