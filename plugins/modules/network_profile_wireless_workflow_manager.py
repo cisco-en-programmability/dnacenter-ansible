@@ -154,6 +154,9 @@ options:
       feature_templates:
         description: |
           List of feature templates to be assigned or removed to/from the wireless network profile.
+          Feature templates provide advanced configuration capabilities for wireless infrastructure
+          including AAA settings, SSID configurations, CleanAir parameters, and RRM settings.
+          These templates enable standardized configuration deployment across wireless network profiles.
         type: list
         elements: dict
         required: false
@@ -179,7 +182,7 @@ options:
           template_design:
             description: |
               A list of specific design names or IDs to apply within the chosen feature template category.
-              These designs include various parameters and settings.
+              These designs include various parameters and settings for wireless infrastructure configuration.
               If "Default Advanced SSID Design" is included in this list, it is comprehensive for SSID configuration,
               and no other template designs are typically needed for that specific SSID feature.
             type: list
@@ -895,17 +898,19 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         Returns:
             None: This function updates the errormsg list directly if any validation errors are found.
         """
-        self.log("Starting feature template validation...", "DEBUG")
+        self.log("Validating feature template configurations for wireless network profile template assignment", "DEBUG")
+        self.log("Processing {0} feature templates for validation against wireless profile requirements".format(
+            len(feature_templates) if isinstance(feature_templates, list) else 0), "DEBUG")
 
         if not isinstance(feature_templates, list):
             errormsg.append("feature_templates: Expected a list, but got a non-list value.")
-            return
+            return None
 
         if len(feature_templates) > 500:
             errormsg.append(
                 "feature_templates: List contains more than 500 entries, which exceeds the allowed limit."
             )
-            return
+            return None
 
         if feature_templates \
            and self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") < 0:
@@ -914,9 +919,23 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 "Supported version(s) start from '3.1.3.0' onwards.".format(
                     self.get_ccc_version())
             )
-            return
+            return None
 
+        self.log("Feature template basic validation passed - proceeding with detailed template configuration validation", "DEBUG")
+
+        # Track validation statistics for operational visibility
+        templates_processed = 0
+        templates_with_errors = 0
+        advanced_ssid_templates_found = 0
+        default_design_templates_found = 0
         for feature_template in feature_templates:
+            templates_processed += 1
+            template_has_errors = False
+
+            self.log("Validating feature template configuration {0}/{1}".format(
+                templates_processed, len(feature_templates)), "DEBUG")
+
+            # Validate device type configuration
             device_type = feature_template.get("device_type")
             if device_type:
                 validate_str(
@@ -925,70 +944,104 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     "device_type",
                     errormsg,
                 )
-                if device_type == "ADVANCED_SSID_CONFIGURATION" and len(feature_templates) > 1:
-                    errormsg.append(
-                        "device_type: 'ADVANCED_SSID_CONFIGURATION' is a special case and should be the only device type in feature_templates." +
-                        "Please remove other device types if 'ADVANCED_SSID_CONFIGURATION' is used."
-                    )
 
-            if device_type not in self.available_device_types:
-                errormsg.append(
-                    "device_type: Invalid device type '{0}' in playbook. "
-                    "Available device types are: {1}".format(
-                        device_type, self.available_device_types
+                # Special case validation for Advanced SSID Configuration
+                if device_type == "ADVANCED_SSID_CONFIGURATION":
+                    advanced_ssid_templates_found += 1
+                    if len(feature_templates) > 1:
+                        errormsg.append(
+                            "device_type: 'ADVANCED_SSID_CONFIGURATION' is a special case and should be the only device type in feature_templates." +
+                            "Please remove other device types if 'ADVANCED_SSID_CONFIGURATION' is used."
+                        )
+                        template_has_errors = True
+                        self.log("Advanced SSID Configuration validation failed - cannot be combined with other device types", "ERROR")
+
+                # Validate device type against supported categories
+                if device_type not in self.available_device_types:
+                    errormsg.append(
+                        "device_type: Invalid device type '{0}' in playbook. "
+                        "Available device types are: {1}".format(
+                            device_type, self.available_device_types
+                        )
                     )
-                )
+                    template_has_errors = True
+                    self.log("Device type validation failed for '{0}' - not in supported device types".format(device_type), "ERROR")
+            else:
+                errormsg.append("device_type: Device type is missing in feature template configuration.")
+                template_has_errors = True
 
             template_design = feature_template.get("template_design", [])
             if not template_design:
                 errormsg.append(
                     "template_design: 'template_design' is missing in feature_templates."
                 )
+                template_has_errors = True
             elif not isinstance(template_design, list):
                 errormsg.append(
                     "template_design: Expected a list for 'template_design', but got a non-list value."
                 )
-
-            for design in template_design:
-                if not isinstance(design, str):
-                    errormsg.append(
-                        "template_design: Expected a string for each item in 'template_design', but got a non-string value."
-                    )
-                elif "Default Advanced SSID Design" in template_design and len(template_design) > 1:
-                    errormsg.append(
-                        "template_design: 'Default Advanced SSID Design' is a special case and should be the only " +
-                        "template design in feature_templates. " +
-                        "Please remove other template designs if 'Default Advanced SSID Design' is used."
-                    )
+                template_has_errors = True
+            else:
+                # Validate each template design entry
+                for design in template_design:
+                    if not isinstance(design, str):
+                        errormsg.append(
+                            "template_design: Expected a string for each item in 'template_design', but got a non-string value."
+                        )
+                        template_has_errors = True
+                    elif "Default Advanced SSID Design" in template_design and len(template_design) > 1:
+                        default_design_templates_found += 1
+                        if len(template_design) > 1:
+                            errormsg.append(
+                                "template_design: 'Default Advanced SSID Design' is a special case and should be the only " +
+                                "template design in feature_templates. " +
+                                "Please remove other template designs if 'Default Advanced SSID Design' is used."
+                            )
+                            template_has_errors = True
+                            self.log("Default Advanced SSID Design validation failed - cannot be combined with other designs", "ERROR")
 
             applicability_ssids = feature_template.get("applicability_ssids", [])
             if applicability_ssids:
+                self.log("Validating SSID applicability for {0} SSIDs".format(
+                    len(applicability_ssids)), "DEBUG")
                 if "Default Advanced SSID Design" not in template_design:
                     errormsg.append(
                         "applicability_ssids: 'applicability_ssids' should only be used with 'Default Advanced SSID Design' template design."
                     )
+                    template_has_errors = True
 
                 if len(applicability_ssids) > 16:
                     errormsg.append(
                         "applicability_ssids: List contains more than 16 entries, which exceeds the allowed limit."
                     )
+                    template_has_errors = True
 
                 for feature_ssid in applicability_ssids:
                     if not isinstance(feature_ssid, str):
                         errormsg.append(
                             "applicability_ssids: Expected a string for each item in 'applicability_ssids', but got a non-string value."
                         )
+                        template_has_errors = True
+                    else:
+                        validate_str(feature_ssid,
+                                     dict(type="str", length_max=32),
+                                     "applicability_ssids", errormsg)
 
-                    validate_str(feature_ssid,
-                                 dict(type="str", length_max=32),
-                                 "applicability_ssids", errormsg)
-
-                    if not self.value_exists(ssid_list, "ssid_name", feature_ssid):
-                        errormsg.append(
-                            "applicability_ssids: SSID '{0}' does not exist in ssid_details.".format(
-                                feature_ssid
+                        # Cross-reference SSID with ssid_details
+                        if not self.value_exists(ssid_list, "ssid_name", feature_ssid):
+                            errormsg.append(
+                                "applicability_ssids: SSID '{0}' does not exist in ssid_details.".format(
+                                    feature_ssid
+                                )
                             )
-                        )
+                            template_has_errors = True
+                            self.log("SSID applicability validation failed - SSID '{0}' not found in ssid_details".format(
+                                feature_ssid), "ERROR")
+
+            if template_has_errors:
+                templates_with_errors += 1
+
+            self.log("Checking for duplicate template designs across feature template configurations", "DEBUG")
 
             duplicates, matches = self.find_duplicates_in_feature_templates(feature_templates)
             if duplicates or matches:
@@ -997,6 +1050,23 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         str(duplicates), str(matches)
                     )
                 )
+                self.log("Duplicate template design validation failed - found duplicates: {0} {1}".format(
+                    str(duplicates), str(matches)), "ERROR")
+
+        if templates_with_errors > 0:
+            self.log("Feature template validation completed with errors - {0}/{1} templates failed validation".format(
+                templates_with_errors, templates_processed), "WARNING")
+        else:
+            self.log("Feature template validation completed successfully - all {0} templates passed validation".format(
+                templates_processed), "INFO")
+
+        if advanced_ssid_templates_found > 0:
+            self.log("Advanced SSID Configuration templates found: {0}".format(
+                advanced_ssid_templates_found), "INFO")
+
+        if default_design_templates_found > 0:
+            self.log("Default Advanced SSID Design templates found: {0}".format(
+                default_design_templates_found), "INFO")
 
     def find_duplicates_in_feature_templates(self, feature_templates):
         """
@@ -1020,50 +1090,82 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             - 'Matching' means two different dictionaries have exactly the same
               'template_design' list (order matters).
         """
-        self.log("Finding duplicates and matches in feature templates...", "DEBUG")
+        self.log("Analyzing feature template configurations for duplicate template designs and identical template lists", "DEBUG")
+        self.log("Processing {0} feature templates for duplicate detection analysis".format(
+            len(feature_templates)), "DEBUG")
+
         duplicates_found = []
         matching_indices = []
         combine_designs = []
 
-        # Check for duplicates within each 'template_design'
-        for index, template in enumerate(feature_templates):
-            template_design = template.get('template_design', [])
-            if len(template_design) != len(set(template_design)):
-                self.log(
-                    "Duplicate found in template_design for index {0}: {1}".format(index, template_design),
-                    "DEBUG"
-                )
-                duplicates_found.append(template)
+        templates_processed = 0
+        intra_template_duplicates = 0
+        inter_template_duplicates = 0
+        identical_lists_found = 0
 
-        # Check for matching 'template_design' lists across dictionaries
-        seen_designs = {}
-        for index, template in enumerate(feature_templates):
-            # Convert to tuple for hashing
-            template_design = tuple(template.get('template_design', []))
-            if template_design in seen_designs:
-                self.log(
-                    "Matching template_design found at index {0} for design {1}".format(
-                        index, template_design
-                    ), "DEBUG"
-                )
-                matching_indices.append((seen_designs[template_design], index))
+        # Track seen template design lists for identical list detection
+        seen_template_designs = {}
+        global_template_designs = []
+
+        # Process each feature template for duplicate detection
+        for template_index, feature_template in enumerate(feature_templates):
+            templates_processed += 1
+            template_design_list = feature_template.get('template_design', [])
+
+            self.log("Analyzing feature template {0}/{1} with {2} template designs".format(
+                template_index + 1, len(feature_templates), len(template_design_list)), "DEBUG")
+
+            # Check for intra-template duplicates (within same template_design list)
+            if len(template_design_list) != len(set(template_design_list)):
+                intra_template_duplicates += 1
+                duplicates_found.append(feature_template)
+                self.log("Intra-template duplicate detected in template_design at index {0}: {1}".format(
+                    template_index, template_design_list), "DEBUG")
+
+            # Check for identical template_design lists across feature templates
+            template_design_tuple = tuple(template_design_list)
+            if template_design_tuple in seen_template_designs:
+                identical_lists_found += 1
+                matching_indices.append((seen_template_designs[template_design_tuple], template_index))
+                self.log("Identical template_design lists found between indices {0} and {1}: {2}".format(
+                    seen_template_designs[template_design_tuple], template_index, template_design_list), "DEBUG")
             else:
-                seen_designs[template_design] = index
+                seen_template_designs[template_design_tuple] = template_index
 
-        for template in feature_templates:
-            template_design = template.get('template_design', [])
-            for each_design in template_design:
-                if each_design not in combine_designs:
-                    combine_designs.append(each_design)
+            # Check for inter-template duplicates (same design across different templates)
+            for template_design in template_design_list:
+                if template_design in global_template_designs:
+                    inter_template_duplicates += 1
+                    if feature_template not in duplicates_found:
+                        duplicates_found.append(feature_template)
+                    self.log("Inter-template duplicate design '{0}' found in feature template at index {1}".format(
+                        template_design, template_index), "DEBUG")
                 else:
-                    self.log(
-                        "Duplicate template_design '{0}' found in feature_templates.".format(each_design),
-                        "DEBUG"
-                    )
-                    duplicates_found.append(template)
+                    global_template_designs.append(template_design)
 
-        if duplicates_found or matching_indices:
+        total_duplicates = len(duplicates_found)
+        total_matches = len(matching_indices)
+
+        if total_duplicates > 0 or total_matches > 0:
+            self.log("Duplicate detection completed - found {0} templates with duplicates and {1} identical template lists".format(
+                total_duplicates, total_matches), "WARNING")
+
+            if intra_template_duplicates > 0:
+                self.log("Intra-template duplicates found in {0} feature templates".format(
+                    intra_template_duplicates), "WARNING")
+
+            if inter_template_duplicates > 0:
+                self.log("Inter-template duplicate designs detected: {0} occurrences".format(
+                    inter_template_duplicates), "WARNING")
+
+            if identical_lists_found > 0:
+                self.log("Identical template design lists found: {0} matches".format(
+                    identical_lists_found), "WARNING")
+
             return duplicates_found, matching_indices
+
+        self.log("Duplicate detection completed successfully - no duplicates or identical lists found in {0} feature templates".format(
+            templates_processed), "INFO")
 
         return None, None
 
@@ -1592,81 +1694,147 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
     def get_feature_template_info(self, feature_templates, profile_info):
         """
-        This function extending the get have function to get details for feature template information
+        Retrieve feature template configuration details for wireless network profile management.
+
+        This method queries the Catalyst Center wireless API to collect comprehensive feature
+        template information including template designs, device types, and SSID applicability
+        for specified feature template configurations. It processes template mappings to retrieve
+        design identifiers and SSID associations essential for wireless network profile
+        feature template assignment and configuration management.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            feature_templates (list): A List of dict containing feature template details.
-            profile_info (dict): A dict contain feature template information with status
+            feature_templates (list): List of dictionaries containing feature template configurations.
+                                    Format: [{"device_type": "AAA_RADIUS_ATTRIBUTES_CONFIGURATION",
+                                            "template_design": ["design1", "design2"],
+                                            "applicability_ssids": ["SSID1", "SSID2"]}]
+                                    Each dictionary contains device type, template designs,
+                                    and optional SSID applicability.
+            profile_info (dict): Dictionary to store collected feature template information.
+                                Updated with "feature_templates" key containing template details
+                                for wireless profile configuration processing.
 
         Returns:
-            No return, Contains the information about the Feature template details to add to
-            profile_info
+            None: This method updates the profile_info dictionary directly with feature template
+            details. Returns None if no templates found or if errors occur during processing.
+
+            Note:
+                Feature template information is essential for wireless profile configuration
+                and defines how specific wireless features are applied to network profiles
+                and associated SSIDs within the Catalyst Center wireless infrastructure.
         """
-        self.log(
-            "Get the Feature template details for: {0}".format(feature_templates),
-            "DEBUG",
-        )
+        self.log("Retrieving feature template configuration details for wireless network profile management", "DEBUG")
+        self.log("Processing {0} feature template configurations for template design collection".format(
+            len(feature_templates)), "DEBUG")
+
+        if not feature_templates:
+            self.log("No feature templates provided for template information retrieval - returning without processing", "DEBUG")
+            return None
+
+        all_template_details = []
+        templates_processed = 0
+        designs_collected = 0
+        templates_with_errors = 0
+
         try:
-            all_templates = []
+            for feature_template in feature_templates:
+                templates_processed += 1
 
-            for each_template in feature_templates:
-                device_type = each_template.get("device_type")
-                payload_template = {}
+                device_type = feature_template.get("device_type")
+                template_designs = feature_template.get("template_design", [])
 
-                if device_type:
-                    payload_template["type"] = device_type
+                self.log("Processing feature template {0}/{1} with device type '{2}' and {3} template designs".format(
+                    templates_processed, len(feature_templates), device_type, len(template_designs)), "DEBUG")
 
-                template_design = each_template.get("template_design")
-                if template_design and isinstance(template_design, list):
-                    each_design_names = []
-                    for design in template_design:
-                        payload_template["design_name"] = design
+                if not device_type:
+                    self.log("Device type missing in feature template configuration - skipping template", "WARNING")
+                    continue
 
+                if not template_designs or not isinstance(template_designs, list):
+                    self.log("Template designs missing or invalid in feature template configuration - skipping template", "WARNING")
+                    continue
+
+                payload_template = {"type": device_type}
+
+                # Process each template design within the feature template
+                for template_design in template_designs:
+                    payload_template["design_name"] = template_design
+
+                    self.log("Querying feature template design '{0}' for device type '{1}'".format(
+                        template_design, device_type), "DEBUG")
+
+                    try:
                         design_response = self.execute_get_request(
                             "wireless", "get_feature_template_summary", payload_template
                         )
-                        self.log(
-                            "Response from 'get_feature_template_summary' API: {0}".format(
-                                self.pprint(design_response)
-                            ),
-                            "INFO",
-                        )
 
+                        self.log("Feature template design query completed for '{0}'".format(
+                            template_design), "DEBUG")
+
+                        # Validate and process template design response
                         if design_response and isinstance(design_response.get("response"), list):
-                            design_id = design_response.get(
-                                "response", [])[0].get("instances", [])[0].get("id")
-                            get_each_design = {
-                                "design_id": design_id,
-                                "design_name": design
-                            }
+                            response_data = design_response.get("response", [])
 
-                            applicability_ssids = each_template.get("applicability_ssids")
-                            if applicability_ssids:
-                                get_each_design["ssids"] = applicability_ssids
+                            if response_data and len(response_data) > 0:
+                                instances = response_data[0].get("instances", [])
 
-                            self.log(
-                                "Feature template design found: {0}".format(get_each_design),
-                                "DEBUG",
-                            )
-                            each_design_names.append(get_each_design)
+                                if instances and len(instances) > 0:
+                                    design_id = instances[0].get("id")
 
-                    all_templates.extend(each_design_names)
+                                    if design_id:
+                                        designs_collected += 1
+                                        template_detail = {
+                                            "design_id": design_id,
+                                            "design_name": template_design,
+                                            "device_type": device_type
+                                        }
 
-            if not all_templates:
-                self.log(
-                    "No feature templates found for the provided configurations.", "DEBUG"
-                )
-                return None
+                                        # Add SSID applicability if specified
+                                        applicability_ssids = feature_template.get("applicability_ssids")
+                                        if applicability_ssids:
+                                            template_detail["ssids"] = applicability_ssids
+                                            self.log("Added SSID applicability for template design '{0}': {1}".format(
+                                                template_design, applicability_ssids), "DEBUG")
 
-            profile_info["feature_templates"] = all_templates
-            self.log(
-                "Collected feature template details: {0}".format(all_templates), "INFO"
-            )
+                                        all_template_details.append(template_detail)
+                                        self.log("Feature template design '{0}' collected successfully with ID '{1}'".format(
+                                            template_design, design_id), "DEBUG")
+                                    else:
+                                        self.log("No design ID found in template response for '{0}'".format(
+                                            template_design), "WARNING")
+                                else:
+                                    self.log("No instances found in template response for '{0}'".format(
+                                        template_design), "WARNING")
+                            else:
+                                self.log("Empty response data received for template design '{0}'".format(
+                                    template_design), "WARNING")
+                        else:
+                            self.log("Invalid or empty response received for template design '{0}'".format(
+                                template_design), "WARNING")
 
-        except Exception as e:
-            msg = "An error occurred during get Feature template: {0}".format(str(e))
-            self.log(msg, "ERROR")
+                    except Exception as design_exception:
+                        templates_with_errors += 1
+                        self.log("Failed to retrieve feature template design '{0}': {1}".format(
+                            template_design, str(design_exception)), "ERROR")
+
+            # Update profile_info with collected template details
+            if all_template_details:
+                profile_info["feature_templates"] = all_template_details
+                self.log("Feature template information collection completed - collected {0} template designs from {1} feature templates".format(
+                    designs_collected, templates_processed), "INFO")
+
+                if templates_with_errors > 0:
+                    self.log("Warning: {0} template designs encountered errors during collection".format(
+                        templates_with_errors), "WARNING")
+
+                return self
+
+            self.log("No feature template designs found for the provided feature template configurations", "DEBUG")
+            return None
+
+        except Exception as api_exception:
+            error_message = "Failed to retrieve feature template information: {0}".format(str(api_exception))
+            self.log(error_message, "ERROR")
             return None
 
     def compare_config_data(self, input_config, have_info):
@@ -1758,34 +1926,51 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
                 if feature_templates \
                    and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") > 0:
-                    for each_template in feature_templates:
-                        if each_template.get("design_id") and not self.value_exists(
-                           have_feature_templates, "id", each_template.get("design_id")):
-                            unmatched_keys.append(
-                                "Feature template with template_design '{0}' not found.".format(
-                                    each_template.get("design_name")
-                                )
-                            )
-                            self.log(
-                                "Feature template with template design '{0}' not found in existing config.".format(
-                                    each_template.get("design_name")
-                                ),
-                                "WARNING",
-                            )
+                    self.log("Validating feature template configurations against existing profile template assignments", "DEBUG")
+                    self.log("Processing {0} feature templates for configuration comparison with existing assignments".format(
+                        len(feature_templates)), "DEBUG")
 
-                        if each_template.get("ssids") and not self.value_exists(
-                           have_feature_templates, "ssids", each_template.get("ssids")):
+                    feature_templates_processed = 0
+                    feature_templates_with_mismatches = 0
+                    for feature_template in feature_templates:
+                        feature_templates_processed += 1
+                        template_design_name = feature_template.get("design_name")
+                        template_design_id = feature_template.get("design_id")
+                        template_ssids = feature_template.get("ssids")
+
+                        self.log("Validating feature template {0}/{1} with design '{2}'".format(
+                            feature_templates_processed, len(feature_templates), template_design_name), "DEBUG")
+
+                        # Validate template design ID exists in current profile assignments
+                        if template_design_id and not self.value_exists(have_feature_templates, "id", template_design_id):
+                            feature_templates_with_mismatches += 1
                             unmatched_keys.append(
-                                "Feature template with applicability_ssids '{0}' not found.".format(
-                                    each_template.get("ssids")
-                                )
+                                "Feature template with template_design '{0}' not found.".format(template_design_name)
                             )
                             self.log(
-                                "Feature template with applicability_ssids '{0}' not found in existing config.".format(
-                                    each_template.get("ssids")
-                                ),
-                                "WARNING",
+                                "Feature template design mismatch detected - template design "
+                                "'{0}' (ID: {1}) not found in existing profile assignments".format(
+                                    template_design_name, template_design_id), "WARNING")
+
+                        # Validate SSID applicability exists in current profile assignments
+                        if template_ssids and not self.value_exists(have_feature_templates, "ssids", template_ssids):
+                            feature_templates_with_mismatches += 1
+                            unmatched_keys.append(
+                                "Feature template with applicability_ssids '{0}' not found.".format(template_ssids)
                             )
+                            self.log(
+                                "Feature template SSID applicability mismatch detected - "
+                                "SSIDs '{0}' not found in existing profile template assignments".format(
+                                    template_ssids), "WARNING")
+
+                    # Log comprehensive feature template validation summary
+                    if feature_templates_with_mismatches > 0:
+                        self.log("Feature template validation completed with mismatches"
+                                 " - {0}/{1} templates have configuration differences".format(
+                                     feature_templates_with_mismatches, feature_templates_processed), "WARNING")
+                    else:
+                        self.log("Feature template validation completed successfully - all {0} templates match existing profile assignments".format(
+                            feature_templates_processed), "DEBUG")
 
         if unmatched_keys:
             self.log(
