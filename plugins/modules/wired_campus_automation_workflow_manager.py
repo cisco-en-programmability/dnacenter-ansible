@@ -269,9 +269,9 @@ options:
               stp_mode:
                 description:
                   - Spanning Tree Protocol mode to operate in.
-                  - PVST (Per-VLAN Spanning Tree Plus) - Cisco proprietary, one instance per VLAN.
-                  - RSTP (Rapid Spanning Tree Protocol) - IEEE 802.1w, faster convergence than PVST.
-                  - MST (Multiple Spanning Tree) - IEEE 802.1s, maps multiple VLANs to instances.
+                  - C(PVST) (Per-VLAN Spanning Tree Plus) - Cisco proprietary, one instance per VLAN.
+                  - C(RSTP) (Rapid Spanning Tree Protocol) - IEEE 802.1w, faster convergence than PVST.
+                  - C(MST) (Multiple Spanning Tree) - IEEE 802.1s, maps multiple VLANs to instances.
                   - Choose based on network size, convergence requirements, and vendor compatibility.
                 type: str
                 required: false
@@ -283,10 +283,11 @@ options:
               stp_portfast_mode:
                 description:
                   - Global PortFast mode configuration for edge ports.
-                  - ENABLE - Enables PortFast on all access ports globally.
-                  - DISABLE - Disables PortFast globally.
-                  - EDGE - Enables PortFast on edge ports (recommended for end devices).
-                  - NETWORK - Configures network ports (inter-switch links).
+                  - C(ENABLE) - Enables PortFast on all access ports globally.
+                  - C(DISABLE) - Disables PortFast globally.
+                  - C(EDGE) - Enables PortFast on edge ports (recommended for end devices).
+                  - C(NETWORK) - Configures network ports (inter-switch links).
+                  - C(TRUNK) - Enables PortFast on trunk ports (use with caution).
                   - PortFast bypasses listening and learning states for faster convergence.
                   - Advanced portfast modes (EDGE, NETWORK, TRUNK) are only supported on
                     Catalyst 9600 Series and specific Catalyst 9500 Series models (C9500-32C,
@@ -478,10 +479,10 @@ options:
               vtp_mode:
                 description:
                   - VTP operational mode for this switch.
-                  - SERVER - Can create, modify, and delete VLANs; propagates changes.
-                  - CLIENT - Cannot modify VLANs locally; accepts updates from servers.
-                  - TRANSPARENT - Can modify VLANs locally; forwards but doesn't process updates.
-                  - OFF - VTP is disabled; no VTP processing or forwarding.
+                  - C(SERVER) - Can create, modify, and delete VLANs; propagates changes.
+                  - C(CLIENT) - Cannot modify VLANs locally; accepts updates from servers.
+                  - C(TRANSPARENT) - Can modify VLANs locally; forwards but doesn't process updates.
+                  - C(OFF) - VTP is disabled; no VTP processing or forwarding.
                   - Choose based on network role and VLAN management strategy.
                   - VTP modes SERVER and CLIENT do not support extended range VLANs (1006-4094).
                   - If extended range VLANs are configured on the device, VTP mode
@@ -493,9 +494,9 @@ options:
               vtp_version:
                 description:
                   - VTP protocol version to use.
-                  - VERSION_1 - Original VTP implementation, basic functionality.
-                  - VERSION_2 - Adds support for Token Ring and unrecognized TLVs.
-                  - VERSION_3 - Adds extended VLANs, private VLANs, and MST support.
+                  - C(VERSION_1) - Original VTP implementation, basic functionality.
+                  - C(VERSION_2) - Adds support for Token Ring and unrecognized TLVs.
+                  - C(VERSION_3) - Adds extended VLANs, private VLANs, and MST support.
                   - Higher versions provide more features but require compatible switches.
                 type: str
                 required: false
@@ -682,9 +683,9 @@ options:
               igmp_snooping_querier_version:
                 description:
                   - IGMP version for query messages.
-                  - VERSION_1 - Basic join/leave functionality.
-                  - VERSION_2 - Adds leave group messages and group-specific queries.
-                  - VERSION_3 - Adds source-specific multicast (SSM) support.
+                  - C(VERSION_1) - Basic join/leave functionality.
+                  - C(VERSION_2) - Adds leave group messages and group-specific queries.
+                  - C(VERSION_3) - Adds source-specific multicast (SSM) support.
                   - Choose based on receiver capabilities and application requirements.
                 type: str
                 required: false
@@ -762,6 +763,9 @@ options:
                   igmp_snooping_querier_version:
                     description:
                       - IGMP version for this VLAN's query messages.
+                      - C(VERSION_1) - Basic join/leave functionality.
+                      - C(VERSION_2) - Adds leave group messages and group-specific queries.
+                      - C(VERSION_3) - Adds source-specific multicast (SSM) support.
                       - Can be different from the global IGMP version.
                       - Choose based on VLAN-specific application requirements.
                     type: str
@@ -819,7 +823,7 @@ options:
                 required: false
                 default: false
               mld_snooping_querier_address:
-                description:
+                description: 
                   - Source IPv6 address for MLD query messages.
                   - Querier Address must be a valid IPv6 Link-Local address.
                   - Used when the switch acts as an MLD querier.
@@ -829,9 +833,9 @@ options:
                 required: false
               mld_snooping_querier_version:
                 description:
-                  - MLD version for query messages.
-                  - VERSION_1 - Basic IPv6 multicast listener functionality.
-                  - VERSION_2 - Adds source-specific multicast and enhanced features.
+                  - MLD version for query messages:
+                  - C(VERSION_1) - Basic IPv6 multicast listener functionality.
+                  - C(VERSION_2) - Adds source-specific multicast and enhanced features.
                   - Choose based on IPv6 application requirements and receiver capabilities.
                   - VERSION_2" is recommended for modern IPv6 networks.
                 type: str
@@ -917,6 +921,8 @@ options:
                   mld_snooping_querier_version:
                     description:
                       - MLD version for this VLAN's query messages.
+                      - C(VERSION_1) - Basic IPv6 multicast listener functionality.
+                      - C(VERSION_2) - Adds source-specific multicast and enhanced features.
                       - Can be different from the global MLD version.
                       - Choose based on VLAN-specific IPv6 application requirements.
                     type: str
@@ -965,8 +971,8 @@ options:
               authentication_config_mode:
                 description:
                   - Authentication configuration mode (legacy vs. new style).
-                  - LEGACY - Traditional authentication manager configuration mode.
-                  - NEW_STYLE - Identity-Based Networking Services (IBNS) mode.
+                  - C(LEGACY) - Traditional authentication manager configuration mode.
+                  - C(NEW_STYLE) - Identity-Based Networking Services (IBNS) mode.
                   - NEW_STYLE is recommended for modern authentication deployments.
                   - Affects how authentication policies are configured and applied.
                   - Once the authentication configuration mode is set, it cannot be changed.
@@ -1053,9 +1059,9 @@ options:
                   port_channel_protocol:
                     description:
                       - Protocol to use for this port channel.
-                      - LACP - IEEE 802.3ad standard, recommended for most environments.
-                      - PAGP - Cisco proprietary protocol, for Cisco-only environments.
-                      - NONE - Static port channel without negotiation protocol.
+                      - C(LACP) - IEEE 802.3ad standard, recommended for most environments.
+                      - C(PAGP) - Cisco proprietary protocol, for Cisco-only environments.
+                      - C(NONE) - Static port channel without negotiation protocol.
                       - LACP provides better standards compliance and interoperability.
                     type: str
                     required: true
@@ -1105,15 +1111,15 @@ options:
                         description:
                           - Port channel mode for this member interface.
                           - For "LACP" protocol
-                          - ACTIVE - (initiates negotiation)
-                          - PASSIVE - (responds only)
+                          - C(ACTIVE) - (initiates negotiation)
+                          - C(PASSIVE) - (responds only)
                           - For "PAgP" protocol
-                          - AUTO - (responds only)
-                          - AUTO_NON_SILENT - (responds only, with more frequent messages)
-                          - DESIRABLE - (initiates negotiation)
-                          - DESIRABLE_NON_SILENT - (initiates negotiation, with more frequent messages)
+                          - C(AUTO) - (responds only)
+                          - C(AUTO_NON_SILENT - (responds only, with more frequent messages)
+                          - C(DESIRABLE) - (initiates negotiation)
+                          - C(DESIRABLE_NON_SILENT) - (initiates negotiation, with more frequent messages)
                           - For "NONE" protocol
-                          - ON - (static aggregation without negotiation)
+                          - C(ON) - (static aggregation without negotiation)
                           - Choose based on desired negotiation behavior and protocol.
                         type: str
                         required: false
@@ -1130,8 +1136,8 @@ options:
                       port_channel_rate:
                         description:
                           - LACP packet transmission rate (LACP protocol only).
-                          - 1 - Fast rate (1 second intervals).
-                          - 30 - Normal rate (30 second intervals).
+                          - C(1) - Fast rate (1 second intervals).
+                          - C(30) - Normal rate (30 second intervals).
                           - Fast rate provides quicker failure detection but increases overhead.
                           - Only applicable when using LACP protocol.
                         type: int
@@ -1143,8 +1149,8 @@ options:
                       port_channel_learn_method:
                         description:
                           - Learning method for PAgP protocol (PAgP only).
-                          - AGGREGATION_PORT - Learn on the port channel interface.
-                          - PHYSICAL_PORT - Learn on individual physical interfaces.
+                          - C(AGGREGATION_PORT) - Learn on the port channel interface.
+                          - C(PHYSICAL_PORT) - Learn on individual physical interfaces.
                           - Affects MAC address learning and forwarding behavior.
                           - Only applicable when using PAgP protocol.
                         type: str
@@ -1194,11 +1200,11 @@ options:
                   switchport_mode:
                     description:
                       - Switchport operational mode.
-                      - ACCESS - Interface carries traffic for a single VLAN.
-                      - TRUNK - Interface carries traffic for multiple VLANs.
-                      - DYNAMIC_AUTO - Negotiates mode with neighbor (becomes trunk if neighbor is trunk/desirable).
-                      - DYNAMIC_DESIRABLE - Actively negotiates to become trunk.
-                      - DOT1Q_TUNNEL - Interface acts as a tunnel port for service provider networks.
+                      - C(ACCESS) - Interface carries traffic for a single VLAN.
+                      - C(TRUNK) - Interface carries traffic for multiple VLANs.
+                      - C(DYNAMIC_AUTO) - Negotiates mode with neighbor (becomes trunk if neighbor is trunk/desirable).
+                      - C(DYNAMIC_DESIRABLE) - Actively negotiates to become trunk.
+                      - C(DOT1Q_TUNNEL) - Interface acts as a tunnel port for service provider networks.
                     type: str
                     required: false
                     choices:
@@ -1306,6 +1312,9 @@ options:
                   dot1x_interface_authentication_mode:
                     description:
                       - Sets the 802.1X authentication mode for the interface.
+                      - C(AUTO) - Interface can authenticate both 802.1X and non-802.1X devices.
+                      - C(FORCE_AUTHORIZED) - Interface only allows authenticated devices.
+                      - C(FORCE_UNAUTHORIZED) - Interface only allows unauthenticated devices.
                       - Determines how the interface handles authentication requests.
                     type: str
                     choices:
@@ -1316,6 +1325,10 @@ options:
                   dot1x_interface_pae_type:
                     description:
                       - Port Access Entity (PAE) type for 802.1X authentication.
+                      - C(AUTHENTICATOR) - Interface acts as an authenticator (common for switches).
+                      - C(SUPPLICANT) - Interface acts as a supplicant (common for client
+                        devices).
+                      - C(BOTH) - Interface can act as both authenticator and supplicant.
                       - Defines the role of the interface in the authentication process.
                     type: str
                     choices:
@@ -1326,6 +1339,8 @@ options:
                   dot1x_interface_control_direction:
                     description:
                       - Control direction for 802.1X authentication on the interface.
+                      - When set to C(BOTH), controls both inbound and outbound traffic.
+                      - When set to C(IN), only controls inbound traffic.
                       - Specifies which traffic direction is controlled by authentication.
                     type: str
                     choices:
@@ -1335,6 +1350,11 @@ options:
                   dot1x_interface_host_mode:
                     description:
                       - Host mode for 802.1X authentication on the interface.
+                      - C(SINGLE_HOST) - Only one host can authenticate on the port.
+                      - C(MULTI_HOST) - Multiple hosts can authenticate, but only one at a
+                        time.
+                      - C(MULTI_AUTH) - Multiple hosts can authenticate simultaneously.
+                      - C(MULTI_DOMAIN) - Multiple hosts from different domains can authenticate.
                       - Determines how many hosts can authenticate on a single port.
                     type: str
                     choices:
@@ -1359,6 +1379,9 @@ options:
                   dot1x_interface_authentication_order:
                     description:
                       - Authentication method order for the interface.
+                      - C(DOT1X) - 802.1X authentication method.
+                      - C(MAB) - MAC Authentication Bypass method.
+                      - C(WEBAUTH) - Web-based authentication method.
                       - Defines the sequence in which authentication methods are tried.
                       - Methods are attempted in the order specified in the list.
                     type: list
@@ -1377,6 +1400,12 @@ options:
                   dot1x_interface_port_control:
                     description:
                       - Port control mode for 802.1X authentication.
+                      - C(AUTO) - Port automatically authorizes or unauthorizes based on
+                        authentication state.
+                      - C(FORCE_AUTHORIZED) - Port is always authorized regardless of
+                        authentication state.
+                      - C(FORCE_UNAUTHORIZED) - Port is always unauthorized regardless of
+                        authentication state.
                       - Determines the initial authorization state of the port.
                     type: str
                     choices:
@@ -1448,13 +1477,13 @@ options:
                 suboptions:
                   stp_interface_portfast_mode:
                     description:
-                      - PortFast mode configuration for this interface
-                      - NONE - No PortFast configuration (uses global setting).
-                      - DISABLE - Explicitly disable PortFast on this interface.
-                      - EDGE - Enable PortFast for edge ports (end device connections).
-                      - EDGE_TRUNK - Enable PortFast on trunk ports to edge devices.
-                      - NETWORK - Configure as network port (inter-switch links).
-                      - TRUNK - Enable PortFast on all trunk ports.
+                      - PortFast mode configuration for this interface.
+                      - C(NONE) - No PortFast configuration (uses global setting).
+                      - C(DISABLE) - Explicitly disable PortFast on this interface.
+                      - C(EDGE) - Enable PortFast for edge ports (end device connections).
+                      - C(EDGE_TRUNK) - Enable PortFast on trunk ports to edge devices.
+                      - C(NETWORK) - Configure as network port (inter-switch links).
+                      - C(TRUNK) - Enable PortFast on all trunk ports.
                       - Advanced portfast modes (EDGE_TRUNK, NETWORK, TRUNK) are only supported on
                         Catalyst 9600 Series switches and specific Catalyst 9500 Series models
                         (C9500-32C, C9500-32QC, C9500-48Y4C, C9500-24Y4C, C9500X-28C8D).
@@ -1499,9 +1528,9 @@ options:
                   stp_interface_guard:
                     description:
                       - Guard mode configuration for this interface
-                      - LOOP - Enable Loop Guard to prevent loops from unidirectional failures.
-                      - ROOT - Enable Root Guard to prevent inferior BPDUs.
-                      - NONE - Disable guard features on this interface.
+                      - C(LOOP) - Enable Loop Guard to prevent loops from unidirectional failures.
+                      - C(ROOT) - Enable Root Guard to prevent inferior BPDUs.
+                      - C(NONE) - Disable guard features on this interface.
                       - Choose based on interface role and protection requirements.
                     type: str
                     required: false
@@ -1641,10 +1670,10 @@ options:
                   lldp_interface_receive_transmit:
                     description:
                       - Configure LLDP transmission and reception behavior for this interface.
-                      - TRANSMIT_ONLY - Only send LLDP packets, do not process received packets.
-                      - RECEIVE_ONLY - Only receive and process LLDP packets, do not transmit.
-                      - TRANSMIT_AND_RECEIVE - Both send and receive LLDP packets (default behavior).
-                      - DISABLED - Completely disable LLDP on this interface.
+                      - C(TRANSMIT_ONLY) - Only send LLDP packets, do not process received packets.
+                      - C(RECEIVE_ONLY) - Only receive and process LLDP packets, do not transmit.
+                      - C(TRANSMIT_AND_RECEIVE) - Both send and receive LLDP packets (default behavior).
+                      - C(DISABLED) - Completely disable LLDP on this interface.
                       - Choose based on security requirements and interface role in the network.
                     type: str
                     required: false
