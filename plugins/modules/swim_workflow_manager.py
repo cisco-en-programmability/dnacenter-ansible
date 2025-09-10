@@ -4234,7 +4234,8 @@ class Swim(DnacBase):
                     image_name, image_id, self.bulk_distribution_success_ips
                 )
             else:
-                self.msg = """The golden image has been successfully distributed to all specified devices '{0}' in the Cisco Catalyst Center.""".format(self.bulk_distribution_success_ips)
+                self.msg = """The golden image has been successfully distributed
+                  to all specified devices '{0}' in the Cisco Catalyst Center.""".format(self.bulk_distribution_success_ips)
 
             self.log(self.msg, "INFO")
 
