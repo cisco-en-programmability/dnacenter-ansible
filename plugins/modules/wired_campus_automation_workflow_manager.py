@@ -259,7 +259,7 @@ options:
             description:
               - Spanning Tree Protocol (STP) global and per-VLAN configuration settings.
               - STP prevents loops in redundant network topologies while providing path redundancy.
-              - Supports PVST+, RSTP, and MST modes for different network requirements.
+              - Supports PVST plus, RSTP, and MST modes for different network requirements.
               - Critical for network stability in environments with redundant paths.
             type: dict
             required: false
@@ -585,15 +585,6 @@ options:
                   - Supports TFTP, FTP, and other file transfer protocols.
                   - Provides persistence of bindings across switch reboots.
                   - Minimum 5 characters, maximum 227 characters.
-                  - Format for the URL - "protocol://server_ip/filename"
-                  - The URL must start with one of the following protocol prefixes
-                    ("bootflash:", "crashinfo:", "flash:", "ftp:", "http:", "https:"
-                    "rcp:", "scp:", "sftp:", "tftp:")
-                  - Examples of valid URLs
-                  - tftp URL - "tftp://192.168.1.100/dhcp_bindings.db",
-                  - ftp URL - "ftp://server.example.com/backups/dhcp_bindings.db",
-                  - flash URL - "flash:dhcp_bindings.db",
-                  - bootflash URL - "bootflash:dhcp_bindings.db"
                 type: str
                 required: false
               dhcp_snooping_database_timeout:
