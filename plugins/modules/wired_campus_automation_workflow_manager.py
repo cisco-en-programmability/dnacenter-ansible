@@ -64,9 +64,7 @@ options:
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
-    choices:
-      - "merged"
-      - "deleted"
+    choices: [merged, deleted]
     default: "merged"
   config:
     description: List of wired campus automation configurations to be applied to network devices.
@@ -275,10 +273,7 @@ options:
                   - Choose based on network size, convergence requirements, and vendor compatibility.
                 type: str
                 required: false
-                choices:
-                  - "PVST"
-                  - "RSTP"
-                  - "MST"
+                choices: ["PVST", "RSTP", "MST"]
                 default: "RSTP"
               stp_portfast_mode:
                 description:
@@ -294,12 +289,7 @@ options:
                     C9500-32QC, C9500-48Y4C, C9500-24Y4C, C9500X-28C8D).
                 type: str
                 required: false
-                choices:
-                  - "ENABLE"
-                  - "DISABLE"
-                  - "EDGE"
-                  - "NETWORK"
-                  - "TRUNK"
+                choices: ["ENABLE", "DISABLE", "EDGE", "NETWORK", "TRUNK"]
               stp_bpdu_guard:
                 description:
                   - Global BPDU Guard configuration for PortFast-enabled ports.
@@ -500,10 +490,7 @@ options:
                   - Higher versions provide more features but require compatible switches.
                 type: str
                 required: false
-                choices:
-                  - "VERSION_1"
-                  - "VERSION_2"
-                  - "VERSION_3"
+                choices: ["VERSION_1", "VERSION_2", "VERSION_3"]
                 default: "VERSION_1"
               vtp_domain_name:
                 description:
@@ -689,10 +676,7 @@ options:
                   - Choose based on receiver capabilities and application requirements.
                 type: str
                 required: false
-                choices:
-                  - "VERSION_1"
-                  - "VERSION_2"
-                  - "VERSION_3"
+                choices: ["VERSION_1", "VERSION_2", "VERSION_3"]
                 default: "VERSION_2"
               igmp_snooping_querier_query_interval:
                 description:
@@ -770,10 +754,7 @@ options:
                       - Choose based on VLAN-specific application requirements.
                     type: str
                     required: false
-                    choices:
-                      - "VERSION_1"
-                      - "VERSION_2"
-                      - "VERSION_3"
+                    choices: ["VERSION_1", "VERSION_2", "VERSION_3"]
                     default: "VERSION_2"
                   igmp_snooping_querier_query_interval:
                     description:
@@ -840,9 +821,7 @@ options:
                   - VERSION_2" is recommended for modern IPv6 networks.
                 type: str
                 required: false
-                choices:
-                  - "VERSION_1"
-                  - "VERSION_2"
+                choices: ["VERSION_1", "VERSION_2"]
                 default: "VERSION_2"
               mld_snooping_listener:
                 description:
@@ -927,9 +906,7 @@ options:
                       - Choose based on VLAN-specific IPv6 application requirements.
                     type: str
                     required: false
-                    choices:
-                      - "VERSION_1"
-                      - "VERSION_2"
+                    choices: ["VERSION_1", "VERSION_2"]
                     default: "VERSION_1"
                   mld_snooping_querier_query_interval:
                     description:
@@ -978,9 +955,7 @@ options:
                   - Once the authentication configuration mode is set, it cannot be changed.
                 type: str
                 required: false
-                choices:
-                  - "LEGACY"
-                  - "NEW_STYLE"
+                choices: ["LEGACY", "NEW_STYLE"]
                 default: "LEGACY"
           logical_ports:
             description:
@@ -1025,25 +1000,11 @@ options:
                   - Mixed options combine multiple criteria for better distribution.
                 type: str
                 required: false
-                choices:
-                  - "SRC_MAC"
-                  - "DST_MAC"
-                  - "SRC_DST_MAC"
-                  - "SRC_IP"
-                  - "DST_IP"
-                  - "SRC_DST_IP"
-                  - "SRC_PORT"
-                  - "DST_PORT"
-                  - "SRC_DST_PORT"
-                  - "SRC_DST_MIXED_IP_PORT"
-                  - "SRC_MIXED_IP_PORT"
-                  - "DST_MIXED_IP_PORT"
-                  - "VLAN_SRC_IP"
-                  - "VLAN_DST_IP"
-                  - "VLAN_SRC_DST_IP"
-                  - "VLAN_SRC_MIXED_IP_PORT"
-                  - "VLAN_DST_MIXED_IP_PORT"
-                  - "VLAN_SRC_DST_MIXED_IP_PORT"
+                choices: ["SRC_MAC", "DST_MAC", "SRC_DST_MAC", "SRC_IP", "DST_IP",
+                        "SRC_DST_IP", "SRC_PORT", "DST_PORT", "SRC_DST_PORT", "SRC_DST_MIXED_IP_PORT",
+                        "SRC_MIXED_IP_PORT", "DST_MIXED_IP_PORT", "VLAN_SRC_IP", "VLAN_DST_IP",
+                        "VLAN_SRC_DST_IP", "VLAN_SRC_MIXED_IP_PORT", "VLAN_DST_MIXED_IP_PORT",
+                        "VLAN_SRC_DST_MIXED_IP_PORT"]
                 default: "SRC_DST_IP"
               port_channels:
                 description:
@@ -1065,10 +1026,7 @@ options:
                       - LACP provides better standards compliance and interoperability.
                     type: str
                     required: true
-                    choices:
-                      - "LACP"
-                      - "PAGP"
-                      - "NONE"
+                    choices: ["LACP", "PAGP", "NONE"]
                   port_channel_name:
                     description:
                       - Name identifier for the port channel interface.
@@ -1142,9 +1100,7 @@ options:
                           - Only applicable when using LACP protocol.
                         type: int
                         required: false
-                        choices:
-                          - 1
-                          - 30
+                        choices: [1, 30]
                         default: 30
                       port_channel_learn_method:
                         description:
@@ -1155,9 +1111,7 @@ options:
                           - Only applicable when using PAgP protocol.
                         type: str
                         required: false
-                        choices:
-                          - "AGGREGATION_PORT"
-                          - "PHYSICAL_PORT"
+                        choices: ["AGGREGATION_PORT", "PHYSICAL_PORT"]
                         default: "AGGREGATION_PORT"
           port_configuration:
             description:
@@ -1207,12 +1161,7 @@ options:
                       - C(DOT1Q_TUNNEL) - Interface acts as a tunnel port for service provider networks.
                     type: str
                     required: false
-                    choices:
-                      - "ACCESS"
-                      - "TRUNK"
-                      - "DYNAMIC_AUTO"
-                      - "DYNAMIC_DESIRABLE"
-                      - "DOT1Q_TUNNEL"
+                    choices: ["ACCESS", "TRUNK", "DYNAMIC_AUTO", "DYNAMIC_DESIRABLE", "DOT1Q_TUNNEL"]
                     default: "ACCESS"
                   access_vlan:
                     description:
@@ -1317,10 +1266,7 @@ options:
                       - C(FORCE_UNAUTHORIZED) - Interface only allows unauthenticated devices.
                       - Determines how the interface handles authentication requests.
                     type: str
-                    choices:
-                      - "AUTO"
-                      - "FORCE_AUTHORIZED"
-                      - "FORCE_UNAUTHORIZED"
+                    choices: ["AUTO", "FORCE_AUTHORIZED", "FORCE_UNAUTHORIZED"]
                     required: false
                   dot1x_interface_pae_type:
                     description:
@@ -1331,10 +1277,7 @@ options:
                       - C(BOTH) - Interface can act as both authenticator and supplicant.
                       - Defines the role of the interface in the authentication process.
                     type: str
-                    choices:
-                      - "AUTHENTICATOR"
-                      - "SUPPLICANT"
-                      - "BOTH"
+                    choices: ["AUTHENTICATOR", "SUPPLICANT", "BOTH"]
                     required: false
                   dot1x_interface_control_direction:
                     description:
@@ -1343,9 +1286,7 @@ options:
                       - When set to C(IN), only controls inbound traffic.
                       - Specifies which traffic direction is controlled by authentication.
                     type: str
-                    choices:
-                      - "BOTH"
-                      - "IN"
+                    choices: ["BOTH", "IN"]
                     required: false
                   dot1x_interface_host_mode:
                     description:
@@ -1357,11 +1298,7 @@ options:
                       - C(MULTI_DOMAIN) - Multiple hosts from different domains can authenticate.
                       - Determines how many hosts can authenticate on a single port.
                     type: str
-                    choices:
-                      - "SINGLE_HOST"
-                      - "MULTI_HOST"
-                      - "MULTI_AUTH"
-                      - "MULTI_DOMAIN"
+                    choices: ["SINGLE_HOST", "MULTI_HOST", "MULTI_AUTH", "MULTI_DOMAIN"]
                     required: false
                   dot1x_interface_enable_inactivity_timer_from_server:
                     description:
@@ -1386,10 +1323,7 @@ options:
                       - Methods are attempted in the order specified in the list.
                     type: list
                     elements: str
-                    choices:
-                      - "DOT1X"
-                      - "MAB"
-                      - "WEBAUTH"
+                    choices: ["DOT1X", "MAB", "WEBAUTH"]
                     required: false
                   dot1x_interface_enable_reauth:
                     description:
@@ -1408,10 +1342,7 @@ options:
                         authentication state.
                       - Determines the initial authorization state of the port.
                     type: str
-                    choices:
-                      - "AUTO"
-                      - "FORCE_AUTHORIZED"
-                      - "FORCE_UNAUTHORIZED"
+                    choices: ["AUTO", "FORCE_AUTHORIZED", "FORCE_UNAUTHORIZED"]
                     required: false
                   dot1x_interface_priority:
                     description:
@@ -1489,13 +1420,7 @@ options:
                         (C9500-32C, C9500-32QC, C9500-48Y4C, C9500-24Y4C, C9500X-28C8D).
                     type: str
                     required: false
-                    choices:
-                      - "NONE"
-                      - "DISABLE"
-                      - "EDGE"
-                      - "EDGE_TRUNK"
-                      - "NETWORK"
-                      - "TRUNK"
+                    choices: ["NONE", "DISABLE", "EDGE", "EDGE_TRUNK", "NETWORK", "TRUNK"]
                   stp_interface_bpdu_filter:
                     description:
                       - BPDU Filter configuration for this interface.
@@ -1534,10 +1459,7 @@ options:
                       - Choose based on interface role and protection requirements.
                     type: str
                     required: false
-                    choices:
-                      - "LOOP"
-                      - "ROOT"
-                      - "NONE"
+                    choices: ["LOOP", "ROOT", "NONE"]
                   stp_interface_priority:
                     description:
                       - Port priority for this interface in STP tie-breaking.
@@ -1677,11 +1599,7 @@ options:
                       - Choose based on security requirements and interface role in the network.
                     type: str
                     required: false
-                    choices:
-                      - "TRANSMIT_ONLY"
-                      - "RECEIVE_ONLY"
-                      - "TRANSMIT_AND_RECEIVE"
-                      - "DISABLED"
+                    choices: ["TRANSMIT_ONLY", "RECEIVE_ONLY", "TRANSMIT_AND_RECEIVE", "DISABLED"]
                     default: "TRANSMIT_AND_RECEIVE"
               vtp_interface_config:
                 description:
