@@ -4117,7 +4117,6 @@ class Template(DnacBase):
 
         export_project = export.get("project")
         self.log("Export project playbook details: {0}".format(export_project), "DEBUG")
-        ccc_version = self.get_ccc_version()
         if export_project:
             self.log("Found export project details: {0}".format(export_project), "DEBUG")
             response = self.dnac._exec(
