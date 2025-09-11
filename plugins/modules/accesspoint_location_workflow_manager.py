@@ -39,8 +39,8 @@ options:
       If set to `deleted`, the module will remove the specified settings.
     type: str
     choices:
-      - merged
-      - deleted
+      - C(merged)
+      - C(deleted)
     default: merged
   config:
     description: >
@@ -75,9 +75,9 @@ options:
           type: str
           required: true
           choices:
-            - assign_planned
-            - delete_position
-            - update_position
+            - C(assign_planned)
+            - C(delete_position)
+            - C(update_position)
         mac_address:
           description: |
             The MAC address used to identify the access point.
@@ -120,9 +120,9 @@ options:
                 type: str
                 required: true
                 choices:
-                  - 2.4GHz
-                  - 5GHz
-                  - 6GHz
+                  - C(2.4GHz)
+                  - C(5GHz)
+                  - C(6GHz)
               channel:
                 description: |
                   The channel number for the radio interface.
@@ -209,7 +209,7 @@ EXAMPLES = r"""
   gather_facts: false
   connection: local
   tasks:
-    - name: Create planned access point planned location for the accesspoint
+    - name: Create planned access point location for the access points
       cisco.dnac.accesspoint_location_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -249,7 +249,7 @@ EXAMPLES = r"""
                       antenna_name: Internal-CW9172H-x-5GHz
                       azimuth: 1  # support upto 360
                       elevation: 30  # support -90 upto 90
-    - name: Create planned access point planned location and assign the access point
+    - name: Create planned access point floor location and assign the access points
       cisco.dnac.accesspoint_location_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -290,7 +290,7 @@ EXAMPLES = r"""
                       antenna_name: Internal-CW9172H-x-5GHz
                       azimuth: 1  # support upto 360
                       elevation: 30  # support -90 upto 90
-    - name: Update planned access point planned location for the accesspoint
+    - name: Update planned access point location for the access points
       cisco.dnac.accesspoint_location_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -331,8 +331,8 @@ EXAMPLES = r"""
                       azimuth: 10  # support upto 360
                       elevation: 30  # support -90 upto 90
 
-    # Update planned access point planned location for the accesspoint
-    - name: Delete planned access point planned location for the accesspoint
+    # Delete planned access point location for the access points
+    - name: Delete planned access point location for the access points
       cisco.dnac.accesspoint_location_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -396,7 +396,7 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-# Case 1: Create planned access point location for the accesspoint
+# Case 1: Create planned access point location for the access points
 response_create:
   description: >
     A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK
@@ -416,7 +416,7 @@ response_create:
         "status": "success"
     }
 
-# Case 2: Create planned access point location and assign the access point
+# Case 2: Create planned access point floor location and assign the access points
 response_create_assign:
   description: >
     A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK
@@ -451,7 +451,7 @@ response_create_idempotent:
         "status": "success"
     }
 
-# Case 4: Update planned access point location
+# Case 4: Update planned access point location for the access points
 response_update_location:
   description: >
     A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK
@@ -588,7 +588,7 @@ class AccessPointLocation(DnacBase):
                 "elements": "dict",
                 "accesspoint_name": {"type": "str", "required": True},
                 "action": {"type": "str", "required": False,
-                           "choices": ["assign_planned", "delete_planned", "create"]},
+                           "choices": ["assign_planned", "delete_position", "update_position"]},
                 "mac_address": {"type": "str"},
                 "serial_number": {"type": "str"},
                 "accesspoint_model": {"type": "str", "required": True},
@@ -977,6 +977,10 @@ class AccessPointLocation(DnacBase):
             ap_details = self.get_planned_ap_position(
                 have["site_id"], have["site_name"], access_point
             )
+            if not ap_details:
+                ap_details = self.get_planned_ap_position(
+                    have["site_id"], have["site_name"], access_point, True
+                )
 
             if ap_details:
                 if self.params.get("state") == "deleted":
@@ -1035,7 +1039,7 @@ class AccessPointLocation(DnacBase):
             self.log(self.msg + str(e), "ERROR")
             self.fail_and_exit(self.msg)
 
-    def get_planned_ap_position(self, floor_id, floor_name, ap_details):
+    def get_planned_ap_position(self, floor_id, floor_name, ap_details, recheck=False):
         """
         Get the planned access point position from the playbook config.
 
@@ -1060,15 +1064,16 @@ class AccessPointLocation(DnacBase):
         }
 
         function_name = None
-        if ap_details.get("action") in ["assign_planned", "update_planned", "delete_planned"]:
+        if (
+            ap_details.get("action") in ["delete_position", "update_position"]
+            or recheck
+        ):
+            function_name = "get_access_points_positions"
+        else:
             function_name = "get_planned_access_points_positions"
 
             if ap_details.get("accesspoint_model"):
                 payload["type"] = ap_details["accesspoint_model"]
-        elif ap_details.get("action") in ["delete_position", "update_position"]:
-            function_name = "get_access_points_positions"
-        else:
-            function_name = "get_planned_access_points_positions"
 
         try:
             response = self.execute_get_request(
