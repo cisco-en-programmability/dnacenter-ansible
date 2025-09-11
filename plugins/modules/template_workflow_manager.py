@@ -1822,6 +1822,147 @@ EXAMPLES = r"""
     config:
       - projects:
           - name: Wireless_Template_Management
+
+- name: Creating complete configuration template with profiles
+    response in Case_9
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: true
+    config:
+      - configuration_templates:
+          author: Test_User
+          composite: false
+          custom_params_order: true
+          template_description: Template to configure access
+            VLAN and access interfaces
+          device_types:
+            - product_family: Switches and Hubs
+              product_series: Cisco Catalyst 9300 Series
+                Switches
+          failure_policy: ABORT_TARGET_ON_ERROR
+          language: JINJA
+          template_name: PnP-Upstream-SW1
+          profile_names:
+            - TestProfile
+            - PNP_Onboarding_Template
+          project_name: access_vlan_template_9300_switches
+          project_description: This project contains
+            all the templates for Access Switches
+          software_type: IOS-XE
+          template_content: |
+            {% raw %}
+            vlan {{ vlan }}
+            interface {{ interface }}
+            no shutdown
+            switchport access vlan {{ vlan }}
+            switchport mode access
+            description {{ interface_description }}
+            {% endraw %}
+          version: "1.0"
+
+- name: Update configuration template with additional profile
+    response in Case_10
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: true
+    config:
+      - configuration_templates:
+          author: Test_User
+          composite: false
+          custom_params_order: true
+          template_description: Template to configure access
+            VLAN and access interfaces
+          device_types:
+            - product_family: Switches and Hubs
+              product_series: Cisco Catalyst 9300 Series
+                Switches
+          failure_policy: ABORT_TARGET_ON_ERROR
+          language: JINJA
+          template_name: PnP-Upstream-SW1
+          profile_names:
+            - TestProfile
+            - PNP_Onboarding_Template
+          project_name: access_vlan_template_9300_switches
+          project_description: This project contains
+            all the templates for Access Switches
+          software_type: IOS-XE
+          template_content: |
+            {% raw %}
+            vlan {{ vlan }}
+            interface {{ interface }}
+            no shutdown
+            switchport access vlan {{ vlan }}
+            switchport mode access
+            description {{ interface_description }}
+            {% endraw %}
+          version: "1.0"
+
+- name: Detach a profile from the configuration template on deleted state
+    response in Case_11
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
+    state: deleted
+    config:
+      configuration_templates:
+        project_name: "access_vlan_template_9300_switches"
+        template_name: "AA_PnP-Upstream-SW1"
+        language: "JINJA"
+        software_type: "IOS-XE"
+        profile_names:
+          - TestProfile
+        device_types:
+          - product_family: "Switches and Hubs"
+
+- name: Deleting configuration template no need to attach profiles
+    it will unassign profiles and delete the template without impacting profiles
+    response in Case_12
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
+    state: deleted
+    config:
+      configuration_templates:
+        project_name: "access_vlan_template_9300_switches"
+        template_name: "AA_PnP-Upstream-SW1"
+        language: "JINJA"
+        software_type: "IOS-XE"
+        device_types:
+          - product_family: "Switches and Hubs"
 """
 
 RETURN = r"""
@@ -1929,6 +2070,66 @@ response_8:
                 "name": "Wireless_Template_Management"
             }
         ],
+        "status": "success"
+    }
+
+# Case_9: Response for Creating a Complete Configuration Template with profiles
+response_9:
+  description: Response when a complete configuration template is created successfully with profiles.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Template '['AA_PnP-Upstream-SW1']' created successfully in the Cisco Catalyst Center.
+                Template '['AA_PnP-Upstream-SW1']' committed successfully in the Cisco Catalyst Center.
+                Profile(s) '['TestProfile', 'PNP_Onboarding_Template']' assigned successfully to the template.",
+        "response": "Template '['AA_PnP-Upstream-SW1']' created successfully in the Cisco Catalyst Center.
+                    Template '['AA_PnP-Upstream-SW1']' committed successfully in the Cisco Catalyst Center.
+                    Profile(s) '['TestProfile', 'PNP_Onboarding_Template']' assigned successfully to the template.",
+        "status": "success"
+    }
+
+# Case_10: Response for Updating a Configuration Template with Additional Profile
+response_10:
+  description: Response when a configuration template is updated successfully with an additional profile.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Template '['AA_PnP-Upstream-SW1']' updated successfully in the Cisco Catalyst Center.
+                Template '['AA_PnP-Upstream-SW1']' committed successfully in the Cisco Catalyst Center.
+                Profile(s) '['PNP_Onboarding_Template']' assigned successfully to the template.
+                Profile(s) '['TestProfile']' already exist and cannot be assigned to the template.",
+        "response": "Template '['AA_PnP-Upstream-SW1']' updated successfully in the Cisco Catalyst Center.
+                    Template '['AA_PnP-Upstream-SW1']' committed successfully in the Cisco Catalyst Center.
+                    Profile(s) '['PNP_Onboarding_Template']' assigned successfully to the template.
+                    Profile(s) '['TestProfile']' already exist and cannot be assigned to the template.",
+        "status": "success"
+    }
+
+# Case_11: Response for Detach a profile from the configuration template on deleted state
+response_11:
+  description: Response when a profile is detached from the configuration template on deleted state.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Profile(s) '['TestProfile']' detached successfully from the template.",
+        "response": "Profile(s) '['TestProfile']' detached successfully from the template.",
+        "status": "success"
+    }
+
+# Case_12: Response for Deleting a configuration template without affecting profiles
+response_12:
+  description: Response when a configuration template is deleted without affecting profiles.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Task: deletes_the_template is successful for parameters:
+                {'template_id': '9a68dfa3-86ac-442b-bc92-957bfbd76ca7', 'active_validation': False}",
+        "response": "Task: deletes_the_template is successful for parameters:
+                    {'template_id': '9a68dfa3-86ac-442b-bc92-957bfbd76ca7', 'active_validation': False}",
         "status": "success"
     }
 """
