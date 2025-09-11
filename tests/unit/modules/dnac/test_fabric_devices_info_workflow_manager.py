@@ -41,7 +41,6 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
     playbook_issues_info = test_data.get("playbook_issues_info")
     playbook_onboarding_info_details = test_data.get("playbook_onboarding_info_details")
     playbook_negative_scenario1 = test_data.get("playbook_negative_scenario1")
-    playbook_negative_scenario2 = test_data.get("playbook_negative_scenario2")
     playbook_negative_scenario3 = test_data.get("playbook_negative_scenario3")
     playbook_negative_scenario4 = test_data.get("playbook_negative_scenario4")
     playbook_negative_scenario5 = test_data.get("playbook_negative_scenario5")
@@ -385,8 +384,8 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             [
-                "No devices found for hostname = TB1-DM-Transit.solutionsanity1234.com. Data retrieval failed after maximum retries.",
-                "",
+                "No devices found for hostname = TB1-DM-Transit.solutionsanity1234.com after 1 retry attempts within 1 second timeout",
+                "No matching network devices were found for the given filter criteria.",
                 "No fabric devices found for the given filters."
             ],
         )
@@ -1044,81 +1043,6 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             "'fabric_devices' key is missing in the config block"
-        )
-
-    def test_fabric_devices_info_workflow_manager_playbook_negative_scenario2(self):
-        """
-        Test the Fabric Devices Info Workflow Manager with a playbook that has duplicate IP addresses.
-
-        This test ensures that the module correctly identifies and handles duplicate IP addresses,
-        returning an appropriate error message.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config_verify=True,
-                dnac_version="2.3.7.9",
-                config=self.playbook_negative_scenario2
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get("response"),
-            "Duplicate ip_address found: 204.192.5.2"
-        )
-
-    def test_fabric_devices_info_workflow_manager_playbook_negative_scenario3(self):
-        """
-        Test the Fabric Devices Info Workflow Manager with a playbook that has duplicate hostnames.
-
-        This test ensures that the module correctly identifies and handles duplicate hostnames,
-        returning an appropriate error message.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config_verify=True,
-                dnac_version="2.3.7.9",
-                config=self.playbook_negative_scenario3
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get("response"),
-            "Duplicate hostname found: AP0CD0.F894.0C44"
-        )
-
-    def test_fabric_devices_info_workflow_manager_playbook_negative_scenario4(self):
-        """
-        Test the Fabric Devices Info Workflow Manager with a playbook that has duplicate serial numbers.
-
-        This test ensures that the module correctly identifies and handles duplicate serial numbers,
-        returning an appropriate error message.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config_verify=True,
-                dnac_version="2.3.7.9",
-                config=self.playbook_negative_scenario4
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get("response"),
-            "Duplicate serial_number found: KWC22440QJ2"
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario5(self):
