@@ -98,28 +98,64 @@ options:
             type: dict
             required: true
             suboptions:
-              type:
-                description:
-                  - The scheduling type for the report.
-                choices:
-                  - SCHEDULE_NOW
-                  - SCHEDULE_LATER
-                  - SCHEDULE_RECURRING
-                type: str
-                required: true
-              date_time:
-                description:
-                  - Scheduled time for report execution (required if type is C(SCHEDULE_LATER)).
-                  - For C(SCHEDULE_RECURRENCE)- Acts as the "Run everyday at" time.
-                  - Must be converted to epoch before sending to Catalyst Center.
-                  - In C(SCHEDULE_RECURRENCE), maps to both C(time) and C(startDate) fields in the payload.
-                type: str
-                required: false
-              time_zone:
-                description:
-                  - Time zone identifier for the schedule (e.g., C(Asia/Calcutta)).
-                type: str
-                required: true
+                schedule_type:
+                  description:
+                    - The scheduling type for the report.
+                  choices:
+                    - SCHEDULE_NOW
+                    - SCHEDULE_LATER
+                    - SCHEDULE_RECURRENCE
+                  type: str
+                  required: true
+                date_time:
+                  description:
+                    - Scheduled time for report execution (required if type is C(SCHEDULE_LATER) or C(SCHEDULE_RECURRENCE)).
+                    - Must be in 'YYYY-MM-DD HH:MM AM/PM' format.
+                  type: str
+                  required: false
+                time_zone:
+                  description:
+                    - Time zone identifier for the schedule (e.g., C(Asia/Calcutta)).
+                  type: str
+                  required: true
+                recurrence:
+                  description:
+                    - Recurrence settings for scheduled reports (required if type is C(SCHEDULE_RECURRENCE)).
+                    - Specify recurrence pattern and days.
+                  type: dict
+                  required: false
+                  suboptions:
+                    recurrence_type:
+                      description:
+                        - Recurrence type (e.g., WEEKLY, MONTHLY).
+                      type: str
+                      required: true
+                    days:
+                      description:
+                        - List of days for weekly recurrence (e.g., [MONDAY, TUESDAY, ...]).
+                      type: list
+                      elements: str
+                      required: false
+                    last_day_of_month:
+                      description:
+                        - Whether to run on the last day of the month (for monthly recurrence).
+                      type: bool
+                      required: false
+                    day_of_month:
+                      description:
+                        - Day of the month to run the report (for monthly recurrence).
+                      type: int
+                      required: false
+                time:
+                  description:
+                    - Epoch time for scheduled execution (auto-generated from date_time for recurrence).
+                  type: int
+                  required: false
+                start_date:
+                  description:
+                    - Epoch start date for recurring schedules (auto-generated from date_time).
+                  type: int
+                  required: false
           deliveries:
             description:
               - Specifies how the generated report should be delivered.
@@ -391,6 +427,40 @@ EXAMPLES = r'''
               filters: []
             tags: []
 
+- name: Create/Schedule a access point report configuration.
+  cisco.dnac.reports_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: DEBUG
+    dnac_log: true
+    state: merged
+    config_verify: true
+    config:
+      - generate_report:
+          - name: "Access_point_report1"
+            view_group_name: "Access Point"
+            deliveries:
+                - type: "DOWNLOAD"
+            schedule:
+                type: "SCHEDULE_NOW"
+                time_zone: "Asia/Calcutta"
+            view:
+                view_name: "AP"
+                field_groups: []
+                format:
+                format_type: "JSON"
+                filters:
+                  - name: "Location"
+                    display_name: "Location"
+                    type: "MULTI_SELECT_TREE"
+                    value:
+                    - value: "Global/India"
+
 - name: Delete a report from Catalyst Center
   cisco.dnac.reports_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -543,7 +613,7 @@ class Reports(DnacBase):
                     "schedule": {
                         "type": "dict",
                         "options": {
-                            "type": {"type": "str", "required": True},
+                            "schedule_type": {"type": "str", "required": True},
                             "date_time": {"type": "str", "required": False},
                             "time_zone_id": {"type": "str", "required": False}
                         }
@@ -551,7 +621,7 @@ class Reports(DnacBase):
                     "deliveries": {
                         "type": "dict",
                         "options": {
-                            "type": {"type": "str", "required": True},
+                            "deliveries_type": {"type": "str", "required": True},
                             "location": {"type": "str", "required": False},
                             "email_addresses": {
                                 "type": "list",
@@ -595,7 +665,7 @@ class Reports(DnacBase):
                                 "options": {
                                     "name": {"type": "str", "required": True},
                                     "display_name": {"type": "str", "required": True},
-                                    "type": {"type": "str", "required": True},
+                                    "filters_type": {"type": "str", "required": True},
                                     "value": {
                                         # allows dict or list of dicts depending on filter type
                                         "type": "raw",
@@ -825,7 +895,7 @@ class Reports(DnacBase):
                                 site_response = site_response["response"][0]
                                 self.log("Site response: {0}".format(self.pprint(site_response)), "DEBUG")
 
-                                site_hierarchy_id = site_response.get("siteHierarchyId")
+                                site_hierarchy_id = site_response.get("id")
                                 if not site_hierarchy_id:
                                     self.msg = f"Failed to resolve siteHierarchyId for location: {item['value']}"
                                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -1642,7 +1712,7 @@ class Reports(DnacBase):
                 return self
 
             result = {
-                "response": download_data,
+                "response": "Successfully downloaded report '{0}' to '{1}'.".format(report_entry.get("name"), file_path),
                 "msg": "Successfully downloaded report '{0}' to '{1}'.".format(report_entry.get("name"), file_path),
             }
             self.result["response"].append({"download_report": result})
