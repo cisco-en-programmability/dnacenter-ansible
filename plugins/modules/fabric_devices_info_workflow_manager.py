@@ -1483,6 +1483,7 @@ class FabricDevicesInfo(DnacBase):
             self.config, config_spec)
 
         validated_config = []
+        dup_ips, dup_hostnames, dup_serials = set(), set(), set()
 
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
@@ -1498,6 +1499,32 @@ class FabricDevicesInfo(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             fabric_devices = config.get("fabric_devices", [])
+
+            self.log("Processing {0} fabric devices for duplicate detection".format(len(fabric_devices)), "DEBUG")
+
+            for device in fabric_devices:
+                for ip in device.get("ip_address", []):
+                    if ip in dup_ips:
+                        self.log("Duplicate ip_address found: {0}".format(ip), "WARNING")
+                    dup_ips.add(ip)
+
+                for hostname in device.get("hostname", []):
+                    if hostname in dup_hostnames:
+                        self.log("Duplicate hostname found: {0}".format(hostname), "WARNING")
+                    dup_hostnames.add(hostname)
+
+                for serial in device.get("serial_number", []):
+                    if serial in dup_serials:
+                        self.log("Duplicate serial_number found: {0}".format(serial), "WARNING")
+                    dup_serials.add(serial)
+
+                for numeric in ("timeout", "retries", "interval"):
+                    if numeric in device and device[numeric] not in (None, ""):
+                        if not isinstance(device[numeric], int) or device[numeric] < 0:
+                            self.msg = "'{0}' must be a non-negative integer".format(numeric)
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            self.log("Duplicate detection completed - unique identifiers validated", "DEBUG")
 
             for device in fabric_devices:
                 for numeric in ("timeout", "retries", "interval"):
@@ -1531,9 +1558,10 @@ class FabricDevicesInfo(DnacBase):
 
             validated_config.append(config)
 
+        self.validated_config = validated_config
+
         self.log("Completed fabric device configuration validation successfully - {0} configurations validated".format(len(validated_config)), "INFO")
 
-        self.validated_config = validated_config
         return self
 
     def get_want(self, config):
