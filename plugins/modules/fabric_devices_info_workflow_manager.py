@@ -1836,10 +1836,14 @@ class FabricDevicesInfo(DnacBase):
             self.log("Fabric device information successfully written to output file", "INFO")
 
         if self.total_response:
-            self.log("Fabric device information retrieval workflow completed successfully with {0} response entries".format(len(fabric_devices)), "INFO")
             self.msg = self.total_response
             self.set_operation_result("success", False, self.msg, "INFO")
 
+        self.log(
+            "Fabric device information retrieval workflow completed successfully "
+            "with {0} response entries".format(len(fabric_devices)),
+            "INFO"
+        )
         return self
 
     def get_device_id(self, filtered_config):
@@ -1870,7 +1874,6 @@ class FabricDevicesInfo(DnacBase):
         Returns:
             dict: A mapping of device management IP addresses to their corresponding instance UUIDs.
         """
-        self.log("Starting to get device IDs from Cisco Catalyst Center", "DEBUG")
         self.log("Initiating device UUID mapping retrieval using multiple identification criteria", "INFO")
         self.log("Device identification parameters: {0}".format([k for k in filtered_config.keys() if filtered_config.get(k)]), "DEBUG")
 
@@ -2084,7 +2087,6 @@ class FabricDevicesInfo(DnacBase):
                 configured in the Catalyst Center. Returns empty list if no fabric sites
                 are configured or if API call fails.
         """
-        self.log("Starting to fetch fabric site IDs", "INFO")
         self.log("Retrieving complete fabric site inventory from Catalyst Center SDA configuration", "INFO")
 
         try:
