@@ -398,10 +398,10 @@ EXAMPLES = r'''
           - name: "compliance_report"
             view_group_name: "Compliance"
             deliveries:
-              - type: "DOWNLOAD"
-                file_path: "/Users/mekandar/Desktop"
+              - delivery_type: "DOWNLOAD"
+                file_path: "/Users/xyz/Desktop"
             schedule:
-              type: "SCHEDULE_NOW"
+              schedule_type: "SCHEDULE_NOW"
               time_zone: "Asia/Calcutta"
             view:
               view_name: "Network Device Compliance"
@@ -430,9 +430,10 @@ EXAMPLES = r'''
           - name: "Access_point_report1"
             view_group_name: "Access Point"
             deliveries:
-                - type: "DOWNLOAD"
+              - delivery_type: "DOWNLOAD"
+                file_path: "/Users/xyz/Desktop"
             schedule:
-                type: "SCHEDULE_NOW"
+                schedule_type: "SCHEDULE_NOW"
                 time_zone: "Asia/Calcutta"
             view:
                 view_name: "AP"
