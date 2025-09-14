@@ -44,7 +44,6 @@ description:
     Port Configuration, and Logical Ports due to underlying beta API limitations.
   - Several known issues exist with the beta APIs that may affect functionality.
   - Refer to the following bug tracking numbers for known issues
-  - 
 version_added: "6.20.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
