@@ -7,12 +7,12 @@
                 "view_group_name": "Compliance",
                 "deliveries": [
                     {
-                        "type": "DOWNLOAD",
+                        "delivery_type": "DOWNLOAD",
                         "file_path": "/Users/mekandar/Desktop"
                     }
                 ],
                 "schedule": {
-                    "type": "SCHEDULE_NOW",
+                    "schedule_type": "SCHEDULE_NOW",
                     "time_zone": "Asia/Calcutta"
                 },
                 "view": {
@@ -30,7 +30,7 @@
                         {
                             "name": "Location",
                             "display_name": "Location",
-                            "type": "MULTI_SELECT_TREE"
+                            "filter_type": "MULTI_SELECT_TREE"
                         }
                     ]
                 },
@@ -48,11 +48,12 @@
                 "view_group_name": "Compliance",
                 "deliveries": [
                     {
-                        "type": "DOWNLOAD",
+                        "delivery_type": "DOWNLOAD",
                         "file_path": "/Users/mekandar/Desktop"
                     }
                 ],
                 "schedule": {
+                    
                     "time_zone": "Asia/Calcutta"
                 },
                 "view": {
@@ -70,7 +71,7 @@
                         {
                             "name": "Location",
                             "display_name": "Location",
-                            "type": "MULTI_SELECT_TREE"
+                            "filter_type": "MULTI_SELECT_TREE"
                         }
                     ]
                 },
@@ -88,13 +89,13 @@
             "view_group_name": "Compliance",
             "deliveries": [
                 {
-                    "type": "DOWNLOAD",
+                    "delivery_type": "DOWNLOAD",
                     "file_path": "/Users/mekandar/Desktop"
                 }
             ],
             "schedule": {
                 "time_zone": "Asia/Calcutta",
-                "type": "SCHEDULE_LATER",
+                "schedule_type": "SCHEDULE_LATER",
                 "date_time": "2025-08-12 12:40 PM"
             },
             "view": {
@@ -112,7 +113,7 @@
                     {
                         "name": "Location",
                         "display_name": "Location",
-                        "type": "MULTI_SELECT_TREE"
+                        "filter_type": "MULTI_SELECT_TREE"
                     }
                 ]
             },
@@ -130,16 +131,16 @@
             "view_group_name": "Compliance",
             "deliveries": [
                 {
-                    "type": "DOWNLOAD",
+                    "delivery_type": "DOWNLOAD",
                     "file_path": "/Users/mekandar/Desktop"
                 }
             ],
             "schedule": {
                 "time_zone": "Asia/Calcutta",
-                "type": "SCHEDULE_RECURRENCE",
+                "schedule_type": "SCHEDULE_RECURRENCE",
                 "date_time": "2025-08-12 12:40 PM",
                 "recurrence": {
-                    "type": "MONTHLY",
+                    "recurrence_type": "MONTHLY",
                     "day_of_month": 12,
                     "last_day_of_month": false
                 }
@@ -159,7 +160,7 @@
                     {
                         "name": "Location",
                         "display_name": "Location",
-                        "type": "MULTI_SELECT_TREE"
+                        "filter_type": "MULTI_SELECT_TREE"
                     }
                 ]
             },
@@ -177,16 +178,16 @@
             "view_group_name": "Compliance",
             "deliveries": [
                 {
-                    "type": "DOWNLOAD",
+                    "delivery_type": "DOWNLOAD",
                     "file_path": "/Users/mekandar/Desktop"
                 }
             ],
             "schedule": {
                 "time_zone": "Asia/Calcutta",
-                "type": "SCHEDULE_RECURRENCE",
+                "schedule_type": "SCHEDULE_RECURRENCE",
                 "date_time": "2025-08-12 12:40 PM",
                 "recurrence": {
-                    "type": "WEEKLY",
+                    "recurrence_type": "WEEKLY",
                     "days": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
                 }
             },
@@ -205,7 +206,7 @@
                     {
                         "name": "Location",
                         "display_name": "Location",
-                        "type": "MULTI_SELECT_TREE"
+                        "filter_type": "MULTI_SELECT_TREE"
                     }
                 ]
             },

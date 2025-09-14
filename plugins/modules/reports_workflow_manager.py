@@ -162,7 +162,7 @@ options:
             type: dict
             required: true
             suboptions:
-              type:
+              delivery_type:
                 description:
                   - Delivery type for the report.
                 choices:
@@ -301,11 +301,6 @@ options:
                       - Name of the field group.
                     type: str
                     required: true
-                  display_name:
-                    description:
-                      - UI display name of the field group.
-                    type: str
-                    required: true
                   fields:
                     description:
                       - List of fields to include within the field group.
@@ -316,11 +311,6 @@ options:
                       name:
                         description:
                           - Field identifier.
-                        type: str
-                        required: true
-                      display_name:
-                        description:
-                          - Field display name in the UI.
                         type: str
                         required: true
               format:
@@ -351,12 +341,7 @@ options:
                       - Name of the filter.
                     type: str
                     required: true
-                  display_name:
-                    description:
-                      - Display name of the filter.
-                    type: str
-                    required: true
-                  type:
+                  filter_type:
                     description:
                       - Type of the filter.
                     choices:
@@ -456,8 +441,7 @@ EXAMPLES = r'''
                 format_type: "JSON"
                 filters:
                   - name: "Location"
-                    display_name: "Location"
-                    type: "MULTI_SELECT_TREE"
+                    filter_type: "MULTI_SELECT_TREE"
                     value:
                     - value: "Global/India"
 
@@ -569,8 +553,10 @@ import time
 import os
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DnacBase,
-    validate_list_of_dicts,
+    DnacBase
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
+    validate_list_of_dicts
 )
 import json
 import re
@@ -597,109 +583,146 @@ class Reports(DnacBase):
         Returns:
             self - The current object with Global Pool, Reserved Pool, Network Servers information.
         """
+        self.log("Validating playbook configuration parameters", "DEBUG")
 
-        temp_spec = {
+        config_spec = {
             "generate_report": {
                 "type": "list",
                 "elements": "dict",
-                "options": {
-                    "name": {"type": "str", "required": True},
-                    "view_group_name": {"type": "str", "required": True},
-                    "tags": {
+                # fields for each generate_report item
+                "name": {"type": "str", "required": True},
+                "view_group_name": {"type": "str", "required": True},
+                "tags": {"type": "list", "elements": "str", "default": []},
+
+                "schedule": {
+                    "type": "dict",
+                    "schedule_type": {
+                        "type": "str",
+                        "element": "str",
+                        # "required": False,
+                        "choices": ["SCHEDULE_NOW", "SCHEDULE_LATER", "SCHEDULE_RECURRENCE"],
+                    },
+                    "date_time": {"type": "str"},
+                    "time_zone": {"type": "str", "required": True},
+                    "recurrence": {
+                        "type": "dict",
+                        "recurrence_type": {
+                            "type": "str",
+                            "required": False,
+                            # choose appropriate recurrence values for your system
+                            "choices": ["DAILY", "WEEKLY", "MONTHLY"],
+                        },
+                        "days": {"type": "list", "elements": "str"},
+                        "last_day_of_month": {"type": "bool"},
+                        "day_of_month": {"type": "int"},
+                    },
+                    "time": {"type": "int"},
+                    "start_date": {"type": "int"},
+                },
+
+                "deliveries": {
+                    "type": "list",
+                    "elements": "dict",
+                    "delivery_type": {
+                        "type": "str",
+                        "required": True,
+                        "choices": ["DOWNLOAD", "NOTIFICATION", "WEBHOOK"],
+                    },
+                    "file_path": {"type": "str"},
+                    "notification_endpoints": {
                         "type": "list",
-                        "elements": "str",
-                        "required": False
+                        "elements": "dict",
+                        # nested keys for each notification endpoint item
+                        "email_addresses": {"type": "list", "elements": "str"},
+                        "email_attach": {"type": "bool"},
+                        "notify": {"type": "list", "elements": "str"},
                     },
-                    "schedule": {
-                        "type": "dict",
-                        "options": {
-                            "schedule_type": {"type": "str", "required": True},
-                            "date_time": {"type": "str", "required": False},
-                            "time_zone_id": {"type": "str", "required": False}
-                        }
+                    "webhook_name": {"type": "str"},
+                },
+
+                "view": {
+                    "type": "dict",
+                    "view_name": {"type": "str", "required": True},
+                    "field_groups": {
+                        "type": "list",
+                        "elements": "dict",
+                        "name": {"type": "str", "required": True},
+                        "fields": {
+                            "type": "list",
+                            "elements": "dict",
+                            "name": {"type": "str", "required": False},
+                        },
                     },
-                    "deliveries": {
+                    "format": {
                         "type": "dict",
-                        "options": {
-                            "deliveries_type": {"type": "str", "required": True},
-                            "location": {"type": "str", "required": False},
-                            "email_addresses": {
-                                "type": "list",
-                                "elements": "str",
-                                "required": False
-                            },
-                            "email_attach": {"type": "bool", "required": False},
-                            "notify": {"type": "str", "required": False}
-                        }
+                        "format_type": {"type": "str", "required": False},
                     },
-                    "view": {
-                        "type": "dict",
-                        "options": {
-                            "view_name": {"type": "str", "required": True},
-                            "field_groups": {
-                                "type": "list",
-                                "elements": "dict",
-                                "options": {
-                                    "name": {"type": "str", "required": True},
-                                    "display_name": {"type": "str", "required": True},
-                                    "fields": {
-                                        "type": "list",
-                                        "elements": "dict",
-                                        "options": {
-                                            "name": {"type": "str", "required": True},
-                                            "display_name": {"type": "str", "required": True}
-                                        }
-                                    }
-                                }
-                            },
-                            "format": {
-                                "type": "dict",
-                                "options": {
-                                    "name": {"type": "str", "required": True},
-                                    "format_type": {"type": "str", "required": True}
-                                }
-                            },
-                            "filters": {
-                                "type": "list",
-                                "elements": "dict",
-                                "options": {
-                                    "name": {"type": "str", "required": True},
-                                    "display_name": {"type": "str", "required": True},
-                                    "filters_type": {"type": "str", "required": True},
-                                    "value": {
-                                        # allows dict or list of dicts depending on filter type
-                                        "type": "raw",
-                                        "required": True
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                    "filters": {
+                        "type": "list",
+                        "elements": "dict",
+                        "name": {"type": "str", "required": False},
+                        "filter_type": {
+                            "type": "str",
+                            "required": False,
+                            "choices": ["MULTI_SELECT", "MULTI_SELECT_TREE", "SINGLE_SELECT_ARRAY", "TIME_RANGE"],
+                        },
+                        "value": {"type": "raw", "required": False},  # allow dict or list-of-dicts
+                    },
+                },
             }
         }
 
         if not self.config:
-            self.msg = "The playbook configuration is empty or missing."
+            self.msg = "Configuration is not available in the playbook for validation"
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
+        valid_config, invalid_params = validate_list_of_dicts(
+            self.config, config_spec
+        )
 
         if invalid_params:
-            self.msg = "The playbook contains invalid parameters: {0}".format(
-                invalid_params
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(
-            str(valid_temp)
-        )
-        self.log(self.msg, "INFO")
+        if not valid_config:
+            self.log("Configuration validation failed. No valid config found: {0}".format(valid_config))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
+        self.log("Configuration validated successfully: {0}".format(valid_config), "INFO")
+        self.validated_config = valid_config
         return self
+
+    def remove_nulls(self, obj):
+        """
+        Recursively remove keys or elements with None values from dictionaries and lists.
+
+        This function traverses the given object and removes:
+        - Any dictionary key-value pairs where the value is None.
+        - Any list elements that are None.
+        Nested dictionaries and lists are processed recursively.
+
+        Args:
+            obj (dict | list | any): The object to clean. Can be a dictionary,
+                a list, or any other type. Non-dict/list values are returned as-is.
+
+        Returns:
+            dict | list | any: A new object of the same type as `obj`, but with
+            all None values removed. If `obj` is a dict or list, the result
+            will also be a dict or list with cleaned contents. For other types,
+            the object is returned unchanged.
+
+        """
+        if isinstance(obj, dict):
+            return {
+                k: self.remove_nulls(v)
+                for k, v in obj.items()
+                if v is not None
+            }
+        elif isinstance(obj, list):
+            return [self.remove_nulls(v) for v in obj if v is not None]
+        else:
+            return obj
 
     def input_data_validation(self, config):
         """
@@ -714,6 +737,11 @@ class Reports(DnacBase):
         """
 
         self.log("Validating input data: {0}".format(self.pprint(config)), "DEBUG")
+        # Clean entry in place (remove null fields at all levels)
+        cleaned_entry = self.remove_nulls(config)
+        config.clear()
+        config.update(cleaned_entry)
+        self.log("Cleaned input data: {0}".format(self.pprint(config)), "DEBUG")
         generate_report = config.get("generate_report", [])
         for entry in generate_report:
             if not isinstance(entry, dict):
@@ -749,6 +777,9 @@ class Reports(DnacBase):
                 return self
 
             valid_schedule_type = ["SCHEDULE_NOW", "SCHEDULE_LATER", "SCHEDULE_RECURRENCE"]
+            if "schedule" in entry and "schedule_type" in entry["schedule"]:
+                entry["schedule"]["type"] = entry["schedule"].pop("schedule_type")
+
             schedule_type = entry.get("schedule", {}).get("type")
             if not schedule_type:
                 self.msg = "Missing required field 'schedule.type' in 'generate_report' entry."
@@ -780,6 +811,11 @@ class Reports(DnacBase):
             if schedule_type == "SCHEDULE_RECURRENCE":
                 schedule = entry.get("schedule", {})
                 recurrence = schedule.get("recurrence", {})
+
+                # Rename recurrence_type → type if it exists
+                if "recurrence_type" in recurrence:
+                    recurrence["type"] = recurrence.pop("recurrence_type")
+
                 recurrence_type = recurrence.get("type")
                 time_zone = schedule.get("time_zone")
                 recurrence_days = recurrence.get("days", [])
@@ -863,6 +899,10 @@ class Reports(DnacBase):
                         self.msg = "Each filter entry must be a dictionary."
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
+
+                    #  Rename filter_type → type
+                    if "filter_type" in filter_entry:
+                        filter_entry["type"] = filter_entry.pop("filter_type")
 
                     filter_value = filter_entry.get("value")
                     if filter_entry.get("name") == "Location" and filter_value:
@@ -964,6 +1004,7 @@ class Reports(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
+        delivery["type"] = delivery.pop("delivery_type", None)
         delivery_type = delivery.get("type")
         if delivery_type not in ["DOWNLOAD", "NOTIFICATION", "WEBHOOK"]:
             self.msg = (
@@ -1291,7 +1332,7 @@ class Reports(DnacBase):
         generate_report = config.get("generate_report", [])
 
         for report_entry in generate_report:
-            if report_entry.get("deliveries")[0]["type"] == "WEBHOOK":
+            if self.state != "deleted" and report_entry.get("deliveries")[0]["type"] == "WEBHOOK":
                 webhook_name = report_entry.get("webhook_name")
                 webhook_destinations = self.get_webhook_destination_in_ccc(webhook_name)
                 if not webhook_destinations:
@@ -1341,7 +1382,7 @@ class Reports(DnacBase):
                     self.log(self.msg, "WARNING")
                     report_entry["exists"] = False
                     # Don't fail here, just return self
-                    return self
+                    continue  # Skip this report, move to next
                 else:
                     self.msg = "An error occurred while checking for existing reports: {0}".format(str(e))
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -1385,6 +1426,7 @@ class Reports(DnacBase):
 
         have = {"generate_report": config.get("generate_report", [])}
         self.have = have
+        self.msg = "Successfully retrieved the details from the Cisco Catalyst Center"
         self.log("Current State (have): {0}".format(str(self.pprint(self.have))), "INFO")
         return self
 
@@ -1712,7 +1754,11 @@ class Reports(DnacBase):
                 return self
 
             result = {
-                "response": "Successfully downloaded report '{0}' to '{1}'.".format(report_entry.get("name"), file_path),
+                "response": {
+                    "reportId": report_id,
+                    "reportName": report_entry.get("name"),
+                    "filePath": file_path
+                },
                 "msg": "Successfully downloaded report '{0}' to '{1}'.".format(report_entry.get("name"), file_path),
             }
             self.result["response"].append({"download_report": result})
