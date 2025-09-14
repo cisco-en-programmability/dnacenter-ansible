@@ -433,18 +433,18 @@ EXAMPLES = r'''
               - delivery_type: "DOWNLOAD"
                 file_path: "/Users/xyz/Desktop"
             schedule:
-                schedule_type: "SCHEDULE_NOW"
-                time_zone: "Asia/Calcutta"
+              schedule_type: "SCHEDULE_NOW"
+              time_zone: "Asia/Calcutta"
             view:
-                view_name: "AP"
-                field_groups: []
-                format:
+              view_name: "AP"
+              field_groups: []
+              format:
                 format_type: "JSON"
-                filters:
-                  - name: "Location"
-                    filter_type: "MULTI_SELECT_TREE"
-                    value:
-                    - value: "Global/India"
+              filters:
+                - name: "Location"
+                filter_type: "MULTI_SELECT_TREE"
+                value:
+                - value: "Global/India"
 
 - name: Delete a report from Catalyst Center
   cisco.dnac.reports_workflow_manager:
