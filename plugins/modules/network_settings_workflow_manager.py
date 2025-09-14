@@ -4097,12 +4097,17 @@ class NetworkSettings(DnacBase):
                 all_network_management_details.append(want_network)
                 network_management_index += 1
             else:
-                if item.get("dhcp_server") is not None:
+                if item.get("dhcp_server") == {}:
+                    self.want.update({"settings": {"dhcpServer": {}}})
+                elif item.get("dhcp_server") is not None:
                     want_network_settings.update(
                         {"dhcpServer": {"servers": item.get("dhcp_server")}}
                     )
                 else:
                     del want_network_settings["dhcpServer"]
+
+                # if item.get("dhcp_server") == {}:
+                #     self.want.update({"settings": {"dhcpServer": {}}})
 
                 ntp_servers = item.get("ntp_server")
 
@@ -4130,6 +4135,8 @@ class NetworkSettings(DnacBase):
                         self.log(self.msg, "CRITICAL")
                         self.status = "failed"
                         return self.check_return_status()
+                elif ntp_servers=={}:
+                    want_network_settings["ntpServer"] = {}
                 else:
                     self.log(
                         "'ntp_server' not provided. Removing 'ntpServer' from 'want_network_settings'.",
@@ -4139,7 +4146,9 @@ class NetworkSettings(DnacBase):
                         "ntpServer", None
                     )  # Use pop to avoid KeyError if key doesn't exist
 
-                if item.get("timezone") is not None:
+                if item.get("timezone") == {}:
+                    want_network_settings["timezone"] = {}
+                elif item.get("timezone") is not None:
                     want_network_settings.update(
                         {"timezone": {"identifier": item.get("timezone")}}
                     )
@@ -4168,6 +4177,9 @@ class NetworkSettings(DnacBase):
                         )
                 else:
                     del want_network_settings["dnsServer"]
+
+                if item.get("dns_server") == {}:
+                    self.want.update({"settings": {"dnsServer": {}}})
 
                 snmp_server = item.get("snmp_server")
                 if snmp_server is not None:
@@ -4530,9 +4542,13 @@ class NetworkSettings(DnacBase):
                 else:
                     del want_network_settings["messageOfTheday"]
 
+                if message_of_the_day == {}:
+                    self.want.update({"settings": {"messageOfTheday": {}}})
+
                 server_types = ["AAA", "ISE"]
                 protocol_types = ["RADIUS", "TACACS"]
                 network_aaa = item.get("network_aaa")
+
                 if network_aaa:
                     server_type = network_aaa.get("server_type")
                     if server_type:
@@ -4611,6 +4627,9 @@ class NetworkSettings(DnacBase):
                         )
                 else:
                     del want_network_settings["network_aaa"]
+
+                if network_aaa == {}:
+                    want_network_settings["network_aaa"] = network_aaa
 
                 client_and_endpoint_aaa = item.get("client_and_endpoint_aaa")
                 if client_and_endpoint_aaa:
@@ -4692,6 +4711,9 @@ class NetworkSettings(DnacBase):
                 else:
                     del want_network_settings["client_and_endpoint_aaa"]
 
+                if client_and_endpoint_aaa == {}:
+                    want_network_settings["client_and_endpoint_aaa"] = client_and_endpoint_aaa
+
                 network_aaa = want_network_settings.get("network_aaa")
                 client_and_endpoint_aaa = want_network_settings.get(
                     "client_and_endpoint_aaa"
@@ -4712,7 +4734,7 @@ class NetworkSettings(DnacBase):
                 network_management_index += 1
 
         self.log(
-            "Network playbook details: {0}".format(all_network_management_details),
+            "Network playbook details: {0}".format(self.pprint(all_network_management_details)),
             "DEBUG",
         )
         self.want.update({"wantNetwork": all_network_management_details})
@@ -5565,11 +5587,14 @@ class NetworkSettings(DnacBase):
         )
 
         try:
+            param={"id": site_id, "timeZone": time_zone_settings},
+            if time_zone_settings=={}:
+                param={"id": site_id}
             response = self.dnac._exec(
                 family="network_settings",
                 function="set_time_zone_for_a_site",
                 op_modifies=True,
-                params={"id": site_id, "timeZone": time_zone_settings},
+                params=param,
             )
             self.log(
                 "Time zone settings updated for site '{0}' (ID: {1}): {2}".format(
@@ -5719,11 +5744,14 @@ class NetworkSettings(DnacBase):
         )
 
         try:
+            param={"id": site_id, "banner": banner_settings}
+            if banner_settings:
+                param={"id": site_id, }
             response = self.dnac._exec(
                 family="network_settings",
                 function="set_banner_settings_for_a_site",
                 op_modifies=True,
-                params={"id": site_id, "banner": banner_settings},
+                params=param,
             )
             self.log(
                 "Banner settings updated for site '{0}' (ID: {1}): {2}".format(
@@ -5777,9 +5805,9 @@ class NetworkSettings(DnacBase):
                 "aaaNetwork": network_aaa,
                 "aaaClient": client_and_endpoint_aaa,
             }
-        elif network_aaa:
+        elif network_aaa is not None:
             param = {"id": site_id, "aaaNetwork": network_aaa}
-        else:
+        elif client_and_endpoint_aaa is not None:
             param = {"id": site_id, "aaaClient": client_and_endpoint_aaa}
 
         try:
@@ -5833,6 +5861,22 @@ class NetworkSettings(DnacBase):
             )
 
             # Check update is required or not
+            skip_update = False
+
+            # Only apply extra checks for versions > 2.3.7.6
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") > 0:
+                empty_settings = [
+                    network_aaa,
+                    client_and_endpoint_aaa,
+                    want_network_details.get("settings", {}).get("ntpServer"),
+                    want_network_details.get("settings", {}).get("timezone"),
+                    want_network_details.get("settings", {}).get("dnsServer"),
+                    want_network_details.get("settings", {}).get("messageOfTheday"),
+                ]
+                if any(setting == {} for setting in empty_settings):
+                    skip_update = True
+
+            # Check update is required or not
             if not (
                 (network_aaa and network_aaa.get("sharedSecret"))
                 or (
@@ -5842,7 +5886,7 @@ class NetworkSettings(DnacBase):
                 or self.requires_update(
                     have_network_details, want_network_details, self.network_obj_params
                 )
-            ):
+            ) and not skip_update:
 
                 self.log(
                     "Network in site '{0}' doesn't require an update.".format(
@@ -5926,8 +5970,8 @@ class NetworkSettings(DnacBase):
                     "site_name"
                 )
 
-                if net_params.get("settings").get("dhcpServer"):
-                    dhcp_settings = net_params.get("settings").get("dhcpServer")
+                dhcp_settings = net_params.get("settings").get("dhcpServer")
+                if dhcp_settings is not None:
                     response = self.update_dhcp_settings_for_site(
                         site_name, site_id, dhcp_settings
                     )
@@ -5941,8 +5985,8 @@ class NetworkSettings(DnacBase):
                         response, "set_dhcp_settings_for_a_site"
                     ).check_return_status()
 
-                if net_params.get("settings").get("ntpServer"):
-                    ntp_settings = net_params.get("settings").get("ntpServer")
+                ntp_settings = net_params.get("settings").get("ntpServer")
+                if ntp_settings is not None:
                     response = self.update_ntp_settings_for_site(
                         site_name, site_id, ntp_settings
                     )
@@ -5956,8 +6000,8 @@ class NetworkSettings(DnacBase):
                         response, "set_n_t_p_settings_for_a_site"
                     ).check_return_status()
 
-                if net_params.get("settings").get("timezone"):
-                    time_zone_settings = net_params.get("settings").get("timezone")
+                time_zone_settings = net_params.get("settings").get("timezone")
+                if time_zone_settings is not None:
                     response = self.update_time_zone_settings_for_site(
                         site_name, site_id, time_zone_settings
                     )
@@ -5971,8 +6015,8 @@ class NetworkSettings(DnacBase):
                         response, "set_time_zone_for_a_site"
                     ).check_return_status()
 
-                if net_params.get("settings").get("dnsServer"):
-                    dns_settings = net_params.get("settings").get("dnsServer")
+                dns_settings = net_params.get("settings").get("dnsServer")
+                if dns_settings is not None:
                     response = self.update_dns_settings_for_site(
                         site_name, site_id, dns_settings
                     )
@@ -5986,8 +6030,8 @@ class NetworkSettings(DnacBase):
                         response, "set_d_n_s_settings_for_a_site"
                     ).check_return_status()
 
-                if net_params.get("settings").get("messageOfTheday"):
-                    banner_settings = net_params.get("settings").get("messageOfTheday")
+                banner_settings = net_params.get("settings").get("messageOfTheday")
+                if banner_settings is not None:
                     response = self.update_banner_settings_for_site(
                         site_name, site_id, banner_settings
                     )
@@ -6036,13 +6080,11 @@ class NetworkSettings(DnacBase):
                         response, "set_telemetry_settings_for_a_site"
                     ).check_return_status()
 
-                if net_params.get("settings").get("network_aaa") or net_params.get(
-                    "settings"
-                ).get("client_and_endpoint_aaa"):
-                    network_aaa = net_params.get("settings").get("network_aaa")
-                    client_and_endpoint_aaa = net_params.get("settings").get(
-                        "client_and_endpoint_aaa"
-                    )
+                network_aaa = net_params.get("settings").get("network_aaa")
+                client_and_endpoint_aaa = net_params.get("settings").get(
+                    "client_and_endpoint_aaa"
+                )
+                if network_aaa is not None or client_and_endpoint_aaa is not None:
                     response = self.update_aaa_settings_for_site(
                         site_name, site_id, network_aaa, client_and_endpoint_aaa
                     )
