@@ -443,8 +443,8 @@ EXAMPLES = r'''
               filters:
                 - name: "Location"
                   filter_type: "MULTI_SELECT_TREE"
-                value:
-                - value: "Global/India"
+                  value:
+                    - value: "Global/India"
 
 - name: Delete a report from Catalyst Center
   cisco.dnac.reports_workflow_manager:
