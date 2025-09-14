@@ -27,33 +27,30 @@ description:
   - Includes comprehensive validation of all configuration parameters before applying changes.
 
   - Feature Support Matrix
-  - VLANs - create, update, delete
-  - CDP - create, update, delete
-  - LLDP - create, update, delete
-  - STP - create, update (delete not supported due to API limitations)
-  - VTP - create, update, delete
-  - DHCP Snooping - create, update, delete
-  - IGMP Snooping - create, update (delete not supported due to API limitations)
-  - MLD Snooping - create, update (delete not supported due to API limitations)
-  - Authentication - create, update, delete
-  - Logical Ports - create, update (delete not supported due to API limitations)
-  - Port Configuration - create, update (delete not supported due to API limitations)
+  - C(VLANs) - create, update, delete
+  - C(CDP) - create, update, delete
+  - C(LLDP) - create, update, delete
+  - C(STP) - create, update (delete not supported due to API limitations)
+  - C(VTP) - create, update, delete
+  - C(DHCP Snooping) - create, update, delete
+  - C(IGMP Snooping) - create, update (delete not supported due to API limitations)
+  - C(MLD Snooping) - create, update (delete not supported due to API limitations)
+  - C(Authentication) - create, update, delete
+  - C(Logical Ports) - create, update (delete not supported due to API limitations)
+  - C(Port Configuration) - create, update (delete not supported due to API limitations)
 
   - Known API Limitations
   - The deleted state is not supported for STP, IGMP Snooping, MLD Snooping,
     Port Configuration, and Logical Ports due to underlying beta API limitations.
   - Several known issues exist with the beta APIs that may affect functionality.
-  - Refer to the following bug tracking numbers for known issues - CSCwr00884,
-    CSCwr0107, CSCwr01764, CSCwr01131, CSCwr01195, CSCwr01309, CSCwr01255,
-    CSCwr01321, CSCwr01327, CSCwr01879, CSCwr01895, CSCwr01148.
-
+  - Refer to the following bug tracking numbers for known issues
+  - 
 version_added: "6.20.0"
 extends_documentation_fragment:
-  - cisco.dnac.module_info
+  - cisco.dnac.workflow_manager_params
 author:
   - Rugvedi Kapse (@rukapse)
   - Madhan Sankaranarayanan (@madhansansel)
-
 options:
   config_verify:
     description: Set to true to verify the Cisco Catalyst
@@ -259,7 +256,7 @@ options:
             description:
               - Spanning Tree Protocol (STP) global and per-VLAN configuration settings.
               - STP prevents loops in redundant network topologies while providing path redundancy.
-              - Supports PVST plus, RSTP, and MST modes for different network requirements.
+              - Supports PVST+, RSTP, and MST modes for different network requirements.
               - Critical for network stability in environments with redundant paths.
             type: dict
             required: false
@@ -585,6 +582,15 @@ options:
                   - Supports TFTP, FTP, and other file transfer protocols.
                   - Provides persistence of bindings across switch reboots.
                   - Minimum 5 characters, maximum 227 characters.
+                  - Format for the URL - "protocol://server_ip/filename"
+                  - The URL must start with one of the following protocol prefixes
+                    ("bootflash:", "crashinfo:", "flash:", "ftp:", "http:", "https:"
+                    "rcp:", "scp:", "sftp:", "tftp:")
+                  - Examples of valid URLs
+                  - tftp URL - "tftp://192.168.1.100/dhcp_bindings.db",
+                  - ftp URL - "ftp://server.example.com/backups/dhcp_bindings.db",
+                  - flash URL - "flash:dhcp_bindings.db",
+                  - bootflash URL - "bootflash:dhcp_bindings.db"
                 type: str
                 required: false
               dhcp_snooping_database_timeout:
