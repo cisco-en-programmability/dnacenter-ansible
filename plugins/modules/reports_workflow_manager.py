@@ -442,7 +442,7 @@ EXAMPLES = r'''
                 format_type: "JSON"
               filters:
                 - name: "Location"
-                filter_type: "MULTI_SELECT_TREE"
+                  filter_type: "MULTI_SELECT_TREE"
                 value:
                 - value: "Global/India"
 
