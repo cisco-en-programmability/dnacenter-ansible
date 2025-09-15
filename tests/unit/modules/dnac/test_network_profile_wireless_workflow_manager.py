@@ -176,7 +176,7 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.maxDiff = None
         self.assertIn(
-            "Unable to create wireless profile",
+            "'Unable to create wireless profile'",
             result.get('msg')
         )
 
