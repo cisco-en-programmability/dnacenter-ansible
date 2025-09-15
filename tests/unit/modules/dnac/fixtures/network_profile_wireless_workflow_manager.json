@@ -31,13 +31,21 @@
                 "interface_name": "GigabitEthernet0/2",
                 "vlan_id": 20
             }
+        ],
+        "feature_template_designs": [
+            {
+                "design_type": "FLEX_CONFIGURATION",
+                "feature_templates": [
+                    "Default Flex Configuration"
+                ]
+            }
         ]
     }],
     "profile_creation_config_feature_template": [{
-        "feature_templates": [
+        "feature_template_designs": [
             {
-                "device_type": "CLEANAIR_CONFIGURATION",
-                "template_design": [
+                "design_type": "CLEANAIR_CONFIGURATION",
+                "feature_templates": [
                     "Default CleanAir 802.11b Design",
                     "Default CleanAir 6GHz Design"
                 ]
