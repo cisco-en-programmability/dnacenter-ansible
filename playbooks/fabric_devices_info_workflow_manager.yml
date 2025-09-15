@@ -1,0 +1,45 @@
+---
+- name: Get Fabric devices info from Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Get Fabric devices info from Cisco Catalyst Center
+      cisco.dnac.fabric_devices_info_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          - fabric_devices:
+              - ip_address: ["91.1.1.2"]
+                hostname: ["TB1-DM-Transit.solutionsanity.com"]
+                serial_number: ["FJC2335S09F"]
+                device_role: ["ACCESS"]
+                device_type: ["Cisco Catalyst 9130AXE Unified Access Point"]
+                site_hierarchy: ["Global/USA/New York/BLDNYC"]
+                timeout: 30
+                retries: 2
+                interval: 10
+                requested_info:
+                  - fabric_info
+                  - handoff_info
+                  - onboarding_info
+                  - connected_devices_info
+                  - device_health_info
+                  - device_issues_info
+                output_file_info:
+                  file_path: /Users/priyadharshini/Downloads/fabric_device_info
+                  file_format: json
+                  file_mode: w
+                  timestamp: true
