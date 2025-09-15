@@ -65,6 +65,12 @@ class TestDnacTemplateWorkflow(TestDnacModule):
     playbook_config_import_project_playbook_case_10 = test_data.get(
         "import_project_playbook_case_10"
     )
+    playbook_config_import_profile_add_playbook_case_11 = test_data.get(
+        "import_profile_add_playbook_case_11"
+    )
+    playbook_config_import_profile_remove_playbook_case_12 = test_data.get(
+        "import_profile_remove_playbook_case_12"
+    )
 
     def setUp(self):
         super(TestDnacTemplateWorkflow, self).setUp()
@@ -163,6 +169,31 @@ class TestDnacTemplateWorkflow(TestDnacModule):
                 self.test_data.get("get_projects_response_delete_case_10_call_1"),
                 self.test_data.get("get_projects_response_case_8_call_2"),
                 self.test_data.get("get_projects_response_case_8_call_1")
+            ]
+        elif "test_import_profile_add_playbook_case_11" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_project_details_new"),
+                self.test_data.get("get_profile_list_case_11_call_1"),
+                self.test_data.get("create_template_task_id"),
+                self.test_data.get("get_task_details_by_id_case_1_call_1"),
+                self.test_data.get("get_task_details_by_id_case_1_call_2"),
+                self.test_data.get("versioning_the_template"),
+                self.test_data.get("get_task_details_by_id_case_1_call_4"),
+                self.test_data.get("get_task_details_by_id_case_1_call_3"),
+                self.test_data.get("get_task_details_progress_case_11_call_3")
+            ]
+        elif "test_import_profile_remove_playbook_case_12" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_update_project_details"),
+                self.test_data.get("get_available_templates_update"),
+                self.test_data.get("get_profile_list_case_11_call_1"),
+                self.test_data.get("create_template_task_id"),
+                self.test_data.get("get_task_details_by_id_case_1_call_1"),
+                self.test_data.get("get_task_details_by_id_case_1_call_2"),
+                self.test_data.get("versioning_the_template"),
+                self.test_data.get("get_task_details_by_id_case_1_call_4"),
+                self.test_data.get("get_task_details_by_id_case_1_call_3"),
+                self.test_data.get("get_task_details_progress_case_11_call_3")
             ]
 
     def test_create_template_playbook_case_1(self):
