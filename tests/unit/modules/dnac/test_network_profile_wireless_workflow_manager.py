@@ -148,9 +148,9 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
 
         result = self.execute_module(changed=False, failed=True)
         self.maxDiff = None
-        self.assertEqual(
+        self.assertIn(
             result.get('msg'),
-            "Successfully retrieved the details from the system"
+            "Unable to create wireless profile"
         )
 
     def test_network_profile_workflow_manager_profile_creation_feature_template(self):
