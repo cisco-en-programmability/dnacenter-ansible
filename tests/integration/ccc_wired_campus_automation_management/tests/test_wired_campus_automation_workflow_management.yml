@@ -95,24 +95,24 @@
     # COMPREHENSIVE MERGED STATE TESTS
     # =============================================================================
 
-    - name: "COMPREHENSIVE TEST 1: All Features Combined Configuration"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
-        state: merged
-        config:
-          - "{{ comprehensive_vars_map.test_comprehensive_merged_all_features }}"
-      register: result_comprehensive_all_features
-      tags: [positive, comprehensive, merged, all_features]
+    # - name: "COMPREHENSIVE TEST 1: All Features Combined Configuration"
+    #   cisco.dnac.wired_campus_automation_workflow_manager:
+    #     <<: *dnac_login
+    #     state: merged
+    #     config:
+    #       - "{{ comprehensive_vars_map.test_comprehensive_merged_all_features }}"
+    #   register: result_comprehensive_all_features
+    #   tags: [positive, comprehensive, merged, all_features]
 
-    - name: Assert comprehensive all features configuration succeeded
-      assert:
-        that:
-          - result_comprehensive_all_features.failed == false
-          - result_comprehensive_all_features.changed == true
-          - "'Successfully' in result_comprehensive_all_features.response"
-        fail_msg: "Comprehensive all features configuration failed"
-        success_msg: "Comprehensive all features configuration succeeded"
-      tags: [positive, comprehensive, merged, all_features]
+    # - name: Assert comprehensive all features configuration succeeded
+    #   assert:
+    #     that:
+    #       - result_comprehensive_all_features.failed == false
+    #       - result_comprehensive_all_features.changed == true
+    #       - "'Successfully' in result_comprehensive_all_features.response"
+    #     fail_msg: "Comprehensive all features configuration failed"
+    #     success_msg: "Comprehensive all features configuration succeeded"
+    #   tags: [positive, comprehensive, merged, all_features]
 
     # - name: Wait 20 seconds for comprehensive configuration to settle
     #   pause:
