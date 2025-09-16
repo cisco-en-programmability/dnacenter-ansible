@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_transits_workflow_manager module -- Resource module for SD
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.39.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.40.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -464,6 +464,55 @@ Parameters
 
         </div>
 
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/sda_fabric_transits/transit_site_hierarchy"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_transits_workflow_manager_module__parameter-config/sda_fabric_transits/transit_site_hierarchy:
+
+      .. rst-class:: ansible-option-title
+
+      **transit_site_hierarchy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/sda_fabric_transits/transit_site_hierarchy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - The site name hierarchy for the SDA fabric transit configuration.
+          - Specifies the hierarchical location of the fabric transit within the organizational network topology.
+          - The transit transit\_site\_hierarchy would be higher then fabric site hierarchy to have multiple fabric
+            sites part of same transit.
+          - Used to identify and associate the fabric transit with a specific site context in Cisco Catalyst Center.
+          - Must follow the format 'Global/Area/Building/Floor' as configured in the site hierarchy within Cisco Catalyst Center.
+          - The specified site hierarchy must exist in Cisco Catalyst Center before fabric transit creation or update.
+          - This parameter enables site-aware fabric transit management and location-based network segmentation.
+          - When provided during fabric transit creation, the transit will be associated with the specified site.
+          - For existing fabric transits, changing the site hierarchy will update the site association if different from current assignment.
+          - If not specified for existing transits, the current site association will be maintained.
+          - Supported from Cisco Catalyst Center release version 3.1.3.0 onwards.
+          - For versions prior to 3.1.3.0, this parameter will be ignored with a warning message.
+          - Also if this is not assigned the default value is Global in catalyst center which allows this transit to be used
+            across any site in Catalyst center.
+          
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -1180,6 +1229,7 @@ Notes
 .. note::
    - SDK Method used are devices.Devices.get\_device\_list, sda.Sda.get\_transit\_networks, sda.Sda.add\_transit\_networks, sda.Sda.update\_transit\_networks, sda.Sda.delete\_transit\_network\_by\_id, task.Task.get\_tasks\_by\_id, task.Task.get\_task\_details\_by\_id,
    - Paths used are get /dna/intent/api/v1/network-device, get /dna/intent/api/v1/sda/transitNetworks, post /dna/intent/api/v1/sda/transitNetworks, put /dna/intent/api/v1/sda/transitNetworks, delete /dna/intent/api/v1/sda/transitNetworks/${id}, get /dna/intent/api/v1/tasks/${id} get /dna/intent/api/v1/tasks/${id}/detail
+   - New parameter added 'transit\_site\_hierarchy' for creating/updating the transit network start supporting from Catalyst Center version 3.1.3.0 onwards.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -1216,6 +1266,30 @@ Examples
             ip_transit_settings:
               routing_protocol_name: BGP
               autonomous_system_number: 1234
+
+    - name: Create SDA fabric transit of transit_type IP_BASED_TRANSIT with newly added
+        parameter 'transit_site_hierarchy'
+      cisco.dnac.sda_fabric_transits_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: true
+        config:
+          - sda_fabric_transits:
+              - name: sample_transit
+            transit_site_hierarchy: Global/USA
+            transit_type: IP_BASED_TRANSIT
+            ip_transit_settings:
+              routing_protocol_name: BGP
+              autonomous_system_number: 134
+
     - name: Create SDA fabric transit of transit_type SDA_LISP_BGP_TRANSIT
       cisco.dnac.sda_fabric_transits_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1237,6 +1311,7 @@ Examples
               control_plane_network_device_ips:
                 - 10.0.0.1
                 - 10.0.0.2
+
     - name: Create SDA fabric transit of transit_type SDA_LISP_PUB_SUB_TRANSIT
       cisco.dnac.sda_fabric_transits_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1261,6 +1336,167 @@ Examples
                 - 10.0.0.2
                 - 10.0.0.3
                 - 10.0.0.4
+
+    - name: Update SDA fabric transit of transit_type IP_BASED_TRANSIT with newly added
+        parameter 'transit_site_hierarchy'
+      cisco.dnac.sda_fabric_transits_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: true
+        config:
+          - sda_fabric_transits:
+              - name: sample_transit
+            transit_site_hierarchy: Global/India
+            transit_type: IP_BASED_TRANSIT
+            ip_transit_settings:
+              routing_protocol_name: BGP
+              autonomous_system_number: 134
+
+    # Basic fabric transit creation with site hierarchy
+    - name: Create SDA fabric transit with site hierarchy
+      cisco.dnac.sda_fabric_transits_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: true
+        config:
+          - sda_fabric_transits:
+              - name: enterprise_transit_ny
+                transit_type: SDA_LISP_BGP_TRANSIT
+                transit_site_hierarchy: "Global/USA/NewYork/Building_A/Floor_1"
+                sda_transit_settings:
+                  control_plane_network_device_ips:
+                    - 10.1.1.10
+                    - 10.1.1.11
+
+    # Multi-site fabric transit deployment
+    - name: Create multiple fabric transits across different sites
+      cisco.dnac.sda_fabric_transits_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: true
+        config:
+          - sda_fabric_transits:
+              - name: corporate_hq_transit
+                transit_type: SDA_LISP_PUB_SUB_TRANSIT
+                transit_site_hierarchy: "Global/Corporate/Headquarters/Building_Main"
+                sda_transit_settings:
+                  is_multicast_over_transit_enabled: true
+                  control_plane_network_device_ips:
+                    - 192.168.10.1
+                    - 192.168.10.2
+                    - 192.168.10.3
+              - name: branch_office_transit
+                transit_type: SDA_LISP_BGP_TRANSIT
+                transit_site_hierarchy: "Global/Branch_Offices/West_Coast/San_Francisco"
+                sda_transit_settings:
+                  control_plane_network_device_ips:
+                    - 172.16.20.1
+                    - 172.16.20.2
+
+    # Update fabric transit with site hierarchy change
+    - name: Update fabric transit site association
+      cisco.dnac.sda_fabric_transits_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: true
+        config:
+          - sda_fabric_transits:
+              - name: enterprise_transit_ny
+                transit_type: SDA_LISP_BGP_TRANSIT
+                transit_site_hierarchy: "Global/USA/NewYork/Building_A/Floor_2"
+                sda_transit_settings:
+                  control_plane_network_device_ips:
+                    - 10.1.1.10
+                    - 10.1.1.11
+
+    # Campus deployment with multiple buildings
+    - name: Deploy fabric transits across campus buildings
+      cisco.dnac.sda_fabric_transits_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: true
+        config:
+          - sda_fabric_transits:
+              - name: engineering_building_transit
+                transit_type: SDA_LISP_PUB_SUB_TRANSIT
+                transit_site_hierarchy: "Global/University/Campus/Engineering_Building"
+                sda_transit_settings:
+                  is_multicast_over_transit_enabled: false
+                  control_plane_network_device_ips:
+                    - 10.100.1.1
+                    - 10.100.1.2
+              - name: admin_building_transit
+                transit_type: SDA_LISP_BGP_TRANSIT
+                transit_site_hierarchy: "Global/University/Campus/Administration_Building"
+                sda_transit_settings:
+                  control_plane_network_device_ips:
+                    - 10.200.1.1
+                    - 10.200.1.2
+
+    # Fabric transit without site hierarchy (legacy compatibility)
+    - name: Create fabric transit without site hierarchy
+      cisco.dnac.sda_fabric_transits_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: true
+        config:
+          - sda_fabric_transits:
+              - name: legacy_transit
+                transit_type: SDA_LISP_BGP_TRANSIT
+                # No transit_site_hierarchy specified - will work with all versions
+                sda_transit_settings:
+                  control_plane_network_device_ips:
+                    - 10.50.1.1
+                    - 10.50.1.2
+
     - name: Update SDA fabric transit of transit_type SDA_LISP_BGP_TRANSIT
       cisco.dnac.sda_fabric_transits_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1282,6 +1518,7 @@ Examples
               control_plane_network_device_ips:
                 - 10.0.0.1
                 - 10.0.0.2
+
     - name: Update the multicast over transit
       cisco.dnac.sda_fabric_transits_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1301,6 +1538,7 @@ Examples
             transit_type: SDA_LISP_PUB_SUB_TRANSIT
             sda_transit_settings:
               is_multicast_over_transit_enabled: true
+
     - name: Update the control plane network devices
       cisco.dnac.sda_fabric_transits_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1323,6 +1561,7 @@ Examples
                 - 10.0.0.1
                 - 10.0.0.2
                 - 10.0.0.3
+
     - name: Delete SDA fabric transit
       cisco.dnac.sda_fabric_transits_workflow_manager:
         dnac_host: "{{dnac_host}}"

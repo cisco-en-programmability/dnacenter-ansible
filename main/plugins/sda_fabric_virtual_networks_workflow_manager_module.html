@@ -694,7 +694,7 @@
 <li class="toctree-l4"><a class="reference internal" href="network_devices_trend_analytics_id_module.html">cisco.dnac.network_devices_trend_analytics_id module -- Resource module for Network Devices Trend Analytics Id</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_devices_unassign_from_site_apply_module.html">cisco.dnac.network_devices_unassign_from_site_apply module -- Resource module for Network Devices Unassign From Site Apply</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_info_module.html">cisco.dnac.network_info module -- Information module for Network</a></li>
-<li class="toctree-l4"><a class="reference internal" href="network_profile_switching_workflow_manager_module.html">cisco.dnac.network_profile_switching_workflow_manager module -- Resource module for managing switch profiles in Cisco Catalyst Center</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_profile_switching_workflow_manager_module.html">cisco.dnac.network_profile_switching_workflow_manager module -- Resource module for managing network switch profiles with template and site assignments in Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_profile_wireless_workflow_manager_module.html">cisco.dnac.network_profile_wireless_workflow_manager module -- Resource module for managing network wireless profile in Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_profiles_for_sites_profile_id_templates_count_info_module.html">cisco.dnac.network_profiles_for_sites_profile_id_templates_count_info module -- Information module for Network Profiles For Sites Profile Id Templates Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_profiles_for_sites_profile_id_templates_info_module.html">cisco.dnac.network_profiles_for_sites_profile_id_templates_info module -- Information module for Network Profiles For Sites Profile Id Templates</a></li>
@@ -1226,7 +1226,7 @@
 <h1>cisco.dnac.sda_fabric_virtual_networks_workflow_manager module -- Configure fabric VLANs, Virtual Networks, and Anycast Gateways in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-configure-fabric-vlans-virtual-networks-and-anycast-gateways-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.39.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.40.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1235,16 +1235,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <p class="ansible-version-added">New in cisco.dnac 6.18.0</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#synopsis" id="id93">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id94">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id95">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id96">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id97">Examples</a></p></li>
-<li><p><a class="reference internal" href="#return-values" id="id98">Return Values</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id117">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id118">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id119">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id120">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id121">Examples</a></p></li>
+<li><p><a class="reference internal" href="#return-values" id="id122">Return Values</a></p></li>
 </ul>
 </nav>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id93" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id117" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Create, update, or delete layer2 Fabric VLAN(s) for SDA operations in Cisco Catalyst Center.</p></li>
 <li><p>Create, update, or delete layer3 Virtual Network(s) for SDA operations in Cisco Catalyst Center.</p></li>
@@ -1252,7 +1252,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </ul>
 </section>
 <section id="requirements">
-<span id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id94" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id118" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>dnacentersdk &gt;= 2.9.2</p></li>
@@ -1260,7 +1260,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id95" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id119" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -1329,14 +1329,33 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/flooding_address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-flooding-address"><strong>flooding_address</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/flooding_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies a custom multicast IP address for layer 2 flooding operations within the anycast gateway. This parameter defines the multicast address used when the fabric needs to flood traffic to all ports in the VLAN for unknown unicast, broadcast, or multicast frames. The IP address must be in the 239.0.0.0/8 multicast range (239.0.0.1 through 239.255.255.255) to ensure proper multicast behavior and compliance with RFC standards. This property is applicable only when the flooding_address_assignment is set to &quot;CUSTOM&quot;. If flooding_address_assignment is &quot;SHARED&quot;, this parameter will be ignored as the flooding address is inherited from the parent fabric configuration. The address should be unique within your network topology to avoid multicast conflicts and ensure proper traffic isolation between different VLANs or fabric segments. This field is not applicable to INFRA_VN.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/flooding_address_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-flooding-address-assignment"><strong>flooding_address_assignment</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/flooding_address_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Controls the source configuration for flooding addresses used in layer 2 flooding within the anycast gateway. This parameter determines whether the virtual network uses a 'SHARED' flooding address from the parent fabric or a 'CUSTOM' address specific to this virtual network. Two options are available - &quot;SHARED&quot; means that the layer 2 virtual network will inherit the flooding address from the parent fabric configuration, ensuring consistency across the fabric. &quot;CUSTOM&quot; allows the layer 2 virtual network to use a different flooding address for specific use cases or network segmentation requirements. When set to &quot;CUSTOM&quot;, you must also provide a valid flooding_address parameter. This field is not applicable to INFRA_VN.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry-default:`&quot;SHARED&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`&quot;CUSTOM&quot;`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/group_policy_enforcement_enabled"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-group-policy-enforcement-enabled"><strong>group_policy_enforcement_enabled</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/group_policy_enforcement_enabled" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Indicates whether group policy enforcement is enabled in the fabric. By default, it is set to false.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1347,8 +1366,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies whether routing is enabled within the subnet. By default, this field is set to false. This field is not applicable to INFRA_VN. Updating this field is not allowed.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1359,8 +1378,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Indicates whether IP directed broadcasts are allowed. By default, it is set to false. This field is not applicable to INFRA_VN, layer2_flooding_enabled should be enabled for turning on ip directed broadcasts.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id25"><span class="problematic" id="id26">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1378,8 +1397,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies whether this pool is marked as critical for the network. If set to true, 'auto_generate_vlan_name' must also be true. By default, this field is set to false. This field is not applicable to INFRA_VN. Updating this field is not allowed.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id25"><span class="problematic" id="id26">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id27"><span class="problematic" id="id28">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1390,8 +1409,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Indicates whether Layer 2 flooding is enabled in the network. By default, it is set to false. It is not applicable to INFRA_VN.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id27"><span class="problematic" id="id28">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1402,8 +1421,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Indicates whether multiple IPs can be associated with a single MAC address. By default, it is set to false. This field is not applicable to INFRA_VN.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1415,57 +1434,81 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/resource_guard_enable"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-resource-guard-enable"><strong>resource_guard_enable</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/resource_guard_enable" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A security feature control for anycast gateways that enables or disables Resource Guard functionality. Resource Guard is a security mechanism that provides protection against unauthorized access to network resources by implementing additional security controls and access restrictions at the VLAN level within the fabric network. When enabled, it enhances the security posture of the anycast gateway by enforcing stricter access policies and monitoring capabilities. If the anycast gateway is not associated with a layer 3 virtual network, this field must be set to false as the security controls require L3VN integration for proper functionality. This field is not applicable to INFRA_VN.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`true`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/security_group_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-security-group-name"><strong>security_group_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/security_group_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the security group associated with the anycast gateway. It is not applicable to INFRA_VN.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/supplicant_based_extended_node_onboarding"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-supplicant-based-extended-node-onboarding"><strong>supplicant_based_extended_node_onboarding</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/supplicant_based_extended_node_onboarding" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies whether supplicant-based onboarding for extended nodes is enabled. By default, this field is set to false. This field is applicable only to INFRA_VN requests and must not be null when 'pool_type' is EXTENDED_NODE.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/tcp_mss_adjustment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-tcp-mss-adjustment"><strong>tcp_mss_adjustment</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/tcp_mss_adjustment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The value used to adjust the TCP Maximum Segment Size (MSS). The value should be in the range (500, 1441).</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/traffic_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-traffic-type"><strong>traffic_type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/traffic_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The type of traffic handled by the VLAN (e.g., DATA, VOICE). By defaut, it is set to &quot;DATA&quot;. Updating the &quot;traffic_type&quot; in the anycast gateway is not allowed if &quot;is_critical_pool&quot; is set to true.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/vlan_id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-vlan-id"><strong>vlan_id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/vlan_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>ID of the VLAN for the anycast gateway. The allowed VLAN range is 2-4093, except for reserved VLANs 1002-1005, 2046, and 4094. If deploying an anycast gateway on a fabric zone, this 'vlan_id' must match the 'vlan_id' of the corresponding anycast gateway on the fabric site. This field is optional if the parameter 'auto_generate_vlan_name' is set to true. Updating this field is not allowed.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/vlan_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-vlan-name"><strong>vlan_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/vlan_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the VLAN for the anycast gateway. This field is optional if the parameter auto_generate_vlan_name is set to True. Updating this field is not allowed.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/vn_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-vn-name"><strong>vn_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/vn_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the Layer3 virtual network. It must consist only of letters, numbers, and underscores, with a length between 1 and 16 characters. This field cannot be updated after creation.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/wireless_flooding_enable"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-wireless-flooding-enable"><strong>wireless_flooding_enable</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/wireless_flooding_enable" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Controls wireless flooding behavior for the anycast gateway, which determines how BUM traffic (Broadcast, Unknown unicast, and Multicast) from wireless clients is handled within the fabric network. When enabled, BUM traffic from wireless clients is flooded across the fabric to ensure proper connectivity and service discovery. When disabled, BUM traffic flooding is suppressed, which can improve network efficiency but may impact certain network services that rely on broadcast or multicast communication. If there is an associated layer 3 virtual network, wireless flooding will default to false and can only be set to true when fabric-enabled wireless is also enabled. If there is no associated layer 3 virtual network, wireless flooding will match the fabric-enabled wireless setting.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry:`true`</span></a></p></li>
+</ul>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1489,8 +1532,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Indicates whether the fabric VLAN is enabled for wireless in the fabric environment. By default, it is set to False.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1516,24 +1559,67 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/flooding_address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-fabric-vlan-flooding-address"><strong>flooding_address</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/flooding_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies a custom multicast IP address for layer 2 flooding operations within the fabric VLAN. This parameter defines the multicast address used when the fabric needs to flood traffic to all ports in the VLAN for unknown unicast, broadcast, or multicast frames. The IP address must be in the 239.0.0.0/8 multicast range (239.0.0.1 through 239.255.255.255) to ensure proper multicast behavior and compliance with RFC standards. This property is applicable only when the flooding_address_assignment is set to &quot;CUSTOM&quot;. If flooding_address_assignment is &quot;SHARED&quot;, this parameter will be ignored as the flooding address is inherited from the parent fabric configuration. The address should be unique within your network topology to avoid multicast conflicts and ensure proper traffic isolation between different VLANs or fabric segments.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/flooding_address_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-fabric-vlan-flooding-address-assignment"><strong>flooding_address_assignment</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/flooding_address_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Controls the source configuration for flooding addresses used in layer 2 flooding within the fabric VLAN. This parameter determines whether the layer 2 virtual network uses a 'SHARED' flooding address from the parent fabric or a 'CUSTOM' address specific to this virtual network. Two options are available - &quot;SHARED&quot; means that the layer 2 virtual network will inherit the flooding address from the parent fabric configuration, ensuring consistency across the fabric. &quot;CUSTOM&quot; allows the layer 2 virtual network to use a different flooding address for specific use cases or network segmentation requirements. When set to &quot;CUSTOM&quot;, you must also provide a valid flooding_address parameter.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry-default:`&quot;SHARED&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry:`&quot;CUSTOM&quot;`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/resource_guard_enable"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-fabric-vlan-resource-guard-enable"><strong>resource_guard_enable</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/resource_guard_enable" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A security feature control for fabric VLANs that enables or disables Resource Guard functionality. Resource Guard is a security mechanism that provides protection against unauthorized access to network resources by implementing additional security controls and access restrictions at the VLAN level within the fabric network. When enabled, it enhances the security posture of the fabric VLAN by enforcing stricter access policies and monitoring capabilities. If the VLAN is not associated with a layer 3 virtual network, this field must be set to false as the security controls require L3VN integration for proper functionality.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id61"><span class="problematic" id="id62">:ansible-option-choices-entry:`true`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/traffic_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-fabric-vlan-traffic-type"><strong>traffic_type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/traffic_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The type of traffic handled by the VLAN (e.g., DATA, VOICE). By default, it is set to &quot;DATA&quot;.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/vlan_id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-fabric-vlan-vlan-id"><strong>vlan_id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/vlan_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>ID for the layer2 VLAN network. Allowed VLAN range is 2-4093 except for reserved VLANs 1002-1005, and 2046. If deploying on a fabric zone, this vlan_id must match the vlan_id of the corresponding layer2 virtual network on the fabric site. And updation of this field is not allowed.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/vlan_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-fabric-vlan-vlan-name"><strong>vlan_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/vlan_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the VLAN of the layer2 virtual network. Must contain only alphanumeric characters, underscores, and hyphens. Updating this field is not allowed.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/wireless_flooding_enable"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-fabric-vlan-wireless-flooding-enable"><strong>wireless_flooding_enable</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/wireless_flooding_enable" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Controls wireless flooding behavior for the fabric VLAN, which determines how BUM traffic (Broadcast, Unknown unicast, and Multicast) from wireless clients is handled within the fabric network. When enabled, BUM traffic from wireless clients is flooded across the fabric to ensure proper connectivity and service discovery. When disabled, BUM traffic flooding is suppressed, which can improve network efficiency but may impact certain network services that rely on broadcast or multicast communication. If there is an associated layer 3 virtual network, wireless flooding will default to false and can only be set to true when fabric-enabled wireless is also enabled. If there is no associated layer 3 virtual network, wireless flooding will match the fabric-enabled wireless setting.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id63"><span class="problematic" id="id64">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id65"><span class="problematic" id="id66">:ansible-option-choices-entry:`true`</span></a></p></li>
+</ul>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1562,7 +1648,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <a class="ansibleOptionLink" href="#parameter-config/virtual_networks/fabric_site_locations/fabric_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric_site' and 'fabric_zone'. The default value is 'fabric_site', indicating the configuration of a broader network area, whereas 'fabric_zone' typically refers to a more specific segment within the site.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id43"><span class="problematic" id="id44">:ansible-option-default:`&quot;fabric\_site&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id67"><span class="problematic" id="id68">:ansible-option-default:`&quot;fabric\_site&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1586,8 +1672,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-cell"><p>Set to True to verify the Cisco Catalyst Center config after applying the playbook config.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id69"><span class="problematic" id="id70">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id71"><span class="problematic" id="id72">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1596,7 +1682,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id49"><span class="problematic" id="id50">:ansible-option-default:`1200`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id73"><span class="problematic" id="id74">:ansible-option-default:`1200`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1606,8 +1692,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-cell"><p>Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id75"><span class="problematic" id="id76">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id77"><span class="problematic" id="id78">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1630,8 +1716,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <p>If the log file exists, - It is overwritten or appended based on the &quot;dnac_log_append&quot; flag.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id79"><span class="problematic" id="id80">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id81"><span class="problematic" id="id82">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1642,8 +1728,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-cell"><p>Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id61"><span class="problematic" id="id62">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id83"><span class="problematic" id="id84">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id85"><span class="problematic" id="id86">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1654,7 +1740,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-cell"><p>Governs logging. Logs are recorded if dnac_log is True.</p>
 <p>If path is not specified, - When 'dnac_log_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac_log_append' is False, 'dnac.log' is generated; logs are overwritten.</p>
 <p>If path is specified, - When 'dnac_log_append' is True, the file opens in append mode. - When 'dnac_log_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id63"><span class="problematic" id="id64">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id87"><span class="problematic" id="id88">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -1667,7 +1753,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <p>WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.</p>
 <p>INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.</p>
 <p>DEBUG provides detailed diagnostic info. Displays all log messages.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id65"><span class="problematic" id="id66">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id89"><span class="problematic" id="id90">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1682,7 +1768,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the port number associated with the Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id67"><span class="problematic" id="id68">:ansible-option-default:`&quot;443&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id91"><span class="problematic" id="id92">:ansible-option-default:`&quot;443&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1690,7 +1776,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the interval in seconds between successive calls to the API to retrieve task details.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id69"><span class="problematic" id="id70">:ansible-option-default:`2`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id93"><span class="problematic" id="id94">:ansible-option-default:`2`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -1700,7 +1786,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The username for authentication at the Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id71"><span class="problematic" id="id72">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id95"><span class="problematic" id="id96">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1710,8 +1796,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id73"><span class="problematic" id="id74">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id75"><span class="problematic" id="id76">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id97"><span class="problematic" id="id98">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id99"><span class="problematic" id="id100">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1720,7 +1806,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the version of the Cisco Catalyst Center that the SDK should use.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id77"><span class="problematic" id="id78">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id101"><span class="problematic" id="id102">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1728,7 +1814,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <a class="ansibleOptionLink" href="#parameter-sda_fabric_gateway_limit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Sets the maximum number of anycast gateways that can be created or updated at a time via the SDA API, aligning with GUI constraints. The default is 20, as the GUI allows creating up to 20 anycast gateways at a time.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id79"><span class="problematic" id="id80">:ansible-option-default:`20`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id103"><span class="problematic" id="id104">:ansible-option-default:`20`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -1736,7 +1822,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <a class="ansibleOptionLink" href="#parameter-sda_fabric_vlan_limit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Sets the maximum number of fabric VLANs that can be created or updated at a time via the SDA API, aligning with GUI constraints. The default is 20, as the GUI allows creating up to 20 fabric VLANs at a time.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id81"><span class="problematic" id="id82">:ansible-option-default:`20`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id105"><span class="problematic" id="id106">:ansible-option-default:`20`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1746,8 +1832,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-cell"><p>The state of Cisco Catalyst Center after module completion.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id83"><span class="problematic" id="id84">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id85"><span class="problematic" id="id86">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
+<li><p><a href="#id107"><span class="problematic" id="id108">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id109"><span class="problematic" id="id110">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1758,8 +1844,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-cell"><p>Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id87"><span class="problematic" id="id88">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id89"><span class="problematic" id="id90">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id111"><span class="problematic" id="id112">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id113"><span class="problematic" id="id114">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1767,7 +1853,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id96" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id120" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
@@ -1778,6 +1864,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <li><p>To create or update a fabric VLAN according to the module design, the vlan_id parameter must be provided as a required input. Although in the GUI it's an optional parameter but to uniquely identify the VLAN, vlan is required along with the fabric site location.</p></li>
 <li><p>If the playbook specifies fabric sites while deleting a virtual network, the module will operate at a lower level by removing only the fabric sites from the virtual network without deleting the virtual network itself. However, if only the virtual network name is provided, the module will first remove all associated fabric sites before proceeding with the deletion of the virtual network.</p></li>
 <li><p>SDK Method used are ccc_virtual_network.sda.get_site ccc_virtual_network.sda.get_fabric_sites ccc_virtual_network.sda.get_fabric_zones ccc_virtual_network.sda.get_layer2_virtual_networks ccc_virtual_network.sda.add_layer2_virtual_networks ccc_virtual_network.sda.update_layer2_virtual_networks ccc_virtual_network.sda.delete_layer2_virtual_network_by_id ccc_virtual_network.sda.get_layer3_virtual_networks ccc_virtual_network.sda.add_layer3_virtual_networks ccc_virtual_network.sda.update_layer3_virtual_networks ccc_virtual_network.sda.delete_layer3_virtual_network_by_id ccc_virtual_network.sda.get_reserve_ip_subpool ccc_virtual_network.sda.get_anycast_gateways ccc_virtual_network.sda.add_anycast_gateways ccc_virtual_network.sda.update_anycast_gateways ccc_virtual_network.sda.delete_anycast_gateway_by_id</p></li>
+<li><p>New parameters added in the module are wireless_flooding_enable, resource_guard_enable, flooding_address_assignment, flooding_address as part of fabric_vlan and anycast_gateways creation/updation will start supporting from Catalsyt Center with version 3.1.3.0 onwards.</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>
 <li><p>The parameters starting with dnac_ are used by the Cisco Catalyst Center Python SDK to establish the connection</p></li>
@@ -1785,7 +1872,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id97" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id121" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create Layer2 Fabric VLAN for SDA in Cisco Catalyst</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">Center.</span>
@@ -1818,6 +1905,58 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">            </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1334</span>
 <span class="w">            </span><span class="nt">traffic_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VOICE&quot;</span>
 <span class="w">            </span><span class="nt">fabric_enabled_wireless</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create Layer2 Fabric VLAN with wireless flooding, resource guard, and custom</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">L2 flooding address for SDA in Cisco Catalyst Center.</span>
+<span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_vlan</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vlan_added_params&quot;</span>
+<span class="w">            </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India/Bangalore&quot;</span>
+<span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+<span class="w">            </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1933</span>
+<span class="w">            </span><span class="nt">traffic_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VOICE&quot;</span>
+<span class="w">            </span><span class="nt">fabric_enabled_wireless</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">            </span><span class="nt">wireless_flooding_enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">            </span><span class="nt">resource_guard_enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">            </span><span class="nt">flooding_address_assignment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CUSTOM</span>
+<span class="w">            </span><span class="nt">flooding_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">239.0.0.1</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update Layer 2 Voice VLAN in Bangalore site to use shared flooding address assignment.</span>
+<span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_vlan</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vlan_added_params&quot;</span>
+<span class="w">            </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India/Bangalore&quot;</span>
+<span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+<span class="w">            </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1933</span>
+<span class="w">            </span><span class="nt">traffic_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VOICE&quot;</span>
+<span class="w">            </span><span class="nt">fabric_enabled_wireless</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">            </span><span class="nt">resource_guard_enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">            </span><span class="nt">flooding_address_assignment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SHARED# Inherit flooding address from the fabric</span>
+
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update Layer 2 Fabric VLAN for SDA in Cisco</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">Catalyst Center.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
@@ -1842,6 +1981,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">            </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1333</span>
 <span class="w">            </span><span class="nt">traffic_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VOICE&quot;</span>
 <span class="w">            </span><span class="nt">fabric_enabled_wireless</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deleting Layer 2 Fabric VLAN from the Cisco</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">Catalyst Center.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
@@ -1862,6 +2002,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India/Chennai&quot;</span>
 <span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
 <span class="w">            </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1333</span>
+
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create layer3 Virtual Network and anchored the</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">site to the VN as well.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
@@ -1882,6 +2023,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
 <span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
 <span class="w">            </span><span class="nt">anchored_site_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
+
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create layer3 Virtual Network and extend it</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">to multiple fabric sites.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
@@ -1903,6 +2045,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA&quot;</span>
 <span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update layer3 Virtual Network in the Cisco Catalyst</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">Center.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
@@ -1926,6 +2069,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/China&quot;</span>
 <span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Removing the fabric sites only from the given</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">Virtual Network in the Cisco Catalyst Center.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
@@ -1947,6 +2091,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA&quot;</span>
 <span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deleting Virtual Network from the Cisco Catalyst</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">Center and removing fabric sites if any.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
@@ -1963,6 +2108,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">virtual_networks</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vlan_test1&quot;</span>
+
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create the Anycast gateway(s) for SDA in Catalsyt</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">Center.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
@@ -1987,6 +2133,67 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">            </span><span class="nt">traffic_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DATA&quot;</span>
 <span class="w">            </span><span class="nt">is_critical_pool</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">            </span><span class="nt">auto_generate_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create Anycast gateway in SDA fabric with new parameters</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">(wireless flooding, resource guard, custom flooding address)</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">in Cisco Catalyst Center</span>
+<span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">anycast_gateways</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VN_Test</span>
+<span class="w">            </span><span class="nt">fabric_site_location</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/India</span>
+<span class="w">              </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fabric_site</span>
+<span class="w">            </span><span class="nt">ip_pool_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AB_Pool</span>
+<span class="w">            </span><span class="nt">tcp_mss_adjustment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">701</span>
+<span class="w">            </span><span class="nt">traffic_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DATA</span>
+<span class="w">            </span><span class="nt">is_critical_pool</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">            </span><span class="nt">layer2_flooding_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">            </span><span class="nt">fabric_enabled_wireless</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">            </span><span class="nt">wireless_flooding_enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">            </span><span class="nt">resource_guard_enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">            </span><span class="nt">ip_directed_broadcast</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">            </span><span class="nt">intra_subnet_routing_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">            </span><span class="nt">multiple_ip_to_mac_addresses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">            </span><span class="nt">supplicant_based_extended_node_onboarding</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">            </span><span class="nt">group_policy_enforcement_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">            </span><span class="nt">flooding_address_assignment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CUSTOM</span>
+<span class="w">            </span><span class="nt">flooding_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">239.0.0.1</span>
+<span class="w">            </span><span class="nt">auto_generate_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update Anycast gateway with shared flooding address</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">and resource guard enabled in Cisco Catalyst Center.</span>
+<span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">anycast_gateways</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VN_Test</span>
+<span class="w">            </span><span class="nt">fabric_site_location</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/India</span>
+<span class="w">              </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fabric_site</span>
+<span class="w">            </span><span class="nt">ip_pool_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AB_Pool</span>
+<span class="w">            </span><span class="nt">flooding_address_assignment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SHARED</span>
+<span class="w">            </span><span class="nt">resource_guard_enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update the Anycast gateway(s) for SDA in Catalsyt</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">Center.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
@@ -2012,6 +2219,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">            </span><span class="nt">is_critical_pool</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">            </span><span class="nt">layer2_flooding_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">            </span><span class="nt">multiple_ip_to_mac_addresses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deleting Anycast Gateway from the Cisco Catalyst</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">Center.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
@@ -2036,8 +2244,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div>
 </section>
 <section id="return-values">
-<h2><a class="toc-backref" href="#id98" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
-<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v11)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
+<h2><a class="toc-backref" href="#id122" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
+<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v12)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Key</p></th>
@@ -2051,7 +2259,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id91"><span class="problematic" id="id92">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;string&quot;, &quot;url&quot;: &quot;string&quot;}, &quot;version&quot;: &quot;string&quot;}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id115"><span class="problematic" id="id116">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;string&quot;, &quot;url&quot;: &quot;string&quot;}, &quot;version&quot;: &quot;string&quot;}`</span></a></p>
 </div></td>
 </tr>
 </tbody>
