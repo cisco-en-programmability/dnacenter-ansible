@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.39.0
+Collection version 6.40.0
 
 .. contents::
    :local:
@@ -709,7 +709,7 @@ Modules
 * :ref:`network_devices_trend_analytics_id module <ansible_collections.cisco.dnac.network_devices_trend_analytics_id_module>` -- Resource module for Network Devices Trend Analytics Id
 * :ref:`network_devices_unassign_from_site_apply module <ansible_collections.cisco.dnac.network_devices_unassign_from_site_apply_module>` -- Resource module for Network Devices Unassign From Site Apply
 * :ref:`network_info module <ansible_collections.cisco.dnac.network_info_module>` -- Information module for Network
-* :ref:`network_profile_switching_workflow_manager module <ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module>` -- Resource module for managing switch profiles in Cisco Catalyst Center
+* :ref:`network_profile_switching_workflow_manager module <ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module>` -- Resource module for managing network switch profiles with template and site assignments in Cisco Catalyst Center
 * :ref:`network_profile_wireless_workflow_manager module <ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module>` -- Resource module for managing network wireless profile in Cisco Catalyst Center
 * :ref:`network_profiles_for_sites_profile_id_templates_count_info module <ansible_collections.cisco.dnac.network_profiles_for_sites_profile_id_templates_count_info_module>` -- Information module for Network Profiles For Sites Profile Id Templates Count
 * :ref:`network_profiles_for_sites_profile_id_templates_info module <ansible_collections.cisco.dnac.network_profiles_for_sites_profile_id_templates_info_module>` -- Information module for Network Profiles For Sites Profile Id Templates

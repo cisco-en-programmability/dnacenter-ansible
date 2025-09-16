@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cisco.dnac.network_profile_switching_workflow_manager module -- Resource module for managing switch profiles in Cisco Catalyst Center &mdash; DNACenterAnsibleActions  documentation</title>
+  <title>cisco.dnac.network_profile_switching_workflow_manager module -- Resource module for managing network switch profiles with template and site assignments in Cisco Catalyst Center &mdash; DNACenterAnsibleActions  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/ansible-basic-sphinx-ext.css" />
@@ -694,7 +694,7 @@
 <li class="toctree-l4"><a class="reference internal" href="network_devices_trend_analytics_id_module.html">cisco.dnac.network_devices_trend_analytics_id module -- Resource module for Network Devices Trend Analytics Id</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_devices_unassign_from_site_apply_module.html">cisco.dnac.network_devices_unassign_from_site_apply module -- Resource module for Network Devices Unassign From Site Apply</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_info_module.html">cisco.dnac.network_info module -- Information module for Network</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">cisco.dnac.network_profile_switching_workflow_manager module -- Resource module for managing switch profiles in Cisco Catalyst Center</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">cisco.dnac.network_profile_switching_workflow_manager module -- Resource module for managing network switch profiles with template and site assignments in Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_profile_wireless_workflow_manager_module.html">cisco.dnac.network_profile_wireless_workflow_manager module -- Resource module for managing network wireless profile in Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_profiles_for_sites_profile_id_templates_count_info_module.html">cisco.dnac.network_profiles_for_sites_profile_id_templates_count_info module -- Information module for Network Profiles For Sites Profile Id Templates Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_profiles_for_sites_profile_id_templates_info_module.html">cisco.dnac.network_profiles_for_sites_profile_id_templates_info module -- Information module for Network Profiles For Sites Profile Id Templates</a></li>
@@ -1212,7 +1212,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Cisco.Dnac</a></li>
-      <li class="breadcrumb-item active">cisco.dnac.network_profile_switching_workflow_manager module -- Resource module for managing switch profiles in Cisco Catalyst Center</li>
+      <li class="breadcrumb-item active">cisco.dnac.network_profile_switching_workflow_manager module -- Resource module for managing network switch profiles with template and site assignments in Cisco Catalyst Center</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/plugins/network_profile_switching_workflow_manager_module.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -1222,11 +1222,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <span class="target" id="ansible-collections-cisco-dnac-network-profile-switching-workflow-manager-module"></span><section id="cisco-dnac-network-profile-switching-workflow-manager-module-resource-module-for-managing-switch-profiles-in-cisco-catalyst-center">
-<h1>cisco.dnac.network_profile_switching_workflow_manager module -- Resource module for managing switch profiles in Cisco Catalyst Center<a class="headerlink" href="#cisco-dnac-network-profile-switching-workflow-manager-module-resource-module-for-managing-switch-profiles-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
+  <span class="target" id="ansible-collections-cisco-dnac-network-profile-switching-workflow-manager-module"></span><section id="cisco-dnac-network-profile-switching-workflow-manager-module-resource-module-for-managing-network-switch-profiles-with-template-and-site-assignments-in-cisco-catalyst-center">
+<h1>cisco.dnac.network_profile_switching_workflow_manager module -- Resource module for managing network switch profiles with template and site assignments in Cisco Catalyst Center<a class="headerlink" href="#cisco-dnac-network-profile-switching-workflow-manager-module-resource-module-for-managing-network-switch-profiles-with-template-and-site-assignments-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.39.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.40.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-profile-switching-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1246,7 +1246,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <section id="synopsis">
 <h2><a class="toc-backref" href="#id55" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
-<li><p>This module facilitates the creation and deletion of network switch profiles in Cisco Catalyst Center. - Supports creating and deleting switch profiles. - Enables assignment of profiles to sites, onboarding templates, and Day-N templates.</p></li>
+<li><p>This module facilitates comprehensive network switch profile management in Cisco Catalyst Center. - Supports creating, updating, and deleting switch profiles with Day-N template assignments. - Enables profile assignment to sites within the site hierarchy for network standardization. - Provides selective site and template unassignment capabilities for profile lifecycle management. - Supports bulk profile operations for enterprise-scale network infrastructure deployment. - Integrates with Cisco Catalyst Center's network profile framework for consistent switching configuration.</p></li>
 </ul>
 </section>
 <section id="requirements">
@@ -1270,35 +1270,35 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <div class="ansibleOptionAnchor" id="parameter-config"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-profile-switching-workflow-manager-module-parameter-config"><strong>config</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>A list containing the details required for network switch profile creation.</p>
+<td><div class="ansible-option-cell"><p>A list containing the comprehensive details required for network switch profile creation, assignment, and lifecycle management. Each profile configuration supports template assignments, site associations, and operational state management for enterprise network infrastructure standardization and automation.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/day_n_templates"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-profile-switching-workflow-manager-module-parameter-config-day-n-templates"><strong>day_n_templates</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/day_n_templates" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list of Day-N template names assigned to the profile.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list of Day-N template names assigned to the profile for ongoing device configuration. Day-N templates provide post-deployment configuration management including compliance, monitoring, and operational configuration updates for network devices. Templates must exist in Catalyst Center before assignment to profiles. Maximum length per template: 200 characters. Supports multiple template assignment for comprehensive device lifecycle management.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/onboarding_templates"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-profile-switching-workflow-manager-module-parameter-config-onboarding-templates"><strong>onboarding_templates</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/onboarding_templates" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list of onboarding template names assigned to the profile. Note: Onboarding templates are currently unavailable due to SDK/API constraints.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list of onboarding template names to be assigned to the profile for device provisioning. Note: Onboarding templates are currently unavailable due to SDK/API upgrade constraints. This feature will be available in an upcoming release with enhanced template support. Reserved for future functionality - do not use in current implementations.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/profile_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-profile-switching-workflow-manager-module-parameter-config-profile-name"><strong>profile_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/profile_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the switch profile to be created.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The unique name of the switch profile to be created or managed. Profile names must be unique within the Cisco Catalyst Center instance and should follow organizational naming conventions for network infrastructure. Maximum length: 255 characters.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site_names"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-profile-switching-workflow-manager-module-parameter-config-site-names"><strong>site_names</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/site_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list of site names specified in the full site hierarchy format. For example: 'Global/Country/City/Building'.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list of site names specified in the full site hierarchy format for profile assignment. Sites must exist in the Catalyst Center site hierarchy before profile assignment. Format examples: 'Global/Country/City/Building' or 'Global/Region/Campus/Floor'. Maximum length per site: 200 characters. Supports bulk site assignment for scalable network profile deployment.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1449,7 +1449,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-profile-switching-workflow-manager-module-parameter-state"><strong>state</strong></p>
 <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Specifies the desired state for the configuration. If set to `merged`, the module will create or update the configuration by adding new settings or modifying existing ones. If set to `deleted`, the module will remove the specified settings.</p>
+<td><div class="ansible-option-cell"><dl>
+<dt>Specifies the desired operational state for switch profile configuration management. - merged: Creates new switch profiles or updates existing profiles by adding/modifying</dt><dd><blockquote>
+<div><p>template assignments and site associations. Supports incremental profile enhancement.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>deleted: Removes switch profiles, unassigns sites, or detaches templates based on
+the configuration provided. Supports selective deletion for profile lifecycle management.</p></li>
+</ul>
+</dd>
+</dl>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
@@ -1494,7 +1503,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <span class="w">  </span><span class="nt">gather_facts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">  </span><span class="nt">connection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
 <span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create network profile for switch</span>
+<span class="w">    </span><span class="c1"># Create a comprehensive switching profile with Day-N templates and site assignments</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create enterprise switching profile for campus network infrastructure</span>
 <span class="w">      </span><span class="nt">cisco.dnac.network_profile_switching_workflow_manager</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
@@ -1514,9 +1524,11 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <span class="w">            </span><span class="nt">day_n_templates</span><span class="p">:</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Campus_Switch_Config_Update&quot;</span>
 <span class="w">            </span><span class="nt">site_names</span><span class="p">:</span>
-<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Global/Chennai&quot;</span>
-<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Global/Abc&quot;</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update network profile for switch</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Global/India/Chennai&quot;</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Global/India/Mumbai&quot;</span>
+
+<span class="w">    </span><span class="c1"># Update existing switching profile with additional templates and sites</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update enterprise switching profile for multi-region deployment</span>
 <span class="w">      </span><span class="nt">cisco.dnac.network_profile_switching_workflow_manager</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
@@ -1535,31 +1547,14 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">profile_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enterprise_Switching_Profile&quot;</span>
 <span class="w">            </span><span class="nt">day_n_templates</span><span class="p">:</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Periodic_Config_Audit&quot;</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Security_Compliance_Check&quot;</span>
 <span class="w">            </span><span class="nt">site_names</span><span class="p">:</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Global/India/Chennai/Main_Office&quot;</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Global/India/Madurai/Branch_Office&quot;</span>
-<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Francisco/Regional_HQ&quot;</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Idempotent redelete multiple switching profile</span>
-<span class="w">      </span><span class="nt">cisco.dnac.network_profile_switching_workflow_manager</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
-<span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">        </span><span class="nt">dnac_api_task_timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
-<span class="w">        </span><span class="nt">dnac_task_poll_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
-<span class="w">        </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">profile_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Enterprise_Switching_Profile</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">profile_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Local_Switching_Profile</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Global/USA/San_Francisco/Regional_HQ&quot;</span>
 
-<span class="w">    </span><span class="c1"># Delete a switching profile by providing its profile name</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete Specified Switching Profile</span>
+<span class="w">    </span><span class="c1"># Demonstrate idempotent deletion of multiple switching profiles</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Remove obsolete switching profiles from network infrastructure</span>
 <span class="w">      </span><span class="nt">cisco.dnac.network_profile_switching_workflow_manager</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
@@ -1575,10 +1570,11 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <span class="w">        </span><span class="nt">dnac_task_poll_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">profile_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Enterprise_Switching_Profile</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">profile_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Legacy_Switching_Profile&quot;</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">profile_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Deprecated_Local_Profile&quot;</span>
 
-<span class="w">    </span><span class="c1"># Unassign sites from a switching profile but do not delete the profile</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Unassign Sites from Switching Profile</span>
+<span class="w">    </span><span class="c1"># Complete profile removal including all associated configurations</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete switching profile and verify removal from network infrastructure</span>
 <span class="w">      </span><span class="nt">cisco.dnac.network_profile_switching_workflow_manager</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
@@ -1594,12 +1590,31 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <span class="w">        </span><span class="nt">dnac_task_poll_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">profile_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Enterprise_Switching_Profile</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">profile_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enterprise_Switching_Profile&quot;</span>
+
+<span class="w">    </span><span class="c1"># Selective site unassignment while preserving profile and templates</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Unassign specific sites from switching profile for network reorganization</span>
+<span class="w">      </span><span class="nt">cisco.dnac.network_profile_switching_workflow_manager</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
+<span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">dnac_api_task_timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">        </span><span class="nt">dnac_task_poll_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
+<span class="w">        </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">profile_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enterprise_Switching_Profile&quot;</span>
 <span class="w">            </span><span class="nt">site_names</span><span class="p">:</span>
-<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/India/Chennai/Main_Office</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Global/India/Chennai/Main_Office&quot;</span>
 
-<span class="w">    </span><span class="c1"># Unassign a template from a switching profile but do not delete the profile</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Unassign Template from Switching Profile</span>
+<span class="w">    </span><span class="c1"># Selective template unassignment for configuration template management</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Remove specific templates from switching profile for template lifecycle management</span>
 <span class="w">      </span><span class="nt">cisco.dnac.network_profile_switching_workflow_manager</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
@@ -1615,15 +1630,45 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <span class="w">        </span><span class="nt">dnac_task_poll_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">profile_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Enterprise_Switching_Profile</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">profile_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enterprise_Switching_Profile&quot;</span>
 <span class="w">            </span><span class="nt">day_n_templates</span><span class="p">:</span>
-<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Periodic_Config_Audit</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Outdated_Config_Template&quot;</span>
+
+<span class="w">    </span><span class="c1"># Bulk profile creation for large-scale network deployment</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create multiple switching profiles for enterprise network standardization</span>
+<span class="w">      </span><span class="nt">cisco.dnac.network_profile_switching_workflow_manager</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
+<span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">dnac_api_task_timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">        </span><span class="nt">dnac_task_poll_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">        </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">profile_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Campus_Core_Switching&quot;</span>
+<span class="w">            </span><span class="nt">day_n_templates</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Core_Switch_Config&quot;</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;OSPF_Configuration&quot;</span>
+<span class="w">            </span><span class="nt">site_names</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Global/Headquarters/Core_Network&quot;</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">profile_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Branch_Access_Switching&quot;</span>
+<span class="w">            </span><span class="nt">day_n_templates</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Access_Switch_Config&quot;</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;VLAN_Configuration&quot;</span>
+<span class="w">            </span><span class="nt">site_names</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Global/Branch_Offices/Remote_Sites&quot;</span>
 </pre></div>
 </div>
 </section>
 <section id="return-values">
 <h2><a class="toc-backref" href="#id60" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
-<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v11)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
+<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v12)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Key</p></th>

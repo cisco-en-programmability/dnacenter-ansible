@@ -694,7 +694,7 @@
 <li class="toctree-l4"><a class="reference internal" href="network_devices_trend_analytics_id_module.html">cisco.dnac.network_devices_trend_analytics_id module -- Resource module for Network Devices Trend Analytics Id</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_devices_unassign_from_site_apply_module.html">cisco.dnac.network_devices_unassign_from_site_apply module -- Resource module for Network Devices Unassign From Site Apply</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_info_module.html">cisco.dnac.network_info module -- Information module for Network</a></li>
-<li class="toctree-l4"><a class="reference internal" href="network_profile_switching_workflow_manager_module.html">cisco.dnac.network_profile_switching_workflow_manager module -- Resource module for managing switch profiles in Cisco Catalyst Center</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_profile_switching_workflow_manager_module.html">cisco.dnac.network_profile_switching_workflow_manager module -- Resource module for managing network switch profiles with template and site assignments in Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_profile_wireless_workflow_manager_module.html">cisco.dnac.network_profile_wireless_workflow_manager module -- Resource module for managing network wireless profile in Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_profiles_for_sites_profile_id_templates_count_info_module.html">cisco.dnac.network_profiles_for_sites_profile_id_templates_count_info module -- Information module for Network Profiles For Sites Profile Id Templates Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_profiles_for_sites_profile_id_templates_info_module.html">cisco.dnac.network_profiles_for_sites_profile_id_templates_info module -- Information module for Network Profiles For Sites Profile Id Templates</a></li>
@@ -1226,7 +1226,7 @@
 <h1>cisco.dnac.assurance_icap_settings_workflow_manager module -- Configure and manage ICAP (Intelligent Capture) settings in Cisco Catalyst Center for network assurance.<a class="headerlink" href="#cisco-dnac-assurance-icap-settings-workflow-manager-module-configure-and-manage-icap-intelligent-capture-settings-in-cisco-catalyst-center-for-network-assurance" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.39.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.40.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-assurance-icap-settings-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1248,7 +1248,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-assuranc
 <ul class="simple">
 <li><p>Automates the configuration and management of Intelligent Capture (ICAP) settings in Cisco Catalyst Center.</p></li>
 <li><p>ICAP enables real-time packet capture and analysis for troubleshooting client and network device connectivity issues.</p></li>
-<li><p>Supports capturing traffic based on parameters such as capture type, client MAC, AP, WLC, slot, OTA band, and channel.</p></li>
+<li><p>Supports capturing traffic based on parameters such as capture type, client MAC, AP, WLC, slots, OTA band, and channel.</p></li>
 <li><p>Facilitates automated deployment and validation of ICAP configurations.</p></li>
 <li><p>Supports downloading PCAP files for further analysis of captured network traffic.</p></li>
 </ul>
@@ -1417,10 +1417,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-assuranc
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/slot"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-slot"><strong>slot</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/slot" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=integer</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/slots"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-slots"><strong>slots</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/slots" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of slot numbers for the capture session.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list of radio slot numbers on the specified Access Point to include in the capture session. For example, <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1]</span></code>).</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1638,18 +1638,47 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-assuranc
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">assurance_icap_settings</span><span class="p">:</span>
+<span class="w">              </span><span class="c1"># Example 1: Standard ONBOARDING capture for a client on a specific WLC</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">capture_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ONBOARDING</span>
 <span class="w">                </span><span class="nt">preview_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ICAP</span><span class="nv"> </span><span class="s">onboarding</span>
 <span class="w">                  </span><span class="s">capture&quot;</span>
 <span class="w">                </span><span class="nt">duration_in_mins</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
 <span class="w">                </span><span class="nt">client_mac</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50:91:E3:47:AC:9E</span><span class="w">  </span><span class="c1"># required field</span>
 <span class="w">                </span><span class="nt">wlc_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NY-IAC-EWLC.cisco.local</span><span class="w">  </span><span class="c1"># required field</span>
+<span class="w">              </span><span class="c1"># Example 2: Full packet capture for troubleshooting</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">capture_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FULL</span>
 <span class="w">                </span><span class="nt">preview_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Full</span><span class="nv"> </span><span class="s">ICAP</span><span class="nv"> </span><span class="s">capture</span>
 <span class="w">                  </span><span class="s">for</span><span class="nv"> </span><span class="s">troubleshooting&quot;</span>
 <span class="w">                </span><span class="nt">duration_in_mins</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
 <span class="w">                </span><span class="nt">client_mac</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50:91:E3:47:AC:9E</span><span class="w">  </span><span class="c1"># required field</span>
 <span class="w">                </span><span class="nt">wlc_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NY-IAC-EWLC.cisco.local</span><span class="w">  </span><span class="c1"># required field</span>
+<span class="w">              </span><span class="c1"># Example 3: Over-the-Air (OTA) capture for a specific AP radio slot</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">capture_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OTA</span>
+<span class="w">                </span><span class="nt">preview_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;OTA</span><span class="nv"> </span><span class="s">ICAP</span><span class="nv"> </span><span class="s">capture</span>
+<span class="w">                  </span><span class="s">for</span><span class="nv"> </span><span class="s">troubleshooting&quot;</span>
+<span class="w">                </span><span class="nt">duration_in_mins</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<span class="w">                </span><span class="nt">client_mac</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">04:42:1A:4C:97:F6</span><span class="w">   </span><span class="c1"># required field</span>
+<span class="w">                </span><span class="nt">ap_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AP1416.9D2A.1D0C</span><span class="w">  </span><span class="c1"># required field</span>
+<span class="w">                </span><span class="nt">wlc_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SJ-EWLC-1.cisco.local</span><span class="w">  </span><span class="c1"># required field</span>
+<span class="w">                </span><span class="nt">slots</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">]</span>
+<span class="w">                </span><span class="nt">ota_band</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="w">                </span><span class="nt">ota_channel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">36</span>
+<span class="w">                </span><span class="nt">ota_channel_width</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">40</span>
+<span class="w">              </span><span class="c1"># Example 4: RF statistics capture for a specific AP &amp; WLC</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">capture_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RFSTATS</span>
+<span class="w">                </span><span class="nt">preview_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;RF</span><span class="nv"> </span><span class="s">statistics</span><span class="nv"> </span><span class="s">capture</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">troubleshooting&quot;</span>
+<span class="w">                </span><span class="nt">client_mac</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">04:42:1A:4C:97:F6</span><span class="w">  </span><span class="c1"># required field</span>
+<span class="w">                </span><span class="nt">ap_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AP1416.9D2A.1D0C</span><span class="w">  </span><span class="c1"># required field</span>
+<span class="w">                </span><span class="nt">wlc_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SJ-EWLC-1.cisco.local</span><span class="w">  </span><span class="c1"># required field</span>
+<span class="w">                </span><span class="nt">slots</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">]</span>
+<span class="w">              </span><span class="c1"># Example 5: Anomaly capture for a specific client</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">capture_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ANOMALY</span>
+<span class="w">                </span><span class="nt">preview_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Anomaly</span><span class="nv"> </span><span class="s">capture</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">troubleshooting&quot;</span>
+<span class="w">                </span><span class="nt">client_mac</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">04:42:1A:4C:97:F6</span><span class="w">  </span><span class="c1"># required field</span>
+<span class="w">                </span><span class="nt">ap_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AP1416.9D2A.1D0C</span><span class="w">  </span><span class="c1"># required field</span>
+<span class="w">                </span><span class="nt">wlc_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SJ-EWLC-1.cisco.local</span><span class="w">  </span><span class="c1"># required field</span>
+<span class="w">                </span><span class="nt">slots</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">]</span>
+
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dnac_servers</span>
 <span class="w">  </span><span class="nt">vars_files</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">credentials.yml</span>
@@ -1682,7 +1711,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-assuranc
 </section>
 <section id="return-values">
 <h2><a class="toc-backref" href="#id74" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
-<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v11)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
+<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v12)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Key</p></th>
