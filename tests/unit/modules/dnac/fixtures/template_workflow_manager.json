@@ -2504,5 +2504,67 @@
           }
         ],
         "version": "1.0"
-    }
+    },
+
+    "import_profile_add_playbook_case_11": [
+        {
+            "configuration_templates": {
+              "project_name": "test_project_1",
+              "template_name": "UT template",
+              "template_content": "{% raw %}\nvlan {{ vlan }}\nhostname {{ hostname }}\n\ninterface {{ interface }}\nno shutdown\nswitchport access vlan {{ vlan }}\nswitchport mode access\ndescription {{ interface_description }}\n{% endraw %}",
+              "version_description": "Adding and committing the new template",
+              "language": "velocity",
+              "software_type": "IOS-XE",
+              "profile_names": [
+                "TestProfile"
+              ],
+              "device_types": [
+                {
+                  "product_family": "Switches and Hubs"
+                }
+              ]
+            }
+        }
+    ],
+
+    "get_porfile_list_case_11_call_2": {
+        "response": [
+                {
+                    "id": "1537be8f-21bf-4eea-8ad4-7d06c045a907",
+                    "name": "PNP_Onboarding_Template",
+                    "type": "Switching"
+                },
+                {
+                    "id": "459004c0-c293-441b-9e4d-8e8b2ff85b08",
+                    "name": "TestProfile",
+                    "type": "Switching"
+                }
+            ],
+            "version": "1.0"
+    },
+
+    "get_task_details_progress_case_11_call_3": {
+        "progress": "Template successfully attached to the network profile"
+    },
+
+    "import_profile_remove_playbook_case_12": [
+        {
+            "configuration_templates": {
+              "project_name": "test_project_1",
+              "template_name": "UT template",
+              "template_content": "{% raw %}\nhostname {{ hostname }}\n\ninterface {{ interface }}\nno shutdown\nswitchport access vlan {{ vlan }}\nswitchport mode access\ndescription {{ interface_description }}\n{% endraw %}",
+              "version_description": "Adding and committing the updated template",
+              "language": "velocity",
+              "software_type": "IOS-XE",
+              "profile_names": [
+                "TestProfile"
+              ],
+              "device_types": [
+                {
+                  "product_family": "Switches and Hubs"
+                }
+              ]
+            }
+        }
+    ]
 }
