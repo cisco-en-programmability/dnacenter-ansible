@@ -60,113 +60,113 @@ options:
         type: list
         elements: dict
         required: true
-      suboptions:
-        accesspoint_name:
-          description: >
-            Complete floor site hierarchy for the access point location.
-          type: str
-          required: true
-        action:
-          description: >
-            The action to be performed on the access point.
-            This determines how the access point will be managed within the specified location.
-            action field not required while creating, updating and deleting planned access point location.
-            required for assigning the access point to existing planned location.
-          type: str
-          required: true
-          choices:
-            - C(assign_planned)
-            - C(delete_position)
-            - C(update_position)
-        mac_address:
-          description: |
-            The MAC address used to identify the access point.
-          type: str
-          required: false
-        accesspoint_model:
-          description: Model of the access point.
-          type: str
-          required: true
-        position:
-          description: |
-            The X,Y and Z coordinates representing the access point's position on the floor plan.
-          type: dict
-          suboptions:
-            x_position:
-              description: >
-                The X coordinate of the access point's position. allows from 0 to 100
-              type: int
-              required: true
-            y_position:
-              description: >
-                The Y coordinate of the access point's position. allows from 0 to 88
-              type: int
-              required: true
-            z_position:
-              description: >
-                The Z coordinate of the access point's position. allows from 3.0 to 10.0
-              type: float
-              required: true
-        radios:
-          description: |
-            List of radios details for the access point.
-          type: list
-          elements: dict
-          required: true
-          suboptions:
-            - bands:
+        suboptions:
+          accesspoint_name:
+            description: >
+              Complete floor site hierarchy for the access point location.
+            type: str
+            required: true
+          action:
+            description: >
+              The action to be performed on the access point.
+              This determines how the access point will be managed within the specified location.
+              action field not required while creating, updating and deleting planned access point location.
+              required for assigning the access point to existing planned location.
+            type: str
+            required: true
+            choices:
+              - C(assign_planned)
+              - C(delete_position)
+              - C(update_position)
+          mac_address:
+            description: |
+              The MAC address used to identify the access point.
+            type: str
+            required: false
+          accesspoint_model:
+            description: Model of the access point.
+            type: str
+            required: true
+          position:
+            description: |
+              The X,Y and Z coordinates representing the access point's position on the floor plan.
+            type: dict
+            suboptions:
+              x_position:
                 description: >
-                  Any one of radio bands supported by the access point.
-                type: str
-                required: true
-                choices:
-                  - C(2.4GHz)
-                  - C(5GHz)
-                  - C(6GHz)
-              channel:
-                description: |
-                  The channel number for the radio interface.
-                  - Radio band of "2.4GHz", valid values are from 1 to 14.
-                  - Radio band of "5GHz", valid values are
-                    36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
-                    112, 116, 120, 124, 128, 132, 136, 140, 144,
-                    149, 153, 157, 161, 165, 169, 173.
-                  - Radio band of "6GHz", valid values are
-                    1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49,
-                    53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97,
-                    101, 105, 109, 113, 117, 121, 125, 129, 133, 137,
-                    141, 145, 149, 153, 157, 161, 165, 169, 173, 177,
-                    181, 185, 189, 193, 197, 201, 205, 209, 213, 217,
-                    221, 225, 229, 233.
+                  The X coordinate of the access point's position. allows from 0 to 100
                 type: int
                 required: true
-              tx_power:
+              y_position:
                 description: >
-                  The transmit power level of the access point.
+                  The Y coordinate of the access point's position. allows from 0 to 88
                 type: int
                 required: true
-              antenna:
-                description: |
-                  Antenna type of the access point.
-                type: dict
-                elements: str
+              z_position:
+                description: >
+                  The Z coordinate of the access point's position. allows from 3.0 to 10.0
+                type: float
                 required: true
-                suboptions:
-                  antenna_name:
-                    description: >
-                      Model antenna name of the antenna.
-                    type: str
-                    required: true
-                  azimuth:
-                    description: >
-                      The azimuth angle of the antenna. starts from 1 to 360
-                    type: int
-                    required: true
-                  elevation:
-                    description: >
-                      The elevation angle of the antenna. starts from -90 to 90
-                    type: int
-                    required: true
+          radios:
+            description: |
+              List of radios details for the access point.
+            type: list
+            elements: dict
+            required: true
+            suboptions:
+              - bands:
+                  description: >
+                    Any one of radio bands supported by the access point.
+                  type: str
+                  required: true
+                  choices:
+                    - C(2.4GHz)
+                    - C(5GHz)
+                    - C(6GHz)
+                channel:
+                  description: |
+                    The channel number for the radio interface.
+                    - Radio band of "2.4GHz", valid values are from 1 to 14.
+                    - Radio band of "5GHz", valid values are
+                      36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
+                      112, 116, 120, 124, 128, 132, 136, 140, 144,
+                      149, 153, 157, 161, 165, 169, 173.
+                    - Radio band of "6GHz", valid values are
+                      1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49,
+                      53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97,
+                      101, 105, 109, 113, 117, 121, 125, 129, 133, 137,
+                      141, 145, 149, 153, 157, 161, 165, 169, 173, 177,
+                      181, 185, 189, 193, 197, 201, 205, 209, 213, 217,
+                      221, 225, 229, 233.
+                  type: int
+                  required: true
+                tx_power:
+                  description: >
+                    The transmit power level of the access point.
+                  type: int
+                  required: true
+                antenna:
+                  description: |
+                    Antenna type of the access point.
+                  type: dict
+                  elements: str
+                  required: true
+                  suboptions:
+                    antenna_name:
+                      description: >
+                        Model antenna name of the antenna.
+                      type: str
+                      required: true
+                    azimuth:
+                      description: >
+                        The azimuth angle of the antenna. starts from 1 to 360
+                      type: int
+                      required: true
+                    elevation:
+                      description: >
+                        The elevation angle of the antenna. starts from -90 to 90
+                      type: int
+                      required: true
 requirements:
   - dnacentersdk >= 2.8.6
   - python >= 3.9
