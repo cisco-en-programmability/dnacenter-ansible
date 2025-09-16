@@ -225,7 +225,7 @@ EXAMPLES = r"""
           - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
             access_points:
               - accesspoint_name: IAC-TB4-SJ-AP1
-                mac_address: 54:8a:ba:22:eb:c0 # Optional
+                mac_address: 54:8a:ba:22:eb:c0  # Optional
                 accesspoint_model: CW9172H
                 position:
                   x_position: 30  # x-axis: from 0 to 100
@@ -306,7 +306,7 @@ EXAMPLES = r"""
           - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
             access_points:
               - accesspoint_name: IAC-TB4-SJ-AP1
-                mac_address: 54:8a:ba:22:eb:c0 # Optional
+                mac_address: 54:8a:ba:22:eb:c0  # Optional
                 accesspoint_model: CW9172H
                 position:
                   x_position: 30  # x-axis: from 0 to 100
