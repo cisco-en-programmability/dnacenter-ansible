@@ -424,7 +424,8 @@ response_create_assign:
   type: dict
   sample: >
     {
-        "msg": "Access Point Location created successfully for 'Global/USA/California/SAN JOSE/BLD24/Floor3'. Following Access Point(s) assigned to planned location(s): '['IAC-TB4-SJ-AP1']'.",
+        "msg": "Access Point Location created successfully for 'Global/USA/California/SAN JOSE/BLD24/Floor3'.
+                Following Access Point(s) assigned to planned location(s): '['IAC-TB4-SJ-AP1']'.",
         "response": [
             [
                 "IAC-TB4-SJ-AP1"
@@ -494,7 +495,8 @@ response_unassign_template:
   type: dict
   sample: >
     {
-        "msg": "No Changes required, Access Point Location(s) already deleted and verified successfully for '['IAC-TB4-SJ-AP1']'.",
+        "msg": "No Changes required, Access Point Location(s) already deleted
+                and verified successfully for '['IAC-TB4-SJ-AP1']'.",
         "response": [],
         "status": "success"
     }
@@ -510,7 +512,9 @@ response_create_assign:
   type: dict
   sample: >
     {
-        "msg": "No Changes required, Access Point Location(s) already exist. Following Access Point(s) assigned to planned location(s): '['IAC-TB4-SJ-AP1']'. Following Access Point Location(s): 'None' already exist.",
+        "msg": "No Changes required, Access Point Location(s) already exist.
+                Following Access Point(s) assigned to planned location(s): '['IAC-TB4-SJ-AP1']'.
+                Following Access Point Location(s): 'None' already exist.",
         "response": [],
         "status": "success"
     }
@@ -716,7 +720,7 @@ class AccessPointLocation(DnacBase):
                 y_position = position.get("y_position")
                 if y_position is None:
                     errormsg.append("y_position: Y Position is missing in playbook.")
-                elif y_position and isinstance(y_position, int) and not(0 < y_position < 88):
+                elif y_position and isinstance(y_position, int) and not (0 < y_position < 88):
                     errormsg.append("y_position: Y Position must be between 0 and 88.")
 
                 z_position = position.get("z_position")
@@ -748,7 +752,7 @@ class AccessPointLocation(DnacBase):
             self (object): An instance of a class for interacting with Cisco Catalyst Center.
             radios_param (list): A list of radio configuration dictionaries.
             errormsg (list): A list to collect error messages.
-        
+
         Returns:
             list: List of invalid access point location radios data with details.
 
@@ -1335,8 +1339,8 @@ class AccessPointLocation(DnacBase):
                 task_details_response = self.get_tasks_by_id(task_id)
 
                 if not task_details_response:  # Ensure the response is valid
-                    self.log("Failed to retrieve task details for task ID: {0}".
-                            format(task_id), "ERROR")
+                    self.log("Failed to retrieve task details for task ID: {0}".format(
+                        task_id), "ERROR")
                     return None
 
                 task_status = task_details_response.get("status")
@@ -1408,7 +1412,7 @@ class AccessPointLocation(DnacBase):
 
             process_response = self.process_location_creation_updation_assign(
                 "add_planned_access_points_positions", floor_id, create_payload, "create"
-                )
+            )
             if process_response == "SUCCESS":
                 self.msg = "Access Point Location created successfully for: {0}".format(
                     self.have.get("site_name")
@@ -1488,7 +1492,7 @@ class AccessPointLocation(DnacBase):
             self.have.get("site_name")), "INFO")
 
         if (self.have.get("new_accesspoint") or self.have.get("update_accesspoint")
-            or self.have.get("existing_accesspoint")):
+           or self.have.get("existing_accesspoint")):
             access_point_devices = self.have.get("accesspoint_devices", [])
             assign_payload = []
             collect_ap_list = []
