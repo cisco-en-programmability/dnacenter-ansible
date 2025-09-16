@@ -107,12 +107,17 @@ options:
               for control nodes in the fabric site.
               This feature is relevant only when creating
               or updating fabric sites, not fabric zones.
-              When set to True, pub/sub facilitates
-              more efficient communication and control
-              within the site. The default is True for
-              fabric sites, and this setting is not
+              When set to 'true', pub/sub is enabled for
+              more efficient control plane communication
+              within the fabric site. The default is True
+              for fabric sites, and this setting is not
               applicable for fabric zones.
+              When set to 'false', the fabric site is
+              configured to use LISP/BGP for control plane
+              communication, which provides traditional
+              routing mechanisms.
             type: bool
+            default: true
           apply_pending_events:
             description: Modifying an IP address pool
               used in a fabric causes the fabric to
