@@ -55,6 +55,25 @@ options:
               - Required for the operations in the SDA
                 fabric transits.
             type: str
+          transit_site_hierarchy:
+            description: |
+                - The site name hierarchy for the SDA fabric transit configuration.
+                - Specifies the hierarchical location of the fabric transit within the organizational network topology.
+                - The transit transit_site_hierarchy would be higher then fabric site hierarchy to have multiple fabric
+                  sites part of same transit.
+                - Used to identify and associate the fabric transit with a specific site context in Cisco Catalyst Center.
+                - Must follow the format 'Global/Area/Building/Floor' as configured in the site hierarchy within Cisco Catalyst Center.
+                - The specified site hierarchy must exist in Cisco Catalyst Center before fabric transit creation or update.
+                - This parameter enables site-aware fabric transit management and location-based network segmentation.
+                - When provided during fabric transit creation, the transit will be associated with the specified site.
+                - For existing fabric transits, changing the site hierarchy will update the site association if different from current assignment.
+                - If not specified for existing transits, the current site association will be maintained.
+                - Supported from Cisco Catalyst Center release version 3.1.3.0 onwards.
+                - For versions prior to 3.1.3.0, this parameter will be ignored with a warning message.
+                - Also if this is not assigned the default value is Global in catalyst center which allows this transit to be used
+                  across any site in Catalyst center.
+            type: str
+            required: false
           transit_type:
             description: Type of the fabric tranist.
               IP_BASED_TRANSIT - Responsible for managing
@@ -160,6 +179,8 @@ notes:
     put /dna/intent/api/v1/sda/transitNetworks,
     delete /dna/intent/api/v1/sda/transitNetworks/${id},
     get /dna/intent/api/v1/tasks/${id} get /dna/intent/api/v1/tasks/${id}/detail
+  - New parameter added 'transit_site_hierarchy' for creating/updating the transit network
+    start supporting from Catalyst Center version 3.1.3.0 onwards.
 """
 EXAMPLES = r"""
 ---
@@ -183,6 +204,30 @@ EXAMPLES = r"""
         ip_transit_settings:
           routing_protocol_name: BGP
           autonomous_system_number: 1234
+
+- name: Create SDA fabric transit of transit_type IP_BASED_TRANSIT with newly added
+    parameter 'transit_site_hierarchy'
+  cisco.dnac.sda_fabric_transits_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: merged
+    config_verify: true
+    config:
+      - sda_fabric_transits:
+          - name: sample_transit
+        transit_site_hierarchy: Global/USA
+        transit_type: IP_BASED_TRANSIT
+        ip_transit_settings:
+          routing_protocol_name: BGP
+          autonomous_system_number: 134
+
 - name: Create SDA fabric transit of transit_type SDA_LISP_BGP_TRANSIT
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -204,6 +249,7 @@ EXAMPLES = r"""
           control_plane_network_device_ips:
             - 10.0.0.1
             - 10.0.0.2
+
 - name: Create SDA fabric transit of transit_type SDA_LISP_PUB_SUB_TRANSIT
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -228,6 +274,167 @@ EXAMPLES = r"""
             - 10.0.0.2
             - 10.0.0.3
             - 10.0.0.4
+
+- name: Update SDA fabric transit of transit_type IP_BASED_TRANSIT with newly added
+    parameter 'transit_site_hierarchy'
+  cisco.dnac.sda_fabric_transits_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: merged
+    config_verify: true
+    config:
+      - sda_fabric_transits:
+          - name: sample_transit
+        transit_site_hierarchy: Global/India
+        transit_type: IP_BASED_TRANSIT
+        ip_transit_settings:
+          routing_protocol_name: BGP
+          autonomous_system_number: 134
+
+# Basic fabric transit creation with site hierarchy
+- name: Create SDA fabric transit with site hierarchy
+  cisco.dnac.sda_fabric_transits_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: merged
+    config_verify: true
+    config:
+      - sda_fabric_transits:
+          - name: enterprise_transit_ny
+            transit_type: SDA_LISP_BGP_TRANSIT
+            transit_site_hierarchy: "Global/USA/NewYork/Building_A/Floor_1"
+            sda_transit_settings:
+              control_plane_network_device_ips:
+                - 10.1.1.10
+                - 10.1.1.11
+
+# Multi-site fabric transit deployment
+- name: Create multiple fabric transits across different sites
+  cisco.dnac.sda_fabric_transits_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: merged
+    config_verify: true
+    config:
+      - sda_fabric_transits:
+          - name: corporate_hq_transit
+            transit_type: SDA_LISP_PUB_SUB_TRANSIT
+            transit_site_hierarchy: "Global/Corporate/Headquarters/Building_Main"
+            sda_transit_settings:
+              is_multicast_over_transit_enabled: true
+              control_plane_network_device_ips:
+                - 192.168.10.1
+                - 192.168.10.2
+                - 192.168.10.3
+          - name: branch_office_transit
+            transit_type: SDA_LISP_BGP_TRANSIT
+            transit_site_hierarchy: "Global/Branch_Offices/West_Coast/San_Francisco"
+            sda_transit_settings:
+              control_plane_network_device_ips:
+                - 172.16.20.1
+                - 172.16.20.2
+
+# Update fabric transit with site hierarchy change
+- name: Update fabric transit site association
+  cisco.dnac.sda_fabric_transits_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: merged
+    config_verify: true
+    config:
+      - sda_fabric_transits:
+          - name: enterprise_transit_ny
+            transit_type: SDA_LISP_BGP_TRANSIT
+            transit_site_hierarchy: "Global/USA/NewYork/Building_A/Floor_2"
+            sda_transit_settings:
+              control_plane_network_device_ips:
+                - 10.1.1.10
+                - 10.1.1.11
+
+# Campus deployment with multiple buildings
+- name: Deploy fabric transits across campus buildings
+  cisco.dnac.sda_fabric_transits_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: merged
+    config_verify: true
+    config:
+      - sda_fabric_transits:
+          - name: engineering_building_transit
+            transit_type: SDA_LISP_PUB_SUB_TRANSIT
+            transit_site_hierarchy: "Global/University/Campus/Engineering_Building"
+            sda_transit_settings:
+              is_multicast_over_transit_enabled: false
+              control_plane_network_device_ips:
+                - 10.100.1.1
+                - 10.100.1.2
+          - name: admin_building_transit
+            transit_type: SDA_LISP_BGP_TRANSIT
+            transit_site_hierarchy: "Global/University/Campus/Administration_Building"
+            sda_transit_settings:
+              control_plane_network_device_ips:
+                - 10.200.1.1
+                - 10.200.1.2
+
+# Fabric transit without site hierarchy (legacy compatibility)
+- name: Create fabric transit without site hierarchy
+  cisco.dnac.sda_fabric_transits_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: merged
+    config_verify: true
+    config:
+      - sda_fabric_transits:
+          - name: legacy_transit
+            transit_type: SDA_LISP_BGP_TRANSIT
+            # No transit_site_hierarchy specified - will work with all versions
+            sda_transit_settings:
+              control_plane_network_device_ips:
+                - 10.50.1.1
+                - 10.50.1.2
+
 - name: Update SDA fabric transit of transit_type SDA_LISP_BGP_TRANSIT
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -249,6 +456,7 @@ EXAMPLES = r"""
           control_plane_network_device_ips:
             - 10.0.0.1
             - 10.0.0.2
+
 - name: Update the multicast over transit
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -268,6 +476,7 @@ EXAMPLES = r"""
         transit_type: SDA_LISP_PUB_SUB_TRANSIT
         sda_transit_settings:
           is_multicast_over_transit_enabled: true
+
 - name: Update the control plane network devices
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -290,6 +499,7 @@ EXAMPLES = r"""
             - 10.0.0.1
             - 10.0.0.2
             - 10.0.0.3
+
 - name: Delete SDA fabric transit
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -398,6 +608,7 @@ class FabricTransit(DnacBase):
                 "type": "list",
                 "elements": "dict",
                 "name": {"type": "str"},
+                "transit_site_hierarchy": {"type": "str"},
                 "transit_type": {
                     "type": "str",
                     "choices": [
@@ -572,6 +783,7 @@ class FabricTransit(DnacBase):
         fabric_transit_info = {
             "name": fabric_transit_details.get("name"),
             "type": fabric_transit_details.get("type"),
+            "siteId": fabric_transit_details.get("siteId"),
         }
         ip_transit_settings = fabric_transit_details.get("ipTransitSettings")
         if ip_transit_settings:
@@ -616,7 +828,10 @@ class FabricTransit(DnacBase):
                 family="sda",
                 function="get_transit_networks",
                 op_modifies=True,
-                params={"offset": offset},
+                params={
+                    "name": name,
+                    "offset": offset
+                },
             )
             if not isinstance(response, dict):
                 self.msg = (
@@ -1163,6 +1378,80 @@ class FabricTransit(DnacBase):
         self.status = "success"
         return self
 
+    def fabric_transit_need_update(self, want_fabric_transit, have_fabric_transit):
+        """
+        Check if the SDA fabric transit requires an update.
+        Parameters:
+            want_fabric_transit (dict): Desired fabric transit details from the playbook.
+            have_fabric_transit (dict): Current fabric transit details from Cisco Catalyst Center.
+        Returns:
+            bool: True if the fabric transit requires an update, False otherwise.
+        Description:
+            This function checks if the fabric transit requires an update by comparing
+            the current details with the desired details.
+            IP_BASED_TRANSIT types are not updatable,
+            so the function returns False for these transit types. For SDA transit types,
+            it compares the sdaTransitSettings using the requires_update method with
+            predefined object parameters for fabric transits.
+        """
+
+        self.log("Initiating fabric transit update requirement evaluation", "DEBUG")
+        name = want_fabric_transit.get("name")
+        if not name:
+            self.log("Fabric transit name is missing from desired configuration - cannot evaluate update requirement", "ERROR")
+            return False
+
+        transit_type = want_fabric_transit.get("type")
+        current_details = have_fabric_transit.get("details")
+
+        self.log("Evaluating update requirement for fabric transit '{0}' with type '{1}'".format(name, transit_type), "DEBUG")
+        if not current_details:
+            self.log("No current fabric transit details found for '{0}' - update evaluation not possible".format(name), "WARNING")
+            return False
+
+        # IP_BASED_TRANSIT cannot be updated
+        if transit_type == "IP_BASED_TRANSIT":
+            self.log("Fabric transit '{0}' is of type 'IP_BASED_TRANSIT' - updates are not supported for this transit type".format(name), "INFO")
+            return False
+
+        # For SDA transit types, compare sdaTransitSettings
+        current_sda_settings = current_details.get("sdaTransitSettings")
+        desired_sda_settings = want_fabric_transit.get("sdaTransitSettings")
+
+        if not current_sda_settings and not desired_sda_settings:
+            self.log("Both current and desired SDA transit settings are empty for '{0}' - no update required".format(name), "DEBUG")
+            return False
+
+        if not current_sda_settings:
+            self.log("Current SDA transit settings are missing for '{0}' but desired settings exist - update required".format(name), "INFO")
+            return True
+
+        if not desired_sda_settings:
+            self.log(
+                "Desired SDA transit settings are missing for '{0}' but current settings exist"
+                " - using current settings, no update required".format(name),
+                "DEBUG"
+            )
+            return False
+
+        self.log("Comparing current SDA transit settings with desired settings for '{0}'".format(name), "DEBUG")
+        self.log("Current SDA settings: {0}".format(self.pprint(current_sda_settings)), "DEBUG")
+        self.log("Desired SDA settings: {0}".format(self.pprint(desired_sda_settings)), "DEBUG")
+
+        update_required = self.requires_update(
+            current_sda_settings,
+            desired_sda_settings,
+            self.fabric_transits_obj_params
+        )
+
+        if update_required:
+            self.log("Fabric transit '{0}' requires an update - differences found between current and desired SDA transit settings".format(name), "INFO")
+            return True
+
+        self.log("Fabric transit '{0}' does not require an update - current and desired SDA transit settings are equivalent".format(name), "INFO")
+
+        return False
+
     def update_fabric_transits(self, fabric_transits):
         """
         Create/Update fabric transit in Cisco Catalyst Center with fields provided in playbook.
@@ -1172,11 +1461,12 @@ class FabricTransit(DnacBase):
         Returns:
             self (object): The current object with updated desired Fabric Transits information.
         Description:
-            Check if the fabric transit is present in the Cisco Catalys Center or not.
-            If not, call the API 'add_transit_networks' to create the  fabric transit. Else, check for the update.
-            Call the requires_update, if the transit requires does not an update, return self after updating the msg.
-            Or Call the API 'update_transit_networks' to update the transit.
-            Update the result and return self.
+            This function processes SDA fabric transit configurations for creation or update operations.
+            It checks fabric transit existence in Cisco Catalyst Center and performs appropriate actions.
+            For new transits, it creates them using 'add_transit_networks' API. For existing transits,
+            it evaluates update requirements including site hierarchy changes (supported from version 3.1.3.0)
+            and applies updates using 'update_transit_networks' API. The function handles version-specific
+            features like site hierarchy assignment and ensures proper error handling throughout the workflow.
         """
 
         fabric_transit_index = -1
@@ -1207,6 +1497,26 @@ class FabricTransit(DnacBase):
                     ),
                     "DEBUG",
                 )
+                self.log("Initiating SDA fabric transit creation and update workflow processing", "DEBUG")
+                current_version = self.get_ccc_version()
+                if self.compare_dnac_versions(current_version, "3.1.3.0") >= 0:
+                    transit_site_hierarchy = item.get("transit_site_hierarchy")
+                    if transit_site_hierarchy:
+                        self.log("Processing site name hierarchy '{0}' for fabric transit '{1}'".format(transit_site_hierarchy, name), "DEBUG")
+                        site_exists, site_id = self.get_site_id(transit_site_hierarchy)
+                        if site_exists:
+                            self.log(
+                                "Successfully resolved site ID '{0}' for site hierarchy '{1}' in fabric transit '{2}'"
+                                .format(
+                                    site_id, transit_site_hierarchy, name
+                                ),
+                                "INFO"
+                            )
+                            want_fabric_transit["siteId"] = site_id
+                        else:
+                            self.log("No site with name '{0}' found in the Cisco Catalyst Center.".format(transit_site_hierarchy), "ERROR")
+
+                self.log("Creating new SDA fabric transit '{0}' with configuration: {1}".format(name, want_fabric_transit), "DEBUG")
                 payload = {"payload": [want_fabric_transit]}
                 task_name = "add_transit_networks"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
@@ -1237,27 +1547,86 @@ class FabricTransit(DnacBase):
                 )
                 continue
 
-            # Check update is required
+            # Handle fabric transit update evaluation
+            self.log("SDA fabric transit '{0}' exists - evaluating update requirements".format(name), "DEBUG")
+            transit_need_update = self.fabric_transit_need_update(want_fabric_transit, have_fabric_transit)
+            site_id = None
+            if not transit_need_update:
+                current_version = self.get_ccc_version()
+                if self.compare_dnac_versions(current_version, "3.1.3.0") >= 0:
+                    self.log(
+                        "Evaluating site hierarchy changes for fabric transit '{0}' (version {1} supports"
+                        " site hierarchy)".format(name, current_version), "DEBUG"
+                    )
+                    transit_site_hierarchy = item.get("transit_site_hierarchy")
+                    if not transit_site_hierarchy:
+                        self.log(
+                            "SDA fabric transit '{name}' doesn't require a update".format(
+                                name=name
+                            ),
+                            "INFO",
+                        )
+                        result_fabric_transit.get("msg").update(
+                            {name: f"SDA fabric transit '{name}' doesn't require an update."}
+                        )
+                        continue
 
-            if want_fabric_transit.get(
-                "type"
-            ) == "IP_BASED_TRANSIT" or not self.requires_update(
-                have_fabric_transit.get("details").get("sdaTransitSettings"),
-                want_fabric_transit.get("sdaTransitSettings"),
-                self.fabric_transits_obj_params,
-            ):
-                self.log(
-                    "SDA fabric transit '{name}' doesn't require a update".format(
-                        name=name
-                    ),
-                    "INFO",
-                )
-                result_fabric_transit.get("msg").update(
-                    {name: "SDA fabric transit doesn't require an update."}
-                )
-                continue
+                    self.log("Processing site hierarchy '{0}' for existing fabric transit '{1}'".format(transit_site_hierarchy, name), "DEBUG")
+                    site_exists, site_id = self.get_site_id(transit_site_hierarchy)
+                    if not site_exists:
+                        self.msg = (
+                            "Failed to resolve site ID for site hierarchy '{0}' in fabric transit '{1}'. "
+                            "Verify site exists in Cisco Catalyst Center."
+                            .format(transit_site_hierarchy, name)
+                        )
+                        self.set_operation_result(
+                            "failed", False, self.msg, "ERROR"
+                        ).check_return_status()
 
-            self.log("Updating SDA fabric transit '{name}'.".format(name=name), "DEBUG")
+                    self.log(
+                        "Site ID '{0}' retrieved for site name '{1}'.".format(
+                            site_id, transit_site_hierarchy
+                        ),
+                        "DEBUG",
+                    )
+                    current_site_id = have_fabric_transit.get("details").get("siteId")
+                    if current_site_id and current_site_id == site_id:
+                        self.log(
+                            "Site ID '{0}' for fabric transit '{1}' matches current assignment - no site "
+                            "change required".format(site_id, name),
+                            "DEBUG"
+                        )
+                        self.log(
+                            "SDA fabric transit '{name}' doesn't require a update".format(
+                                name=name
+                            ),
+                            "INFO",
+                        )
+                        result_fabric_transit.get("msg").update(
+                            {name: f"SDA fabric transit '{name}' doesn't require an update."}
+                        )
+                        continue
+                    else:
+                        self.log(
+                            "Site ID change detected for fabric transit '{0}': current='{1}', desired='{2}' "
+                            "- update required".format(name, current_site_id, site_id),
+                            "INFO"
+                        )
+                else:
+                    self.log(
+                        "SDA fabric transit '{name}' doesn't require a update".format(
+                            name=name
+                        ),
+                        "INFO",
+                    )
+                    result_fabric_transit.get("msg").update(
+                        {name: f"SDA fabric transit '{name}' doesn't require an update."}
+                    )
+                    continue
+
+            payload_site_id = site_id or have_fabric_transit.get("details").get("siteId")
+            if payload_site_id:
+                want_fabric_transit.update({"siteId": payload_site_id})
 
             # Tranist Exists
             self.log(
