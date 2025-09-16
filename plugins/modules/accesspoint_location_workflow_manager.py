@@ -522,12 +522,10 @@ response_create_assign:
 
 
 import time
-import re
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
     validate_str,
-    get_dict_result,
 )
 from ansible.module_utils.basic import AnsibleModule
 
