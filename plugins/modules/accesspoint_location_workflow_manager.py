@@ -124,12 +124,12 @@ options:
                 channel:
                   description: |
                     The channel number for the radio interface.
-                    - Radio band of "2.4GHz", valid values are from 1 to 14.
-                    - Radio band of "5GHz", valid values are
+                    - C(Radio band of "2.4GHz", valid values are from 1 to 14.)
+                    - C(Radio band of "5GHz", valid values are
                       36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
                       112, 116, 120, 124, 128, 132, 136, 140, 144,
-                      149, 153, 157, 161, 165, 169, 173.
-                    - Radio band of "6GHz", valid values are
+                      149, 153, 157, 161, 165, 169, 173.)
+                    - C(Radio band of "6GHz", valid values are
                       1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49,
                       53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97,
                       101, 105, 109, 113, 117, 121, 125, 129, 133, 137,
