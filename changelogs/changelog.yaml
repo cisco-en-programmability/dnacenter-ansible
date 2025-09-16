@@ -1708,7 +1708,7 @@ releases:
         - Added attribute 'projects' in template_workflow_manager module
 
   6.39.0:
-    release_date: "2025-08-13"
+    release_date: "2025-08-18"
     changes:
       release_summary: Enhancements in workflow manager modules
       minor_changes:
