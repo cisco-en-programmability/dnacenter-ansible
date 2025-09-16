@@ -38,9 +38,7 @@ options:
       If set to `merged`, the module will create or update the configuration by adding new settings or modifying existing ones.
       If set to `deleted`, the module will remove the specified settings.
     type: str
-    choices:
-      - C(merged)
-      - C(deleted)
+    choices: ["merged", "deleted"]
     default: merged
   config:
     description: >
