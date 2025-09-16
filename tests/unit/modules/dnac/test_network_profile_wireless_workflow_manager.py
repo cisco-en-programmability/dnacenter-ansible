@@ -240,7 +240,7 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
             "Invalid parameters in playbook config:",
             result.get('response')
         )
-    
+
     def test_network_profile_workflow_manager_profile_creation_feature_template_new(self):
         """
         Test case for wireless profile workfollow manager provision and update device.
