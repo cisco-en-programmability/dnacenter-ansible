@@ -113,7 +113,7 @@ options:
             required: true
             suboptions:
               - bands:
-                  description: >
+                  description: |
                     Any one of radio bands supported by the access point.
                   type: str
                   required: true
@@ -502,7 +502,7 @@ response_unassign_template:
     }
 
 # Case 7: Assign the access point to existing access points planned location.
-response_create_assign:
+response_create_assign_idempotent:
   description: >
     A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK
     when a access point planned location is successfully created and assigned. The response confirms
