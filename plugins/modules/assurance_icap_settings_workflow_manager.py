@@ -28,7 +28,7 @@ description:
     for troubleshooting client and network device connectivity
     issues.
   - Supports capturing traffic based on parameters such
-    as capture type, client MAC, AP, WLC, slot, OTA
+    as capture type, client MAC, AP, WLC, slots, OTA
     band, and channel.
   - Facilitates automated deployment and validation
     of ICAP configurations.
@@ -104,9 +104,8 @@ options:
             description: The name of the Access Point
               (AP) for the capture.
             type: str
-          slot:
-            description: List of slot numbers for the
-              capture session.
+          slots:
+            description: A list of radio slot numbers on the specified Access Point to include in the capture session. For example, C([0, 1])).
             type: list
             elements: int
           ota_band:
@@ -222,18 +221,47 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_icap_settings:
+              # Example 1: Standard ONBOARDING capture for a client on a specific WLC
               - capture_type: ONBOARDING
                 preview_description: "ICAP onboarding
                   capture"
                 duration_in_mins: 30
                 client_mac: 50:91:E3:47:AC:9E  # required field
                 wlc_name: NY-IAC-EWLC.cisco.local  # required field
+              # Example 2: Full packet capture for troubleshooting
               - capture_type: FULL
                 preview_description: "Full ICAP capture
                   for troubleshooting"
                 duration_in_mins: 30
                 client_mac: 50:91:E3:47:AC:9E  # required field
                 wlc_name: NY-IAC-EWLC.cisco.local  # required field
+              # Example 3: Over-the-Air (OTA) capture for a specific AP radio slot
+              - capture_type: OTA
+                preview_description: "OTA ICAP capture
+                  for troubleshooting"
+                duration_in_mins: 30
+                client_mac: 04:42:1A:4C:97:F6   # required field
+                ap_name: AP1416.9D2A.1D0C  # required field
+                wlc_name: SJ-EWLC-1.cisco.local  # required field
+                slots: [0]
+                ota_band: 5
+                ota_channel: 36
+                ota_channel_width: 40
+              # Example 4: RF statistics capture for a specific AP & WLC
+              - capture_type: RFSTATS
+                preview_description: "RF statistics capture for troubleshooting"
+                client_mac: 04:42:1A:4C:97:F6  # required field
+                ap_name: AP1416.9D2A.1D0C  # required field
+                wlc_name: SJ-EWLC-1.cisco.local  # required field
+                slots: [0]
+              # Example 5: Anomaly capture for a specific client
+              - capture_type: ANOMALY
+                preview_description: "Anomaly capture for troubleshooting"
+                client_mac: 04:42:1A:4C:97:F6  # required field
+                ap_name: AP1416.9D2A.1D0C  # required field
+                wlc_name: SJ-EWLC-1.cisco.local  # required field
+                slots: [0]
+
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
@@ -341,7 +369,7 @@ class Icap(DnacBase):
                 "client_mac": {"type": "str", "required": True},
                 "wlc_name": {"type": "str", "required": False},
                 "ap_name": {"type": "str", "required": False},
-                "slot": {"type": list, "required": False},
+                "slots": {"type": list, "required": False},
                 "ota_band": {
                     "type": "str",
                     "required": False,
@@ -569,7 +597,7 @@ class Icap(DnacBase):
                 function="get_device_list",
                 params={"hostname": hostname},  # Using hostname in the API call
             )
-            self.log("Device List API Response: {0}".format(response), "DEBUG")
+            self.log("Received API response for Device List: {0}".format(response), "DEBUG")
 
             devices = response.get("response", [])
             if not devices:
@@ -660,8 +688,8 @@ class Icap(DnacBase):
                 validated_start, validated_end = self.validate_start_end_datetime(
                     start_time, end_time, errormsg
                 )
-                self.log("Start Time (Epoch): {}".format(validated_start), "DEBUG")
-                self.log("End Time (Epoch): {}".format(validated_end), "DEBUG")
+                self.log("Start Time (Epoch): {0}".format(validated_start), "DEBUG")
+                self.log("End Time (Epoch): {0}".format(validated_end), "DEBUG")
                 if validated_start:
                     param["startTime"] = validated_start
                 if validated_end:
@@ -675,7 +703,7 @@ class Icap(DnacBase):
 
             # Log the parameters used for retrieving the PCAP file ID
             self.log(
-                "Parameters for retrieving PCAP file ID: {}".format(param), "DEBUG"
+                "Parameters for retrieving PCAP file ID: {0}".format(param), "DEBUG"
             )
 
             # Execute API call
@@ -684,12 +712,12 @@ class Icap(DnacBase):
                 function="lists_i_cap_packet_capture_files_matching_specified_criteria",
                 params=param,
             )
-            self.log("ICAP Packet Capture API Response: {}".format(response), "DEBUG")
+            self.log("Received API response for ICAP Packet Capture: {0}".format(response), "DEBUG")
 
             # Check if response is an empty list
             if isinstance(response, list) and not response:
-                failure_reason = "Empty response received for ICAP parameters: {}".format(param)
-                self.msg = "ICAP capture download failed: {}".format(failure_reason)
+                failure_reason = "Empty response received for ICAP parameters: {0}".format(param)
+                self.msg = "ICAP capture download failed: {0}".format(failure_reason)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 self.log(self.msg, "ERROR")
                 return None
@@ -697,8 +725,8 @@ class Icap(DnacBase):
             # Extract response dictionary
             response_data = response.get("response", [])
             if not response_data:
-                failure_reason = "No ICAP packet capture files found for parameters: {}".format(param)
-                self.msg = "ICAP capture download failed: {}".format(failure_reason)
+                failure_reason = "No ICAP packet capture files found for parameters: {0}".format(param)
+                self.msg = "ICAP capture download failed: {0}".format(failure_reason)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 self.log(self.msg, "ERROR")
                 return None
@@ -707,17 +735,17 @@ class Icap(DnacBase):
             file_id = response_data[0].get("id")
             if not file_id:
                 failure_reason = "ICAP packet capture file ID missing in response."
-                self.msg = "ICAP capture download failed: {}".format(failure_reason)
+                self.msg = "ICAP capture download failed: {0}".format(failure_reason)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 self.log(self.msg, "ERROR")
                 return None
 
-            self.log("Extracted ICAP file ID: {}".format(file_id), "INFO")
+            self.log("Extracted ICAP file ID: {0}".format(file_id), "INFO")
             return file_id
 
         except Exception as e:
-            failure_reason = "An error occurred while retrieving ICAP packet capture files: {}".format(str(e))
-            self.msg = "ICAP capture download failed: {}".format(failure_reason)
+            failure_reason = "An error occurred while retrieving ICAP packet capture files: {0}".format(str(e))
+            self.msg = "ICAP capture download failed: {0}".format(failure_reason)
             self.set_operation_result("failed", False, self.msg, "ERROR")
             self.log(self.msg, "ERROR")
             return None
@@ -735,7 +763,7 @@ class Icap(DnacBase):
             tuple: (start_epoch_ms, end_epoch_ms) if valid, otherwise (None, None).
         """
         self.log(
-            "Validating start and end datetime: start='{}', end='{}'".format(
+            "Validating start and end datetime: start='{0}', end='{1}'".format(
                 start_time, end_time
             ),
             "DEBUG",
@@ -748,10 +776,10 @@ class Icap(DnacBase):
                 start_datetime = datetime.strptime(start_time, date_format)
             if end_time:
                 end_datetime = datetime.strptime(end_time, date_format)
-            self.log("Parsed start datetime: {}, end datetime: {}".format(start_datetime, end_datetime), "DEBUG")
+            self.log("Parsed start datetime: {0}, end datetime: {1}".format(start_datetime, end_datetime), "DEBUG")
 
             if start_datetime and end_datetime and start_datetime > end_datetime:
-                msg = "Start datetime '{}' must be before end datetime '{}'.".format(start_time, end_time)
+                msg = "Start datetime '{0}' must be before end datetime '{1}'.".format(start_time, end_time)
                 errormsg.append(msg)
                 self.log(msg, "ERROR")
                 return None, None
@@ -763,11 +791,11 @@ class Icap(DnacBase):
             if end_datetime:
                 end_epoch_ms = int(end_datetime.timestamp() * 1000)
 
-            self.log("Datetime validation successful. Start: {}, End: {}".format(start_epoch_ms, end_epoch_ms), "INFO")
+            self.log("Datetime validation successful. Start: {0}, End: {1}".format(start_epoch_ms, end_epoch_ms), "INFO")
             return start_epoch_ms, end_epoch_ms
 
         except ValueError as e:
-            msg = "Invalid datetime format. Expected '{}'. Error: {}".format(
+            msg = "Invalid datetime format. Expected '{0}'. Error: {1}".format(
                 date_format, e
             )
             errormsg.append(msg)
@@ -775,7 +803,7 @@ class Icap(DnacBase):
             return None, None
 
         except Exception as e:
-            msg = "Unexpected error during datetime validation: {}".format(e)
+            msg = "Unexpected error during datetime validation: {0}".format(e)
             errormsg.append(msg)
             self.log(msg, "ERROR")
             return None, None
@@ -846,12 +874,12 @@ class Icap(DnacBase):
 
         try:
             for icap_element in assurance_icap_download:
-                self.log("Processing element: {}".format(icap_element), "DEBUG")
+                self.log("Processing element: {0}".format(icap_element), "DEBUG")
                 download_id = self.get_pcap_ids(icap_element)
 
                 if not download_id:
                     self.log(
-                        "No ICAP ID found for element: {}".format(icap_element),
+                        "No ICAP ID found for element: {0}".format(icap_element),
                         "WARNING",
                     )
                     responses.append(
@@ -863,7 +891,7 @@ class Icap(DnacBase):
                     )
                     continue
 
-                self.log("Fetching ICAP packet capture for ID: {}".format(download_id))
+                self.log("Fetching ICAP packet capture for ID: {0}".format(download_id))
                 response = self.dnac._exec(
                     family="sensors",
                     function="downloads_a_specific_i_cap_packet_capture_file",
@@ -872,7 +900,7 @@ class Icap(DnacBase):
                 )
                 response = response.data
                 self.log(
-                    "Response received for ICAP ID {}: {}".format(download_id, response)
+                    "Received API response for ICAP ID {0}: {1}".format(download_id, response)
                 )
 
                 # If response contains binary data, save it as a .pcap file
@@ -890,12 +918,12 @@ class Icap(DnacBase):
                         )
                     else:
                         self.log(
-                            "No valid file path provided for ICAP ID: {}".format(
+                            "No valid file path provided for ICAP ID: {0}".format(
                                 download_id
                             ),
                             "ERROR",
                         )
-                        msg = "No valid file path provided for ICAP ID: {}".format(
+                        msg = "No valid file path provided for ICAP ID: {0}".format(
                             download_id
                         )
                         self.msg = msg
@@ -909,7 +937,7 @@ class Icap(DnacBase):
                         )
                 else:
                     self.log(
-                        "Invalid or empty response for ICAP ID: {}".format(download_id),
+                        "Invalid or empty response for ICAP ID: {0}".format(download_id),
                         "ERROR",
                     )
                     responses.append(
@@ -921,7 +949,7 @@ class Icap(DnacBase):
                     )
 
         except Exception as e:
-            error_msg = "Failed to download ICAP packet traces: {}".format(str(e))
+            error_msg = "Failed to download ICAP packet traces: {0}".format(str(e))
             self.log({"error": error_msg}, "ERROR")
             self.msg = error_msg
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -945,13 +973,13 @@ class Icap(DnacBase):
             directory = os.path.dirname(file_path)
             if not os.path.exists(directory):
                 os.makedirs(directory, exist_ok=True)
-                self.log("Directory created: {}".format(directory), "DEBUG")
+                self.log("Directory created: {0}".format(directory), "DEBUG")
 
             # Write the binary data to the .pcap file
             with open(file_path, "wb") as pcap_file:
                 pcap_file.write(data)
 
-            self.msg = "Successfully saved ICAP packet capture file at: {}".format(
+            self.msg = "Successfully saved ICAP packet capture file at: {0}".format(
                 file_path
             )
             self.log(self.msg, "INFO")
@@ -962,7 +990,7 @@ class Icap(DnacBase):
             ] = self.msg
 
         except OSError as e:
-            error_msg = "Failed to create directory for ICAP file at {}: {}".format(
+            error_msg = "Failed to create directory for ICAP file at {0}: {1}".format(
                 directory, str(e)
             )
             self.log(error_msg, "ERROR")
@@ -973,7 +1001,7 @@ class Icap(DnacBase):
             ] = error_msg
 
         except Exception as e:
-            error_msg = "Failed to save ICAP file at {}: {}".format(file_path, str(e))
+            error_msg = "Failed to save ICAP file at {0}: {1}".format(file_path, str(e))
             self.log(error_msg, "ERROR")
             self.status = "failed"
             self.result["changed"] = False
@@ -1016,7 +1044,7 @@ class Icap(DnacBase):
             response = response.get("response")
             task_id = response.get("taskId")
             self.log(
-                "Received response for deploy icap config as: {0}".format(response),
+                "Received API response for deploy icap config as: {0}".format(response),
                 "INFO",
             )
             if not task_id:
@@ -1122,7 +1150,7 @@ class Icap(DnacBase):
                     params={"preview_activity_id": preview_activity_id}
                 )
 
-                self.log("Received response for ICAP configuration status: {0}".format(icap_configuration_status_per_network_device), "DEBUG")
+                self.log("Received API response for ICAP configuration status: {0}".format(icap_configuration_status_per_network_device), "DEBUG")
 
                 # Validate response
                 if not icap_configuration_status_per_network_device or not isinstance(icap_configuration_status_per_network_device, dict):
@@ -1173,7 +1201,7 @@ class Icap(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             # Log before sleeping and retry
-            self.log("Waiting for {} seconds before retrying ICAP configuration status for activity ID: {}"
+            self.log("Waiting for {0} seconds before retrying ICAP configuration status for activity ID: {1}"
                      .format(retry_interval, preview_activity_id), "DEBUG")
             time.sleep(retry_interval)
 
@@ -1223,7 +1251,7 @@ class Icap(DnacBase):
                 )
 
                 self.log(
-                    "Response from CLI generation: {0}".format(devices_clis_of_the_icap_configuration),
+                    "Received API Response from CLI generation: {0}".format(devices_clis_of_the_icap_configuration),
                     "DEBUG"
                 )
 
@@ -1344,7 +1372,7 @@ class Icap(DnacBase):
                     "network_device_id": network_device_id
                 }
             )
-            self.log("Response received for CLI retrieval: {0}".format(response), "DEBUG")
+            self.log("Received API response for CLI retrieval: {0}".format(response), "DEBUG")
             if response is None or not isinstance(response, dict):
                 self.msg = "Invalid or unexpected API response received for CLI retrieval for preview activity ID: {0}".format(preview_activity_id)
                 self.log("calling delete_icap_config due to invalid response in retrieves_the_devices_clis_of_the_i_capintent ", "DEBUG")
@@ -1389,6 +1417,7 @@ class Icap(DnacBase):
             capture_type = icap.get("capture_type")
             client_mac = icap.get("client_mac")
             ap_id = icap.get("ap_id", None)
+            ap_name = icap.get("ap_name", None)
             wlc_id = icap.get("wlc_id")
             param = {
                 'capture_status': "INPROGRESS",
@@ -1396,6 +1425,15 @@ class Icap(DnacBase):
                 'clientMac': client_mac,
                 'wlcId': wlc_id
             }
+            if capture_type == "OTA":
+                is_site_assigned_to_ap = self.is_ap_assigned_to_site(ap_id, ap_name)
+                if ap_id and is_site_assigned_to_ap:
+                    param['apId'] = ap_id
+                    param['apName'] = ap_name
+                else:
+                    self.msg = "Provided AP '{0}' is not assigned to a site".format(ap_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
             self.log(
                 "Checking for existing ICAP configurations with parameters: capture_type='{0}', client_mac='{1}', wlc_id='{2}', ap_id='{3}'".format(
                     capture_type,
@@ -1418,7 +1456,7 @@ class Icap(DnacBase):
                 function="retrieves_deployed_i_cap_configurations_while_supporting_basic_filtering",
                 params=param
             )
-            self.log("Existing ICAP configurations: {0}".format(existing_config), "DEBUG")
+            self.log("Received API response for Existing ICAP configurations: {0}".format(existing_config), "DEBUG")
             if existing_config and existing_config.get("response"):
                 self.msg = "An ICAP configuration {0} with capture type '{1}' is already in progress.".format(icap, capture_type)
                 self.log(self.msg, "ERROR")
@@ -1433,6 +1471,102 @@ class Icap(DnacBase):
             self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
         return None
+
+    def valid_client_mac(self, client_mac, wlc_name):
+        """
+        Validates whether a given client MAC address is present on a specified
+        Wireless LAN Controller (WLC) in Cisco Catalyst Center.
+
+        This method queries the clients API to confirm if the specified MAC address
+        is currently connected to or registered on the target WLC.
+
+        Args:
+            client_mac (str): The MAC address of the wireless client to validate.
+            wlc_name (str): The name of the Wireless LAN Controller (WLC) to check.
+
+        Returns:
+            bool: True if the client MAC is found on the specified WLC,
+                False otherwise.
+        """
+
+        try:
+            self.log("Validating existence of client MAC '{0}' on WLC '{1}'".format(client_mac, wlc_name), "DEBUG")
+
+            params = {
+                "macAddress": client_mac
+            }
+
+            response = self.dnac._exec(
+                family="clients",
+                function="retrieves_the_list_of_clients_while_also_offering_basic_filtering_and_sorting_capabilities",
+                params=params
+            )
+            self.log("Received API response for client MAC validation: {0}".format(response), "DEBUG")
+
+            if response and isinstance(response, dict):
+                clients = response.get("response", [])
+                if clients:
+                    self.log("Client MAC '{0}' found".format(client_mac), "DEBUG")
+                    return True
+
+            self.log("Client MAC '{0}' not found".format(client_mac), "WARNING")
+            return False
+
+        except Exception as e:
+            self.log("Exception while checking client MAC '{0}': {1}".format(client_mac, str(e)), "ERROR")
+            return False
+
+    def is_ap_assigned_to_site(self, ap_id, ap_name):
+        """
+        Checks whether a given Access Point (AP) is assigned to a site using
+        the 'Get site assigned network device' API in Cisco Catalyst Center.
+
+        Args:
+            ap_id (str): Device ID of the Access Point.
+            ap_name (str): Hostname of the Access Point.
+
+        Returns:
+            bool:
+                - (True, site_info) if the AP is assigned to a site.
+                - (False, message) if the AP is not assigned to any site or an error occurs.
+        """
+
+        try:
+            self.log("Verifying site assignment for AP '{0}' (ID: {1}).".format(ap_name, ap_id), "DEBUG")
+
+            response = self.dnac._exec(
+                family="site_design",
+                function="get_site_assigned_network_device",
+                params={"id": ap_id}
+            )
+            self.log("Received API response for site assignment: {0}".format(response), "DEBUG")
+
+            if not response or not response.get("response"):
+                msg = "AP '{0}' is not assigned to any site".format(ap_name)
+                self.log(msg, "WARNING")
+                return False
+
+            site_info = response["response"]
+
+            if not site_info.get("siteId"):
+                msg = "AP '{0}' is not assigned to any site".format(ap_name)
+                self.log(msg, "WARNING")
+                return False
+
+            self.log(
+                "AP '{0}' is assigned to site '{1}' (Site ID: {2})".format(
+                    ap_name,
+                    site_info.get("siteNameHierarchy"),
+                    site_info["siteId"]
+                ),
+                "DEBUG"
+            )
+            return True
+
+        except Exception as e:
+            msg = "Exception while checking site assignment for AP '{0}': {1}".format(ap_name, str(e))
+            self.log(msg, "ERROR")
+            return False, msg
 
     def create_icap(self, assurance_icap_details):
         """
@@ -1462,6 +1596,14 @@ class Icap(DnacBase):
             if capture_type is None:
                 self.msg = "Missing required parameter 'capture_type' in assurance_icap_settings"
                 self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            client_mac = icap.get("client_mac")
+            wlc_name = icap.get("wlc_name")
+
+            if not self.valid_client_mac(client_mac, wlc_name):
+                self.msg = "Wireless Client MAC address '{0}' not found.".format(client_mac)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             # check if the icap with same config is already is in progress
             self.existing_icap_configuration(icap)
@@ -1490,6 +1632,9 @@ class Icap(DnacBase):
             for key in keys_to_delete:
                 item.pop(key, None)
 
+        preview_description = assurance_icap_details[0].get("preview_description")
+        preview_activity_id = None
+
         try:
             task_name = "creates_an_i_cap_configuration_intent_for_preview_approve"
             param = {"previewDescription": preview_description, "payload": updated_assurance_icap_details}
@@ -1502,7 +1647,7 @@ class Icap(DnacBase):
                 params=param,
             )
             self.log(
-                "Received response for create icap config as: {0}".format(response),
+                "Received API response for create icap config as: {0}".format(response),
                 "INFO",
             )
             response = response.get("response")
@@ -1581,7 +1726,8 @@ class Icap(DnacBase):
                 str(e)
             )
             self.log(self.msg, "ERROR")
-            self.delete_icap_config(preview_activity_id, preview_description)
+            if preview_activity_id:
+                self.delete_icap_config(preview_activity_id, preview_description)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def delete_icap_config(self, preview_activity_id, preview_description):
@@ -1616,7 +1762,7 @@ class Icap(DnacBase):
                 params={"preview_activity_id": preview_activity_id},
             )
             self.log(
-                "Received response for discard icap config as: {0}".format(
+                "Received API response for discard icap config as: {0}".format(
                     response.get("response")
                 ),
                 "INFO",
@@ -1658,7 +1804,7 @@ class Icap(DnacBase):
                     params={"deploy_activity_id": deployment_task_id},
                 )
                 self.log(
-                    "Received deployment status response: {}".format(response), "INFO"
+                    "Received API response for deployment status: {0}".format(response), "INFO"
                 )
 
                 # Check if response is valid
@@ -1667,7 +1813,7 @@ class Icap(DnacBase):
 
                     if deployment_status == "Success":
                         self.log(
-                            "Deployment succeeded for task ID: {}".format(
+                            "Deployment succeeded for task ID: {0}".format(
                                 deployment_task_id
                             ),
                             "INFO",
@@ -1675,12 +1821,12 @@ class Icap(DnacBase):
                         return response["response"]
 
             except Exception as e:
-                self.log("Error fetching deployment status: {}".format(str(e)), "ERROR")
+                self.log("Error fetching deployment status: {0}".format(str(e)), "ERROR")
 
             # Check if timeout has been reached
             if time.time() - start_time >= resync_retry_count:
                 self.log(
-                    "Max retries reached, returning empty result for task ID: {}".format(
+                    "Max retries reached, returning empty result for task ID: {0}".format(
                         deployment_task_id
                     ),
                     "ERROR",
@@ -1689,7 +1835,7 @@ class Icap(DnacBase):
 
             # Log before sleeping
             self.log(
-                "Waiting for {} seconds before retrying deployment status for task ID: {}".format(
+                "Waiting for {0} seconds before retrying deployment status for task ID: {1}".format(
                     retry_interval, deployment_task_id
                 ),
                 "DEBUG",

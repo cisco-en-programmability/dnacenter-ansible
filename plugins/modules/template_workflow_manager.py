@@ -4117,24 +4117,11 @@ class Template(DnacBase):
 
         export_project = export.get("project")
         self.log("Export project playbook details: {0}".format(export_project), "DEBUG")
-        ccc_version = self.get_ccc_version()
         if export_project:
-            if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
-                self.log(
-                    "Exporting project details when catalyst version is less than 2.3.7.9",
-                    "DEBUG",
-                )
-                function_name = "export_projects"
-            else:
-                self.log(
-                    "Exporting project details when catalyst version is greater than or equal to 2.3.7.9",
-                    "DEBUG",
-                )
-                function_name = "exports_the_projects_for_a_given_criteria"
-
+            self.log("Found export project details: {0}".format(export_project), "DEBUG")
             response = self.dnac._exec(
                 family="configuration_templates",
-                function=function_name,
+                function="export_projects",
                 op_modifies=True,
                 params={
                     "payload": export_project,
