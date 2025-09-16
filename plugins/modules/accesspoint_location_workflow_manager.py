@@ -174,8 +174,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/
 notes:
     # Version Compatibility
-    - Minimum Catalyst Center version 3.1.3.0 required for accesspoint location workflow features.
-
+  - Minimum Catalyst Center version 3.1.3.0 required for accesspoint location workflow features.
 
   - This module utilizes the following SDK methods
     site_design.get_planned_access_points_positions
@@ -1523,7 +1522,7 @@ class AccessPointLocation(DnacBase):
             if not assign_payload:
                 self.log("No valid access points found for assignment.", "DEBUG")
                 return self
-                
+
             self.log("Assign Access Point to Location Payload: {0}".format(
                 self.pprint(assign_payload)), "DEBUG")
 
@@ -1559,17 +1558,15 @@ class AccessPointLocation(DnacBase):
     def delete_planned_accesspoints_position(self):
         """
         Delete planned access point positions for a specific site.
-        
+
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
 
         Returns:
             self - The current object with message and response information.
-
         """
         self.log("Deleting planned access point positions for: {0}".format(
             self.have.get("site_name")), "INFO")
-
 
         for access_point in self.have.get("delete_accesspoint", []):
             self.log("Processing delete access point: {0}".format(
@@ -1616,8 +1613,8 @@ class AccessPointLocation(DnacBase):
                     task_details_response = self.get_tasks_by_id(task_id)
 
                     if not task_details_response:  # Ensure the response is valid
-                        self.log("Failed to retrieve task details for task ID: {0}".
-                                format(task_id), "ERROR")
+                        self.log("Failed to retrieve task details for task ID: {0}".format(
+                            task_id), "ERROR")
                         self.location_not_deleted.append(access_point.get("name"))
                         break
 
