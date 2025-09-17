@@ -107,64 +107,66 @@ options:
                 required: true
           radios:
             description: |
-              List of radios details for the access point.
+              List of radio details for the access point.
             type: list
             elements: dict
             required: true
             suboptions:
-              - bands:
-                  description: |
-                    Any one of radio bands supported by the access point.
-                  type: str
-                  required: true
-                  choices:
-                    - C(2.4GHz)
-                    - C(5GHz)
-                    - C(6GHz)
-                channel:
-                  description: |
-                    The channel number for the radio interface.
-                    - C(Radio band of "2.4GHz", valid values are from 1 to 14.)
-                    - C(Radio band of "5GHz", valid values are
-                      36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
-                      112, 116, 120, 124, 128, 132, 136, 140, 144,
-                      149, 153, 157, 161, 165, 169, 173.)
-                    - C(Radio band of "6GHz", valid values are
-                      1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49,
-                      53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97,
-                      101, 105, 109, 113, 117, 121, 125, 129, 133, 137,
-                      141, 145, 149, 153, 157, 161, 165, 169, 173, 177,
-                      181, 185, 189, 193, 197, 201, 205, 209, 213, 217,
-                      221, 225, 229, 233.
-                  type: int
-                  required: true
-                tx_power:
-                  description: >
-                    The transmit power level of the access point.
-                  type: int
-                  required: true
-                antenna:
-                  description: |
-                    Antenna type of the access point.
-                  type: dict
-                  elements: str
-                  required: true
-                  suboptions:
-                    antenna_name:
-                      description: >
-                        Model antenna name of the antenna.
-                      type: str
-                      required: true
-                    azimuth:
-                      description: >
-                        The azimuth angle of the antenna. starts from 1 to 360
-                      type: int
-                      required: true
-                    elevation:
-                      description: >
-                        The elevation angle of the antenna. starts from -90 to 90
-                      type: int
-                      required: true
+              bands:
+                description: |
+                  Radio band supported by the access point.
+                type: str
+                required: true
+                choices:
+                  - C(2.4GHz)
+                  - C(5GHz)
+                  - C(6GHz)
+              channel:
+                description: |
+                  The channel number for the radio interface.
+                  - For C(2.4GHz): valid values are 1 to 14.
+                  - For C(5GHz): valid values are
+                    36, 40, 44, 48, 52, 56, 60, 64,
+                    100, 104, 108, 112, 116, 120, 124,
+                    128, 132, 136, 140, 144, 149, 153,
+                    157, 161, 165, 169, 173.
+                  - For C(6GHz): valid values are
+                    1, 5, 9, 13, 17, 21, 25, 29, 33, 37,
+                    41, 45, 49, 53, 57, 61, 65, 69, 73,
+                    77, 81, 85, 89, 93, 97, 101, 105,
+                    109, 113, 117, 121, 125, 129, 133,
+                    137, 141, 145, 149, 153, 157, 161,
+                    165, 169, 173, 177, 181, 185, 189,
+                    193, 197, 201, 205, 209, 213, 217,
+                    221, 225, 229, 233.
+                type: int
+                required: true
+              tx_power:
+                description: |
+                  The transmit power level of the access point.
+                type: int
+                required: true
+              antenna:
+                description: |
+                  Antenna configuration details of the access point.
+                type: dict
+                required: true
+                suboptions:
+                  antenna_name:
+                    description: |
+                      Model name of the antenna.
+                    type: str
+                    required: true
+                  azimuth:
+                    description: |
+                      The azimuth angle of the antenna, ranging from 1 to 360.
+                    type: int
+                    required: true
+                  elevation:
+                    description: |
+                      The elevation angle of the antenna, ranging from -90 to 90.
+                    type: int
+                    required: true
 requirements:
   - dnacentersdk >= 2.8.6
   - python >= 3.9
