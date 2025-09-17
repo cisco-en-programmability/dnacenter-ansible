@@ -137,7 +137,8 @@ options:
       reserve_pool_details:
         description: Reserved IP subpool details from
           the global pool.
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           site_name:
             description: >
@@ -1457,7 +1458,7 @@ class NetworkSettings(DnacBase):
             # Extract DHCP details
             dhcp_details = dhcp_response.get("response", {}).get("dhcp")
 
-            if not dhcp_response:
+            if dhcp_response is None:
                 self.log(
                     "No DHCP settings found for site '{0}' (ID: {1})".format(
                         site_name, site_id
@@ -1472,6 +1473,10 @@ class NetworkSettings(DnacBase):
                 ),
                 "DEBUG",
             )
+
+            if dhcp_details.get("servers") is None:
+                dhcp_details["servers"] = []
+
         except Exception as e:
             self.msg = "Exception occurred while getting DHCP settings for site '{0}' (ID: {1}): {2}".format(
                 site_name, site_id, str(e)
@@ -1620,7 +1625,7 @@ class NetworkSettings(DnacBase):
             # Extract NTP server details
             ntpserver_details = ntpserver_response.get("response", {}).get("ntp")
 
-            if not ntpserver_details:
+            if ntpserver_details is None:
                 self.log(
                     "No NTP server settings found for site '{0}' (ID: {1})".format(
                         site_name, site_id
@@ -4135,7 +4140,7 @@ class NetworkSettings(DnacBase):
                         self.log(self.msg, "CRITICAL")
                         self.status = "failed"
                         return self.check_return_status()
-                elif ntp_servers=={}:
+                elif ntp_servers == {}:
                     want_network_settings["ntpServer"] = {}
                 else:
                     self.log(
@@ -5587,14 +5592,11 @@ class NetworkSettings(DnacBase):
         )
 
         try:
-            param={"id": site_id, "timeZone": time_zone_settings},
-            if time_zone_settings=={}:
-                param={"id": site_id}
             response = self.dnac._exec(
                 family="network_settings",
                 function="set_time_zone_for_a_site",
                 op_modifies=True,
-                params=param,
+                params={"id": site_id, "timeZone": time_zone_settings},
             )
             self.log(
                 "Time zone settings updated for site '{0}' (ID: {1}): {2}".format(
@@ -5744,14 +5746,11 @@ class NetworkSettings(DnacBase):
         )
 
         try:
-            param={"id": site_id, "banner": banner_settings}
-            if banner_settings:
-                param={"id": site_id, }
             response = self.dnac._exec(
                 family="network_settings",
                 function="set_banner_settings_for_a_site",
                 op_modifies=True,
-                params=param,
+                params={"id": site_id, "banner": banner_settings},
             )
             self.log(
                 "Banner settings updated for site '{0}' (ID: {1}): {2}".format(
@@ -5871,6 +5870,7 @@ class NetworkSettings(DnacBase):
                     want_network_details.get("settings", {}).get("ntpServer"),
                     want_network_details.get("settings", {}).get("timezone"),
                     want_network_details.get("settings", {}).get("dnsServer"),
+                    want_network_details.get("settings", {}).get("dhcpServer"),
                     want_network_details.get("settings", {}).get("messageOfTheday"),
                 ]
                 if any(setting == {} for setting in empty_settings):
