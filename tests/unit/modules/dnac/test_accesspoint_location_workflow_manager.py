@@ -83,7 +83,7 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
             ]
         elif "test_delete_ap_location" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                 self.test_data.get("get_site_floor_response"),
+                self.test_data.get("get_site_floor_response"),
                 self.test_data.get("ap_antenna_patterns_response"),
                 self.test_data.get("get_ap_device_details"),
                 self.test_data.get("get_planned_location_exist"),
