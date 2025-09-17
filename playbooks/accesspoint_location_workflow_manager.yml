@@ -25,7 +25,7 @@
           - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
             access_points:
               - accesspoint_name: IAC-TB4-SJ-AP1
-                action: assign_planned  # Optional assign_planned, update_position, delete_position
+                action: assign_planned  # Optional assign_planned, delete_position
                 mac_address: 54:8a:ba:22:eb:c0  # Optional
                 accesspoint_model: CW9172H
                 position:
@@ -38,10 +38,10 @@
                     tx_power: 5  # Decibel milliwatts (dBm)
                     antenna:
                       antenna_name: Internal-CW9172H-x-2.4GHz
-                      azimuth: 10  # support upto 360
+                      azimuth: 20  # support upto 360
                       elevation: 30  # support -90 upto 90
                   - bands: 5GHz  # can be 5Ghz and 6GHz
-                    channel: 40
+                    channel: 44
                     tx_power: 6  # Decibel milliwatts (dBm)
                     antenna:
                       antenna_name: Internal-CW9172H-x-5GHz
