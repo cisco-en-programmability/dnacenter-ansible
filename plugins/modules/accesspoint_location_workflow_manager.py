@@ -1131,8 +1131,7 @@ class AccessPointLocation(DnacBase):
                 key, position.get(key), exist_position.get(self.keymap[key])), "DEBUG")
 
             if ((exist_position.get(self.keymap[key]) and position.get(key)) and
-               float(position.get(key)) != float(exist_position.get(self.keymap[key]))
-               ):
+               float(position.get(key)) != float(exist_position.get(self.keymap[key]))):
                 self.log("Access point position details do not match for key: {0}".format(key), "INFO")
                 un_matched_value.append((key, position.get(key), exist_position.get(self.keymap[key])))
                 compare_state = False
