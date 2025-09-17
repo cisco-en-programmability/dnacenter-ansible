@@ -19,7 +19,7 @@ description: >
   in Cisco Catalyst Center.
   - Supports creating, assigning and deleting Access Point planned locations.
   - Enables assignment of the access point to floor plans.
-version_added: "6.38.0"
+version_added: "6.40.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
@@ -67,15 +67,14 @@ options:
           action:
             description: >
               The action to be performed on the access point.
-              This determines how the access point will be managed within the specified location.
-              action field not required while creating, updating and deleting planned access point location.
-              required for assigning the access point to existing planned location.
+              Determines how the access point will be managed within the specified location.
+              This field is only required when assigning or deleting the access point to/from an existing planned location.
+              It is not required when creating, updating, or deleting a planned access point location itself.
             type: str
             required: true
             choices:
               - C(assign_planned)
               - C(delete_position)
-              - C(update_position)
           mac_address:
             description: |
               The MAC address used to identify the access point.
@@ -589,7 +588,7 @@ class AccessPointLocation(DnacBase):
                 "elements": "dict",
                 "accesspoint_name": {"type": "str", "required": True},
                 "action": {"type": "str", "required": False,
-                           "choices": ["assign_planned", "delete_position", "update_position"]},
+                           "choices": ["assign_planned", "delete_position"]},
                 "mac_address": {"type": "str"},
                 "serial_number": {"type": "str"},
                 "accesspoint_model": {"type": "str", "required": True},
@@ -736,7 +735,7 @@ class AccessPointLocation(DnacBase):
                 self.validate_radios(radios, errormsg)
 
         if errormsg:
-            self.msg = "Invalid parameters in playbook config: '{0}' ".format(errormsg)
+            self.msg = "Invalid parameters in playbook config:\n{0}".format("\n".join(errormsg))
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
@@ -1066,7 +1065,7 @@ class AccessPointLocation(DnacBase):
 
         function_name = None
         if (
-            ap_details.get("action") in ["delete_position", "update_position"]
+            ap_details.get("action") in ["delete_position"]
             or recheck
         ):
             function_name = "get_access_points_positions"
@@ -1131,7 +1130,9 @@ class AccessPointLocation(DnacBase):
             self.log("Comparing access point position field '{0}': {1} with {2}".format(
                 key, position.get(key), exist_position.get(self.keymap[key])), "DEBUG")
 
-            if float(position.get(key)) != float(exist_position.get(self.keymap[key])):
+            if ( (exist_position.get(self.keymap[key]) and position.get(key)) and
+               float(position.get(key)) != float(exist_position.get(self.keymap[key]))
+              ):
                 self.log("Access point position details do not match for key: {0}".format(key), "INFO")
                 un_matched_value.append((key, position.get(key), exist_position.get(self.keymap[key])))
                 compare_state = False
