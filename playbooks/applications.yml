@@ -1,5 +1,6 @@
 ---
-- hosts: dnac_servers
+- name: Applications
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -11,6 +12,7 @@
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
         state: present
         payload:
           - name: itunes-video

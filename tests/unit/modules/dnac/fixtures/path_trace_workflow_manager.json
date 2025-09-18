@@ -1,0 +1,401 @@
+{
+    "path_playbook_error_create": [
+    {
+        "delete_on_completion": true,
+        "dest_ip": "204.1.2.4",
+        "dest_port": 4021,
+        "include_stats": [
+            "DEVICE_STATS",
+            "INTERFACE_STATS",
+            "QOS_STATS",
+            "PERFORMANCE_STATS",
+            "ACL_TRACE"
+        ],
+        "periodic_refresh": false,
+        "protocol": "TCP",
+        "source_ip": "204.1.2.3",
+        "source_port": 4020
+    },
+    {
+        "delete_on_completion": true,
+        "dest_ip": "204.1.2.4",
+        "get_last_pathtrace_result": true,
+        "source_ip": "204.1.1.2"
+    },
+    {
+        "delete_on_completion": true,
+        "flow_analysis_id": "9e7f5c5b-58b7-4bcd-8771-021629f076b3"
+    }
+    ],
+    "retrieves_all_previous_pathtraces_summary": {
+        "response": [
+            {
+                "sourceIP": "204.1.2.3",
+                "sourcePort": "4020",
+                "destIP": "204.1.2.4",
+                "destPort": "4021",
+                "protocol": "TCP",
+                "periodicRefresh": false,
+                "id": "474d2b51-750a-4df4-87f6-1d12a500171d",
+                "status": "COMPLETED",
+                "createTime": 1743740259840,
+                "lastUpdateTime": 1743740261263,
+                "controlPath": false
+            }
+        ],
+        "version": "1.0"
+    },
+    "retrieves_all_previous_pathtraces_summary_1": {
+        "response": [
+            {
+                "sourceIP": "204.1.1.2",
+                "destIP": "204.1.2.4",
+                "periodicRefresh": false,
+                "id": "da08dbb7-86d5-4b69-adab-d83c322265a9",
+                "status": "COMPLETED",
+                "createTime": 1743740260451,
+                "lastUpdateTime": 1743740261793,
+                "controlPath": false
+            }
+        ],
+        "version": "1.0"
+    },
+    "path_trace_create" : {"response": {"flowAnalysisId": "d5a39a16-2e8f-425d-b5d4-38f97aeff066", "taskId": "0195ff07-d1b1-75b4-b145-ac902951c00b", "url": "/api/v1/flow-analysis/d5a39a16-2e8f-425d-b5d4-38f97aeff066"}, "version": "1.0"},
+    "retrieves_all_previous_pathtraces_summary_2": {
+        "response": [
+            {
+                "sourceIP": "204.1.1.2",
+                "destIP": "204.1.2.4",
+                "periodicRefresh": false,
+                "id": "da08dbb7-86d5-4b69-adab-d83c322265a9",
+                "status": "COMPLETED",
+                "createTime": 1743740260451,
+                "lastUpdateTime": 1743740261793,
+                "controlPath": false
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_path_trace": {
+        "response": {
+            "request": {
+                "sourceIP": "204.1.2.3",
+                "sourcePort": "4020",
+                "destIP": "204.1.2.4",
+                "destPort": "4021",
+                "protocol": "TCP",
+                "periodicRefresh": false,
+                "id": "d5a39a16-2e8f-425d-b5d4-38f97aeff066",
+                "status": "INPROGRESS",
+                "createTime": 1743740457394,
+                "lastUpdateTime": 0,
+                "controlPath": false
+            },
+            "lastUpdate": "Fri Apr 04 04:20:58 GMT 2025",
+            "networkElements": [],
+            "networkElementsInfo": []
+        },
+        "version": "1.0"
+    },
+    "get_path_trace_1": {
+        "response": {
+            "request": {
+                "sourceIP": "204.1.2.3",
+                "sourcePort": "4020",
+                "destIP": "204.1.2.4",
+                "destPort": "4021",
+                "protocol": "TCP",
+                "periodicRefresh": false,
+                "id": "d5a39a16-2e8f-425d-b5d4-38f97aeff066",
+                "status": "COMPLETED",
+                "createTime": 1743740457394,
+                "lastUpdateTime": 1743740458591,
+                "controlPath": false
+            },
+            "lastUpdate": "Fri Apr 04 04:21:00 GMT 2025",
+            "networkElementsInfo": [
+                {
+                    "id": "e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                    "name": "SJ-BN-9301",
+                    "type": "Switches and Hubs",
+                    "ip": "204.1.2.3",
+                    "egressInterface": {
+                        "physicalInterface": {
+                            "id": "b65f159e-b67d-49d4-92d0-801a0eda6426",
+                            "name": "TenGigabitEthernet1/1/7",
+                            "vrfName": "global",
+                            "usedVlan": "NA"
+                        }
+                    },
+                    "role": "DISTRIBUTION",
+                    "linkInformationSource": "ISIS"
+                },
+                {
+                    "id": "820bd13a-f565-4778-a320-9ec9f23b4725",
+                    "name": "DC-T-9300",
+                    "type": "Switches and Hubs",
+                    "ip": "204.1.1.22",
+                    "ingressInterface": {
+                        "physicalInterface": {
+                            "id": "c98d09f3-b57e-468f-a9a1-65e75249e94f",
+                            "name": "TenGigabitEthernet1/1/8",
+                            "vrfName": "global",
+                            "usedVlan": "NA"
+                        }
+                    },
+                    "egressInterface": {
+                        "physicalInterface": {
+                            "id": "2897a064-9079-4c9c-adf2-3e0b5cf22724",
+                            "name": "TenGigabitEthernet1/1/7",
+                            "vrfName": "global",
+                            "usedVlan": "NA"
+                        }
+                    },
+                    "role": "ACCESS",
+                    "linkInformationSource": "ISIS"
+                },
+                {
+                    "id": "0be10e21-34c7-4c76-b217-56327ed1f418",
+                    "name": "NY-BN-9300",
+                    "type": "Switches and Hubs",
+                    "ip": "204.1.2.4",
+                    "ingressInterface": {
+                        "physicalInterface": {
+                            "id": "f24b433c-8388-453e-a034-fcaf516bc749",
+                            "name": "TenGigabitEthernet2/1/8",
+                            "vrfName": "global",
+                            "usedVlan": "NA"
+                        }
+                    },
+                    "role": "DISTRIBUTION"
+                }
+            ]
+        },
+        "version": "1.0"
+    },
+    "get_path_trace_2": {
+        "response": {
+            "request": {
+                "sourceIP": "204.1.1.2",
+                "destIP": "204.1.2.4",
+                "periodicRefresh": false,
+                "id": "da08dbb7-86d5-4b69-adab-d83c322265a9",
+                "status": "COMPLETED",
+                "createTime": 1743740260451,
+                "lastUpdateTime": 1743740261793,
+                "controlPath": false
+            },
+            "lastUpdate": "Fri Apr 04 04:21:00 GMT 2025",
+            "networkElementsInfo": [
+                {
+                    "id": "99b62ead-51d6-4bfc-9b0c-dab087f184e9",
+                    "name": "SJ-BN-9301",
+                    "type": "Switches and Hubs",
+                    "ip": "204.1.1.2",
+                    "egressInterface": {
+                        "physicalInterface": {
+                            "id": "44aafd2d-5822-4ce5-95c5-11909e9425f6",
+                            "name": "TenGigabitEthernet1/1/1",
+                            "vrfName": "global",
+                            "usedVlan": "NA"
+                        }
+                    },
+                    "role": "ACCESS",
+                    "linkInformationSource": "ISIS"
+                },
+                {
+                    "id": "e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                    "name": "SJ-BN-9301",
+                    "type": "Switches and Hubs",
+                    "ip": "204.1.2.3",
+                    "ingressInterface": {
+                        "physicalInterface": {
+                            "id": "0610f80e-09fc-4083-8aaa-7cf318b211de",
+                            "name": "TenGigabitEthernet1/1/2",
+                            "vrfName": "global",
+                            "usedVlan": "NA"
+                        }
+                    },
+                    "egressInterface": {
+                        "physicalInterface": {
+                            "id": "b65f159e-b67d-49d4-92d0-801a0eda6426",
+                            "name": "TenGigabitEthernet1/1/7",
+                            "vrfName": "global",
+                            "usedVlan": "NA"
+                        }
+                    },
+                    "role": "DISTRIBUTION",
+                    "linkInformationSource": "ISIS"
+                },
+                {
+                    "id": "820bd13a-f565-4778-a320-9ec9f23b4725",
+                    "name": "DC-T-9300",
+                    "type": "Switches and Hubs",
+                    "ip": "204.1.1.22",
+                    "ingressInterface": {
+                        "physicalInterface": {
+                            "id": "c98d09f3-b57e-468f-a9a1-65e75249e94f",
+                            "name": "TenGigabitEthernet1/1/8",
+                            "vrfName": "global",
+                            "usedVlan": "NA"
+                        }
+                    },
+                    "egressInterface": {
+                        "physicalInterface": {
+                            "id": "2897a064-9079-4c9c-adf2-3e0b5cf22724",
+                            "name": "TenGigabitEthernet1/1/7",
+                            "vrfName": "global",
+                            "usedVlan": "NA"
+                        }
+                    },
+                    "role": "ACCESS",
+                    "linkInformationSource": "ISIS"
+                },
+                {
+                    "id": "0be10e21-34c7-4c76-b217-56327ed1f418",
+                    "name": "NY-BN-9300",
+                    "type": "Switches and Hubs",
+                    "ip": "204.1.2.4",
+                    "ingressInterface": {
+                        "physicalInterface": {
+                            "id": "f24b433c-8388-453e-a034-fcaf516bc749",
+                            "name": "TenGigabitEthernet2/1/8",
+                            "vrfName": "global",
+                            "usedVlan": "NA"
+                        }
+                    },
+                    "role": "DISTRIBUTION"
+                }
+            ]
+        },
+        "version": "1.0"
+    },
+    "path_trace_response": {
+        "message": "An error occurred during get path trace: An error occured when executing operation for the family 'path_trace' having the function 'retrieves_previous_pathtrace'. The error was: status_code: 404,  {\"response\":{\"errorCode\":\"ResourceNotFound\",\"message\":\"Flow Analysis Request Id: 9e7f5c5b-58b7-4bcd-8771-021629f076b3 Not Found\",\"detail\":\"Policy Analysis Resource Not Found Error\"},\"version\":\"1.0\"}"},
+
+
+    "playbook_pathtrace_positive_create": [
+        {
+            "dest_ip": "204.1.216.33",
+            "include_stats": [
+                "DEVICE_STATS",
+                "INTERFACE_STATS",
+                "QOS_STATS",
+                "PERFORMANCE_STATS"
+            ],
+            "periodic_refresh": false,
+            "protocol": "TCP",
+            "source_ip": "204.1.216.29"
+        }
+    ],
+    "retrieves_all_previous_pathtraces_summary_10": {
+        "response": [],
+        "version": "1.0"
+    },
+    "path_trace_create_10": {"response": {"flowAnalysisId": "75da3867-1e08-4661-9f4e-f8e2740b71b5", "taskId": "0195ff43-c0dc-71b6-a6f7-aa9a8396734f", "url": "/api/v1/flow-analysis/75da3867-1e08-4661-9f4e-f8e2740b71b5"}, "version": "1.0"},
+    "get path_trace_10": {
+        "response": {
+            "request": {
+                "sourceIP": "204.1.216.29",
+                "destIP": "204.1.216.33",
+                "protocol": "TCP",
+                "periodicRefresh": false,
+                "id": "75da3867-1e08-4661-9f4e-f8e2740b71b5",
+                "status": "COMPLETED",
+                "createTime": 1743744385245,
+                "lastUpdateTime": 0,
+                "controlPath": false
+            },
+            "lastUpdate": "Fri Apr 04 05:26:25 GMT 2025",
+            "networkElements": [],
+            "networkElementsInfo": []
+        },
+        "version": "1.0"
+    },
+    "get_path_trace_11": {
+        "response": {
+            "request": {
+                "sourceIP": "204.1.216.29",
+                "destIP": "204.1.216.33",
+                "protocol": "TCP",
+                "periodicRefresh": false,
+                "id": "75da3867-1e08-4661-9f4e-f8e2740b71b5",
+                "status": "COMPLETED",
+                "createTime": 1743744385245,
+                "lastUpdateTime": 0,
+                "failureReason": "Not able to locate interface or host based on source ip address 204.1.216.29",
+                "controlPath": false
+            },
+            "lastUpdate": "Fri Apr 04 05:26:27 GMT 2025",
+            "networkElements": [],
+            "networkElementsInfo": []
+        },
+        "version": "1.0"
+    },
+    "path_trace_positive_response": {
+        "message": "Path trace created and verified successfully for '[{'source_ip': '204.1.216.29', 'dest_ip': '204.1.216.33', 'protocol': 'TCP', 'periodic_refresh': False, 'include_stats': ['DEVICE_STATS', 'INTERFACE_STATS', 'QOS_STATS', 'PERFORMANCE_STATS'], 'flow_analysis_id': '75da3867-1e08-4661-9f4e-f8e2740b71b5'}]'."},
+
+
+    "playbook_pathtrace_positive_delete": [
+        {
+            "dest_ip": "204.1.216.33",
+            "include_stats": [
+                "DEVICE_STATS",
+                "INTERFACE_STATS",
+                "QOS_STATS",
+                "PERFORMANCE_STATS"
+            ],
+            "periodic_refresh": false,
+            "protocol": "TCP",
+            "source_ip": "204.1.216.29"
+        }
+    ],
+    "retrieves_all_previous_pathtraces_20": {
+        "response": [
+            {
+                "sourceIP": "204.1.216.29",
+                "destIP": "204.1.216.33",
+                "protocol": "TCP",
+                "periodicRefresh": false,
+                "id": "75da3867-1e08-4661-9f4e-f8e2740b71b5",
+                "status": "FAILED",
+                "createTime": 1743744385245,
+                "lastUpdateTime": 0,
+                "failureReason": "Not able to locate interface or host based on source ip address 204.1.216.29",
+                "controlPath": false
+            }
+        ],
+        "version": "1.0"
+    },
+    "retrieves_all_previous_pathtraces_summary_20": {
+        "response": [
+            {
+                "sourceIP": "204.1.216.29",
+                "destIP": "204.1.216.33",
+                "protocol": "TCP",
+                "periodicRefresh": false,
+                "id": "75da3867-1e08-4661-9f4e-f8e2740b71b5",
+                "status": "FAILED",
+                "createTime": 1743744385245,
+                "lastUpdateTime": 0,
+                "failureReason": "Not able to locate interface or host based on source ip address 204.1.216.29",
+                "controlPath": false
+            }
+        ],
+        "version": "1.0"
+    },
+    "delete_path_trace": {
+        "response": {
+            "taskId": "0195ff55-565f-75b3-a90f-b7c515074bd4",
+            "url": "/api/v1/task/0195ff55-565f-75b3-a90f-b7c515074bd4"
+        },
+        "version": "1.0"
+    },
+    "TaskDetails":{"response": {"progress": "75da3867-1e08-4661-9f4e-f8e2740b71b5"}, "version": "1.0"},
+    "retrieves_all_previous_pathtraces_summary_21": {
+        "response": [],
+        "version": "1.0"
+    },
+    "pathtrace_positive_delete_response": {
+        "message": "Path trace deleted and verified successfully for '[{'source_ip': '204.1.216.29', 'dest_ip': '204.1.216.33', 'protocol': 'TCP', 'periodic_refresh': False, 'include_stats': ['DEVICE_STATS', 'INTERFACE_STATS', 'QOS_STATS', 'PERFORMANCE_STATS']}]'."}
+}

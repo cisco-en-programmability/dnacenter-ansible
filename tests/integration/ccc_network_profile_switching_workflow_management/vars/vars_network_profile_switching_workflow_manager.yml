@@ -1,0 +1,30 @@
+---
+create_switch_profile:
+  - profile_name: "DataCenter_Core_Switch"
+    onboarding_templates:
+      - "Ansible_PNP_Switch"
+    day_n_templates:
+      - "Template Provisioning To Device"
+    site_names:
+      - "Global/Chennai"
+      - "Global/Madurai"
+
+update_switch_profile:
+  - profile_name: "DataCenter_Core_Switch"
+    onboarding_templates:
+      - "Ansible_PNP_Switch"
+    day_n_templates:
+      - "Template Provisioning To Device"
+    site_names:
+      - "Global/APO"
+      - "Global/Abc"
+
+delete_switch_profile:
+  - profile_name: "DataCenter_Core_Switch"
+    onboarding_templates:
+      - "Ansible_PNP_Switch"
+    day_n_templates:
+      - "Template Provisioning To Device"
+    site_names:
+      - "Global/APO"
+      - "Global/Abc"

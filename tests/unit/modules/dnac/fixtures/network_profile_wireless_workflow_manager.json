@@ -1,0 +1,689 @@
+{
+    "profile_creation_config": [{
+        "profile_name": "wireless profile test1",
+        "site_names": [
+            "Global/Madurai"
+        ],
+        "ssid_details": [
+            {
+                "ssid_name": "guest_wifi_2",
+                "enable_fabric": false,
+                "dot11be_profile_name": "test_802_profile_1",
+                "interface_name": "test_interface_1",
+                "local_to_vlan": 2001
+            }
+        ],
+        "ap_zones": [
+            {
+                "ap_zone_name": "AP_Zone_North",
+                "rf_profile_name": "LOW",
+                "ssids": [
+                    "guest_wifi_2"
+                ]
+            }
+        ],
+        "onboarding_templates": null,
+        "day_n_templates": [
+            "WLC Template"
+        ],
+        "additional_interfaces": [
+            {
+                "interface_name": "GigabitEthernet0/2",
+                "vlan_id": 20
+            }
+        ]
+    }],
+
+    "wireless_profile_list": {
+        "response": [
+            {
+                "id": "768f5b27-1c6d-4626-9cf2-33ed69b13b0b",
+                "name": "rafeek_wireless_1",
+                "type": "Wireless"
+            },
+            {
+                "id": "d37ee2f8-655e-43da-89c4-08bdca7f4759",
+                "name": "rafeek_wireless_2",
+                "type": "Wireless"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "no_response_received": null,
+
+    "available_templates": [
+        {
+            "name": "Ansible_PNP_Switch",
+            "projectName": "Onboarding Configuration",
+            "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+            "templateId": "c79f4a36-ab36-478d-8bee-848d01606a87",
+            "versionsInfo": [
+                {
+                    "id": "4fe2f46a-3654-4187-81e4-b28bc107f5aa",
+                    "description": "",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "",
+                    "versionTime": 1727827112635
+                },
+                {
+                    "id": "3630f8ba-0e6d-4652-bfa0-5bde0e31bdf0",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1727826624453
+                },
+                {
+                    "id": "a9d28bdd-afac-462e-a1b2-e102a7f2ded5",
+                    "description": "",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "",
+                    "versionTime": 1727826687240
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9300 Series Switches"
+                }
+            ]
+        },
+        {
+            "name": "WLC Template",
+            "projectName": "ODC Provisioning",
+            "projectId": "fa18dd05-d41c-441c-af44-8e2644781823",
+            "templateId": "5935fbdb-3d4c-4d6c-be5f-c61401be6b93",
+            "versionsInfo": [
+                {
+                    "id": "38a74df1-779c-441e-97ce-9b4670cd1fd0",
+                    "description": "",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "",
+                    "versionTime": 1740777392227
+                },
+                {
+                    "id": "ffa990c4-df80-4f70-90e2-f7e9d6869865",
+                    "description": "",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "",
+                    "versionTime": 1730796226724
+                },
+                {
+                    "id": "719eed23-3a4f-4f71-a425-fdae7d6adc49",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1730785136128
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Wireless Controller"
+                }
+            ]
+        }
+    ],
+
+    "get_site_details_mdu": {
+        "response": [
+            {
+            "id": "976ec932-e5b3-403c-add8-09ebc0af0f03",
+            "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+            "name": "Madurai",
+            "nameHierarchy": "Global/Madurai",
+            "type": "area"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_site_details_mdu_child": {
+        "response": [
+            {
+            "id": "61a79a23-210b-44d8-84fa-6f0a7d08f73b",
+            "parentId": "976ec932-e5b3-403c-add8-09ebc0af0f03",
+            "name": "LTTS",
+            "nameHierarchy": "Global/Madurai/LTTS",
+            "type": "building",
+            "latitude": 23.3,
+            "longitude": 23.4,
+            "address": "Kufra, Libya",
+            "country": "Libya"
+            },
+            {
+            "id": "65761e39-fd3f-4eec-b174-ba968c0c7fee",
+            "parentId": "61a79a23-210b-44d8-84fa-6f0a7d08f73b",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/Madurai/LTTS/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_site_details_global":{
+        "response": [
+          {
+            "id": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+            "name": "Global",
+            "type": "global"
+          }
+        ]
+    },
+
+    "get_ssids_for_global": {
+        "response": [
+        {
+            "id": "mda5B3bL-BJeT-AwfJ-BZbW-mwuYBJmXnc01AtzHn2m4BZLWmtbL",
+            "profileName": "open1-iac_profile",
+            "ssid": "open1-iac",
+            "wlanType": "Enterprise",
+            "authType": "OPEN",
+            "l3AuthType": "open",
+            "passphrase": "",
+            "externalAuthIpAddress": "",
+            "fastTransition": "DISABLE",
+            "authServer": "auth_external",
+            "authServers": [],
+            "acctServers": [],
+            "ghz24Policy": "dot11-bg-only",
+            "ghz6PolicyClientSteering": false,
+            "wlanBandSelectEnable": false,
+            "webPassthrough": false,
+            "sleepingClientEnable": false,
+            "sleepingClientTimeout": 720,
+            "nasOptions": [],
+            "sessionTimeOutEnable": true,
+            "sessionTimeOut": 28800,
+            "clientExclusionEnable": true,
+            "clientExclusionTimeout": 180,
+            "basicServiceSetMaxIdleEnable": true,
+            "basicServiceSetClientIdleTimeout": 300,
+            "directedMulticastServiceEnable": true,
+            "neighborListEnable": true,
+            "managementFrameProtectionClientprotection": "OPTIONAL",
+            "fastTransitionOverTheDistributedSystemEnable": false,
+            "policyProfileName": "open1-iac_profile",
+            "openSsid": "",
+            "aclName": "",
+            "rsnCipherSuiteCcmp256": false,
+            "rsnCipherSuiteGcmp128": false,
+            "rsnCipherSuiteGcmp256": false,
+            "rsnCipherSuiteCcmp128": false,
+            "egressQos": "PLATINUM",
+            "ingressQos": "PLATINUM-UP",
+            "cckmTsfTolerance": 0,
+            "aaaOverride": false,
+            "coverageHoleDetectionEnable": true,
+            "protectedManagementFrame": "DISABLED",
+            "multiPSKSettings": [],
+            "clientRateLimit": 0,
+            "inheritedSiteUUID": null,
+            "inheritedSiteName": "",
+            "inheritedSiteNameHierarchy": null,
+            "randomMacFilterEnabled": false,
+            "isFastLaneEnabled": false,
+            "isMacFilteringEnabled": false,
+            "isEnabled": true,
+            "isHex": false,
+            "isBroadcastSSID": true,
+            "isRandomMacFilterEnabled": false,
+            "isRadiusProfilingEnabled": false,
+            "isAuthKey8021x": false,
+            "isAuthKey8021xPlusFT": false,
+            "isAuthKey8021x_SHA256": false,
+            "isAuthKeySae": false,
+            "isAuthKeySaePlusFT": false,
+            "isAuthKeyPSK": false,
+            "isAuthKeyPSKPlusFT": false,
+            "isAuthKeyOWE": false,
+            "isAuthKeyEasyPSK": false,
+            "isAuthKeyPSKSHA256": false,
+            "isAuthKeySaeExt": false,
+            "isAuthKeySaeExtPlusFT": false,
+            "isAuthKeySuiteB1x": false,
+            "isAuthKeySuiteB1921x": false,
+            "isApBeaconProtectionEnabled": false,
+            "isPosturingEnabled": false,
+            "isCckmEnabled": false,
+            "ssidRadioType": "Triple band operation(2.4GHz, 5GHz and 6GHz)",
+            "isCustomNasIdOptions": false
+        },
+        {
+            "id": "mdeYz3vL-C3rF-D2LM-Av8Y-zZb1mwuYCZn0nf81DZzPn2y4AtLF",
+            "profileName": "guest_wifi_2_profile",
+            "ssid": "guest_wifi_2",
+            "wlanType": "Guest",
+            "authType": "OPEN",
+            "l3AuthType": "open",
+            "passphrase": "",
+            "externalAuthIpAddress": "",
+            "fastTransition": "DISABLE",
+            "authServer": "auth_external",
+            "authServers": null,
+            "acctServers": null,
+            "ghz24Policy": "dot11-bg-only",
+            "ghz6PolicyClientSteering": false,
+            "wlanBandSelectEnable": false,
+            "webPassthrough": false,
+            "sleepingClientEnable": false,
+            "sleepingClientTimeout": 720,
+            "nasOptions": null,
+            "sessionTimeOutEnable": true,
+            "sessionTimeOut": 1800,
+            "clientExclusionEnable": true,
+            "clientExclusionTimeout": 180,
+            "basicServiceSetMaxIdleEnable": true,
+            "basicServiceSetClientIdleTimeout": 300,
+            "directedMulticastServiceEnable": true,
+            "neighborListEnable": true,
+            "managementFrameProtectionClientprotection": "OPTIONAL",
+            "fastTransitionOverTheDistributedSystemEnable": false,
+            "policyProfileName": "guest_wifi_2_profile",
+            "openSsid": "",
+            "aclName": "",
+            "rsnCipherSuiteCcmp256": false,
+            "rsnCipherSuiteGcmp128": false,
+            "rsnCipherSuiteGcmp256": false,
+            "rsnCipherSuiteCcmp128": false,
+            "egressQos": "",
+            "ingressQos": "",
+            "cckmTsfTolerance": 0,
+            "aaaOverride": false,
+            "coverageHoleDetectionEnable": false,
+            "protectedManagementFrame": "DISABLED",
+            "multiPSKSettings": null,
+            "clientRateLimit": 0,
+            "inheritedSiteUUID": null,
+            "inheritedSiteName": "",
+            "inheritedSiteNameHierarchy": null,
+            "randomMacFilterEnabled": false,
+            "isFastLaneEnabled": false,
+            "isMacFilteringEnabled": false,
+            "isEnabled": false,
+            "isHex": false,
+            "isBroadcastSSID": false,
+            "isRandomMacFilterEnabled": false,
+            "isRadiusProfilingEnabled": false,
+            "isAuthKey8021x": false,
+            "isAuthKey8021xPlusFT": false,
+            "isAuthKey8021x_SHA256": false,
+            "isAuthKeySae": false,
+            "isAuthKeySaePlusFT": false,
+            "isAuthKeyPSK": false,
+            "isAuthKeyPSKPlusFT": false,
+            "isAuthKeyOWE": false,
+            "isAuthKeyEasyPSK": false,
+            "isAuthKeyPSKSHA256": false,
+            "isAuthKeySaeExt": false,
+            "isAuthKeySaeExtPlusFT": false,
+            "isAuthKeySuiteB1x": false,
+            "isAuthKeySuiteB1921x": false,
+            "isApBeaconProtectionEnabled": false,
+            "isPosturingEnabled": false,
+            "isCckmEnabled": false,
+            "ssidRadioType": "Triple band operation(2.4GHz, 5GHz and 6GHz)",
+            "isCustomNasIdOptions": false
+        },
+        {
+            "id": "mdeYz3vL-C3rF-C3nP-zf8X-zZb1mwuYCZn0nf81CZzZn2K4zdLF",
+            "profileName": "guest_ssid_1_profile",
+            "ssid": "guest_ssid_1",
+            "wlanType": "Guest",
+            "authType": "OPEN",
+            "l3AuthType": "web_auth",
+            "passphrase": "",
+            "externalAuthIpAddress": "",
+            "fastTransition": "DISABLE",
+            "authServer": "auth_ise",
+            "authServers": [
+                "10.0.0.1"
+            ],
+            "acctServers": [
+                "10.0.0.1"
+            ],
+            "ghz24Policy": "dot11-bg-only",
+            "ghz6PolicyClientSteering": false,
+            "wlanBandSelectEnable": false,
+            "webPassthrough": false,
+            "sleepingClientEnable": false,
+            "sleepingClientTimeout": 720,
+            "nasOptions": [],
+            "sessionTimeOutEnable": true,
+            "sessionTimeOut": 28800,
+            "clientExclusionEnable": true,
+            "clientExclusionTimeout": 180,
+            "basicServiceSetMaxIdleEnable": true,
+            "basicServiceSetClientIdleTimeout": 300,
+            "directedMulticastServiceEnable": true,
+            "neighborListEnable": true,
+            "managementFrameProtectionClientprotection": "OPTIONAL",
+            "fastTransitionOverTheDistributedSystemEnable": false,
+            "policyProfileName": "guest_ssid_1_profile",
+            "openSsid": "",
+            "aclName": "",
+            "rsnCipherSuiteCcmp256": false,
+            "rsnCipherSuiteGcmp128": false,
+            "rsnCipherSuiteGcmp256": false,
+            "rsnCipherSuiteCcmp128": false,
+            "egressQos": "PLATINUM",
+            "ingressQos": "PLATINUM-UP",
+            "cckmTsfTolerance": 0,
+            "aaaOverride": true,
+            "coverageHoleDetectionEnable": true,
+            "protectedManagementFrame": "DISABLED",
+            "multiPSKSettings": [],
+            "clientRateLimit": 0,
+            "inheritedSiteUUID": null,
+            "inheritedSiteName": "",
+            "inheritedSiteNameHierarchy": null,
+            "randomMacFilterEnabled": false,
+            "isFastLaneEnabled": false,
+            "isMacFilteringEnabled": true,
+            "isEnabled": true,
+            "isHex": false,
+            "isBroadcastSSID": true,
+            "isRandomMacFilterEnabled": false,
+            "isRadiusProfilingEnabled": false,
+            "isAuthKey8021x": false,
+            "isAuthKey8021xPlusFT": false,
+            "isAuthKey8021x_SHA256": false,
+            "isAuthKeySae": false,
+            "isAuthKeySaePlusFT": false,
+            "isAuthKeyPSK": false,
+            "isAuthKeyPSKPlusFT": false,
+            "isAuthKeyOWE": false,
+            "isAuthKeyEasyPSK": false,
+            "isAuthKeyPSKSHA256": false,
+            "isAuthKeySaeExt": false,
+            "isAuthKeySaeExtPlusFT": false,
+            "isAuthKeySuiteB1x": false,
+            "isAuthKeySuiteB1921x": false,
+            "isApBeaconProtectionEnabled": false,
+            "isPosturingEnabled": false,
+            "isCckmEnabled": false,
+            "ssidRadioType": "Triple band operation(2.4GHz, 5GHz and 6GHz)",
+            "isCustomNasIdOptions": false
+        },
+        {
+            "id": "mdaZmtiZ-mtaY-mtmY-mtmY-ndm1mtyYnZm4mtKYmtaZmteXmtiY",
+            "profileName": "123_profile",
+            "ssid": "123",
+            "wlanType": "Enterprise",
+            "authType": "WPA2_WPA3_PERSONAL",
+            "l3AuthType": "open",
+            "passphrase": "NO!$DATA!$",
+            "externalAuthIpAddress": "",
+            "fastTransition": "DISABLE",
+            "authServer": "auth_external",
+            "authServers": [],
+            "acctServers": [],
+            "ghz24Policy": "dot11-bg-only",
+            "ghz6PolicyClientSteering": true,
+            "wlanBandSelectEnable": true,
+            "webPassthrough": false,
+            "sleepingClientEnable": false,
+            "sleepingClientTimeout": 720,
+            "nasOptions": [
+                "AP Location"
+            ],
+            "sessionTimeOutEnable": true,
+            "sessionTimeOut": 28800,
+            "clientExclusionEnable": true,
+            "clientExclusionTimeout": 180,
+            "basicServiceSetMaxIdleEnable": true,
+            "basicServiceSetClientIdleTimeout": 300,
+            "directedMulticastServiceEnable": true,
+            "neighborListEnable": true,
+            "managementFrameProtectionClientprotection": "OPTIONAL",
+            "fastTransitionOverTheDistributedSystemEnable": false,
+            "policyProfileName": "123_profile",
+            "openSsid": "",
+            "aclName": "",
+            "rsnCipherSuiteCcmp256": false,
+            "rsnCipherSuiteGcmp128": false,
+            "rsnCipherSuiteGcmp256": false,
+            "rsnCipherSuiteCcmp128": true,
+            "egressQos": "PLATINUM",
+            "ingressQos": "PLATINUM-UP",
+            "cckmTsfTolerance": 0,
+            "aaaOverride": false,
+            "coverageHoleDetectionEnable": true,
+            "protectedManagementFrame": "OPTIONAL",
+            "multiPSKSettings": [],
+            "clientRateLimit": 90000,
+            "inheritedSiteUUID": null,
+            "inheritedSiteName": "",
+            "inheritedSiteNameHierarchy": null,
+            "randomMacFilterEnabled": true,
+            "isFastLaneEnabled": true,
+            "isMacFilteringEnabled": true,
+            "isEnabled": true,
+            "isHex": false,
+            "isBroadcastSSID": true,
+            "isRandomMacFilterEnabled": true,
+            "isRadiusProfilingEnabled": false,
+            "isAuthKey8021x": false,
+            "isAuthKey8021xPlusFT": false,
+            "isAuthKey8021x_SHA256": false,
+            "isAuthKeySae": true,
+            "isAuthKeySaePlusFT": false,
+            "isAuthKeyPSK": false,
+            "isAuthKeyPSKPlusFT": false,
+            "isAuthKeyOWE": false,
+            "isAuthKeyEasyPSK": false,
+            "isAuthKeyPSKSHA256": false,
+            "isAuthKeySaeExt": false,
+            "isAuthKeySaeExtPlusFT": false,
+            "isAuthKeySuiteB1x": false,
+            "isAuthKeySuiteB1921x": false,
+            "isApBeaconProtectionEnabled": false,
+            "isPosturingEnabled": false,
+            "isCckmEnabled": false,
+            "ssidRadioType": "Triple band operation(2.4GHz, 5GHz and 6GHz)",
+            "isCustomNasIdOptions": false
+        }
+    ],
+    "version": "1.0"
+    },
+
+    "get_additional_interface1": {
+        "response": [
+          {
+            "id": "mde4r2LN-ywjP-Dev0-AgvY-BMv0mc8YrZbPmwCYytnIngK1Ddzf",
+            "interfaceName": "GigabitEthernet0/2",
+            "vlanId": 20
+          }
+        ],
+        "version": "1.0"
+    },
+
+    "get_dot11be_profile": {
+        "response": [
+            {
+                "id": "5b711957-6620-3851-93c0-3b8360ea688d",
+                "profileName": "test_802_profile_1",
+                "muMimoDownLink": false,
+                "muMimoUpLink": false,
+                "ofdmaDownLink": true,
+                "ofdmaUpLink": true,
+                "ofdmaMultiRu": false,
+                "default": true
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "response_for_profile_creation": {
+        "response": {
+          "taskId": "019675c0-a30a-72a9-adba-d05be846e702",
+          "url": "/api/v1/task/019675c0-a30a-72a9-adba-d05be846e702"
+        },
+        "version": "1.0"
+    },
+
+    "get_task_details_response": {
+        "response": {
+          "endTime": 1745732281128,
+          "status": "SUCCESS",
+          "startTime": 1745732281098,
+          "resultLocation": "/dna/intent/api/v1/tasks/019675c0-a30a-72a9-adba-d05be846e702/detail",
+          "id": "019675c0-a30a-72a9-adba-d05be846e702"
+        },
+        "version": "1.0"
+    },
+
+    "get_task_progress": {
+        "response": {
+            "progress": "Network Profile [07b6329f-a236-4f1f-81d7-853050ced201] Successfully Created"
+        }
+    },
+
+    "assign_site1_response": {
+        "response": {
+          "taskId": "019675c0-a703-7aae-b0da-3b1b5490cfec",
+          "url": "/api/v1/task/019675c0-a703-7aae-b0da-3b1b5490cfec"
+        },
+        "version": "1.0"
+    },
+
+    "get_site1_task_details": {
+        "response": {
+          "endTime": 1745732282135,
+          "status": "SUCCESS",
+          "startTime": 1745732282115,
+          "resultLocation": "/dna/intent/api/v1/tasks/019675c0-a703-7aae-b0da-3b1b5490cfec/detail",
+          "id": "019675c0-a703-7aae-b0da-3b1b5490cfec"
+        },
+        "version": "1.0"
+    },
+
+    "get_site1_task_progress": {
+        "response": {
+            "progress": "Sites Successfully Associated to Network Profile [07b6329f-a236-4f1f-81d7-853050ced201]"
+        }
+    },
+
+    "assign_template1_response": {
+        "response": {
+          "taskId": "019675c0-b3b3-75d9-85a5-cc9db1e23cda",
+          "url": "/api/v1/task/019675c0-b3b3-75d9-85a5-cc9db1e23cda"
+        },
+        "version": "1.0"
+    },
+
+    "get_template1_task_details": {
+        "response": {
+          "endTime": 1745732285415,
+          "status": "SUCCESS",
+          "startTime": 1745732285363,
+          "resultLocation": "/dna/intent/api/v1/tasks/019675c0-b3b3-75d9-85a5-cc9db1e23cda/detail",
+          "id": "019675c0-b3b3-75d9-85a5-cc9db1e23cda"
+        },
+        "version": "1.0"
+    },
+
+    "get_template1_task_progress": {
+        "progress": "Template successfully attached to the network profile"
+    }, 
+
+    "verify_wireless_profile_list": {
+        "response": [
+            {
+                "id": "07b6329f-a236-4f1f-81d7-853050ced201",
+                "name": "wireless profile test1",
+                "type": "Wireless"
+            },
+            {
+                "id": "768f5b27-1c6d-4626-9cf2-33ed69b13b0b",
+                "name": "rafeek_wireless_1",
+                "type": "Wireless"
+            },
+            {
+                "id": "d37ee2f8-655e-43da-89c4-08bdca7f4759",
+                "name": "rafeek_wireless_2",
+                "type": "Wireless"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_wireless_profile_details": {
+        "response": [
+            {
+                "wirelessProfileName": "wireless profile test1",
+                "ssidDetails": [
+                    {
+                        "ssidName": "guest_wifi_2",
+                        "enableFabric": false,
+                        "flexConnect": {
+                            "enableFlexConnect": true,
+                            "localToVlan": 2001
+                        },
+                        "interfaceName": "test_interface_1",
+                        "wlanProfileName": "guest_wifi_2_profile",
+                        "policyProfileName": "guest_wifi_2_profile",
+                        "dot11beProfileId": "5b711957-6620-3851-93c0-3b8360ea688d"
+                    }
+                ],
+                "id": "07b6329f-a236-4f1f-81d7-853050ced201",
+                "additionalInterfaces": [
+                    "GigabitEthernet0/2"
+                ],
+                "apZones": [
+                    {
+                        "apZoneName": "AP_Zone_North",
+                        "rfProfileName": "LOW",
+                        "ssids": [
+                            "guest_wifi_2"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "version": "1.1"
+    },
+
+    "get_cli_template_for_profile": {
+        "response": [
+            {
+                "id": "5935fbdb-3d4c-4d6c-be5f-c61401be6b93",
+                "name": "WLC Template"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_site_list_for_profile": {
+        "response": [
+            {
+                "id": "976ec932-e5b3-403c-add8-09ebc0af0f03"
+            },
+            {
+                "id": "61a79a23-210b-44d8-84fa-6f0a7d08f73b"
+            },
+            {
+                "id": "65761e39-fd3f-4eec-b174-ba968c0c7fee"
+            }
+        ],
+        "version": "1.0"
+    }
+}

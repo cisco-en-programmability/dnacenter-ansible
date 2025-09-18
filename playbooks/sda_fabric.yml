@@ -1,5 +1,7 @@
+# noqa all
 ---
-- hosts: dnac_servers
+- name: Sda fabric
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false

@@ -1,0 +1,303 @@
+{
+  "playbook_config_create_fabric_ip_based_transits_with_verify": [
+    {
+      "sda_fabric_transits": [
+        {
+          "name": "Sample1",
+          "transit_type": "IP_BASED_TRANSIT",
+          "ip_transit_settings": {
+            "routing_protocol_name": "BGP",
+            "autonomous_system_number": 1234
+          }
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_no_update_for_fabric_ip_based_transits_with_verify": [
+    {
+      "sda_fabric_transits": [
+        {
+          "name": "Sample1",
+          "transit_type": "IP_BASED_TRANSIT",
+          "ip_transit_settings": {
+            "routing_protocol_name": "BGP",
+            "autonomous_system_number": 1234
+          }
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_create_fabric_lisp_bgp_based_transits": [
+    {
+      "sda_fabric_transits": [
+        {
+          "name": "Sample2",
+          "transit_type": "SDA_LISP_BGP_TRANSIT",
+          "sda_transit_settings": {
+            "control_plane_network_device_ips": [
+              "204.1.2.2"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_failed_fabric_lisp_bgp_based_transits_creation": [
+    {
+      "sda_fabric_transits": [
+        {
+          "name": "Sample2",
+          "transit_type": "SDA_LISP_BGP_TRANSIT",
+          "sda_transit_settings": {
+            "control_plane_network_device_ips": [
+              "204.1.2.2"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+
+
+  "playbook_config_create_fabric_lisp_pub_sub_based_transits": [
+    {
+      "sda_fabric_transits": [
+        {
+          "name": "Sample3",
+          "transit_type": "SDA_LISP_PUB_SUB_TRANSIT",
+          "sda_transit_settings": {
+            "is_multicast_over_transit_enabled": true,
+            "control_plane_network_device_ips": [
+              "204.1.2.2"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_delete_sda_fabric_transits_with_verify": [
+    {
+      "sda_fabric_transits": [
+        {
+          "name": "Sample1"
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_delete_absent_sda_fabric_transits": [
+    {
+      "sda_fabric_transits": [
+        {
+          "name": "Sample1"
+        }
+      ]
+    }
+  ],
+
+  "get_device_details": {
+    "response": [
+      {
+        "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.4, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Tue 23-Jul-24 09:40 by mcpre",
+        "memorySize": "NA",
+        "family": "Switches and Hubs",
+        "lastUpdateTime": 1748236315932,
+        "macAddress": "90:88:55:07:59:00",
+        "deviceSupportLevel": "Supported",
+        "softwareType": "IOS-XE",
+        "softwareVersion": "17.12.4",
+        "serialNumber": "FJC271924K0, FJC271924EQ",
+        "syncRequestedByApp": "",
+        "collectionInterval": "Global Default",
+        "dnsResolvedManagementAddress": "204.1.2.2",
+        "lastManagedResyncReasons": "Config Change Event",
+        "managementState": "Managed",
+        "pendingSyncRequestsCount": "0",
+        "reasonsForDeviceResync": "Config Change Event",
+        "reasonsForPendingSyncRequests": "",
+        "inventoryStatusDetail": "<status><general code=\"SUCCESS\"/></status>",
+        "upTime": "68 days, 10:45:31.60",
+        "lastUpdated": "2025-05-26 05:11:55",
+        "roleSource": "AUTO",
+        "bootDateTime": "2025-03-18 18:26:55",
+        "apManagerInterfaceIp": "",
+        "collectionStatus": "Managed",
+        "hostname": "NY-EN-9300",
+        "locationName": null,
+        "managementIpAddress": "204.1.2.2",
+        "interfaceCount": "0",
+        "platformId": "C9300-48UXM, C9300-48UXM",
+        "reachabilityFailureReason": "",
+        "reachabilityStatus": "Reachable",
+        "series": "Cisco Catalyst 9300 Series Switches",
+        "snmpContact": "",
+        "snmpLocation": "",
+        "apEthernetMacAddress": null,
+        "associatedWlcIp": "",
+        "errorCode": null,
+        "errorDescription": null,
+        "lastDeviceResyncStartTime": "2025-05-26 05:11:50",
+        "lineCardCount": "0",
+        "lineCardId": "",
+        "managedAtleastOnce": true,
+        "tagCount": "0",
+        "tunnelUdpPort": null,
+        "uptimeSeconds": 5918994,
+        "vendor": "Cisco",
+        "waasDeviceMode": null,
+        "location": null,
+        "type": "Cisco Catalyst 9300 Switch",
+        "role": "ACCESS",
+        "instanceUuid": "e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+        "instanceTenantId": "66e48af26fe687300375675e",
+        "id": "e5cc9398-afbf-40a2-a8b1-e9cf0635c28a"
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_transits_after_deletion": {
+    "response": [
+      {
+        "id": "5a7156f1-e5bb-4317-94a1-24ed27bc245a",
+        "name": "IP_TRANSIT_1",
+        "type": "IP_BASED_TRANSIT",
+        "ipTransitSettings": {
+          "routingProtocolName": "BGP",
+          "autonomousSystemNumber": "12345"
+        }
+      },
+      {
+        "id": "d01cdd36-1c17-4a51-810e-e142d2101ae6",
+        "name": "IP_TRANSIT_2",
+        "type": "IP_BASED_TRANSIT",
+        "ipTransitSettings": {
+          "routingProtocolName": "BGP",
+          "autonomousSystemNumber": "124124"
+        }
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_available_transit_networks": {
+    "response": [
+      {
+        "id": "5a7156f1-e5bb-4317-94a1-24ed27bc245a",
+        "name": "IP_TRANSIT_1",
+        "type": "IP_BASED_TRANSIT",
+        "ipTransitSettings": {
+          "routingProtocolName": "BGP",
+          "autonomousSystemNumber": "12345"
+        }
+      },
+      {
+        "id": "d01cdd36-1c17-4a51-810e-e142d2101ae6",
+        "name": "IP_TRANSIT_2",
+        "type": "IP_BASED_TRANSIT",
+        "ipTransitSettings": {
+          "routingProtocolName": "BGP",
+          "autonomousSystemNumber": "124124"
+        }
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_empty_available_transit_networks": {
+    "response": [],
+    "version": "1.0"
+  },
+
+  "get_created_transits_networks": {
+    "response": [
+      {
+        "id": "2e178554-ee01-4ecd-a812-e2ac977e2bc7",
+        "name": "Sample1",
+        "type": "IP_BASED_TRANSIT",
+        "ipTransitSettings": {
+          "routingProtocolName": "BGP",
+          "autonomousSystemNumber": "1234"
+        }
+      },
+      {
+        "id": "5a7156f1-e5bb-4317-94a1-24ed27bc245a",
+        "name": "IP_TRANSIT_1",
+        "type": "IP_BASED_TRANSIT",
+        "ipTransitSettings": {
+          "routingProtocolName": "BGP",
+          "autonomousSystemNumber": "12345"
+        }
+      },
+      {
+        "id": "d01cdd36-1c17-4a51-810e-e142d2101ae6",
+        "name": "IP_TRANSIT_2",
+        "type": "IP_BASED_TRANSIT",
+        "ipTransitSettings": {
+          "routingProtocolName": "BGP",
+          "autonomousSystemNumber": "124124"
+        }
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "add_transit_api_task_id_response": {
+    "response": {
+      "taskId": "019706a6-b1a8-791a-8bae-7ed75c147de9",
+      "url": "/dna/intent/api/v1/task/019706a6-b1a8-791a-8bae-7ed75c147de9"
+    },
+    "version": "1.0"
+  },
+
+  "delete_transit_api_task_id_response": {
+    "response": {
+      "taskId": "019706a6-b1a8-791a-8bae-7ed75c147de9",
+      "url": "/dna/intent/api/v1/task/019706a6-b1a8-791a-8bae-7ed75c147de9"
+    },
+    "version": "1.0"
+  },
+
+  "success_task_id_response": {
+    "response": {
+      "lastUpdate": 1748163277403,
+      "status": "SUCCESS",
+      "startTime": 1748163277224,
+      "endTime": 1748163277224,
+      "resultLocation": "/dna/intent/api/v1/tasks/019706a6-b1a8-791a-8bae-7ed75c147de9/detail",
+      "id": "019706a6-b1a8-791a-8bae-7ed75c147de9"
+    },
+    "version": "1.0"
+  },
+
+  "failed_task_id_response": {
+    "response": {
+      "endTime": 1748250350707,
+      "lastUpdate": 1748250350679,
+      "status": "FAILURE",
+      "startTime": 1748250349992,
+      "resultLocation": "/dna/intent/api/v1/tasks/01970bd7-51a8-7ce0-b0f8-44d0e2afd861/detail",
+      "id": "01970bd7-51a8-7ce0-b0f8-44d0e2afd861"
+    },
+    "version": "1.0"
+  },
+ 
+  "get_invalid_testbed_release": {
+    "message": "The specified version '2.3.5.3' does not support the SDA fabric devices feature. Supported versions start from '2.3.7.6' onwards."
+  },
+
+  "get_failed_task_details": {
+    "response": {
+      "progress": "TASK_PROVISION",
+      "data": "workflow_id=c09a79e9-adf2-4db9-8c47-9ca718af55d0;cfs_id=0;rollback_status=not_supported;rollback_taskid=0;failure_task=Validation of business intent:dfffa3d5-d098-4de5-bb42-e7e9d52bc804;processcfs_complete=false",
+      "errorCode": "NCSO20038",
+      "failureReason": "Provisioning failed due to an invalid parameter. Transit CP can have only one role of a transit map server."
+    },
+    "version": "1.0"
+  }
+
+}

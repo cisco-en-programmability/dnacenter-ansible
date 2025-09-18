@@ -22,3 +22,6 @@ playbooks/device_details.template
 .DS_Store
 test.yml
 test.yaml
+sanity_fixes.py
+.yamlfmt
+.github/copilot-instructions.md
