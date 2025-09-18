@@ -3,7 +3,7 @@
 # Copyright (c) 2025, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to perform update Health score KPI's in Cisco Catalyst Center."""
+"""Ansible module to manage Report configurations in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 __author__ = ["Megha Kandari, Madhan Sankaranarayanan"]
@@ -14,12 +14,17 @@ module: reports_workflow_manager
 short_description: Resource module for managing Reports in Cisco Catalyst Center.
 description:
   - This module manages Report configurations in Cisco Catalyst Center.
-  - It allows you to create and schedule customized reports across wired and wireless network entities.
-  - Supports configuration of report name, time range, subreports, entity selection, filters, attributes, and aggregation options.
-  - Enables scheduling, output format selection (e.g., CSV/ZIP), and delivery methods including Email and Webhook.
-  - Reports help monitor network and client health, device behavior, and utilization trends.
-  - Applicable from Cisco Catalyst Center version 2.3.3.1 and later.
-version_added: '6.36.0'
+  - It allows you to create and schedule customized reports across wired and
+    wireless network entities.
+  - Supports configuration of report name, scheduling, entity selection,
+    filters, field groups, and output format options.
+  - Enables scheduling with immediate, later, or recurring execution patterns.
+  - Provides delivery methods including local download, email notification,
+    and webhook integration.
+  - Reports help monitor network and client health, device behavior,
+    compliance status, and utilization trends.
+  - Applicable from Cisco Catalyst Center version 2.3.7.9 and later.
+version_added: '6.41.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
@@ -600,7 +605,6 @@ class Reports(DnacBase):
                     "schedule_type": {
                         "type": "str",
                         "element": "str",
-                        # "required": False,
                         "choices": ["SCHEDULE_NOW", "SCHEDULE_LATER", "SCHEDULE_RECURRENCE"],
                     },
                     "date_time": {"type": "str"},
@@ -647,6 +651,7 @@ class Reports(DnacBase):
                     "field_groups": {
                         "type": "list",
                         "elements": "dict",
+                        "required": False,
                         "name": {"type": "str", "required": True},
                         "fields": {
                             "type": "list",
@@ -667,7 +672,11 @@ class Reports(DnacBase):
                             "required": False,
                             "choices": ["MULTI_SELECT", "MULTI_SELECT_TREE", "SINGLE_SELECT_ARRAY", "TIME_RANGE"],
                         },
-                        "value": {"type": "raw", "required": False},  # allow dict or list-of-dicts
+                        "value": {
+                            "type": "list",
+                            "value": {"type": "str", "required": False},
+                            "required": False
+                        },
                     },
                 },
             }
@@ -933,18 +942,19 @@ class Reports(DnacBase):
 
                                 # Call get_site to get the final resolved network hierarchy path
                                 site_response = self.get_site(item["value"])
-                                site_response = site_response["response"][0]
+                                site_exist, site_id = self.get_site_id(item["value"])
+                                # site_response = site_response["response"][0]
                                 self.log("Site response: {0}".format(self.pprint(site_response)), "DEBUG")
 
-                                site_hierarchy_id = site_response.get("id")
-                                if not site_hierarchy_id:
+                                # site_hierarchy_id = site_response.get("id")
+                                if not site_id:
                                     self.msg = f"Failed to resolve siteHierarchyId for location: {item['value']}"
                                     self.set_operation_result("failed", False, self.msg, "ERROR")
                                     return self
 
                                 # Append both value and display_value in the same item
                                 updated_values.append({
-                                    "value": site_hierarchy_id,
+                                    "value": site_id,
                                     "display_value": display_value
                                 })
 
@@ -1932,10 +1942,10 @@ def main():
         ccc_report.check_return_status()
 
     ccc_version = ccc_report.get_ccc_version()
-    if ccc_report.compare_dnac_versions(ccc_version, "2.3.7.10") < 0:
+    if ccc_report.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
         ccc_report.msg = (
             "The specified version '{0}' does not support the Flexible Report features. "
-            "Supported versions start from '2.3.7.10' onwards.".format(ccc_version)
+            "Supported versions start from '2.3.7.9' onwards.".format(ccc_version)
         )
         ccc_report.status = "failed"
         ccc_report.check_return_status()
