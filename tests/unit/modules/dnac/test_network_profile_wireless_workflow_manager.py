@@ -29,6 +29,8 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
 
     test_data = loadPlaybookData("network_profile_wireless_workflow_manager")
     profile_creation_config = test_data.get("profile_creation_config")
+    profile_creation_config_feature_template = test_data.get("profile_creation_config_feature_template")
+    playbook_new_feature_template = test_data.get("playbook_new_feature_template")
 
     def setUp(self):
         super(TestDnacNetworkWirelessProfileWorkflow, self).setUp()
@@ -89,7 +91,130 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
                 self.test_data.get("get_dot11be_profile")
             ]
 
+        if "profile_creation_feature_template" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_network_profile_sites"),
+                self.test_data.get("get_Sites"),
+                self.test_data.get("no_response_received"),
+                self.test_data.get("get_sites2"),
+                self.test_data.get("get_enterprise_ssid"),
+                self.test_data.get("get_feature_template_summary"),
+                self.test_data.get("get_feature_template_summary1"),
+                self.test_data.get("get80211be_profiles"),
+                self.test_data.get("create_wireless_profile_connectivity"),
+                self.test_data.get("get_task_id1"),
+                self.test_data.get("get_task_details_by_id"),
+                self.test_data.get("retrieves_the_list_of_network_profiles_for_sites"),
+                self.test_data.get("get_wireless_profiles_v1"),
+                self.test_data.get("get_Sites"),
+                self.test_data.get("get_sites1"),
+                self.test_data.get("get_sites2"),
+                self.test_data.get("get_enterprise_ssid"),
+                self.test_data.get("get_feature_template_summary"),
+                self.test_data.get("get_feature_template_summary1"),
+                self.test_data.get("get_site_lists_for_profile"),
+                self.test_data.get("get80211be_profiles")
+            ]
+
+        if "profile_creation_fail_feature_template" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_network_profile_sites"),
+                self.test_data.get("get_Sites"),
+                self.test_data.get("no_response_received"),
+                self.test_data.get("get_sites2"),
+                self.test_data.get("get_enterprise_ssid"),
+                self.test_data.get("get_feature_template_summary"),
+                self.test_data.get("get_feature_template_summary1")
+            ]
+
+        if "profile_creation_feature_template_new" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("retrieves_the_list_of_network_profiles_for_sites"),
+                self.test_data.get("get_wireless_profiles_v1"),
+                self.test_data.get("get_site_lists_for_profile"),
+                self.test_data.get("retrieves_the_list_of_network_profiles_for_sites1"),
+                self.test_data.get("gets_the_templates_available"),
+                self.test_data.get("get_sites21"),
+                self.test_data.get("get_sites11"),
+                self.test_data.get("get_sites12"),
+                self.test_data.get("get_enterprise_ssid1"),
+                self.test_data.get("get_interfaces"),
+                self.test_data.get("get_feature_template_summary11"),
+                self.test_data.get("get_dot11be_profile1"),
+                self.test_data.get("configuration_templates"),
+                self.test_data.get("configuration_templates_id"),
+                self.test_data.get("dn_template1"),
+                self.test_data.get("retrieves_the_list_of_network_profiles_for_sites11"),
+                self.test_data.get("get_wireless_profile"),
+                self.test_data.get("gets_the_templates_available1"),
+                self.test_data.get("get_sites3"),
+                self.test_data.get("get_sites4"),
+                self.test_data.get("get_sites5"),
+                self.test_data.get("get_enterprise_ssid"),
+                self.test_data.get("get_interfaces2"),
+                self.test_data.get("get_feature_template_summary111"),
+                self.test_data.get("retrieve_cli_templates_attached_to_a_network_profile"),
+                self.test_data.get("retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to"),
+                self.test_data.get("get80211be_profiles1")
+
+
+            ]
+
     def test_network_profile_workflow_manager_profile_creation_fail(self):
+        """
+        Test case for wireless profile workfollow manager provision and update device.
+
+        This test case checks the behavior of the wireless profile workflow when creation
+        in the specified Cisco Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                dnac_version="3.1.3.0",
+                config_verify=True,
+                config=self.profile_creation_config
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+        self.maxDiff = None
+        self.assertIn(
+            "Unable to create wireless profile",
+            result.get('msg')
+        )
+
+    def test_network_profile_workflow_manager_profile_creation_feature_template(self):
+        """
+        Test case for wireless profile workfollow manager provision and update device.
+
+        This test case checks the behavior of the wireless profile workflow when creation
+        in the specified Cisco Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                dnac_version="3.1.3.0",
+                config_verify=True,
+                config=self.profile_creation_config_feature_template
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+        self.maxDiff = None
+        self.assertIn(
+            "Unable to create wireless profile",
+            result.get('msg')
+        )
+
+    def test_network_profile_workflow_manager_profile_creation_fail_feature_template(self):
         """
         Test case for wireless profile workfollow manager provision and update device.
 
@@ -105,13 +230,40 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
                 state="merged",
                 dnac_version="2.3.7.9",
                 config_verify=True,
-                config=self.profile_creation_config
+                config=self.profile_creation_config_feature_template
             )
         )
 
         result = self.execute_module(changed=False, failed=True)
         self.maxDiff = None
-        self.assertEqual(
-            result.get('msg'),
-            "Successfully retrieved the details from the system"
+        self.assertIn(
+            "Invalid parameters in playbook config:",
+            result.get('response')
+        )
+
+    def test_network_profile_workflow_manager_profile_creation_feature_template_new(self):
+        """
+        Test case for wireless profile workfollow manager provision and update device.
+
+        This test case checks the behavior of the wireless profile workflow when creation
+        in the specified Cisco Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                dnac_version="3.1.3.0",
+                config_verify=True,
+                config=self.playbook_new_feature_template
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+        self.maxDiff = None
+        self.assertIn(
+            "An exception occurred while retrieving Site details",
+            result.get('response')
         )
