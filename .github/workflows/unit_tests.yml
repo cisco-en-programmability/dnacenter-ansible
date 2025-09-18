@@ -1,0 +1,83 @@
+---
+name: Unittests
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+env:
+  NAMESPACE: cisco
+  COLLECTION_NAME: dnac
+
+jobs:
+  Unittests:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11', '3.12', '3.13']
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install ansible
+
+          ANSIBLE_COLLECTIONS_PATH=$(python -c "import site; print(site.getsitepackages()[0])")/ansible_collections
+          pip install -r test-requirements.txt || (echo "test-requirements.txt not found. Skipping dependency installation." && exit 1)
+          ansible-galaxy collection install -f ansible.netcommon -p $ANSIBLE_COLLECTIONS_PATH
+
+          ansible-galaxy collection build
+          ansible-galaxy collection install -f cisco-dnac* -p $ANSIBLE_COLLECTIONS_PATH
+
+      - name: Run tests
+        shell: bash
+        run: |
+          source venv/bin/activate
+          base_ref="${{ github.base_ref || github.ref }}"
+          git fetch origin "$base_ref"
+
+          echo "::group::filtered_files"
+          filtered_files=$(git diff --name-only "origin/$base_ref" HEAD | grep '^plugins/modules/.*workflow_manager\.py$' || true)
+          echo "$filtered_files"
+          echo "::endgroup::"
+
+          if [ -z "$filtered_files" ]; then
+            echo "No relevant files changed. Skipping tests."
+            exit 0
+          fi
+
+          failed=0
+          failed_count=0
+          while IFS= read -r -d $'\0' file; do
+            unittest_file="tests/unit/modules/dnac/test_$(basename "$file")"
+            echo "::group::$unittest_file"
+            if [ -f "$unittest_file" ]; then
+              echo "Running unittest for: $unittest_file"
+              if ! python -m unittest "$unittest_file"; then
+                failed=1 # Set failed to 1 if a test fails
+                failed_count=$((failed_count + 1))
+              fi
+            else
+              echo "Skipping: No test file found for $file"
+            fi
+            echo "::endgroup::"
+          done < <(echo "$filtered_files" | tr '\n' '\0')
+
+          if [ "$failed" -eq 1 ]; then
+            echo "Tests completed with failures."
+            echo "Total failed tests: $failed_count"
+            echo "::error::Tests failed."
+            exit 1 # Exit with 1 if any test failed
+          else
+            echo "All tests passed successfully :)"
+            echo "::notice::Tests passed"
+          fi

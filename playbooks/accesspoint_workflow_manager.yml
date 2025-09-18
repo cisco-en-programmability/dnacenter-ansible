@@ -1,8 +1,8 @@
---- 
+---
 - name: Provision/Move/Update Wireless Access Point Configuration
   hosts: dnac_servers
   connection: local
-  gather_facts: no
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - "credentials.yml"
   tasks:
@@ -15,11 +15,10 @@
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         state: merged
-        force_sync: False
         config:
           - mac_address: 90:e9:5e:03:f3:40
             rf_profile: "HIGH"

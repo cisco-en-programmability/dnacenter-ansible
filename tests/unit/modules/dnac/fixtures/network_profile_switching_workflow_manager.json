@@ -1,0 +1,4424 @@
+{
+    "playbook_config_creation":
+    [
+        {
+          "profile_name": "sd_sw_1",
+          "day_n_templates": ["Template Provisioning To Device"],
+          "site_names": [
+            "Global/Chennai/LTTS/FLOOR11",
+            "Global/Madurai/LTTS/FLOOR1"
+          ]
+        }
+    ],
+
+    "playbook_config_deletion":
+    [
+      {
+        "profile_name": "switchProfile1"
+      }
+    ],
+
+    "playbook_config_unasssign":
+    [
+        {
+          "profile_name": "switchProfile1",
+          "day_n_templates": ["Ansible_PNP_Switch"],
+          "site_names": [
+            "Global/Chennai/LTTS/FLOOR11"
+          ]
+        }
+    ],
+
+    "playbook_config_switch_profile":
+    [
+      {
+        "profile_name": "Ans Switch Prof creation and assign5713",
+        "site_names": [
+            "Global/APO"
+        ]
+    }
+    ],
+
+    "playbook_update_day_n_template":
+    [
+      {
+          "day_n_templates": [
+              "Test-template",
+              "test_template_15"
+          ],
+          "profile_name": "Ans Switch Prof creation and assign1"
+      }
+    ],
+
+    "get_network_profile_not_exist":
+    {
+        "response": [
+            {
+                "id": "248d843e-352f-43f0-af2e-69eeccb2df5f",
+                "name": "PNP_Onboarding_Profile",
+                "type": "Switching"
+            },
+            {
+                "id": "a40be97d-e8d8-4cf5-9606-fbf88853a0ae",
+                "name": "sd1_sw_1",
+                "type": "Switching"
+            },
+            {
+                "id": "a8ce7984-4253-4bdd-b558-00c7d5e9e1b0",
+                "name": "Rafeek_sw_1",
+                "type": "Switching"
+            },
+            {
+                "id": "cd0c94e5-3453-46a7-ab9d-c2b5544555ce",
+                "name": "switchProfile1",
+                "type": "Switching"
+            },
+            {
+                "id": "efde4d92-dfd5-4031-819e-d35062bb3f6f",
+                "name": "API_SWITCH_2",
+                "type": "Switching"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_templates_details":
+    [
+        {
+            "name": "Ansible_PNP_Switch",
+            "projectName": "Onboarding Configuration",
+            "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+            "templateId": "c79f4a36-ab36-478d-8bee-848d01606a87",
+            "versionsInfo": [
+                {
+                    "id": "4fe2f46a-3654-4187-81e4-b28bc107f5aa",
+                    "description": "",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "",
+                    "versionTime": 1727827112635
+                },
+                {
+                    "id": "3630f8ba-0e6d-4652-bfa0-5bde0e31bdf0",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1727826624453
+                },
+                {
+                    "id": "a9d28bdd-afac-462e-a1b2-e102a7f2ded5",
+                    "description": "",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "",
+                    "versionTime": 1727826687240
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9300 Series Switches"
+                }
+            ]
+        },
+        {
+            "name": "DMVPN Hub for Cloud Router- System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+            "templateId": "204831af-8704-4210-878f-b8996daf79e1",
+            "versionsInfo": [
+                {
+                    "id": "c9acd88f-dbd5-40d2-9185-4e6bd3269528",
+                    "description": "Dynamic Multipoint VPN Hub for Cloud Router",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259145198
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "7319e510-81fa-4912-8433-fcf719a0d2be",
+                    "name": "cloud-dmvpn-hub"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "DMVPN Spoke for Branch Router - System Default",
+            "projectName": "Cloud DayN Templates",
+            "projectId": "b6131824-7441-479f-9076-e24a401d63ed",
+            "templateId": "a4e53ade-cc6e-409e-8b2f-ec191f8e2242",
+            "versionsInfo": [
+                {
+                    "id": "a7cab587-05fc-4af2-af19-795f607970f3",
+                    "description": "Dynamic Multipoint VPN Spoke for Branch Router",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259147229
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "ac89003f-3822-430f-99b9-073403e57bdf",
+                    "name": "branch-router-dmvpn-spoke"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers"
+                }
+            ]
+        },
+        {
+            "name": "DMVPN for Cloud Router - System Default",
+            "projectName": "Cloud DayN Templates",
+            "projectId": "b6131824-7441-479f-9076-e24a401d63ed",
+            "templateId": "57d312d6-a596-4937-a3b9-0816ea13c563",
+            "versionsInfo": [
+                {
+                    "id": "05200455-e0f8-4bb7-8750-37f43dfc7a4a",
+                    "description": "DMVPN for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259147588
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "a228c460-cf09-498f-a828-79ee7db8c2c9",
+                    "name": "cloud-dmvpn"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "Example_test1",
+            "projectName": "Sample Jinja Templates",
+            "projectId": "6f447090-f983-49e6-b9a7-2f6c3c1eb31a",
+            "templateId": "ba45f0cf-2527-40d1-bc24-8870878cf66a",
+            "versionsInfo": [
+                {
+                    "id": "9e5b0de0-2c44-480e-9f20-62a8d4cfbc92",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "for_testing",
+                    "versionTime": 1727411364175
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "Cisco Controller-",
+            "deviceTypes": [
+                {
+                    "productFamily": "Network Management"
+                }
+            ]
+        },
+        {
+            "name": "IPsec 1 Branch for Cloud Router - System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+            "templateId": "df994c94-1e2d-49d7-9a20-327a6ce247ce",
+            "versionsInfo": [
+                {
+                    "id": "0caa1c6d-a4f9-495d-96f1-e4bfd2fd17e0",
+                    "description": "IPsec 1 Branch for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259144388
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "4092287b-7d32-4f28-a742-57f10bd45013",
+                    "name": "cloud-ipsec-one-branch-router"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "IPsec 2 Branch for Cloud Router - System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+            "templateId": "c886c090-a756-457a-997d-af31ce251118",
+            "versionsInfo": [
+                {
+                    "id": "7f3e3de2-7973-46dd-bd05-6b9e7bb0a45c",
+                    "description": "IPsec 2 Branch for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259145806
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "6fdaa4cf-92c3-4e0b-8ede-232c58af0b3e",
+                    "name": "cloud-ipsec-two-branch-routers"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "IPsec for Branch Router - System Default",
+            "projectName": "Cloud DayN Templates",
+            "projectId": "b6131824-7441-479f-9076-e24a401d63ed",
+            "templateId": "e0df50ea-9325-4e3d-b330-441e99233b42",
+            "versionsInfo": [
+                {
+                    "id": "8e7feed5-da2a-4d36-8fbf-876e6e0c8db6",
+                    "description": "IPsec for Branch Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259146404
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "ea3c92c4-82c5-4a72-bd02-aec09270ee3e",
+                    "name": "branch-router-ipsec"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers"
+                }
+            ]
+        },
+        {
+            "name": "IPsec for Cloud Router - System Default",
+            "projectName": "Cloud DayN Templates",
+            "projectId": "b6131824-7441-479f-9076-e24a401d63ed",
+            "templateId": "c0495d8e-872c-432e-b963-fbda3c483389",
+            "versionsInfo": [
+                {
+                    "id": "e6527c3a-96c0-4c46-ae18-ca72f47e3ec7",
+                    "description": "IPsec for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259146878
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "bc94116e-8c35-4cd2-88d6-14d2297f6a41",
+                    "name": "cloud-ipsec"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "Template Provisioning To Device",
+            "projectName": "ODC Provisioning",
+            "projectId": "fa18dd05-d41c-441c-af44-8e2644781823",
+            "templateId": "3b282b66-eff3-4f32-8b64-427365996537",
+            "versionsInfo": [
+                {
+                    "id": "2fdce9e7-89c1-4637-acef-477d030b86cf",
+                    "description": "",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "ImportedTemplate",
+                    "versionTime": 1728540268394
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        },
+        {
+            "name": "WLC Template",
+            "projectName": "ODC Provisioning",
+            "projectId": "fa18dd05-d41c-441c-af44-8e2644781823",
+            "templateId": "5935fbdb-3d4c-4d6c-be5f-c61401be6b93",
+            "versionsInfo": [
+                {
+                    "id": "ffa990c4-df80-4f70-90e2-f7e9d6869865",
+                    "description": "",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "",
+                    "versionTime": 1730796226724
+                },
+                {
+                    "id": "719eed23-3a4f-4f71-a425-fdae7d6adc49",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1730785136128
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Wireless Controller"
+                }
+            ]
+        },
+        {
+            "name": "test_template",
+            "projectName": "Onboarding Configuration",
+            "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+            "templateId": "6e8d2b85-d1db-4de0-b061-43e1549b863f",
+            "versionsInfo": [
+                {
+                    "id": "ca13dbfc-e294-4ecb-8de4-acec7c4c1bf4",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "Test Template",
+                    "versionTime": 1734486512141
+                },
+                {
+                    "id": "2615d973-ce61-47f5-85e7-823682f4c297",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "",
+                    "versionTime": 1728539252590
+                },
+                {
+                    "id": "5e32637f-066b-4720-b235-237a15d87ed6",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "Test Template",
+                    "versionTime": 1734486512179
+                },
+                {
+                    "id": "82e652ab-b40f-4163-883d-3b252f7691af",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "Test Template",
+                    "versionTime": 1727764542722
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        }
+    ],
+
+    "get_site_response1":
+    {
+        "response": [
+          {
+            "id": "03072c33-bd11-4914-9c0e-3c53379b2813",
+            "parentId": "c3293908-c136-45b9-b74f-d5dfaabb26a9",
+            "name": "FLOOR11",
+            "nameHierarchy": "Global/Chennai/LTTS/FLOOR11",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 177.0,
+            "length": 171.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+          }
+        ],
+        "version": "1.0"
+    },
+
+    "get_site_response2":
+    {
+        "response": [
+          {
+            "id": "65761e39-fd3f-4eec-b174-ba968c0c7fee",
+            "parentId": "61a79a23-210b-44d8-84fa-6f0a7d08f73b",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/Madurai/LTTS/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+          }
+        ],
+        "version": "1.0"
+    },
+
+    "get_network_profile":
+    {
+        "response": [
+            {
+                "id": "248d843e-352f-43f0-af2e-69eeccb2df5f",
+                "name": "PNP_Onboarding_Profile",
+                "type": "Switching"
+            },
+            {
+                "id": "a40be97d-e8d8-4cf5-9606-fbf88853a0ae",
+                "name": "sd_sw_1",
+                "type": "Switching"
+            },
+            {
+                "id": "a8ce7984-4253-4bdd-b558-00c7d5e9e1b0",
+                "name": "Ans Switch Prof creation and assign1",
+                "type": "Switching"
+            },
+            {
+                "id": "969ebaef-e7ce-45ea-b31e-e1af55999ddb",
+                "name": "switchProfile1",
+                "type": "Switching"
+            },
+            {
+                "id": "efde4d92-dfd5-4031-819e-d35062bb3f6f",
+                "name": "API_SWITCH_2",
+                "type": "Switching"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_templates_for_profile_delete":
+    {
+      "response": [
+          {
+              "id": "c79f4a36-ab36-478d-8bee-848d01606a87",
+              "name": "Ansible_PNP_Switch"
+          }
+      ],
+      "version": "1.0"
+    },
+
+    "get_site_for_profile_delete":
+    {
+      "response": [
+          {
+              "id": "03072c33-bd11-4914-9c0e-3c53379b2813"
+          }
+      ],
+      "version": "1.0"
+    },
+
+    "unassign_site_for_delete":
+    {
+      "response": {
+        "taskId": "01976f4f-6366-7c63-aff1-629846f9118f",
+        "url": "/api/v1/task/01976f4f-6366-7c63-aff1-629846f9118f"
+      },
+      "version": "1.0"
+    },
+
+    "unassign_site_task_detail_response":
+    {
+      "response": {
+        "endTime": 1749919163262,
+        "status": "SUCCESS",
+        "startTime": 1749919163238,
+        "resultLocation": "/dna/intent/api/v1/tasks/01976f4f-6366-7c63-aff1-629846f9118f/detail",
+        "id": "01976f4f-6366-7c63-aff1-629846f9118f"
+      },
+      "version": "1.0"
+    },
+
+    "unassign_site_task_progress":
+    {
+      "progress": "Sites Successfully Disassociated from Network Profile [969ebaef-e7ce-45ea-b31e-e1af55999ddb]"
+    },
+
+    "unassign_template_task_progress":
+    {
+      "progress": "Template successfully attached to the network profile"
+    },
+
+    "profile_delete_task_progress":
+    {
+      "progress": "Network Profile [969ebaef-e7ce-45ea-b31e-e1af55999ddb] Successfully Deleted"
+    },
+
+    "verify_delete_get_network_profile":
+    {
+        "response": [
+            {
+                "id": "248d843e-352f-43f0-af2e-69eeccb2df5f",
+                "name": "PNP_Onboarding_Profile",
+                "type": "Switching"
+            },
+            {
+                "id": "a40be97d-e8d8-4cf5-9606-fbf88853a0ae",
+                "name": "sd_sw_1",
+                "type": "Switching"
+            },
+            {
+                "id": "a8ce7984-4253-4bdd-b558-00c7d5e9e1b0",
+                "name": "Rafeek_sw_1",
+                "type": "Switching"
+            },
+            {
+                "id": "efde4d92-dfd5-4031-819e-d35062bb3f6f",
+                "name": "API_SWITCH_2",
+                "type": "Switching"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_child_site_with_empty_response":
+    {
+      "response": [],
+      "version": "1.0"
+    },
+
+    "retrieves_the_list_of_network_profiles_for_sites":
+    {
+      "response": [
+            {
+                "id": "05c430e8-1b2c-4a6b-a711-9a0639aa3f10",
+                "name": "Ans Switch Prof creation with DayN Template",
+                "type": "Switching"
+            },
+            {
+                "id": "52dcb407-64aa-455c-a102-0e7bcfca1413",
+                "name": "Ans Switch Prof creation",
+                "type": "Switching"
+            },
+            {
+                "id": "ec7181bb-979b-4ac9-b6bd-ba90294e0f7b",
+                "name": "Ans Switch Prof creation and assign1",
+                "type": "Switching"
+            },
+            {
+                "id": "8039739e-a17f-4d23-85f7-ceb8876483b6",
+                "name": "Ans Switch Prof creation and assign",
+                "type": "Switching"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_site_details":
+    {
+      "response": [
+        {
+          "id": "578cf5a9-a7e0-45b0-aaee-1690a959bb9c",
+          "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+          "name": "APO",
+          "nameHierarchy": "Global/APO",
+          "type": "area"
+        }
+      ],
+      "version": "1.0"
+    },
+
+    "get_site_details1":
+    {
+      "response": [],
+      "version": "1.0"
+    },
+
+    "get_site_details2":
+    {
+      "response": [
+        {
+          "id": "60e7979c-818b-4a60-beb6-809b89a81c41",
+          "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+          "name": "Abc",
+          "nameHierarchy": "Global/Abc",
+          "type": "area"
+        }
+      ],
+      "version": "1.0"
+    },
+
+    "get_site_details3":
+    {
+      "response": [],
+      "version": "1.0"
+    },
+
+    "create_switch_profile1":
+    {
+        "response": {
+            "taskId": "01975fda-3880-7f16-812e-16d517dc9aed",
+            "url": "/api/v1/task/01975fda-3880-7f16-812e-16d517dc9aed"
+        },
+        "version": "1.0"
+    },
+
+    "get_tasks_by_ids":
+    {
+        "response": {
+          "endTime": 1749659826342,
+          "status": "SUCCESS",
+          "startTime": 1749659826304,
+          "resultLocation": "/dna/intent/api/v1/tasks/01975fda-3880-7f16-812e-16d517dc9aed/detail",
+          "id": "01975fda-3880-7f16-812e-16d517dc9aed"
+        },
+        "version": "1.0"
+    },
+
+    "get_task_details_by_id":
+    {
+      "progress": "Network Profile [ec7181bb-979b-4ac9-b6bd-ba90294e0f7b] Successfully Created"
+    },
+
+    "assign_a_network_profile_for_sites_to_the_given_site":{
+      "response": {
+        "taskId": "01975fda-3c2a-721d-9331-b90cd728923c",
+        "url": "/api/v1/task/01975fda-3c2a-721d-9331-b90cd728923c"
+      },
+      "version": "1.0"
+    },
+
+    "get_tasks_by_ids1":
+    {
+      "response": {
+        "endTime": 1749659827285,
+        "status": "SUCCESS",
+        "startTime": 1749659827242,
+        "resultLocation": "/dna/intent/api/v1/tasks/01975fda-3c2a-721d-9331-b90cd728923c/detail",
+        "id": "01975fda-3c2a-721d-9331-b90cd728923c"
+      },
+      "version": "1.0"
+    },
+
+    "get_task_details_by_id1":
+    {
+        "progress": "Sites Successfully Associated to Network Profile [ec7181bb-979b-4ac9-b6bd-ba90294e0f7b]"
+    },
+    "assign_a_network_profile_for_sites_to_the_given_site1":
+    {
+      "response": {
+        "taskId": "01975fda-3fcf-7e52-83b0-52af84ffa3da",
+        "url": "/api/v1/task/01975fda-3fcf-7e52-83b0-52af84ffa3da"
+      },
+      "version": "1.0"
+    },
+
+    "get_tasks_by_ids2":{
+      "response": {
+        "endTime": 1749659828204,
+        "status": "SUCCESS",
+        "startTime": 1749659828175,
+        "resultLocation": "/dna/intent/api/v1/tasks/01975fda-3fcf-7e52-83b0-52af84ffa3da/detail",
+        "id": "01975fda-3fcf-7e52-83b0-52af84ffa3da"
+      },
+      "version": "1.0"
+    },
+
+    "get_task_details_by_id2":
+    {
+        "progress": "Sites Successfully Associated to Network Profile [ec7181bb-979b-4ac9-b6bd-ba90294e0f7b]"
+    },
+
+
+    "retrieves_the_list_of_network_profiles_for_sites1":
+    {
+      "response": [
+        {
+          "id": "2dd1e27e-aea7-45c5-943e-5f77bad17f79",
+          "name": "Ans Switch Prof creation and assign",
+          "type": "Switching"
+        },
+        {
+          "id": "2dfe5661-dda7-423d-bb92-069f1cebbf0b",
+          "name": "Ans Switch Prof creation with DayN Template",
+          "type": "Switching"
+        },
+        {
+          "id": "ec7181bb-979b-4ac9-b6bd-ba90294e0f7b",
+          "name": "Ans Switch Prof creation and assign1",
+          "type": "Switching"
+        }
+      ],
+      "version": "1.0"
+    },
+
+    "get_templates_details1":{
+      "response": [
+        {
+            "name": "Ansible SW Net-Prof 1",
+            "projectName": "Onboarding Configuration",
+            "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+            "templateId": "9a55cc1a-0d0d-489d-9061-4b3479c0708f",
+            "versionsInfo": [
+                {
+                    "id": "da5f5e35-c092-43a0-b374-ca68fe63c940",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1742976250975
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "8adfdc61-6276-49f1-ad93-ec845fb399ed",
+                    "name": "a_seematag1"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        },
+        {
+            "name": "Ansible SW Net-Prof 1",
+            "projectName": "test_project_1",
+            "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+            "templateId": "3169b503-3349-42a5-ba0b-7c78b5aa69f0",
+            "versionsInfo": [
+                {
+                    "id": "7bd2fff5-a250-4405-a547-747406344e76",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "Imported Template",
+                    "versionTime": 1747628564265
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "8adfdc61-6276-49f1-ad93-ec845fb399ed",
+                    "name": "a_seematag1"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        },
+        {
+            "name": "Ansible SW Net-Prof 2",
+            "projectName": "Cloud DayN Templates",
+            "projectId": "b6131824-7441-479f-9076-e24a401d63ed",
+            "templateId": "28e9faca-b63d-47ff-8b8f-7400980514cd",
+            "versionsInfo": [
+                {
+                    "id": "f2a2eae0-683a-4238-bcad-c430e9ac76dd",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1742976687331
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        },
+        {
+            "name": "Ansible_PNP_Switch",
+            "projectName": "dccv",
+            "projectId": "19d7e858-2413-487b-9048-f13ec1601416",
+            "templateId": "25723546-1798-4295-8179-ade487f13e78",
+            "versionsInfo": [
+                {
+                    "id": "f253dbcf-3ac8-4c52-bd82-6b53dd5236fa",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "Imported Template",
+                    "versionTime": 1744871558604
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9300 Series Switches"
+                }
+            ]
+        },
+        {
+            "name": "Ansible_PNP_Switch",
+            "projectName": "Onboarding Configuration",
+            "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+            "templateId": "c79f4a36-ab36-478d-8bee-848d01606a87",
+            "versionsInfo": [
+                {
+                    "id": "4fe2f46a-3654-4187-81e4-b28bc107f5aa",
+                    "description": "",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "",
+                    "versionTime": 1727827112635
+                },
+                {
+                    "id": "3630f8ba-0e6d-4652-bfa0-5bde0e31bdf0",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1727826624453
+                },
+                {
+                    "id": "a9d28bdd-afac-462e-a1b2-e102a7f2ded5",
+                    "description": "",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "",
+                    "versionTime": 1727826687240
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9300 Series Switches"
+                }
+            ]
+        },
+        {
+            "name": "Check template",
+            "projectName": "test_project_1",
+            "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+            "templateId": "df9b710e-8251-4804-bed7-51d02a18949a",
+            "versionsInfo": [
+                {
+                    "id": "e12efd7b-abfc-4b70-acac-dee5628d92e4",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "Test Template",
+                    "versionTime": 1749117257986
+                },
+                {
+                    "id": "856ad3b8-f952-4a94-a771-1e0e1873598a",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "Test Template",
+                    "versionTime": 1749117455700
+                },
+                {
+                    "id": "ee384571-749d-406d-bbff-6c256824fca6",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "Version description for the template 1",
+                    "versionTime": 1749120107942
+                },
+                {
+                    "id": "694cde37-40bb-4be4-b393-8f7c1f324083",
+                    "author": "admin",
+                    "version": "4",
+                    "versionComment": "Version description for the template 2",
+                    "versionTime": 1749120359078
+                },
+                {
+                    "id": "f7367566-308b-4e3c-b5d3-66fdfea970dd",
+                    "author": "admin",
+                    "version": "5",
+                    "versionComment": "Check from UI",
+                    "versionTime": 1749120948843
+                },
+                {
+                    "id": "90262e41-a9b4-4c2d-82fd-3e9aeb38c83c",
+                    "author": "admin",
+                    "version": "6",
+                    "versionComment": "Version description for the template 2",
+                    "versionTime": 1749121355758
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        },
+        {
+            "name": "Copy of Template Provisioning To Device_1742542851340",
+            "projectName": "ODC Provisioning",
+            "projectId": "fa18dd05-d41c-441c-af44-8e2644781823",
+            "templateId": "c1970707-1ad4-475b-a288-fc19b2754cfb",
+            "versionsInfo": [
+                {
+                    "id": "d2f8c4f4-3193-48b7-b661-952c4c8af83f",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1742542920568
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        },
+        {
+            "name": "DMVPN Hub for Cloud Router- System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+            "templateId": "204831af-8704-4210-878f-b8996daf79e1",
+            "versionsInfo": [
+                {
+                    "id": "c9acd88f-dbd5-40d2-9185-4e6bd3269528",
+                    "description": "Dynamic Multipoint VPN Hub for Cloud Router",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259145198
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "7319e510-81fa-4912-8433-fcf719a0d2be",
+                    "name": "cloud-dmvpn-hub"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "DMVPN Spoke for Branch Router - System Default",
+            "projectName": "Cloud DayN Templates",
+            "projectId": "b6131824-7441-479f-9076-e24a401d63ed",
+            "templateId": "a4e53ade-cc6e-409e-8b2f-ec191f8e2242",
+            "versionsInfo": [
+                {
+                    "id": "a7cab587-05fc-4af2-af19-795f607970f3",
+                    "description": "Dynamic Multipoint VPN Spoke for Branch Router",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259147229
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "ac89003f-3822-430f-99b9-073403e57bdf",
+                    "name": "branch-router-dmvpn-spoke"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers"
+                }
+            ]
+        },
+        {
+            "name": "DMVPN for Cloud Router - System Default",
+            "projectName": "Cloud DayN Templates",
+            "projectId": "b6131824-7441-479f-9076-e24a401d63ed",
+            "templateId": "57d312d6-a596-4937-a3b9-0816ea13c563",
+            "versionsInfo": [
+                {
+                    "id": "05200455-e0f8-4bb7-8750-37f43dfc7a4a",
+                    "description": "DMVPN for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259147588
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "a228c460-cf09-498f-a828-79ee7db8c2c9",
+                    "name": "cloud-dmvpn"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "Example_test1",
+            "projectName": "Sample Jinja Templates",
+            "projectId": "6f447090-f983-49e6-b9a7-2f6c3c1eb31a",
+            "templateId": "ba45f0cf-2527-40d1-bc24-8870878cf66a",
+            "versionsInfo": [
+                {
+                    "id": "9e5b0de0-2c44-480e-9f20-62a8d4cfbc92",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "for_testing",
+                    "versionTime": 1727411364175
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "Cisco Controller-",
+            "deviceTypes": [
+                {
+                    "productFamily": "Network Management"
+                }
+            ]
+        },
+        {
+            "name": "Fusion Router Config",
+            "projectName": "Network Configuration Templates",
+            "projectId": "15d7ab43-d395-47ae-8b46-98bcecdb8a4a",
+            "templateId": "1de73be0-da0e-48df-8957-b7c6f43b9b83",
+            "versionsInfo": [
+                {
+                    "id": "f31c5836-5865-4323-b53b-ad5307aa1a5c",
+                    "author": "admin",
+                    "version": "1",
+                    "versionTime": 1743588490826
+                },
+                {
+                    "id": "dad38394-2688-4a24-8b0b-f7f5e7cef0e2",
+                    "author": "admin",
+                    "version": "2",
+                    "versionTime": 1743588569391
+                },
+                {
+                    "id": "312a06f7-e6df-42b2-be93-d422a3d7d78a",
+                    "author": "admin",
+                    "version": "3",
+                    "versionTime": 1743588697368
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 3850 Series Ethernet Stackable Switch"
+                }
+            ]
+        },
+        {
+            "name": "IPsec 1 Branch for Cloud Router - System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+            "templateId": "df994c94-1e2d-49d7-9a20-327a6ce247ce",
+            "versionsInfo": [
+                {
+                    "id": "0caa1c6d-a4f9-495d-96f1-e4bfd2fd17e0",
+                    "description": "IPsec 1 Branch for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259144388
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "4092287b-7d32-4f28-a742-57f10bd45013",
+                    "name": "cloud-ipsec-one-branch-router"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "IPsec 2 Branch for Cloud Router - System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+            "templateId": "c886c090-a756-457a-997d-af31ce251118",
+            "versionsInfo": [
+                {
+                    "id": "7f3e3de2-7973-46dd-bd05-6b9e7bb0a45c",
+                    "description": "IPsec 2 Branch for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259145806
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "6fdaa4cf-92c3-4e0b-8ede-232c58af0b3e",
+                    "name": "cloud-ipsec-two-branch-routers"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "IPsec for Branch Router - System Default",
+            "projectName": "Cloud DayN Templates",
+            "projectId": "b6131824-7441-479f-9076-e24a401d63ed",
+            "templateId": "e0df50ea-9325-4e3d-b330-441e99233b42",
+            "versionsInfo": [
+                {
+                    "id": "8e7feed5-da2a-4d36-8fbf-876e6e0c8db6",
+                    "description": "IPsec for Branch Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259146404
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "ea3c92c4-82c5-4a72-bd02-aec09270ee3e",
+                    "name": "branch-router-ipsec"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers"
+                }
+            ]
+        },
+        {
+            "name": "IPsec for Cloud Router - System Default",
+            "projectName": "Cloud DayN Templates",
+            "projectId": "b6131824-7441-479f-9076-e24a401d63ed",
+            "templateId": "c0495d8e-872c-432e-b963-fbda3c483389",
+            "versionsInfo": [
+                {
+                    "id": "e6527c3a-96c0-4c46-ae18-ca72f47e3ec7",
+                    "description": "IPsec for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259146878
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "bc94116e-8c35-4cd2-88d6-14d2297f6a41",
+                    "name": "tags1"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "Latest2",
+            "projectName": "test_project_1",
+            "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+            "templateId": "652adc07-b827-44a1-8295-08567e54147f",
+            "versionsInfo": [
+                {
+                    "id": "fd0f3564-4c10-4a9e-88ab-bed2aab6eefb",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "Test Template",
+                    "versionTime": 1749195872548
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        },
+        {
+            "name": "Latest3",
+            "projectName": "test_project_1",
+            "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+            "templateId": "d8423fe1-79cc-430e-b083-8f25c8069f57",
+            "versionsInfo": [
+                {
+                    "id": "328fd4a2-dc43-455d-90d7-62f7364436b2",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "Test Template",
+                    "versionTime": 1749196397527
+                },
+                {
+                    "id": "19f45013-b0f9-4941-b2ad-86a33fc0a2af",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "Test Template",
+                    "versionTime": 1749196427365
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        },
+        {
+            "name": "Onboarding Configuration",
+            "projectName": "Sample-project",
+            "projectId": "feb16960-348e-4508-a070-7329a158f451",
+            "templateId": "d303282c-0b32-4b43-9d0a-3ff96564604c",
+            "versionsInfo": [
+                {
+                    "id": "3ac5219b-af20-4eae-bb17-c6f44d4087f7",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1745904188049
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "nfvos-",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco 1000 Series Connected Grid Routers"
+                }
+            ]
+        },
+        {
+            "name": "PnP-Upstream-SW",
+            "projectName": "access_van_template_9300_switches",
+            "projectId": "d6d0d881-8244-4798-ac4e-fa8cc33bad96",
+            "templateId": "37c914b1-81ad-4a7c-bb99-f17bf9092dc2",
+            "versionsInfo": [
+                {
+                    "id": "6edfd316-d004-430e-9bea-1094364a1583",
+                    "author": "admin",
+                    "version": "2",
+                    "versionTime": 1743588509655
+                },
+                {
+                    "id": "e7b40ba1-c2cc-4003-8770-6fd3b6c154d9",
+                    "author": "admin",
+                    "version": "4",
+                    "versionTime": 1743588692196
+                },
+                {
+                    "id": "774c0f9f-3b79-4d63-9132-4cb6b41ebdf8",
+                    "author": "admin",
+                    "version": "3",
+                    "versionTime": 1743588564333
+                },
+                {
+                    "id": "80e2286d-1fd7-4c58-b926-ffc5b8041de4",
+                    "author": "admin",
+                    "version": "1",
+                    "versionTime": 1743588485209
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9300 Series Switches"
+                }
+            ]
+        },
+        {
+            "name": "PnP-Upstream-SW1",
+            "projectName": "Onboarding Configuration",
+            "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+            "templateId": "72a80dbf-d080-459a-81ca-3cd755ed3db7",
+            "versionsInfo": [
+                {
+                    "id": "8fbc9c69-877f-4d0f-a4c3-d304f1c17a12",
+                    "author": "admin",
+                    "version": "1",
+                    "versionTime": 1743588487730
+                },
+                {
+                    "id": "5cfa36da-9f44-42f1-884b-0a2212978f26",
+                    "author": "admin",
+                    "version": "2",
+                    "versionTime": 1743588566816
+                },
+                {
+                    "id": "1120e97d-4b5b-4b82-a4b3-b9e30766336c",
+                    "author": "admin",
+                    "version": "4",
+                    "versionTime": 1743588884086
+                },
+                {
+                    "id": "c2c329f7-f0be-4bd1-8feb-a295120c80d2",
+                    "author": "admin",
+                    "version": "3",
+                    "versionTime": 1743588694745
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9300 Series Switches"
+                }
+            ]
+        },
+        {
+            "name": "Rangatemplate",
+            "projectName": "Rangapeoject",
+            "projectId": "aa664d32-2cf9-4c47-ae11-4314a223daac",
+            "templateId": "bda26607-0991-4bb2-a65b-4b7c8c9b0661",
+            "versionsInfo": [
+                {
+                    "id": "56ba863a-3ae6-45ee-aedc-c99fb9514779",
+                    "description": "twist",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1745985263564
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "78675d19-05ff-46ce-a30c-8789d7ab713d",
+                    "name": "AUTO_INV_EVENT_SYNC_DISABLED"
+                }
+            ],
+            "softwareType": "IOS-",
+            "deviceTypes": [
+                {
+                    "productFamily": "Cisco Cloud Services Platform",
+                    "productSeries": "Cisco Cloud Services Platform 5000"
+                }
+            ]
+        },
+        {
+            "name": "TUNG TUNG TUNG SAHUR",
+            "projectName": "BOMBARDIRO_CROCODILO",
+            "projectId": "878aa66a-4186-40f3-b9e7-8a13ddbb5cdd",
+            "templateId": "e1be2688-dcf4-48fe-92b1-c2f1de7f3bc1",
+            "versionsInfo": [
+                {
+                    "id": "e82efa10-416b-4570-8bf8-eac643d7c612",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "ccc",
+                    "versionTime": 1745469333046
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "5b52170c-8e08-4738-a0cf-c69a7c4ae377",
+                    "name": "yyyy"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco 1100 Series Industrial Integrated Services Routers"
+                }
+            ]
+        },
+        {
+            "name": "Template Provisioning To Device",
+            "projectName": "ODC Provisioning",
+            "projectId": "fa18dd05-d41c-441c-af44-8e2644781823",
+            "templateId": "3b282b66-eff3-4f32-8b64-427365996537",
+            "versionsInfo": [
+                {
+                    "id": "2fdce9e7-89c1-4637-acef-477d030b86cf",
+                    "description": "",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "ImportedTemplate",
+                    "versionTime": 1728540268394
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        },
+        {
+            "name": "Test-template",
+            "projectName": "test_project_1",
+            "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+            "templateId": "44e50170-c413-48ce-b58f-188d1e248545",
+            "versionsInfo": [
+                {
+                    "id": "0256367f-6fc2-4f82-a8a9-3973945b3119",
+                    "description": "",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "",
+                    "versionTime": 1749042640539
+                },
+                {
+                    "id": "c0945196-5320-4fda-b214-44a6349cc9cc",
+                    "description": "",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "",
+                    "versionTime": 1749042678225
+                },
+                {
+                    "id": "30367d03-7124-4069-a2cf-5ead46163d55",
+                    "description": "",
+                    "author": "admin",
+                    "version": "8",
+                    "versionComment": "",
+                    "versionTime": 1749044018475
+                },
+                {
+                    "id": "b45be866-c84a-43e7-b879-9b6f65ebc708",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1748451238616
+                },
+                {
+                    "id": "1e04e23e-92b2-4309-8c98-d8d5d3f076cd",
+                    "description": "",
+                    "author": "admin",
+                    "version": "6",
+                    "versionComment": "latest commit ",
+                    "versionTime": 1749043330323
+                },
+                {
+                    "id": "ef961473-208a-405b-bf07-ed810ba72197",
+                    "description": "",
+                    "author": "admin",
+                    "version": "7",
+                    "versionComment": "",
+                    "versionTime": 1749043969998
+                },
+                {
+                    "id": "0a8f8b03-abfd-4e29-9f2f-44640268ff5e",
+                    "description": "",
+                    "author": "admin",
+                    "version": "4",
+                    "versionComment": "",
+                    "versionTime": 1749042723299
+                },
+                {
+                    "id": "6ca2bee2-654d-4449-8d42-d76af4079c77",
+                    "description": "",
+                    "author": "admin",
+                    "version": "5",
+                    "versionComment": "",
+                    "versionTime": 1749042739876
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst ESS9300 Embedded Series Switch"
+                },
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9300 Series Switches"
+                }
+            ]
+        },
+        {
+            "name": "UT template",
+            "projectName": "test_project_3",
+            "projectId": "513a4462-c926-480c-8913-7eab2ee939a6",
+            "templateId": "20001e8e-d900-4ba8-bf98-ca72d9531015",
+            "versionsInfo": [
+                {
+                    "id": "63ff26d9-3ebe-4ee9-b6ac-1bdfbabeb11a",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "Adding and committing the updated template",
+                    "versionTime": 1749458488844
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        },
+        {
+            "name": "UT template",
+            "projectName": "test_project_1",
+            "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+            "templateId": "5bb9a1dc-c055-4592-907a-ba01f7bf7c6d",
+            "versionsInfo": [
+                {
+                    "id": "1d145f32-86e9-4674-8ef4-c54f0319755e",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "Adding and committing the new template",
+                    "versionTime": 1749204572988
+                },
+                {
+                    "id": "a23d21b7-7773-4aea-83e5-e6ed152e7c0f",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "Adding and committing the updated template",
+                    "versionTime": 1749205172947
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        },
+        {
+            "name": "WLC Template",
+            "projectName": "ODC Provisioning",
+            "projectId": "fa18dd05-d41c-441c-af44-8e2644781823",
+            "templateId": "5935fbdb-3d4c-4d6c-be5f-c61401be6b93",
+            "versionsInfo": [
+                {
+                    "id": "38a74df1-779c-441e-97ce-9b4670cd1fd0",
+                    "description": "",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "",
+                    "versionTime": 1740777392227
+                },
+                {
+                    "id": "ffa990c4-df80-4f70-90e2-f7e9d6869865",
+                    "description": "",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "",
+                    "versionTime": 1730796226724
+                },
+                {
+                    "id": "719eed23-3a4f-4f71-a425-fdae7d6adc49",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1730785136128
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Wireless Controller"
+                }
+            ]
+        },
+        {
+            "name": "apr_30_temp",
+            "projectName": "test_apr30",
+            "projectId": "764f12dc-ec4f-48ce-bbb2-a937dce6311e",
+            "templateId": "484c1191-46cf-44bb-bc28-dba1d440c85d",
+            "versionsInfo": [
+                {
+                    "id": "75ca092b-434d-41df-9189-cbefd3f8178d",
+                    "description": "",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "",
+                    "versionTime": 1745985264361
+                },
+                {
+                    "id": "9f432961-fdd9-4a83-b4eb-776f0c389cf8",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1745984376174
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "78675d19-05ff-46ce-a30c-8789d7ab713d",
+                    "name": "AUTO_INV_EVENT_SYNC_DISABLED"
+                }
+            ],
+            "softwareType": "IOS-",
+            "deviceTypes": [
+                {
+                    "productFamily": "Cisco Cloud Services Platform",
+                    "productSeries": "Cisco Cloud Services Platform 5000"
+                }
+            ]
+        },
+        {
+            "name": "bbbb",
+            "projectName": "bbb",
+            "projectId": "538081c3-8f98-4fe2-95dc-c5854f5169c6",
+            "templateId": "2bdf1d06-7aaf-4600-8f75-ff4fe2a5805f",
+            "versionsInfo": [
+                {
+                    "id": "20877d6e-b14d-4b2c-a9e2-2af7153456b2",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "ccc",
+                    "versionTime": 1744950776828
+                }
+            ],
+            "composite": true,
+            "tags": [],
+            "softwareType": "IOS-XR",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco 1000 Series Connected Grid Routers"
+                }
+            ]
+        },
+        {
+            "name": "dccv temp",
+            "projectName": "dccv",
+            "projectId": "19d7e858-2413-487b-9048-f13ec1601416",
+            "templateId": "fb5dc4f0-0c44-46b5-b681-05de6f1a7d1d",
+            "versionsInfo": [
+                {
+                    "id": "5bc58f3b-7615-4e88-b8d5-33bf9d7a81ea",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1744863826892
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "Cisco Controller-",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco 1000 Series Integrated Services Routers"
+                },
+                {
+                    "productFamily": "Security and VPN"
+                }
+            ]
+        },
+        {
+            "name": "demo",
+            "projectName": "demo",
+            "projectId": "6ae5de73-b9aa-45e7-989e-df6e56564807",
+            "templateId": "da2a716f-af41-479f-94be-4c28b7c66e3d",
+            "versionsInfo": [
+                {
+                    "id": "048cee05-0fae-451c-b785-fac63d66367a",
+                    "description": "",
+                    "author": "admin",
+                    "version": "4",
+                    "versionComment": "",
+                    "versionTime": 1749022325607
+                },
+                {
+                    "id": "f4d0bbaf-c04a-4cff-895f-30627e9c859f",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "demo",
+                    "versionTime": 1745208984262
+                },
+                {
+                    "id": "ef944754-283c-41bf-9914-d38e6d7207c5",
+                    "description": "",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "note1",
+                    "versionTime": 1747285853831
+                },
+                {
+                    "id": "bd19c8a3-6fc7-488f-b5a5-8788276b3782",
+                    "description": "",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "",
+                    "versionTime": 1747285964430
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "Adaptive Security Appliance-",
+            "deviceTypes": [
+                {
+                    "productFamily": "Wireless Controller",
+                    "productSeries": "Cisco Access Point Modules"
+                }
+            ]
+        },
+        {
+            "name": "hanma",
+            "projectName": "baki",
+            "projectId": "e551be29-6c75-4a9e-9586-644a67fa5c1b",
+            "templateId": "0eecfe82-5436-4375-95a2-fc415e52cfe0",
+            "versionsInfo": [
+                {
+                    "id": "dccb4426-b5aa-4955-ad63-db929a710440",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "pickle",
+                    "versionTime": 1745687268646
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Wireless Controller"
+                }
+            ]
+        },
+        {
+            "name": "naruto",
+            "projectName": "rasengan",
+            "projectId": "b8926706-4c3c-4808-ab7e-92417b49faae",
+            "templateId": "e6139443-ff58-42e7-bd67-d91bf8e3c4eb",
+            "versionsInfo": [
+                {
+                    "id": "31b8a033-a19f-4a82-99d2-dc7dc090b2d7",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "ussop",
+                    "versionTime": 1744897835336
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Wireless Controller"
+                }
+            ]
+        },
+        {
+            "name": "rangatemplayt1",
+            "projectName": "Rangapeoject",
+            "projectId": "aa664d32-2cf9-4c47-ae11-4314a223daac",
+            "templateId": "ed1ab9a4-4167-4b88-975a-ca2d070ade22",
+            "versionsInfo": [
+                {
+                    "id": "aa77ab7d-3dab-415f-b9ca-a0e187d9e0da",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1745985477788
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "78675d19-05ff-46ce-a30c-8789d7ab713d",
+                    "name": "AUTO_INV_EVENT_SYNC_DISABLED"
+                }
+            ],
+            "softwareType": "IOS-",
+            "deviceTypes": [
+                {
+                    "productFamily": "Cisco Cloud Services Platform",
+                    "productSeries": "Cisco Cloud Services Platform 5000",
+                    "productType": "Cisco Cloud Services Platform 5200"
+                }
+            ]
+        },
+        {
+            "name": "rangatest",
+            "projectName": "testrangaaaaa",
+            "projectId": "47692aee-7ecb-42fb-b2d3-00bfa002ba0c",
+            "templateId": "f26c3252-ca85-4090-b8f0-3d1687f17cb9",
+            "versionsInfo": [
+                {
+                    "id": "1477df88-4142-4033-bd2a-d51e15540850",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "ccc",
+                    "versionTime": 1745407515414
+                },
+                {
+                    "id": "241180b0-32f5-4e2a-89b2-cbdf4f6d0f2b",
+                    "description": "333",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "now2404",
+                    "versionTime": 1745467396621
+                },
+                {
+                    "id": "25705d00-22b7-4425-b4d2-9dd0f13ce409",
+                    "description": "333",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "333",
+                    "versionTime": 1745467424536
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "aa451a22-5275-4378-9b05-4dceb6691ef8",
+                    "name": "TEST1111"
+                },
+                {
+                    "id": "8d7bab38-e708-4315-9fe2-99c34b4d172a",
+                    "name": "TEST112"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco 1100 Series Industrial Integrated Services Routers"
+                }
+            ]
+        },
+        {
+            "name": "teams_name",
+            "projectName": "test-rename-1",
+            "projectId": "9204f431-95cc-40ab-b0d7-309e122de809",
+            "templateId": "bd009dcb-5fc2-410f-9f96-898478d51819",
+            "versionsInfo": [
+                {
+                    "id": "699d303f-610e-4989-8a83-bbcce364ff6f",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1745985054739
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-",
+            "deviceTypes": [
+                {
+                    "productFamily": "Content Networking",
+                    "productSeries": "Cisco Wide Area Virtualization Engines"
+                }
+            ]
+        },
+        {
+            "name": "test1",
+            "projectName": "Rangapeoject",
+            "projectId": "aa664d32-2cf9-4c47-ae11-4314a223daac",
+            "templateId": "e4bc3b0d-0dec-4aa1-a26d-63ff55b6d470",
+            "versionsInfo": [
+                {
+                    "id": "063c1b71-a27b-4064-951c-4e6fac38eb32",
+                    "description": "test1_template_description",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "commit1",
+                    "versionTime": 1747711620159
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "11b38679-f409-41bd-a5fd-73401b49df98",
+                    "name": "Ranga"
+                }
+            ],
+            "softwareType": "IOS-",
+            "deviceTypes": [
+                {
+                    "productFamily": "Cisco URWB Family"
+                },
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco 1000 Series Connected Grid Routers"
+                }
+            ]
+        },
+        {
+            "name": "test_template_10",
+            "projectName": "test_project_3",
+            "projectId": "513a4462-c926-480c-8913-7eab2ee939a6",
+            "templateId": "32fe39b7-5196-46ba-81c8-1c673170c3ca",
+            "versionsInfo": [
+                {
+                    "id": "572614dd-d332-43b8-861a-13191cec6607",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "template_descr_commit10",
+                    "versionTime": 1747644025557
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "NX-OS",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers"
+                }
+            ]
+        },
+        {
+            "name": "test_template_11",
+            "projectName": "test_project_4",
+            "projectId": "540b0309-28da-4149-a724-93086c828257",
+            "templateId": "5d09f72a-7591-441a-abe2-b96e283e2126",
+            "versionsInfo": [
+                {
+                    "id": "3f5c5b0b-941f-4b1f-8b69-adfd623fcceb",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "template_descr_commit11",
+                    "versionTime": 1747645390700
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers"
+                }
+            ]
+        },
+        {
+            "name": "test_template_11_updated",
+            "projectName": "test_project_4",
+            "projectId": "540b0309-28da-4149-a724-93086c828257",
+            "templateId": "694edc2b-9f82-4b5a-894b-61fc82d4f87a",
+            "versionsInfo": [
+                {
+                    "id": "c3c40eaa-eb39-4604-8984-21853c7ce0e8",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "template_descr_commit11",
+                    "versionTime": 1747644035197
+                },
+                {
+                    "id": "5b3f902d-9167-4944-a850-b215d8b89428",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "template_descr_commit11_updated",
+                    "versionTime": 1747644126621
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "Adaptive Security Appliance",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers"
+                },
+                {
+                    "productFamily": "Security and VPN"
+                }
+            ]
+        },
+        {
+            "name": "test_template_12",
+            "projectName": "test_project_5",
+            "projectId": "9c93abbe-3649-4046-8949-00369e9519ce",
+            "templateId": "65ac3349-dc0d-43ee-b4a0-a4589c7bc025",
+            "versionsInfo": [
+                {
+                    "id": "830058e0-c822-4521-af91-285811b99532",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "template_descr_commit12",
+                    "versionTime": 1747645393177
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "NFV-OS",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers"
+                }
+            ]
+        },
+        {
+            "name": "test_template_12_updated",
+            "projectName": "test_project_5",
+            "projectId": "9c93abbe-3649-4046-8949-00369e9519ce",
+            "templateId": "6af7a674-ea98-4eb5-80d6-fd2ba52fa8cf",
+            "versionsInfo": [
+                {
+                    "id": "a9534839-ba31-47fa-b84c-79008ba497ea",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "template_descr_commit12_updated",
+                    "versionTime": 1747644132865
+                },
+                {
+                    "id": "3597a700-1061-48c1-8474-4c2a4498e994",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "template_descr_commit12",
+                    "versionTime": 1747644039361
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "NFV-OS",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers"
+                }
+            ]
+        },
+        {
+            "name": "test_template_15",
+            "projectName": "test_project_1",
+            "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+            "templateId": "5dd9982c-4ca8-4d00-86a2-b4a5b62cf752",
+            "versionsInfo": [
+                {
+                    "id": "4f4869e6-130a-47cf-a7a4-b7b4e9411b48",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "template_descr_commit15",
+                    "versionTime": 1747644054528
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        },
+        {
+            "name": "test_template_16",
+            "projectName": "test_project_2",
+            "projectId": "686b24d1-5d4a-4f34-9433-ed1a01cf58ed",
+            "templateId": "bf8ad8aa-d81a-4c70-a9b7-e4dc034fc942",
+            "versionsInfo": [
+                {
+                    "id": "2f76739d-49c3-43d8-8cc6-7f4af396db4d",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "template_descr_commit16",
+                    "versionTime": 1747644063944
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "NX-OS",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        },
+        {
+            "name": "test_template_2",
+            "projectName": "test_project_2",
+            "projectId": "686b24d1-5d4a-4f34-9433-ed1a01cf58ed",
+            "templateId": "79ad2d52-2409-478b-96bd-25e4d4123b9c",
+            "versionsInfo": [
+                {
+                    "id": "79d65b7c-d026-4546-985a-b77fa56d060d",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "template_descr_commit2",
+                    "versionTime": 1747643967227
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "NX-OS",
+            "deviceTypes": [
+                {
+                    "productFamily": "Wireless Controller"
+                }
+            ]
+        },
+        {
+            "name": "test_template_3",
+            "projectName": "test_project_3",
+            "projectId": "513a4462-c926-480c-8913-7eab2ee939a6",
+            "templateId": "ddeb5e99-236b-49ab-a8f5-dae037f04ae1",
+            "versionsInfo": [
+                {
+                    "id": "7fe1ad55-f9f1-4962-b4ea-7cdb867ebee4",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "template_descr_commit3",
+                    "versionTime": 1747645341614
+                },
+                {
+                    "id": "966c7267-13dc-4a4c-9ec4-c5f5c50b08dd",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "template_descr_commit3",
+                    "versionTime": 1747644077403
+                },
+                {
+                    "id": "73939363-939f-4902-9c09-bf9934a1005b",
+                    "author": "admin",
+                    "version": "4",
+                    "versionComment": "template_descr_commit3",
+                    "versionTime": 1747645424424
+                },
+                {
+                    "id": "4d05e375-1d1b-48c3-93f7-36916bc10e8d",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "template_descr_commit3",
+                    "versionTime": 1747643976127
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "NX-OS",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        },
+        {
+            "name": "test_template_4",
+            "projectName": "test_project_4",
+            "projectId": "540b0309-28da-4149-a724-93086c828257",
+            "templateId": "527456a6-a002-46f3-941f-b0e67c79d870",
+            "versionsInfo": [
+                {
+                    "id": "733392f5-5e35-42ac-8b02-de6ccd992b0a",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "template_descr_commit4",
+                    "versionTime": 1747645351265
+                },
+                {
+                    "id": "cf92236a-a94a-4de8-8525-d3c6886e3afb",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "template_descr_commit4",
+                    "versionTime": 1747643986249
+                },
+                {
+                    "id": "791a8ece-5016-4f83-8c48-2c66cdc9a0d2",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "template_descr_commit4",
+                    "versionTime": 1747644088218
+                },
+                {
+                    "id": "f54bca5f-c5d2-4df9-bcae-39fe96b37618",
+                    "author": "admin",
+                    "version": "4",
+                    "versionComment": "template_descr_commit4",
+                    "versionTime": 1747645434448
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        },
+        {
+            "name": "test_template_5",
+            "projectName": "test_project_5",
+            "projectId": "9c93abbe-3649-4046-8949-00369e9519ce",
+            "templateId": "8444eee3-7bd9-4497-89be-c5395ae7383e",
+            "versionsInfo": [
+                {
+                    "id": "965128c0-df31-4a84-b3b6-0dfa2093b9b7",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "template_descr_commit5",
+                    "versionTime": 1747645355551
+                },
+                {
+                    "id": "250806ab-ebd7-4f60-be3b-9e546413d737",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "template_descr_commit5",
+                    "versionTime": 1747643991034
+                },
+                {
+                    "id": "85058b5b-06c4-473a-be81-62db0527b4e3",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "template_descr_commit5",
+                    "versionTime": 1747644092881
+                },
+                {
+                    "id": "4fc49248-bbfe-470f-87cf-5d05e24ae7a6",
+                    "author": "admin",
+                    "version": "4",
+                    "versionComment": "template_descr_commit5",
+                    "versionTime": 1747645438748
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "NFV-OS",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        },
+        {
+            "name": "test_template_8",
+            "projectName": "test_project_1",
+            "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+            "templateId": "25321cd0-65ff-431a-82d4-2639a2d8a117",
+            "versionsInfo": [
+                {
+                    "id": "9f34f9e5-f7a6-41aa-bfe2-12f34c7328be",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "template_descr_commit8",
+                    "versionTime": 1747644005814
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers"
+                }
+            ]
+        },
+        {
+            "name": "test_template_9",
+            "projectName": "test_project_2",
+            "projectId": "686b24d1-5d4a-4f34-9433-ed1a01cf58ed",
+            "templateId": "7710e5c0-57de-42a8-9455-44b7862ae504",
+            "versionsInfo": [
+                {
+                    "id": "c2a3138e-2abb-48b8-abf2-6177a8439f13",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "template_descr_commit9",
+                    "versionTime": 1747644015749
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "NX-OS",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers"
+                }
+            ]
+        },
+        {
+            "name": "testseema",
+            "projectName": "kkk333",
+            "projectId": "57721663-ccfb-406c-a133-dfcc2ffe3fa8",
+            "templateId": "79e59755-f203-442b-a0dd-16c9b46e71aa",
+            "versionsInfo": [
+                {
+                    "id": "d798392d-ac7a-4124-98cb-e3bda17da1d1",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1744863982683
+                },
+                {
+                    "id": "77051f27-6f79-4b9c-9a47-8153daa268e4",
+                    "description": "",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "",
+                    "versionTime": 1744864073083
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Wireless Controller",
+                    "productSeries": "Cisco Catalyst 9800 Wireless Controllers for Cloud"
+                }
+            ]
+        },
+        {
+            "name": "wlc-test-onboarding",
+            "projectName": "Test-on-onboarding-template",
+            "projectId": "ec228cf3-6b4a-47ac-b909-9653f1c93afa",
+            "templateId": "c7fddba9-93f6-460e-bab9-6ebcdc0b39a6",
+            "versionsInfo": [
+                {
+                    "id": "301ccb65-d89e-4338-ab0a-e41ac3d6c6bb",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1742950454733
+                }
+            ],
+            "composite": true,
+            "tags": [],
+            "softwareType": "Cisco Controller-",
+            "deviceTypes": [
+                {
+                    "productFamily": "Wireless Controller",
+                    "productSeries": "Cisco Catalyst 9800 Series Wireless Controllers"
+                }
+            ]
+        }
+      ]
+    },
+
+    "retrieve_cli_templates_attached_to_a_network_profile2":{
+      "response": [
+
+      ],
+      "version": "1.0"
+    },
+
+    "attach_network_profile_to_a_day_n_cli_template":{
+      "response": {
+        "taskId": "01976313-d5da-7d3e-bc9a-1abc0d9b2f31",
+        "url": "/api/v1/task/01976313-d5da-7d3e-bc9a-1abc0d9b2f31"
+      },
+      "version": "1.0"
+    },
+
+    "get_tasks_by_id":{
+      "response": {
+        "endTime": 1749713933831,
+        "status": "SUCCESS",
+        "startTime": 1749713933787,
+        "resultLocation": "/dna/intent/api/v1/tasks/01976313-d5da-7d3e-bc9a-1abc0d9b2f31/detail",
+        "id": "01976313-d5da-7d3e-bc9a-1abc0d9b2f31"
+      },
+      "version": "1.0"
+    },
+
+    "get_task_details_by_id11": {
+        "progress": "Template successfully attached to the network profile"
+    },
+
+    "attach_network_profile_to_a_day_n_cli_template1":{
+      "response": {
+        "taskId": "01976313-d99f-7527-bec7-709bc1055b6e",
+        "url": "/api/v1/task/01976313-d99f-7527-bec7-709bc1055b6e"
+      },
+      "version": "1.0"
+    },
+
+    "get_tasks_by_id11":{
+      "response": {
+        "endTime": 1749713934784,
+        "status": "SUCCESS",
+        "startTime": 1749713934751,
+        "resultLocation": "/dna/intent/api/v1/tasks/01976313-d99f-7527-bec7-709bc1055b6e/detail",
+        "id": "01976313-d99f-7527-bec7-709bc1055b6e"
+      },
+      "version": "1.0"
+    },
+
+    "get_task_details_by_id12": {
+        "progress": "Template successfully attached to the network profile"
+    },
+    "playbook_update_day_n_template1":[
+        {
+            "day_n_templates": [
+                "Test-template"
+            ],
+            "profile_name": "Ans Switch Prof creation and assign5"
+        }
+    ],
+    "retrieves_the_list_of_network_profiles_for_sites11":{
+        "response": [
+            {
+            "id": "211a97e0-5b60-4c48-b274-0ca85bcffd1a",
+            "name": "Ans Switch Prof creation and assign5",
+            "type": "Switching"
+            },
+            {
+            "id": "d48ad9b6-5a7d-4563-9fd1-d2c0c2cf1c61",
+            "name": "Ans Switch Prof creation and assign1",
+            "type": "Switching"
+            }
+        ],
+        "version": "1.0"
+        },
+    "gets_the_templates_available":[
+    {
+        "name": "Ansible SW Net-Prof 1",
+        "projectName": "Onboarding Configuration",
+        "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+        "templateId": "9a55cc1a-0d0d-489d-9061-4b3479c0708f",
+        "versionsInfo": [
+            {
+                "id": "da5f5e35-c092-43a0-b374-ca68fe63c940",
+                "description": "",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "",
+                "versionTime": 1742976250975
+            }
+        ],
+        "composite": false,
+        "tags": [
+            {
+                "id": "8adfdc61-6276-49f1-ad93-ec845fb399ed",
+                "name": "a_seematag1"
+            }
+        ],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs"
+            }
+        ]
+    },
+    {
+        "name": "Ansible SW Net-Prof 1",
+        "projectName": "test_project_1",
+        "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+        "templateId": "3169b503-3349-42a5-ba0b-7c78b5aa69f0",
+        "versionsInfo": [
+            {
+                "id": "7bd2fff5-a250-4405-a547-747406344e76",
+                "description": "",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "Imported Template",
+                "versionTime": 1747628564265
+            }
+        ],
+        "composite": false,
+        "tags": [
+            {
+                "id": "8adfdc61-6276-49f1-ad93-ec845fb399ed",
+                "name": "a_seematag1"
+            }
+        ],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs"
+            }
+        ]
+    },
+    {
+        "name": "Ansible SW Net-Prof 2",
+        "projectName": "Cloud DayN Templates",
+        "projectId": "b6131824-7441-479f-9076-e24a401d63ed",
+        "templateId": "28e9faca-b63d-47ff-8b8f-7400980514cd",
+        "versionsInfo": [
+            {
+                "id": "f2a2eae0-683a-4238-bcad-c430e9ac76dd",
+                "description": "",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "",
+                "versionTime": 1742976687331
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs"
+            }
+        ]
+    },
+    {
+        "name": "Ansible_PNP_Switch",
+        "projectName": "Onboarding Configuration",
+        "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+        "templateId": "c79f4a36-ab36-478d-8bee-848d01606a87",
+        "versionsInfo": [
+            {
+                "id": "4fe2f46a-3654-4187-81e4-b28bc107f5aa",
+                "description": "",
+                "author": "admin",
+                "version": "3",
+                "versionComment": "",
+                "versionTime": 1727827112635
+            },
+            {
+                "id": "3630f8ba-0e6d-4652-bfa0-5bde0e31bdf0",
+                "description": "",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "",
+                "versionTime": 1727826624453
+            },
+            {
+                "id": "a9d28bdd-afac-462e-a1b2-e102a7f2ded5",
+                "description": "",
+                "author": "admin",
+                "version": "2",
+                "versionComment": "",
+                "versionTime": 1727826687240
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs",
+                "productSeries": "Cisco Catalyst 9300 Series Switches"
+            }
+        ]
+    },
+    {
+        "name": "Ansible_PNP_Switch",
+        "projectName": "dccv",
+        "projectId": "19d7e858-2413-487b-9048-f13ec1601416",
+        "templateId": "25723546-1798-4295-8179-ade487f13e78",
+        "versionsInfo": [
+            {
+                "id": "f253dbcf-3ac8-4c52-bd82-6b53dd5236fa",
+                "description": "",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "Imported Template",
+                "versionTime": 1744871558604
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs",
+                "productSeries": "Cisco Catalyst 9300 Series Switches"
+            }
+        ]
+    },
+    {
+        "name": "Check template",
+        "projectName": "test_project_1",
+        "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+        "templateId": "df9b710e-8251-4804-bed7-51d02a18949a",
+        "versionsInfo": [
+            {
+                "id": "e12efd7b-abfc-4b70-acac-dee5628d92e4",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "Test Template",
+                "versionTime": 1749117257986
+            },
+            {
+                "id": "856ad3b8-f952-4a94-a771-1e0e1873598a",
+                "author": "admin",
+                "version": "2",
+                "versionComment": "Test Template",
+                "versionTime": 1749117455700
+            },
+            {
+                "id": "ee384571-749d-406d-bbff-6c256824fca6",
+                "author": "admin",
+                "version": "3",
+                "versionComment": "Version description for the template 1",
+                "versionTime": 1749120107942
+            },
+            {
+                "id": "694cde37-40bb-4be4-b393-8f7c1f324083",
+                "author": "admin",
+                "version": "4",
+                "versionComment": "Version description for the template 2",
+                "versionTime": 1749120359078
+            },
+            {
+                "id": "f7367566-308b-4e3c-b5d3-66fdfea970dd",
+                "author": "admin",
+                "version": "5",
+                "versionComment": "Check from UI",
+                "versionTime": 1749120948843
+            },
+            {
+                "id": "90262e41-a9b4-4c2d-82fd-3e9aeb38c83c",
+                "author": "admin",
+                "version": "6",
+                "versionComment": "Version description for the template 2",
+                "versionTime": 1749121355758
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs"
+            }
+        ]
+    },
+    {
+        "name": "Copy of Template Provisioning To Device_1742542851340",
+        "projectName": "ODC Provisioning",
+        "projectId": "fa18dd05-d41c-441c-af44-8e2644781823",
+        "templateId": "c1970707-1ad4-475b-a288-fc19b2754cfb",
+        "versionsInfo": [
+            {
+                "id": "d2f8c4f4-3193-48b7-b661-952c4c8af83f",
+                "description": "",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "",
+                "versionTime": 1742542920568
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs"
+            }
+        ]
+    },
+    {
+        "name": "DMVPN Hub for Cloud Router- System Default",
+        "projectName": "Onboarding Configuration",
+        "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+        "templateId": "204831af-8704-4210-878f-b8996daf79e1",
+        "versionsInfo": [
+            {
+                "id": "c9acd88f-dbd5-40d2-9185-4e6bd3269528",
+                "description": "Dynamic Multipoint VPN Hub for Cloud Router",
+                "author": "SYSTEM",
+                "version": "1",
+                "versionComment": "SYSTEM",
+                "versionTime": 1726259145198
+            }
+        ],
+        "composite": false,
+        "tags": [
+            {
+                "id": "7319e510-81fa-4912-8433-fcf719a0d2be",
+                "name": "cloud-dmvpn-hub"
+            }
+        ],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers",
+                "productSeries": "Cisco Cloud Services Router 1000V Series"
+            }
+        ]
+    },
+    {
+        "name": "DMVPN Spoke for Branch Router - System Default",
+        "projectName": "Cloud DayN Templates",
+        "projectId": "b6131824-7441-479f-9076-e24a401d63ed",
+        "templateId": "a4e53ade-cc6e-409e-8b2f-ec191f8e2242",
+        "versionsInfo": [
+            {
+                "id": "a7cab587-05fc-4af2-af19-795f607970f3",
+                "description": "Dynamic Multipoint VPN Spoke for Branch Router",
+                "author": "SYSTEM",
+                "version": "1",
+                "versionComment": "SYSTEM",
+                "versionTime": 1726259147229
+            }
+        ],
+        "composite": false,
+        "tags": [
+            {
+                "id": "ac89003f-3822-430f-99b9-073403e57bdf",
+                "name": "branch-router-dmvpn-spoke"
+            }
+        ],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers"
+            }
+        ]
+    },
+    {
+        "name": "DMVPN for Cloud Router - System Default",
+        "projectName": "Cloud DayN Templates",
+        "projectId": "b6131824-7441-479f-9076-e24a401d63ed",
+        "templateId": "57d312d6-a596-4937-a3b9-0816ea13c563",
+        "versionsInfo": [
+            {
+                "id": "05200455-e0f8-4bb7-8750-37f43dfc7a4a",
+                "description": "DMVPN for Cloud Router - System Default",
+                "author": "SYSTEM",
+                "version": "1",
+                "versionComment": "SYSTEM",
+                "versionTime": 1726259147588
+            }
+        ],
+        "composite": false,
+        "tags": [
+            {
+                "id": "a228c460-cf09-498f-a828-79ee7db8c2c9",
+                "name": "cloud-dmvpn"
+            }
+        ],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers",
+                "productSeries": "Cisco Cloud Services Router 1000V Series"
+            }
+        ]
+    },
+    {
+        "name": "Example_test1",
+        "projectName": "Sample Jinja Templates",
+        "projectId": "6f447090-f983-49e6-b9a7-2f6c3c1eb31a",
+        "templateId": "ba45f0cf-2527-40d1-bc24-8870878cf66a",
+        "versionsInfo": [
+            {
+                "id": "9e5b0de0-2c44-480e-9f20-62a8d4cfbc92",
+                "description": "",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "for_testing",
+                "versionTime": 1727411364175
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "Cisco Controller-",
+        "deviceTypes": [
+            {
+                "productFamily": "Network Management"
+            }
+        ]
+    },
+    {
+        "name": "Fusion Router Config",
+        "projectName": "Network Configuration Templates",
+        "projectId": "15d7ab43-d395-47ae-8b46-98bcecdb8a4a",
+        "templateId": "1de73be0-da0e-48df-8957-b7c6f43b9b83",
+        "versionsInfo": [
+            {
+                "id": "f31c5836-5865-4323-b53b-ad5307aa1a5c",
+                "author": "admin",
+                "version": "1",
+                "versionTime": 1743588490826
+            },
+            {
+                "id": "dad38394-2688-4a24-8b0b-f7f5e7cef0e2",
+                "author": "admin",
+                "version": "2",
+                "versionTime": 1743588569391
+            },
+            {
+                "id": "312a06f7-e6df-42b2-be93-d422a3d7d78a",
+                "author": "admin",
+                "version": "3",
+                "versionTime": 1743588697368
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs",
+                "productSeries": "Cisco Catalyst 3850 Series Ethernet Stackable Switch"
+            }
+        ]
+    },
+    {
+        "name": "IPsec 1 Branch for Cloud Router - System Default",
+        "projectName": "Onboarding Configuration",
+        "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+        "templateId": "df994c94-1e2d-49d7-9a20-327a6ce247ce",
+        "versionsInfo": [
+            {
+                "id": "0caa1c6d-a4f9-495d-96f1-e4bfd2fd17e0",
+                "description": "IPsec 1 Branch for Cloud Router - System Default",
+                "author": "SYSTEM",
+                "version": "1",
+                "versionComment": "SYSTEM",
+                "versionTime": 1726259144388
+            }
+        ],
+        "composite": false,
+        "tags": [
+            {
+                "id": "4092287b-7d32-4f28-a742-57f10bd45013",
+                "name": "cloud-ipsec-one-branch-router"
+            }
+        ],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers",
+                "productSeries": "Cisco Cloud Services Router 1000V Series"
+            }
+        ]
+    },
+    {
+        "name": "IPsec 2 Branch for Cloud Router - System Default",
+        "projectName": "Onboarding Configuration",
+        "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+        "templateId": "c886c090-a756-457a-997d-af31ce251118",
+        "versionsInfo": [
+            {
+                "id": "7f3e3de2-7973-46dd-bd05-6b9e7bb0a45c",
+                "description": "IPsec 2 Branch for Cloud Router - System Default",
+                "author": "SYSTEM",
+                "version": "1",
+                "versionComment": "SYSTEM",
+                "versionTime": 1726259145806
+            }
+        ],
+        "composite": false,
+        "tags": [
+            {
+                "id": "6fdaa4cf-92c3-4e0b-8ede-232c58af0b3e",
+                "name": "cloud-ipsec-two-branch-routers"
+            }
+        ],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers",
+                "productSeries": "Cisco Cloud Services Router 1000V Series"
+            }
+        ]
+    },
+    {
+        "name": "IPsec for Branch Router - System Default",
+        "projectName": "Cloud DayN Templates",
+        "projectId": "b6131824-7441-479f-9076-e24a401d63ed",
+        "templateId": "e0df50ea-9325-4e3d-b330-441e99233b42",
+        "versionsInfo": [
+            {
+                "id": "8e7feed5-da2a-4d36-8fbf-876e6e0c8db6",
+                "description": "IPsec for Branch Router - System Default",
+                "author": "SYSTEM",
+                "version": "1",
+                "versionComment": "SYSTEM",
+                "versionTime": 1726259146404
+            }
+        ],
+        "composite": false,
+        "tags": [
+            {
+                "id": "ea3c92c4-82c5-4a72-bd02-aec09270ee3e",
+                "name": "branch-router-ipsec"
+            }
+        ],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers"
+            }
+        ]
+    },
+    {
+        "name": "IPsec for Cloud Router - System Default",
+        "projectName": "Cloud DayN Templates",
+        "projectId": "b6131824-7441-479f-9076-e24a401d63ed",
+        "templateId": "c0495d8e-872c-432e-b963-fbda3c483389",
+        "versionsInfo": [
+            {
+                "id": "e6527c3a-96c0-4c46-ae18-ca72f47e3ec7",
+                "description": "IPsec for Cloud Router - System Default",
+                "author": "SYSTEM",
+                "version": "1",
+                "versionComment": "SYSTEM",
+                "versionTime": 1726259146878
+            }
+        ],
+        "composite": false,
+        "tags": [
+            {
+                "id": "bc94116e-8c35-4cd2-88d6-14d2297f6a41",
+                "name": "tags1"
+            }
+        ],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers",
+                "productSeries": "Cisco Cloud Services Router 1000V Series"
+            }
+        ]
+    },
+    {
+        "name": "Latst2",
+        "projectName": "test_project_3",
+        "projectId": "513a4462-c926-480c-8913-7eab2ee939a6",
+        "templateId": "6d05ac62-f9d3-4d53-84bd-89fbdc39ea79",
+        "versionsInfo": [
+            {
+                "id": "11ddab37-7a63-45f3-b38c-aa47b40dee3d",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "Adding and committing the template",
+                "versionTime": 1749821243808
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs"
+            }
+        ]
+    },
+    {
+        "name": "Onboarding Configuration",
+        "projectName": "Sample-project",
+        "projectId": "feb16960-348e-4508-a070-7329a158f451",
+        "templateId": "d303282c-0b32-4b43-9d0a-3ff96564604c",
+        "versionsInfo": [
+            {
+                "id": "3ac5219b-af20-4eae-bb17-c6f44d4087f7",
+                "description": "",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "",
+                "versionTime": 1745904188049
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "nfvos-",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers",
+                "productSeries": "Cisco 1000 Series Connected Grid Routers"
+            }
+        ]
+    },
+    {
+        "name": "PnP-Upstream-SW",
+        "projectName": "access_van_template_9300_switches",
+        "projectId": "d6d0d881-8244-4798-ac4e-fa8cc33bad96",
+        "templateId": "37c914b1-81ad-4a7c-bb99-f17bf9092dc2",
+        "versionsInfo": [
+            {
+                "id": "6edfd316-d004-430e-9bea-1094364a1583",
+                "author": "admin",
+                "version": "2",
+                "versionTime": 1743588509655
+            },
+            {
+                "id": "e7b40ba1-c2cc-4003-8770-6fd3b6c154d9",
+                "author": "admin",
+                "version": "4",
+                "versionTime": 1743588692196
+            },
+            {
+                "id": "774c0f9f-3b79-4d63-9132-4cb6b41ebdf8",
+                "author": "admin",
+                "version": "3",
+                "versionTime": 1743588564333
+            },
+            {
+                "id": "80e2286d-1fd7-4c58-b926-ffc5b8041de4",
+                "author": "admin",
+                "version": "1",
+                "versionTime": 1743588485209
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs",
+                "productSeries": "Cisco Catalyst 9300 Series Switches"
+            }
+        ]
+    },
+    {
+        "name": "PnP-Upstream-SW1",
+        "projectName": "Onboarding Configuration",
+        "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+        "templateId": "72a80dbf-d080-459a-81ca-3cd755ed3db7",
+        "versionsInfo": [
+            {
+                "id": "8fbc9c69-877f-4d0f-a4c3-d304f1c17a12",
+                "author": "admin",
+                "version": "1",
+                "versionTime": 1743588487730
+            },
+            {
+                "id": "5cfa36da-9f44-42f1-884b-0a2212978f26",
+                "author": "admin",
+                "version": "2",
+                "versionTime": 1743588566816
+            },
+            {
+                "id": "1120e97d-4b5b-4b82-a4b3-b9e30766336c",
+                "author": "admin",
+                "version": "4",
+                "versionTime": 1743588884086
+            },
+            {
+                "id": "c2c329f7-f0be-4bd1-8feb-a295120c80d2",
+                "author": "admin",
+                "version": "3",
+                "versionTime": 1743588694745
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs",
+                "productSeries": "Cisco Catalyst 9300 Series Switches"
+            }
+        ]
+    },
+    {
+        "name": "Rangatemplate",
+        "projectName": "Rangapeoject",
+        "projectId": "aa664d32-2cf9-4c47-ae11-4314a223daac",
+        "templateId": "bda26607-0991-4bb2-a65b-4b7c8c9b0661",
+        "versionsInfo": [
+            {
+                "id": "56ba863a-3ae6-45ee-aedc-c99fb9514779",
+                "description": "twist",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "",
+                "versionTime": 1745985263564
+            }
+        ],
+        "composite": false,
+        "tags": [
+            {
+                "id": "78675d19-05ff-46ce-a30c-8789d7ab713d",
+                "name": "AUTO_INV_EVENT_SYNC_DISABLED"
+            }
+        ],
+        "softwareType": "IOS-",
+        "deviceTypes": [
+            {
+                "productFamily": "Cisco Cloud Services Platform",
+                "productSeries": "Cisco Cloud Services Platform 5000"
+            }
+        ]
+    },
+    {
+        "name": "TUNG TUNG TUNG SAHUR",
+        "projectName": "BOMBARDIRO_CROCODILO",
+        "projectId": "878aa66a-4186-40f3-b9e7-8a13ddbb5cdd",
+        "templateId": "e1be2688-dcf4-48fe-92b1-c2f1de7f3bc1",
+        "versionsInfo": [
+            {
+                "id": "e82efa10-416b-4570-8bf8-eac643d7c612",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "ccc",
+                "versionTime": 1745469333046
+            }
+        ],
+        "composite": false,
+        "tags": [
+            {
+                "id": "5b52170c-8e08-4738-a0cf-c69a7c4ae377",
+                "name": "yyyy"
+            }
+        ],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers",
+                "productSeries": "Cisco 1100 Series Industrial Integrated Services Routers"
+            }
+        ]
+    },
+    {
+        "name": "Template Provisioning To Device",
+        "projectName": "ODC Provisioning",
+        "projectId": "fa18dd05-d41c-441c-af44-8e2644781823",
+        "templateId": "3b282b66-eff3-4f32-8b64-427365996537",
+        "versionsInfo": [
+            {
+                "id": "2fdce9e7-89c1-4637-acef-477d030b86cf",
+                "description": "",
+                "author": "SYSTEM",
+                "version": "1",
+                "versionComment": "ImportedTemplate",
+                "versionTime": 1728540268394
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs"
+            }
+        ]
+    },
+    {
+        "name": "Test-template",
+        "projectName": "test_project_1",
+        "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+        "templateId": "44e50170-c413-48ce-b58f-188d1e248545",
+        "versionsInfo": [
+            {
+                "id": "0256367f-6fc2-4f82-a8a9-3973945b3119",
+                "description": "",
+                "author": "admin",
+                "version": "2",
+                "versionComment": "",
+                "versionTime": 1749042640539
+            },
+            {
+                "id": "c0945196-5320-4fda-b214-44a6349cc9cc",
+                "description": "",
+                "author": "admin",
+                "version": "3",
+                "versionComment": "",
+                "versionTime": 1749042678225
+            },
+            {
+                "id": "30367d03-7124-4069-a2cf-5ead46163d55",
+                "description": "",
+                "author": "admin",
+                "version": "8",
+                "versionComment": "",
+                "versionTime": 1749044018475
+            },
+            {
+                "id": "b45be866-c84a-43e7-b879-9b6f65ebc708",
+                "description": "",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "",
+                "versionTime": 1748451238616
+            },
+            {
+                "id": "1e04e23e-92b2-4309-8c98-d8d5d3f076cd",
+                "description": "",
+                "author": "admin",
+                "version": "6",
+                "versionComment": "latest commit ",
+                "versionTime": 1749043330323
+            },
+            {
+                "id": "ef961473-208a-405b-bf07-ed810ba72197",
+                "description": "",
+                "author": "admin",
+                "version": "7",
+                "versionComment": "",
+                "versionTime": 1749043969998
+            },
+            {
+                "id": "0a8f8b03-abfd-4e29-9f2f-44640268ff5e",
+                "description": "",
+                "author": "admin",
+                "version": "4",
+                "versionComment": "",
+                "versionTime": 1749042723299
+            },
+            {
+                "id": "6ca2bee2-654d-4449-8d42-d76af4079c77",
+                "description": "",
+                "author": "admin",
+                "version": "5",
+                "versionComment": "",
+                "versionTime": 1749042739876
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs",
+                "productSeries": "Cisco Catalyst ESS9300 Embedded Series Switch"
+            },
+            {
+                "productFamily": "Switches and Hubs",
+                "productSeries": "Cisco Catalyst 9300 Series Switches"
+            }
+        ]
+    },
+    {
+        "name": "UT template",
+        "projectName": "test_project_1",
+        "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+        "templateId": "5bb9a1dc-c055-4592-907a-ba01f7bf7c6d",
+        "versionsInfo": [
+            {
+                "id": "1d145f32-86e9-4674-8ef4-c54f0319755e",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "Adding and committing the new template",
+                "versionTime": 1749204572988
+            },
+            {
+                "id": "a23d21b7-7773-4aea-83e5-e6ed152e7c0f",
+                "author": "admin",
+                "version": "2",
+                "versionComment": "Adding and committing the updated template",
+                "versionTime": 1749205172947
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs"
+            }
+        ]
+    },
+    {
+        "name": "UT template",
+        "projectName": "test_project_3",
+        "projectId": "513a4462-c926-480c-8913-7eab2ee939a6",
+        "templateId": "20001e8e-d900-4ba8-bf98-ca72d9531015",
+        "versionsInfo": [
+            {
+                "id": "63ff26d9-3ebe-4ee9-b6ac-1bdfbabeb11a",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "Adding and committing the updated template",
+                "versionTime": 1749458488844
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs"
+            }
+        ]
+    },
+    {
+        "name": "WLC Template",
+        "projectName": "ODC Provisioning",
+        "projectId": "fa18dd05-d41c-441c-af44-8e2644781823",
+        "templateId": "5935fbdb-3d4c-4d6c-be5f-c61401be6b93",
+        "versionsInfo": [
+            {
+                "id": "38a74df1-779c-441e-97ce-9b4670cd1fd0",
+                "description": "",
+                "author": "admin",
+                "version": "3",
+                "versionComment": "",
+                "versionTime": 1740777392227
+            },
+            {
+                "id": "ffa990c4-df80-4f70-90e2-f7e9d6869865",
+                "description": "",
+                "author": "admin",
+                "version": "2",
+                "versionComment": "",
+                "versionTime": 1730796226724
+            },
+            {
+                "id": "719eed23-3a4f-4f71-a425-fdae7d6adc49",
+                "description": "",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "",
+                "versionTime": 1730785136128
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Wireless Controller"
+            }
+        ]
+    },
+    {
+        "name": "apr_30_temp",
+        "projectName": "test_apr30",
+        "projectId": "764f12dc-ec4f-48ce-bbb2-a937dce6311e",
+        "templateId": "484c1191-46cf-44bb-bc28-dba1d440c85d",
+        "versionsInfo": [
+            {
+                "id": "75ca092b-434d-41df-9189-cbefd3f8178d",
+                "description": "",
+                "author": "admin",
+                "version": "2",
+                "versionComment": "",
+                "versionTime": 1745985264361
+            },
+            {
+                "id": "9f432961-fdd9-4a83-b4eb-776f0c389cf8",
+                "description": "",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "",
+                "versionTime": 1745984376174
+            }
+        ],
+        "composite": false,
+        "tags": [
+            {
+                "id": "78675d19-05ff-46ce-a30c-8789d7ab713d",
+                "name": "AUTO_INV_EVENT_SYNC_DISABLED"
+            }
+        ],
+        "softwareType": "IOS-",
+        "deviceTypes": [
+            {
+                "productFamily": "Cisco Cloud Services Platform",
+                "productSeries": "Cisco Cloud Services Platform 5000"
+            }
+        ]
+    },
+    {
+        "name": "bbbb",
+        "projectName": "bbb",
+        "projectId": "538081c3-8f98-4fe2-95dc-c5854f5169c6",
+        "templateId": "2bdf1d06-7aaf-4600-8f75-ff4fe2a5805f",
+        "versionsInfo": [
+            {
+                "id": "20877d6e-b14d-4b2c-a9e2-2af7153456b2",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "ccc",
+                "versionTime": 1744950776828
+            }
+        ],
+        "composite": true,
+        "tags": [],
+        "softwareType": "IOS-XR",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers",
+                "productSeries": "Cisco 1000 Series Connected Grid Routers"
+            }
+        ]
+    },
+    {
+        "name": "dccv temp",
+        "projectName": "dccv",
+        "projectId": "19d7e858-2413-487b-9048-f13ec1601416",
+        "templateId": "fb5dc4f0-0c44-46b5-b681-05de6f1a7d1d",
+        "versionsInfo": [
+            {
+                "id": "5bc58f3b-7615-4e88-b8d5-33bf9d7a81ea",
+                "description": "",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "",
+                "versionTime": 1744863826892
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "Cisco Controller-",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers",
+                "productSeries": "Cisco 1000 Series Integrated Services Routers"
+            },
+            {
+                "productFamily": "Security and VPN"
+            }
+        ]
+    },
+    {
+        "name": "demo",
+        "projectName": "demo",
+        "projectId": "6ae5de73-b9aa-45e7-989e-df6e56564807",
+        "templateId": "da2a716f-af41-479f-94be-4c28b7c66e3d",
+        "versionsInfo": [
+            {
+                "id": "048cee05-0fae-451c-b785-fac63d66367a",
+                "description": "",
+                "author": "admin",
+                "version": "4",
+                "versionComment": "",
+                "versionTime": 1749022325607
+            },
+            {
+                "id": "f4d0bbaf-c04a-4cff-895f-30627e9c859f",
+                "description": "",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "demo",
+                "versionTime": 1745208984262
+            },
+            {
+                "id": "ef944754-283c-41bf-9914-d38e6d7207c5",
+                "description": "",
+                "author": "admin",
+                "version": "2",
+                "versionComment": "note1",
+                "versionTime": 1747285853831
+            },
+            {
+                "id": "bd19c8a3-6fc7-488f-b5a5-8788276b3782",
+                "description": "",
+                "author": "admin",
+                "version": "3",
+                "versionComment": "",
+                "versionTime": 1747285964430
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "Adaptive Security Appliance-",
+        "deviceTypes": [
+            {
+                "productFamily": "Wireless Controller",
+                "productSeries": "Cisco Access Point Modules"
+            }
+        ]
+    },
+    {
+        "name": "hanma",
+        "projectName": "baki",
+        "projectId": "e551be29-6c75-4a9e-9586-644a67fa5c1b",
+        "templateId": "0eecfe82-5436-4375-95a2-fc415e52cfe0",
+        "versionsInfo": [
+            {
+                "id": "dccb4426-b5aa-4955-ad63-db929a710440",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "pickle",
+                "versionTime": 1745687268646
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Wireless Controller"
+            }
+        ]
+    },
+    {
+        "name": "naruto",
+        "projectName": "rasengan",
+        "projectId": "b8926706-4c3c-4808-ab7e-92417b49faae",
+        "templateId": "e6139443-ff58-42e7-bd67-d91bf8e3c4eb",
+        "versionsInfo": [
+            {
+                "id": "31b8a033-a19f-4a82-99d2-dc7dc090b2d7",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "ussop",
+                "versionTime": 1744897835336
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Wireless Controller"
+            }
+        ]
+    },
+    {
+        "name": "rangatemplayt1",
+        "projectName": "Rangapeoject",
+        "projectId": "aa664d32-2cf9-4c47-ae11-4314a223daac",
+        "templateId": "ed1ab9a4-4167-4b88-975a-ca2d070ade22",
+        "versionsInfo": [
+            {
+                "id": "aa77ab7d-3dab-415f-b9ca-a0e187d9e0da",
+                "description": "",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "",
+                "versionTime": 1745985477788
+            }
+        ],
+        "composite": false,
+        "tags": [
+            {
+                "id": "78675d19-05ff-46ce-a30c-8789d7ab713d",
+                "name": "AUTO_INV_EVENT_SYNC_DISABLED"
+            }
+        ],
+        "softwareType": "IOS-",
+        "deviceTypes": [
+            {
+                "productFamily": "Cisco Cloud Services Platform",
+                "productSeries": "Cisco Cloud Services Platform 5000",
+                "productType": "Cisco Cloud Services Platform 5200"
+            }
+        ]
+    },
+    {
+        "name": "rangatest",
+        "projectName": "testrangaaaaa",
+        "projectId": "47692aee-7ecb-42fb-b2d3-00bfa002ba0c",
+        "templateId": "f26c3252-ca85-4090-b8f0-3d1687f17cb9",
+        "versionsInfo": [
+            {
+                "id": "1477df88-4142-4033-bd2a-d51e15540850",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "ccc",
+                "versionTime": 1745407515414
+            },
+            {
+                "id": "241180b0-32f5-4e2a-89b2-cbdf4f6d0f2b",
+                "description": "333",
+                "author": "admin",
+                "version": "2",
+                "versionComment": "now2404",
+                "versionTime": 1745467396621
+            },
+            {
+                "id": "25705d00-22b7-4425-b4d2-9dd0f13ce409",
+                "description": "333",
+                "author": "admin",
+                "version": "3",
+                "versionComment": "333",
+                "versionTime": 1745467424536
+            }
+        ],
+        "composite": false,
+        "tags": [
+            {
+                "id": "aa451a22-5275-4378-9b05-4dceb6691ef8",
+                "name": "TEST1111"
+            },
+            {
+                "id": "8d7bab38-e708-4315-9fe2-99c34b4d172a",
+                "name": "TEST112"
+            }
+        ],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers",
+                "productSeries": "Cisco 1100 Series Industrial Integrated Services Routers"
+            }
+        ]
+    },
+    {
+        "name": "teams_name",
+        "projectName": "test-rename-1",
+        "projectId": "9204f431-95cc-40ab-b0d7-309e122de809",
+        "templateId": "bd009dcb-5fc2-410f-9f96-898478d51819",
+        "versionsInfo": [
+            {
+                "id": "699d303f-610e-4989-8a83-bbcce364ff6f",
+                "description": "",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "",
+                "versionTime": 1745985054739
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-",
+        "deviceTypes": [
+            {
+                "productFamily": "Content Networking",
+                "productSeries": "Cisco Wide Area Virtualization Engines"
+            }
+        ]
+    },
+    {
+        "name": "test1",
+        "projectName": "Rangapeoject",
+        "projectId": "aa664d32-2cf9-4c47-ae11-4314a223daac",
+        "templateId": "e4bc3b0d-0dec-4aa1-a26d-63ff55b6d470",
+        "versionsInfo": [
+            {
+                "id": "063c1b71-a27b-4064-951c-4e6fac38eb32",
+                "description": "test1_template_description",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "commit1",
+                "versionTime": 1747711620159
+            }
+        ],
+        "composite": false,
+        "tags": [
+            {
+                "id": "11b38679-f409-41bd-a5fd-73401b49df98",
+                "name": "Ranga"
+            }
+        ],
+        "softwareType": "IOS-",
+        "deviceTypes": [
+            {
+                "productFamily": "Cisco URWB Family"
+            },
+            {
+                "productFamily": "Routers",
+                "productSeries": "Cisco 1000 Series Connected Grid Routers"
+            }
+        ]
+    },
+    {
+        "name": "test_template_10",
+        "projectName": "test_project_3",
+        "projectId": "513a4462-c926-480c-8913-7eab2ee939a6",
+        "templateId": "32fe39b7-5196-46ba-81c8-1c673170c3ca",
+        "versionsInfo": [
+            {
+                "id": "572614dd-d332-43b8-861a-13191cec6607",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "template_descr_commit10",
+                "versionTime": 1747644025557
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "NX-OS",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers"
+            }
+        ]
+    },
+    {
+        "name": "test_template_11",
+        "projectName": "test_project_4",
+        "projectId": "540b0309-28da-4149-a724-93086c828257",
+        "templateId": "5d09f72a-7591-441a-abe2-b96e283e2126",
+        "versionsInfo": [
+            {
+                "id": "3f5c5b0b-941f-4b1f-8b69-adfd623fcceb",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "template_descr_commit11",
+                "versionTime": 1747645390700
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers"
+            }
+        ]
+    },
+    {
+        "name": "test_template_11_updated",
+        "projectName": "test_project_4",
+        "projectId": "540b0309-28da-4149-a724-93086c828257",
+        "templateId": "694edc2b-9f82-4b5a-894b-61fc82d4f87a",
+        "versionsInfo": [
+            {
+                "id": "c3c40eaa-eb39-4604-8984-21853c7ce0e8",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "template_descr_commit11",
+                "versionTime": 1747644035197
+            },
+            {
+                "id": "5b3f902d-9167-4944-a850-b215d8b89428",
+                "author": "admin",
+                "version": "2",
+                "versionComment": "template_descr_commit11_updated",
+                "versionTime": 1747644126621
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "Adaptive Security Appliance",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers"
+            },
+            {
+                "productFamily": "Security and VPN"
+            }
+        ]
+    },
+    {
+        "name": "test_template_12",
+        "projectName": "test_project_5",
+        "projectId": "9c93abbe-3649-4046-8949-00369e9519ce",
+        "templateId": "65ac3349-dc0d-43ee-b4a0-a4589c7bc025",
+        "versionsInfo": [
+            {
+                "id": "830058e0-c822-4521-af91-285811b99532",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "template_descr_commit12",
+                "versionTime": 1747645393177
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "NFV-OS",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers"
+            }
+        ]
+    },
+    {
+        "name": "test_template_12_updated",
+        "projectName": "test_project_5",
+        "projectId": "9c93abbe-3649-4046-8949-00369e9519ce",
+        "templateId": "6af7a674-ea98-4eb5-80d6-fd2ba52fa8cf",
+        "versionsInfo": [
+            {
+                "id": "a9534839-ba31-47fa-b84c-79008ba497ea",
+                "author": "admin",
+                "version": "2",
+                "versionComment": "template_descr_commit12_updated",
+                "versionTime": 1747644132865
+            },
+            {
+                "id": "3597a700-1061-48c1-8474-4c2a4498e994",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "template_descr_commit12",
+                "versionTime": 1747644039361
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "NFV-OS",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers"
+            }
+        ]
+    },
+    {
+        "name": "test_template_15",
+        "projectName": "test_project_1",
+        "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+        "templateId": "5dd9982c-4ca8-4d00-86a2-b4a5b62cf752",
+        "versionsInfo": [
+            {
+                "id": "4f4869e6-130a-47cf-a7a4-b7b4e9411b48",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "template_descr_commit15",
+                "versionTime": 1747644054528
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs"
+            }
+        ]
+    },
+    {
+        "name": "test_template_16",
+        "projectName": "test_project_2",
+        "projectId": "686b24d1-5d4a-4f34-9433-ed1a01cf58ed",
+        "templateId": "bf8ad8aa-d81a-4c70-a9b7-e4dc034fc942",
+        "versionsInfo": [
+            {
+                "id": "2f76739d-49c3-43d8-8cc6-7f4af396db4d",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "template_descr_commit16",
+                "versionTime": 1747644063944
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "NX-OS",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs"
+            }
+        ]
+    },
+    {
+        "name": "test_template_2",
+        "projectName": "test_project_2",
+        "projectId": "686b24d1-5d4a-4f34-9433-ed1a01cf58ed",
+        "templateId": "79ad2d52-2409-478b-96bd-25e4d4123b9c",
+        "versionsInfo": [
+            {
+                "id": "79d65b7c-d026-4546-985a-b77fa56d060d",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "template_descr_commit2",
+                "versionTime": 1747643967227
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "NX-OS",
+        "deviceTypes": [
+            {
+                "productFamily": "Wireless Controller"
+            }
+        ]
+    },
+    {
+        "name": "test_template_3",
+        "projectName": "test_project_3",
+        "projectId": "513a4462-c926-480c-8913-7eab2ee939a6",
+        "templateId": "ddeb5e99-236b-49ab-a8f5-dae037f04ae1",
+        "versionsInfo": [
+            {
+                "id": "7fe1ad55-f9f1-4962-b4ea-7cdb867ebee4",
+                "author": "admin",
+                "version": "3",
+                "versionComment": "template_descr_commit3",
+                "versionTime": 1747645341614
+            },
+            {
+                "id": "966c7267-13dc-4a4c-9ec4-c5f5c50b08dd",
+                "author": "admin",
+                "version": "2",
+                "versionComment": "template_descr_commit3",
+                "versionTime": 1747644077403
+            },
+            {
+                "id": "73939363-939f-4902-9c09-bf9934a1005b",
+                "author": "admin",
+                "version": "4",
+                "versionComment": "template_descr_commit3",
+                "versionTime": 1747645424424
+            },
+            {
+                "id": "4d05e375-1d1b-48c3-93f7-36916bc10e8d",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "template_descr_commit3",
+                "versionTime": 1747643976127
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "NX-OS",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs"
+            }
+        ]
+    },
+    {
+        "name": "test_template_4",
+        "projectName": "test_project_4",
+        "projectId": "540b0309-28da-4149-a724-93086c828257",
+        "templateId": "527456a6-a002-46f3-941f-b0e67c79d870",
+        "versionsInfo": [
+            {
+                "id": "733392f5-5e35-42ac-8b02-de6ccd992b0a",
+                "author": "admin",
+                "version": "3",
+                "versionComment": "template_descr_commit4",
+                "versionTime": 1747645351265
+            },
+            {
+                "id": "cf92236a-a94a-4de8-8525-d3c6886e3afb",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "template_descr_commit4",
+                "versionTime": 1747643986249
+            },
+            {
+                "id": "791a8ece-5016-4f83-8c48-2c66cdc9a0d2",
+                "author": "admin",
+                "version": "2",
+                "versionComment": "template_descr_commit4",
+                "versionTime": 1747644088218
+            },
+            {
+                "id": "f54bca5f-c5d2-4df9-bcae-39fe96b37618",
+                "author": "admin",
+                "version": "4",
+                "versionComment": "template_descr_commit4",
+                "versionTime": 1747645434448
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs"
+            }
+        ]
+    },
+    {
+        "name": "test_template_5",
+        "projectName": "test_project_5",
+        "projectId": "9c93abbe-3649-4046-8949-00369e9519ce",
+        "templateId": "8444eee3-7bd9-4497-89be-c5395ae7383e",
+        "versionsInfo": [
+            {
+                "id": "965128c0-df31-4a84-b3b6-0dfa2093b9b7",
+                "author": "admin",
+                "version": "3",
+                "versionComment": "template_descr_commit5",
+                "versionTime": 1747645355551
+            },
+            {
+                "id": "250806ab-ebd7-4f60-be3b-9e546413d737",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "template_descr_commit5",
+                "versionTime": 1747643991034
+            },
+            {
+                "id": "85058b5b-06c4-473a-be81-62db0527b4e3",
+                "author": "admin",
+                "version": "2",
+                "versionComment": "template_descr_commit5",
+                "versionTime": 1747644092881
+            },
+            {
+                "id": "4fc49248-bbfe-470f-87cf-5d05e24ae7a6",
+                "author": "admin",
+                "version": "4",
+                "versionComment": "template_descr_commit5",
+                "versionTime": 1747645438748
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "NFV-OS",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs"
+            }
+        ]
+    },
+    {
+        "name": "test_template_8",
+        "projectName": "test_project_1",
+        "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+        "templateId": "25321cd0-65ff-431a-82d4-2639a2d8a117",
+        "versionsInfo": [
+            {
+                "id": "9f34f9e5-f7a6-41aa-bfe2-12f34c7328be",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "template_descr_commit8",
+                "versionTime": 1747644005814
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers"
+            }
+        ]
+    },
+    {
+        "name": "test_template_9",
+        "projectName": "test_project_2",
+        "projectId": "686b24d1-5d4a-4f34-9433-ed1a01cf58ed",
+        "templateId": "7710e5c0-57de-42a8-9455-44b7862ae504",
+        "versionsInfo": [
+            {
+                "id": "c2a3138e-2abb-48b8-abf2-6177a8439f13",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "template_descr_commit9",
+                "versionTime": 1747644015749
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "NX-OS",
+        "deviceTypes": [
+            {
+                "productFamily": "Routers"
+            }
+        ]
+    },
+    {
+        "name": "testseema",
+        "projectName": "kkk333",
+        "projectId": "57721663-ccfb-406c-a133-dfcc2ffe3fa8",
+        "templateId": "79e59755-f203-442b-a0dd-16c9b46e71aa",
+        "versionsInfo": [
+            {
+                "id": "d798392d-ac7a-4124-98cb-e3bda17da1d1",
+                "description": "",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "",
+                "versionTime": 1744863982683
+            },
+            {
+                "id": "77051f27-6f79-4b9c-9a47-8153daa268e4",
+                "description": "",
+                "author": "admin",
+                "version": "2",
+                "versionComment": "",
+                "versionTime": 1744864073083
+            }
+        ],
+        "composite": false,
+        "tags": [],
+        "softwareType": "IOS-XE",
+        "deviceTypes": [
+            {
+                "productFamily": "Wireless Controller",
+                "productSeries": "Cisco Catalyst 9800 Wireless Controllers for Cloud"
+            }
+        ]
+    },
+    {
+        "name": "wlc-test-onboarding",
+        "projectName": "Test-on-onboarding-template",
+        "projectId": "ec228cf3-6b4a-47ac-b909-9653f1c93afa",
+        "templateId": "c7fddba9-93f6-460e-bab9-6ebcdc0b39a6",
+        "versionsInfo": [
+            {
+                "id": "301ccb65-d89e-4338-ab0a-e41ac3d6c6bb",
+                "description": "",
+                "author": "admin",
+                "version": "1",
+                "versionComment": "",
+                "versionTime": 1742950454733
+            }
+        ],
+        "composite": true,
+        "tags": [],
+        "softwareType": "Cisco Controller-",
+        "deviceTypes": [
+            {
+                "productFamily": "Wireless Controller",
+                "productSeries": "Cisco Catalyst 9800 Series Wireless Controllers"
+            }
+        ]
+    }
+],
+    "retrieve_cli_templates_attached_to_a_network_profile12":{
+  "response": [],
+  "version": "1.0"
+},
+"retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to":{
+    "response": [
+        {
+            "id": "578cf5a9-a7e0-45b0-aaee-1690a959bb9c"
+        }
+    ],
+    "version": "1.0"
+},
+"attach_network_profile_to_a_day_n_cli_template11":{
+  "response": {
+    "taskId": "0197748f-9a1f-74bf-b63a-5eed17cf1e06",
+    "url": "/api/v1/task/0197748f-9a1f-74bf-b63a-5eed17cf1e06"
+  },
+  "version": "1.0"
+},
+"get_tasks_by_id1":{
+  "response": {
+    "endTime": 1750007257660,
+    "status": "SUCCESS",
+    "startTime": 1750007257631,
+    "resultLocation": "/dna/intent/api/v1/tasks/0197748f-9a1f-74bf-b63a-5eed17cf1e06/detail",
+    "id": "0197748f-9a1f-74bf-b63a-5eed17cf1e06"
+  },
+  "version": "1.0"
+},
+"get_dn_template":{
+            "progress": "Template successfully attached to the network profile"
+        },
+
+    "playbook_delete_switch_profile":[
+        {
+            "profile_name": "Ans Switch Prof creation and assign5"
+        }
+    ],
+"retrieve_cli_templates_attached_to_a_network_profile_delete":{
+    "response": [
+        {
+            "id": "211a97e0-5b60-4c48-b274-0ca85bcffd1a",
+            "name": "Ans Switch Prof creation and assign5",
+            "type": "Switching"
+        },
+        {
+            "id": "d48ad9b6-5a7d-4563-9fd1-d2c0c2cf1c61",
+            "name": "Ans Switch Prof creation and assign1",
+            "type": "Switching"
+        }
+    ],
+    "version": "1.0"
+},
+"retrieve_cli_templates_attached_to_a_network_profile_delete11":
+{
+    "response": [
+        {
+            "id": "44e50170-c413-48ce-b58f-188d1e248545",
+            "name": "Test-template"
+        }
+    ],
+    "version": "1.0"
+},
+"retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to_delete":{
+  "response": [
+    {
+      "id": "578cf5a9-a7e0-45b0-aaee-1690a959bb9c"
+    }
+  ],
+  "version": "1.0"
+},
+"get_site_lists_for_profile":{
+    "response": [
+        {
+            "id": "578cf5a9-a7e0-45b0-aaee-1690a959bb9c"
+        }
+    ],
+    "version": "1.0"
+},
+"unassigns_a_network_profile_for_sites_from_multiple_sites":{
+  "response": {
+    "taskId": "019774a8-577b-7918-88ef-00c1fee811ca",
+    "url": "/api/v1/task/019774a8-577b-7918-88ef-00c1fee811ca"
+  },
+  "version": "1.0"
+},
+"get_tasks_by_id_delete":
+{
+  "response": {
+    "endTime": 1750008878993,
+    "status": "SUCCESS",
+    "startTime": 1750008878971,
+    "resultLocation": "/dna/intent/api/v1/tasks/019774a8-577b-7918-88ef-00c1fee811ca/detail",
+    "id": "019774a8-577b-7918-88ef-00c1fee811ca"
+  },
+  "version": "1.0"
+},
+"detach_a_list_of_network_profiles_from_a_day_n_cli_template":{
+  "response": {
+    "taskId": "019774a8-5bf1-7764-8d72-2470064a78ce",
+    "url": "/api/v1/task/019774a8-5bf1-7764-8d72-2470064a78ce"
+  },
+  "version": "1.0"
+},
+"get_tasks_by_id_delete1":{
+  "response": {
+    "endTime": 1750008880139,
+    "status": "SUCCESS",
+    "startTime": 1750008880113,
+    "resultLocation": "/dna/intent/api/v1/tasks/019774a8-5bf1-7764-8d72-2470064a78ce/detail",
+    "id": "019774a8-5bf1-7764-8d72-2470064a78ce"
+  },
+  "version": "1.0"
+},
+"deletes_a_network_profile_for_sites":{
+  "response": {
+    "taskId": "019774a8-6015-75c0-bf50-f4555ec6c594",
+    "url": "/api/v1/task/019774a8-6015-75c0-bf50-f4555ec6c594"
+  },
+  "version": "1.0"
+},
+"get_tasks_by_id_delete3":{
+  "response": {
+    "endTime": 1750008881200,
+    "status": "SUCCESS",
+    "startTime": 1750008881173,
+    "resultLocation": "/dna/intent/api/v1/tasks/019774a8-6015-75c0-bf50-f4555ec6c594/detail",
+    "id": "019774a8-6015-75c0-bf50-f4555ec6c594"
+  },
+  "version": "1.0"
+},
+"retrieves_the_list_of_network_profiles_for_sites_delete":{
+  "response": [
+    {
+      "id": "d48ad9b6-5a7d-4563-9fd1-d2c0c2cf1c61",
+      "name": "Ans Switch Prof creation and assign1",
+      "type": "Switching"
+    }
+  ],
+  "version": "1.0"
+},
+"retrieves_the_list_of_network_profiles_for_sites01":{
+  "response": [
+    {
+      "id": "444c39df-9810-4a6d-9e9b-de332bcd08a8",
+      "name": "test_switch_2",
+      "type": "Switching"
+    },
+    {
+      "id": "debe4c87-5a22-47e3-95fd-b0b1907038e2",
+      "name": "Ans Switch Prof creation with full params",
+      "type": "Switching"
+    }
+  ],
+  "version": "1.0"
+},
+"get_site_details01":{
+  "response": [
+    {
+      "id": "578cf5a9-a7e0-45b0-aaee-1690a959bb9c",
+      "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+      "name": "APO",
+      "nameHierarchy": "Global/APO",
+      "type": "area"
+    }
+  ],
+  "version": "1.0"
+},
+"get_site_details02":{
+  "response": [],
+  "version": "1.0"
+},
+"retrieve_cli_templates_attached_to_a_network_profile02":{
+  "response": [],
+  "version": "1.0"
+},
+"retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to01":{
+  "response": [],
+  "version": "1.0"
+},
+"assign_a_network_profile_for_sites_to_the_given_site01":{
+  "response": {
+    "taskId": "0197a520-db83-74c7-bb44-9c5ad4d5c60e",
+    "url": "/api/v1/task/0197a520-db83-74c7-bb44-9c5ad4d5c60e"
+  },
+  "version": "1.0"
+},
+"get_tasks_by_id02":{
+  "response": {
+    "endTime": 1750822083485,
+    "status": "SUCCESS",
+    "startTime": 1750822083459,
+    "resultLocation": "/dna/intent/api/v1/tasks/0197a520-db83-74c7-bb44-9c5ad4d5c60e/detail",
+    "id": "0197a520-db83-74c7-bb44-9c5ad4d5c60e"
+  },
+  "version": "1.0"
+},
+"get_task_details_by_id02":{
+  "progress": "Sites Successfully Associated to Network Profile [31022e8e-a986-430d-962c-0d98b01b8e4d]"
+},
+"retrieves_the_list_of_network_profiles_for_sites02":{
+    "response": [
+        {
+            "id": "444c39df-9810-4a6d-9e9b-de332bcd08a8",
+            "name": "test_switch_2",
+            "type": "Switching"
+        },
+        {
+            "id": "debe4c87-5a22-47e3-95fd-b0b1907038e2",
+            "name": "Ans Switch Prof creation with full params",
+            "type": "Switching"
+        }
+    ],
+    "version": "1.0"
+},
+"get_site_details03":{
+  "response": [
+    {
+      "id": "578cf5a9-a7e0-45b0-aaee-1690a959bb9c",
+      "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+      "name": "APO",
+      "nameHierarchy": "Global/APO",
+      "type": "area"
+    }
+  ],
+  "version": "1.0"
+}
+}

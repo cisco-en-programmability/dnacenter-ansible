@@ -1,0 +1,979 @@
+{
+  "playbook_config_creation": {
+    "assurance_icap_settings": [
+      {
+        "capture_type": "ONBOARDING",
+        "preview_description": "skibidi",
+        "duration_in_mins": 30,
+        "client_mac": "50:91:E3:47:AC:9E",
+        "wlc_name": "NY-IAC-EWLC.cisco.local"
+      }
+    ]
+  },
+  "playbook_config_download": {
+    "assurance_icap_download": [
+      {
+        "capture_type": "ONBOARDING",
+        "client_mac": "50:91:E3:47:AC:9E",
+        "start_time": "2025-03-05 11:56:00",
+        "end_time": "2025-03-05 12:01:00",
+        "file_path": "/Users/mekandar/Desktop"
+      }
+    ]
+  },
+  "get_device_list_for_creation": {
+    "response": [
+      {
+        "roleSource": "AUTO",
+        "macAddress": "cc:b6:c8:e2:29:0b",
+        "lastUpdateTime": 1743774824628,
+        "softwareType": "IOS-XE",
+        "softwareVersion": "17.15.1",
+        "deviceSupportLevel": "Supported",
+        "serialNumber": "FOX2639PAY7",
+        "syncRequestedByApp": "",
+        "collectionInterval": "Global Default",
+        "dnsResolvedManagementAddress": "204.192.6.200",
+        "lastManagedResyncReasons": "Config Change Event",
+        "managementState": "Managed",
+        "pendingSyncRequestsCount": "0",
+        "reasonsForDeviceResync": "Config Change Event",
+        "reasonsForPendingSyncRequests": "",
+        "inventoryStatusDetail": "<status><general code=\"SUCCESS\"/></status>",
+        "upTime": "26 days, 12:53:55.97",
+        "bootDateTime": "2025-03-09 01:00:44",
+        "interfaceCount": "0",
+        "lastUpdated": "2025-04-04 13:53:44",
+        "apManagerInterfaceIp": "",
+        "collectionStatus": "Managed",
+        "family": "Wireless Controller",
+        "hostname": "NY-IAC-EWLC.cisco.local",
+        "locationName": null,
+        "managementIpAddress": "204.192.6.200",
+        "platformId": "C9800-40-K9",
+        "reachabilityFailureReason": "",
+        "reachabilityStatus": "Reachable",
+        "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+        "snmpContact": "",
+        "snmpLocation": "",
+        "associatedWlcIp": "",
+        "apEthernetMacAddress": null,
+        "errorCode": null,
+        "errorDescription": null,
+        "lastDeviceResyncStartTime": "2025-04-04 13:53:41",
+        "lineCardCount": "0",
+        "lineCardId": "",
+        "managedAtleastOnce": true,
+        "memorySize": "NA",
+        "tagCount": "0",
+        "tunnelUdpPort": null,
+        "uptimeSeconds": 2303626,
+        "vendor": "Cisco",
+        "waasDeviceMode": null,
+        "description": "Cisco IOS Software [IOSXE], C9800 Software (C9800_IOSXE-K9), Version 17.15.1, RELEASE SOFTWARE (fc4) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Sun 11-Aug-24 22:22 by mcpre netconf enabled",
+        "type": "Cisco Catalyst 9800-40 Wireless Controller",
+        "location": null,
+        "role": "ACCESS",
+        "instanceUuid": "71197925-1982-46d4-b569-e4cbbe8f06e7",
+        "instanceTenantId": "66e48af26fe687300375675e",
+        "id": "71197925-1982-46d4-b569-e4cbbe8f06e7"
+      }
+    ],
+    "version": "1.0"
+  },
+  "icap_creation": {
+    "response": {
+      "taskId": "1f8a01e2-8860-4967-93c7-1caca1d99cd6",
+      "url": "/dna/intent/api/v1/tasks/1f8a01e2-8860-4967-93c7-1caca1d99cd6"
+    },
+    "version": "1.0"
+  },
+  "get_task_by_id": {
+    "response": {
+      "progress": "New Schedules were added. Successfully created a task schedule. 1f8a01e2-8860-4967-93c7-1caca1d99cd6",
+      "version": 1743137793097,
+      "startTime": 1743137793070,
+      "endTime": 1743137793097,
+      "serviceType": "NCSS",
+      "username": "admin",
+      "additionalStatusURL": "/dna/intent/api/v1/activities/1f8a01e2-8860-4967-93c7-1caca1d99cd6",
+      "isError": false,
+      "instanceTenantId": "66e48af26fe687300375675e",
+      "id": "1f8a01e2-8860-4967-93c7-1caca1d99cd6"
+    },
+    "version": "1.0"
+  },
+  "icap_deployed": {
+    "response": {
+      "taskId": "f613e4b6-71ec-4bc1-9f9d-eb8e27993cf9",
+      "url": "/dna/intent/api/v1/tasks/f613e4b6-71ec-4bc1-9f9d-eb8e27993cf9"
+    },
+    "version": "1.0"
+  },
+  "using_task_id": {
+    "response": {
+      "progress": "New Schedules were added. Successfully deployed a task schedule. f613e4b6-71ec-4bc1-9f9d-eb8e27993cf9",
+      "version": 1743137793785,
+      "startTime": 1743137793673,
+      "endTime": 1743137793785,
+      "serviceType": "NCSS",
+      "username": "admin",
+      "additionalStatusURL": "/dna/intent/api/v1/activities/f613e4b6-71ec-4bc1-9f9d-eb8e27993cf9",
+      "isError": false,
+      "instanceTenantId": "66e48af26fe687300375675e",
+      "id": "f613e4b6-71ec-4bc1-9f9d-eb8e27993cf9"
+    },
+    "version": "1.0"
+  },
+  "task_status": {
+    "progress": "New Schedules were added. Successfully created a task schedule. f613e4b6-71ec-4bc1-9f9d-eb8e27993cf9",
+    "version": 1743137793785,
+    "startTime": 1743137793673,
+    "endTime": 1743137793785,
+    "serviceType": "NCSS",
+    "username": "admin",
+    "additionalStatusURL": "/dna/intent/api/v1/activities/f613e4b6-71ec-4bc1-9f9d-eb8e27993cf9",
+    "isError": false,
+    "instanceTenantId": "66e48af26fe687300375675e",
+    "id": "f613e4b6-71ec-4bc1-9f9d-eb8e27993cf9"
+  },
+  "deployment_status": {
+    "response": [
+      {
+        "id": "081d44c7-8103-476e-9c5d-c81440374bdd",
+        "deployActivityId": "7b529f6d-1dc1-41b4-953c-97147dd66298",
+        "configGroupName": "icapSettings-f:assurance-icap ait:ONBOARDING s:Global wlc:71197925-1982-46d4-b569-e4cbbe8f06e7 mac:50:91:E3:47:AC:9E a:Enable op:CREATE",
+        "configGroupVersion": 73,
+        "startTime": 1743772261313,
+        "endTime": 1743772270127,
+        "networkDeviceId": "71197925-1982-46d4-b569-e4cbbe8f06e7",
+        "status": "Success"
+      }
+    ],
+    "version": "1.0"
+  },
+  "task_id": {
+    "response": {
+      "taskId": "1f8a01e2-8860-4967-93c7-1caca1d99cd6",
+      "url": "/dna/intent/api/v1/tasks/1f8a01e2-8860-4967-93c7-1caca1d99cd6"
+    },
+    "version": "1.0"
+  },
+  "get_pcap_id": {
+    "response": [
+      {
+        "id": "ONBOARDING:34b883157c6c_80211_1743736385247232.pcap",
+        "fileName": "34b883157c6c_80211_1743736385247232.pcap",
+        "fileSize": 2456122,
+        "type": "ONBOARDING",
+        "clientMac": "50:91:E3:47:AC:9E",
+        "apMac": null,
+        "fileCreationTimestamp": 1743736385247,
+        "lastUpdatedTimestamp": 1743760428843
+      }
+    ],
+    "page": {
+      "limit": 100,
+      "offset": 1,
+      "count": 1,
+      "sortBy": "lastUpdatedTimestamp",
+      "order": "asc"
+    },
+    "version": "1.0"
+  },
+  "download_response": {
+    "data": "1MOyoQIA... (truncated base64)"
+  },
+  "existing_icap_configuration": {
+    "response": [
+      
+    ],
+    "version": "1.0"
+  },
+  "get_icap_configuration_status_per_network_device": {
+    "response": [
+      {
+        "networkDeviceId": "85fbb916-393d-415e-886a-7f6f006084c2",
+        "status": "Not Started"
+      }
+    ],
+    "version": "1.0"
+  },
+  "generate_device_cli_of_icap_config": {
+    "response": {
+      "taskId": "01982e98-07f8-7599-b105-70c9801036f1",
+      "url": "/api/v1/task/01982e98-07f8-7599-b105-70c9801036f1"
+    }
+  },
+  "generate_cli_task": {
+    "response": {
+      "startTime": 1753128372222,
+      "data": "workflow_id=0;cfs_id=0;rollback_status=not_supported;rollback_taskid=0;failure_task=NA;processcfs_complete=false",
+      "progress": "Preview generation initiated for activityId '95cf033a-c2dc-40d0-b7ea-04f16f4c78c5' and deviceId '85fbb916-393d-415e-886a-7f6f006084c2'",
+      "version": 1753128372222,
+      "serviceType": "NCSP",
+      "isError": false,
+      "instanceTenantId": "685bfd9ccba1fd0014637216",
+      "id": "01982e98-07f8-7599-b105-70c9801036f1"
+    },
+    "version": "1.0"
+  },
+  "retrieves_the_devices_clis_of_the_icap": {
+    "response": {
+      "deviceCli": [
+        {
+          "networkDeviceId": "85fbb916-393d-415e-886a-7f6f006084c2",
+          "status": "In Progress",
+          "previewItems": [
+            
+          ]
+        }
+      ]
+    }
+  },
+  "icap_discarded": {
+    "response": {
+      "taskId": "f613e4b6-71ec-4bc1-9f9d-eb8e27993cf9",
+      "url": "/dna/intent/api/v1/tasks/f613e4b6-71ec-4bc1-9f9d-eb8e27993cf9"
+    },
+    "version": "1.0"
+  },
+  "playbook_onboarding_creation": [
+    {
+      "assurance_icap_settings": [
+        {
+          "capture_type": "ONBOARDING",
+          "client_mac": "72:40:22:0B:A0:18",
+          "duration_in_mins": 30,
+          "preview_description": "ICAP 2108",
+          "wlc_name": "9800-3.cisco.com"
+        }
+      ]
+    }
+  ],
+  "response28": {
+    "response": [
+      {
+        "description": "Cisco IOS Software [Dublin], C9800 Software (C9800_IOSXE-K9), Version 17.12.5, RELEASE SOFTWARE (fc5) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Mar-25 02:51 by mcpre netconf enabled",
+        "family": "Wireless Controller",
+        "lastUpdateTime": 1755754008125,
+        "macAddress": "f4:bd:9e:56:42:2b",
+        "deviceSupportLevel": "Supported",
+        "softwareType": "IOS-XE",
+        "softwareVersion": "17.12.5",
+        "serialNumber": "FCL23410037",
+        "syncRequestedByApp": "",
+        "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+        "collectionInterval": "Global Default",
+        "dnsResolvedManagementAddress": "10.31.102.25",
+        "lastManagedResyncReasons": "Config Change Event",
+        "managementState": "Managed",
+        "pendingSyncRequestsCount": "0",
+        "reasonsForDeviceResync": "Config Change Event",
+        "reasonsForPendingSyncRequests": "",
+        "roleSource": "AUTO",
+        "upTime": "128 days, 9:27:23.69",
+        "interfaceCount": "0",
+        "lastUpdated": "2025-08-21 05:26:48",
+        "associatedWlcIp": "",
+        "apEthernetMacAddress": null,
+        "errorCode": null,
+        "errorDescription": null,
+        "lastDeviceResyncStartTime": "2025-08-21 05:26:44",
+        "lineCardCount": "0",
+        "lineCardId": "",
+        "managedAtleastOnce": true,
+        "memorySize": "NA",
+        "tagCount": "0",
+        "tunnelUdpPort": null,
+        "uptimeSeconds": 11099409,
+        "vendor": "Cisco",
+        "bootDateTime": "2025-04-14 19:59:48",
+        "reachabilityStatus": "Reachable",
+        "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+        "snmpContact": "",
+        "snmpLocation": "",
+        "apManagerInterfaceIp": "",
+        "collectionStatus": "Managed",
+        "hostname": "9800-3.cisco.com",
+        "locationName": null,
+        "managementIpAddress": "10.31.102.25",
+        "platformId": "C9800-L-C-K9",
+        "reachabilityFailureReason": "",
+        "waasDeviceMode": null,
+        "type": "Cisco Catalyst 9800-L-C Wireless Controller",
+        "location": null,
+        "role": "ACCESS",
+        "instanceTenantId": "646e980e47fc23431d046907",
+        "instanceUuid": "23da2a12-fdeb-4b18-9221-4d6108b7f2a1",
+        "id": "23da2a12-fdeb-4b18-9221-4d6108b7f2a1"
+      }
+    ],
+    "version": "1.0"
+  },
+  "response29": {
+    "response": [
+      {
+        "id": "72:40:22:0B:A0:18",
+        "macAddress": "72:40:22:0B:A0:18",
+        "type": "Wireless",
+        "name": "Mac",
+        "userId": null,
+        "username": null,
+        "ipv4Address": "192.168.32.218",
+        "ipv6Addresses": [
+          "fe80::75:4d6d:c5d5:8b8a"
+        ],
+        "vendor": "Apple",
+        "osType": "macOS 15.6",
+        "osVersion": "15.6",
+        "formFactor": null,
+        "deviceType": "MacBook Pro (16-inch, 2024)",
+        "siteHierarchy": null,
+        "siteHierarchyId": "/a09f1a06-d5cc-41c0-9e79-436c1748546f/",
+        "siteId": "a09f1a06-d5cc-41c0-9e79-436c1748546f",
+        "lastUpdatedTime": 1755727320000,
+        "connectionStatus": "disconnected",
+        "tracked": "No",
+        "isPrivateMacAddress": true,
+        "health": {
+          "overallScore": 4,
+          "onboardingScore": 4,
+          "connectedScore": 0,
+          "linkErrorPercentageThreshold": 1.0,
+          "isLinkErrorIncluded": true,
+          "rssiThreshold": -72,
+          "snrThreshold": 9,
+          "isRssiIncluded": true,
+          "isSnrIncluded": true
+        },
+        "traffic": {
+          "txBytes": 168,
+          "rxBytes": 130,
+          "usage": 298,
+          "rxPackets": 1,
+          "txPackets": 6,
+          "rxRate": 3.0,
+          "txRate": 4.0,
+          "rxLinkErrorPercentage": 0.0,
+          "txLinkErrorPercentage": 0.0,
+          "rxRetries": 0,
+          "rxRetryPercentage": 0.0,
+          "txDrops": 0,
+          "txDropPercentage": 0.0,
+          "dnsRequestCount": 0,
+          "dnsResponseCount": 0
+        },
+        "connectedNetworkDevice": {
+          "connectedNetworkDeviceId": "c4257980-8499-4627-8b8b-0ca515425101",
+          "connectedNetworkDeviceName": "kp_rcdn6-3",
+          "connectedNetworkDeviceManagementIp": "64.101.154.155",
+          "connectedNetworkDeviceMac": "E4:A4:1C:9F:10:80",
+          "connectedNetworkDeviceType": "Access Point",
+          "interfaceName": null,
+          "interfaceSpeed": null,
+          "duplexMode": null
+        },
+        "connection": {
+          "vlanId": "32",
+          "sessionDuration": 503295,
+          "vnId": null,
+          "l2Vn": null,
+          "l3Vn": null,
+          "securityGroupTag": "0.0",
+          "linkSpeed": null,
+          "bridgeVMMode": "0.0",
+          "band": "5GHZ",
+          "ssid": "spaces-cead-lab",
+          "authType": "WPA2/WPA3+PSK/SAE",
+          "wlcName": "kp_9800-2.cisco.com",
+          "wlcId": "de910b17-32cb-4e83-85eb-a22def89a5f5",
+          "apMac": "E4:A4:1C:9F:10:80",
+          "apEthernetMac": "C4:D6:66:A1:61:70",
+          "apMode": "Local",
+          "radioId": 1,
+          "channel": "36",
+          "channelWidth": "40",
+          "protocol": "802.11ax",
+          "protocolCapability": "802.11ax6",
+          "upnId": null,
+          "upnName": null,
+          "upnOwner": null,
+          "upnDuid": null,
+          "rssi": -83,
+          "snr": 9,
+          "dataRate": 17,
+          "isIosAnalyticsCapable": false,
+          "isFabricClient": false
+        },
+        "onboarding": {
+          "avgRunDuration": 28,
+          "maxRunDuration": 28,
+          "avgAssocDuration": 1,
+          "maxAssocDuration": 1,
+          "avgAuthDuration": 18,
+          "maxAuthDuration": 18,
+          "avgDhcpDuration": 7,
+          "maxDhcpDuration": 7,
+          "maxRoamingDuration": null,
+          "aaaServerIp": "UNKNOWN",
+          "dhcpServerIp": "10.31.102.149",
+          "onboardingTime": 1755726807106,
+          "authDoneTime": 1755726807098,
+          "assocDoneTime": 1755726807079,
+          "dhcpDoneTime": 1755726807105,
+          "roamingTime": 0,
+          "failedRoamingCount": 0,
+          "successfulRoamingCount": 0,
+          "totalRoamingAttempts": 0,
+          "assocFailureReason": null,
+          "aaaFailureReason": null,
+          "dhcpFailureReason": null,
+          "otherFailureReason": null,
+          "latestFailureReason": "otherRootCause"
+        },
+        "latency": {
+          "video": null,
+          "voice": 241,
+          "bestEffort": 128,
+          "background": null
+        }
+      }
+    ],
+    "page": {
+      "limit": 100,
+      "offset": 1,
+      "cursor": null,
+      "count": 1,
+      "sortBy": [
+        {
+          "name": "lastUpdatedTime",
+          "function": null,
+          "order": "asc"
+        }
+      ]
+    },
+    "version": "1.0"
+  },
+  "response30": {
+    "response": [
+      
+    ],
+    "version": "1.0"
+  },
+  "response31": {
+    "response": {
+      "taskId": "b02b9ade-c101-44d3-a92f-3f7ac34b194d",
+      "url": "/dna/intent/api/v1/tasks/b02b9ade-c101-44d3-a92f-3f7ac34b194d"
+    },
+    "version": "1.0"
+  },
+  "response32": {
+    "response": {
+      "endTime": 1755760198466,
+      "progress": "New Schedules were added. Successfully created a task schedule. b02b9ade-c101-44d3-a92f-3f7ac34b194d",
+      "version": 1755760198466,
+      "startTime": 1755760198430,
+      "serviceType": "NCSS",
+      "username": "admin",
+      "additionalStatusURL": "/dna/intent/api/v1/activities/b02b9ade-c101-44d3-a92f-3f7ac34b194d",
+      "isError": false,
+      "instanceTenantId": "646e980e47fc23431d046907",
+      "id": "b02b9ade-c101-44d3-a92f-3f7ac34b194d"
+    },
+    "version": "1.0"
+  },
+  "response33": {
+    "response": [
+      {
+        "networkDeviceId": "23da2a12-fdeb-4b18-9221-4d6108b7f2a1",
+        "status": "Not Started"
+      }
+    ],
+    "version": "1.0"
+  },
+  "response34": {
+    "response": {
+      "taskId": "0198cb76-a484-7115-b9d0-447d769d6685",
+      "url": "/api/v1/task/0198cb76-a484-7115-b9d0-447d769d6685"
+    },
+    "version": "1.0"
+  },
+  "response35": {
+    "response": {
+      "data": "workflow_id=0;cfs_id=0;rollback_status=not_supported;rollback_taskid=0;failure_task=NA;processcfs_complete=false",
+      "progress": "Preview generation initiated for activityId b02b9ade-c101-44d3-a92f-3f7ac34b194d and deviceId 23da2a12-fdeb-4b18-9221-4d6108b7f2a1",
+      "version": 1755760206980,
+      "startTime": 1755760206980,
+      "serviceType": "NCSP",
+      "isError": false,
+      "instanceTenantId": "646e980e47fc23431d046907",
+      "id": "0198cb76-a484-7115-b9d0-447d769d6685"
+    },
+    "version": "1.0"
+  },
+  "response36": {
+    "response": {
+      "networkDeviceId": "23da2a12-fdeb-4b18-9221-4d6108b7f2a1",
+      "status": "In Progress",
+      "previewItems": [
+        
+      ]
+    },
+    "version": "1.0"
+  },
+  "response37": {
+    "response": {
+      "taskId": "862c49a7-3088-4369-a2c1-06bfab8771dd",
+      "url": "/dna/intent/api/v1/tasks/862c49a7-3088-4369-a2c1-06bfab8771dd"
+    },
+    "version": "1.0"
+  },
+  "response38": {
+    "response": {
+      "endTime": 1755760208273,
+      "progress": "New Schedules were added. Successfully created a task schedule. 862c49a7-3088-4369-a2c1-06bfab8771dd",
+      "version": 1755760208273,
+      "startTime": 1755760208216,
+      "serviceType": "NCSS",
+      "username": "admin",
+      "additionalStatusURL": "/dna/intent/api/v1/activities/862c49a7-3088-4369-a2c1-06bfab8771dd",
+      "isError": false,
+      "instanceTenantId": "646e980e47fc23431d046907",
+      "id": "862c49a7-3088-4369-a2c1-06bfab8771dd"
+    },
+    "version": "1.0"
+  },
+  "response39": {
+    "response": [
+      {
+        "id": "5573caf9-1e48-4b16-9cbf-3e55652e42b1",
+        "deployActivityId": "862c49a7-3088-4369-a2c1-06bfab8771dd",
+        "configGroupName": "icapSettings-f:assurance-icap ait:ONBOARDING s:Global wlc:23da2a12-fdeb-4b18-9221-4d6108b7f2a1 mac:72:40:22:0B:A0:18 a:Enable op:CREATE",
+        "configGroupVersion": 1,
+        "startTime": 1755760209297,
+        "endTime": 1755760221984,
+        "networkDeviceId": "23da2a12-fdeb-4b18-9221-4d6108b7f2a1",
+        "status": "Success"
+      }
+    ],
+    "version": "1.0"
+  },
+  "playbook_ota_creation": [
+    {
+      "assurance_icap_settings": [
+        {
+          "ap_name": "Bottom-Right",
+          "capture_type": "OTA",
+          "client_mac": "4A:22:BE:BD:9D:A7",
+          "duration_in_mins": 15,
+          "ota_band": 5,
+          "ota_channel": 36,
+          "ota_channel_width": 40,
+          "preview_description": "ICAP 2208",
+          "slots": [
+            1
+          ],
+          "wlc_name": "9800-3.cisco.com"
+        }
+      ]
+    }
+  ],
+  "response1": {
+    "response": [
+      {
+        "description": "Cisco IOS Software [Dublin], C9800 Software (C9800_IOSXE-K9), Version 17.12.5, RELEASE SOFTWARE (fc5) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Mar-25 02:51 by mcpre netconf enabled",
+        "family": "Wireless Controller",
+        "lastUpdateTime": 1755840403418,
+        "macAddress": "f4:bd:9e:56:42:2b",
+        "deviceSupportLevel": "Supported",
+        "softwareType": "IOS-XE",
+        "softwareVersion": "17.12.5",
+        "serialNumber": "FCL23410037",
+        "syncRequestedByApp": "",
+        "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+        "collectionInterval": "Global Default",
+        "dnsResolvedManagementAddress": "10.31.102.25",
+        "lastManagedResyncReasons": "Config Change Event",
+        "managementState": "Managed",
+        "pendingSyncRequestsCount": "0",
+        "reasonsForDeviceResync": "Config Change Event",
+        "reasonsForPendingSyncRequests": "",
+        "roleSource": "AUTO",
+        "upTime": "129 days, 9:27:17.17",
+        "interfaceCount": "0",
+        "lastUpdated": "2025-08-22 05:26:43",
+        "associatedWlcIp": "",
+        "apEthernetMacAddress": null,
+        "errorCode": null,
+        "errorDescription": null,
+        "lastDeviceResyncStartTime": "2025-08-22 05:26:39",
+        "lineCardCount": "0",
+        "lineCardId": "",
+        "managedAtleastOnce": true,
+        "memorySize": "NA",
+        "tagCount": "0",
+        "tunnelUdpPort": null,
+        "uptimeSeconds": 11187182,
+        "vendor": "Cisco",
+        "bootDateTime": "2025-04-14 19:59:43",
+        "reachabilityStatus": "Reachable",
+        "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+        "snmpContact": "",
+        "snmpLocation": "",
+        "apManagerInterfaceIp": "",
+        "collectionStatus": "Managed",
+        "hostname": "9800-3.cisco.com",
+        "locationName": null,
+        "managementIpAddress": "10.31.102.25",
+        "platformId": "C9800-L-C-K9",
+        "reachabilityFailureReason": "",
+        "waasDeviceMode": null,
+        "type": "Cisco Catalyst 9800-L-C Wireless Controller",
+        "location": null,
+        "role": "ACCESS",
+        "instanceTenantId": "646e980e47fc23431d046907",
+        "instanceUuid": "23da2a12-fdeb-4b18-9221-4d6108b7f2a1",
+        "id": "23da2a12-fdeb-4b18-9221-4d6108b7f2a1"
+      }
+    ],
+    "version": "1.0"
+  },
+  "response2": {
+    "response": [
+      {
+        "description": null,
+        "family": "Unified AP",
+        "lastUpdateTime": 1755847349716,
+        "macAddress": "ec:f4:0c:af:19:80",
+        "deviceSupportLevel": "Supported",
+        "softwareType": null,
+        "softwareVersion": "17.15.3.28",
+        "serialNumber": "WNT282602YB",
+        "syncRequestedByApp": "",
+        "inventoryStatusDetail": "NA",
+        "collectionInterval": "NA",
+        "dnsResolvedManagementAddress": "",
+        "lastManagedResyncReasons": "",
+        "managementState": "Managed",
+        "pendingSyncRequestsCount": "0",
+        "reasonsForDeviceResync": "",
+        "reasonsForPendingSyncRequests": "",
+        "roleSource": "AUTO",
+        "upTime": "1 days, 17:01:47.210",
+        "interfaceCount": "0",
+        "lastUpdated": "2025-08-22 07:22:29",
+        "associatedWlcIp": "10.31.102.152",
+        "apEthernetMacAddress": "8c:88:81:51:52:a0",
+        "errorCode": "null",
+        "errorDescription": null,
+        "lastDeviceResyncStartTime": "",
+        "lineCardCount": "0",
+        "lineCardId": "",
+        "managedAtleastOnce": false,
+        "memorySize": "NA",
+        "tagCount": "0",
+        "tunnelUdpPort": null,
+        "uptimeSeconds": 148323,
+        "vendor": "NA",
+        "bootDateTime": null,
+        "reachabilityStatus": "Reachable",
+        "series": "Cisco Wireless 9176D1 Series Access Points",
+        "snmpContact": "",
+        "snmpLocation": "default location",
+        "apManagerInterfaceIp": "10.31.102.152",
+        "collectionStatus": "Managed",
+        "hostname": "Bottom-Right",
+        "locationName": null,
+        "managementIpAddress": "192.168.32.208",
+        "platformId": "CW9176D1",
+        "reachabilityFailureReason": "NA",
+        "waasDeviceMode": null,
+        "type": "Cisco Wireless 9176D1 Access Point",
+        "location": null,
+        "role": "ACCESS",
+        "instanceTenantId": "646e980e47fc23431d046907",
+        "instanceUuid": "cad1d72a-0673-49f7-ba45-882addc4fc3d",
+        "id": "cad1d72a-0673-49f7-ba45-882addc4fc3d"
+      }
+    ],
+    "version": "1.0"
+  },
+  "response3": {
+    "response": [
+      {
+        "id": "4A:22:BE:BD:9D:A7",
+        "macAddress": "4A:22:BE:BD:9D:A7",
+        "type": "Wireless",
+        "name": null,
+        "userId": null,
+        "username": null,
+        "ipv4Address": "192.168.32.223",
+        "ipv6Addresses": [
+          "fe80::1c99:e9bb:53b:88fb"
+        ],
+        "vendor": null,
+        "osType": null,
+        "osVersion": null,
+        "formFactor": null,
+        "deviceType": "Un-Classified Device",
+        "siteHierarchy": null,
+        "siteHierarchyId": "/a09f1a06-d5cc-41c0-9e79-436c1748546f/",
+        "siteId": "a09f1a06-d5cc-41c0-9e79-436c1748546f",
+        "lastUpdatedTime": 1755801720000,
+        "connectionStatus": "disconnected",
+        "tracked": "No",
+        "isPrivateMacAddress": true,
+        "health": {
+          "overallScore": 10,
+          "onboardingScore": 4,
+          "connectedScore": 6,
+          "linkErrorPercentageThreshold": 1.0,
+          "isLinkErrorIncluded": true,
+          "rssiThreshold": -72,
+          "snrThreshold": 9,
+          "isRssiIncluded": true,
+          "isSnrIncluded": true
+        },
+        "traffic": {
+          "txBytes": 0,
+          "rxBytes": 0,
+          "usage": 0,
+          "rxPackets": 0,
+          "txPackets": 0,
+          "rxRate": 0.0,
+          "txRate": 0.0,
+          "rxLinkErrorPercentage": 0.0,
+          "txLinkErrorPercentage": 0.0,
+          "rxRetries": 0,
+          "rxRetryPercentage": 0.0,
+          "txDrops": 0,
+          "txDropPercentage": null,
+          "dnsRequestCount": 0,
+          "dnsResponseCount": 0
+        },
+        "connectedNetworkDevice": {
+          "connectedNetworkDeviceId": "c4257980-8499-4627-8b8b-0ca515425101",
+          "connectedNetworkDeviceName": "kp_rcdn6-3",
+          "connectedNetworkDeviceManagementIp": "64.101.154.155",
+          "connectedNetworkDeviceMac": "E4:A4:1C:9F:10:80",
+          "connectedNetworkDeviceType": "Access Point",
+          "interfaceName": null,
+          "interfaceSpeed": null,
+          "duplexMode": null
+        },
+        "connection": {
+          "vlanId": "32",
+          "sessionDuration": 155817,
+          "vnId": null,
+          "l2Vn": null,
+          "l3Vn": null,
+          "securityGroupTag": "0.0",
+          "linkSpeed": null,
+          "bridgeVMMode": "0.0",
+          "band": "5GHZ",
+          "ssid": "spaces-cead-lab",
+          "authType": "WPA2/WPA3+PSK/SAE",
+          "wlcName": "kp_9800-2.cisco.com",
+          "wlcId": "de910b17-32cb-4e83-85eb-a22def89a5f5",
+          "apMac": "E4:A4:1C:9F:10:80",
+          "apEthernetMac": "C4:D6:66:A1:61:70",
+          "apMode": "Local",
+          "radioId": 1,
+          "channel": "36",
+          "channelWidth": "40",
+          "protocol": "802.11n",
+          "protocolCapability": "802.11n",
+          "upnId": null,
+          "upnName": null,
+          "upnOwner": null,
+          "upnDuid": null,
+          "rssi": -66,
+          "snr": 26,
+          "dataRate": 150,
+          "isIosAnalyticsCapable": false,
+          "isFabricClient": false
+        },
+        "onboarding": {
+          "avgRunDuration": 3152,
+          "maxRunDuration": 3152,
+          "avgAssocDuration": 1,
+          "maxAssocDuration": 1,
+          "avgAuthDuration": 16,
+          "maxAuthDuration": 16,
+          "avgDhcpDuration": 3133,
+          "maxDhcpDuration": 3133,
+          "maxRoamingDuration": null,
+          "aaaServerIp": "UNKNOWN",
+          "dhcpServerIp": "10.31.102.149",
+          "onboardingTime": 1755801597794,
+          "authDoneTime": 1755801594660,
+          "assocDoneTime": 1755801594643,
+          "dhcpDoneTime": 1755801597793,
+          "roamingTime": 0,
+          "failedRoamingCount": 0,
+          "successfulRoamingCount": 0,
+          "totalRoamingAttempts": 0,
+          "assocFailureReason": "SUCCESS",
+          "aaaFailureReason": "SUCCESS",
+          "dhcpFailureReason": "SUCCESS",
+          "otherFailureReason": null,
+          "latestFailureReason": "SUCCESS"
+        },
+        "latency": {
+          "video": null,
+          "voice": null,
+          "bestEffort": null,
+          "background": null
+        }
+      }
+    ],
+    "page": {
+      "limit": 100,
+      "offset": 1,
+      "cursor": null,
+      "count": 1,
+      "sortBy": [
+        {
+          "name": "lastUpdatedTime",
+          "function": null,
+          "order": "asc"
+        }
+      ]
+    },
+    "version": "1.0"
+  },
+  "response4": {
+    "response": {
+      "deviceId": "cad1d72a-0673-49f7-ba45-882addc4fc3d",
+      "siteId": "9cb0a7cd-a88f-4708-a1c1-cbb8b2ee2d67",
+      "siteNameHierarchy": "Global/RCDN5_LocationLab/51-6A-Wifi-7",
+      "siteType": "floor"
+    },
+    "version": "1.0"
+  },
+  "response5": {
+    "response": [
+      
+    ],
+    "version": "1.0"
+  },
+  "response6": {
+    "response": {
+      "taskId": "f63deade-cf44-48ff-ab64-d032e1b45b62",
+      "url": "/dna/intent/api/v1/tasks/f63deade-cf44-48ff-ab64-d032e1b45b62"
+    },
+    "version": "1.0"
+  },
+  "response7": {
+    "response": {
+      "endTime": 1755847967381,
+      "progress": "New Schedules were added. Successfully created a task schedule. f63deade-cf44-48ff-ab64-d032e1b45b62",
+      "version": 1755847967381,
+      "startTime": 1755847967354,
+      "serviceType": "NCSS",
+      "username": "admin",
+      "additionalStatusURL": "/dna/intent/api/v1/activities/f63deade-cf44-48ff-ab64-d032e1b45b62",
+      "isError": false,
+      "instanceTenantId": "646e980e47fc23431d046907",
+      "id": "f63deade-cf44-48ff-ab64-d032e1b45b62"
+    },
+    "version": "1.0"
+  },
+  "response8": {
+    "response": [
+      {
+        "networkDeviceId": "de910b17-32cb-4e83-85eb-a22def89a5f5",
+        "status": "Not Started"
+      }
+    ],
+    "version": "1.0"
+  },
+  "response9": {
+    "response": {
+      "taskId": "0198d0b1-e934-7ba1-87a6-4a05d9a69b24",
+      "url": "/api/v1/task/0198d0b1-e934-7ba1-87a6-4a05d9a69b24"
+    },
+    "version": "1.0"
+  },
+  "response10": {
+    "response": {
+      "data": "workflow_id=0;cfs_id=0;rollback_status=not_supported;rollback_taskid=0;failure_task=NA;processcfs_complete=false",
+      "progress": "Preview generation initiated for activityId f63deade-cf44-48ff-ab64-d032e1b45b62 and deviceId de910b17-32cb-4e83-85eb-a22def89a5f5",
+      "version": 1755847977269,
+      "startTime": 1755847977269,
+      "serviceType": "NCSP",
+      "isError": false,
+      "instanceTenantId": "646e980e47fc23431d046907",
+      "id": "0198d0b1-e934-7ba1-87a6-4a05d9a69b24"
+    },
+    "version": "1.0"
+  },
+  "response11": {
+    "response": {
+      "networkDeviceId": "de910b17-32cb-4e83-85eb-a22def89a5f5",
+      "status": "In Progress",
+      "previewItems": [
+        
+      ]
+    },
+    "version": "1.0"
+  },
+  "response12": {
+    "response": {
+      "taskId": "b12e4547-d94f-438c-abad-d7a9fe2bc9a0",
+      "url": "/dna/intent/api/v1/tasks/b12e4547-d94f-438c-abad-d7a9fe2bc9a0"
+    },
+    "version": "1.0"
+  },
+  "response13": {
+    "response": {
+      "endTime": 1755847978548,
+      "progress": "New Schedules were added. Successfully created a task schedule. b12e4547-d94f-438c-abad-d7a9fe2bc9a0",
+      "version": 1755847978548,
+      "startTime": 1755847978485,
+      "serviceType": "NCSS",
+      "username": "admin",
+      "additionalStatusURL": "/dna/intent/api/v1/activities/b12e4547-d94f-438c-abad-d7a9fe2bc9a0",
+      "isError": false,
+      "instanceTenantId": "646e980e47fc23431d046907",
+      "id": "b12e4547-d94f-438c-abad-d7a9fe2bc9a0"
+    },
+    "version": "1.0"
+  },
+  "response14": {
+    "response": [
+      {
+        "id": "a55c72f6-3ebf-4d28-9e35-c80fc6c09d78",
+        "deployActivityId": "b12e4547-d94f-438c-abad-d7a9fe2bc9a0",
+        "configGroupName": "icapSettings-f:assurance-icap ait:OTA ob:5 oc:36 ocw:40 slot:1 s:ICAP_cad1d72a-0673-49f7-ba45-882addc4fc3d oap:ICAP_cad1d72a-0673-49f7-ba45-882addc4fc3d a:Enable op:CREATE",
+        "configGroupVersion": 1,
+        "startTime": 1755847980481,
+        "endTime": 1755847987895,
+        "networkDeviceId": "de910b17-32cb-4e83-85eb-a22def89a5f5",
+        "status": "Success"
+      }
+    ],
+    "version": "1.0"
+  },
+  "playbook_invalid_capture": [
+    {
+      "assurance_icap_settings": [
+        {
+          "ap_name": "Bottom-Right",
+          "capture_type": "OTAs",
+          "client_mac": "4A:22:BE:BD:9D:A7",
+          "duration_in_mins": 15,
+          "ota_band": 5,
+          "ota_channel": 36,
+          "ota_channel_width": 40,
+          "preview_description": "ICAP 2208",
+          "slots": [
+            1
+          ],
+          "wlc_name": "9800-3.cisco.com"
+        }
+      ]
+    }
+  ]
+}

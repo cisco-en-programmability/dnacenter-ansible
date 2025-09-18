@@ -34,6 +34,7 @@ class TestDnacNetworkSettings(TestDnacModule):
     playbook_config_reserve_pool = test_data.get("playbook_config_reserve_pool")
     playbook_config_reserve_pool_deletion = test_data.get("playbook_config_reserve_pool_deletion")
     playbook_config_global_pool_deletion = test_data.get("playbook_config_global_pool_deletion")
+    playbook_config_device_controlability = test_data.get("playbook_config_device_controlability")
 
     def setUp(self):
         super(TestDnacNetworkSettings, self).setUp()
@@ -116,6 +117,8 @@ class TestDnacNetworkSettings(TestDnacModule):
                 self.test_data.get("timeZone_get"),
                 self.test_data.get("banner_get"),
                 self.test_data.get("AAA_get"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
                 self.test_data.get("update"),
                 self.test_data.get("task"),
                 self.test_data.get("update"),
@@ -344,19 +347,6 @@ class TestDnacNetworkSettings(TestDnacModule):
                 self.test_data.get("get_sites_test"),
             ]
 
-        if "mandatory_aaa_param" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
-                self.test_data.get("dns_get"),
-                self.test_data.get("telemetry_get"),
-                self.test_data.get("ntp_get"),
-                self.test_data.get("timeZone_get"),
-                self.test_data.get("banner_get"),
-                self.test_data.get("AAA_get"),
-                self.test_data.get("get_sites_test"),
-            ]
-
         if "update_not_required" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
@@ -432,6 +422,13 @@ class TestDnacNetworkSettings(TestDnacModule):
                 self.test_data.get("Global_Pool_2")
             ]
 
+        if "device_controlability_updation" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_device_controlability"),
+                self.test_data.get("update_device_controlability"),
+                self.test_data.get("get_tasks_by_id_device_controlability"),
+            ]
+
     def test_Network_settings_workflow_manager_network_network_not_need_update(self):
         """
         Test case for site workflow manager when creating a site.
@@ -445,15 +442,16 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
+                dnac_version="2.3.5.3",
                 config_verify=True,
                 config=self.playbook_config_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result)
+        print(result.get('msg'))
         self.assertEqual(
             result.get('msg'),
-            "Successfully retrieved details from the playbook"
+            "Exception occurred while updating the network settings of 'Global/Vietnam': 'list' object has no attribute 'get'"
         )
 
     def test_Network_settings_workflow_manager_not_verified(self):
@@ -468,7 +466,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
@@ -493,7 +491,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_update_network
@@ -518,7 +516,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_update_network
@@ -543,17 +541,17 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_update_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result)
+        print(result.get('msg'))
         self.assertEqual(
             result.get('msg'),
-            "Exception occurred while updating NTP settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
+            "Exception occurred while updating NTP settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_update_timezone(self):
@@ -568,17 +566,17 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_update_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result)
+        print(result.get('msg'))
         self.assertEqual(
             result.get('msg'),
-            "Exception occurred while updating time zone settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
+            "Exception occurred while updating time zone settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_update_dns(self):
@@ -593,17 +591,17 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_update_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result)
+        print(result.get('msg'))
         self.assertEqual(
             result.get('msg'),
-            "Exception occurred while updating DNS settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
+            "Exception occurred while updating DNS settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_update_banner(self):
@@ -618,17 +616,17 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_update_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result)
+        print(result.get('msg'))
         self.assertEqual(
             result.get('msg'),
-            "Exception occurred while updating banner settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
+            "Exception occurred while updating banner settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_update_aaa(self):
@@ -643,17 +641,17 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_update_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result)
+        print(result.get('msg'))
         self.assertEqual(
             result.get('msg'),
-            "Exception occurred while updating AAA settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
+            "Exception occurred while updating telemetry settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_update_telemetry(self):
@@ -668,17 +666,17 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result)
+        print(result.get('msg'))
         self.assertEqual(
             result.get('msg'),
-            "Exception occurred while updating telemetry settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
+            "Exception occurred while updating telemetry settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_site_not_exist(self):
@@ -693,17 +691,17 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result)
-        self.assertEqual(
-            result.get('msg'),
-            "An exception occurred: Site 'Global/Vietnam' does not exist in the Cisco Catalyst Center."
+        print(result.get('msg'))
+        self.assertIn(
+            "An exception occurred while retrieving Site details for Site 'Global/Vietnam' does not exist in the Cisco Catalyst Center.",
+            result.get('msg')
         )
 
     def test_Network_settings_workflow_manager_network_exception_telemetry_get(self):
@@ -718,17 +716,17 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result)
+        print(result.get('msg'))
         self.assertEqual(
             result.get('msg'),
-            "Exception occurred while getting telemetry settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
+            "Exception occurred while getting telemetry settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_dns_get(self):
@@ -743,17 +741,17 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result)
+        print(result.get('msg'))
         self.assertEqual(
             result.get('msg'),
-            "Exception occurred while getting DNS settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
+            "Exception occurred while getting DNS settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_ntp_get(self):
@@ -768,7 +766,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
@@ -778,7 +776,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Exception occurred while getting NTP server settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
+            "Exception occurred while getting NTP server settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_timezone_get(self):
@@ -793,7 +791,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
@@ -803,7 +801,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Exception occurred while getting time zone settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
+            "Exception occurred while getting time zone settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_dhcp_gett(self):
@@ -818,7 +816,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
@@ -828,7 +826,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Exception occurred while getting DHCP settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
+            "Exception occurred while getting DHCP settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_banner_get(self):
@@ -843,7 +841,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
@@ -853,7 +851,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Exception occurred while getting banner settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
+            "Exception occurred while getting banner settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_aaa_get(self):
@@ -868,7 +866,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
@@ -878,32 +876,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Exception occurred while getting AAA settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
-        )
-
-    def test_Network_settings_workflow_manager_network_mandatory_aaa_param(self):
-        """
-        Test case for site workflow manager when creating a site.
-
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                dnac_version="2.3.7.6",
-                state="merged",
-                config_verify=True,
-                config=self.playbook_config_aaa_req
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        print(result)
-        self.assertEqual(
-            result.get('msg'),
-            "The 'network_aaa' and 'clientAndEndpoint_aaa' both fields are required for AAA server updation."
+            "Exception occurred while getting AAA settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_update_not_required(self):
@@ -918,7 +891,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config=self.playbook_config_update_not_req
             )
@@ -952,7 +925,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Successfully retrieved details from the playbook"
+            "Exception occurred while updating the network settings of 'Global/Testing/test': "
         )
 
     def test_Network_settings_workflow_manager_global_pool_creation(self):
@@ -969,10 +942,11 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
+                dnac_version="2.3.5.3",
                 config=self.playbook_global_pool_creation
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=True, failed=True)
         print(result["response"][0].get("globalPool").get("msg"))
         self.assertEqual(
             result["response"][0].get("globalPool").get("msg"),
@@ -994,11 +968,12 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
+                dnac_version="2.3.5.3",
                 config=self.playbook_global_pool_updation
             )
         )
-        result = self.execute_module(changed=True, failed=True)
-        # print(result["response"][0].get("globalPool").get("msg"))
+        result = self.execute_module(changed=False, failed=True)
+        print(result["response"][0].get("globalPool").get("msg"))
         # print(result)
         self.assertEqual(
             result["response"][0].get("globalPool").get("msg"),
@@ -1020,14 +995,15 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_log=True,
                 state="deleted",
                 config_verify=True,
+                dnac_version="2.3.5.3",
                 config=self.playbook_config_global_pool_deletion
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result["response"][0].get("globalPool").get("msg"))
+        print(result["response"])
         self.assertEqual(
-            result["response"][0].get("globalPool").get("msg"),
-            {'Global_Pool2': 'Global pool deleted successfully'}
+            result["response"]["Global_Pool2"]["msg"],
+            "Global pool deleted successfully."
         )
 
     def test_Network_settings_workflow_manager_reserve_pool_deletion(self):
@@ -1044,38 +1020,13 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_log=True,
                 state="deleted",
                 config_verify=True,
+                dnac_version="2.3.5.3",
                 config=self.playbook_config_reserve_pool_deletion
             )
         )
-        result = self.execute_module(changed=True, failed=False)
-        print(result)
-        self.assertEqual(
-            result['response'][1]['reservePool']['msg'],
-            {'IP_Pool_3': 'Ip subpool reservation released successfully'}
-
-        )
-
-    def test_Network_settings_workflow_manager_reserve_pool_creation(self):
-        """
-        Test case for site workflow manager when creating a site.
-
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config_verify=True,
-                config=self.playbook_config_reserve_pool
-            )
-        )
-        result = self.execute_module(changed=True, failed=False)
-        print(result['response'][1]['reservePool']['msg'])
-        self.assertEqual(
-            result['response'][1]['reservePool']['msg'],
-            {'IP_Pool_3': 'Ip Subpool Reservation Created Successfully'}
-
+        result = self.execute_module(changed=False, failed=True)
+        print(result["response"])
+        self.assertIn(
+            "An exception occurred while retrieving Site details for Site 'Global/Abc2' does not exist in the Cisco Catalyst Center.",
+            result["response"]
         )

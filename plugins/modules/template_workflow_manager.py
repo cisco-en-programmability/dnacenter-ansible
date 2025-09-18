@@ -2,25 +2,29 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-"""Ansible module to perform operations on project and templates in Cisco Catalyst Center."""
+"""Ansible module to perform operations on projects and templates in Cisco Catalyst Center."""
 
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ['Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh, Abhishek Maheshwari']
+
+__author__ = ['Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh, Abhishek Maheshwari, Archit Soni, A Mohamed Rafeek']
 
 DOCUMENTATION = r"""
 ---
 module: template_workflow_manager
 short_description: Resource module for Template functions
 description:
-  - Manages operations for creating, updating, and deleting configuration templates.
+  - Manages operations for creating, updating, and deleting
+    configuration templates.
   - Creates templates by project and template names.
   - Updates templates by project and template names.
   - Deletes templates by project and template names.
-  - Exports projects and templates based on specified parameters.
-  - Handles the creation of resources for importing configuration templates and projects.
-version_added: '6.6.0'
+  - Exports projects and templates based on specified
+    parameters.
+  - Handles the creation of resources for importing
+    configuration templates and projects.
+version_added: '6.33.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author: Madhan Sankaranarayanan (@madhansansel)
@@ -28,13 +32,19 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Akash Bhaskaran (@akabhask)
         Muthu Rakesh (@MUTHU-RAKESH-27)
         Abhishek Maheshwari (@abmahesh)
+        Archit Soni (@koderchit)
+        A Mohamed Rafeek (@mabdulk2)
 options:
   config_verify:
-    description: If set to True, verifies the Cisco Catalyst Center configuration after applying the playbook.
+    description: |
+      If set to True, verifies the Cisco Catalyst Center
+      configuration after applying the playbook.
+
     type: bool
     default: false
   state:
-    description: Desired state of the Cisco Catalyst Center after module execution.
+    description: Desired state of the Cisco Catalyst
+      Center after module execution.
     type: str
     choices: [merged, deleted]
     default: merged
@@ -44,35 +54,70 @@ options:
     elements: dict
     required: true
     suboptions:
+      projects:
+        description: |
+          Create, update, or delete projects with associated details such as name,
+          and description.
+        type: list
+        elements: dict
+        required: false
+        suboptions:
+          name:
+            description: |
+              The name of the project. This is used to identify the project for creation,
+              update, or deletion.
+            type: str
+            required: true
+          new_name:
+            description: |
+              Specify a new name for the project when updating an existing project.
+            type: str
+            required: false
+          description:
+            description: A brief description of the project.
+            type: str
+            required: false
+
       configuration_templates:
-        description: Operations for Create/Update/Delete on a template.
+        description: Operations for Create/Update/Delete
+          on a template.
         type: dict
         suboptions:
           author:
             description: Creator of the template.
             type: str
           composite:
-            description: Specifies if the template is composite.
+            description: Specifies if the template is
+              composite.
             type: bool
           containing_templates:
             description:
-              - Set of templates within the main template to define more complex or modular configurations.
-              - This is particularly useful in systems that support hierarchical or nested templates.
-              - Here parent templates may contain child templates to form a complete configuration.
+              - Set of templates within the main template
+                to define more complex or modular configurations.
+              - This is particularly useful in systems
+                that support hierarchical or nested
+                templates.
+              - Here parent templates may contain child
+                templates to form a complete configuration.
             suboptions:
               composite:
-                description: Specifies if the template is composite.
+                description: Specifies if the template
+                  is composite.
                 type: bool
-              description:
-                description: Provides a description of the template.
+              template_description:
+                description: Provides a description
+                  of the template.
                 type: str
               device_types:
-                description: List of dictionaries details the types of devices that the templates can be applied to.
+                description: List of dictionaries details
+                  the types of devices that the templates
+                  can be applied to.
                 type: list
                 elements: dict
                 suboptions:
                   product_family:
-                    description: Denotes the family to which the device belongs.
+                    description: Denotes the family
+                      to which the device belongs.
                     choices:
                       - Cisco Cloud Services Platform
                       - Cisco Interfaces and Modules
@@ -88,145 +133,212 @@ options:
                       - Wireless Controller
                     type: str
                   product_series:
-                    description: Specifies the series classification of the device.
+                    description: Specifies the series
+                      classification of the device.
                     type: str
                   product_type:
-                    description: Describes the exact type of the device.
+                    description: Describes the exact
+                      type of the device.
                     type: str
               id:
-                description: Unique identifier for the template, represented as a UUID.
+                description: Unique identifier for the
+                  template, represented as a UUID.
                 type: str
               language:
-                description: Programming language used for templating. Options are 'JINJA' for Jinja templating or 'VELOCITY' for Apache Velocity.
+                description: Programming language used
+                  for templating. Options are 'JINJA'
+                  for Jinja templating or 'VELOCITY'
+                  for Apache Velocity.
                 choices:
                   - JINJA
                   - VELOCITY
                 type: str
               name:
-                description: Designation of the template, serving as its unique name.
+                description: Designation of the template,
+                  serving as its unique name.
                 type: str
               project_name:
-                description: Title of the project within which the template is categorized and managed.
+                description: Title of the project within
+                  which the template is categorized
+                  and managed.
                 type: str
               project_description:
-                description: Narrative that elaborates on the purpose and scope of the project.
+                description: Narrative that elaborates
+                  on the purpose and scope of the project.
                 type: str
               tags:
-                description: A list of dictionaries representing tags associated with the Configuration Template during creation.
+                description: A list of dictionaries
+                  representing tags associated with
+                  the Configuration Template during
+                  creation.
                 suboptions:
                   id:
-                    description: The unique identifier for each tag, presented as a UUID.
+                    description: The unique identifier
+                      for each tag, presented as a UUID.
                     type: str
                   name:
-                    description: The descriptive label or name assigned to the tag.
+                    description: The descriptive label
+                      or name assigned to the tag.
                     type: str
                 type: list
                 elements: dict
               template_content:
-                description: The actual script or code constituting the body of the template.
+                description: The actual script or code
+                  constituting the body of the template.
                 type: str
               template_params:
-                description: The customization of the contents within the template.
+                description: The customization of the
+                  contents within the template.
                 elements: dict
                 suboptions:
                   binding:
-                    description: Associates the parameter with its source.
+                    description: Associates the parameter
+                      with its source.
                     type: str
                   custom_order:
-                    description: Specifies a user-defined ordering for the parameter.
+                    description: Specifies a user-defined
+                      ordering for the parameter.
                     type: int
                   data_type:
-                    description: Identifies the data type of the parameter (e.g., string, integer, boolean).
+                    description: Identifies the data
+                      type of the parameter (e.g., string,
+                      integer, boolean).
                     type: str
                   default_value:
-                    description: Establishes a default value for the parameter, used if no other value is provided.
+                    description: Establishes a default
+                      value for the parameter, used
+                      if no other value is provided.
                     type: str
                   description:
-                    description: Provides a descriptive explanation of the parameter's purpose.
+                    description: Provides a descriptive
+                      explanation of the parameter's
+                      purpose.
                     type: str
                   display_name:
-                    description: The name of the parameter as displayed to users.
+                    description: The name of the parameter
+                      as displayed to users.
                     type: str
                   group:
-                    description: Categorizes the parameter into a named group for organizational purposes.
+                    description: Categorizes the parameter
+                      into a named group for organizational
+                      purposes.
                     type: str
                   id:
-                    description: A unique identifier for the parameter, formatted as a UUID.
+                    description: A unique identifier
+                      for the parameter, formatted as
+                      a UUID.
                     type: str
                   instruction_text:
-                    description: Gives guidance or instructions regarding the parameter's use.
+                    description: Gives guidance or instructions
+                      regarding the parameter's use.
                     type: str
                   key:
-                    description: A unique key that identifies the parameter within the template.
+                    description: A unique key that identifies
+                      the parameter within the template.
                     type: str
                   not_param:
-                    description: Indicates whether the entry is not to be treated as a parameter.
+                    description: Indicates whether the
+                      entry is not to be treated as
+                      a parameter.
                     type: bool
                   order:
-                    description: Determines the sequence in which the parameter appears relative to others.
+                    description: Determines the sequence
+                      in which the parameter appears
+                      relative to others.
                     type: int
                   param_array:
-                    description: Specifies if the parameter should be treated as an array.
+                    description: Specifies if the parameter
+                      should be treated as an array.
                     type: bool
                   parameter_name:
                     description: The name of the parameter.
                     type: str
                   provider:
-                    description: Denotes the provider associated with the parameter.
+                    description: Denotes the provider
+                      associated with the parameter.
                     type: str
                   range:
-                    description: Defines the permissible range for the parameter's value.
+                    description: Defines the permissible
+                      range for the parameter's value.
                     suboptions:
                       id:
-                        description: Unique identifier for the range, represented as a UUID.
+                        description: Unique identifier
+                          for the range, represented
+                          as a UUID.
                         type: str
                       max_value:
-                        description: Specifies the maximum allowable value for the parameter.
+                        description: Specifies the maximum
+                          allowable value for the parameter.
                         type: int
                       min_value:
-                        description: Specifies the minimum allowable value for the parameter.
+                        description: Specifies the minimum
+                          allowable value for the parameter.
                         type: int
                     type: list
                     elements: dict
                   required:
-                    description: Dictates whether the parameter is required for template operations.
+                    description: Dictates whether the
+                      parameter is required for template
+                      operations.
                     type: bool
                   selection:
-                    description: Contains options for parameter selection when a choice is available.
+                    description: Contains options for
+                      parameter selection when a choice
+                      is available.
                     suboptions:
                       default_selected_values:
-                        description: Lists the default values that are preselected.
+                        description: Lists the default
+                          values that are preselected.
                         elements: str
                         type: list
                       id:
-                        description: A unique identifier for the selection entity, represented as a UUID.
+                        description: A unique identifier
+                          for the selection entity,
+                          represented as a UUID.
                         type: str
                       selection_type:
-                        description: Specifies the type of selection, such as 'SINGLE_SELECT' or 'MULTI_SELECT'.
+                        description: Specifies the type
+                          of selection, such as 'SINGLE_SELECT'
+                          or 'MULTI_SELECT'.
                         type: str
                       selection_values:
-                        description: A dictionary of available values for selection.
+                        description: A dictionary of
+                          available values for selection.
                         type: dict
                     type: dict
                 type: list
               version:
-                description: The current version of template.
+                description: The current version of
+                  template.
                 type: str
             type: list
             elements: dict
           custom_params_order:
-            description: Specifies the sequence in which custom parameters or variables should be arranged within the template.
+            description: Specifies the sequence in which
+              custom parameters or variables should
+              be arranged within the template.
             type: bool
           template_description:
-            description: Provides a overview  of the template.
+            description: Provides a overview  of the
+              template.
             type: str
+          commit:
+            description:
+              - Indicates whether the template should be committed after configuration changes.
+              - If set to 'false', the changes are not committed immediately, allowing for additional
+                modifications before an explicit commit.
+            type: bool
+            default: true
           device_types:
-            description: List of dictionaries details the types of devices that the templates can be applied to.
+            description: List of dictionaries details
+              the types of devices that the templates
+              can be applied to.
             type: list
             elements: dict
             suboptions:
               product_family:
-                description: Denotes the family to which the device belongs.
+                description: Denotes the family to which
+                  the device belongs.
                 choices:
                   - Cisco Cloud Services Platform
                   - Cisco Interfaces and Modules
@@ -242,43 +354,57 @@ options:
                   - Wireless Controller
                 type: str
               product_series:
-                description: Specifies the series classification of the device.
+                description: Specifies the series classification
+                  of the device.
                 type: str
               product_type:
-                description: Describes the exact type of the device.
+                description: Describes the exact type
+                  of the device.
                 type: str
           failure_policy:
             description:
-              - Define failure policy if template provisioning fails.
-              - failure_policy will be enabled only when the composite is set to True.
+              - Define failure policy if template provisioning
+                fails.
+              - failure_policy will be enabled only
+                when the composite is set to True.
             choices:
               - ABORT_TARGET_ON_ERROR
             type: str
           id:
-            description: A unique identifier, represented as a UUID.
+            description: A unique identifier, represented
+              as a UUID.
             type: str
           language:
-            description: Programming language used for templating. Options are 'JINJA' for Jinja templating or 'VELOCITY' for Apache Velocity.
+            description: Programming language used for
+              templating. Options are 'JINJA' for Jinja
+              templating or 'VELOCITY' for Apache Velocity.
             choices:
               - JINJA
               - VELOCITY
             type: str
           template_name:
-            description: Name of template. This field is required to create a new template.
+            description: Name of template. This field
+              is required to create a new template.
             type: str
           new_template_name:
             description:
-            - New name of the template.
-            - Use this field to update the name of the existing template.
+              - New name of the template.
+              - Use this field to update the name of
+                the existing template.
             type: str
           project_name:
-            description: Title of the project within which the template is categorized and managed.
+            description: Title of the project within
+              which the template is categorized and
+              managed.
             type: str
           project_description:
-            description: Narrative that elaborates on the purpose and scope of the project.
+            description: Narrative that elaborates on
+              the purpose and scope of the project.
             type: str
           software_type:
-            description: Applicable device software type. This field is required to create a new template.
+            description: Applicable device software
+              type. This field is required to create
+              a new template.
             choices:
               - IOS
               - IOS-XE
@@ -291,13 +417,16 @@ options:
               - Others
             type: str
           software_version:
-            description: Applicable device software version.
+            description: Applicable device software
+              version.
             type: str
           template_tag:
-            description: Refers to a keyword, label, or metadata assigned to a template.
+            description: Refers to a keyword, label,
+              or metadata assigned to a template.
             suboptions:
               id:
-                description: A unique identifier for the tag, represented as a UUID.
+                description: A unique identifier for
+                  the tag, represented as a UUID.
                 type: str
               name:
                 description: The name of the tag.
@@ -305,88 +434,120 @@ options:
             type: list
             elements: dict
           template_content:
-            description: The actual script or code constituting the body of the template.
+            description: The actual script or code constituting
+              the body of the template.
             type: str
           template_params:
-            description: The customization of the contents within the template.
+            description: The customization of the contents
+              within the template.
             suboptions:
               binding:
-                description: Associates the parameter with its source.
+                description: Associates the parameter
+                  with its source.
                 type: str
               custom_order:
-                description: Specifies a user-defined ordering for the parameter.
+                description: Specifies a user-defined
+                  ordering for the parameter.
                 type: int
               data_type:
-                description: Identifies the data type of the parameter (e.g., string, integer, boolean).
+                description: Identifies the data type
+                  of the parameter (e.g., string, integer,
+                  boolean).
                 type: str
               default_value:
-                description: Establishes a default value for the parameter, used if no other value is provided.
+                description: Establishes a default value
+                  for the parameter, used if no other
+                  value is provided.
                 type: str
               description:
-                description: Provides a descriptive explanation of the parameter's purpose.
+                description: Provides a descriptive
+                  explanation of the parameter's purpose.
                 type: str
               display_name:
-                description: The name of the parameter as displayed to users.
+                description: The name of the parameter
+                  as displayed to users.
                 type: str
               group:
-                description: Categorizes the parameter into a named group for organizational purposes.
+                description: Categorizes the parameter
+                  into a named group for organizational
+                  purposes.
                 type: str
               id:
-                description: A unique identifier for the parameter, formatted as a UUID.
+                description: A unique identifier for
+                  the parameter, formatted as a UUID.
                 type: str
               instruction_text:
-                description: Gives guidance or instructions regarding the parameter's use.
+                description: Gives guidance or instructions
+                  regarding the parameter's use.
                 type: str
               key:
-                description: A unique key that identifies the parameter within the template.
+                description: A unique key that identifies
+                  the parameter within the template.
                 type: str
               not_param:
-                description: Indicates whether the entry is not to be treated as a parameter.
+                description: Indicates whether the entry
+                  is not to be treated as a parameter.
                 type: bool
               order:
-                description: Determines the sequence in which the parameter appears relative to others.
+                description: Determines the sequence
+                  in which the parameter appears relative
+                  to others.
                 type: int
               param_array:
-                description: Specifies if the parameter should be treated as an array.
+                description: Specifies if the parameter
+                  should be treated as an array.
                 type: bool
               parameter_name:
                 description: The name of the parameter.
                 type: str
               provider:
-                description: Denotes the provider associated with the parameter.
+                description: Denotes the provider associated
+                  with the parameter.
                 type: str
               range:
-                description: Defines the permissible range for the parameter's value.
+                description: Defines the permissible
+                  range for the parameter's value.
                 suboptions:
                   id:
-                    description: Unique identifier for the range, represented as a UUID.
+                    description: Unique identifier for
+                      the range, represented as a UUID.
                     type: str
                   max_value:
-                    description: Specifies the maximum allowable value for the parameter.
+                    description: Specifies the maximum
+                      allowable value for the parameter.
                     type: int
                   min_value:
-                    description: Specifies the minimum allowable value for the parameter.
+                    description: Specifies the minimum
+                      allowable value for the parameter.
                     type: int
                 type: list
                 elements: dict
               required:
-                description: Dictates whether the parameter is required for template operations.
+                description: Dictates whether the parameter
+                  is required for template operations.
                 type: bool
               selection:
-                description: Contains options for parameter selection when a choice is available.
+                description: Contains options for parameter
+                  selection when a choice is available.
                 suboptions:
                   default_selected_values:
-                    description: Lists the default values that are preselected.
+                    description: Lists the default values
+                      that are preselected.
                     elements: str
                     type: list
                   id:
-                    description: A unique identifier for the selection entity, represented as a UUID.
+                    description: A unique identifier
+                      for the selection entity, represented
+                      as a UUID.
                     type: str
                   selection_type:
-                    description: Specifies the type of selection, such as 'SINGLE_SELECT' or 'MULTI_SELECT'.
+                    description: Specifies the type
+                      of selection, such as 'SINGLE_SELECT'
+                      or 'MULTI_SELECT'.
                     type: str
                   selection_values:
-                    description: A dictionary of available values for selection.
+                    description: A dictionary of available
+                      values for selection.
                     type: dict
                 type: dict
             type: list
@@ -398,7 +559,8 @@ options:
             description: Template version comments.
             type: str
       export:
-        description: Perform export on the projects and templates.
+        description: Perform export on the projects
+          and templates.
         type: dict
         suboptions:
           project:
@@ -411,13 +573,16 @@ options:
             elements: dict
             suboptions:
               project_name:
-                description: Name of the project under the template available.
+                description: Name of the project under
+                  the template available.
                 type: str
               template_name:
-                description: Name of the template which we need to be exported.
+                description: Name of the template which
+                  we need to be exported.
                 type: str
       import:
-        description: Perform import on the projects and templates.
+        description: Perform import on the projects
+          and templates.
         type: dict
         suboptions:
           project:
@@ -426,78 +591,124 @@ options:
             suboptions:
               do_version:
                 description:
-                  - Determines whether to create a new version of the project with the imported contents.
-                  - If set to true and the project already exists, a new version will be created.
-                  - If false, the operation will fail with a 'Project already exists' error if the project already exists.
+                  - Determines whether to create a new
+                    version of the project with the
+                    imported contents.
+                  - If set to true and the project already
+                    exists, a new version will be created.
+                  - If false, the operation will fail
+                    with a 'Project already exists'
+                    error if the project already exists.
                 type: bool
               project_file:
                 description:
-                  - Specifies the path to a JSON file that contains the import project configuration.
-                  - If both 'project_file' and 'payload' are provided, the 'project_file' will be given priority.
+                  - Specifies the path to a JSON file
+                    that contains the import project
+                    configuration.
+                  - If both 'project_file' and 'payload'
+                    are provided, the 'project_file'
+                    will be given priority.
                 type: str
                 version_added: 6.17.0
               payload:
                 description:
-                  - Directly imports configuration data into the system using the provided payload.
-                  - Offers an alternative to 'project_file' for importing configurations without referencing an external file.
-                  - Ignored if 'project_file' is also provided.
+                  - Directly imports configuration data
+                    into the system using the provided
+                    payload.
+                  - Offers an alternative to 'project_file'
+                    for importing configurations without
+                    referencing an external file.
+                  - Ignored if 'project_file' is also
+                    provided.
                 type: list
                 elements: dict
                 suboptions:
                   name:
-                    description: Name of the project to be imported.
+                    description: Name of the project
+                      to be imported.
                     type: str
           template:
             description: Import the templates.
             type: dict
             suboptions:
               do_version:
-                description: DoVersion query parameter. If this flag is true, creates a new
-                  version of the template with the imported contents, if the templates already
-                  exists. " If false and if template already exists, then operation
-                  fails with 'Template already exists' error.
+                description: DoVersion query parameter.
+                  If this flag is true, creates a new
+                  version of the template with the imported
+                  contents, if the templates already
+                  exists. " If false and if template
+                  already exists, then operation fails
+                  with 'Template already exists' error.
                 type: bool
               template_file:
                 description:
-                  - Specifies the path to a JSON file that contains an import template.
-                  - If both 'template_file' and 'payload' are provided, the 'template_file' will be given priority.
+                  - Specifies the path to a JSON file
+                    that contains an import template.
+                  - If both 'template_file' and 'payload'
+                    are provided, the 'template_file'
+                    will be given priority.
                 type: str
               payload:
                 description:
-                  - The payload parameter is used to directly import configuration data into the system.
-                  - The payload provides an alternative way to import configurations without the need to reference an external file.
-                  - If both 'template_file' and 'payload' are provided, the 'template_file' will be given priority.
+                  - The payload parameter is used to
+                    directly import configuration data
+                    into the system.
+                  - The payload provides an alternative
+                    way to import configurations without
+                    the need to reference an external
+                    file.
+                  - If both 'template_file' and 'payload'
+                    are provided, the 'template_file'
+                    will be given priority.
                 type: list
                 elements: dict
                 suboptions:
                   author:
-                    description: Identifies the creator of the template.
+                    description: Identifies the creator
+                      of the template.
                     type: str
                   composite:
-                    description: Specifies if the template is composite.
+                    description: Specifies if the template
+                      is composite.
                     type: bool
                   containing_templates:
                     description:
-                      - Refer to a set of templates within the main template to define more complex or modular configurations.
-                      - This is particularly useful in systems that support hierarchical or nested templates.
-                      - Here parent templates may contain child templates to form a complete configuration.
+                      - Refer to a set of templates
+                        within the main template to
+                        define more complex or modular
+                        configurations.
+                      - This is particularly useful
+                        in systems that support hierarchical
+                        or nested templates.
+                      - Here parent templates may contain
+                        child templates to form a complete
+                        configuration.
                     suboptions:
                       composite:
-                        description: Specifies if the template is composite.
+                        description: Specifies if the
+                          template is composite.
                         type: bool
                       description:
-                        description: Provides a description of the template.
+                        description: Provides a description
+                          of the template.
                         type: str
                       device_types:
-                        description: List of dictionaries details the types of devices that the templates can be applied to.
+                        description: List of dictionaries
+                          details the types of devices
+                          that the templates can be
+                          applied to.
                         type: list
                         elements: dict
                         suboptions:
                           product_family:
-                            description: Denotes the family to which the device belongs.
+                            description: Denotes the
+                              family to which the device
+                              belongs.
                             choices:
-                              - Cisco Cloud Services Platform
-                              - Cisco Interfaces and Modules
+                              - Cisco Cloud Services
+                                Platform
+                              - Cisco Interfaces and
+                                Modules
                               - Content Networking
                               - Network Management
                               - NFV-ThirdParty Devices
@@ -510,142 +721,229 @@ options:
                               - Wireless Controller
                             type: str
                           product_series:
-                            description: Specifies the series classification of the device.
+                            description: Specifies the
+                              series classification
+                              of the device.
                             type: str
                           product_type:
-                            description: Describes the exact type of the device.
+                            description: Describes the
+                              exact type of the device.
                             type: str
                       id:
-                        description: Unique identifier for the template, represented as a UUID.
+                        description: Unique identifier
+                          for the template, represented
+                          as a UUID.
                         type: str
                       language:
-                        description: Programming language used for templating. Options are 'JINJA' for Jinja templating or 'VELOCITY' for Apache Velocity.
+                        description: Programming language
+                          used for templating. Options
+                          are 'JINJA' for Jinja templating
+                          or 'VELOCITY' for Apache Velocity.
                         choices:
                           - JINJA
                           - VELOCITY
                         type: str
                       name:
-                        description: Designation of the template, serving as its unique name.
+                        description: Designation of
+                          the template, serving as its
+                          unique name.
                         type: str
                       project_name:
-                        description: Title of the project within which the template is categorized and managed.
+                        description: Title of the project
+                          within which the template
+                          is categorized and managed.
                         type: str
                       tags:
-                        description: A list of dictionaries representing tags associated with the Configuration Template during creation.
+                        description: A list of dictionaries
+                          representing tags associated
+                          with the Configuration Template
+                          during creation.
                         suboptions:
                           id:
-                            description: The unique identifier for each tag, presented as a UUID.
+                            description: The unique
+                              identifier for each tag,
+                              presented as a UUID.
                             type: str
                           name:
-                            description: The descriptive label or name assigned to the tag.
+                            description: The descriptive
+                              label or name assigned
+                              to the tag.
                             type: str
                         type: list
                         elements: dict
                       template_content:
-                        description: The actual script or code constituting the body of the template.
+                        description: The actual script
+                          or code constituting the body
+                          of the template.
                         type: str
                       template_params:
-                        description: The customization of the contents within the template.
+                        description: The customization
+                          of the contents within the
+                          template.
                         elements: dict
                         suboptions:
                           binding:
-                            description: Associates the parameter with its source.
+                            description: Associates
+                              the parameter with its
+                              source.
                             type: str
                           custom_order:
-                            description: Specifies a user-defined ordering for the parameter.
+                            description: Specifies a
+                              user-defined ordering
+                              for the parameter.
                             type: int
                           data_type:
-                            description: Identifies the data type of the parameter (e.g., string, integer, boolean).
+                            description: Identifies
+                              the data type of the parameter
+                              (e.g., string, integer,
+                              boolean).
                             type: str
                           default_value:
-                            description: Establishes a default value for the parameter, used if no other value is provided.
+                            description: Establishes
+                              a default value for the
+                              parameter, used if no
+                              other value is provided.
                             type: str
                           description:
-                            description: Provides a descriptive explanation of the parameter's purpose.
+                            description: Provides a
+                              descriptive explanation
+                              of the parameter's purpose.
                             type: str
                           display_name:
-                            description: The name of the parameter as displayed to users.
+                            description: The name of
+                              the parameter as displayed
+                              to users.
                             type: str
                           group:
-                            description: Categorizes the parameter into a named group for organizational purposes.
+                            description: Categorizes
+                              the parameter into a named
+                              group for organizational
+                              purposes.
                             type: str
                           id:
-                            description: A unique identifier for the parameter, formatted as a UUID.
+                            description: A unique identifier
+                              for the parameter, formatted
+                              as a UUID.
                             type: str
                           instruction_text:
-                            description: Gives guidance or instructions regarding the parameter's use.
+                            description: Gives guidance
+                              or instructions regarding
+                              the parameter's use.
                             type: str
                           key:
-                            description: A unique key that identifies the parameter within the template.
+                            description: A unique key
+                              that identifies the parameter
+                              within the template.
                             type: str
                           not_param:
-                            description: Indicates whether the entry is not to be treated as a parameter.
+                            description: Indicates whether
+                              the entry is not to be
+                              treated as a parameter.
                             type: bool
                           order:
-                            description: Determines the sequence in which the parameter appears relative to others.
+                            description: Determines
+                              the sequence in which
+                              the parameter appears
+                              relative to others.
                             type: int
                           param_array:
-                            description: Specifies if the parameter should be treated as an array.
+                            description: Specifies if
+                              the parameter should be
+                              treated as an array.
                             type: bool
                           parameter_name:
-                            description: The name of the parameter.
+                            description: The name of
+                              the parameter.
                             type: str
                           provider:
-                            description: Denotes the provider associated with the parameter.
+                            description: Denotes the
+                              provider associated with
+                              the parameter.
                             type: str
                           range:
-                            description: Defines the permissible range for the parameter's value.
+                            description: Defines the
+                              permissible range for
+                              the parameter's value.
                             suboptions:
                               id:
-                                description: Unique identifier for the range, represented as a UUID.
+                                description: Unique
+                                  identifier for the
+                                  range, represented
+                                  as a UUID.
                                 type: str
                               max_value:
-                                description: Specifies the maximum allowable value for the parameter.
+                                description: Specifies
+                                  the maximum allowable
+                                  value for the parameter.
                                 type: int
                               min_value:
-                                description: Specifies the minimum allowable value for the parameter.
+                                description: Specifies
+                                  the minimum allowable
+                                  value for the parameter.
                                 type: int
                             type: list
                             elements: dict
                           required:
-                            description: Dictates whether the parameter is required for template operations.
+                            description: Dictates whether
+                              the parameter is required
+                              for template operations.
                             type: bool
                           selection:
-                            description: Contains options for parameter selection when a choice is available.
+                            description: Contains options
+                              for parameter selection
+                              when a choice is available.
                             suboptions:
                               default_selected_values:
-                                description: Lists the default values that are preselected.
+                                description: Lists the
+                                  default values that
+                                  are preselected.
                                 elements: str
                                 type: list
                               id:
-                                description: A unique identifier for the selection entity, represented as a UUID.
+                                description: A unique
+                                  identifier for the
+                                  selection entity,
+                                  represented as a UUID.
                                 type: str
                               selection_type:
-                                description: Specifies the type of selection, such as 'SINGLE_SELECT' or 'MULTI_SELECT'.
+                                description: Specifies
+                                  the type of selection,
+                                  such as 'SINGLE_SELECT'
+                                  or 'MULTI_SELECT'.
                                 type: str
                               selection_values:
-                                description: A dictionary of available values for selection.
+                                description: A dictionary
+                                  of available values
+                                  for selection.
                                 type: dict
                             type: dict
                         type: list
                       version:
-                        description: The current version of template.
+                        description: The current version
+                          of template.
                         type: str
                     type: list
                     elements: dict
                   custom_params_order:
-                    description: Specifies the sequence in which custom parameters or variables should be arranged within the template.
+                    description: Specifies the sequence
+                      in which custom parameters or
+                      variables should be arranged within
+                      the template.
                     type: bool
                   template_description:
-                    description: Provides a overview  of the template.
+                    description: Provides a overview  of
+                      the template.
                     type: str
                   device_types:
-                    description: List of dictionaries details the types of devices that the templates can be applied to.
+                    description: List of dictionaries
+                      details the types of devices that
+                      the templates can be applied to.
                     type: list
                     elements: dict
                     suboptions:
                       product_family:
-                        description: Denotes the family to which the device belongs.
+                        description: Denotes the family
+                          to which the device belongs.
                         choices:
                           - Cisco Cloud Services Platform
                           - Cisco Interfaces and Modules
@@ -661,38 +959,55 @@ options:
                           - Wireless Controller
                         type: str
                       product_series:
-                        description: Specifies the series classification of the device.
+                        description: Specifies the series
+                          classification of the device.
                         type: str
                       product_type:
-                        description: Describes the exact type of the device.
+                        description: Describes the exact
+                          type of the device.
                         type: str
                   failure_policy:
                     description:
-                      - Define failure policy if template provisioning fails.
-                      - failure_policy will be enabled only when the composite is set to True.
+                      - Define failure policy if template
+                        provisioning fails.
+                      - failure_policy will be enabled
+                        only when the composite is set
+                        to True.
                     choices:
                       - ABORT_TARGET_ON_ERROR
                     type: str
                   id:
-                    description: A unique identifier, represented as a UUID.
+                    description: A unique identifier,
+                      represented as a UUID.
                     type: str
                   language:
-                    description: Programming language used for templating. Options are 'JINJA' for Jinja templating or 'VELOCITY' for Apache Velocity.
+                    description: Programming language
+                      used for templating. Options are
+                      'JINJA' for Jinja templating or
+                      'VELOCITY' for Apache Velocity.
                     choices:
                       - JINJA
                       - VELOCITY
                     type: str
                   template_name:
-                    description: Name of template. This field is required to create a new template.
+                    description: Name of template. This
+                      field is required to create a
+                      new template.
                     type: str
                   project_name:
-                    description: Title of the project within which the template is categorized and managed.
+                    description: Title of the project
+                      within which the template is categorized
+                      and managed.
                     type: str
                   project_description:
-                    description: Narrative that elaborates on the purpose and scope of the project.
+                    description: Narrative that elaborates
+                      on the purpose and scope of the
+                      project.
                     type: str
                   software_type:
-                    description: Applicable device software type. This field is required to create a new template.
+                    description: Applicable device software
+                      type. This field is required to
+                      create a new template.
                     choices:
                       - IOS
                       - IOS-XE
@@ -705,188 +1020,347 @@ options:
                       - Others
                     type: str
                   software_version:
-                    description: Applicable device software version.
+                    description: Applicable device software
+                      version.
                     type: str
                   template_tag:
-                    description: Refers to a keyword, label, or metadata assigned to a template.
+                    description: Refers to a keyword,
+                      label, or metadata assigned to
+                      a template.
                     suboptions:
                       id:
-                        description: A unique identifier for the tag, represented as a UUID.
+                        description: A unique identifier
+                          for the tag, represented as
+                          a UUID.
                         type: str
                       name:
-                        description: The name of the tag.
+                        description: The name of the
+                          tag.
                         type: str
                     type: list
                     elements: dict
                   template_content:
-                    description: The actual script or code constituting the body of the template.
+                    description: The actual script or
+                      code constituting the body of
+                      the template.
                     type: str
                   template_params:
-                    description: The customization of the contents within the template.
+                    description: The customization of
+                      the contents within the template.
                     suboptions:
                       binding:
-                        description: Associates the parameter with its source.
+                        description: Associates the
+                          parameter with its source.
                         type: str
                       custom_order:
-                        description: Specifies a user-defined ordering for the parameter.
+                        description: Specifies a user-defined
+                          ordering for the parameter.
                         type: int
                       data_type:
-                        description: Identifies the data type of the parameter (e.g., string, integer, boolean).
+                        description: Identifies the
+                          data type of the parameter
+                          (e.g., string, integer, boolean).
                         type: str
                       default_value:
-                        description: Establishes a default value for the parameter, used if no other value is provided.
+                        description: Establishes a default
+                          value for the parameter, used
+                          if no other value is provided.
                         type: str
                       description:
-                        description: Provides a descriptive explanation of the parameter's purpose.
+                        description: Provides a descriptive
+                          explanation of the parameter's
+                          purpose.
                         type: str
                       display_name:
-                        description: The name of the parameter as displayed to users.
+                        description: The name of the
+                          parameter as displayed to
+                          users.
                         type: str
                       group:
-                        description: Categorizes the parameter into a named group for organizational purposes.
+                        description: Categorizes the
+                          parameter into a named group
+                          for organizational purposes.
                         type: str
                       id:
-                        description: A unique identifier for the parameter, formatted as a UUID.
+                        description: A unique identifier
+                          for the parameter, formatted
+                          as a UUID.
                         type: str
                       instruction_text:
-                        description: Gives guidance or instructions regarding the parameter's use.
+                        description: Gives guidance
+                          or instructions regarding
+                          the parameter's use.
                         type: str
                       key:
-                        description: A unique key that identifies the parameter within the template.
+                        description: A unique key that
+                          identifies the parameter within
+                          the template.
                         type: str
                       not_param:
-                        description: Indicates whether the entry is not to be treated as a parameter.
+                        description: Indicates whether
+                          the entry is not to be treated
+                          as a parameter.
                         type: bool
                       order:
-                        description: Determines the sequence in which the parameter appears relative to others.
+                        description: Determines the
+                          sequence in which the parameter
+                          appears relative to others.
                         type: int
                       param_array:
-                        description: Specifies if the parameter should be treated as an array.
+                        description: Specifies if the
+                          parameter should be treated
+                          as an array.
                         type: bool
                       parameter_name:
-                        description: The name of the parameter.
+                        description: The name of the
+                          parameter.
                         type: str
                       provider:
-                        description: Denotes the provider associated with the parameter.
+                        description: Denotes the provider
+                          associated with the parameter.
                         type: str
                       range:
-                        description: Defines the permissible range for the parameter's value.
+                        description: Defines the permissible
+                          range for the parameter's
+                          value.
                         suboptions:
                           id:
-                            description: Unique identifier for the range, represented as a UUID.
+                            description: Unique identifier
+                              for the range, represented
+                              as a UUID.
                             type: str
                           max_value:
-                            description: Specifies the maximum allowable value for the parameter.
+                            description: Specifies the
+                              maximum allowable value
+                              for the parameter.
                             type: int
                           min_value:
-                            description: Specifies the minimum allowable value for the parameter.
+                            description: Specifies the
+                              minimum allowable value
+                              for the parameter.
                             type: int
                         type: list
                         elements: dict
                       required:
-                        description: Dictates whether the parameter is required for template operations.
+                        description: Dictates whether
+                          the parameter is required
+                          for template operations.
                         type: bool
                       selection:
-                        description: Contains options for parameter selection when a choice is available.
+                        description: Contains options
+                          for parameter selection when
+                          a choice is available.
                         suboptions:
                           default_selected_values:
-                            description: Lists the default values that are preselected.
+                            description: Lists the default
+                              values that are preselected.
                             elements: str
                             type: list
                           id:
-                            description: A unique identifier for the selection entity, represented as a UUID.
+                            description: A unique identifier
+                              for the selection entity,
+                              represented as a UUID.
                             type: str
                           selection_type:
-                            description: Specifies the type of selection, such as 'SINGLE_SELECT' or 'MULTI_SELECT'.
+                            description: Specifies the
+                              type of selection, such
+                              as 'SINGLE_SELECT' or
+                              'MULTI_SELECT'.
                             type: str
                           selection_values:
-                            description: A dictionary of available values for selection.
+                            description: A dictionary
+                              of available values for
+                              selection.
                             type: dict
                         type: dict
                     type: list
                     elements: dict
                   version:
-                    description: The current version of template.
+                    description: The current version
+                      of template.
                     type: str
               project_name:
-                description: ProjectName path parameter. Project name to create template under the
-                  project.
+                description: ProjectName path parameter.
+                  Project name to create template under
+                  the project.
                 type: str
       deploy_template:
-        description: To deploy the template to the devices based on either list of site provisionig details with further filtering
-            criteria like device family, device role, device tag or by providing the device specific details which includes device_ips,
-            device_hostnames, serial_numbers or mac_addresses.
+        description: To deploy the template to the devices
+          based on either list of site provisionig details
+          with further filtering criteria like device
+          family, device role, device tag or by providing
+          the device specific details which includes
+          device_ips, device_hostnames, serial_numbers
+          or mac_addresses.
         type: dict
         suboptions:
           project_name:
-            description: Provide the name of project under which the template is available.
+            description: Provide the name of project
+              under which the template is available.
             type: str
           template_name:
-            description: Name of the template to be deployed.
+            description: Name of the template to be
+              deployed.
             type: str
           force_push:
-            description: Boolean flag to indicate whether the template should be forcefully pushed to the devices, overriding any existing
-                configuration.
+            description: Boolean flag to indicate whether
+              the template should be forcefully pushed
+              to the devices, overriding any existing
+              configuration.
             type: bool
           is_composite:
-            description: Boolean flag indicating whether the template is composite, which means the template is built using multiple smaller
-                templates.
+            description: Boolean flag indicating whether
+              the template is composite, which means
+              the template is built using multiple smaller
+              templates.
             type: bool
+          copy_config:
+            description:
+              - A boolean flag that specifies whether
+                the device's running configuration should
+                be copied to the startup configuration
+                after applying the template.
+              - If set to 'true', the updated configuration
+                will be saved to the startup configuration.
+                be copied to the start up config from
+                the device before applying the template.
+            type: bool
+            default: true
+          version:
+            description: This is useful for targeting specific template versions, such as rolling back
+              to a tested version.
+            type: int
           template_parameters:
-            description: A list of parameter name-value pairs used for customizing the template with specific values for each device.
+            description: A list of parameter name-value
+              pairs used for customizing the template
+              with specific values for each device.
             type: list
             elements: dict
             suboptions:
               param_name:
-                description: Name of the parameter in the template that needs to be replaced with a specific value.
+                description: Name of the parameter in
+                  the template that needs to be replaced
+                  with a specific value.
                 type: str
               param_value:
-                description: Value assigned to the parameter for deployment to devices.
+                description: Value assigned to the parameter
+                  for deployment to devices.
+                type: str
+          resource_parameters:
+            description: A list of configuration parameters
+              required for provisioning resources in
+              the system. These parameters define specific
+              settings or details that must be supplied
+              when deploying templates. If the template
+              uses system variables (variables prefixed
+              with __, (e.g., __device), the corresponding
+              resource parameters must be provided to
+              ensure successful deployment.
+            type: list
+            elements: dict
+            suboptions:
+              resource_type:
+                description: The type of the resource param that is to be provisioned during template deployment
+                  - Specifies the type of the resource parameter to be provisioned during template deployment.
+                  - Possible enum values are -
+                    - MANAGED_DEVICE_UUID - Used when the parameter value is the UUID of the device.
+                    - MANAGED_DEVICE_IP - Used when the parameter value is the device's IP address.
+                    - MANAGED_DEVICE_HOSTNAME - Used when the parameter value is the device's hostname.
+                    - SITE_UUID - Used when the parameter value is the UUID of a site.
+                    - MANAGED_AP_LOCATIONS - Used when the parameter value is the locations of managed access points within the network.
+                    - SECONDARY_MANAGED_AP_LOCATIONS - Used when the parameter value is the locations of secondary or backup managed access points.
+                    - SSID_NAME - Used when the parameter value is the name of a wireless network.
+                    - POLICY_PROFILE - Used when the parameter value is a set of policies that can be applied to network devices or users.
+                    - From the above enum values, the following resource types support value provisioning at runtime
+                      - MANAGED_DEVICE_UUID
+                      - MANAGED_DEVICE_IP
+                      - MANAGED_DEVICE_HOSTNAME
+                      - SITE_UUID
+                    - For all other resource types, the values must be provided at design time in the playbook.
+                type: str
+              resource_scope:
+                description:
+                  - Specifies the scope in which the
+                    resource parameter is to be provisioned.
+                  - Possible enum values are - - RUNTIME
+                    - A parameter with a runtime scope
+                    is provided at the time of deployment.
+                    These values are dynamic and may
+                    change with each deployment, as
+                    they are based on the specific context
+                    of the deployment. - DESIGN - A
+                    parameter with a design scope is
+                    defined during the design phase
+                    of the template. These values are
+                    static after template creation and
+                    remain consistent across deployments.
+                type: str
+              resource_value:
+                description: The actual value of the
+                  resource param to be provisioned.
                 type: str
           device_details:
-            description: Details specific to devices where the template will be deployed, including lists of device IPs, hostnames,
-                serial numbers, or MAC addresses.
+            description: Details specific to devices
+              where the template will be deployed, including
+              lists of device IPs, hostnames, serial
+              numbers, or MAC addresses.
             type: dict
             suboptions:
               device_ips:
-                description: A list of IP addresses of the devices where the template will be deployed.
+                description: A list of IP addresses
+                  of the devices where the template
+                  will be deployed.
                 type: list
                 elements: str
               device_hostnames:
-                description: A list of hostnames of the devices where the template will be deployed.
+                description: A list of hostnames of
+                  the devices where the template will
+                  be deployed.
                 type: list
                 elements: str
               serial_numbers:
-                description: A list of serial numbers of the devices where the template will be deployed.
+                description: A list of serial numbers
+                  of the devices where the template
+                  will be deployed.
                 type: list
                 elements: str
               mac_addresses:
-                description: A list of MAC addresses of the devices where the template will be deployed.
+                description: A list of MAC addresses
+                  of the devices where the template
+                  will be deployed.
                 type: list
                 elements: str
           site_provisioning_details:
-            description: Parameters related to site-based provisioning, allowing the deployment of templates to devices associated with specific sites, with
-                optional filtering by device family, role, or tag.
+            description: Parameters related to site-based
+              provisioning, allowing the deployment
+              of templates to devices associated with
+              specific sites, with optional filtering
+              by device family, role, or tag.
             type: list
             elements: dict
             suboptions:
               site_name:
-                description: Name of the site where the devices are associated for provisioning.
+                description: Name of the site where
+                  the devices are associated for provisioning.
                 type: list
                 elements: str
               device_family:
-                description: Family of the devices (e.g., switches, routers) used to filter devices for template deployment.
+                description: Family of the devices (e.g.,
+                  switches, routers) used to filter
+                  devices for template deployment.
                 type: str
               device_role:
-                description: Role of the devices (e.g., access, core, edge) used to filter devices for template deployment.
+                description: Role of the devices (e.g.,
+                  access, core, edge) used to filter
+                  devices for template deployment.
                 type: str
               device_tag:
-                description: Specific device tag used to filter devices for template deployment.
+                description: Specific device tag used
+                  to filter devices for template deployment.
                 type: str
 
-
 requirements:
-  - dnacentersdk >= 2.7.2
+  - dnacentersdk >= 2.8.6
   - python >= 3.9
 notes:
   - SDK Method used are
@@ -906,98 +1380,100 @@ notes:
     post /dna/intent/api/v1/template-programmer/template/exporttemplates,
     post /dna/intent/api/v1/template-programmer/project/importprojects,
     post /dna/intent/api/v1/template-programmer/project/name/{projectName}/template/importtemplates,
-
+  - While deploying the template to devices, the value for the following resource types can be filled in the resource parameters at
+    RUNTIME- MANAGED_DEVICE_UUID, MANAGED_DEVICE_IP, MANAGED_DEVICE_HOSTNAME, and SITE_UUID. For all other resource types, the value
+    must be provided at DESIGN time in the playbook.
 """
 
 EXAMPLES = r"""
+---
 - name: Create a new template.
   cisco.dnac.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
     state: merged
-    config_verify: True
     config:
-    - configuration_templates:
-        author: string
-        composite: true
-        custom_params_order: true
-        description: string
-        device_types:
-        - product_family: string
-          product_series: string
-          product_type: string
-        failure_policy: string
-        id: string
-        language: string
-        template_name: string
-        project_name: string
-        project_description: string
-        software_type: string
-        software_version: string
-        tags:
-        - id: string
-          name: string
-        template_content: string
-        version: string
+      - configuration_templates:
+          author: string
+          composite: true
+          custom_params_order: true
+          template_description: string
+          device_types:
+            - product_family: string
+              product_series: string
+              product_type: string
+          failure_policy: string
+          id: string
+          language: string
+          template_name: string
+          project_name: string
+          project_description: string
+          software_type: string
+          software_version: string
+          tags:
+            - id: string
+              name: string
+          template_content: string
+          version: string
 
 - name: Update a template.
   cisco.dnac.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
     state: merged
-    config_verify: True
     config:
-    - configuration_templates:
-        author: string
-        composite: true
-        custom_params_order: true
-        description: string
-        device_types:
-        - product_family: string
-          product_series: string
-          product_type: string
-        failure_policy: string
-        id: string
-        language: string
-        template_name: string
-        new_template_name: string
-        project_name: string
-        project_description: string
-        software_type: string
-        software_version: string
-        tags:
-        - id: string
-          name: string
-        template_content: string
-        version: string
+      - configuration_templates:
+          author: string
+          composite: true
+          custom_params_order: true
+          template_description: string
+          device_types:
+            - product_family: string
+              product_series: string
+              product_type: string
+          failure_policy: string
+          id: string
+          language: string
+          template_name: string
+          new_template_name: string
+          project_name: string
+          project_description: string
+          software_type: string
+          software_version: string
+          tags:
+            - id: string
+              name: string
+          template_content: string
 
 - name: Export the projects.
   cisco.dnac.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
     state: merged
-    config_verify: True
     config:
       export:
         project:
@@ -1006,59 +1482,59 @@ EXAMPLES = r"""
 
 - name: Export the templates.
   cisco.dnac.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
     state: merged
-    config_verify: True
     config:
       export:
         template:
-          - project_name : string
+          - project_name: string
             template_name: string
           - project_name: string
             template_name: string
 
 - name: Import the Projects.
   cisco.dnac.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
     state: merged
-    config_verify: True
     config:
       import:
         project:
           do_version: false
           payload:
-          - name: string
-          - name: string
+            - name: string
+            - name: string
 
 - name: Import the Templates.
   cisco.dnac.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
     state: merged
-    config_verify: True
     config:
       import:
         template:
@@ -1066,7 +1542,8 @@ EXAMPLES = r"""
           project_name: string
           template_file: string
 
-- name: Deploy the given template to the devices based on site specific details and other filtering mode
+- name: Creating a JINJA-based template to configure
+    access VLAN and interfaces on Catalyst 9300
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -1075,25 +1552,41 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-      deploy_template:
-        project_name: "Sample_Project"
-        template_name: "Sample Template"
-        force_push: true
-        template_parameters:
-        - param_name: "vlan_id"
-          param_value: "1431"
-        - param_name: "vlan_name"
-          param_value: "testvlan31"
-        site_provisioning_details:
-        - site_name: "Global/Bangalore/Building14/Floor1"
-          device_family: "Switches and Hubs"
+      - configuration_templates:
+          author: Test_User
+          composite: false
+          custom_params_order: true
+          template_description: Template to configure access
+            VLAN and access interfaces
+          device_types:
+            - product_family: Switches and Hubs
+              product_series: Cisco Catalyst 9300 Series
+                Switches
+          failure_policy: ABORT_TARGET_ON_ERROR
+          language: JINJA
+          template_name: PnP-Upstream-SW1
+          project_name: access_vlan_template_9300_switches
+          project_description: This project contains
+            all the templates for Access Switches
+          software_type: IOS-XE
+          template_content: |
+            {% raw %}
+            vlan {{ vlan }}
+            interface {{ interface }}
+            no shutdown
+            switchport access vlan {{ vlan }}
+            switchport mode access
+            description {{ interface_description }}
+            {% endraw %}
+          version: "1.0"
 
-- name: Deploy the given template to the devices based on device specific details
+- name: Creating a VELOCITY-based Fusion Router template
+    for Catalyst 3850 switches
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -1102,24 +1595,101 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: True
+    config_verify: true
+    config:
+      - configuration_templates:
+          template_name: "Fusion Router Config"
+          template_description: "VELOCITY template to configure
+            L3 handoff and loopback on Catalyst 3850"
+          project_name: "Network Configuration Templates"
+          tags: []
+          author: admin
+          device_types:
+            - product_family: "Switches and Hubs"
+              product_series: "Cisco Catalyst 3850 Series
+                Ethernet Stackable Switch"
+          software_type: IOS-XE
+          language: VELOCITY
+          failure_policy: ABORT_TARGET_ON_ERROR
+          template_content: |
+            ! L3handoff Vlan
+            vlan $VLANID
+            hostname  Old$__device.hostname
+            interface Loopback0
+            ip address $LOOPBACKIP 255.255.255.255
+            ipv6 address $LOOPBACKIPV6
+            ipv6 enable
+            ipv6 nd other-config-flag
+            ipv6 dhcp server EMPPool
+            ! L3handdoff interface for provider VN
+            interface Vlan$VLANID
+            description L3handoff $VLANID
+            ip address $interfaceIP 255.255.255.252
+            ip route-cache same-interface
+            ipv6 address $interfaceIPV6
+            ipv6 enable
+            ipv6 tcp adjust-mss 1400
+
+- name: Deploy the given template to the devices based
+    on site specific details and other filtering mode
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
+    state: merged
     config:
       deploy_template:
         project_name: "Sample_Project"
         template_name: "Sample Template"
         force_push: true
         template_parameters:
-        - param_name: "vlan_id"
-          param_value: "1431"
-        - param_name: "vlan_name"
-          param_value: "testvlan31"
+          - param_name: "vlan_id"
+            param_value: "1431"
+          - param_name: "vlan_name"
+            param_value: "testvlan31"
+        site_provisioning_details:
+          - site_name: "Global/Bangalore/Building14/Floor1"
+            device_family: "Switches and Hubs"
+
+- name: Deploy the given template to the devices based
+    on device specific details
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
+    state: merged
+    config:
+      deploy_template:
+        project_name: "Sample_Project"
+        template_name: "Sample Template"
+        force_push: true
+        template_parameters:
+          - param_name: "vlan_id"
+            param_value: "1431"
+          - param_name: "vlan_name"
+            param_value: "testvlan31"
         device_details:
           device_ips: ["10.1.2.1", "10.2.3.4"]
 
-- name: Delete the given project or template from the Cisco Catalyst Center
+- name: Deploy template to the devices using resource
+    parameters and copying config
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -1128,10 +1698,41 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: true
+    config:
+      deploy_template:
+        project_name: "Sample_Project"
+        template_name: "Sample Template"
+        force_push: true
+        template_parameters:
+          - param_name: "vlan_id"
+            param_value: "1431"
+          - param_name: "vlan_name"
+            param_value: "testvlan31"
+        resource_parameters:
+          - resource_type: "MANAGED_DEVICE_IP"
+            resource_scope: "RUNTIME"
+        device_details:
+          device_ips: ["10.1.2.1", "10.2.3.4"]
+        copy_config: true
+
+- name: Delete the given project or template from the
+    Cisco Catalyst Center
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
     state: deleted
-    config_verify: True
     config:
       configuration_templates:
         project_name: "Sample_Project"
@@ -1139,8 +1740,61 @@ EXAMPLES = r"""
         language: "velocity"
         software_type: "IOS-XE"
         device_types:
-        - product_family: "Switches and Hubs"
+          - product_family: "Switches and Hubs"
 
+- name: Create a New Project
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
+    state: merged
+    config:
+      - projects:
+          - name: Wireless_Controller
+            description: Centralized repository for managing templates and configurations for wireless controllers (WLCs).
+
+- name: Update project name and details.
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
+    state: merged
+    config:
+      - projects:
+          - name: Wireless_Controller
+            new_name: Wireless_Template_Management
+            description: Centralized repository for managing templates and configurations for wireless controllers (WLCs).
+
+- name: Delete project based on the name.
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
+    state: deleted
+    config:
+      - projects:
+          - name: Wireless_Template_Management
 """
 
 RETURN = r"""
@@ -1211,17 +1865,58 @@ response_5:
       "msg": String
     }
 
+# Case_6: Response for Creating a Project with a Name
+response_6:
+  description: Response when a project is created successfully
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "project Wireless_Controller created succesfully",
+        "response": "project Wireless_Controller created succesfully",
+        "status": "success"
+    }
+
+# Case_7: Response for Updating a Project with a Name
+response_7:
+  description: Provides details of the response when a project is successfully updated using the Cisco Catalyst Center Python SDK.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Project 'Wireless_Template_Management' updated successfully.",
+        "response": Project 'Wireless_Template_Management' updated successfully.",
+        "status": "success"
+    }
+
+# Case_8: Response for Deleting a Project by Name
+response_8:
+  description: Response when a project is Deleted successfully.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Project(s) are deleted and verified successfully. ['Wireless_Template_Management']",
+        "response": [
+            {
+                "name": "Wireless_Template_Management"
+            }
+        ],
+        "status": "success"
+    }
 """
 
 import copy
 import json
 import time
+import re
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
     get_dict_result,
     dnac_compare_equality,
+    validate_str
 )
 
 
@@ -1236,10 +1931,12 @@ class Template(DnacBase):
         self.accepted_languages = ["JINJA", "VELOCITY"]
         self.export_template = []
         self.max_timeout = self.params.get('dnac_api_task_timeout')
+        self.template_created, self.no_update_template, self.template_updated = [], [], []
+        self.project_created, self.template_committed = [], []
         self.result['response'] = [
             {"configurationTemplate": {"response": {}, "msg": {}}},
             {"export": {"response": {}}},
-            {"import": {"response": {}}}
+            {"import": {"response": {}}},
         ]
 
     def validate_input(self):
@@ -1269,98 +1966,106 @@ class Template(DnacBase):
 
         temp_spec = {
             "configuration_templates": {
-                'type': 'dict',
-                'tags': {'type': 'list'},
-                'author': {'type': 'str'},
-                'composite': {'type': 'bool'},
-                'containing_templates': {'type': 'list'},
-                'custom_params_order': {'type': 'bool'},
-                'template_description': {'type': 'str'},
-                'device_types': {
-                    'type': 'list',
-                    'elements': 'dict',
-                    'product_family': {'type': 'str'},
-                    'product_series': {'type': 'str'},
-                    'product_type': {'type': 'str'},
+                "type": "dict",
+                "tags": {"type": "list"},
+                "author": {"type": "str"},
+                "composite": {"type": "bool"},
+                "containing_templates": {"type": "list"},
+                "custom_params_order": {"type": "bool"},
+                "template_description": {"type": "str"},
+                "device_types": {
+                    "type": "list",
+                    "elements": "dict",
+                    "product_family": {"type": "str"},
+                    "product_series": {"type": "str"},
+                    "product_type": {"type": "str"},
                 },
-                'failure_policy': {'type': 'str'},
-                'id': {'type': 'str'},
-                'language': {'type': 'str'},
-                'name': {'type': 'str'},
-                'project_name': {'type': 'str'},
-                'project_description': {'type': 'str'},
-                'software_type': {'type': 'str'},
-                'software_version': {'type': 'str'},
-                'template_content': {'type': 'str'},
-                'template_params': {'type': 'list'},
-                'template_name': {'type': 'str'},
-                'new_template_name': {'type': 'str'},
-                'version': {'type': 'str'}
+                "failure_policy": {"type": "str"},
+                "id": {"type": "str"},
+                "language": {"type": "str"},
+                "name": {"type": "str"},
+                "project_name": {"type": "str"},
+                "project_description": {"type": "str"},
+                "software_type": {"type": "str"},
+                "software_version": {"type": "str"},
+                "template_content": {"type": "str"},
+                "template_params": {"type": "list"},
+                "template_name": {"type": "str"},
+                "new_template_name": {"type": "str"},
+                "version": {"type": "str"},
             },
-            'deploy_template': {
-                'type': 'dict',
-                'project_name': {'type': 'str'},
-                'template_name': {'type': 'str'},
-                'force_push': {'type': 'bool'},
-                'is_composite': {'type': 'bool'},
-                'template_parameters': {
-                    'type': 'list',
-                    'elements': 'dict',
-                    'param_name': {'type': 'str'},
-                    'param_value': {'type': 'str'},
+            "deploy_template": {
+                "type": "dict",
+                "project_name": {"type": "str"},
+                "template_name": {"type": "str"},
+                "force_push": {"type": "bool"},
+                "is_composite": {"type": "bool"},
+                "copy_config": {"type": "bool", "default": True},
+                "template_parameters": {
+                    "type": "list",
+                    "elements": "dict",
+                    "param_name": {"type": "str"},
+                    "param_value": {"type": "str"},
                 },
-                'device_details': {
-                    'type': 'dict',
-                    'device_ips': {'type': 'list', 'elements': 'str'},
-                    'device_hostnames': {'type': 'list', 'elements': 'str'},
-                    'serial_numbers': {'type': 'list', 'elements': 'str'},
-                    'mac_addresses': {'type': 'list', 'elements': 'str'},
+                "resource_parameters": {
+                    "type": "list",
+                    "elements": "dict",
+                    "resource_type": {"type": "str"},
+                    "resource_scope": {"type": "str"},
+                    "resource_value": {"type": "str"},
                 },
-                'site_provisioning_details': {
-                    'type': 'list',
-                    'elements': 'dict',
-                    'site_name': {'type': 'str'},
-                    'device_family': {'type': 'str'},
-                    'device_role': {'type': 'str'},
-                    'device_tag': {'type': 'str'},
-                }
+                "device_details": {
+                    "type": "dict",
+                    "device_ips": {"type": "list", "elements": "str"},
+                    "device_hostnames": {"type": "list", "elements": "str"},
+                    "serial_numbers": {"type": "list", "elements": "str"},
+                    "mac_addresses": {"type": "list", "elements": "str"},
+                },
+                "site_provisioning_details": {
+                    "type": "list",
+                    "elements": "dict",
+                    "site_name": {"type": "str"},
+                    "device_family": {"type": "str"},
+                    "device_role": {"type": "str"},
+                    "device_tag": {"type": "str"},
+                },
             },
-            'export': {
-                'type': 'dict',
-                'project': {'type': 'list', 'elements': 'str'},
-                'template': {
-                    'type': 'list',
-                    'elements': 'dict',
-                    'project_name': {'type': 'str'},
-                    'template_name': {'type': 'str'}
-                }
-            },
-            'import': {
-                'type': 'dict',
-                'project': {
-                    'type': 'dict',
-                    'project_file': {'type': 'str'},
-                    'do_version': {'type': 'str', 'default': 'False'},
+            "export": {
+                "type": "dict",
+                "project": {"type": "list", "elements": "str"},
+                "template": {
+                    "type": "list",
+                    "elements": "dict",
+                    "project_name": {"type": "str"},
+                    "template_name": {"type": "str"},
                 },
-                'template': {
-                    'type': 'dict',
-                    'do_version': {'type': 'str', 'default': 'False'},
-                    'template_file': {'type': 'str'},
-                    'payload': {
-                        'type': 'list',
-                        'elements': 'dict',
-                        'tags': {'type': 'list'},
-                        'author': {'type': 'str'},
-                        'composite': {'type': 'bool'},
-                        'containing_templates': {'type': 'list'},
-                        'custom_params_order': {'type': 'bool'},
-                        'template_description': {'type': 'str'},
-                        'device_types': {
-                            'type': 'list',
-                            'elements': 'dict',
-                            'product_family': {'type': 'str'},
-                            'product_series': {'type': 'str'},
-                            'product_type': {'type': 'str'},
+            },
+            "import": {
+                "type": "dict",
+                "project": {
+                    "type": "dict",
+                    "project_file": {"type": "str"},
+                    "do_version": {"type": "str", "default": "False"},
+                },
+                "template": {
+                    "type": "dict",
+                    "do_version": {"type": "str", "default": "False"},
+                    "template_file": {"type": "str"},
+                    "payload": {
+                        "type": "list",
+                        "elements": "dict",
+                        "tags": {"type": "list"},
+                        "author": {"type": "str"},
+                        "composite": {"type": "bool"},
+                        "containing_templates": {"type": "list"},
+                        "custom_params_order": {"type": "bool"},
+                        "template_description": {"type": "str"},
+                        "device_types": {
+                            "type": "list",
+                            "elements": "dict",
+                            "product_family": {"type": "str"},
+                            "product_series": {"type": "str"},
+                            "product_type": {"type": "str"},
                         },
                         'failure_policy': {'type': 'str'},
                         'id': {'type': 'str'},
@@ -1376,23 +2081,94 @@ class Template(DnacBase):
                         'version': {'type': 'str'}
                     }
                 }
+            },
+            "projects": {
+                "type": "list",
+                "elements": "dict",
+                "options": {
+                    "name": {"type": "str", "required": True},
+                    "new_name": {"type": "str"},
+                    "description": {"type": "str"}
+                }
             }
         }
+
         # Validate template params
         self.config = self.camel_to_snake_case(self.config)
+
         valid_temp, invalid_params = validate_list_of_dicts(
             self.config, temp_spec
         )
+
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(
-                "\n".join(invalid_params))
+                "\n".join(invalid_params)
+            )
             self.status = "failed"
             return self
 
+        self.input_data_validation(valid_temp).check_return_status()
+
         self.validated_config = valid_temp
-        self.log("Successfully validated playbook config params: {0}".format(valid_temp), "INFO")
+        self.log(
+            "Successfully validated playbook config params: {0}".format(valid_temp),
+            "INFO",
+        )
         self.msg = "Successfully validated input"
         self.status = "success"
+        return self
+
+    def input_data_validation(self, config):
+        """
+        Validates the input configuration structure for template workflow operations in Cisco Catalyst Center.
+
+        Args:
+            self (object): Instance of the class interacting with Cisco Catalyst Center.
+            config (list[dict]): List of dictionaries containing project definitions data.
+
+        Returns:
+            object: Returns self if validation passes; otherwise, logs an error and exits the module.
+
+        Description:
+            This method performs structural and type validation on the 'projects' list within the config.
+            It checks for the presence and string type of required fields like 'name', and optionally
+            validates fields such as 'new_name' and 'description'.
+
+            If the module state is set to 'deleted', only minimal validation is performed.
+            If any validation errors are detected, the method logs an error and terminates the module run.
+        """
+
+        self.log("Starting input data validation.", "INFO")
+        errormsg = []
+        param_spec_str = dict(type="str")
+
+        projects = config[0].get("projects")
+        if projects and isinstance(projects, list):
+            for each_project in projects:
+                project_name = each_project.get("name")
+                if project_name and isinstance(project_name, str):
+                    validate_str(project_name, param_spec_str, "name", errormsg)
+                else:
+                    errormsg.append("Missing or invalid 'name' field in project.")
+
+                if self.payload.get("state") == "deleted":
+                    continue
+
+                project_new_name = each_project.get("new_name")
+                if project_new_name and isinstance(project_new_name, str):
+                    validate_str(project_new_name, param_spec_str, "new_name", errormsg)
+
+                description = each_project.get("description")
+                if description and isinstance(description, str):
+                    validate_str(description, param_spec_str, "description", errormsg)
+
+        if errormsg:
+            msg = "Invalid parameters in playbook config: '{0}' ".format(errormsg)
+            self.log(msg, "ERROR")
+            self.fail_and_exit(msg)
+
+        msg = "Successfully validated config params: {0}".format(str(config))
+        self.log(msg, "INFO")
         return self
 
     def get_project_params(self, params):
@@ -1406,9 +2182,10 @@ class Template(DnacBase):
             project_params (dict) - Organized Project parameters.
         """
 
-        project_params = {"name": params.get("project_name"),
-                          "description": params.get("project_description")
-                          }
+        project_params = {
+            "name": params.get("project_name"),
+            "description": params.get("project_description"),
+        }
         return project_params
 
     def get_tags(self, _tags):
@@ -1473,12 +2250,26 @@ class Template(DnacBase):
                 self.status = "failed"
                 return self.check_return_status()
 
-            product_families_list = ["Cisco Cloud Services Platform", "Cisco Interfaces and Modules",
-                                     "Content Networking", "Network Management", "NFV-ThirdParty Devices",
-                                     "NFVIS", "Routers", "Security and VPN", "Storage Networking",
-                                     "Switches and Hubs", "Voice and Telephony", "Wireless Controller"]
+            product_families_list = [
+                "Cisco Cloud Services Platform",
+                "Cisco Interfaces and Modules",
+                "Content Networking",
+                "Network Management",
+                "NFV-ThirdParty Devices",
+                "NFVIS",
+                "Routers",
+                "Security and VPN",
+                "Storage Networking",
+                "Switches and Hubs",
+                "Voice and Telephony",
+                "Wireless Controller",
+            ]
             if product_family not in product_families_list:
-                self.msg = "The 'product_family should be in the following list {0}.".format(product_families_list)
+                self.msg = (
+                    "The 'product_family should be in the following list {0}.".format(
+                        product_families_list
+                    )
+                )
                 self.status = "failed"
                 return self.check_return_status()
 
@@ -1574,7 +2365,13 @@ class Template(DnacBase):
                 return self.check_return_status()
 
             data_type = item.get("data_type")
-            datatypes = ["STRING", "INTEGER", "IPADDRESS", "MACADDRESS", "SECTIONDIVIDER"]
+            datatypes = [
+                "STRING",
+                "INTEGER",
+                "IPADDRESS",
+                "MACADDRESS",
+                "SECTIONDIVIDER",
+            ]
             if data_type is not None:
                 templateParams[i].update({"dataType": data_type})
             else:
@@ -1582,7 +2379,9 @@ class Template(DnacBase):
                 self.status = "failed"
                 return self.check_return_status()
             if data_type not in datatypes:
-                self.msg = "data_type under template_params should be in " + str(datatypes)
+                self.msg = "data_type under template_params should be in " + str(
+                    datatypes
+                )
                 self.status = "failed"
                 return self.check_return_status()
 
@@ -1629,7 +2428,9 @@ class Template(DnacBase):
                     _selection.update({"id": id})
                 default_selected_values = selection.get("default_selected_values")
                 if default_selected_values is not None:
-                    _selection.update({"defaultSelectedValues": default_selected_values})
+                    _selection.update(
+                        {"defaultSelectedValues": default_selected_values}
+                    )
                 selection_values = selection.get("selection_values")
                 if selection_values is not None:
                     _selection.update({"selectionValues": selection_values})
@@ -1652,16 +2453,19 @@ class Template(DnacBase):
         """
 
         result = None
-        items = self.dnac_apply['exec'](
+        items = self.dnac_apply["exec"](
             family="configuration_templates",
             function="get_templates_details",
             op_modifies=True,
-            params={"name": name}
+            params={"name": name},
         )
         if items:
             result = items
 
-        self.log("Received API response from 'get_templates_details': {0}".format(items), "DEBUG")
+        self.log(
+            "Received API response from 'get_templates_details': {0}".format(items),
+            "DEBUG",
+        )
         return result
 
     def get_project_defined_template_details(self, project_name, template_name):
@@ -1674,27 +2478,49 @@ class Template(DnacBase):
             template_details (dict) - Template details for the given template name.
         """
 
-        self.log("Starting to retrieve template details for project '{0}' and template '{1}'.".format(project_name, template_name), "INFO")
+        self.log(
+            "Starting to retrieve template details for project '{0}' and template '{1}'.".format(
+                project_name, template_name
+            ),
+            "INFO",
+        )
         template_details = None
         try:
-            items = self.dnac_apply['exec'](
+            items = self.dnac_apply["exec"](
                 family="configuration_templates",
                 function="get_templates_details",
                 op_modifies=True,
-                params={
-                    "project_name": project_name,
-                    "name": template_name
-                }
+                params={"project_name": project_name, "name": template_name},
             )
             if items:
                 template_details = items
-                self.log("Received template details for '{0}': {1}".format(template_name, template_details), "DEBUG")
+                self.log(
+                    "Received template details for '{0}': {1}".format(
+                        template_name, template_details
+                    ),
+                    "DEBUG",
+                )
             else:
-                self.log("No template details found for project '{0}' and template '{1}'.".format(project_name, template_name), "WARNING")
+                self.log(
+                    "No template details found for project '{0}' and template '{1}'.".format(
+                        project_name, template_name
+                    ),
+                    "WARNING",
+                )
 
-            self.log("Received API response from 'get_templates_details': {0}".format(template_details), "DEBUG")
+            self.log(
+                "Received API response from 'get_templates_details': {0}".format(
+                    template_details
+                ),
+                "DEBUG",
+            )
         except Exception as e:
-            self.log("Exception occurred while retrieving template details for '{0}': {1}".format(template_name, str(e)), "ERROR")
+            self.log(
+                "Exception occurred while retrieving template details for '{0}': {1}".format(
+                    template_name, str(e)
+                ),
+                "ERROR",
+            )
 
         return template_details
 
@@ -1704,7 +2530,7 @@ class Template(DnacBase):
         Check using check_return_status()
 
         Parameters:
-            containing_templates (dict) - Containing templates details
+            containing_templates (dict) - Containing templates details.
             containing Template information.
 
         Returns:
@@ -1732,9 +2558,9 @@ class Template(DnacBase):
 
             device_types = item.get("device_types")
             if device_types is not None:
-                containingTemplates[i].update({
-                    "deviceTypes": self.get_device_types(device_types)
-                })
+                containingTemplates[i].update(
+                    {"deviceTypes": self.get_device_types(device_types)}
+                )
 
             name = item.get("name")
             if name is None:
@@ -1744,9 +2570,21 @@ class Template(DnacBase):
 
             containingTemplates[i].update({"name": name})
 
-            template_details = self.get_templates_details(name).get("response")
+            project_name = item.get("project_name")
+            if project_name is None:
+                self.msg = "The parameter 'project_name' is required under 'containing_templates' but not provided."
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+                return self
+
+            template_details = self.get_project_defined_template_details(
+                project_name, name
+            ).get("response")
             if not template_details:
-                self.msg = "No template with the template name '{0}' or it is not versioned".format(name)
+                self.msg = "No template with the template name '{0}' or it is not versioned".format(
+                    name
+                )
                 self.status = "failed"
                 return self.check_return_status()
 
@@ -1762,17 +2600,13 @@ class Template(DnacBase):
 
             language_list = ["JINJA", "VELOCITY"]
             if language not in language_list:
-                self.msg = "language under containing templates should be in " + str(language_list)
+                self.msg = "language under containing templates should be in " + str(
+                    language_list
+                )
                 self.status = "failed"
                 return self.check_return_status()
 
             containingTemplates[i].update({"language": language})
-
-            project_name = item.get("project_name")
-            if project_name is None:
-                self.msg = "The parameter 'project_name' is required under 'containing_templates' but not provided."
-                self.status = "failed"
-                return self.check_return_status()
 
             containingTemplates[i].update({"projectName": project_name})
             template_content = item.get("template_content")
@@ -1781,9 +2615,9 @@ class Template(DnacBase):
 
             template_params = item.get("template_params")
             if template_params is not None:
-                containingTemplates[i].update({
-                    "templateParams": self.get_template_info(template_params)
-                })
+                containingTemplates[i].update(
+                    {"templateParams": self.get_template_info(template_params)}
+                )
 
             version = item.get("version")
             if version is not None:
@@ -1809,17 +2643,16 @@ class Template(DnacBase):
             "tags": self.get_tags(params.get("template_tag")),
             "author": params.get("author"),
             "composite": params.get("composite"),
-            "containingTemplates":
-                self.get_containing_templates(params.get("containing_templates")),
+            "containingTemplates": self.get_containing_templates(
+                params.get("containing_templates")
+            ),
             "customParamsOrder": params.get("custom_params_order"),
             "description": params.get("template_description"),
-            "deviceTypes":
-                self.get_device_types(params.get("device_types")),
+            "deviceTypes": self.get_device_types(params.get("device_types")),
             "id": params.get("id"),
             "softwareVersion": params.get("software_version"),
             "templateContent": params.get("template_content"),
-            "templateParams":
-                self.get_template_info(params.get("template_params")),
+            "templateParams": self.get_template_info(params.get("template_params")),
             "version": params.get("version"),
         }
         language = params.get("language")
@@ -1859,11 +2692,23 @@ class Template(DnacBase):
             self.status = "failed"
             return self.check_return_status()
 
-        software_types_list = ["IOS", "IOS-XE", "IOS-XR", "NX-OS",
-                               "Cisco Controller", "Wide Area Application Services",
-                               "Adaptive Security Appliance", "NFV-OS", "Others"]
+        software_types_list = [
+            "IOS",
+            "IOS-XE",
+            "IOS-XR",
+            "NX-OS",
+            "Cisco Controller",
+            "Wide Area Application Services",
+            "Adaptive Security Appliance",
+            "NFV-OS",
+            "Others",
+        ]
         if softwareType not in software_types_list:
-            self.msg = "The 'software_type' should be in the following list {0}.".format(software_types_list)
+            self.msg = (
+                "The 'software_type' should be in the following list {0}.".format(
+                    software_types_list
+                )
+            )
             self.status = "failed"
             return self.check_return_status()
 
@@ -1873,7 +2718,11 @@ class Template(DnacBase):
             failure_policy = params.get("failure_policy")
             failure_policy_list = ["ABORT_TARGET_ON_ERROR", None]
             if failure_policy not in failure_policy_list:
-                self.msg = "The 'failure_policy' should be in the following list {0}.".format(failure_policy)
+                self.msg = (
+                    "The 'failure_policy' should be in the following list {0}.".format(
+                        failure_policy
+                    )
+                )
                 self.status = "failed"
                 return self
 
@@ -1898,17 +2747,20 @@ class Template(DnacBase):
         """
 
         result = None
-        items = self.dnac_apply['exec'](
+        items = self.dnac_apply["exec"](
             family="configuration_templates",
             function="get_template_details",
             op_modifies=True,
-            params={"template_id": config.get("templateId")}
+            params={"template_id": config.get("templateId")},
         )
         if items:
             result = items
 
-        self.log("Received API response from 'get_template_details': {0}".format(items), "DEBUG")
-        self.result['response'][0].get("configurationTemplate").update({"items": items})
+        self.log(
+            "Received API response from 'get_template_details': {0}".format(items),
+            "DEBUG",
+        )
+
         return result
 
     def get_uncommitted_template_id(self, project_name, template_name):
@@ -1929,20 +2781,26 @@ class Template(DnacBase):
             or deployed. If the template is unavailable, an appropriate log message is recorded and the function
             exits early with `None`.
         """
-        self.log("Retrieving uncommitted template ID for project '{0}' and template "
-                 "'{1}'.".format(project_name, template_name), "INFO"
-                 )
+        self.log(
+            "Retrieving uncommitted template ID for project '{0}' and template "
+            "'{1}'.".format(project_name, template_name),
+            "INFO",
+        )
         template_id = None
         try:
-            template_list = self.dnac_apply['exec'](
+            template_list = self.dnac_apply["exec"](
                 family="configuration_templates",
                 function="gets_the_templates_available",
                 op_modifies=False,
-                params={
-                    "projectNames": project_name,
-                    "un_committed": True
-                },
+                params={"projectNames": project_name, "un_committed": True},
             )
+            self.log(
+                "Received Response from 'gets_the_templates_available' for 'project_name': '{0}' is {1}".format(
+                    project_name, template_list
+                ),
+                "DEBUG",
+            )
+
             if not template_list:
                 msg = (
                     "No uncommitted templates available under the project '{0}'. "
@@ -1954,9 +2812,19 @@ class Template(DnacBase):
             for template in template_list:
                 if template.get("name") == template_name:
                     template_id = template.get("templateId")
-                    self.log("Found uncommitted template '{0}' with ID: '{1}'.".format(template_name, template_id), "INFO")
+                    self.log(
+                        "Found uncommitted template '{0}' with ID: '{1}'.".format(
+                            template_name, template_id
+                        ),
+                        "INFO",
+                    )
                     return template_id
-            self.log("Template '{0}' not found in the uncommitted templates for project '{1}'.".format(template_name, project_name), "WARNING")
+            self.log(
+                "Template '{0}' not found in the uncommitted templates for project '{1}'.".format(
+                    template_name, project_name
+                ),
+                "WARNING",
+            )
         except Exception as e:
             error_msg = (
                 "Exception occurred while retrieving uncommitted template ID for project '{0}' and "
@@ -1985,26 +2853,39 @@ class Template(DnacBase):
             The function returns the class instance for further chaining of operations.
         """
 
-        self.log("Starting the versioning process for template '{0}' in project '{1}'.".format(template_name, project_name), "INFO")
+        self.log(
+            "Starting the versioning process for template '{0}' in project '{1}'.".format(
+                template_name, project_name
+            ),
+            "INFO",
+        )
         try:
             comments = (
                 "Given template '{0}' under the project '{1}' versioned successfully."
             ).format(template_name, project_name)
 
-            version_params = {
-                "comments": comments,
-                "templateId": template_id
-            }
-            self.log("Preparing to version template with parameters: {0}".format(version_params), "DEBUG")
+            version_params = {"comments": comments, "templateId": template_id}
+            self.log(
+                "Preparing to version template with parameters: {0}".format(
+                    version_params
+                ),
+                "DEBUG",
+            )
             task_name = "version_template"
-            task_id = self.get_taskid_post_api_call("configuration_templates", task_name, version_params)
+            task_id = self.get_taskid_post_api_call(
+                "configuration_templates", task_name, version_params
+            )
 
             if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(
+                    task_name
+                )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            success_msg = "Given template '{0}' versioned/committed successfully in the Cisco Catalyst Center.".format(template_name)
+            success_msg = "Given template '{0}' versioned/committed successfully in the Cisco Catalyst Center.".format(
+                template_name
+            )
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
         except Exception as e:
@@ -2036,17 +2917,25 @@ class Template(DnacBase):
         # Cisco Catalyst Center returns project details even if the substring matches.
         # Hence check the projectName retrieved from Cisco Catalyst Center.
         if not (project_details and isinstance(project_details, list)):
-            self.log("Project: {0} not found, need to create new project in Cisco Catalyst Center"
-                     .format(given_projectName), "INFO")
+            self.log(
+                "Project: {0} not found, need to create new project in Cisco Catalyst Center".format(
+                    given_projectName
+                ),
+                "INFO",
+            )
             return None
 
-        fetched_projectName = project_details[0].get('name')
+        fetched_projectName = project_details[0].get("name")
         if fetched_projectName != given_projectName:
-            self.log("Project {0} provided is not exact match in Cisco Catalyst Center DB"
-                     .format(given_projectName), "INFO")
+            self.log(
+                "Project {0} provided is not exact match in Cisco Catalyst Center DB".format(
+                    given_projectName
+                ),
+                "INFO",
+            )
             return None
 
-        template_available = project_details[0].get('templates')
+        template_available = project_details[0].get("templates")
         have_project["project_found"] = True
         have_project["id"] = project_details[0].get("id")
         have_project["isDeletable"] = project_details[0].get("isDeletable")
@@ -2073,46 +2962,65 @@ class Template(DnacBase):
 
         have_template["isCommitPending"] = False
         have_template["template_found"] = False
-
-        template_details = get_dict_result(template_available,
-                                           "name",
-                                           templateName)
+        template_details = get_dict_result(template_available, "name", templateName)
         # Check if specified template in playbook is available
         if not template_details:
-            self.log("Template {0} not found in project {1}"
-                     .format(templateName, projectName), "INFO")
-            self.msg = "Template : {0} missing, new template to be created".format(templateName)
+            self.log(
+                "Template {0} not found in project {1}".format(
+                    templateName, projectName
+                ),
+                "INFO",
+            )
+            self.msg = "Template : {0} missing, new template to be created".format(
+                templateName
+            )
             self.status = "success"
             return self
 
         config["templateId"] = template_details.get("id")
         have_template["id"] = template_details.get("id")
+        project_name = config.get("configuration_templates").get("project_name")
         # Get available templates which are committed under the project
-        template_list = self.dnac_apply['exec'](
+        template_list = self.dnac_apply["exec"](
             family="configuration_templates",
             function="gets_the_templates_available",
             op_modifies=True,
-            params={"projectNames": config.get("projectName")},
+            params={
+                "projectNames": projectName,
+                "un_committed": True
+            },
         )
+        self.log(
+            "Received response from 'gets_the_templates_available' for project_name: '{0}' is {1}".format(
+                project_name, template_list
+            ),
+            "DEBUG",
+        )
+
         have_template["isCommitPending"] = True
         # This check will fail if specified template is there not committed in Cisco Catalyst Center
         if template_list and isinstance(template_list, list):
-            template_info = get_dict_result(template_list,
-                                            "name",
-                                            templateName)
+            template_info = get_dict_result(template_list, "name", templateName)
             if template_info:
                 template = self.get_template(config)
                 have_template["template"] = template
                 have_template["isCommitPending"] = False
-                have_template["template_found"] = template is not None \
-                    and isinstance(template, dict)
-                self.log("Template {0} is found and template "
-                         "details are :{1}".format(templateName, str(template)), "INFO")
+                have_template["template_found"] = template is not None and isinstance(
+                    template, dict
+                )
+                self.log(
+                    "Template {0} is found and template "
+                    "details are :{1}".format(templateName, str(template)),
+                    "INFO",
+                )
 
         # There are committed templates in the project but the
         # one specified in the playbook may not be committed
-        self.log("Commit pending for template name {0}"
-                 " is {1}".format(templateName, have_template.get('isCommitPending')), "INFO")
+        self.log(
+            "Commit pending for template name {0}"
+            " is {1}".format(templateName, have_template.get("isCommitPending")),
+            "INFO",
+        )
 
         self.have_template = have_template
         self.msg = "Successfully collected all template parameters from Cisco Catalyst Center for comparison"
@@ -2140,46 +3048,138 @@ class Template(DnacBase):
             if template_available:
                 self.get_have_template(config, template_available)
 
+        project_config = config.get("projects", [])
+        if project_config and isinstance(project_config, list):
+            have["projects"] = []
+            for project in project_config:
+                project_name = project.get("name")
+
+                if not project_name:
+                    self.log("Skipping project: Missing 'name' field.", "WARNING")
+                    continue
+
+                # Fetch existing project details based on the name
+                existing = self.get_project_details(project_name)
+                if existing:
+                    proj_status, unmatched = self.compare_projects(project, existing[0])
+                    existing[0]["project_status"] = proj_status
+                    existing[0]["unmatched"] = unmatched
+                    have["projects"].append(existing[0] or {})
+                else:
+                    self.log("No existing project found for name: {0}".format(
+                        project_name), "INFO")
+
         deploy_temp_details = config.get("deploy_template")
         if deploy_temp_details:
             template_name = deploy_temp_details.get("template_name")
             project_name = deploy_temp_details.get("project_name")
-            self.log("Fetching template details for '{0}' under project '{1}'.".format(template_name, project_name), "INFO")
-            temp_details = self.get_project_defined_template_details(project_name, template_name).get("response")
+            self.log(
+                "Fetching template details for '{0}' under project '{1}'.".format(
+                    template_name, project_name
+                ),
+                "INFO",
+            )
+            temp_details = self.get_project_defined_template_details(
+                project_name, template_name
+            ).get("response")
 
             if temp_details:
-                self.log("Given template '{0}' is already committed in the Catalyst Center.".format(template_name), "INFO")
+                self.log(
+                    "Given template '{0}' is already committed in the Catalyst Center.".format(
+                        template_name
+                    ),
+                    "INFO",
+                )
                 have["temp_id"] = temp_details[0].get("id")
 
-                self.log("Successfully collected the details for the template '{0}' from the "
-                         "Cisco Catalyst Center.".format(template_name), "INFO"
-                         )
+                self.log(
+                    "Successfully collected the details for the template '{0}' from the "
+                    "Cisco Catalyst Center.".format(template_name),
+                    "INFO",
+                )
             else:
-                self.log("No details found for template '{0}' under project '{1}'.".format(template_name, project_name), "WARNING")
+                self.log(
+                    "No details found for template '{0}' under project '{1}'.".format(
+                        template_name, project_name
+                    ),
+                    "WARNING",
+                )
 
-            self.have = have
+        self.have = have
 
         self.msg = "Successfully collected all project and template \
                     parameters from Cisco Catalyst Center for comparison"
         self.status = "success"
+        self.log("Current State (have): {0}".format(self.pprint(self.have)), "INFO")
         return self
 
-    def get_project_details(self, projectName):
+    def get_project_details(self, project_name):
         """
         Get the details of specific project name provided.
 
         Parameters:
-            projectName (str) - Project Name
+            project_name (str) - Project Name
 
         Returns:
             items (dict) - Project details with given project name.
         """
 
-        items = self.dnac_apply['exec'](
-            family="configuration_templates",
-            function='get_projects',
-            op_modifies=True,
-            params={"name": projectName},
+        self.log(
+            "Initializing retrival of project details for project: {0}".format(
+                project_name
+            ),
+            "DEBUG",
+        )
+        ccc_version = self.get_ccc_version()
+
+        if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+            self.log(
+                "Retrieving project details for project: {0} when catalyst version is less than 2.3.7.9".format(
+                    project_name
+                ),
+                "DEBUG",
+            )
+
+            items = self.dnac_apply["exec"](
+                family="configuration_templates",
+                function="get_projects",
+                op_modifies=True,
+                params={"name": project_name},
+            )
+
+            self.log(
+                "Received Response from get_projects for project: {0} when catalyst version is less than 2.3.7.9: {1}".format(
+                    project_name, items
+                ),
+                "DEBUG",
+            )
+        else:
+            self.log(
+                "Retrieving project details for project: {0} when catalyst version is greater than or equal to 2.3.7.9".format(
+                    project_name
+                ),
+                "DEBUG",
+            )
+            items = self.dnac_apply["exec"](
+                family="configuration_templates",
+                function="get_projects_details",
+                op_modifies=True,
+                params={"name": project_name},
+            )
+
+            self.log(
+                "Received Response from get_projects for project: {0} when catalyst version is greater than or equal to 2.3.7.9: {1}".format(
+                    project_name, items
+                ),
+                "DEBUG",
+            )
+            items = items["response"]
+
+        self.log(
+            "Retrieved project details for project '{0}' are {1}".format(
+                project_name, items
+            ),
+            "DEBUG",
         )
         return items
 
@@ -2196,6 +3196,11 @@ class Template(DnacBase):
         """
 
         want = {}
+
+        project_details = config.get("projects", [])
+        if project_details:
+            want["projects"] = project_details
+
         configuration_templates = config.get("configuration_templates")
         self.log("Playbook details: {0}".format(config), "INFO")
         if configuration_templates:
@@ -2221,7 +3226,9 @@ class Template(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            self.log("Project name '{0}' found in the playbook.".format(project_name), "INFO")
+            self.log(
+                "Project name '{0}' found in the playbook.".format(project_name), "INFO"
+            )
             template_name = deploy_temp_details.get("template_name")
             if not template_name:
                 self.msg = (
@@ -2231,9 +3238,14 @@ class Template(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            self.log("Template name '{0}' found in the playbook.".format(template_name), "INFO")
+            self.log(
+                "Template name '{0}' found in the playbook.".format(template_name),
+                "INFO",
+            )
             device_details = deploy_temp_details.get("device_details")
-            site_provisioning_details = deploy_temp_details.get("site_provisioning_details")
+            site_provisioning_details = deploy_temp_details.get(
+                "site_provisioning_details"
+            )
 
             if not (device_details or site_provisioning_details):
                 self.msg = (
@@ -2243,14 +3255,288 @@ class Template(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            self.log("Proceeding with deployment details for template '{0}'.".format(template_name), "INFO")
+            self.log(
+                "Proceeding with deployment details for template '{0}'.".format(
+                    template_name
+                ),
+                "INFO",
+            )
             want["deploy_tempate"] = deploy_temp_details
 
         self.want = want
-        self.msg = "Successfully collected all parameters from playbook " + \
-                   "for comparison"
+        self.msg = (
+            "Successfully collected all parameters from playbook " + "for comparison"
+        )
         self.status = "success"
+        self.log("Desired State (want): {0}".format(self.pprint(self.want)), "INFO")
         return self
+
+    def compare_projects(self, input_config, current_proj):
+        """
+        Compares an input project configuration with the current project configuration in
+        Cisco Catalyst Center.
+
+        Args:
+            self (object): Instance of the class used for interacting with Cisco Catalyst Center.
+            input_config (dict): The new project configuration intended to be applied.
+            current_proj (dict): The existing project configuration retrieved from the system.
+
+        Returns:
+            tuple:
+                - bool: True if the configurations match (excluding tags), False otherwise.
+                - list: List of values from the input configuration that differ from
+                the current configuration.
+
+        Description:
+            This method performs a key-by-key comparison between the input and existing project configurations,
+            excluding the "tags" field. It logs the comparison process and results. If mismatches are found,
+            the differing input values are collected and returned for further processing or reporting.
+        """
+        self.log("Comparing input project config with current config.", "INFO")
+        self.log("Input project config: {0}".format(self.pprint(input_config)), "DEBUG")
+        self.log("Current project config: {0}".format(self.pprint(current_proj)), "DEBUG")
+
+        unmatched_keys = []
+
+        if input_config and current_proj:
+            for key, value in input_config.items():
+                # Compare values of the current key
+                if current_proj.get(key) != value:
+                    unmatched_keys.append(key)
+                    self.log("Mismatch found for key: {0}. Input value: {1}, Current value: {2}".format(
+                        key, value, current_proj.get(key)), "DEBUG")
+
+            # If no mismatches are found, configurations match
+            if not unmatched_keys:
+                self.log("Input project config matches current project config.", "INFO")
+                return True, None
+
+        self.log("Configurations do not match. Mismatched keys: {0}".format(
+            unmatched_keys), "DEBUG")
+
+        return False, unmatched_keys
+
+    def delete_project(self, project_name):
+        """
+        Deletes a project from Cisco Catalyst Center by its name.
+
+        Args:
+          self (object): An instance of the class used to interact with Cisco Catalyst Center.
+          project_name (str): The name of the project to delete.
+
+        Returns:
+          object: The current instance of the class with updated status and result attributes.
+
+        Description:
+          This method attempts to locate a project by its name and delete it using the appropriate API call.
+          If the project is found and deleted successfully, the method updates the status, result, and logs
+          the outcome. In cases of failure (e.g., missing name, project not found, or API error), it sets the
+          operation result to failed and logs the issue accordingly.
+        """
+        self.log("Attempting to delete project with name: {0}".format(project_name), "DEBUG")
+
+        if not project_name:
+            self.msg = "No project name provided for deletion."
+            self.log(self.msg, "WARNING")
+            return self
+
+        # Fetch the project ID using the project name
+        project_id = None
+        for each_project in self.have.get("projects"):
+            if each_project.get("name") == project_name:
+                project_id = each_project.get("id")
+                break
+
+        if not project_id:
+            self.msg = "Could not find a project with the name: {0}".format(project_name)
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self
+
+        # If a valid project ID is found, proceed to delete the project
+        self.log("Found project ID: {0} for project name: {1}".format(
+            project_id, project_name), "INFO")
+
+        try:
+            function_name = "delete_template_project"
+            params = {"project_id": project_id}
+            task_id = self.get_taskid_post_api_call("configuration_templates",
+                                                    function_name, params)
+
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(
+                    function_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            self.log("Successfully deleted project with ID: {0}".format(project_name), "INFO")
+            self.result['changed'] = True  # Indicate that the project was deleted
+            self.status = "success"
+            self.msg = "Successfully deleted project: {0}".format(project_name)
+            return self
+
+        except Exception as e:
+            self.msg = "An error occurred while deleting project {0} (ID: {1}). ".format(
+                project_name, project_id)
+            self.log(self.msg + str(e), "ERROR")
+            self.status = "failed"
+
+        return self
+
+    def apply_project_config(self, config):
+        """
+        Create or update projects based on the presence of a 'new_name' key in each project config.
+
+        Parameters:
+            self (object): An instance of a class for interacting with Cisco Catalyst Center.
+            config (list[dict]): A list of dictionaries, each containing project details.
+
+        Returns:
+            self: The current instance with updated project configuration.
+        """
+        self.log("Starting to apply project configurations. Total projects: {0}".format(
+            len(config)), "INFO")
+
+        for project in config:
+            project_name = project.get("name", "Unnamed Project")
+            self.log("Processing project: {0}".format(project_name), "DEBUG")
+            if project.get("new_name"):
+                self.log("Updating project: {0} with new name: {1}".format(
+                    project_name, project.get("new_name")), "INFO")
+                self.update_project(project)
+            else:
+                self.log("Creating project: {0}".format(project_name), "INFO")
+                self.create_project(project)
+
+        self.log("Finished applying project configurations.", "INFO")
+        return self
+
+    def create_project(self, project_detail):
+        """
+        Create a new project in Cisco Catalyst Center with the provided details.
+
+        Parameters:
+            self (object): An instance of a class for interacting with Cisco Catalyst Center.
+            project_detail (dict): Dictionary containing project details.
+
+        Returns:
+            self: The current instance with created project configuration.
+        """
+
+        self.log("Processing Project creation with input details: {0}".format(
+            self.pprint(project_detail)), "DEBUG")
+
+        if not project_detail:
+            self.msg = "No project details provided for creation."
+            self.log(self.msg, "WARNING")
+            return self
+
+        try:
+            create_project_params = {
+                "name": project_detail.get("name"),
+                "description": project_detail.get("description"),
+                "createTime": int(time.time()),
+                "lastUpdateTime": int(time.time())
+            }
+
+            self.log("Creating project with parameters: {0}".format(
+                self.pprint(create_project_params)), "INFO")
+
+            task_name = "create_project"
+            task_id = self.get_taskid_post_api_call("configuration_templates",
+                                                    task_name, create_project_params)
+
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(
+                    task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            success_msg = "project(s) {0} created succesfully".format(project_detail.get("name"))
+            self.log("Task ID '{0}' received. Checking task status.".format(task_id), "DEBUG")
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+            self.log("project(s) {0} created succesfully".format(
+                project_detail.get("name")), "INFO")
+            return self
+
+        except Exception as e:
+            self.msg = "Failed to create the project - ({0}) from Cisco Catalyst Center due to - {1}".format(
+                project_detail.get("name"), str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+    def update_project(self, project_detail):
+        """
+        Identify an existing project in Cisco Catalyst Center by its current name and description,
+        and update it with the new name and project details.
+
+        Parameters:
+            self (object): An instance of a class for interacting with Cisco Catalyst Center.
+            project_detail (dict): Dictionary containing the project config details.
+
+        Returns:
+            self: The current instance with updated project configuration.
+        """
+
+        self.log("Processing Project update with input details: {0}".format(
+            self.pprint(project_detail)), "DEBUG")
+
+        if not project_detail:
+            self.msg = "No project details provided for update."
+            self.log(self.msg, "WARNING")
+            return self
+
+        try:
+            old_name = project_detail.get("name")
+            new_name = project_detail.get("new_name")
+
+            if not old_name or not new_name:
+                self.msg = "Both 'name' (old name) and 'new_name' (new name) are required for the update."
+                self.log(self.msg, "ERROR")
+                return self
+
+            # Get the existing project info
+            existing_projects = self.get_project_details(old_name)
+            if not existing_projects:
+                self.msg = "Project with name '{0}' not found.".format(old_name)
+                self.log(self.msg, "ERROR")
+                return self
+
+            existing_project = existing_projects[0]
+            # Prepare update parameters
+            update_project_params = {
+                "id": existing_project.get("id"),
+                "name": new_name,
+                "description": project_detail.get("description", existing_project.get("description")),
+                "createTime": existing_project.get("createTime"),
+                "lastUpdateTime": int(time.time()),
+                "templates": project_detail.get("templates", existing_project.get("templates", []))
+            }
+
+            # Log the update parameters
+            self.log("Updating project with parameters: {0}".format(
+                self.pprint(update_project_params)), "DEBUG")
+
+            task_name = "update_project"
+            task_id = self.get_taskid_post_api_call("configuration_templates",
+                                                    task_name, update_project_params)
+
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            success_msg = "Project(s) '{0}' updated successfully.".format(new_name)
+            self.log("Task ID '{0}' received. Checking task status.".format(task_id), "DEBUG")
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+            self.log("Project(s) '{0}' updated successfully.".format(new_name), "INFO")
+            return self
+
+        except Exception as e:
+            self.msg = "Failed to update the project '{0}' due to error: {1}".format(
+                project_detail.get("name"), str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
     def create_project_or_template(self, is_create_project=False):
         """
@@ -2272,47 +3558,69 @@ class Template(DnacBase):
 
         if is_create_project:
             params_key = project_params
+            self.project_created.append(project_params.get('name'))
             name = "project: {0}".format(project_params.get('name'))
             validation_string = "Successfully created project"
             creation_value = "create_project"
         else:
             params_key = template_params
+            self.template_created.append(template_params.get('name'))
             name = "template: {0}".format(template_params.get('name'))
             validation_string = "Successfully created template"
             creation_value = "create_template"
 
-        response = self.dnac_apply['exec'](
+        response = self.dnac_apply["exec"](
             family="configuration_templates",
             function=creation_value,
             op_modifies=True,
             params=params_key,
         )
         if not isinstance(response, dict):
-            self.log("Response of '{0}' is not in dictionary format."
-                     .format(creation_value), "CRITICAL")
+            self.log(
+                "Response of '{0}' is not in dictionary format.".format(creation_value),
+                "CRITICAL",
+            )
             return creation_id, created
 
         task_id = response.get("response").get("taskId")
         if not task_id:
-            self.log("Task id {0} not found for '{1}'.".format(task_id, creation_value), "CRITICAL")
+            self.log(
+                "Task id {0} not found for '{1}'.".format(task_id, creation_value),
+                "CRITICAL",
+            )
             return creation_id, created
 
         while not created:
             task_details = self.get_task_details(task_id)
             if not task_details:
-                self.log("Failed to get task details of '{0}' for taskid: {1}"
-                         .format(creation_value, task_id), "CRITICAL")
+                self.log(
+                    "Failed to get task details of '{0}' for taskid: {1}".format(
+                        creation_value, task_id
+                    ),
+                    "CRITICAL",
+                )
                 return creation_id, created
 
-            self.log("Task details for {0}: {1}".format(creation_value, task_details), "DEBUG")
+            self.log(
+                "Task details for {0}: {1}".format(creation_value, task_details),
+                "DEBUG",
+            )
             if task_details.get("isError"):
-                self.log("Error occurred for '{0}' with taskid: {1}"
-                         .format(creation_value, task_id), "ERROR")
+                self.log(
+                    "Error occurred for '{0}' with taskid: {1}".format(
+                        creation_value, task_id
+                    ),
+                    "ERROR",
+                )
                 return task_id, created
 
             if validation_string not in task_details.get("progress"):
-                self.log("'{0}' progress set to {1} for taskid: {2}"
-                         .format(creation_value, task_details.get('progress'), task_id), "DEBUG")
+                self.log(
+                    "'{0}' progress set to {1} for taskid: {2}".format(
+                        creation_value, task_details.get("progress"), task_id
+                    ),
+                    "DEBUG",
+                )
                 continue
 
             task_details_data = task_details.get("data")
@@ -2322,8 +3630,12 @@ class Template(DnacBase):
             else:
                 creation_id = value.get("templateId")
             if not creation_id:
-                self.log("Export data is not found for '{0}' with taskid : {1}"
-                         .format(creation_value, task_id), "DEBUG")
+                self.log(
+                    "Export data is not found for '{0}' with taskid : {1}".format(
+                        creation_value, task_id
+                    ),
+                    "DEBUG",
+                )
                 continue
 
             created = True
@@ -2333,6 +3645,8 @@ class Template(DnacBase):
                 template_params["projectId"] = creation_id
                 template_params["project_id"] = creation_id
 
+        self.result['changed'] = True
+        self.msg = "{0} created successfully with id {1}".format(name, creation_id)
         self.log("New {0} created with id {1}".format(name, creation_id), "DEBUG")
         return creation_id, created
 
@@ -2350,8 +3664,12 @@ class Template(DnacBase):
         """
 
         if self.have_template.get("isCommitPending"):
-            self.log("Template '{0}' is in saved state and needs to be updated and committed."
-                     .format(self.have_template.get("template").get("name")), "DEBUG")
+            self.log(
+                "Template '{0}' is in saved state and needs to be updated and committed.".format(
+                    self.have_template.get("template").get("name")
+                ),
+                "DEBUG",
+            )
             return True
 
         current_obj = self.have_template.get("template")
@@ -2378,9 +3696,12 @@ class Template(DnacBase):
             ("version", "version", ""),
         ]
 
-        return any(not dnac_compare_equality(current_obj.get(dnac_param, default),
-                                             requested_obj.get(ansible_param))
-                   for (dnac_param, ansible_param, default) in obj_params)
+        return any(
+            not dnac_compare_equality(
+                current_obj.get(dnac_param, default), requested_obj.get(ansible_param)
+            )
+            for (dnac_param, ansible_param, default) in obj_params
+        )
 
     def update_mandatory_parameters(self, template_params):
         """
@@ -2399,14 +3720,17 @@ class Template(DnacBase):
         template_params["project_id"] = self.have_project.get("id")
         # Update language,deviceTypes and softwareType if not provided for existing template.
         if not template_params.get("language"):
-            template_params["language"] = self.have_template.get('template') \
-                .get('language')
+            template_params["language"] = self.have_template.get("template").get(
+                "language"
+            )
         if not template_params.get("deviceTypes"):
-            template_params["deviceTypes"] = self.have_template.get('template') \
-                .get('deviceTypes')
+            template_params["deviceTypes"] = self.have_template.get("template").get(
+                "deviceTypes"
+            )
         if not template_params.get("softwareType"):
-            template_params["softwareType"] = self.have_template.get('template') \
-                .get('softwareType')
+            template_params["softwareType"] = self.have_template.get("template").get(
+                "softwareType"
+            )
 
     def validate_input_merge(self, template_exists):
         """
@@ -2427,17 +3751,21 @@ class Template(DnacBase):
         language = template_params.get("language").upper()
         if language:
             if language not in self.accepted_languages:
-                self.msg = "Invalid value language {0} ." \
-                           "Accepted language values are {1}" \
-                           .format(self.accepted_languages, language)
+                self.msg = (
+                    "Invalid value language {0} ."
+                    "Accepted language values are {1}".format(
+                        self.accepted_languages, language
+                    )
+                )
                 self.status = "failed"
                 return self
         else:
             template_params["language"] = "JINJA"
 
         if not template_exists:
-            if not template_params.get("deviceTypes") \
-               or not template_params.get("softwareType"):
+            if not template_params.get("deviceTypes") or not template_params.get(
+                "softwareType"
+            ):
                 self.msg = "DeviceTypes and SoftwareType are required arguments to create Templates"
                 self.status = "failed"
                 return self
@@ -2458,44 +3786,57 @@ class Template(DnacBase):
         """
 
         all_project_details = self.dnac._exec(
-            family="configuration_templates",
-            function='get_projects_details_v2'
+            family="configuration_templates", function="get_projects_details"
+        )
+        self.log(
+            "Received response from 'get_projects_details' is {0}".format(
+                all_project_details
+            ),
+            "DEBUG",
         )
         all_project_details = all_project_details.get("response")
         for values in export_values:
             project_name = values.get("project_name")
-            self.log("Project name for export template: {0}".format(project_name), "DEBUG")
+            self.log(
+                "Project name for export template: {0}".format(project_name), "DEBUG"
+            )
             self.log("Template details: {0}".format(all_project_details), "DEBUG")
-            project_details = get_dict_result(all_project_details,
-                                              "name",
-                                              project_name)
+            project_details = get_dict_result(all_project_details, "name", project_name)
             if not project_details:
-                self.msg = (
-                    "There are no projects with the given project name '{project_name}'."
-                    .format(project_name=project_name)
+                self.msg = "There are no projects with the given project name '{project_name}'.".format(
+                    project_name=project_name
                 )
                 self.status = "failed"
                 return self
 
             all_template_details = project_details.get("templates")
             if not all_template_details:
-                self.msg = (
-                    "There are no templates associated with the given project name '{project_name}'."
-                    .format(project_name=project_name)
+                self.msg = "There are no templates associated with the given project name '{project_name}'.".format(
+                    project_name=project_name
                 )
                 self.status = "failed"
                 return self
 
-            self.log("Template details under the project name {0}: {1}"
-                     .format(project_name, all_template_details), "DEBUG")
+            self.log(
+                "Template details under the project name {0}: {1}".format(
+                    project_name, all_template_details
+                ),
+                "DEBUG",
+            )
             template_name = values.get("template_name")
-            template_details = get_dict_result(all_template_details,
-                                               "name",
-                                               template_name)
-            self.log("Template details with template name {0}: {1}"
-                     .format(template_name, template_details), "DEBUG")
+            template_details = get_dict_result(
+                all_template_details, "name", template_name
+            )
+            self.log(
+                "Template details with template name {0}: {1}".format(
+                    template_name, template_details
+                ),
+                "DEBUG",
+            )
             if template_details is None:
-                self.msg = "Invalid 'project_name' and 'template_name' in export templates."
+                self.msg = (
+                    "Invalid 'project_name' and 'template_name' in export templates."
+                )
                 self.status = "failed"
                 return self
             self.export_template.append(template_details.get("id"))
@@ -2503,6 +3844,121 @@ class Template(DnacBase):
         self.msg = "Successfully collected the export template IDs"
         self.status = "success"
         return self
+
+    def commit_the_template(self, template_id, template_name):
+        """
+        Commits (versions) a given configuration template in Cisco Catalyst Center.
+
+        Args:
+            template_id (str): The UUID of the configuration template to be committed.
+            template_name (str): The human-readable name of the template (used for logging and messaging).
+
+        Returns:
+            object: Returns the current instance (`self`) with updated result and status fields.
+
+        Description:
+            This method commits a configuration template by versioning it through the
+            `version_template` API call. It uses optional comments from `self.want` as versioning metadata.
+            Upon successful API execution, it retrieves the associated task ID and fetches detailed
+            task information. The method updates the `self.result` dictionary with the response and a
+            commit confirmation message. Logging is performed at key steps for traceability,
+            and proper error handling ensures robustness in case of missing task IDs or API failures.
+        """
+
+        try:
+            self.log("Starting the commit process for template '{0}' with ID '{1}'.".format(template_name, template_id), "INFO")
+            version_params = {
+                "comments": self.want.get("comments"),
+                "templateId": template_id
+            }
+            self.log("Versioning parameters for template '{0}': {1}".format(template_name, version_params), "DEBUG")
+            response = self.dnac_apply['exec'](
+                family="configuration_templates",
+                function="version_template",
+                op_modifies=True,
+                params=version_params
+            )
+            self.log("Received response from API 'version_template' for 'tempate': '{0}' is {1}".format(template_name, response), "DEBUG")
+            if not response or not isinstance(response, dict):
+                self.msg = "Invalid response received from 'version_template' API for template '{0}'.".format(template_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                return self
+
+            task_id = response.get("response").get("taskId")
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the template '{0}'.".format(template_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            self.log("Task ID '{0}' retrieved successfully for template '{1}'.".format(task_id, template_name), "INFO")
+            task_details = self.get_task_details(task_id)
+            self.log("Task details retrieved for task ID '{0}': {1}".format(task_id, task_details), "DEBUG")
+            self.msg = "Template '{0}' committed successfully in Cisco Catalyst Center.".format(template_name)
+            # Ensure the response structure in self.result is initialized properly
+            self.log("Initializing response structure in self.result for template '{0}'.".format(template_name), "DEBUG")
+            if not self.result.get('response'):
+                self.result['response'] = [{}]  # Initialize as a list with one empty dictionary
+
+            self.log("Updated self.result structure for template '{0}': {1}".format(template_name, self.result), "DEBUG")
+            # Add the template name to the committed list
+            self.template_committed.append(template_name)
+            self.log("Template '{0}' added to the committed list.".format(template_name), "INFO")
+            self.result['changed'] = True
+            self.log("Successfully committed template '{0}'.".format(template_name), "INFO")
+        except Exception as e:
+            self.msg = "Error while executing 'version_template' API for template '{0}': {1}".format(template_name, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        return self
+
+    def get_template_commit_status(self, template_id, name):
+        """
+        Checks whether a given configuration template is committed in Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of the class used for interacting with Cisco Catalyst Center.
+            template_id (str): The UUID of the configuration template to check.
+            name (str): The name of the configuration template (used for logging purposes).
+
+        Returns:
+            bool: Returns True if the template is not committed (uncommitted),
+                  and False if it is already committed.
+
+        Description:
+            This method verifies the commit status of a configuration template by calling the
+            'gets_the_templates_available' API with the `un_committed` parameter set to True.
+            If the template is not found in the uncommitted list, it is considered committed.
+            Logs are generated for debugging and audit purposes. Any exceptions are caught and
+            logged without halting execution.
+        """
+
+        self.log("Checking commit status for template '{0}' with ID '{1}'.".format(name, template_id), "INFO")
+        is_template_uncommitted = True
+        try:
+            response = self.dnac_apply['exec'](
+                family="configuration_templates",
+                function="gets_the_templates_available",
+                op_modifies=False,
+                params={
+                    "id": template_id,
+                    "un_committed": True
+                },
+            )
+            self.log("Received Response from 'gets_the_templates_available' for 'tempate': '{0}' is {1}".format(name, response), "DEBUG")
+            if not response or not isinstance(response, dict):
+                self.log("The response for template '{0}' is invalid or empty. Assuming it is already committed.".format(name), "INFO")
+                is_template_uncommitted = False
+                return is_template_uncommitted
+
+            self.log("Given template '{0}' is not committed in the Cisco Catalyst Center.".format(name), "INFO")
+        except Exception as e:
+            self.msg = (
+                "An exception occurred while retrieving the commit status for template '{0}': {1}"
+                .format(name, str(e))
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+        self.log("Commit status for template '{0}': {1}".format(name, is_template_uncommitted), "DEBUG")
+
+        return is_template_uncommitted
 
     def update_configuration_templates(self, config, configuration_templates):
         """
@@ -2518,8 +3974,9 @@ class Template(DnacBase):
 
         is_project_found = self.have_project.get("project_found")
         if not is_project_found:
-            project_id, project_created = \
-                self.create_project_or_template(is_create_project=True)
+            project_id, project_created = self.create_project_or_template(
+                is_create_project=True
+            )
             if not project_created:
                 self.status = "failed"
                 self.msg = "Project creation failed"
@@ -2532,27 +3989,32 @@ class Template(DnacBase):
         self.log("Desired template details: {0}".format(template_params), "DEBUG")
         self.log("Current template details: {0}".format(self.have_template), "DEBUG")
         template_id = None
-        template_updated = False
         self.validate_input_merge(is_template_found).check_return_status()
         if is_template_found:
             current_template_name = self.want.get("template_params").get("name")
             new_template_name = configuration_templates.get("new_template_name")
+            template_id = self.have_template.get("id")
             if new_template_name:
                 self.log(
                     "User provided 'new_template_name' field. Attempting to change the template name "
-                    "from '{template_name}' to '{new_template_name}'."
-                    .format(template_name=current_template_name, new_template_name=new_template_name), "INFO"
+                    "from '{template_name}' to '{new_template_name}'.".format(
+                        template_name=current_template_name,
+                        new_template_name=new_template_name,
+                    ),
+                    "INFO",
                 )
                 project_name = configuration_templates.get("project_name")
                 self.log(
-                    "Checking if template '{new_template_name}' already exists in project '{project_name}'."
-                    .format(new_template_name=new_template_name, project_name=project_name), "DEBUG"
+                    "Checking if template '{new_template_name}' already exists in project '{project_name}'.".format(
+                        new_template_name=new_template_name, project_name=project_name
+                    ),
+                    "DEBUG",
                 )
-                template_response = self.get_project_defined_template_details(project_name, new_template_name)
+                template_response = self.get_project_defined_template_details(
+                    project_name, new_template_name
+                )
                 if template_response is None:
-                    self.msg = (
-                        "The response of the API 'get_templates_details' for checking template existence is None."
-                    )
+                    self.msg = "The response of the API 'get_templates_details' for checking template existence is None."
                     self.log(str(self.msg), "WARNING")
                     self.status = "failed"
                     return self
@@ -2562,41 +4024,67 @@ class Template(DnacBase):
                 if template_response:
                     self.msg = (
                         "Cannot update template name from '{current_template_name}' to '{new_template_name}' "
-                        "in project '{project_name}', as a template with the new name already exists in Cisco Catalyst Center."
-                        .format(current_template_name=current_template_name, new_template_name=new_template_name, project_name=project_name)
+                        "in project '{project_name}', as a template with the new name already exists in Cisco Catalyst Center.".format(
+                            current_template_name=current_template_name,
+                            new_template_name=new_template_name,
+                            project_name=project_name,
+                        )
                     )
                     self.log(str(self.msg), "ERROR")
                     self.status = "failed"
                     return self
 
                 self.log(
-                    "Updating template name from '{current_template_name}' to '{new_template_name}'."
-                    .format(current_template_name=current_template_name, new_template_name=new_template_name), "INFO"
+                    "Updating template name from '{current_template_name}' to '{new_template_name}'.".format(
+                        current_template_name=current_template_name,
+                        new_template_name=new_template_name,
+                    ),
+                    "INFO",
                 )
                 template_params.update({"name": new_template_name})
                 self.want.get("template_params").update({"name": new_template_name})
-                config.get("configuration_templates").update({"template_name": new_template_name})
+                config.get("configuration_templates").update(
+                    {"template_name": new_template_name}
+                )
 
             if not self.requires_update():
                 # Template does not need update
-                self.result['response'][0].get("configurationTemplate").update({
-                    'response': self.have_template.get("template"),
-                    'msg': "Template does not need update"
-                })
-                self.status = "exited"
+                self.no_update_template.append(current_template_name)
+                is_template_un_committed = self.get_template_commit_status(template_id, current_template_name)
+                self.log("Template '{0}' uncommitted status: {1}".format(current_template_name, is_template_un_committed), "DEBUG")
+                # Check whether the above template is committed or not
+                is_commit = configuration_templates.get("commit", True)
+                self.log("Commit flag for template '{0}': {1}".format(current_template_name, is_commit), "DEBUG")
+                if is_commit and is_template_un_committed:
+                    self.commit_the_template(template_id, current_template_name).check_return_status()
+                    self.log("Template '{0}' committed successfully in the Cisco Catalyst Center.".format(current_template_name), "INFO")
+
                 return self
 
             template_id = self.have_template.get("id")
             template_params.update({"id": template_id})
             self.log("Current State (have): {0}".format(self.have_template), "INFO")
             self.log("Desired State (want): {0}".format(self.want), "INFO")
-            response = self.dnac_apply['exec'](
-                family="configuration_templates",
-                function="update_template",
-                op_modifies=True,
-                params=template_params,
+            task_name = "update_template"
+            parameters = template_params
+            current_response = copy.deepcopy(self.result["response"])
+            task_id = self.get_taskid_post_api_call(
+                "configuration_templates", task_name, parameters
             )
-            template_updated = True
+            template_name = self.want.get("template_params").get("name")
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}' for the template: '{1}'.".format(
+                    task_name, template_name
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+                return self
+
+            success_msg = "Successfully updated the configuration template '{0}' in Cisco Catalyst Center".format(template_name)
+            self.template_updated.append(template_name)
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+            self.result['response'] = copy.deepcopy(current_response)
             self.log("Updating existing template '{0}'."
                      .format(self.have_template.get("template").get("name")), "INFO")
 
@@ -2607,42 +4095,12 @@ class Template(DnacBase):
                 return self
             template_id, template_updated = self.create_project_or_template()
 
-        if template_updated:
-            # Template needs to be versioned
-            version_params = {
-                "comments": self.want.get("comments"),
-                "templateId": template_id
-            }
-            response = self.dnac_apply['exec'](
-                family="configuration_templates",
-                function="version_template",
-                op_modifies=True,
-                params=version_params
-            )
-            task_id = response.get("response").get("taskId")
-            if not task_id:
-                self.msg = "Task id: {0} not found".format(task_id)
-                self.status = "failed"
-                return self
-            task_details = self.get_task_details(task_id)
-            self.result['changed'] = True
-            self.result['response'][0].get("configurationTemplate")['msg'] = task_details.get('progress')
-            self.result['response'][0].get("configurationTemplate")['diff'] = configuration_templates
-            self.log("Task details for 'version_template': {0}".format(task_details), "DEBUG")
-            self.result['response'][0].get("configurationTemplate")['response'] = task_details if task_details else response
-
-            if not self.result['response'][0].get("configurationTemplate").get('msg'):
-                self.msg = "Error while versioning the template"
-                self.status = "failed"
-                return self
-        else:
-            task_details = self.get_task_details(template_id)
-            self.log('Getting task details from task ID {0}: {1}'.format(template_id, task_details), "DEBUG")
-            if task_details.get("failureReason"):
-                self.msg = str(task_details.get("failureReason"))
-            else:
-                self.msg = str(task_details.get("progress"))
-            self.status = "failed"
+        is_commit = configuration_templates.get("commit", True)
+        if is_commit:
+            name = self.want.get("template_params").get("name")
+            self.log("Attempting to commit template '{0}' with ID '{1}'.".format(name, template_id), "INFO")
+            self.commit_the_template(template_id, name).check_return_status()
+            self.log("Template '{0}' committed successfully in the Cisco Catalyst Center.".format(name), "INFO")
 
         return self
 
@@ -2658,43 +4116,48 @@ class Template(DnacBase):
         """
 
         export_project = export.get("project")
-        self.log("Export project playbook details: {0}"
-                 .format(export_project), "DEBUG")
+        self.log("Export project playbook details: {0}".format(export_project), "DEBUG")
         if export_project:
+            self.log("Found export project details: {0}".format(export_project), "DEBUG")
             response = self.dnac._exec(
                 family="configuration_templates",
-                function='export_projects',
+                function="export_projects",
                 op_modifies=True,
                 params={
                     "payload": export_project,
                 },
             )
+
             validation_string = "successfully exported project"
-            self.check_task_response_status(response,
-                                            validation_string,
-                                            "export_projects",
-                                            True).check_return_status()
-            self.result['response'][1].get("export").get("response").update({"exportProject": self.msg})
+            self.check_task_response_status(
+                response, validation_string, "export_projects", True
+            ).check_return_status()
+            self.result["response"][1].get("export").get("response").update(
+                {"exportProject": self.msg}
+            )
 
         export_values = export.get("template")
         if export_values:
             self.get_export_template_values(export_values).check_return_status()
-            self.log("Exporting template playbook details: {0}"
-                     .format(self.export_template), "DEBUG")
+            self.log(
+                "Exporting template playbook details: {0}".format(self.export_template),
+                "DEBUG",
+            )
             response = self.dnac._exec(
                 family="configuration_templates",
-                function='export_templates',
+                function="export_templates",
                 op_modifies=True,
                 params={
                     "payload": self.export_template,
                 },
             )
             validation_string = "successfully exported template"
-            self.check_task_response_status(response,
-                                            validation_string,
-                                            "export_templates",
-                                            True).check_return_status()
-            self.result['response'][1].get("export").get("response").update({"exportTemplate": self.msg})
+            self.check_task_response_status(
+                response, validation_string, "export_templates", True
+            ).check_return_status()
+            self.result["response"][1].get("export").get("response").update(
+                {"exportTemplate": self.msg}
+            )
 
         return self
 
@@ -2726,22 +4189,28 @@ class Template(DnacBase):
             if project_file:
                 is_path_exists = self.is_path_exists(project_file)
                 if not is_path_exists:
-                    self.msg = "Import project file path '{0}' does not exist.".format(project_file)
+                    self.msg = "Import project file path '{0}' does not exist.".format(
+                        project_file
+                    )
                     self.status = "failed"
                     return self
 
                 is_json = self.is_json(project_file)
                 if not is_json:
-                    self.msg = "Import project file '{0}' is not in JSON format".format(project_file)
+                    self.msg = "Import project file '{0}' is not in JSON format".format(
+                        project_file
+                    )
                     self.status = "failed"
                     return self
                 try:
-                    with open(project_file, 'r') as file:
+                    with open(project_file, "r") as file:
                         json_data = file.read()
                     json_project = json.loads(json_data)
                     final_payload = json_project
                 except Exception as msg:
-                    self.msg = "An unexpected error occurred while processing the file '{0}': {1}".format(project_file, msg)
+                    self.msg = "An unexpected error occurred while processing the file '{0}': {1}".format(
+                        project_file, msg
+                    )
                     self.status = "failed"
                     return self
             elif payload:
@@ -2755,23 +4224,35 @@ class Template(DnacBase):
                     "do_version": do_version,
                     "payload": final_payload,
                 }
-                self.log("Importing project details from the playbook: {0}"
-                         .format(_import_project), "DEBUG")
+                self.log(
+                    "Importing project details from the playbook: {0}".format(
+                        _import_project
+                    ),
+                    "DEBUG",
+                )
                 if _import_project:
                     response = self.dnac._exec(
                         family="configuration_templates",
-                        function='imports_the_projects_provided',
+                        function="imports_the_projects_provided",
                         op_modifies=True,
                         params=_import_project,
                     )
                     validation_string = "successfully imported project"
-                    self.check_task_response_status(response, validation_string, "imports_the_projects_provided").check_return_status()
-                    self.result['response'][2].get("import").get("response").update({"importProject": "Successfully imported the project(s)."})
+                    self.check_task_response_status(
+                        response, validation_string, "imports_the_projects_provided"
+                    ).check_return_status()
+                    self.result["response"][2].get("import").get("response").update(
+                        {"importProject": "Successfully imported the project(s)."}
+                    )
             else:
                 self.msg = "Projects '{0}' already available.".format(payload)
-                self.result['response'][2].get("import").get("response").update({
-                    "importProject": "Projects '{0}' already available.".format(payload)
-                })
+                self.result["response"][2].get("import").get("response").update(
+                    {
+                        "importProject": "Projects '{0}' already available.".format(
+                            payload
+                        )
+                    }
+                )
 
         _import_template = _import.get("template")
         if _import_template:
@@ -2781,7 +4262,9 @@ class Template(DnacBase):
 
             project_name = _import_template.get("project_name")
             if not _import_template.get("project_name"):
-                self.msg = "Required parameter project_name is not found under import template"
+                self.msg = (
+                    "Required parameter project_name is not found under import template"
+                )
                 self.status = "failed"
                 return self
 
@@ -2802,22 +4285,30 @@ class Template(DnacBase):
             if template_file:
                 is_path_exists = self.is_path_exists(template_file)
                 if not is_path_exists:
-                    self.msg = "Import template file path '{0}' does not exist.".format(template_file)
+                    self.msg = "Import template file path '{0}' does not exist.".format(
+                        template_file
+                    )
                     self.status = "failed"
                     return self
 
                 is_json = self.is_json(template_file)
                 if not is_json:
-                    self.msg = "Import template file '{0}' is not in JSON format".format(template_file)
+                    self.msg = (
+                        "Import template file '{0}' is not in JSON format".format(
+                            template_file
+                        )
+                    )
                     self.status = "failed"
                     return self
                 try:
-                    with open(template_file, 'r') as file:
+                    with open(template_file, "r") as file:
                         json_data = file.read()
                     json_template = json.loads(json_data)
                     final_payload = json_template
                 except Exception as msg:
-                    self.msg = "An unexpected error occurred while processing the file '{0}': {1}".format(template_file, msg)
+                    self.msg = "An unexpected error occurred while processing the file '{0}': {1}".format(
+                        template_file, msg
+                    )
                     self.status = "failed"
                     return self
 
@@ -2830,15 +4321,22 @@ class Template(DnacBase):
                 "project_name": project_name,
                 "payload": final_payload,
             }
-            self.log("Import template details from the playbook: {0}"
-                     .format(import_template), "DEBUG")
+            self.log(
+                "Import template details from the playbook: {0}".format(
+                    import_template
+                ),
+                "DEBUG",
+            )
             global_project_name = import_template.get("project_name")
             for item in import_template.get("payload"):
                 template_project_name = item.get("projectName")
-                if template_project_name is not None and \
-                        global_project_name != template_project_name:
-                    self.msg = "Template '{0}' under the the 'Import Template' should have project_name as {1}" \
-                               .format(item.get("name"), global_project_name)
+                if (
+                    template_project_name is not None
+                    and global_project_name != template_project_name
+                ):
+                    self.msg = "Template '{0}' under the the 'Import Template' should have project_name as {1}".format(
+                        item.get("name"), global_project_name
+                    )
                     self.log(str(self.msg), "ERROR")
                     self.status = "failed"
                     return self
@@ -2846,18 +4344,23 @@ class Template(DnacBase):
             if _import_template:
                 response = self.dnac._exec(
                     family="configuration_templates",
-                    function='imports_the_templates_provided',
+                    function="imports_the_templates_provided",
                     op_modifies=True,
-                    params=import_template
+                    params=import_template,
                 )
                 validation_string = "successfully imported template"
-                self.check_task_response_status(response, validation_string, "imports_the_templates_provided").check_return_status()
-                self.result['response'][2].get("import").get("response") \
-                    .update({"importTemplate": "Successfully imported the templates"})
+                self.check_task_response_status(
+                    response, validation_string, "imports_the_templates_provided"
+                ).check_return_status()
+                self.result["response"][2].get("import").get("response").update(
+                    {"importTemplate": "Successfully imported the templates"}
+                )
 
         return self
 
-    def filter_devices_with_family_role(self, site_assign_device_ids, device_family=None, device_role=None):
+    def filter_devices_with_family_role(
+        self, site_assign_device_ids, device_family=None, device_role=None
+    ):
         """
         Filters devices based on their family and role from a list of site-assigned device IDs.
 
@@ -2882,48 +4385,71 @@ class Template(DnacBase):
         """
 
         filtered_device_list = []
-        self.log("Filtering devices from the provided site-assigned device IDs: {0},  device_family='{1}', "
-                 "and device_role='{2}'".format(site_assign_device_ids, device_family, device_role), "DEBUG"
-                 )
+        self.log(
+            "Filtering devices from the provided site-assigned device IDs: {0},  device_family='{1}', "
+            "and device_role='{2}'".format(
+                site_assign_device_ids, device_family, device_role
+            ),
+            "DEBUG",
+        )
 
         for device_id in site_assign_device_ids:
             try:
                 self.log("Processing device ID: {0}".format(device_id), "DEBUG")
                 response = self.dnac._exec(
                     family="devices",
-                    function='get_device_list',
+                    function="get_device_list",
                     op_modifies=True,
                     params={
                         "family": device_family,
                         "id": device_id,
-                        "role": device_role
-                    }
+                        "role": device_role,
+                    },
+                )
+                self.log(
+                    "Received response from get_device_list for device_family: {0}, device_id: {1}, device_role: {2} is {3}".format(
+                        device_family, device_id, device_role, response
+                    ),
+                    "DEBUG",
                 )
                 if response and "response" in response:
                     response_data = response.get("response")
                 else:
-                    self.log("No valid response for device with ID '{0}'.".format(device_id), "INFO")
+                    self.log(
+                        "No valid response for device with ID '{0}'.".format(device_id),
+                        "INFO",
+                    )
                     continue
 
                 if not response_data:
                     self.log(
-                        "Device with ID '{0}' does not match family '{1}' or role '{2}'.".format(device_id, device_family, device_role),
-                        "INFO"
+                        "Device with ID '{0}' does not match family '{1}' or role '{2}'.".format(
+                            device_id, device_family, device_role
+                        ),
+                        "INFO",
                     )
                     continue
 
-                self.log("Device with ID '{0}' matches the criteria.".format(device_id), "DEBUG")
+                self.log(
+                    "Device with ID '{0}' matches the criteria.".format(device_id),
+                    "DEBUG",
+                )
                 filtered_device_list.append(device_id)
 
             except Exception as e:
-                error_message = "Error while getting the response of device from Cisco Catalyst Center: {0}".format(str(e))
+                error_message = "Error while getting the response of device from Cisco Catalyst Center: {0}".format(
+                    str(e)
+                )
                 self.log(error_message, "CRITICAL")
                 continue
-        self.log("Completed filtering. Filtered devices: {0}".format(filtered_device_list), "DEBUG")
+        self.log(
+            "Completed filtering. Filtered devices: {0}".format(filtered_device_list),
+            "DEBUG",
+        )
 
         return filtered_device_list
 
-    def get_latest_template_version_id(self, template_id, template_name):
+    def get_latest_template_version_id(self, template_id, template_name, version=None):
         """
         Fetches the latest version ID of a specified template from the Cisco Catalyst Center.
 
@@ -2941,47 +4467,190 @@ class Template(DnacBase):
         version_temp_id = None
         self.log(
             "Fetching the latest version ID for template '{0}' using template_id '{1}'.".format(
-                template_name, template_id), "DEBUG"
+                template_name, template_id
+            ),
+            "DEBUG",
         )
 
         try:
             response = self.dnac._exec(
                 family="configuration_templates",
-                function='get_template_versions',
+                function="get_template_versions",
                 op_modifies=True,
                 params={
                     "template_id": template_id,
-                }
+                },
             )
+            self.log(
+                "Received Response for 'get_template_versions' for template_name: {0} is {1}".format(
+                    template_name, response
+                ),
+                "DEBUG",
+            )
+            self.log("Received Response for 'get_template_versions' for template_name: {0} is {1}".format(template_name, response), "DEBUG")
+            response = response.get("response")
 
-            if not response or not isinstance(response, list) or not response[0].get("versionsInfo"):
+            if not response or not isinstance(response, list):
                 self.log(
-                    "No version information found for template '{0}' in Cisco Catalyst Center.".format(template_name), "INFO"
+                    "No version information found for template '{0}' in Cisco Catalyst Center.".format(
+                        template_name
+                    ),
+                    "INFO",
                 )
                 return version_temp_id
 
             self.log(
-                "Successfully retrieved version information for template '{0}'.".format(template_name), "DEBUG"
+                "Successfully retrieved version information for template '{0}'.".format(
+                    template_name
+                ),
+                "DEBUG",
             )
-            versions_info = response[0].get("versionsInfo")
+            if not version:
+                version_temp_id = response.get("versionId")
+                if not version_temp_id:
+                    self.log(
+                        "Failed to identify the latest version for template '{0}'. 'versionId' key is missing in the response.".format(
+                            template_name
+                        ), "ERROR"
+                    )
+                    self.msg = "Missing 'versionId' in the response for the template '{0}'.".format(template_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                self.log(
+                    "Identified the latest version for template '{0}'. Version ID: {1}".format(
+                        template_name, version_temp_id), "DEBUG"
+                )
+                return version_temp_id
+
             self.log(
-                "Processing version details for template '{0}': {1}".format(template_name, str(versions_info)), "DEBUG"
+                "Searching for specific version '{0}' in the template '{1}'.".format(version, template_name), "DEBUG"
             )
-            latest_version = max(versions_info, key=lambda x: x["versionTime"])
-            version_temp_id = latest_version.get("id")
+            for temp_details in response:
+                if temp_details.get("version") == version:
+                    version_temp_id = temp_details.get("versionId")
+                    self.log(
+                        "Identified the version '{0}' for template '{1}'. Version ID: {2}".format(
+                            version, template_name, version_temp_id), "DEBUG"
+                    )
+                    return version_temp_id
+
             self.log(
-                "Identified the latest version for template '{0}'. Version ID: {1}".format(
-                    template_name, version_temp_id), "DEBUG"
+                "Given Version '{0}' not found for template '{1}'.".format(version, template_name), "WARNING"
             )
 
         except Exception as e:
-            error_message = "Error while getting the latest version id for the template '{0}': '{1}'".format(template_name, str(e))
+            error_message = "Error while getting the latest version id for the template '{0}': '{1}'".format(
+                template_name, str(e)
+            )
             self.log(error_message, "CRITICAL")
+
         self.log(
-            "Returning latest version ID '{0}' for template '{1}'.".format(version_temp_id, template_name), "DEBUG"
+            "Returning latest version ID '{0}' for template '{1}'.".format(
+                version_temp_id, template_name
+            ),
+            "DEBUG",
         )
 
         return version_temp_id
+
+    def get_device_hostname_from_device_id(self, device_id):
+        """
+        Retrieves the hostname of a network device using its device UUID.
+
+        Args:
+            self (object): An instance of the class interacting with Cisco Catalyst Center.
+            device_id (str): UUID of the network device for which the hostname is to be fetched.
+
+        Returns:
+            str or None: The hostname of the device if found; otherwise, returns None.
+
+        Description:
+            This method fetches the hostname of a specific network device by invoking the
+            `get_device_list` API function with the device UUID as a parameter. It parses the
+            response to extract the hostname. Logs are maintained for traceability, and exceptions
+            are properly handled to avoid runtime failures in case of API errors or invalid inputs.
+        """
+
+        device_hostname = None
+        self.log("Fetching device hostname for device_id: {0}".format(device_id), "INFO")
+        try:
+            response = self.dnac._exec(
+                family="devices",
+                function='get_device_list',
+                op_modifies=True,
+                params={"id": device_id}
+            )
+            self.log("Received API response for 'get_device_list' for device {0}: {1}".format(device_id, str(response)), "DEBUG")
+            response = response.get("response")
+            if not response:
+                self.log("No device found with ID: {0}".format(device_id), "WARNING")
+                return None
+
+            if "hostname" not in response[0]:
+                self.log("Hostname key missing in the API response for device_id: {0}".format(device_id), "ERROR")
+                return None
+
+            device_hostname = response[0].get("hostname")
+        except Exception as e:
+            self.msg = "Exception occurred while fetching device hostname for device_id '{0}': {1}".format(device_id, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        self.log("Device hostname for device_id '{0}' is '{1}'.".format(device_id, device_hostname), "INFO")
+
+        return device_hostname
+
+    def get_site_uuid_from_device_id(self, device_id):
+        """
+        Fetches the Site UUID associated with a given network device UUID.
+
+        Args:
+            self (object): An instance of the class interacting with Cisco Catalyst Center.
+            device_id (str): UUID of the network device for which the site assignment is to be retrieved.
+        Returns:
+            str or None: Returns the UUID of the assigned site if found; otherwise, returns None.
+        Description:
+            This method checks the site assignment for a given network device by making an API call
+            using the `get_site_assigned_network_device` function. If the device is assigned to a site,
+            the corresponding site UUID is extracted and returned. Logs are generated at each step for
+            traceability, and proper exception handling ensures that any issues are logged and reported
+            without breaking execution flow.
+        """
+
+        self.log("Checking site assignment for device with UUID: {0}".format(device_id), "INFO")
+        site_uuid = None
+        try:
+            response = self.dnac_apply['exec'](
+                family="site_design",
+                function='get_site_assigned_network_device',
+                params={"id": device_id}
+            )
+
+            self.log("API response received for 'get_site_assigned_network_device': {0}".format(response), "DEBUG")
+            if not response or not isinstance(response, dict):
+                self.log("No site assignment found for device with UUID: {0}".format(device_id), "WARNING")
+                return site_uuid
+
+            response = response.get("response")
+            if not isinstance(response, dict):
+                self.log("Unexpected 'response' format for device with UUID: {0}".format(device_id), "WARNING")
+                return None
+
+            # Extract site details
+            site_uuid = response.get("siteId")
+            site_name = response.get("siteNameHierarchy")
+
+            if not site_uuid:
+                self.log("No site assignment found for device with UUID: {0}".format(device_id), "WARNING")
+                return None
+
+            self.log(
+                "Device with UUID {0} is assigned to site: {1} (siteId: {2})".format(device_id, site_name, site_uuid), "INFO"
+            )
+            return site_uuid
+
+        except Exception as e:
+            self.msg = "Exception occurred while fetching site assignment for device with UUID '{0}': {1}".format(device_id, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def create_payload_for_template_deploy(self, deploy_temp_details, device_ids):
         """
@@ -3005,20 +4674,26 @@ class Template(DnacBase):
         project_name = deploy_temp_details.get("project_name")
         template_name = deploy_temp_details.get("template_name")
         self.log(
-            "Starting to create deployment payload for template '{0}' in project '{1}'."
-            .format(template_name, project_name), "DEBUG"
+            "Starting to create deployment payload for template '{0}' in project '{1}'.".format(
+                template_name, project_name
+            ),
+            "DEBUG",
         )
         # Check if the template is available but not yet committed
         if self.have.get("temp_id"):
             self.log(
-                "Template '{0}' is already committed in Cisco Catalyst Center. Using the committed template ID."
-                .format(template_name), "INFO"
+                "Template '{0}' is already committed in Cisco Catalyst Center. Using the committed template ID.".format(
+                    template_name
+                ),
+                "INFO",
             )
             template_id = self.have.get("temp_id")
         else:
             self.log(
-                "Fetching uncommitted template ID for template '{0}' in project '{1}'.".format(template_name, project_name),
-                "DEBUG"
+                "Fetching uncommitted template ID for template '{0}' in project '{1}'.".format(
+                    template_name, project_name
+                ),
+                "DEBUG",
             )
             template_id = self.get_uncommitted_template_id(project_name, template_name)
 
@@ -3027,24 +4702,33 @@ class Template(DnacBase):
                     "Unable to fetch the details for the template '{0}' from the Cisco "
                     "Catalyst Center."
                 ).format(template_name)
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             self.log(
-                "Template '{0}' is available but not committed yet. Committing template...".format(template_name),
-                "INFO"
+                "Template '{0}' is available but not committed yet. Committing template...".format(
+                    template_name
+                ),
+                "INFO",
             )
 
             # Commit or versioned the given template in the Catalyst Center
-            self.versioned_given_template(project_name, template_name, template_id).check_return_status()
+            self.versioned_given_template(
+                project_name, template_name, template_id
+            ).check_return_status()
 
         deploy_payload = {
             "forcePushTemplate": deploy_temp_details.get("force_push", False),
             "isComposite": deploy_temp_details.get("is_composite", False),
             "templateId": template_id,
+            "copyingConfig": deploy_temp_details.get("copy_config", True),
         }
         self.log(
-            "Handling template parameters for the deployment of template '{0}'.".format(template_name),
-            "DEBUG"
+            "Handling template parameters for the deployment of template '{0}'.".format(
+                template_name
+            ),
+            "DEBUG",
         )
         target_info_list = []
         template_dict = {}
@@ -3054,38 +4738,252 @@ class Template(DnacBase):
                 "It appears that no template parameters were provided in the playbook. Unfortunately, this "
                 "means we cannot proceed with deploying template '{0}' to the devices."
             ).format(template_name)
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
 
         for param in template_parameters:
             name = param["param_name"]
             value = param["param_value"]
-            self.log("Update the template placeholder for the name '{0}' with value {1}".format(name, value), "DEBUG")
+            self.log(
+                "Update the template placeholder for the name '{0}' with value {1}".format(
+                    name, value
+                ),
+                "DEBUG",
+            )
             template_dict[name] = value
 
         # Get the latest version template ID
-        version_template_id = self.get_latest_template_version_id(template_id, template_name)
+        template_version = deploy_temp_details.get("version")
+        version_template_id = self.get_latest_template_version_id(template_id, template_name, template_version)
         if not version_template_id:
-            self.log("No versioning found for the template: {0}".format(template_name), "INFO")
+            self.log(
+                "No versioning found for the template: {0}".format(template_name),
+                "INFO",
+            )
             version_template_id = template_id
 
         self.log("Preparing to deploy template '{0}' to the following device IDs: '{1}'".format(template_name, device_ids), "DEBUG")
         for device_id in device_ids:
-            self.log("Adding device '{0}' to the deployment payload.".format(device_id), "DEBUG")
+            self.log(
+                "Adding device '{0}' to the deployment payload.".format(device_id),
+                "DEBUG",
+            )
             target_device_dict = {
                 "id": device_id,
                 "type": "MANAGED_DEVICE_UUID",
                 "versionedTemplateId": version_template_id,
                 "params": template_dict,
             }
+            resource_params = deploy_temp_details.get("resource_parameters")
+            self.log("Handling resource parameters for the deployment of template '{0}'.".format(template_name), "DEBUG")
+            resource_params_list = []
+            runtime_scopes_available = ["MANAGED_DEVICE_UUID", "MANAGED_DEVICE_IP", "MANAGED_DEVICE_HOSTNAME", "SITE_UUID"]
+            self.log("Available runtime scopes for resource parameters: {0}".format(runtime_scopes_available), "DEBUG")
+            if resource_params:
+                for resource_param in resource_params:
+                    r_type = resource_param.get("resource_type")
+                    scope = resource_param.get("resource_scope", "RUNTIME")
+                    resource_params_dict = {
+                        'type': r_type,
+                        'scope': scope
+                    }
+                    if scope == "RUNTIME":
+                        # Validate runtime scope type
+                        if r_type not in runtime_scopes_available:
+                            self.msg = (
+                                "The resource type '{0}' with scope '{1}' is not supported for runtime provisioning. "
+                                "Supported types are: {2}."
+                            ).format(r_type, scope, ", ".join(runtime_scopes_available))
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                        self.log(
+                            "Processing resource parameter with type '{0}' and scope '{1}' for runtime"
+                            " provisioning.".format(r_type, scope), "DEBUG"
+                        )
+                        if r_type == "SITE_UUID":
+                            value = self.get_site_uuid_from_device_id(device_id)
+                        elif r_type == "MANAGED_DEVICE_UUID":
+                            value = device_id
+                        elif r_type == "MANAGED_DEVICE_IP":
+                            device_ip_id_map = self.get_device_ips_from_device_ids([device_id])
+                            value = device_ip_id_map[device_id]
+                        elif r_type == "MANAGED_DEVICE_HOSTNAME":
+                            value = self.get_device_hostname_from_device_id(device_id)
+
+                        resource_params_dict['value'] = value
+                        self.log("Update the resource placeholder for the type '{0}' with scope {1}".format(r_type, scope), "DEBUG")
+                        resource_params_list.append(resource_params_dict)
+                        continue
+
+                    # If the scope is not RUNTIME, we take the value directly from the resource_param dictionary
+                    self.log("Processing resource parameter with type '{0}' and scope '{1}'.".format(r_type, scope), "DEBUG")
+                    value = resource_param.get("resource_value")
+                    if not value:
+                        self.msg = (
+                            "The resource type '{0}' with scope '{1}' requires a value to be provided. "
+                            "Please specify a value for this resource parameter."
+                        ).format(r_type, scope)
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                    resource_params_dict['value'] = value
+                    self.log("Update the resource placeholder for the type '{0}' with scope {1}".format(r_type, scope), "DEBUG")
+                    resource_params_list.append(resource_params_dict)
+
+            if resource_params_list:
+                self.log(
+                    "Adding resource parameters to the target device dictionary for template '{0}'.".format(
+                        template_name
+                    ),
+                    "DEBUG",
+                )
+                target_device_dict["resourceParams"] = resource_params_list
+
             target_info_list.append(target_device_dict)
             del target_device_dict
 
         deploy_payload["targetInfo"] = target_info_list
-        self.log("Successfully generated deployment payload for template '{0}'.".format(template_name), "INFO")
+        self.log(
+            "Successfully generated deployment payload for template '{0}'.".format(
+                template_name
+            ),
+            "INFO",
+        )
 
         return deploy_payload
 
-    def deploy_template_to_devices(self, deploy_temp_payload, template_name, device_ips):
+    def monitor_template_deployment_status(
+        self, template_name, deployment_id, device_ips
+    ):
+        """
+        Monitors the status of a template deployment in Cisco Catalyst Center until it completes
+        successfully, fails, or times out.
+
+        Args:
+            self (object): An instance of the class interacting with Cisco Catalyst Center.
+            template_name (str): Name of the configuration template being deployed.
+            deployment_id (str): Unique identifier for the deployment task.
+            device_ips (list): List of IP addresses of devices to which the template is being deployed.
+        Description:
+            This method continuously polls the deployment status of a configuration template applied
+            to one or more devices using the Cisco Catalyst Center API. It logs status updates, handles
+            failures, and manages timeout conditions. Upon successful deployment, it marks the
+            operation as successful; otherwise, it collects and logs failure reasons and exits
+            accordingly.
+        """
+
+        loop_start_time = time.time()
+        self.log(
+            "Starting template deployment monitoring for '{0}' with deployment ID '{1}', targeting"
+            " devices: {2}.".format(template_name, deployment_id, device_ips),
+            "DEBUG",
+        )
+        self.log(
+            "Starting template deployment monitoring for '{0}' with deployment ID '{1}'.".format(
+                template_name, deployment_id
+            ),
+            "DEBUG",
+        )
+
+        while True:
+            try:
+                task_name = "get_template_deployment_status"
+                response = self.dnac._exec(
+                    family="configuration_templates",
+                    function=task_name,
+                    params={"deployment_id": deployment_id},
+                    op_modifies=True,
+                )
+                self.log(
+                    "API response received for task '{0}'. Deployment ID: '{1}', Response: {2}".format(
+                        task_name, deployment_id, response
+                    ),
+                    "DEBUG",
+                )
+
+                if not isinstance(response, dict):
+                    self.log(
+                        "Error: Received invalid response type for deployment ID: '{0}'. Expected a dictionary but got: {1}".format(
+                            deployment_id, type(response).__name__
+                        ),
+                        "ERROR",
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                deployment_status = response.get("status")
+                self.log(
+                    "Deployment status for template '{0}': {1}".format(
+                        template_name, deployment_status
+                    ),
+                    "DEBUG",
+                )
+                if deployment_status == "SUCCESS":
+                    self.msg = (
+                        "Given template '{0}' deployed successfully to all the device(s) '{1}' "
+                        " in the Cisco Catalyst Center."
+                    ).format(template_name, device_ips)
+                    self.set_operation_result("success", True, self.msg, "INFO")
+                    return self
+
+                if deployment_status == "FAILURE":
+                    self.log(
+                        "Deployment of template '{0}' failed. Retrieving detailed failure messages...".format(
+                            template_name
+                        ),
+                        "ERROR",
+                    )
+                    devices = response.get("devices", [])
+                    failure_msg = []
+                    for device in devices:
+                        status_msg = device.get(
+                            "detailedStatusMessage", "No detailed status available."
+                        )
+                        self.log(
+                            "Device deployment failure: {0}".format(status_msg), "ERROR"
+                        )
+                        failure_msg.append(status_msg)
+
+                    failure_reason = "Deployment of the template '{0}' failed on devices {1} with the following reason(s): {2}".format(
+                        template_name, device_ips, ", ".join(failure_msg)
+                    )
+                    self.msg = failure_reason
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                # Check if the elapsed time exceeds the timeout
+                elapsed_time = time.time() - loop_start_time
+                if self.check_timeout_and_exit(
+                    loop_start_time, deployment_id, task_name
+                ):
+                    self.log(
+                        "Timeout exceeded after {0:.2f} seconds while monitoring deployment task '{1}'. Deployment ID: '{2}'.".format(
+                            elapsed_time, task_name, deployment_id
+                        ),
+                        "DEBUG",
+                    )
+                    self.check_return_status()
+
+                # Wait for the specified poll interval before the next check
+                poll_interval = self.params.get("dnac_task_poll_interval")
+                self.log(
+                    "Waiting for the next poll interval of {0} seconds before checking deployment status again.".format(
+                        poll_interval
+                    ),
+                    "DEBUG",
+                )
+                time.sleep(poll_interval)
+
+            except Exception as e:
+                self.msg = (
+                    "An unexpected error occurred during API call for task '{0}'. Deployment ID: '{1}'. "
+                    "Exception: {2}".format(task_name, deployment_id, str(e))
+                )
+                self.fail_and_exit(self.msg)
+
+    def deploy_template_to_devices(
+        self, deploy_temp_payload, template_name, device_ips
+    ):
         """
         Deploys a specified template to devices associated with a site in the Cisco Catalyst Center.
 
@@ -3109,24 +5007,39 @@ class Template(DnacBase):
         """
 
         try:
-            self.log("Deploying the given template {0} to the device(s) {1}.".format(template_name, device_ips))
+            self.log(
+                "Deploying the given template {0} to the device(s) {1}.".format(
+                    template_name, device_ips
+                )
+            )
             payload = {"payload": deploy_temp_payload}
             task_name = "deploy_template_v2"
-            task_id = self.get_taskid_post_api_call("configuration_templates", task_name, payload)
+            task_id = self.get_taskid_post_api_call(
+                "configuration_templates", task_name, payload
+            )
 
             if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(
+                    task_name
+                )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
             loop_start_time = time.time()
-            sleep_duration = self.params.get('dnac_task_poll_interval')
-            self.log("Starting task monitoring for '{0}' with task ID '{1}'.".format(task_name, task_id), "DEBUG")
+            sleep_duration = self.params.get("dnac_task_poll_interval")
+            self.log(
+                "Starting task monitoring for '{0}' with task ID '{1}'.".format(
+                    task_name, task_id
+                ),
+                "DEBUG",
+            )
 
             while True:
                 task_details = self.get_task_details_by_id(task_id)
                 if not task_details:
-                    self.msg = "Error retrieving task status for '{0}' with task ID '{1}'".format(task_name, task_id)
+                    self.msg = "Error retrieving task status for '{0}' with task ID '{1}'".format(
+                        task_name, task_id
+                    )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
@@ -3135,15 +5048,92 @@ class Template(DnacBase):
                 if self.check_timeout_and_exit(loop_start_time, task_id, task_name):
                     self.log(
                         "Timeout exceeded after {0:.2f} seconds while monitoring task '{1}' with task ID '{2}'.".format(
-                            elapsed_time, task_name, task_id), "DEBUG"
+                            elapsed_time, task_name, task_id
+                        ),
+                        "DEBUG",
                     )
                     return self
 
                 progress = task_details.get("progress")
-                self.log("Task ID '{0}' details for the API '{1}': {2}".format(task_id, task_name, progress), "DEBUG")
+                self.log(
+                    "Task ID '{0}' progress details retrieved from API '{1}'. Progress: '{2}'.".format(
+                        task_id, task_name, progress
+                    ),
+                    "DEBUG",
+                )
+                # Get the deployment id of the template if it get deployed successfully on the devices
+                self.log(
+                    "Searching for the Deployment ID in the task progress message using regex...",
+                    "DEBUG",
+                )
+                match = re.search(
+                    r"Template\s+Deployemnt\s+Id:\s+([a-f0-9\-]+)",
+                    progress,
+                    re.IGNORECASE,
+                )
+                deployment_id = None
+                if match:
+                    deployment_id = match.group(1)
+                    if deployment_id:
+                        self.log(
+                            "Deployment ID found in the progress message. Template Deployment ID: '{0}'.".format(
+                                deployment_id
+                            ),
+                            "DEBUG",
+                        )
+                        self.log(
+                            "Proceeding to monitor the deployment with Deployment ID: '{0}'.".format(
+                                deployment_id
+                            ),
+                            "DEBUG",
+                        )
+                        self.monitor_template_deployment_status(
+                            template_name, deployment_id, device_ips
+                        ).check_return_status()
+                    else:
+                        self.log(
+                            "Regex matched the progress message, but no Deployment ID was captured. "
+                            "This could indicate an issue with the progress message or the regex pattern. Progress: '{0}'.".format(
+                                progress
+                            ),
+                            "ERROR",
+                        )
+                else:
+                    self.log(
+                        "Deployment ID not found in the progress message. This could indicate that the template '{0}' is already deployed with"
+                        " same parameters, Hence not deploying on devices. Progress message: '{1}'.".format(
+                            template_name, progress
+                        ),
+                        "WARNING",
+                    )
+
+                if "already deployed with same params" in progress:
+                    self.msg = "Template '{0}' is already deployed with the same parameters. No deployment actions will be performed.".format(
+                        template_name
+                    )
+                    self.log(self.msg, "INFO")
+                    self.set_operation_result("success", False, self.msg, "INFO")
+                    return self
+
+                failure_reason = task_details.get("failureReason")
+                if failure_reason:
+                    self.log(
+                        "Deployment of the template '{0}' failed. Failure reason: '{1}'. No further actions will be taken.".format(
+                            template_name, failure_reason
+                        ),
+                        "ERROR",
+                    )
+                    self.msg = failure_reason
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
 
                 if "not deploying" in progress:
-                    self.log("Deployment of the template {0} gets failed because of: {1}".format(template_name, progress), "WARNING")
+                    self.log(
+                        "Deployment of the template {0} gets failed because of: {1}".format(
+                            template_name, progress
+                        ),
+                        "WARNING",
+                    )
                     self.msg = progress
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
@@ -3156,7 +5146,12 @@ class Template(DnacBase):
                     self.set_operation_result("success", True, self.msg, "INFO")
                     return self
 
-                self.log("Waiting for {0} seconds before checking the task status again.".format(sleep_duration), "DEBUG")
+                self.log(
+                    "Waiting for {0} seconds before checking the task status again.".format(
+                        sleep_duration
+                    ),
+                    "DEBUG",
+                )
                 time.sleep(sleep_duration)
 
         except Exception as e:
@@ -3182,9 +5177,17 @@ class Template(DnacBase):
             If none of the information is available, an empty list is returned.
         """
         # Retrieve device IPs from the configuration
-        self.log("Retrieving device IPs based on the configuration priority with details: {0}".format(device_details), "INFO")
+        self.log(
+            "Retrieving device IPs based on the configuration priority with details: {0}".format(
+                device_details
+            ),
+            "INFO",
+        )
         try:
             device_ips = device_details.get("device_ips")
+            if device_ips and not isinstance(device_ips, list):
+                self.msg = "Device IPs should be a list, but got: {0}".format(type(device_ips).__name__)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             if device_ips:
                 self.log("Found device IPs: {0}".format(device_ips), "INFO")
@@ -3193,22 +5196,41 @@ class Template(DnacBase):
             # If device IPs are not available, check hostnames
             device_hostnames = device_details.get("device_hostnames")
             if device_hostnames:
-                self.log("No device IPs found. Checking hostnames: {0}".format(device_hostnames), "INFO")
+                self.log(
+                    "No device IPs found. Checking hostnames: {0}".format(
+                        device_hostnames
+                    ),
+                    "INFO",
+                )
                 device_ip_dict = self.get_device_ips_from_hostnames(device_hostnames)
                 return self.get_list_from_dict_values(device_ip_dict)
 
             # If hostnames are not available, check serial numbers
             device_serial_numbers = device_details.get("serial_numbers")
             if device_serial_numbers:
-                self.log("No device IPs or hostnames found. Checking serial numbers: {0}".format(device_serial_numbers), "INFO")
-                device_ip_dict = self.get_device_ips_from_serial_numbers(device_serial_numbers)
+                self.log(
+                    "No device IPs or hostnames found. Checking serial numbers: {0}".format(
+                        device_serial_numbers
+                    ),
+                    "INFO",
+                )
+                device_ip_dict = self.get_device_ips_from_serial_numbers(
+                    device_serial_numbers
+                )
                 return self.get_list_from_dict_values(device_ip_dict)
 
             # If serial numbers are not available, check MAC addresses
             device_mac_addresses = device_details.get("mac_addresses")
             if device_mac_addresses:
-                self.log("No device IPs, hostnames, or serial numbers found. Checking MAC addresses: {0}".format(device_mac_addresses), "INFO")
-                device_ip_dict = self.get_device_ips_from_mac_addresses(device_mac_addresses)
+                self.log(
+                    "No device IPs, hostnames, or serial numbers found. Checking MAC addresses: {0}".format(
+                        device_mac_addresses
+                    ),
+                    "INFO",
+                )
+                device_ip_dict = self.get_device_ips_from_mac_addresses(
+                    device_mac_addresses
+                )
                 return self.get_list_from_dict_values(device_ip_dict)
 
             # If no information is available, return an empty list
@@ -3239,32 +5261,51 @@ class Template(DnacBase):
         """
 
         device_ids = []
-        self.log("Fetching device IDs associated with the tag '{0}' (ID: {1}).".format(tag_name, tag_id), "INFO")
+        self.log(
+            "Fetching device IDs associated with the tag '{0}' (ID: {1}).".format(
+                tag_name, tag_id
+            ),
+            "INFO",
+        )
 
         try:
             response = self.dnac._exec(
                 family="tag",
-                function='get_tag_members_by_id',
+                function="get_tag_members_by_id",
                 op_modifies=False,
                 params={
                     "id": tag_id,
                     "member_type": "networkdevice",
-                }
+                },
             )
             if response and "response" in response:
                 response_data = response.get("response")
             else:
-                self.log("No valid response for device with tag ID '{0}'.".format(tag_id), "INFO")
+                self.log(
+                    "No valid response for device with tag ID '{0}'.".format(tag_id),
+                    "INFO",
+                )
                 return device_ids
 
             if not response_data:
-                self.log("No device(s) are associated with the tag '{0}'.".format(tag_name), "WARNING")
+                self.log(
+                    "No device(s) are associated with the tag '{0}'.".format(tag_name),
+                    "WARNING",
+                )
                 return device_ids
 
-            self.log("Received API response from 'get_tag_members_by_id' for the tag {0}: {1}".format(tag_name, response_data), "DEBUG")
+            self.log(
+                "Received API response from 'get_tag_members_by_id' for the tag {0}: {1}".format(
+                    tag_name, response_data
+                ),
+                "DEBUG",
+            )
             for tag in response_data:
                 device_id = tag.get("id")
-                self.log("Device ID '{0}' found for tag '{1}'.".format(device_id, tag_name), "DEBUG")
+                self.log(
+                    "Device ID '{0}' found for tag '{1}'.".format(device_id, tag_name),
+                    "DEBUG",
+                )
                 device_ids.append(device_id)
 
         except Exception as e:
@@ -3272,9 +5313,63 @@ class Template(DnacBase):
                 "Exception occurred while fetching tag id for the tag '{0} 'from "
                 "Cisco Catalyst Center: {1}"
             ).format(tag_name, str(e))
-            self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "INFO"
+            ).check_return_status()
 
         return device_ids
+
+    def update_template_projects_message(self):
+        """
+        Updates the result message and change status based on the outcomes of project and template operations.
+
+        Args:
+            self (object): An instance of the class used for interacting with Cisco Catalyst Center.
+
+        Returns:
+            object: Returns the current instance (`self`) with updated `result` and `msg` fields.
+
+        Description:
+            This method checks various internal flags (such as whether a project or template was created, updated,
+            or committed) and builds a descriptive message accordingly. It updates the result dictionary with a
+            `changed` flag and constructs a human-readable summary message about the performed operations.
+            The message is stored in `self.msg`, and the result is logged via `set_operation_result`.
+        """
+
+        self.result["changed"] = False
+        result_msg_list = []
+        if self.project_created:
+            create_project_msg = "Project '{0}' created successfully in the Cisco Catalyst Center.".format(self.project_created)
+            result_msg_list.append(create_project_msg)
+
+        if self.template_created:
+            create_template_msg = "Template '{0}' created successfully in the Cisco Catalyst Center.".format(self.template_created)
+            result_msg_list.append(create_template_msg)
+
+        if self.template_updated:
+            update_template_msg = "Template '{0}' updated successfully in the Cisco Catalyst Center.".format(self.template_updated)
+            result_msg_list.append(update_template_msg)
+
+        if self.no_update_template:
+            no_update_template_msg = (
+                "No changes detected in the template '{0}' so not updating it in the Cisco Catalyst Center."
+            ).format(self.no_update_template)
+            result_msg_list.append(no_update_template_msg)
+
+        if self.template_committed:
+            commit_template_msg = "Template '{0}' committed successfully in the Cisco Catalyst Center.".format(self.template_committed)
+            result_msg_list.append(commit_template_msg)
+
+        if (
+            self.project_created or self.template_created or self.template_updated
+            or self.template_committed
+        ):
+            self.result["changed"] = True
+
+        self.msg = " ".join(result_msg_list)
+        self.set_operation_result("success", self.result["changed"], self.msg, "INFO")
+
+        return self
 
     def get_diff_merged(self, config):
         """
@@ -3292,9 +5387,24 @@ class Template(DnacBase):
             self
         """
 
+        project_details = config.get("projects")
+        if project_details:
+            if len(self.have.get("projects")) == len(project_details):
+                project_unmatch = any(not project.get("project_status") and
+                                      not project.get("new_name")
+                                      for project in self.have.get("projects"))
+                if not project_unmatch:
+                    self.msg = "No changes required, project(s) already exist"
+                    self.log(self.msg, "INFO")
+                    self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
+                    return self
+            self.apply_project_config(project_details).check_return_status()
+            return self
+
         configuration_templates = config.get("configuration_templates")
         if configuration_templates:
             self.update_configuration_templates(config, configuration_templates).check_return_status()
+            self.update_template_projects_message().check_return_status()
 
         _import = config.get("import")
         if _import:
@@ -3310,12 +5420,25 @@ class Template(DnacBase):
             template_name = deploy_temp_details.get("template_name")
             device_details = deploy_temp_details.get("device_details")
             site_specific_details = deploy_temp_details.get("site_provisioning_details")
-            self.log("Deploy template details found for template '{0}'".format(template_name), "DEBUG")
+            self.log(
+                "Deploy template details found for template '{0}'".format(
+                    template_name
+                ),
+                "DEBUG",
+            )
             self.log("Device specific details: {0}".format(device_details), "DEBUG")
-            self.log("Site associated provisioning details: {0}".format(site_specific_details), "DEBUG")
+            self.log(
+                "Site associated provisioning details: {0}".format(
+                    site_specific_details
+                ),
+                "DEBUG",
+            )
 
             if device_details:
-                self.log("Attempting to retrieve device IPs based on priority from device specific details.", "DEBUG")
+                self.log(
+                    "Attempting to retrieve device IPs based on priority from device specific details.",
+                    "DEBUG",
+                )
                 device_ips = self.get_device_ips_from_config_priority(device_details)
                 if not device_ips:
                     self.msg = (
@@ -3325,7 +5448,12 @@ class Template(DnacBase):
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
-                self.log("Successfully retrieved device IPs for template '{0}': '{1}'".format(template_name, device_ips), "INFO")
+                self.log(
+                    "Successfully retrieved device IPs for template '{0}': '{1}'".format(
+                        template_name, device_ips
+                    ),
+                    "INFO",
+                )
                 device_id_dict = self.get_device_ids_from_device_ips(device_ips)
                 device_ids = self.get_list_from_dict_values(device_id_dict)
 
@@ -3339,7 +5467,12 @@ class Template(DnacBase):
                 for site in site_specific_details:
                     site_name = site.get("site_name")
                     site_exists, site_id = self.get_site_id(site_name)
-                    self.log("Checking if the site '{0}' exists in Cisco Catalyst Center.".format(site_name), "DEBUG")
+                    self.log(
+                        "Checking if the site '{0}' exists in Cisco Catalyst Center.".format(
+                            site_name
+                        ),
+                        "DEBUG",
+                    )
                     if not site_exists:
                         self.msg = (
                             "To Deploy the template in the devices, given site '{0}' must be "
@@ -3348,8 +5481,15 @@ class Template(DnacBase):
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
 
-                    self.log("Retrieving devices associated with site ID '{0}' for site '{1}'.".format(site_id, site_name), "DEBUG")
-                    site_response, site_assign_device_ids = self.get_device_ids_from_site(site_name, site_id)
+                    self.log(
+                        "Retrieving devices associated with site ID '{0}' for site '{1}'.".format(
+                            site_id, site_name
+                        ),
+                        "DEBUG",
+                    )
+                    site_response, site_assign_device_ids = (
+                        self.get_device_ids_from_site(site_name, site_id)
+                    )
                     site_name_list.append(site_name)
 
                     if not site_assign_device_ids:
@@ -3368,38 +5508,81 @@ class Template(DnacBase):
                     if device_family or device_role:
                         self.log(
                             "Filtering devices based on the device family '{0}' or role '{1}' for the site '{2}'.".format(
-                                device_family, device_role, site_name), "DEBUG"
+                                device_family, device_role, site_name
+                            ),
+                            "DEBUG",
                         )
-                        self.log("Filtering devices based on the given family/role for the site {0}.".format(site_name), "INFO")
-                        site_assign_device_ids = self.filter_devices_with_family_role(site_assign_device_ids, device_family, device_role)
+                        self.log(
+                            "Filtering devices based on the given family/role for the site {0}.".format(
+                                site_name
+                            ),
+                            "INFO",
+                        )
+                        site_assign_device_ids = self.filter_devices_with_family_role(
+                            site_assign_device_ids, device_family, device_role
+                        )
 
                     # Filter devices based on the device tag given to the devices
                     tag_name = site.get("device_tag")
                     tag_device_ids = None
                     if tag_name:
-                        self.log("Filtering out the devices based on the given device tag: '{0}'".format(tag_name), "INFO")
+                        self.log(
+                            "Filtering out the devices based on the given device tag: '{0}'".format(
+                                tag_name
+                            ),
+                            "INFO",
+                        )
                         tag_id = self.get_network_device_tag_id(tag_name)
-                        self.log("Successfully collected the tag id '{0}' for the tag '{1}'".format(tag_id, tag_name), "INFO")
+                        self.log(
+                            "Successfully collected the tag id '{0}' for the tag '{1}'".format(
+                                tag_id, tag_name
+                            ),
+                            "INFO",
+                        )
                         # Get the device ids associated with the given tag for given site
                         tag_device_ids = self.get_device_ids_from_tag(tag_name, tag_id)
-                        self.log("Successfully collected the device ids {0} associated with the tag {1}".format(tag_device_ids, tag_name), "INFO")
+                        self.log(
+                            "Successfully collected the device ids {0} associated with the tag {1}".format(
+                                tag_device_ids, tag_name
+                            ),
+                            "INFO",
+                        )
 
-                    self.log("Getting the device ids based on device assoicated with tag or site or both.", "DEBUG")
+                    self.log(
+                        "Getting the device ids based on device assoicated with tag or site or both.",
+                        "DEBUG",
+                    )
 
                     if tag_device_ids and site_assign_device_ids:
-                        self.log("Determining device IDs from site and tag criteria.", "DEBUG")
-                        common_device_ids = list(set(tag_device_ids).intersection(set(site_assign_device_ids)))
+                        self.log(
+                            "Determining device IDs from site and tag criteria.",
+                            "DEBUG",
+                        )
+                        common_device_ids = list(
+                            set(tag_device_ids).intersection(
+                                set(site_assign_device_ids)
+                            )
+                        )
                         device_ids.extend(common_device_ids)
                     elif site_assign_device_ids and not tag_device_ids:
-                        self.log("Getting the device ids based on devices fetched from site.", "DEBUG")
+                        self.log(
+                            "Getting the device ids based on devices fetched from site.",
+                            "DEBUG",
+                        )
                         device_ids.extend(site_assign_device_ids)
                     elif tag_device_ids and not site_assign_device_ids:
-                        self.log("Getting the device ids based on devices fetched with the tag {0}.".format(tag_name), "DEBUG")
+                        self.log(
+                            "Getting the device ids based on devices fetched with the tag {0}.".format(
+                                tag_name
+                            ),
+                            "DEBUG",
+                        )
                         device_ids.extend(tag_device_ids)
                     else:
                         self.log(
                             "There is no matching device ids found for the deployment of template {0} "
-                            "for the given site {1}".format(template_name, site_name), "WARNING"
+                            "for the given site {1}".format(template_name, site_name),
+                            "WARNING",
                         )
                         continue
 
@@ -3413,7 +5596,9 @@ class Template(DnacBase):
                     "not given in the playboook. Please provide it either via the parameter "
                     "device_details or with site_provisioning_details."
                 ).format(self.msg)
-                self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "INFO"
+                ).check_return_status()
 
             if not device_ids:
                 self.msg = device_missing_msg
@@ -3422,11 +5607,27 @@ class Template(DnacBase):
 
             device_ip_dict = self.get_device_ips_from_device_ids(device_ids)
             device_ips = self.get_list_from_dict_values(device_ip_dict)
-            self.log("Successfully collect the device ips {0} for the device ids {1}.".format(device_ips, device_ids), "INFO")
-            deploy_temp_payload = self.create_payload_for_template_deploy(deploy_temp_details, device_ids)
-            self.log("Deployment payload created successfully for template '{0}'.".format(template_name), "INFO")
-            self.deploy_template_to_devices(deploy_temp_payload, template_name, device_ips).check_return_status()
-            self.log("Successfully deployed template '{0}'.".format(template_name), "INFO")
+            self.log(
+                "Successfully collect the device ips {0} for the device ids {1}.".format(
+                    device_ips, device_ids
+                ),
+                "INFO",
+            )
+            deploy_temp_payload = self.create_payload_for_template_deploy(
+                deploy_temp_details, device_ids
+            )
+            self.log(
+                "Deployment payload created successfully for template '{0}'.".format(
+                    template_name
+                ),
+                "INFO",
+            )
+            self.deploy_template_to_devices(
+                deploy_temp_payload, template_name, device_ips
+            ).check_return_status()
+            self.log(
+                "Successfully deployed template '{0}'.".format(template_name), "INFO"
+            )
 
         self.msg = "Successfully completed merged state execution"
         self.status = "success"
@@ -3448,56 +5649,115 @@ class Template(DnacBase):
         if is_delete_project:
             params_key = {"project_id": self.have_project.get("id")}
             deletion_value = "deletes_the_project"
-            name = "project: {0}".format(config.get("configuration_templates").get('project_name'))
+            name = "project: {0}".format(
+                config.get("configuration_templates").get("project_name")
+            )
         else:
             template_params = self.want.get("template_params")
             params_key = {"template_id": self.have_template.get("id")}
             deletion_value = "deletes_the_template"
-            name = "templateName: {0}".format(template_params.get('name'))
-
-        response = self.dnac_apply['exec'](
-            family="configuration_templates",
-            function=deletion_value,
-            op_modifies=True,
-            params=params_key,
-        )
-        task_id = response.get("response").get("taskId")
-        sleep_duration = self.params.get('dnac_task_poll_interval')
-        if not task_id:
-            self.msg = "Unable to retrieve the task ID for the task '{0}'.".format(deletion_value)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        while True:
-            task_details = self.get_task_details_by_id(task_id)
-            self.log("Printing task details: {0}".format(task_details), "DEBUG")
-            if not task_details:
-                self.msg = "Unable to delete {0} as task details is empty.".format(deletion_value)
+            name = "templateName: {0}".format(template_params.get("name"))
+        ccc_version = self.get_ccc_version()
+        if self.compare_dnac_versions(ccc_version, "2.3.5.3") <= 0:
+            self.log(
+                "Deleting '{0}' using function '{1}' with parameters: {2} on Catalyst version: {3} (≤ 2.3.5.3)".format(
+                    name, deletion_value, params_key, ccc_version
+                ),
+                "DEBUG",
+            )
+            response = self.dnac_apply["exec"](
+                family="configuration_templates",
+                function=deletion_value,
+                op_modifies=True,
+                params=params_key,
+            )
+            task_id = response.get("response").get("taskId")
+            if not task_id:
+                self.msg = "Unable to retrieve the task ID for the task '{0}'.".format(
+                    deletion_value
+                )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            progress = task_details.get("progress")
-            self.log("Task details for the API {0}: {1}".format(deletion_value, progress), "DEBUG")
+            sleep_duration = self.params.get("dnac_task_poll_interval")
+            while True:
+                task_details = self.get_task_details(task_id)
+                self.log("Printing task details: {0}".format(task_details), "DEBUG")
+                if not task_details:
+                    self.msg = "Unable to delete {0} as task details is empty.".format(
+                        deletion_value
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
 
-            if "deleted" in progress:
-                self.log("Successfully perform the operation of {0} for {1}".format(deletion_value, name), "INFO")
-                self.msg = "Successfully deleted {0} ".format(name)
-                self.set_operation_result("success", True, self.msg, "INFO")
-                break
+                progress = task_details.get("progress")
+                self.log(
+                    "Task details for the API {0}: {1}".format(
+                        deletion_value, progress
+                    ),
+                    "DEBUG",
+                )
 
-            if task_details.get("isError"):
-                failure_reason = task_details.get("failureReason")
-                if failure_reason:
-                    self.msg = (
-                        "Failed to perform the operation of {0} for {1} because of: {2}"
-                    ).format(deletion_value, name, failure_reason)
-                else:
-                    self.msg = "Failed to perform the operation of {0} for {1}.".format(deletion_value, name)
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                break
+                if "deleted" in progress:
+                    self.log(
+                        "Successfully performed the operation of '{0}' for '{1}'".format(
+                            deletion_value, name
+                        ),
+                        "INFO",
+                    )
+                    self.msg = "Successfully deleted {0} ".format(name)
+                    self.set_operation_result("success", True, self.msg, "INFO")
+                    break
 
-            self.log("Waiting for {0} seconds before checking the task status again.".format(sleep_duration), "DEBUG")
-            time.sleep(sleep_duration)
+                if task_details.get("isError"):
+                    failure_reason = task_details.get("failureReason")
+                    if failure_reason:
+                        self.msg = (
+                            "Failed to perform the operation of {0} for {1} because of: {2}"
+                        ).format(deletion_value, name, failure_reason)
+                    else:
+                        self.msg = (
+                            "Failed to perform the operation of {0} for {1}.".format(
+                                deletion_value, name
+                            )
+                        )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    break
+
+                self.log(
+                    "Waiting for {0} seconds before checking the task status again.".format(
+                        sleep_duration
+                    ),
+                    "DEBUG",
+                )
+                time.sleep(sleep_duration)
+        else:
+            self.log(
+                "Deleting '{0}' using function '{1}' with parameters: '{2}' on Catalyst version: {3} (> 2.3.5.3)".format(
+                    name, deletion_value, params_key, ccc_version
+                ),
+                "DEBUG",
+            )
+
+            task_name = deletion_value
+            parameters = params_key
+            task_id = self.get_taskid_post_api_call(
+                "configuration_templates", task_name, parameters
+            )
+
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0} for the parameters {1}'.".format(
+                    task_name, parameters
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+                return self
+
+            success_msg = "Task: {0} is successful for parameters: {1}".format(
+                task_name, parameters
+            )
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
         return self
 
@@ -3529,16 +5789,24 @@ class Template(DnacBase):
                 if is_template_found:
                     self.delete_project_or_template(config)
                 else:
-                    self.result['response'][0].get("configurationTemplate").update({
-                        "msg": "Template with template_name '{0}' already deleted".format(templateName)
-                    })
+                    self.result["response"][0].get("configurationTemplate").update(
+                        {
+                            "msg": "Template with template_name '{0}' already deleted".format(
+                                templateName
+                            )
+                        }
+                    )
                     self.msg = "Invalid template {0} under project".format(templateName)
                     self.status = "success"
                     return self
             else:
-                self.log("Template name is empty, deleting the project '{0}' and "
-                         "associated templates"
-                         .format(config.get("configuration_templates").get("project_name")), "INFO")
+                self.log(
+                    "Template name is empty, deleting the project '{0}' and "
+                    "associated templates".format(
+                        config.get("configuration_templates").get("project_name")
+                    ),
+                    "INFO",
+                )
                 is_project_deletable = self.have_project.get("isDeletable")
                 if is_project_deletable:
                     self.delete_project_or_template(config, is_delete_project=True)
@@ -3546,7 +5814,12 @@ class Template(DnacBase):
                     self.msg = "Project is not deletable"
                     self.status = "failed"
                     return self
-            self.log("Successfully completed the delete operation for the template {0}".format(templateName), "DEBUG")
+            self.log(
+                "Successfully completed the delete operation for the template {0}".format(
+                    templateName
+                ),
+                "DEBUG",
+            )
 
         deploy_temp_details = config.get("deploy_template")
         if deploy_temp_details:
@@ -3555,7 +5828,26 @@ class Template(DnacBase):
                 "Deleting or removing the device configuration using deployment of template is not supported "
                 "for the template {0} in the Cisco Catalyst Center."
             ).format(template_name)
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
+
+        project_details = config.get("projects")
+        if project_details and isinstance(project_details, list):
+            self.processed_project = []
+            if not self.have.get("projects"):
+                self.log("No existing projects found. Nothing to delete.", "INFO")
+                return self
+
+            for each_project in project_details:
+                project_name = each_project.get("name")
+                if not project_name:
+                    self.log("Skipping project with missing 'name' field.", "WARNING")
+                    continue
+
+                if self.delete_project(project_name):
+                    self.processed_project.append(project_name)
+                    self.log("Successfully deleted project: {0}".format(project_name), "INFO")
 
         return self
 
@@ -3581,21 +5873,35 @@ class Template(DnacBase):
                 return self
 
             self.get_have_template(config, is_template_available)
-            self.log("Desired State (want): {0}".format(self.want.get("template_params")), "INFO")
-            self.log("Current State (have): {0}".format(self.have_template.get("template")), "INFO")
+            self.log(
+                "Desired State (want): {0}".format(self.want.get("template_params")),
+                "INFO",
+            )
+            self.log(
+                "Current State (have): {0}".format(self.have_template.get("template")),
+                "INFO",
+            )
             if not self.have_template.get("template"):
-                self.msg = "No template created with the name '{0}'".format(self.want.get("template_params").get("name"))
+                self.msg = "No template created with the name '{0}'".format(
+                    self.want.get("template_params").get("name")
+                )
                 self.status = "failed"
                 return self
 
-            template_params = ["language", "name", "projectName",
-                               "softwareType", "templateContent"]
+            template_params = [
+                "language",
+                "name",
+                "projectName",
+                "softwareType",
+                "templateContent",
+            ]
             have_template = self.have_template.get("template")
             want_template = self.want.get("template_params")
             for item in template_params:
                 if have_template.get(item) != want_template.get(item):
-                    self.msg = "Configuration Template config with template_name {0}'s '{1}' is not applied to the Cisco Catalyst Center." \
-                               .format(want_template.get("name"), item)
+                    self.msg = "Configuration Template config with template_name {0}'s '{1}' is not applied to the Cisco Catalyst Center.".format(
+                        want_template.get("name"), item
+                    )
                     self.status = "failed"
                     return self
 
@@ -3603,21 +5909,32 @@ class Template(DnacBase):
             if want_template_containing_template:
                 for item in want_template_containing_template:
                     name = item.get("name")
-                    response = get_dict_result(have_template.get("containingTemplates"), "name", name)
+                    response = get_dict_result(
+                        have_template.get("containingTemplates"), "name", name
+                    )
                     if response is None:
-                        self.msg = "Configuration Template config with template_name '{0}' under ".format(name) + \
-                                   "'containing_templates' is not available in the Cisco Catalyst Center."
+                        self.msg = (
+                            "Configuration Template config with template_name '{0}' under ".format(
+                                name
+                            )
+                            + "'containing_templates' is not available in the Cisco Catalyst Center."
+                        )
                         self.status = "failed"
                         return self
                     for value in item:
                         if item.get(value) != response.get(value):
-                            self.msg = "Configuration Template config with template_name " + \
-                                       "{0}'s '{1}' is not applied to the Cisco Catalyst Center.".format(name, value)
+                            self.msg = (
+                                "Configuration Template config with template_name "
+                                + "{0}'s '{1}' is not applied to the Cisco Catalyst Center.".format(
+                                    name, value
+                                )
+                            )
                             self.status = "failed"
                             return self
 
-            self.log("Successfully validated the Template in the Catalyst Center.", "INFO")
-            self.result['response'][0].get("configurationTemplate").get("response").update({"Validation": "Success"})
+            self.log(
+                "Successfully validated the Template in the Catalyst Center.", "INFO"
+            )
 
         self.msg = "Successfully validated the Configuration Templates."
         self.status = "success"
@@ -3639,23 +5956,66 @@ class Template(DnacBase):
         if config.get("configuration_templates") is not None:
             self.log("Current State (have): {0}".format(self.have), "INFO")
             self.log("Desired State (want): {0}".format(self.want), "INFO")
-            template_list = self.dnac_apply['exec'](
+            template_list = self.dnac_apply["exec"](
                 family="configuration_templates",
                 function="gets_the_templates_available",
                 op_modifies=True,
-                params={"projectNames": config.get("configuration_templates").get("project_name")},
+                params={
+                    "projectNames": config.get("configuration_templates").get(
+                        "project_name"
+                    )
+                },
+            )
+            self.log(
+                "Received response from 'gets_the_templates_available' for 'project_name': '{0}' is {1}".format(
+                    config.get("configuration_templates").get("project_name"),
+                    template_list,
+                ),
+                "DEBUG",
             )
             if template_list and isinstance(template_list, list):
-                templateName = config.get("configuration_templates").get("template_name")
-                template_info = get_dict_result(template_list,
-                                                "name",
-                                                templateName)
+                templateName = config.get("configuration_templates").get(
+                    "template_name"
+                )
+                template_info = get_dict_result(template_list, "name", templateName)
                 if template_info:
-                    self.log("Configuration Template config is not applied to the Cisco Catalyst Center.", "WARNING")
+                    self.log(
+                        "Configuration Template config is not applied to the Cisco Catalyst Center.",
+                        "WARNING",
+                    )
                     return self
 
-                self.log("Successfully validated the absence of Template {0} in the Cisco Catalyst Center.".format(templateName), "INFO")
+                self.log(
+                    "Successfully validated the absence of Template {0} in the Cisco Catalyst Center.".format(
+                        templateName
+                    ),
+                    "INFO",
+                )
 
+        if config.get("projects"):
+            if not self.processed_project:
+                self.msg = "No changes required, project(s) are already deleted"
+                self.log(self.msg, "INFO")
+                self.set_operation_result("success", False, self.msg,
+                                          "INFO").check_return_status()
+                return self
+
+            self.get_have(config)
+            self.log("Current State (have): {0}".format(self.have), "INFO")
+            self.log("Desired State (want): {0}".format(self.want), "INFO")
+            if not self.have.get("projects"):
+                self.msg = "Project(s) are deleted and verified successfully. {0}".format(
+                    self.processed_project)
+                self.log(self.msg, "INFO")
+                self.set_operation_result("success", True, self.msg, "INFO",
+                                          config.get("projects")).check_return_status()
+                return self
+
+            self.msg = "Unable to delete the following project(s): {0}".format(
+                [project.get("name") for project in self.have.get("projects", [])])
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "INFO",
+                                      self.have.get("projects")).check_return_status()
         return self
 
     def reset_values(self):
@@ -3675,30 +6035,40 @@ class Template(DnacBase):
 
 
 def main():
-    """ main entry point for module execution"""
+    """main entry point for module execution"""
 
     element_spec = {
-        'dnac_host': {'required': True, 'type': 'str'},
-        'dnac_port': {'type': 'str', 'default': '443'},
-        'dnac_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
-        'dnac_password': {'type': 'str', 'no_log': True},
-        'dnac_verify': {'type': 'bool', 'default': 'True'},
-        'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
-        'dnac_debug': {'type': 'bool', 'default': False},
-        'dnac_log': {'type': 'bool', 'default': False},
-        "dnac_log_level": {"type": 'str', "default": 'WARNING'},
-        "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
-        "dnac_log_append": {"type": 'bool', "default": True},
-        'validate_response_schema': {'type': 'bool', 'default': True},
-        "config_verify": {"type": 'bool', "default": False},
-        'dnac_api_task_timeout': {'type': 'int', "default": 1200},
-        'dnac_task_poll_interval': {'type': 'int', "default": 2},
-        'config': {'required': True, 'type': 'list', 'elements': 'dict'},
-        'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
+        "dnac_host": {"required": True, "type": "str"},
+        "dnac_port": {"type": "str", "default": "443"},
+        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "dnac_password": {"type": "str", "no_log": True},
+        "dnac_verify": {"type": "bool", "default": "True"},
+        "dnac_version": {"type": "str", "default": "2.2.3.3"},
+        "dnac_debug": {"type": "bool", "default": False},
+        "dnac_log": {"type": "bool", "default": False},
+        "dnac_log_level": {"type": "str", "default": "WARNING"},
+        "dnac_log_file_path": {"type": "str", "default": "dnac.log"},
+        "dnac_log_append": {"type": "bool", "default": True},
+        "validate_response_schema": {"type": "bool", "default": True},
+        "config_verify": {"type": "bool", "default": False},
+        "dnac_api_task_timeout": {"type": "int", "default": 1200},
+        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "config": {"required": True, "type": "list", "elements": "dict"},
+        "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }
-    module = AnsibleModule(argument_spec=element_spec,
-                           supports_check_mode=False)
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_template = Template(module)
+
+    ccc_version = ccc_template.get_ccc_version()
+    if ccc_template.compare_dnac_versions(ccc_version, "2.3.7.6") < 0:
+        ccc_template.msg = (
+            "Template module is not supported in Cisco Catalyst Center version '{0}'. Supported versions start "
+            "from '2.3.7.6' onwards.".format(ccc_version)
+        )
+        ccc_template.set_operation_result(
+            "failed", False, ccc_template.msg, "ERROR"
+        ).check_return_status()
+
     ccc_template.validate_input().check_return_status()
     state = ccc_template.params.get("state")
     config_verify = ccc_template.params.get("config_verify")
@@ -3718,5 +6088,5 @@ def main():
     module.exit_json(**ccc_template.result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
