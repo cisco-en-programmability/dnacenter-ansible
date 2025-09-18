@@ -3475,7 +3475,7 @@ class Swim(DnacBase):
 
         return self
 
-    def check_device_compliance(self, device_uuid, image_name = None):
+    def check_device_compliance(self, device_uuid, image_name=None):
         """
         Check the compliance status of a device's image.
         Parameters:
@@ -3981,7 +3981,6 @@ class Swim(DnacBase):
         else:
             self.set_operation_result("success", True, self.msg, "INFO")
             self.complete_successful_activation = True
-        
         return self
 
     def get_diff_merged(self, config):
