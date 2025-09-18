@@ -119,9 +119,16 @@ options:
         description: |
           The Flow Analysis ID for the path trace, used to delete an existing path trace
           when in the 'deleted' state. If not provided, the module will search and delete
-          based on the following search parameters.
-          When create a path trace, it returns a flow_analysis_id (the "id" from the "request"
-          section), which should be shown in a register
+          based on the given search parameters.
+
+          When a path trace is created, it returns a flow_analysis_id (the "id" from the
+          "request" section), which should be captured in a register variable.
+
+          The Flow Analysis ID provides a reliable way to retrieve or delete a specific
+          path trace created previously. Using source_ip and dest_ip can also retrieve
+          or delete a path trace, but if multiple traces exist with the same source and
+          destination IPs, the Flow Analysis ID is the only way to uniquely identify the
+          specific path trace.
         type: str
         required: false
 requirements:
