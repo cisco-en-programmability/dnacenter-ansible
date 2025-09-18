@@ -109,7 +109,44 @@ class TestDnacPathTraceWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "An error occurred during get path trace: "
+            # "An error occurred during create path trace: "
+            "Path trace created successfully for '[{'request': {'sourceIP': '204.1.2.3', 'sourcePort': '4020', 'destIP': " +
+            "'204.1.2.4', 'destPort': '4021', 'protocol': 'TCP', 'periodicRefresh': False, " +
+            "'id': 'd5a39a16-2e8f-425d-b5d4-38f97aeff066', 'status': 'COMPLETED', 'createTime': 1743740457394," +
+            " 'lastUpdateTime': 1743740458591, 'controlPath': False}, 'lastUpdate': 'Fri Apr 04 04:21:00 GMT 2025', " +
+            "'networkElementsInfo': [{'id': 'e62e6405-13e4-4f1b-ae1c-580a28a96a88', 'name': 'SJ-BN-9301', 'type': " +
+            "'Switches and Hubs', 'ip': '204.1.2.3', 'egressInterface': {'physicalInterface': " +
+            "{'id': 'b65f159e-b67d-49d4-92d0-801a0eda6426', 'name': 'TenGigabitEthernet1/1/7', 'vrfName': 'global', " +
+            "'usedVlan': 'NA'}}, 'role': 'DISTRIBUTION', 'linkInformationSource': 'ISIS'}, {'id': " +
+            "'820bd13a-f565-4778-a320-9ec9f23b4725', 'name': 'DC-T-9300', 'type': 'Switches and Hubs', 'ip': " +
+            "'204.1.1.22', 'ingressInterface': {'physicalInterface': {'id': 'c98d09f3-b57e-468f-a9a1-65e75249e94f', " +
+            "'name': 'TenGigabitEthernet1/1/8', 'vrfName': 'global', 'usedVlan': 'NA'}}, 'egressInterface': " +
+            "{'physicalInterface': {'id': '2897a064-9079-4c9c-adf2-3e0b5cf22724', 'name': 'TenGigabitEthernet1/1/7', " +
+            "'vrfName': 'global', 'usedVlan': 'NA'}}, 'role': 'ACCESS', 'linkInformationSource': 'ISIS'}, {'id': " +
+            "'0be10e21-34c7-4c76-b217-56327ed1f418', 'name': 'NY-BN-9300', 'type': 'Switches and Hubs', 'ip': '204.1.2.4', " +
+            "'ingressInterface': {'physicalInterface': {'id': 'f24b433c-8388-453e-a034-fcaf516bc749', 'name': " +
+            "'TenGigabitEthernet2/1/8', 'vrfName': 'global', 'usedVlan': 'NA'}}, 'role': 'DISTRIBUTION'}]}, {'request': " +
+            "{'sourceIP': '204.1.1.2', 'destIP': '204.1.2.4', 'periodicRefresh': False, 'id': " +
+            "'da08dbb7-86d5-4b69-adab-d83c322265a9', 'status': 'COMPLETED', 'createTime': 1743740260451, 'lastUpdateTime': " +
+            "1743740261793, 'controlPath': False}, 'lastUpdate': 'Fri Apr 04 04:21:00 GMT 2025', 'networkElementsInfo': " +
+            "[{'id': '99b62ead-51d6-4bfc-9b0c-dab087f184e9', 'name': 'SJ-BN-9301', 'type': 'Switches and Hubs', 'ip': " +
+            "'204.1.1.2', 'egressInterface': {'physicalInterface': {'id': '44aafd2d-5822-4ce5-95c5-11909e9425f6', 'name': " +
+            "'TenGigabitEthernet1/1/1', 'vrfName': 'global', 'usedVlan': 'NA'}}, 'role': 'ACCESS', 'linkInformationSource': " +
+            "'ISIS'}, {'id': 'e62e6405-13e4-4f1b-ae1c-580a28a96a88', 'name': 'SJ-BN-9301', 'type': 'Switches and Hubs', " +
+            "'ip': '204.1.2.3', 'ingressInterface': {'physicalInterface': {'id': '0610f80e-09fc-4083-8aaa-7cf318b211de', " +
+            "'name': 'TenGigabitEthernet1/1/2', 'vrfName': 'global', 'usedVlan': 'NA'}}, 'egressInterface': " +
+            "{'physicalInterface': {'id': 'b65f159e-b67d-49d4-92d0-801a0eda6426', 'name': 'TenGigabitEthernet1/1/7', " +
+            "'vrfName': 'global', 'usedVlan': 'NA'}}, 'role': 'DISTRIBUTION', 'linkInformationSource': 'ISIS'}, " +
+            "{'id': '820bd13a-f565-4778-a320-9ec9f23b4725', 'name': 'DC-T-9300', 'type': 'Switches and Hubs', " +
+            "'ip': '204.1.1.22', 'ingressInterface': {'physicalInterface': {'id': 'c98d09f3-b57e-468f-a9a1-65e75249e94f', " +
+            "'name': 'TenGigabitEthernet1/1/8', 'vrfName': 'global', 'usedVlan': 'NA'}}, 'egressInterface': " +
+            "{'physicalInterface': {'id': '2897a064-9079-4c9c-adf2-3e0b5cf22724', 'name': 'TenGigabitEthernet1/1/7', " +
+            "'vrfName': 'global', 'usedVlan': 'NA'}}, 'role': 'ACCESS', 'linkInformationSource': 'ISIS'}, {'id': " +
+            "'0be10e21-34c7-4c76-b217-56327ed1f418', 'name': 'NY-BN-9300', 'type': 'Switches and Hubs', 'ip': " +
+            "'204.1.2.4', 'ingressInterface': {'physicalInterface': {'id': 'f24b433c-8388-453e-a034-fcaf516bc749', " +
+            "'name': 'TenGigabitEthernet2/1/8', 'vrfName': 'global', 'usedVlan': 'NA'}}, 'role': 'DISTRIBUTION'}]}]'. " +
+            "Unable to create the following path '['9e7f5c5b-58b7-4bcd-8771-021629f076b3', {'flow_analysis_id': " +
+            "'9e7f5c5b-58b7-4bcd-8771-021629f076b3', 'delete_on_completion': True}]'."
         )
 
     def test_path_trace_workflow_manager_playbook_pathtrace_positive_create(self):
@@ -139,7 +176,7 @@ class TestDnacPathTraceWorkflowManager(TestDnacModule):
             result.get("msg"),
             "Path trace created and verified successfully for '[{'source_ip': '204.1.216.29', " +
             "'dest_ip': '204.1.216.33', 'protocol': 'TCP', 'periodic_refresh': False, " +
-            "'control_path': False, 'include_stats': ['DEVICE_STATS', 'INTERFACE_STATS', " +
+            "'include_stats': ['DEVICE_STATS', 'INTERFACE_STATS', " +
             "'QOS_STATS', 'PERFORMANCE_STATS'], 'flow_analysis_id': '75da3867-1e08-4661-9f4e-f8e2740b71b5'}]'."
         )
 
@@ -169,6 +206,6 @@ class TestDnacPathTraceWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("msg"),
             "Path trace deleted and verified successfully for '[{'source_ip': '204.1.216.29', " +
-            "'dest_ip': '204.1.216.33', 'protocol': 'TCP', 'periodic_refresh': False, 'control_path': False, " +
+            "'dest_ip': '204.1.216.33', 'protocol': 'TCP', 'periodic_refresh': False, " +
             "'include_stats': ['DEVICE_STATS', 'INTERFACE_STATS', 'QOS_STATS', 'PERFORMANCE_STATS']}]'."
         )

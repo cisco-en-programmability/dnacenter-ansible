@@ -1626,8 +1626,118 @@ releases:
   6.34.0:
     release_date: "2025-06-03"
     changes:
-      release_summary: Changes in request modules
+      release_summary: Added compatibility with Cisco version 3.1.3.0
       minor_changes:
+        - Added compatibility with Cisco version 3.1.3.0 -all corresponding modules were added-.
+        - API Modules 2_2_2_3, 2_2_3_3, 2_3_3_0 were removed
         - Changes in assurance_issue_workflow_manager workflow manager module
         - New enhancment in template_workflow_manager workflow manager module
         - Added attribute 'resource_parameters' and 'copy_config' in 'template_workflow_manager' module
+        - All alias modules were removed  -*v1-.
+
+  6.35.0:
+    release_date: "2025-06-12"
+    changes:
+      release_summary: Changes in workflow manager module
+      minor_changes:
+        - Changes in application_policy_workflow_manager workflow manager module
+        - Changes in assurance_device_health_score_settings_workflow_manager module
+        - Changes in assurance_issue_workflow_manager workflow manager module
+        - Changes in path_trace_workflow_manager module
+        - Removed attribute 'application_sets' and 'application' in 'application_policy_workflow_manager' module
+        - Removed attribute 'control_path'  in 'path_trace_workflow_manager' module
+
+  6.36.0:
+    release_date: "2025-07-04"
+    changes:
+      release_summary: Changes in workflow manager module
+      bugfixes:
+        - Fixed get in sites_telemetry_settings module
+      minor_changes:
+        - Update dnacentersdk requirement from 2.7.0 to 2.10.1
+        - Changes in lan_automation_create module
+        - Added create in configuration_template module
+
+  6.37.0:
+    release_date: "2025-07-22"
+    changes:
+      release_summary: Changes in workflow manager module
+      minor_changes:
+        - Changes in networks_profile module
+        - Changes in validation.py module
+        - Adding log messages and minor documentation changes in accesspoint_workflow_manager module
+        - Changes in application_policy_workflow_manager workflow manager module
+        - Enhancements in assurance_issue_workflow_manager module to support ignore duration
+        - Documentation changes in device_configs_backup_workflow_manager module
+        - Changes in device_credential_workflow_manager module
+        - Changes in discovery_workflow_manager module
+        - Changes in inventory_workflow_manager module
+        - Changes in network_profile_switching_workflow_manager module
+        - Changes in network_profile_wireless_workflow_manager module
+        - Changes in path_trace_workflow_manager module
+        - Changes in pnp_workflow_manager module
+        - Changes in sda_fabric_virtual_networks_workflow_manager module
+        - Changes in sda_host_port_onboarding_workflow_manager module
+        - Changes in provision_workflow_manager module
+        - Changes in site_workflow_manager module
+        - Changes in swim_workflow_manager module
+        - Changes in tags_workflow_manager module
+        - Changes in template_workflow_manager module
+        - Changes in user_role_workflow_manager module
+        - Changes in wireless_design_workflow_manger module
+        - Added attribute 'ignore_duration' in assurance_issue_workflow_manager module
+        - Added attribute 'new_name' in tags_workflow_manager module
+        - Added attributes 'commit' and 'version' in template_workflow_manager module
+
+  6.38.0:
+    release_date: "2025-08-07"
+    changes:
+      release_summary: Changes in workflow manager module
+      minor_changes:
+        - Changes in device_configs_backup_workflow_manager module
+        - Documentation changes in inventory_workflow_manager module
+        - Changes in network_settings_workflow_manager module
+        - Changes in sda_fabric_devices_workflow_manager module
+        - Changes in sda_fabric_multicast_workflow_manager module
+        - Changes in site_workflow_manager module
+        - Changes in template_workflow_manager module
+        - Changes in dnac.py module
+        - Added attribute 'config_file_types' in device_configs_backup_workflow_manager module
+        - Added attribute 'device_controllability_details' in network_settings_workflow_manager module
+        - Added attribute 'wireless_controller_settings' in sda_fabric_devices_workflow_manager module
+        - Added attribute 'projects' in template_workflow_manager module
+
+  6.39.0:
+    release_date: "2025-08-18"
+    changes:
+      release_summary: Enhancements in workflow manager modules
+      minor_changes:
+        - Changes in assurance_icap_settings_workflow_manager module
+        - Documentation changes in assurance_issue_workflow_manager module
+        - Changes in inventory_workflow_manager module
+        - Changes in provision_workflow_manager module
+        - Changes in sda_host_port_onboarding_workflow_manager module
+        - Changes in sda_fabric_devices_workflow_manager module
+        - Changes in template_workflow_manager module
+        - Added attribute 'template_description' in template_workflow_manager module
+        - Removed attribute 'description' in template_workflow_manager module
+
+  6.40.0:
+    release_date: "2025-09-17"
+    changes:
+      release_summary: Enhancements in workflow manager modules
+      minor_changes:
+        - Changes in assurance_icap_settings_workflow_manager module
+        - Changes in assurance_issue_workflow_manager module
+        - Changes in inventory_workflow_manager module
+        - Changes in network_profile_switching_workflow_manager module
+        - Changes in network_settings_workflow_manager module
+        - Changes in sda_fabric_devices_workflow_manager module
+        - Changes in sda_fabric_sites_zones_workflow_manager module
+        - Changes in sda_fabric_transits_workflow_manager module
+        - Changes in sda_virtual_networks_workflow_manager module
+        - Changes in template_workflow_manager module
+        - Added attribute 'slots' in assurance_icap_settings_workflow_manager module
+        - Removed attribute 'slot' in assurance_icap_settings_workflow_manager module
+        - Added attribute 'transit_site_hierarchy' in sda_fabric_transits_workflow_manager module
+        - Added attributes 'wireless_flooding_enable', 'resource_guard_enable', 'flooding_address_assignment', 'flooding_address' in sda_fabric_transits_workflow_manager module

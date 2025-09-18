@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2024, Cisco Systems
+# Copyright (c) 2025, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
@@ -9,162 +9,274 @@ __author__ = (
 DOCUMENTATION = r"""
 ---
 module: site_workflow_manager
-short_description: Resource module for Site operations
+short_description: Manage hierarchical sites in Cisco Catalyst Center
 description:
-  - Manage operation create, bulk create, update and delete of the resource Sites.
-  - Creates site with area/building/floor with specified hierarchy.
-  - Create multiple sites (area, building, or floor) with specified hierarchies in
-    bulk.
-  - Updates site with area/building/floor with specified hierarchy.
-  - Deletes site with area/building/floor with specified hierarchy.
+  - Complete management of sites in Cisco Catalyst Center, including hierarchical structures of areas, buildings, and floors.
+  - Creates single or multiple sites with specified hierarchical relationships.
+  - Updates existing site configurations, including physical attributes and RF characteristics.
+  - Deletes sites and their components when no longer needed.
+  - Supports bulk operations for efficiently managing multiple sites simultaneously.
+  - Handles floor maps and RF modeling for wireless network planning.
+  - Provides verification of site configurations after changes are applied.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary)
-  Abhishek Maheshwari (@abhishekmaheshwari) Megha Kandari (@kandarimegha) Sonali Deepthi
-  Kesali (@skesali)
+author:
+  - Madhan Sankaranarayanan (@madhansansel)
+  - Rishita Chowdhary (@rishitachowdhary)
+  - Abhishek Maheshwari (@abhishekmaheshwari)
+  - Megha Kandari (@kandarimegha)
+  - Sonali Deepthi Kesali (@skesali)
 options:
   config_verify:
-    description: Set to true to verify the Cisco Catalyst Center config after applying
-      the playbook config.
+    description:
+      - Controls whether to verify site configurations after applying changes.
+      - When set to true, the module will confirm that site creation, updates, or deletion
+        operations have been successfully completed in Cisco Catalyst Center.
     type: bool
     default: false
   state:
-    description: The state of Catalyst Center after module completion.
+    description:
+      - Defines the intended state of the sites after module execution.
+      - C(merged) will create new sites or update existing ones.
+      - C(deleted) will remove the specified sites from Cisco Catalyst Center.
     type: str
-    choices: [merged, deleted]
-    default: merged
+    choices: ["merged", "deleted"]
+    default: "merged"
   config:
-    description: It represents a list of details for creating/managing/deleting sites,
-      including areas, buildings, and floors.
+    description:
+      - List of site configurations to be created, updated, or deleted.
+      - Each item represents a single site operation.
+      - Required for all operations as it defines the target sites and their configurations.
     type: list
     elements: dict
     required: true
     suboptions:
       site_type:
-        description: Type of site to create/update/delete (eg area, building, floor).
+        description:
+          - Specifies the type of site component to manage.
+          - Must be one of "area", "building", or "floor".
         type: str
+        required: true
+        choices:
+          - "area"
+          - "building"
+          - "floor"
       site:
-        description: Contains details about the site being managed including areas,
-          buildings and floors.
+        description:
+          - Contains the detailed configuration for the site being managed.
+          - Only one site component type (area, building, or floor) should be specified in each config entry.
         type: dict
         suboptions:
           area:
-            description: Configuration details for creating or managing an area within
-              a site.
+            description:
+              - Configuration specific to an area-type site.
+              - Areas represent the highest level in the site hierarchy, typically representing
+                geographical regions, campuses, or other logical divisions.
             type: dict
             suboptions:
               name:
-                description: Name of the area to be created or managed (e.g., "Area1").
+                description:
+                  - Name of the area to create, update, or delete.
+                  - Must be unique within its parent site.
                 type: str
+                required: true
               parent_name:
-                description: The full name of the parent under which the area will
-                  be created/managed/deleted (e.g., "Global/USA").
+                description:
+                  - Full hierarchical path of the parent site.
+                  - Format should be slash-separated notation (For example, "Global/USA").
+                  - For top-level areas, the parent is typically "Global".
                 type: str
+                required: true
           building:
-            description: Configuration details required for creating or managing a
-              building within a site.
+            description:
+              - Configuration specific to a building-type site.
+              - Buildings represent physical structures within an area and contain floors.
             type: dict
             suboptions:
               address:
-                description: Physical address of the building that is to be created
-                  or managed.
+                description:
+                  - Physical street address of the building.
+                  - Used for geographical positioning and identification.
                 type: str
+                required: true
               latitude:
-                description: |
-                  Geographical latitude coordinate of the building. For example, use 37.338 for a location in San Jose, California.
-                  Valid values range from -90.0 to +90.0 degrees.
+                description:
+                  - Geographical latitude coordinate of the building.
+                  - Must be between -90.0 and +90.0 degrees.
+                  - For Example, 37.338 for a location in San Jose, California.
+                  - Required for creating buildings, optional when updating.
                 type: float
+                required: true
               longitude:
-                description: |
-                  Geographical longitude coordinate of the building. For example, use -121.832 for a location in San Jose, California.
-                  Valid values range from -180.0 to +180.0 degrees.
+                description:
+                  - Geographical longitude coordinate of the building.
+                  - Must be between -180.0 and +180.0 degrees.
+                  - For Example, -121.832 for a location in San Jose, California.
+                  - Required for creating buildings, optional when updating.
                 type: float
+                required: true
               name:
-                description: Name of the building (e.g., "Building1").
+                description:
+                  - Name of the building to create, update, or delete.
+                  - Must be unique within its parent area.
                 type: str
+                required: true
               parent_name:
-                description: Hierarchical parent path of the building, indicating
-                  its location within the site (e.g., "Global/USA/San Francisco").
+                description:
+                  - Full hierarchical path of the parent area.
+                  - Format should be slash-separated (e.g., "Global/USA/California").
+                  - The parent must exist before creating the building.
+                type: str
+                required: true
+              country:
+                description:
+                  - The country where the building is located.
+                  - Optional parameter for additional geolocation context.
                 type: str
           floor:
-            description: Configuration details required for creating or managing a
-              floor within a site.
+            description:
+              - Configuration specific to a floor-type site.
+              - Floors represent levels within a building and can contain network devices and floor plans.
             type: dict
             suboptions:
               height:
-                description: Height of the floor in feet (e.g., 15.23).
+                description:
+                  - Height of the floor in the specified units (default is feet).
+                  - Represents the ceiling height, important for RF planning and signal propagation modeling.
                 type: float
+                required: true
               length:
-                description: Length of the floor in feet (e.g., 100.11).
+                description:
+                  - Length of the floor in the specified units (default is feet).
+                  - Used for defining the floor dimensions for mapping purposes.
                 type: float
+                required: true
               name:
-                description: Name of the floor (e.g., "Floor-1").
+                description:
+                  - Name of the floor to create, update, or delete.
+                  - Must be unique within its parent building.
                 type: str
+                required: true
               parent_name:
-                description: |
-                  Hierarchical parent path of the floor, indicating its location within the site (e.g.,
-                  "Global/USA/San Francisco/BGL_18").
+                description:
+                  - Full hierarchical path of the parent building.
+                  - Format should be slash-separated notation (For example, "Global/USA/California/Building_1").
                 type: str
+                required: true
               rf_model:
                 description: |
-                  The RF (Radio Frequency) model type for the floor, which is essential for simulating and optimizing wireless
-                  network coverage. Select from the following allowed values, which describe different environmental signal propagation
-                  characteristics.
-                  Type of floor (allowed values are 'Cubes And Walled Offices', 'Drywall Office Only', 'Indoor High Ceiling',
-                  'Outdoor Open Space').
-                  Cubes And Walled Offices - This RF model typically represents indoor areas with cubicles or walled offices, where
-                      radio signals may experience attenuation due to walls and obstacles.
-                  Drywall Office Only - This RF model indicates an environment with drywall partitions, commonly found in office spaces,
-                      which may have moderate signal attenuation.
-                  Indoor High Ceiling - This RF model is suitable for indoor spaces with high ceilings, such as auditoriums or atriums,
-                      where signal propagation may differ due to the height of the ceiling.
-                  Outdoor Open Space - This RF model is used for outdoor areas with open spaces, where signal propagation is less obstructed
-                      and may follow different patterns compared to indoor environments.
+                  RF (Radio Frequency) model type for the floor, essential for wireless network planning.
+                  Select one of the following options based on your environment:
+
+                  - "Cubes And Walled Offices": For indoor areas with cubicles or walled offices, where
+                    signal propagation is affected by walls and partitions.
+                  - "Drywall Office Only": For environments with drywall partitions (typically office spaces),
+                    which have moderate signal attenuation.
+                  - "Indoor High Ceiling": For spaces with high ceilings (e.g., auditoriums, warehouses),
+                    where vertical propagation patterns differ significantly.
+                  - "Outdoor Open Space": For outdoor areas with minimal obstruction, suitable for
+                    outdoor deployments or open campuses.
+
+                  The chosen RF model affects how the system calculates wireless coverage and capacity.
                 type: str
+                choices:
+                  - "Cubes And Walled Offices"
+                  - "Drywall Office Only"
+                  - "Indoor High Ceiling"
+                  - "Outdoor Open Space"
+                required: true
               width:
-                description: Width of the floor in feet (e.g., 100.22).
+                description:
+                  - Width of the floor in the specified units (default is feet).
+                  - Used for defining the floor dimensions for mapping purposes.
                 type: float
+                required: true
               floor_number:
                 description: |
-                  Floor number within the building site (e.g., 5). This value can only be specified during the creation of the
-                  floor and cannot be modified afterward.
-                  It is required from version 2.3.7.6 onwards.
+                  Numerical identifier for the floor within the building.
+                  - Required for floor creation from Catalyst Center version 2.3.7.6 onwards.
+                  - Once set, this value cannot be modified.
+                  - For example, 1 for first floor, 0 for ground floor, -1 for basement.
                 type: int
+                required: true
               units_of_measure:
                 description: |
-                  Specifies the unit of measurement for floor dimensions, such as 'feet' or 'meters'.
-                  This field was introduced in version 2.3.7.6 onwards.
-                  default: feet
+                  Unit of measurement for floor dimensions (height, length, and width).
+                  - Available from Catalyst Center version 2.3.7.6 onwards.
+                  - Default is 'feet' if not specified.
                 type: str
+                choices: ["feet", "meters"]
+                default: "feet"
               upload_floor_image_path:
-                description: |
-                  File path for the floor image to be uploaded (e.g., "/path/to/floor_image.png").
-                  Ensure the image is in a supported format such as JPG, PNG, or PDF.
-                  "upload_floor_image_path" parameter not supported for 2.3.5.3 Catalyst Center and only applicable from
-                  2.3.7.6 Catalyst version onwards
+                description:
+                  - Local file path to an image that will be uploaded as the floor plan.
+                  - Supported formats include JPG, PNG, and PDF.
+                  - Feature available from Catalyst Center version 2.3.7.6 onwards.
+                type: str
               force_upload_floor_image:
                 description: |
-                  If set to `true`, the floor image will be uploaded during the process.
-                  If set to `false`, the floor image upload will be skipped.
-                  During floor creation, if `upload_floor_image_path` is not provided, the image will not be uploaded.
-                  During floor update, if `force_upload_floor_image` is set to `False`, the image will not be uploaded, even if the path is provided.
-                  If `force_upload_floor_image` is "True", the image will be uploaded regardless of the path provided.
+                  Controls whether to upload or update the floor image.
+                  - When true, the floor image specified in upload_floor_image_path will be uploaded
+                    or updated, even if the floor already has an image.
+                  - When false, image upload is skipped during updates.
+                  - During initial floor creation, if upload_floor_image_path is provided, the image
+                    will be uploaded regardless of this setting.
+                  - Set to true to replace an existing floor image during an update operation.
                 type: bool
                 default: false
 requirements:
   - dnacentersdk == 2.4.5
   - python >= 3.9
+seealso:
+  - name: Cisco Catalyst Center API Documentation
+    description: Complete API reference for device management.
+    link: https://developer.cisco.com/docs/dna-center/
+  - name: Site Management API
+    description: Specific documentation for site operations in Catalyst Center version.
+    link: https://developer.cisco.com/docs/dna-center/#!sites
 notes:
-  - SDK Method used are sites.Sites.create_site, sites.Sites.update_site, sites.Sites.delete_site
-    site.Sites.create_sites site.Sites.update_a_floor site.Sites.update_a_building
-    site.Sites.update_an_area site.Sites.delete_a_floor site.Sites.delete_a_building
-    site.Sites.delete_an_area site.Sites.get_site_assigned_network_devices
-  - Paths used are POST /dna/intent/api/v1/site, PUT dna/intent/api/v1/site/{siteId},
-    DELETE dna/intent/api/v1/site/{siteId} DELETE/dna/intent/api/v2/buildings/{id}
-    DELETE/dna/intent/api/v1/areas/{id} DELETE/dna/intent/api/v2/floors/{id} PUT/dna/intent/api/v2/floors/{id}
-    PUT/dna/intent/api/v1/areas/{id} PUT/dna/intent/api/v2/buildings/{id} GET/dna/intent/api/v1/sites
-    POST/dna/intent/api/v1/sites/bulk GET/dna/intent/api/v1/networkDevices/assignedToSite
+  # Version Compatibility
+    - Floor number and units_of_measure require Catalyst Center version 2.3.7.6 or later.
+    - Floor image upload is available from version 2.3.7.6 onwards.
+    - Module requires dnacentersdk 2.4.5 or later.
+
+  # API Methods and Endpoints
+    - Primary SDK Methods
+        - sites.Sites.create_site, sites.Sites.update_site, sites.Sites.delete_site
+        - site.Sites.create_sites, site.Sites.update_a_floor, site.Sites.update_a_building
+        - site.Sites.update_an_area, site.Sites.delete_a_floor, site.Sites.delete_a_building
+        - site.Sites.delete_an_area, site.Sites.get_site_assigned_network_devices
+    - API Endpoints
+        - POST /dna/intent/api/v1/site, PUT dna/intent/api/v1/site/{siteId}
+        - DELETE dna/intent/api/v1/site/{siteId} DELETE/dna/intent/api/v2/buildings/{id}
+        - DELETE/dna/intent/api/v1/areas/{id} DELETE/dna/intent/api/v2/floors/{id} PUT/dna/intent/api/v2/floors/{id}
+        - PUT/dna/intent/api/v1/areas/{id} PUT/dna/intent/api/v2/buildings/{id} GET/dna/intent/api/v1/sites
+        - POST/dna/intent/api/v1/sites/bulk GET/dna/intent/api/v1/networkDevices/assignedToSite
+
+  # Hierarchical Site Management
+    - Sites must be created in order - areas first, then buildings, then floors.
+    - Deleting a parent site will automatically delete all child sites.
+
+  # Floor-Specific Considerations
+    - RF models significantly impact wireless planning and should be selected based on the actual physical environment.
+    - Floor dimensions (height, length, width) and RF models can be updated after creation, but floor_number cannot be modified once set.
+    - Floor images, once uploaded, remain associated with the floor until explicitly replaced using force_upload_floor_image to true.
+    - Large floor plan images may take time to upload; ensure the connection to Catalyst Center remains stable during upload.
+
+  # Geographic Coordinates
+    - Latitude must be between -90.0 and +90.0 degrees, with positive values representing north of the equator.
+    - Longitude must be between -180.0 and +180.0 degrees, with positive values representing east of the prime meridian.
+    - Use precise coordinates for buildings to ensure accurate positioning on maps and integration with location services.
+
+  # Operational Best Practices
+    - Use unique names for sites to avoid confusion in complex hierarchies.
+    - For bulk operations, limit the number of sites to avoid timeout issues.
+
+  # Performance and Limitations:
+    - Floor image uploads for multiple floors may impact performance; consider spreading large uploads across multiple tasks.
+    - Site operations on a large scale (many floors or buildings) may take considerable time to complete.
+    - Site names are case-sensitive in Catalyst Center; ensure consistent casing in your playbooks.
 """
 EXAMPLES = r"""
 - name: Create a new area site
@@ -185,6 +297,7 @@ EXAMPLES = r"""
             name: Test
             parent_name: Global/India
         site_type: area
+
 - name: Create a new building site
   cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -206,6 +319,7 @@ EXAMPLES = r"""
             latitude: 24.12
             longitude: 23.45
         site_type: building
+
 - name: Create a Floor site under the building
   cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -229,6 +343,7 @@ EXAMPLES = r"""
             rf_model: Cubes And Walled Offices
             floor_number: 2
         site_type: floor
+
 - name: Updating the Floor details under the building
   cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -250,6 +365,7 @@ EXAMPLES = r"""
             width: 35.54
             height: 30.12
         site_type: floor
+
 - name: Deleting any site you need site name and parent name
   cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -268,6 +384,7 @@ EXAMPLES = r"""
             name: Floor_1
             parent_name: Global/India/Building_1
         site_type: floor
+
 - name: Create bulk sites and upload floor map
   cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -326,98 +443,118 @@ EXAMPLES = r"""
 RETURN = r"""
 #Case_1: Site is successfully created/updated/deleted
 response_1:
-  description: A dictionary with API execution details as returned by the Cisco Catalyst Center Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response":
-        {
-             "bapiExecutionId": String,
-             "bapiKey": String,
-             "bapiName": String,
-             "endTime": String,
-             "endTimeEpoch": 0,
-             "runtimeInstanceId": String,
-             "siteId": String,
-             "startTime": String,
-             "startTimeEpoch": 0,
-             "status": String,
-             "timeDuration": 0
-        },
-      "msg": "string"
-    }
-#Case_2: Site exits and does not need an update
-response_2:
-  description: A dictionary with existing site details.
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response":
+    description:
+      - Detailed API execution results when a site is successfully created, updated, or deleted.
+      - Contains execution IDs, timestamps, status, and site identifiers.
+    returned: when a site operation succeeds
+    type: dict
+    sample: >
       {
-        "site": {},
-        "siteId": String,
-        "type": String
-      },
-      "msg": String
-    }
+        "response":
+          {
+               "bapiExecutionId": "2f259f38-a005-4f44-9feb-a168312b503c",
+               "bapiKey": "12345",
+               "bapiName": "Sites",
+               "endTime": "2025-07-25 14:32:45",
+               "endTimeEpoch": 1658756565000,
+               "runtimeInstanceId": "cisco-catc-01",
+               "siteId": "9d963198-8ea0-4b1b-afe7-04401c9fd345",
+               "startTime": "2025-07-25 14:32:30",
+               "startTimeEpoch": 1658756550000,
+               "status": "SUCCESS",
+               "timeDuration": 15
+          },
+        "msg": "Site Global/USA/California/San Jose/Building_1 successfully created"
+      }
+
+#Case_2: Site exists and does not need an update
+response_2:
+    description:
+      - Information about sites that already exist and do not require an update.
+      - Useful for idempotency checks and verification that sites are in the desired state.
+    returned: when a site exists but doesn't need updating
+    type: dict
+    sample: >
+      {
+        "response":
+        {
+          "site": {
+            "area": {
+              "name": "California",
+              "parentName": "Global/USA"
+            }
+          },
+          "siteId": "9d963198-8ea0-4b1b-afe7-04401c9fd345",
+          "type": "area"
+        },
+        "msg": "Site Global/USA/California already exists with the requested configuration"
+      }
+
 #Case_3: Error while creating/updating/deleting site
 response_3:
-  description: A dictionary with API execution details as returned by the Cisco Catalyst Center Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response":
-        {
-             "bapiError": String,
-             "bapiExecutionId": String,
-             "bapiKey": String,
-             "bapiName": String,
-             "endTime": String,
-             "endTimeEpoch": 0,
-             "runtimeInstanceId": String,
-             "startTime": String,
-             "startTimeEpoch": 0,
-             "status": String,
-             "timeDuration": 0
-        },
-      "msg": "string"
-    }
+    description:
+      - Error details when site creation, update, or deletion operations fail.
+      - Contains error messages, execution IDs, and timestamps to assist with troubleshooting.
+    returned: when a site operation fails
+    type: dict
+    sample: >
+      {
+        "response":
+          {
+               "bapiError": "Parent site Global/NonExistentArea does not exist",
+               "bapiExecutionId": "3e8721a9-b56f-43c2-8d01-5d7b318f7e22",
+               "bapiKey": "12345",
+               "bapiName": "Sites",
+               "endTime": "2025-07-25 14:33:15",
+               "endTimeEpoch": 1658756595000,
+               "runtimeInstanceId": "cisco-catc-01",
+               "startTime": "2025-07-25 14:33:00",
+               "startTimeEpoch": 1658756580000,
+               "status": "FAILURE",
+               "timeDuration": 15
+          },
+        "msg": "Failed to create site: Parent site does not exist"
+      }
+
 #Case_4: Site not found when atempting to delete site
 response_4:
-  description: A list with the response returned by the Cisco Catalyst Center Python
-  returned: always
-  type: list
-  sample: >
-    {
-       "response": [],
-       "msg": String
-    }
+    description:
+      - Empty response returned when attempting to delete a site that doesn't exist.
+      - Helps identify when deletion operations target non-existent sites.
+    returned: when trying to delete a site that doesn't exist
+    type: list
+    sample: >
+      {
+         "response": [],
+         "msg": "Site Global/USA/California/NonExistentBuilding not found for deletion"
+      }
+
 #Case_5: Bulk site created successfully
 response_5:
-  description: A dictionary with API task details as returned by the Cisco Catalyst Center Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-        "response": {
-            "startTime": 1725427091204,
-            "version": 1725427091204,
-            "progress": "{\"TOTAL\":0,\"VALIDATION_FAILURE_COUNT\":0,\"VALIDATION_SUCCESS_COUNT\":0,\
-            "VALIDATION_PENDING_COUNT\":0,\"CRAETION_SUCCESS_COUNT\":0,\"message\":\
-            "Group import is in progress.Count will be updated shortly.\"}",
-            "serviceType": "Grouping Service",
-            "operationIdList": [
-            "3e7f1f73-b6f8-4ac6-b925-22e372e72510"
-            ],
-            "isError": False,
-            "instanceTenantId": "6663114d388b29001399e46a",
-            "id": "0191bb78-0704-767c-94c6-95a6e5a511d1"
-        },
-        "version": "1.0"
-    }
+    description:
+      - Task status information for bulk site creation operations.
+      - Includes progress indicators, operation IDs, and status details.
+    returned: when bulk site creation is performed
+    type: dict
+    sample: >
+      {
+          "response": {
+              "startTime": 1725427091204,
+              "version": 1725427091204,
+              "progress": "{\"TOTAL\":3,\"VALIDATION_FAILURE_COUNT\":0,\"VALIDATION_SUCCESS_COUNT\":3,\
+              "VALIDATION_PENDING_COUNT\":0,\"CRAETION_SUCCESS_COUNT\":3,\"message\":\
+              "Group import completed successfully.\"}",
+              "serviceType": "Grouping Service",
+              "operationIdList": [
+              "3e7f1f73-b6f8-4ac6-b925-22e372e72510"
+              ],
+              "isError": false,
+              "instanceTenantId": "6663114d388b29001399e46a",
+              "id": "0191bb78-0704-767c-94c6-95a6e5a511d1"
+          },
+          "version": "1.0",
+          "msg": "Successfully created 3 sites in bulk operation"
+      }
 """
 
 floor_plan = {
@@ -474,6 +611,7 @@ class Site(DnacBase):
             self.msg = "Configuration is not available in the playbook for validation"
             self.log("Error: {0}".format(self.msg), "ERROR")
             return self
+
         self.log("Configuration details found in the playbook: {0}".format(self.config), "INFO")
         temp_spec = dict(
             type=dict(required=False, type='str'),
@@ -483,6 +621,17 @@ class Site(DnacBase):
         valid_temp, invalid_params = validate_list_of_dicts(
             self.config, temp_spec
         )
+
+        if valid_temp and isinstance(valid_temp, list):
+            self.log("Valid site configurations received: {0}".format(
+                len(valid_temp)), "DEBUG")
+            duplicate_site_names = self.find_duplicate_site_name(valid_temp)
+            if duplicate_site_names:
+                msg = "Duplicate site names found in the playbook config: {0}".format(
+                    ", ".join(duplicate_site_names)
+                )
+                self.log(msg, "ERROR")
+                invalid_params.append(msg)
 
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(
@@ -498,6 +647,84 @@ class Site(DnacBase):
         self.status = "success"
 
         return self
+
+    def find_duplicate_site_name(self, input_config):
+        """
+        Identifies duplicate site names under the same parent from a list of site dictionaries.
+        Args:
+            input_config (list): A list of dictionaries containing site information.
+        Returns:
+            list: A list of strings in the form "parent/name" that appear more than once.
+        """
+        self.log("Starting duplicate site name check.", "DEBUG")
+        seen_sites = set()
+        duplicates = set()
+
+        for index, entry in enumerate(input_config, start=1):
+            self.log("Processing entry {0}: {1}".format(index, entry), "DEBUG")
+            site = entry.get("site", {})
+            if not site:
+                self.log("Entry {0} does not contain a 'site' key or it is empty. Skipping.".format(
+                    index),
+                    "WARNING"
+                )
+                continue
+
+            site_types = ["area", "building", "floor"]
+            site_name = None
+            parent_name = None
+            site_type_found = False  # Flag to track if any valid site type was found
+
+            for site_type in site_types:
+                if site_type in site:
+                    site_data = site[site_type]
+                    site_name = site_data.get("name")
+                    parent_name = site_data.get("parentName") or site_data.get("parent_name")
+                    self.log(
+                        "Found site type '{0}' with name '{1}' and parent '{2}' in entry {3}.".format(
+                            site_type, site_name, parent_name, index
+                        ),
+                        "DEBUG"
+                    )
+                    site_type_found = True
+                    break
+
+            if not site_type_found:
+                self.log("No recognized site type (area, building, floor) found in site data for entry {0}. Skipping.".format(
+                    index),
+                    "WARNING"
+                )
+                continue
+
+            if not site_name or not parent_name:
+                self.log("Site name ('{0}') or parent name ('{1}') is missing or invalid in entry {2}. Skipping.".format(
+                    site_name, parent_name, index),
+                    "WARNING"
+                )
+                continue
+
+            site_key = (parent_name.strip(), site_name.strip())
+
+            if site_key in seen_sites:
+                self.log(
+                    "Duplicate site name found under same parent: {0} (Entry {1}). Adding to duplicates list.".format(
+                        site_key, index), "ERROR"
+                )
+                duplicates.add("{}/{}".format(site_key[0], site_key[1]))
+            else:
+                self.log("Adding site to seen list: {0} (Entry {1})".format(site_key, index), "DEBUG")
+                seen_sites.add(site_key)
+
+        if duplicates:
+            self.log("Duplicate site names detected: {0}".format(", ".join(duplicates)), "ERROR")
+        else:
+            self.log("No duplicate site names found.", "DEBUG")
+
+        self.log("Finished duplicate site name check. Returning {0} duplicates.".format(
+            len(duplicates)),
+            "DEBUG"
+        )
+        return list(duplicates)
 
     def get_current_site(self, site):
         """

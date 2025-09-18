@@ -161,10 +161,10 @@ class NetworkProfileFunctions(DnacBase):
         try:
             response = self.dnac._exec(
                 family="configuration_templates",
-                function="gets_the_templates_available_v1",
+                function="gets_the_templates_available",
                 params={}
             )
-            self.log("Response from gets_the_templates_available_v1 API: {0}".
+            self.log("Response from gets_the_templates_available API: {0}".
                      format(self.pprint(response)), "DEBUG")
 
             if not response or not isinstance(response, list):
@@ -232,8 +232,8 @@ class NetworkProfileFunctions(DnacBase):
 
         try:
             response = self.execute_get_request(
-                "site_design", "retrieves_the_list_of_network_profiles_for_sites_v1", param)
-            self.log("Response from retrieves_the_list_of_network_profiles_for_sites_v1 API: {0}".
+                "site_design", "retrieves_the_list_of_network_profiles_for_sites", param)
+            self.log("Response from retrieves_the_list_of_network_profiles_for_sites API: {0}".
                      format(self.pprint(response)), "DEBUG")
 
             profiles = response.get("response")
@@ -272,9 +272,9 @@ class NetworkProfileFunctions(DnacBase):
 
         try:
             response = self.execute_get_request(
-                "network_settings", "retrieve_cli_templates_attached_to_a_network_profile_v1",
+                "network_settings", "retrieve_cli_templates_attached_to_a_network_profile",
                 param)
-            self.log("Response from retrieve_cli_templates_attached_to_a_network_profile_v1 " +
+            self.log("Response from retrieve_cli_templates_attached_to_a_network_profile " +
                      "API: {0}".format(self.pprint(response)), "DEBUG")
 
             templates = response.get("response")
@@ -314,7 +314,7 @@ class NetworkProfileFunctions(DnacBase):
         """
         self.log("Attaching CLI template '{0}' (ID: {1}) to profile '{2}' (ID: {3})".format(
             template_name, template_id, profile_name, profile_id), "INFO")
-        function_name = "attach_network_profile_to_a_day_n_cli_template_v1"
+        function_name = "attach_network_profile_to_a_day_n_cli_template"
         profile_payload = {
             "profileId": profile_id,
             "template_id": template_id
@@ -353,9 +353,9 @@ class NetworkProfileFunctions(DnacBase):
 
         self.log("Detaching CLI template '{0}' (ID: {1}) from network profile '{2}' (ID: {3})".
                  format(template_name, template_id, profile_name, profile_id), "INFO")
-        function_name = "detach_a_list_of_network_profiles_from_a_day_n_cli_template_v1"
+        function_name = "detach_a_list_of_network_profiles_from_a_day_n_cli_template"
         profile_payload = {
-            "profileId": profile_id,
+            "profile_id": profile_id,
             "template_id": template_id
         }
         try:
@@ -389,7 +389,7 @@ class NetworkProfileFunctions(DnacBase):
         template_response = []
 
         for each_template in templates:
-            template_name = each_template.get("name")
+            template_name = each_template.get("template_name")
             self.log("Checking template: {0}".format(template_name), "DEBUG")
 
             template_exist = each_template.get("template_exist")
@@ -405,8 +405,15 @@ class NetworkProfileFunctions(DnacBase):
             if not previous_templates:
                 self.log("No previous templates to check, attaching '{0}'.".format(
                     template_name), "DEBUG")
-                template_response.append(self.attach_networkprofile_cli_template(
-                    profile_name, profile_id, template_name, template_id))
+
+                template_status = self.attach_networkprofile_cli_template(
+                    profile_name, profile_id, template_name, template_id)
+                if template_status.get("progress"):
+                    msg = "Template '{0}' successfully attached to the network profile".format(
+                        template_name
+                    )
+                    template_response.append(msg)
+
                 continue  # Continue to the next template
 
             # If template already exists in previous templates, skip it
@@ -418,8 +425,14 @@ class NetworkProfileFunctions(DnacBase):
             # Otherwise, attach the template
             self.log("Template '{0}' not found in previous templates, attaching..".format(
                 template_name), "DEBUG")
-            template_response.append(self.attach_networkprofile_cli_template(
-                profile_name, profile_id, template_name, template_id))
+            template_status = self.attach_networkprofile_cli_template(
+                profile_name, profile_id, template_name, template_id)
+
+            if template_status.get("progress"):
+                msg = "Template '{0}' successfully attached to the network profile".format(
+                    template_name
+                )
+                template_response.append(msg)
 
         self.log("Finished processing templates. Total attached: {0}".format(
             len(template_response)), "DEBUG")
@@ -447,7 +460,7 @@ class NetworkProfileFunctions(DnacBase):
         param = {
             "profile_id": profile_id
         }
-        func_name = "retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to_v1"
+        func_name = "retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to"
 
         try:
             response = self.execute_get_request("site_design", func_name, param)
@@ -503,7 +516,9 @@ class NetworkProfileFunctions(DnacBase):
                                 matched_template.append(template)
 
                 if matched_template and data_list and\
-                   len(matched_template) == len(data_list) and not un_match_template:
+                   len(matched_template) <= len(data_list) and not un_match_template:
+                    self.log("Given templates: {0} are matched with existing template: {1}".
+                             format(data_list, each_config.get(template_type)), "DEBUG")
                     return True, matched_template
 
                 if not matched_template and not each_config.get("onboarding_templates") and not each_config.get("day_n_templates"):
@@ -578,7 +593,7 @@ class NetworkProfileFunctions(DnacBase):
 
         try:
             return self.execute_process_task_data(
-                "site_design", "assign_a_network_profile_for_sites_to_the_given_site_v1",
+                "site_design", "assign_a_network_profile_for_sites_to_the_given_site",
                 params
             )
         except Exception as e:
@@ -614,7 +629,7 @@ class NetworkProfileFunctions(DnacBase):
 
         try:
             return self.execute_process_task_data(
-                "site_design", "unassigns_a_network_profile_for_sites_from_multiple_sites_v1",
+                "site_design", "unassigns_a_network_profile_for_sites_from_multiple_sites",
                 param
             )
         except Exception as e:
@@ -648,7 +663,7 @@ class NetworkProfileFunctions(DnacBase):
 
         try:
             return self.execute_process_task_data(
-                "site_design", "deletes_a_network_profile_for_sites_v1", param
+                "site_design", "deletes_a_network_profile_for_sites", param
             )
         except Exception as e:
             error_msg = "Failed to delete network profile '{0}'. ".format(profile_name)
