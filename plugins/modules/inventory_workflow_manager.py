@@ -4946,11 +4946,15 @@ class Inventory(DnacBase):
 
         # Validate recurrence end time relationships
         recurrence_validations = [
-            (epoch_recurr_end_time < epoch_end_time,
-            f"recurrence_end_time ({recurrence_end_time}) must be later than "
-            f"maintenance end_time ({end_time})"),
-            (epoch_recurr_end_time < epoch_current_time,
-            f"recurrence_end_time ({recurrence_end_time}) must be later than current time")
+            (
+                epoch_recurr_end_time < epoch_end_time,
+                f"recurrence_end_time ({recurrence_end_time}) must be later than "
+                f"maintenance end_time ({end_time})"
+            ),
+            (
+                epoch_recurr_end_time < epoch_current_time,
+                f"recurrence_end_time ({recurrence_end_time}) must be later than current time"
+            )
         ]
 
         for condition, error_msg in recurrence_validations:
