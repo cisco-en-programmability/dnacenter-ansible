@@ -4811,9 +4811,9 @@ class Inventory(DnacBase):
             epoch_current_time = self.get_current_time_in_timezone(time_zone)
 
             self.log(
-                    "Add the validation to check start time, end time should be greater than current time",
-                    "DEBUG",
-                )
+                "Add the validation to check start time, end time should be greater than current time",
+                "DEBUG",
+            )
             if epoch_start_time < epoch_current_time:
                 self.msg = (
                     "Parameter 'start_time' must be greater than the current time."
