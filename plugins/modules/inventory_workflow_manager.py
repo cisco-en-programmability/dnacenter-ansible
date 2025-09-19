@@ -4879,12 +4879,9 @@ class Inventory(DnacBase):
 
         # Validate time relationships
         time_validations = [
-            (epoch_start_time < epoch_current_time,
-            "start_time must be greater than the current time"),
-            (epoch_end_time < epoch_current_time,
-            "end_time must be greater than the current time"),
-            (epoch_end_time <= epoch_start_time,
-            "end_time must be greater than start_time")
+            (epoch_start_time < epoch_current_time, "start_time must be greater than the current time"),
+            (epoch_end_time < epoch_current_time, "end_time must be greater than the current time"),
+            (epoch_end_time <= epoch_start_time, "end_time must be greater than start_time")
         ]
 
         for condition, error_msg in time_validations:
