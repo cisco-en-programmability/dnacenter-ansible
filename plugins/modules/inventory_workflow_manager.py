@@ -1233,7 +1233,7 @@ EXAMPLES = r"""
               devices"
             start_time: "2025-04-05 10:30:00"
             end_time: "2025-04-05 11:30:00"
-            ime_zone: "Asia/Kolkata"
+            time_zone: "Asia/Kolkata"
             recurrence_end_time: "2025-04-10 11:40:00"
             recurrence_interval: 2
 - name: Update the maintenance schedule for the devices.
@@ -1499,7 +1499,7 @@ class Inventory(DnacBase):
             "devices_maintenance_schedule": {
                 "type": "list",
                 "elements": "dict",
-                "device_ips": {"type": "list", "elements": "str"},
+                "device_ips": {"type": "list", "elements": "str", "required": True},
                 "description": {"type": "str"},
                 "start_time": {"type": "str"},
                 "time_zone": {"type": "str"},
@@ -2031,7 +2031,7 @@ class Inventory(DnacBase):
             self.msg = "Error while exporting device details into CSV file for device(s): '{0}'".format(
                 str(device_ips)
             )
-            self.log(self.msg, "ERROR")
+            self.log(self.msg + str(e), "ERROR")
             self.status = "failed"
 
         return self
@@ -4810,15 +4810,43 @@ class Inventory(DnacBase):
             epoch_end_time = self.to_epoch_timezone(end_time, time_zone)
             epoch_current_time = self.get_current_time_in_timezone(time_zone)
 
+            self.log(
+                    "Add the validation to check start time, end time should be greater than current time",
+                    "DEBUG",
+                )
+            if epoch_start_time < epoch_current_time:
+                self.msg = (
+                    "Parameter 'start_time' must be greater than the current time."
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+            if epoch_end_time < epoch_current_time:
+                self.msg = (
+                    "Parameter 'end_time' must be greater than the current time."
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+            if epoch_end_time <= epoch_start_time:
+                self.msg = "Parameter 'end_time' must be greater than 'start_time'."
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
             # Add the validation for the recurrence end time and recurrence interval
             recurrence_end_time = devices_maintenance.get("recurrence_end_time")
-            if recurrence_end_time:
-                interval = devices_maintenance.get("recurrence_interval")
-                if not interval:
-                    self.msg = "Parameter 'recurrence_interval' is required field for the maintenance schedule"
-                    self.log(self.msg, "ERROR")
-                    self.fail_and_exit(self.msg)
+            interval = devices_maintenance.get("recurrence_interval")
+            if interval and not recurrence_end_time:
+                self.msg = "Parameter 'recurrence_end_time' is required field for the maintenance schedule"
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
 
+            if recurrence_end_time and not interval:
+                self.msg = "Parameter 'recurrence_interval' is required field for the maintenance schedule"
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+            if recurrence_end_time and interval:
                 if interval <= 0 or interval > 365:
                     self.msg = "Invalid 'recurrence_interval': {0}. It must be between 1 and 365 days.".format(
                         interval
@@ -4855,24 +4883,6 @@ class Inventory(DnacBase):
                         " greater than the current date/time.".format(
                             recurrence_end_time
                         )
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.fail_and_exit(self.msg)
-            else:
-                self.log(
-                    "Add the validation to check start time, end time should be greater than current time",
-                    "DEBUG",
-                )
-                if epoch_start_time < epoch_current_time:
-                    self.msg = (
-                        "Parameter 'start_time' must be greater than the current time."
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.fail_and_exit(self.msg)
-
-                if epoch_end_time < epoch_current_time:
-                    self.msg = (
-                        "Parameter 'end_time' must be greater than the current time."
                     )
                     self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
