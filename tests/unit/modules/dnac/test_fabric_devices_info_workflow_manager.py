@@ -838,10 +838,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        print(111111111)
         print(result)
-        print(111111111)
-        self.maxDiff = None
         self.assertEqual(
             result.get("response"),
             [
