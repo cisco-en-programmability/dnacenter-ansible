@@ -3349,28 +3349,46 @@ class Swim(DnacBase):
                 self.log("Processing device: {0}".format(device_ip), "DEBUG")
                 device_distributed_images = []
 
-                for img_name, img_id in image_ids.items():
-                    elg_device_ip, elg_device_uuid = self.check_device_compliance(device_uuid, img_name)
+                elg_device_ip, elg_device_uuid = self.check_device_compliance(device_uuid)
 
-                    if not elg_device_ip:
-                        device_ip_for_not_elg_list.append(device_ip)
-                        self.log("Device {0} is not eligible for image '{1}'".format(device_ip, img_name), "WARNING")
-                        continue
+                if not elg_device_ip:
+                    device_ip_for_not_elg_list.append(device_ip)
+                    self.log("Device {0} is not eligible for image distribution".format(device_ip), "WARNING")
+                    continue
+
+                for img_name, img_id in image_ids.items():
 
                     self.log("Device {0} is eligible for bulk image distribution of '{1}'".format(elg_device_ip, img_name), "INFO")
                     elg_device_list.append(elg_device_ip)
 
                     device_distributed_images.append({"id": img_id})
 
+                # Build payload only with non-empty values
+                bulk_payload_entry = {}
+                if device_uuid:
+                    bulk_payload_entry["id"] = device_uuid
                 if device_distributed_images:
-                    bulk_payload.append({
-                        "id": device_uuid,
-                        "distributedImages": device_distributed_images,
-                        "networkValidationIds": []
-                    })
+                    bulk_payload_entry["distributedImages"] = device_distributed_images
+                network_validation_ids = distribution_details.get("network_validation_ids")
+                if network_validation_ids:
+                    bulk_payload_entry["networkValidationIds"] = network_validation_ids
+
+                if bulk_payload_entry:
+                    bulk_payload.append(bulk_payload_entry)
+
+            if not bulk_payload:
+                if device_ip_for_not_elg_list:
+                    self.msg = "No eligible devices for bulk distribution. Devices not eligible: {0}".format(
+                        ", ".join(device_ip_for_not_elg_list)
+                    )
+                    self.set_operation_result("success", False, self.msg, "ERROR").check_return_status()
+                else:
+                    self.msg = "No images or devices to distribute (empty payload)."
+                    self.set_operation_result("success", False, self.msg, "ERROR").check_return_status()
+                return self
 
             # -------- Bulk API Call --------
-            self.log(bulk_payload, "DEBUG")
+            self.log("Bulk Payload for Distribution: {0}".format(str(bulk_payload)), "DEBUG")
             try:
                 response = self.dnac._exec(
                     family="software_image_management_swim",
@@ -3457,7 +3475,7 @@ class Swim(DnacBase):
 
         return self
 
-    def check_device_compliance(self, device_uuid, image_name):
+    def check_device_compliance(self, device_uuid, image_name=None):
         """
         Check the compliance status of a device's image.
         Parameters:
@@ -3887,15 +3905,34 @@ class Swim(DnacBase):
                         device_ip_for_not_elg_list.append(device_ip)
                         continue
 
-                    activation_payload_list.append(
-                        {
-                            "id": device_id,
-                            "installedImages": [{"id": image_id}],
-                            "compatibleFeatures": activation_details.get("compatible_features", []),
-                            "networkValidationIds": activation_details.get("network_validation_ids", []),
-                        }
-                    )
+                    activation_payload = {}
+
+                    if device_id:
+                        activation_payload["id"] = device_id
+
+                    if image_id:
+                        activation_payload["installedImages"] = [{"id": image_id}]
+
+                    compatible_features = activation_details.get("compatible_features")
+                    if compatible_features:
+                        activation_payload["compatibleFeatures"] = compatible_features
+
+                    network_validation_ids = activation_details.get("network_validation_ids")
+                    if network_validation_ids:
+                        activation_payload["networkValidationIds"] = network_validation_ids
+
+                    if activation_payload:
+                        activation_payload_list.append(activation_payload)
+
             self.log("Activation Payload List: {0}".format(str(activation_payload_list)), "DEBUG")
+
+            if not activation_payload_list:
+                self.msg = "No eligible devices found for activation. Devices not eligible: {0}".format(
+                    ", ".join(device_ip_for_not_elg_list) if device_ip_for_not_elg_list else "None"
+                )
+                self.log(self.msg, "INFO")
+                self.set_operation_result("success", False, self.msg, "ERROR")
+                return self
             try:
                 response = self.dnac._exec(
                     family="software_image_management_swim",
@@ -3926,19 +3963,24 @@ class Swim(DnacBase):
             if final_msg:
                 final_msg += ". "
             final_msg += "Failed to activate: " + "; ".join(failed_msg_parts) + "."
+        if device_ip_for_not_elg_list:
+            if final_msg:
+                final_msg += ". "
+            final_msg += "Devices not eligible for activation: " + ", ".join(device_ip_for_not_elg_list) + "."
 
         self.msg = final_msg
         self.log("Final activation status: {0}".format(final_msg), "INFO")
 
-        if not success_activation_list and failed_activation_list:
+        if not success_activation_list and failed_activation_list and not device_ip_for_not_elg_list:
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-        elif success_activation_list and failed_activation_list:
+        elif failed_activation_list and not success_activation_list and device_ip_for_not_elg_list:
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+        elif (success_activation_list and failed_activation_list) or device_ip_for_not_elg_list:
             self.set_operation_result("success", True, self.msg, "INFO")
             self.partial_successful_activation = True
         else:
             self.set_operation_result("success", True, self.msg, "INFO")
             self.complete_successful_activation = True
-
         return self
 
     def get_diff_merged(self, config):
@@ -4278,7 +4320,8 @@ class Swim(DnacBase):
         """
 
         image_id = self.have.get("activation_image_id")
-        image_name = self.get_image_name_from_id(image_id)
+        if image_id:
+            image_name = self.get_image_name_from_id(image_id)
 
         if self.have.get("activation_device_id"):
             if self.single_device_activation:
@@ -4307,6 +4350,9 @@ class Swim(DnacBase):
                      Catalyst Center.""".format(
                 image_name, image_id
             )
+            self.log(self.msg, "INFO")
+        elif image_id is None:
+            self.msg = """The golden image has been successfully activated on all devices within the specified site in the Cisco Catalyst Center."""
             self.log(self.msg, "INFO")
         else:
             self.msg = """The activation of the requested image '{0}', with ID '{1}', failed on devices in the Cisco
