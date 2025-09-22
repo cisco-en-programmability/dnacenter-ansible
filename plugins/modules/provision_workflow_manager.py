@@ -2400,6 +2400,7 @@ class Provision(DnacBase):
             self.provisioned_device,
             self.already_provisioned_devices,
         ) = ([], [], [])
+
         success_msg, provision_needed, reprovision_needed = [], [], []
         self.log("Starting bulk wired device provisioning process.", "INFO")
 
@@ -2468,7 +2469,7 @@ class Provision(DnacBase):
 
             if status == "success":
                 if not to_force_provisioning:
-                    self.already_provisioned_devices.append(device_ip)
+                    self.already_provisioned_wired_device.append(device_ip)
                     success_msg.append(
                         "Wired Device '{0}' is already provisioned.".format(device_ip)
                     )
@@ -4107,7 +4108,14 @@ class Provision(DnacBase):
             self.result["changed"] = True
             self.msg = " ".join(result_msg_list_changed)
         else:
-            self.msg = "No device provisioning actions were performed."
+            input = self.validated_config
+            ips = [item["management_ip_address"] for item in input]
+            ip_list_str = ", ".join(ips)
+
+            self.msg = "No provisioning operation was performed for IPs: {0}".format(ip_list_str)
+            self.set_operation_result(
+                "success", False, self.msg, "INFO"
+            )
 
         self.result["msg"] = self.msg
         self.result["response"] = self.msg
