@@ -1836,14 +1836,10 @@ class FabricDevicesInfo(DnacBase):
             self.log("Fabric device information successfully written to output file", "INFO")
 
         if self.total_response:
+            self.log("Fabric device information retrieval workflow completed successfully with {0} response entries".format(len(fabric_devices)), "INFO")
             self.msg = self.total_response
             self.set_operation_result("success", False, self.msg, "INFO")
 
-        self.log(
-            "Fabric device information retrieval workflow completed successfully "
-            "with {0} response entries".format(len(fabric_devices)),
-            "INFO"
-        )
         return self
 
     def get_device_id(self, filtered_config):
@@ -3331,38 +3327,18 @@ class FabricDevicesInfo(DnacBase):
 
                     if interface_connected_data:
                         interfaces_with_connections += 1
-                        self.log("Connected device details found for device IP: {0}".format(ip_address), "INFO")
-
-                        if isinstance(interface_connected_data, list):
-                            connected_device_details.extend(interface_connected_data)
-                        else:
-                            connected_device_details.append(interface_connected_data)
-
-                    if connected_device_details:
-                        devices_with_connections += 1
-                        self.log(
-                            "Connected device discovery completed for device {0} - "
-                            "found {1} total connections across {2} interfaces".format(
-                                ip_address,
-                                len(connected_device_details),
-                                interfaces_with_connections
-                            ),
-                            "DEBUG"
-                        )
+                        self.log("Connected device details found for {0}:{1}".format(ip_address, interface_id), "INFO")
                         connected_info_list.append({
                             "device_ip": ip_address,
-                            "connected_device_details": connected_device_details
+                            "connected_device_details": [interface_connected_data]
                         })
                     else:
-                        devices_without_connections += 1
-                        self.log(
-                            "No connected devices discovered for device {0} "
-                            "across {1} interfaces".format(
-                                ip_address,
-                                interface_count
-                            ),
-                            "DEBUG"
-                        )
+                        self.log("No connected device found for {0}:{1}".format(ip_address, interface_id), "DEBUG")
+                        connected_info_list.append({
+                            "device_ip": ip_address,
+                            "connected_device_details": []
+                        })
+
                 except Exception as e:
                     devices_with_errors += 1
                     self.log("Failed to fetch connected device info for {0}: due to {1}".format(ip_address, str(e)), "ERROR")
