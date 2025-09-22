@@ -849,15 +849,21 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                             {
                                 'device_ip': '204.192.5.2',
                                 'connected_device_details': [
-                                    {
-                                        'neighborDevice': 'TB17-Fusion.cisco.com',
-                                        'neighborPort': 'GigabitEthernet1/0/21',
-                                        'capabilities': [
-                                            'IGMP_CONDITIONAL_FILTERING',
-                                            'ROUTER',
-                                            'SWITCH'
-                                        ]
-                                    }
+                                ]
+                            },
+                            {
+                                'device_ip': '204.192.5.2',
+                                'connected_device_details': [
+                                ]
+                            },
+                            {
+                                'device_ip': '204.192.5.2',
+                                'connected_device_details': [
+                                ]
+                            },
+                            {
+                                'device_ip': '204.192.5.2',
+                                'connected_device_details': [
                                 ]
                             },
                             {
@@ -877,35 +883,22 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                             {
                                 'device_ip': '204.192.5.2',
                                 'connected_device_details': [
-                                    {
-                                        'neighborDevice': 'TB17-Fusion.cisco.com',
-                                        'neighborPort': 'GigabitEthernet1/0/21',
-                                        'capabilities': [
-                                            'IGMP_CONDITIONAL_FILTERING',
-                                            'ROUTER',
-                                            'SWITCH'
-                                        ]
-                                    }
                                 ]
                             },
                             {
                                 'device_ip': '204.192.5.2',
                                 'connected_device_details': [
-                                    {
-                                        'neighborDevice': 'TB17-Fusion.cisco.com',
-                                        'neighborPort': 'GigabitEthernet1/0/21',
-                                        'capabilities': [
-                                            'IGMP_CONDITIONAL_FILTERING',
-                                            'ROUTER',
-                                            'SWITCH'
-                                        ]
-                                    }
+                                ]
+                            },
+                            {
+                                'device_ip': '204.192.5.2',
+                                'connected_device_details': [
                                 ]
                             }
                         ]
                     }
                 ]
-            ],
+            ]
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_issues_info(self):
