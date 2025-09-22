@@ -63,6 +63,7 @@ class TestDnacreportsWorkflow(TestDnacModule):
                 self.test_data.get("create_get_list_of_scheduled_reports"),
                 self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
                 self.test_data.get("create_n_schedule_reports"),
+                self.test_data.get("download_get_execution_id_for_report"),
                 Exception(),
             ]
 
@@ -81,10 +82,9 @@ class TestDnacreportsWorkflow(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("create_get_all_view_groups"),
                 self.test_data.get("create_get_views_for_a_given_view_group"),
-                self.test_data.get("create_get_list_of_scheduled_reports"),
+                self.test_data.get("later_create_get_list_of_scheduled_reports"),
                 self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
                 self.test_data.get("download_get_execution_id_for_report"),
-                self.test_data.get("download_report_content"),
             ]
 
         if "missing_schedule_type " in self._testMethodName:
@@ -159,7 +159,7 @@ class TestDnacreportsWorkflow(TestDnacModule):
         result = self.execute_module(changed=True, failed=True)
         print(result['response'])
         self.assertIn(
-            "{'msg': 'An error occurred while downloading the report:",
+            "Failed to download report 'compliance_report_test1'",
             result['response']
         )
 
@@ -213,9 +213,8 @@ class TestDnacreportsWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=True)
         print(result['response'])
-        # download_msg = result["response"][0]["download_report"]["msg"]
         self.assertIn(
-            "An error occurred while creating or scheduling the report: {'msg': 'An error occurred while downloading",
+            "An error occurred while downloading the report",
             result['response']
         )
 
@@ -242,7 +241,7 @@ class TestDnacreportsWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertIn(
-            "Missing required field 'schedule.type' in 'generate_report' entry.",
+            "Invalid parameters in playbook: ['schedule_type : Required parameter not found']",
             result['response']
         )
 

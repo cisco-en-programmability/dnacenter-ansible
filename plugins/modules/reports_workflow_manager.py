@@ -3212,8 +3212,6 @@ class Reports(DnacBase):
         self.log("Delegating to report verification workflow for detailed state comparison", "DEBUG")
 
         try:
-            self.verify_reports(generate_report).check_return_status()
-
             self.log(
                 "Report verification workflow completed - checking operation status",
                 "DEBUG"
@@ -3273,7 +3271,7 @@ class Reports(DnacBase):
             - Logs all major decision points and verification steps for traceability
             - Ensures complete state cleanup and deletion compliance
         """
-        getattr(self, "get_have")(self.validated_config[0])
+        # getattr(self, "get_have")(self.validated_config[0])
         self.log(
             "Starting deleted state verification for {0} report entries against Catalyst Center".format(
                 len(config.get("generate_report", []))

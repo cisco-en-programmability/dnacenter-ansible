@@ -53,7 +53,7 @@
                     }
                 ],
                 "schedule": {
-                    
+
                     "time_zone": "Asia/Calcutta"
                 },
                 "view": {
@@ -1953,7 +1953,7 @@
         "reportWasExecuted": true
     },
     {
-        "name": "compliance_report2",
+        "name": "compliance_report_test1",
         "dataCategory": "Network",
         "viewGroupId": "8e14930c-f229-4cd0-b8e5-3a588efc6be5",
         "viewGroupName": null,
