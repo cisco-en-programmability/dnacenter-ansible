@@ -76,12 +76,12 @@ class TestDnacNetworkSettings(TestDnacModule):
         if "not_verified" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
-                self.test_data.get("dns_get"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
                 self.test_data.get("telemetry_get"),
-                self.test_data.get("ntp_get"),
-                self.test_data.get("timeZone_get"),
-                self.test_data.get("banner_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
                 self.test_data.get("AAA_get"),
                 self.test_data.get("update"),
                 self.test_data.get("task"),
@@ -98,7 +98,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 self.test_data.get("update"),
                 self.test_data.get("task"),
                 self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
+                self.test_data.get("dhcp_get_response"),
                 self.test_data.get("dns_get"),
                 self.test_data.get("telemetry_get"),
                 self.test_data.get("ntp_get"),
@@ -110,13 +110,13 @@ class TestDnacNetworkSettings(TestDnacModule):
         if "network_update" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
-                self.test_data.get("dns_get"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
                 self.test_data.get("telemetry_get"),
-                self.test_data.get("ntp_get"),
-                self.test_data.get("timeZone_get"),
-                self.test_data.get("banner_get"),
-                self.test_data.get("AAA_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
+                self.test_data.get("get_AAA"),
                 self.test_data.get("update"),
                 self.test_data.get("task"),
                 self.test_data.get("update"),
@@ -144,24 +144,24 @@ class TestDnacNetworkSettings(TestDnacModule):
         if "exception_update_dhcp" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
-                self.test_data.get("dns_get"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
                 self.test_data.get("telemetry_get"),
-                self.test_data.get("ntp_get"),
-                self.test_data.get("timeZone_get"),
-                self.test_data.get("banner_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
                 self.test_data.get("AAA_get"),
             ]
 
         if "exception_update_ntp" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
-                self.test_data.get("dns_get"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
                 self.test_data.get("telemetry_get"),
-                self.test_data.get("ntp_get"),
-                self.test_data.get("timeZone_get"),
-                self.test_data.get("banner_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
                 self.test_data.get("AAA_get"),
                 self.test_data.get("update"),
                 self.test_data.get("task"),
@@ -170,12 +170,12 @@ class TestDnacNetworkSettings(TestDnacModule):
         if "exception_update_timezone" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
-                self.test_data.get("dns_get"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
                 self.test_data.get("telemetry_get"),
-                self.test_data.get("ntp_get"),
-                self.test_data.get("timeZone_get"),
-                self.test_data.get("banner_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
                 self.test_data.get("AAA_get"),
                 self.test_data.get("update"),
                 self.test_data.get("task"),
@@ -186,12 +186,12 @@ class TestDnacNetworkSettings(TestDnacModule):
         if "exception_update_dns" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
-                self.test_data.get("dns_get"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
                 self.test_data.get("telemetry_get"),
-                self.test_data.get("ntp_get"),
-                self.test_data.get("timeZone_get"),
-                self.test_data.get("banner_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
                 self.test_data.get("AAA_get"),
                 self.test_data.get("update"),
                 self.test_data.get("task"),
@@ -204,12 +204,12 @@ class TestDnacNetworkSettings(TestDnacModule):
         if "exception_update_banner" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
-                self.test_data.get("dns_get"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
                 self.test_data.get("telemetry_get"),
-                self.test_data.get("ntp_get"),
-                self.test_data.get("timeZone_get"),
-                self.test_data.get("banner_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
                 self.test_data.get("AAA_get"),
                 self.test_data.get("update"),
                 self.test_data.get("task"),
@@ -224,12 +224,12 @@ class TestDnacNetworkSettings(TestDnacModule):
         if "exception_update_aaa" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
-                self.test_data.get("dns_get"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
                 self.test_data.get("telemetry_get"),
-                self.test_data.get("ntp_get"),
-                self.test_data.get("timeZone_get"),
-                self.test_data.get("banner_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
                 self.test_data.get("AAA_get"),
                 self.test_data.get("update"),
                 self.test_data.get("task"),
@@ -246,12 +246,12 @@ class TestDnacNetworkSettings(TestDnacModule):
         if "exception_site_not_exist" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
-                self.test_data.get("dns_get"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
                 self.test_data.get("telemetry_get"),
-                self.test_data.get("ntp_get"),
-                self.test_data.get("timeZone_get"),
-                self.test_data.get("banner_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
                 self.test_data.get("AAA_get"),
                 self.test_data.get("update"),
                 self.test_data.get("task"),
@@ -272,12 +272,12 @@ class TestDnacNetworkSettings(TestDnacModule):
         if "exception_update_telemetry" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
-                self.test_data.get("dns_get"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
                 self.test_data.get("telemetry_get"),
-                self.test_data.get("ntp_get"),
-                self.test_data.get("timeZone_get"),
-                self.test_data.get("banner_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
                 self.test_data.get("AAA_get"),
                 self.test_data.get("update"),
                 self.test_data.get("task"),
@@ -294,52 +294,52 @@ class TestDnacNetworkSettings(TestDnacModule):
         if "exception_dns_get" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
+                self.test_data.get("dhcp_get_response"),
             ]
 
         if "exception_telemetry_get" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
-                self.test_data.get("dns_get"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
             ]
 
         if "exception_ntp_get" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
-                self.test_data.get("dns_get"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
                 self.test_data.get("telemetry_get"),
             ]
 
         if "exception_timezone_get" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
-                self.test_data.get("dns_get"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
                 self.test_data.get("telemetry_get"),
-                self.test_data.get("ntp_get"),
+                self.test_data.get("ntp_get_response"),
             ]
 
         if "exception_banner_get" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
-                self.test_data.get("dns_get"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
                 self.test_data.get("telemetry_get"),
-                self.test_data.get("ntp_get"),
-                self.test_data.get("timeZone_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
             ]
 
         if "exception_aaa_get" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
-                self.test_data.get("dns_get"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
                 self.test_data.get("telemetry_get"),
-                self.test_data.get("ntp_get"),
-                self.test_data.get("timeZone_get"),
-                self.test_data.get("banner_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
             ]
 
         if "exception_dhcp_get" in self._testMethodName:
@@ -350,12 +350,12 @@ class TestDnacNetworkSettings(TestDnacModule):
         if "update_not_required" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get"),
-                self.test_data.get("dns_get"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
                 self.test_data.get("telemetry_get"),
-                self.test_data.get("ntp_get"),
-                self.test_data.get("timeZone_get"),
-                self.test_data.get("banner_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
                 self.test_data.get("get_AAA"),
                 self.test_data.get("get_sites_test"),
             ]
