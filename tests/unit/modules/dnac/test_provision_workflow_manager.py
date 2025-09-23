@@ -198,7 +198,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "No device provisioning actions were performed."
+            "Wired device(s) '204.1.2.6' already provisioned."
         )
 
     def test_provision_workflow_manager_playbook_reprovision_wired_device(self):
