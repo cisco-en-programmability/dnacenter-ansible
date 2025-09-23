@@ -4753,8 +4753,7 @@ class Inventory(DnacBase):
                 - recurrence_interval (int, optional): The recurrence interval in days (if applicable).
 
         Returns:
-            None: The function does not return a value. It either validates the parameters successfully or
-                terminates execution with an error message if validation fails.
+            self: The instance of the class with updated validation status.
 
         Description:
             This function performs the following validations:
@@ -4777,26 +4776,61 @@ class Inventory(DnacBase):
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
+        self.log(
+            "Starting device maintenance parameter validation for {0} device(s)".format(
+                len(devices_maintenance.get("device_ips", []))
+            ),
+            "INFO"
+        )
+
         try:
             # Define required parameters with their descriptions
             required_params = {
-                "device_ips": "List of device IP addresses for maintenance",
-                "start_time": "Maintenance window start time",
-                "end_time": "Maintenance window end time",
-                "time_zone": "Time zone for the maintenance schedule"
+                "device_ips": "List of device IP addresses for maintenance scheduling",
+                "start_time": "Maintenance window start time in YYYY-MM-DD HH:MM:SS format",
+                "end_time": "Maintenance window end time in YYYY-MM-DD HH:MM:SS format",
+                "time_zone": "Time zone identifier for the maintenance schedule"
             }
 
-            # Validate required parameters
-            missing_params = self._validate_required_params(devices_maintenance, required_params)
+            self.log(
+                "Validating presence of required parameters: {0}".format(list(required_params.keys())),
+                "DEBUG"
+            )
+
+            # Validate required parameters presence and format
+            missing_params = []
+            for param_name, description in required_params.items():
+                value = devices_maintenance.get(param_name)
+                if value is None or (isinstance(value, (list, str)) and not value):
+                    self.log(
+                        "Required parameter '{0}' ({1}) is missing or empty".format(param_name, description),
+                        "ERROR"
+                    )
+                    missing_params.append(param_name)
+
             if missing_params:
-                self._handle_missing_params(missing_params, devices_maintenance.get(
-                    "device_ips", []))
+                device_ips = devices_maintenance.get("device_ips", [])
+                self.msg = (
+                    "Required parameter(s) {0} are missing from playbook for scheduling device maintenance "
+                    "for device(s): {1}".format(missing_params, device_ips)
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+            self.log("All required parameters are present and valid", "DEBUG")
 
             # Extract validated parameters
             device_ips = devices_maintenance["device_ips"]
             start_time = devices_maintenance["start_time"]
             end_time = devices_maintenance["end_time"]
             time_zone = devices_maintenance["time_zone"]
+
+            self.log(
+                "Validating time parameters - start_time: {0}, end_time: {1}, timezone: {2}".format(
+                    start_time, end_time, time_zone
+                ),
+                "DEBUG"
+            )
 
             # Validate time parameters
             self._validate_time_parameters(start_time, end_time, time_zone)
@@ -4820,46 +4854,6 @@ class Inventory(DnacBase):
 
         return self
 
-    def _validate_required_params(self, params, required_params):
-        """
-        Validate that all required parameters are present and not None.
-
-        Args:
-            params (dict): Parameters to validate
-            required_params (dict): Required parameter names and descriptions
-
-        Returns:
-            list: List of missing parameter names
-        """
-        missing_params = []
-
-        for param_name, description in required_params.items():
-            value = params.get(param_name)
-            if value is None or (isinstance(value, (list, str)) and not value):
-                self.log(f"Required parameter '{param_name}' ({description}) is missing or empty", "ERROR")
-                missing_params.append(param_name)
-
-        return missing_params
-
-    def _handle_missing_params(self, missing_params, device_ips):
-        """
-        Handle missing required parameters by logging and exiting.
-
-        Args:
-            missing_params (list): List of missing parameter names
-            device_ips (list): Device IPs for context in error message
-
-        Returns:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-        """
-        self.msg = (
-            f"Required parameter(s) {missing_params} are missing from playbook "
-            f"for scheduling device maintenance for device(s): {device_ips}"
-        )
-        self.log(self.msg, "ERROR")
-        self.fail_and_exit(self.msg)
-        return self
-
     def _validate_time_parameters(self, start_time, end_time, time_zone):
         """
         Validate time parameters and their relationships.
@@ -4872,6 +4866,17 @@ class Inventory(DnacBase):
         Returns:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         """
+        self.log(
+            "Starting time parameter validation for maintenance schedule",
+            "INFO"
+        )
+        self.log(
+            "Validating time parameters - start_time: {0}, end_time: {1}, timezone: {2}".format(
+                start_time, end_time, time_zone
+            ),
+            "DEBUG"
+        )
+
         # Convert times to epoch timestamps
         epoch_start_time = self.to_epoch_timezone(start_time, time_zone)
         epoch_end_time = self.to_epoch_timezone(end_time, time_zone)
@@ -4879,9 +4884,18 @@ class Inventory(DnacBase):
 
         # Validate time relationships
         time_validations = [
-            (epoch_start_time < epoch_current_time, "start_time must be greater than the current time"),
-            (epoch_end_time < epoch_current_time, "end_time must be greater than the current time"),
-            (epoch_end_time <= epoch_start_time, "end_time must be greater than start_time")
+            (
+                epoch_start_time < epoch_current_time,
+                "start_time must be greater than the current time"
+            ),
+            (
+                epoch_end_time < epoch_current_time,
+                "end_time must be greater than the current time"
+            ),
+            (
+                epoch_end_time <= epoch_start_time,
+                "end_time must be greater than start_time"
+            )
         ]
 
         for condition, error_msg in time_validations:
@@ -4889,6 +4903,11 @@ class Inventory(DnacBase):
                 self.msg = f"Time validation failed: {error_msg}"
                 self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
+
+        self.log(
+            "Time parameter validation completed successfully",
+            "DEBUG"
+        )
 
         return self
 
@@ -4908,6 +4927,18 @@ class Inventory(DnacBase):
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
 
         """
+        self.log(
+            "Starting recurrence parameter validation for maintenance schedule",
+            "INFO"
+        )
+        self.log(
+            "Validating recurrence parameters - start_time: {0}, end_time: {1}, timezone: {2}, "
+            "recurrence_end_time: {3}, recurrence_interval: {4}".format(
+                start_time, end_time, time_zone, recurrence_end_time, recurrence_interval
+            ),
+            "DEBUG"
+        )
+
         # Both recurrence parameters must be provided together
         if recurrence_interval and not recurrence_end_time:
             self.msg = "Parameter 'recurrence_end_time' is required when 'recurrence_interval' is specified"
@@ -5853,6 +5884,12 @@ class Inventory(DnacBase):
             else:
                 playbook_params["snmpMode"] = "NOAUTHNOPRIV"
 
+        if playbook_params.get("snmpVersion") not in ["v2", "v3"]:
+            if device_data["snmp_version"] == "3":
+                playbook_params["snmpVersion"] = "v3"
+            else:
+                playbook_params["snmpVersion"] = "v2"
+
         if not playbook_params["cliTransport"]:
             if device_data["protocol"] == "ssh2":
                 playbook_params["cliTransport"] = "ssh"
@@ -5934,7 +5971,7 @@ class Inventory(DnacBase):
                 "DEBUG",
             )
             self.cred_updated_not_required.append(device_ip)
-            return device_data
+            return None
 
         device_key_mapping = {
             "username": "userName",
@@ -6004,12 +6041,6 @@ class Inventory(DnacBase):
                 "DEBUG",
             )
             playbook_params["netconfPort"] = None
-
-        if not playbook_params["snmpVersion"]:
-            if device_data["snmp_version"] == "3":
-                playbook_params["snmpVersion"] = "v3"
-            else:
-                playbook_params["snmpVersion"] = "v2"
 
         if playbook_params["snmpVersion"] == "v2":
             params_to_remove = [
@@ -6348,9 +6379,17 @@ class Inventory(DnacBase):
                 device_data = device_details[device_ip]
 
                 if device_type == "NETWORK_DEVICE":
-                    self.parse_for_update_network_device_params(
+                    parse_status = self.parse_for_update_network_device_params(
                         playbook_params, device_data, device_ip
                     )
+                    if not parse_status:
+                        self.log(
+                            "Credentials for device {0} do not require an update.".format(
+                                device_ip
+                            ),
+                            "DEBUG",
+                        )
+                        continue
 
                 if not playbook_params["httpUserName"]:
                     playbook_params["httpUserName"] = device_data.get(
