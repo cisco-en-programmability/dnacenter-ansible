@@ -3976,12 +3976,12 @@ class Swim(DnacBase):
                     return self
                 else:
                     self.msg = "Some or all image activations failed for the devices {0}.".format(", ".join(device_ips))
-                    failed_activation_list = list(device_ips)
+                    failed_activation_list = device_ips
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             except Exception as e:
                 self.log("Exception during bulk activation: {0}".format(str(e)), "ERROR")
                 failed_msg_parts = ["Exception during bulk activation: {0}".format(str(e))]
-                failed_activation_list = list(device_ips)
+                failed_activation_list = device_ips
                 self.msg = "Exception during bulk activation: {0}".format(str(e))
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
