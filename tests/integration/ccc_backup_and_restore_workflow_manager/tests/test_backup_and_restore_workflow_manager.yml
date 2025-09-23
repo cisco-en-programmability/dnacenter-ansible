@@ -81,17 +81,17 @@
     when: result_update_backup_configuration is defined
 
 ####################################################
-#              CREATE BACKUP SCHEDULE             #
+#              CREATE BACKUP                       #
 ####################################################
 
-  - name: Create Backup Schedule
+  - name: Create Backup
     cisco.dnac.backup_and_restore_workflow_manager:
       <<: *dnac_login
       state: merged
       config:
           - "{{ item }}"
-    loop: "{{ vars_map.create_backup_schedule }}"
-    register: result_create_backup_schedule
+    loop: "{{ vars_map.create_backup }}"
+    register: result_create_backup
 
   # - name: Debug item
   #   debug:
@@ -99,13 +99,13 @@
   #   loop: "{{ result_create_application.results }}"
   #   when: result_create_application is defined
 
-  - name: Assert Create Backup Schedule
+  - name: Assert Create Backup
     assert:
       that:
         - item.changed == true
-        - "'created/scheduled successfully' in item.response"
-    loop: "{{ result_create_backup_schedule.results }}"
-    when: result_create_backup_schedule is defined
+        - "'created successfully' in item.response"
+    loop: "{{ result_create_backup.results }}"
+    when: result_create_backup is defined
 
 ####################################################
 #              DELETE NFS CONFIGURATION           #
@@ -135,17 +135,17 @@
     when: result_delete_nfs_configuration is defined
 
 ####################################################
-#              DELETE BACKUP SCHEDULE             #
+#              DELETE BACKUP                       #
 ####################################################
 
-  - name: Delete Backup Schedule
+  - name: Delete Backup
     cisco.dnac.backup_and_restore_workflow_manager:
       <<: *dnac_login
       state: deleted
       config:
           - "{{ item }}"
-    loop: "{{ vars_map.delete_backup_schedule }}"
-    register: result_delete_backup_schedule
+    loop: "{{ vars_map.delete_backup }}"
+    register: result_delete_backup
 
   # - name: Debug item
   #   debug:
@@ -153,13 +153,13 @@
   #   loop: "{{ result_create_application.results }}"
   #   when: result_create_application is defined
 
-  - name: Assert  Delete Backup Schedule
+  - name: Assert Delete Backup
     assert:
       that:
         - item.changed == true
         - "'deleted successfully' in item.response"
-    loop: "{{ result_delete_backup_schedule.results }}"
-    when: result_delete_backup_schedule is defined
+    loop: "{{ result_delete_backup.results }}"
+    when: result_delete_backup is defined
 
 
 
