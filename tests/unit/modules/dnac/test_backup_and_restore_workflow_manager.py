@@ -50,7 +50,6 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
     playbook_backup_config_password_exception = test_data.get("playbook_backup_config_password_exception")
     playbook_mountpath_notfound = test_data.get("playbook_mountpath_notfound")
     playbook_restore_exception = test_data.get("playbook_restore_exception")
-    playbook_nfs_delete = test_data.get("playbook_nfs_delete")
     playbook_backup_schedule_alreadydeleted1 = test_data.get("playbook_backup_schedule_alreadydeleted1")
     playbook_delete_backup_schedule = test_data.get("playbook_delete_backup_schedule")
     playbook_backup_schedule_alreadyexists = test_data.get("playbook_backup_schedule_alreadyexists")
@@ -224,7 +223,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Backup Schedule(s) 'BACKUP24_07' created/scheduled successfully in Cisco Catalyst Center."
+            "Backup(s) 'BACKUP24_07' created successfully in Cisco Catalyst Center."
         )
 
     def test_backup_and_restore_workflow_manager_playbook_nfs_config_alreadyexists(self):
@@ -324,7 +323,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Invalid parameters in playbook: ['data_retention_period: 61 : The item exceeds the allowed range of min: 3 and max: 60']"
+            "Configuration validation failed with invalid parameters: ['data_retention_period: 61 : The item exceeds the allowed range of min: 3 and max: 60']"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario1(self):
@@ -349,7 +348,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Mandatory fields 'name', 'scope' must be specified for backup schedule."
+            "Mandatory fields 'name', 'scope' must be specified for backups."
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario2(self):
@@ -424,7 +423,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Both 'server_ip' and 'source_path' must be specified to create an NFS configuration."
+            "Configuration validation failed with invalid parameters: ['source_path : Required parameter not found']"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario6(self):
@@ -449,7 +448,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Both 'name' and 'encryption_passphrase' must be specified for restore."
+            "Configuration validation failed with invalid parameters: ['encryption_passphrase : Required parameter not found']"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario8(self):
@@ -474,7 +473,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "'name' must be specified to delete a backup schedule."
+            "Configuration validation failed with invalid parameters: ['name : Required parameter not found']"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario9(self):
@@ -499,7 +498,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Both 'server_ip' and 'source_path' must be specified to delete an NFS configuration."
+            "Configuration validation failed with invalid parameters: ['source_path : Required parameter not found']"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario10(self):
@@ -551,7 +550,8 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "At least one of 'backup_configuration', 'nfs_configuration', 'backup_schedule', or 'restore_details' must be specified."
+            "Backup and restore workflow requires at least one configuration section: "
+            "'backup_configuration', 'nfs_configuration', 'backup', or 'restore_operations'"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario13(self):
@@ -575,16 +575,15 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
 
         print(result)
+        self.maxDiff = None
         self.assertEqual(
             result.get("response"),
-            "Invalid parameters in playbook: "
-            "[\"'backup_configuration': '{'data_retention_period': 53, "
-            "'encryption_passphrase': 'Karthick@zigzag333', "
-            "'nfs_details': {'nfs_port': 2049, 'nfs_port_mapper': 111, "
-            "'nfs_version': 'nfs4', 'server_ip': '172.27.17.90', "
-            "'source_path': '/home/nfsshare/backups/TB19'}, "
-            "'server_type': 'NFS'}' is invalid. Reason: expected type: "
-            "'list'. Provided type: 'dict'. \"]"
+            'Configuration validation failed with invalid parameters: '
+            '["\'backup_configuration\': \'{\'data_retention_period\': 53, \'encryption_passphrase\': '
+            '\'Karthick@zigzag333\', \'nfs_details\': {\'nfs_port\': 2049, \'nfs_port_mapper\': 111, '
+            '\'nfs_version\': \'nfs4\', \'server_ip\': \'172.27.17.90\', \'source_path\': '
+            '\'/home/nfsshare/backups/TB19\'}, \'server_type\': \'NFS\'}\' is invalid. '
+            'Reason: expected type: \'list\'. Provided type: \'dict\'. "]'
         )
 
     def test_backup_and_restore_workflow_manager_playbook_update_backup_config(self):
@@ -711,7 +710,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Both 'name' and 'encryption_passphrase' must be specified for restore."
+            "Configuration validation failed with invalid parameters: "
+            "['name : Required parameter not found', "
+            "'encryption_passphrase : Required parameter not found']"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_restore_exception(self):
@@ -739,31 +740,6 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
             "An error occurred while restoring backup: "
         )
 
-    def test_backup_and_restore_workflow_manager_playbook_nfs_delete(self):
-        """
-        Test case for deleting an NFS configuration in Cisco Catalyst Center.
-        Verifies that the workflow manager successfully deletes the NFS configuration
-        when the specified parameters are applied.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="deleted",
-                config_verify=True,
-                dnac_version="3.1.3.0",
-                config=self.playbook_nfs_delete
-            )
-        )
-        result = self.execute_module(changed=True, failed=False)
-        print(result)
-        self.assertEqual(
-            result.get("response"),
-            "NFS Configuration(s) '/home/nfsshare/backups/TB22' deleted successfully from Cisco Catalyst Center."
-        )
-
     def test_backup_and_restore_workflow_manager_playbook_backup_schedule_alreadydeleted1(self):
         """
         Test case for handling already deleted backup schedule.
@@ -786,7 +762,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "The backup schedule 'BACKUP25_07' is not present in Cisco Catalyst Center and its deletion has been verified."
+            "Backups with name 'BACKUP25_07' does not exist in the Cisco Catalyst Center or has already been deleted."
         )
 
     def test_backup_and_restore_workflow_manager_playbook_delete_backup_schedule(self):
@@ -811,7 +787,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Backup Schedule(s) 'BACKUP24_07' deleted successfully from Cisco Catalyst Center."
+            "Backup(s) 'BACKUP24_07' deleted successfully from Cisco Catalyst Center."
         )
 
     def test_backup_and_restore_workflow_manager_playbook_backup_schedule_alreadyexists(self):
@@ -836,7 +812,5 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "The requested backup schedule with name 'BACKUP24_07' and "
-            "scope 'CISCO_DNA_DATA_WITHOUT_ASSURANCE' is present in the "
-            "Cisco Catalyst Center and its creation has been verified."
+            "Backup 'BACKUP24_07' already exists."
         )

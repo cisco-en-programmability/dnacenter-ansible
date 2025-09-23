@@ -12,8 +12,8 @@ create_nfs_configuration:
         nfs_version: nfs4
         nfs_port_mapper: 111
 
-create_backup_schedule:
-  - backup_schedule:
+create_backup:
+  - backup:
       - name: BACKUP25_07
         scope: CISCO_DNA_DATA_WITHOUT_ASSURANCE
 
@@ -29,8 +29,8 @@ update_backup_configuration:
         data_retention_period: 12
         encryption_passphrase: Karthick@zigzag333
 
-delete_backup_schedule:
-  - backup_schedule:
+delete_backup:
+  - backup:
       - name: BACKUP25_07
 
 delete_nfs_configuration:

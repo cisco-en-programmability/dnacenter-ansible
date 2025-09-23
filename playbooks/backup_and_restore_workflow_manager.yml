@@ -1,46 +1,92 @@
 ---
-- name: Configure backup and Schedule it on Cisco Catalyst Center
+- name: Backup and restore operations
   hosts: localhost
-  vars_files:
-    - "credentials.yml"
   connection: local
   gather_facts: false
+
+  vars_files:
+    - "credentials.yml"
+    - "backup_secrets.yml"
+
+  vars:
+    dnac_login: &dnac_login
+      dnac_host: "{{ dnac_host }}"
+      dnac_username: "{{ dnac_username }}"
+      dnac_password: "{{ dnac_password }}"
+      dnac_verify: "{{ dnac_verify }}"
+      dnac_port: "{{ dnac_port }}"
+      dnac_version: "{{ dnac_version }}"
+      dnac_debug: "{{ dnac_debug }}"
+      dnac_log: true
+      dnac_log_level: "DEBUG"
+      config_verify: true
+
   tasks:
-    - name: Configure backup and Schedule it on Cisco Catalyst Center
+    - name: Configure NFS server for secure backup storage connectivity
       cisco.dnac.backup_and_restore_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        config_verify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
-        state: deleted
+        <<: *dnac_login
+        state: merged
+        config:
+          - nfs_configuration:
+              - server_ip: "{{ nfs_configuration.server_ip }}"
+                source_path: "{{ nfs_configuration.source_path }}"
+                nfs_port: 2049
+                nfs_version: nfs4
+                nfs_port_mapper: 111
+      tags: nfs_configuration
+
+    - name: Configure backup target with encryption and data retention policies
+      cisco.dnac.backup_and_restore_workflow_manager:
+        <<: *dnac_login
+        state: merged
         config:
           - backup_configuration:
               - server_type: NFS
                 nfs_details:
-                  server_ip: 172.27.17.90
-                  source_path: /home/nfsshare/backups/TB22
+                  server_ip: "{{ backup_configuration.server_ip }}"
+                  source_path: "{{ backup_configuration.source_path }}"
                   nfs_port: 2049
                   nfs_version: nfs4
                   nfs_port_mapper: 111
-                data_retention_period: 10
-                encryption_passphrase: Karthick@zigzag333
-          - nfs_configuration:
-              - server_ip: 172.27.17.90
-                source_path: /home/nfsshare/backups/TB18
-                nfs_port: 2049
-                nfs_version: nfs4
-                nfs_port_mapper: 111
-          - backup_schedule:
-              - name: BACKUP24_07
+                data_retention_period: 51
+                encryption_passphrase: "{{ backup_configuration.encryption_passphrase }}"
+      tags: backup_configuration
+
+    - name: Create backup with name and scope specifications
+      cisco.dnac.backup_and_restore_workflow_manager:
+        <<: *dnac_login
+        state: merged
+        config:
+          - backup:
+              - name: BACKUP21_09
                 scope: CISCO_DNA_DATA_WITHOUT_ASSURANCE
-          - restore_details:
-              - name: BACKUP24_07
-                encryption_passphrase: Syed@
+      tags: backup_creation
+
+    - name: Restore backup
+      cisco.dnac.backup_and_restore_workflow_manager:
+        <<: *dnac_login
+        state: merged
+        config:
+          - restore_operations:
+              - name: "BACKUP17_09"
+                encryption_passphrase: "{{ restore_operations.encryption_passphrase }}"
+      tags: restore_backup
+
+    - name: Delete NFS configuration from backup infrastructure
+      cisco.dnac.backup_and_restore_workflow_manager:
+        <<: *dnac_login
+        state: deleted
+        config:
+          - nfs_configuration:
+              - server_ip: "{{ nfs_configuration.server_ip }}"
+                source_path: "{{ nfs_configuration.source_path }}"
+      tags: delete_nfs_configuration
+
+    - name: Delete backups for backup lifecycle management
+      cisco.dnac.backup_and_restore_workflow_manager:
+        <<: *dnac_login
+        state: deleted
+        config:
+          - backup:
+              - name: BACKUP22_09
+      tags: delete_backup

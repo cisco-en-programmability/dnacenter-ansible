@@ -1,7 +1,7 @@
 {
   "playbook_delete_schedule_backup": [
     {
-      "backup_schedule": [
+      "backup": [
         {
           "name": "BACKUP25_07",
           "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
@@ -565,7 +565,7 @@
   },
   "playbook_create_schedule_backup": [
     {
-      "backup_schedule": [
+      "backup": [
         {
           "name": "BACKUP24_07",
           "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
@@ -1438,7 +1438,7 @@
   },
   "playbook_backup_alreadyexists": [
     {
-      "backup_schedule": [
+      "backup": [
         {
           "name": "BACKUP24_07",
           "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
@@ -2529,7 +2529,7 @@
   },
   "playbook_backup_schedule_alreadydeleted": [
     {
-      "backup_schedule": [
+      "backup": [
         {
           "name": "BACKUP24_07",
           "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
@@ -2665,7 +2665,7 @@
   },
   "playbook_negative_scenario1": [
     {
-      "backup_schedule": [
+      "backup": [
         {
           "name": "BACKUP25_07"
         }
@@ -3028,7 +3028,7 @@
   },
   "playbook_negative_scenario2": [
     {
-      "backup_schedule": [
+      "backup": [
         {
           "name": "BACKUP25_07"
         }
@@ -3037,7 +3037,7 @@
   ],
   "playbook_negative_scenario3": [
     {
-      "restore_details": [
+      "restore_operations": [
         {
           "encryption_passphrase": "Karthick@",
           "name": "BACKUP25_07"
@@ -3538,7 +3538,7 @@
   },
   "playbook_negative_scenario6": [
     {
-      "restore_details": [
+      "restore_operations": [
         {
           "name": "BACKUP25_07"
         }
@@ -3547,7 +3547,7 @@
   ],
   "playbook_negative_scenario7": [
     {
-      "restore_details": [
+      "restore_operations": [
         {
           "encryption_passphrase": "Karthick@",
           "name": "BACKUP24_07"
@@ -3921,7 +3921,7 @@
   },
   "playbook_negative_scenario8": [
     {
-      "backup_schedule": [
+      "backup": [
         {
           "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
         }
@@ -4351,7 +4351,7 @@
   },
   "playbook_negative_scenario10": [
     {
-      "backup_schedule": [
+      "backup": [
         {
           "name": "BACKUP24/07",
           "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
@@ -5252,7 +5252,7 @@
   },
   "playbook_negative_scenario14": [
     {
-      "restore_details": [
+      "restore_operations": [
         {
           "names": "BACKUP24_07"
         }
@@ -5338,7 +5338,7 @@
   },
   "playbook_restore_exception": [
     {
-      "restore_details": [
+      "restore_operations": [
         {
           "encryption_passphrase": "Karthick@",
           "name": "BACKUP24_07"
@@ -5867,7 +5867,7 @@
       }
     ]
   },
-  "delete_n_f_s_configuration": null,
+  "delete_n_f_s_configuration": {"version": "2.0", "response": {"message": "Delete NFS configuration submitted successfully."}},
   "get_all_n_f_s_configurations23": {
     "version": "2.0",
     "response": [
@@ -5947,7 +5947,7 @@
   },
   "playbook_backup_schedule_alreadydeleted1": [
     {
-      "backup_schedule": [
+      "backup": [
         {
           "name": "BACKUP25_07",
           "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
@@ -6781,7 +6781,7 @@
   },
   "playbook_delete_backup_schedule": [
     {
-      "backup_schedule": [
+      "backup": [
         {
           "name": "BACKUP24_07",
           "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
@@ -7492,7 +7492,7 @@
   },
   "playbook_backup_schedule_alreadyexists": [
     {
-      "backup_schedule": [
+      "backup": [
         {
           "name": "BACKUP24_07",
           "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
