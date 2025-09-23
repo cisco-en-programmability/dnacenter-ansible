@@ -39,11 +39,39 @@ description:
   - C(Logical Ports) - create, update (delete not supported due to API limitations)
   - C(Port Configuration) - create, update (delete not supported due to API limitations)
 
-  - Known API Limitations
+  - Known API Limitations & Issues
   - The deleted state is not supported for STP, IGMP Snooping, MLD Snooping,
     Port Configuration, and Logical Ports due to underlying beta API limitations.
   - Several known issues exist with the beta APIs that may affect functionality.
-  - Refer to the following bug tracking numbers for known issues
+
+  - VLANs (vlanConfig) -
+  - VLAN configuration may silently fail when VTP mode is SERVER (CSCwr00884)
+  - VLAN name cannot be reset to empty string once set
+
+  - STP (stpGlobalConfig) -
+  - STP instance deletion does not properly remove deployed configuration (CSCwr01764)
+  - Incorrect payload structure validation for isStpEnabled parameter (CSCwr0107)
+
+  - VTP (vtpGlobalConfig) -
+  - Domain name cannot be removed once set (expected behavior)
+  - Configuration file name and source interface cannot be reset to empty string (CSCwr01195)
+  - Misleading validation error when attempting to remove VTP domain name (CSCwr01131)
+
+  - DHCP Snooping (dhcpSnoopingGlobalConfig) -
+  - Global configuration not fully reset to defaults after intent deletion (CSCwr01309)
+  - Agent URL, proxy bridge VLANs, and snooping VLANs cannot be reset using empty strings (CSCwr01255, CSCwr01321, CSCwr01327)
+
+  - IGMP/MLD Snooping (igmpSnoopingGlobalConfig, mldSnoopingGlobalConfig) -
+  - Querier address does not reset to default on intent deletion (CSCwr01879)
+  - MLD snooping rejects empty querier address in update operations (CSCwr06296)
+
+  - Logical Ports (portchannelConfig) -
+  - Port channel configuration may fail silently without proper error response (CSCwr01895)
+  - Optional fields incorrectly enforced as required during validation (CSCwr08060)
+
+  - Port Configuration (switchportInterfaceConfig) -
+  - Switchport configuration may silently fail during comprehensive port updates
+  - Storm Control, Port Security, and UDLD interface configurations are not supported (available in 3.2.x release)
 version_added: "6.20.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
