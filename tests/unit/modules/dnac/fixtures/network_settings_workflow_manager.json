@@ -680,7 +680,7 @@
         ],
         "version": "1.0"
     },
-     
+
     "dhcp_get":
     {
         "response": {
@@ -689,6 +689,21 @@
         "version": "1.0"
       },
 
+      "dhcp_get_response":
+      {
+  "response": {
+    "dhcp": {
+      "inheritedSiteId": "49f0b4c5-53cc-4c13-ae4e-d48aae25170a",
+      "inheritedSiteName": "Global",
+      "servers": [
+        "204.192.3.40",
+        "2004:192:3::40"
+      ]
+    }
+  },
+  "version": "1.0"
+},
+
     "dns_get":
     {
         "response": {
@@ -696,7 +711,23 @@
         },
         "version": "1.0"
       },
-    
+
+    "dns_get_response":
+      {
+  "response": {
+    "dns": {
+      "inheritedSiteId": "49f0b4c5-53cc-4c13-ae4e-d48aae25170a",
+      "inheritedSiteName": "Global",
+      "domainName": "cisco.com",
+      "dnsServers": [
+        "204.192.3.40",
+        "2004:192:3::1"
+      ]
+    }
+  },
+  "version": "1.0"
+},
+
     "telemetry_get":
       {
         "response": {
@@ -737,6 +768,47 @@
         },
         "version": "1.0"
       },
+
+      "ntp_get_response":
+      {
+  "response": {
+    "ntp": {
+  "inheritedSiteId": "49f0b4c5-53cc-4c13-ae4e-d48aae25170a",
+  "inheritedSiteName": "Global",
+  "servers": [
+    "204.192.3.40"
+  ]
+  },
+  "version": "1.0"
+}
+      },
+
+      "timezone_get_response":
+      {
+  "response": {
+    "timeZone": {
+  "inheritedSiteId": "49f0b4c5-53cc-4c13-ae4e-d48aae25170a",
+  "inheritedSiteName": "Global",
+  "identifier": "GMT"
+}
+  },
+  "version": "1.0"
+},
+
+"banner_get_response":
+      {
+  "response": {
+    "banner": {
+  "inheritedSiteId": "49f0b4c5-53cc-4c13-ae4e-d48aae25170a",
+  "inheritedSiteName": "Global",
+  "type": "Custom",
+  "message": "This testbed belongs to EN Solutions team and owner is rukapse@cisco.com."
+}
+  },
+  "version": "1.0"
+},
+
+
 
     "timeZone_get":
     {
