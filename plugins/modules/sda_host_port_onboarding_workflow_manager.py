@@ -4463,7 +4463,7 @@ class SDAHostPortOnboarding(DnacBase):
             It logs the details of these port assignments and returns a dictionary with the relevant information.
         """
         self.log(
-            "Retrieving no update port assignments details with parameters: {0}".format(
+            "Processing no-update port assignments with interface details: {0}".format(
                 no_update_port_assignments
             ),
             "DEBUG",
@@ -4477,6 +4477,12 @@ class SDAHostPortOnboarding(DnacBase):
             "success_count": len(interface_list),
             "port_assignments_no_update_needed": interface_list,
         }
+        self.log(
+            "Successfully compiled port assignment no-update details for {0} interface(s)".format(
+                len(interface_list)
+            ),
+            "INFO"
+        )
         return msg
 
     def get_no_update_port_channels_details(self, no_update_port_channels):
@@ -4491,7 +4497,7 @@ class SDAHostPortOnboarding(DnacBase):
             It logs the details of these port channels and returns a dictionary with the relevant information.
         """
         self.log(
-            "Retrieving no update port channels details with parameters: {0}".format(
+            "Processing no-update port channels with channel details: {0}".format(
                 no_update_port_channels
             ),
             "DEBUG",
@@ -4504,6 +4510,12 @@ class SDAHostPortOnboarding(DnacBase):
             "success_count": len(port_channels_list),
             "port_channels_no_update_needed": port_channels_list,
         }
+        self.log(
+            "Successfully compiled port channel no-update details for {0} channel(s)".format(
+                len(port_channels_list)
+            ),
+            "INFO"
+        )
         return msg
 
     def get_no_update_vlans_and_ssids_mapped_to_vlans_details(self, no_update_vlans_and_ssids_mapped_to_vlans):
@@ -4532,6 +4544,12 @@ class SDAHostPortOnboarding(DnacBase):
             "success_count": len(vlan_ssid_list),
             "vlans_ssid_no_update_needed": vlan_ssid_list,
         }
+        self.log(
+            "Successfully compiled VLAN-SSID no-update details for {0} mapping(s)".format(
+                len(vlan_ssid_list)
+            ),
+            "INFO"
+        )
         return msg
 
     def get_delete_port_channels_task_status(
@@ -5402,7 +5420,18 @@ class SDAHostPortOnboarding(DnacBase):
             list: A list of port assignment details that are already deleted.
         """
 
-        self.log("Comparing input port assignments with already deleted assignments.", "DEBUG")
+        self.log(
+            "Starting comparison of {0} input port assignments against already deleted assignments".format(
+                len(input_port_assignment_details)
+            ),
+            "DEBUG"
+        )
+        self.log(
+            "Comparing input port assignments: {0} with deleted assignments: {1}".format(
+                input_port_assignment_details, deleted_port_assignments
+            ),
+            "DEBUG"
+        )
         absent_interfaces_list, deleted_interface_list = [], []
 
         # Collect already deleted interfaces from to_be_deleted_port_assignments
@@ -5417,14 +5446,19 @@ class SDAHostPortOnboarding(DnacBase):
             interface_name = port.get("interface_name")
             if interface_name not in deleted_interface_list:
                 self.log(
-                    "The port assignment for interface '{0}' is already deleted.".format(
+                    "Port '{0}' is already deleted - adding to absent list".format(
                         interface_name
                     ),
                     "DEBUG",
                 )
                 absent_interfaces_list.append(interface_name)
 
-        self.log("Absent interfaces list: {0}".format(absent_interfaces_list), "DEBUG")
+        self.log(
+            "Comparison completed - found {0} already deleted ports: {1}".format(
+                len(absent_interfaces_list), absent_interfaces_list
+            ),
+            "INFO"
+        )
 
         return absent_interfaces_list
 
@@ -5438,7 +5472,18 @@ class SDAHostPortOnboarding(DnacBase):
             list: A list of port channel names that are already deleted.
         """
 
-        self.log("Comparing input port channels with already deleted channels.", "DEBUG")
+        self.log(
+            "Starting comparison of {0} input port channels against already deleted channels".format(
+                len(input_port_channel_details)
+            ),
+            "DEBUG"
+        )
+        self.log(
+            "Comparing input port channels: {0} with deleted channels.".format(
+                input_port_channel_details
+            ),
+            "DEBUG"
+        )
         absent_channels_list = []
         channel_interfaces_list, input_interfaces_list = [], []
         get_port_channels_params = {}
@@ -5468,7 +5513,12 @@ class SDAHostPortOnboarding(DnacBase):
                 )
                 absent_channels_list.append(interface)
 
-        self.log("Absent channels list: {0}".format(absent_channels_list), "DEBUG")
+        self.log(
+            "Comparison completed - found {0} already deleted port channels: {1}".format(
+                len(absent_channels_list), absent_channels_list
+            ),
+            "DEBUG"
+        )
 
         return absent_channels_list
 
@@ -5482,7 +5532,18 @@ class SDAHostPortOnboarding(DnacBase):
             list: A list of VLAN names that are already deleted.
         """
 
-        self.log("Comparing input wireless SSIDs with already deleted VLANs and SSIDs.", "DEBUG")
+        self.log(
+            "Starting comparison of {0} input wireless SSIDs against already deleted VLANs and SSIDs".format(
+                len(input_wireless_ssids_details)
+            ),
+            "DEBUG"
+        )
+        self.log(
+            "Comparing input wireless SSIDs: {0} with deleted VLANs: {1}".format(
+                input_wireless_ssids_details, deleted_vlans_and_ssids_mapped_to_vlans
+            ),
+            "DEBUG"
+        )
         absent_vlans_list = []
         deleted_vlan_list = []
 
@@ -5492,18 +5553,28 @@ class SDAHostPortOnboarding(DnacBase):
                 self.log("Found already deleted VLAN: {0}".format(vlan), "DEBUG")
                 deleted_vlan_list.append(vlan)
 
-        self.log("Deleted VLANs list: {0}".format(deleted_vlan_list), "DEBUG")
+        self.log(
+            "Collected {0} deleted VLANs: {1}".format(
+                len(deleted_vlan_list), deleted_vlan_list
+            ),
+            "DEBUG"
+        )
 
         for ssid_detail in input_wireless_ssids_details:
             vlan_name = ssid_detail.get("vlan_name")
             if vlan_name not in deleted_vlan_list:
                 self.log(
-                    "The VLAN '{0}' is already deleted.".format(vlan_name),
+                    "VLAN '{0}' is already deleted - adding to absent list".format(vlan_name),
                     "DEBUG",
                 )
                 absent_vlans_list.append(vlan_name)
 
-        self.log("Absent VLANs list: {0}".format(absent_vlans_list), "DEBUG")
+        self.log(
+            "Comparison completed - found {0} already deleted VLANs: {1}".format(
+                len(absent_vlans_list), absent_vlans_list
+            ),
+            "DEBUG"
+        )
 
         return absent_vlans_list
 
@@ -5949,33 +6020,60 @@ class SDAHostPortOnboarding(DnacBase):
         no_update_port_assignments = self.have.get("no_update_port_assignments")
         if no_update_port_assignments:
             self.log(
-                "No updates required for port assignments in the Cisco Catalyst Center.",
-                "INFO",
+                "Processing {0} port assignments interfaces that require no updates"
+                " in Cisco Catalyst Center".format(
+                    len(no_update_port_assignments)
+                ),
+                "DEBUG"
+            )
+            self.log(
+                "Generating no-update details for port assignment interface(s): {0}".format(
+                    no_update_port_assignments
+                ),
+                "DEBUG"
             )
             no_update_port_assignments_details = self.get_no_update_port_assignments_details(
                 no_update_port_assignments
             )
             result_details["no_update_port_assignments"] = no_update_port_assignments_details
             final_status_list.append("ok")
+            self.log(
+                "Successfully processed no-update port channels summary",
+                "DEBUG"
+            )
 
         no_update_port_channels = self.have.get("no_update_port_channels")
         if no_update_port_channels:
             self.log(
-                "No updates required for port channels in the Cisco Catalyst Center.",
-                "INFO",
+                "Processing {0} port channels that require no updates in Cisco Catalyst Center".format(
+                    len(no_update_port_channels)
+                ),
+                "DEBUG"
+            )
+            self.log(
+                "Generating no-update details for port channels: {0}".format(
+                    no_update_port_channels
+                ),
+                "DEBUG"
             )
             no_update_port_channels_details = self.get_no_update_port_channels_details(
                 no_update_port_channels
             )
             result_details["no_update_port_channels"] = no_update_port_channels_details
             final_status_list.append("ok")
+            self.log(
+                "Successfully processed no-update port channels summary",
+                "DEBUG"
+            )
 
         no_update_vlans_and_ssids_mapped_to_vlans = self.have.get(
             "no_update_vlans_and_ssids_mapped_to_vlans"
         )
         if no_update_vlans_and_ssids_mapped_to_vlans:
             self.log(
-                "No updates required for VLANs and SSIDs mapped to VLANs in the Cisco Catalyst Center.",
+                "Processing {0} VLAN-SSID mappings that require no updates in Cisco Catalyst Center".format(
+                    len(no_update_vlans_and_ssids_mapped_to_vlans)
+                ),
                 "INFO",
             )
             no_update_vlans_and_ssids_mapped_to_vlans_details = (
@@ -5987,6 +6085,10 @@ class SDAHostPortOnboarding(DnacBase):
                 no_update_vlans_and_ssids_mapped_to_vlans_details
             )
             final_status_list.append("ok")
+            self.log(
+                "Successfully processed no-update VLAN-SSID mappings summary",
+                "DEBUG"
+            )
 
         final_status, is_changed = self.process_final_result(final_status_list)
         self.msg = result_details
@@ -6028,17 +6130,23 @@ class SDAHostPortOnboarding(DnacBase):
 
         if self.config[0].get('port_assignments'):
             self.log("Checking for already deleted port assignments.", "INFO")
+            self.log(
+                "Comparing input port assignments: {0} with deleted assignments: {1}".format(
+                    self.config[0].get('port_assignments'), delete_port_assignments_params
+                ),
+                "DEBUG"
+            )
             already_deleted_port_assignments = self.compare_port_assignments_already_deleted(
                 self.config[0].get('port_assignments'), delete_port_assignments_params
             )
             if already_deleted_port_assignments:
                 self.log(
-                    "The following port assignments were already deleted: {0}".format(
-                        already_deleted_port_assignments
+                    "Found {0} port assignments that were already deleted: {1}".format(
+                        len(already_deleted_port_assignments), already_deleted_port_assignments
                     ),
                     "INFO",
                 )
-                result_details["Already deleted port assignments for the followng interface(s): "] = {
+                result_details["Already deleted port assignments for the following interface(s): "] = {
                     "success_count": len(already_deleted_port_assignments),
                     "already_deleted_interfaces": already_deleted_port_assignments,
                 }
@@ -6048,21 +6156,31 @@ class SDAHostPortOnboarding(DnacBase):
         delete_port_channels_params_list = self.want.get("delete_port_channels_params")
         if self.config[0].get('port_channels'):
             self.log("Checking for already deleted port channels.", "INFO")
+            self.log(
+                "Comparing input port channels: {0} with deleted channels".format(
+                    self.config[0].get('port_channels')
+                ),
+                "DEBUG"
+            )
             already_deleted_port_channels = self.compare_port_channels_already_deleted(
                 self.config[0].get('port_channels')
             )
             if already_deleted_port_channels:
                 self.log(
-                    "The following port channels were already deleted: {0}".format(
-                        already_deleted_port_channels
+                    "Found {0} port channels that were already deleted: {1}".format(
+                        len(already_deleted_port_channels), already_deleted_port_channels
                     ),
-                    "INFO",
+                    "INFO"
                 )
-                result_details["Already deleted port channels for the followng interface(s): "] = {
+                result_details["Already deleted port channels for the following interface(s): "] = {
                     "success_count": len(already_deleted_port_channels),
                     "already_deleted_port_channels_interfaces": already_deleted_port_channels,
                 }
                 final_status_list.append("ok")
+                self.log(
+                    "Successfully processed already deleted port channels summary",
+                    "DEBUG"
+                )
 
         if delete_port_channels_params_list:
             self.log("Processing deletion of port channels.", "INFO")
@@ -6093,21 +6211,31 @@ class SDAHostPortOnboarding(DnacBase):
 
         if self.config[0].get('wireless_ssids'):
             self.log("Checking for already deleted vlans and ssids mapped to vlans.", "INFO")
+            self.log(
+                "Comparing input wireless SSIDs: {0} with deleted VLANs and SSIDs: {1}".format(
+                    self.config[0].get('wireless_ssids'), delete_vlans_and_ssids_mapped_to_vlans_params
+                ),
+                "DEBUG"
+            )
             already_deleted_vlans_and_ssids = self.compare_vlans_and_ssids_mapped_to_vlans_already_deleted(
                 self.config[0].get('wireless_ssids'), delete_vlans_and_ssids_mapped_to_vlans_params
             )
             if already_deleted_vlans_and_ssids:
                 self.log(
-                    "The following vlans and ssids mapped to vlans were already deleted: {0}".format(
-                        already_deleted_vlans_and_ssids
+                    "Found {0} VLANs and SSIDs that were already deleted: {1}".format(
+                        len(already_deleted_vlans_and_ssids), already_deleted_vlans_and_ssids
                     ),
-                    "INFO",
+                    "INFO"
                 )
                 result_details["Already deleted vlans and ssids mapped to vlans: "] = {
                     "success_count": len(already_deleted_vlans_and_ssids),
                     "already_deleted_vlans_ssids": already_deleted_vlans_and_ssids,
                 }
                 final_status_list.append("ok")
+                self.log(
+                    "Successfully processed already deleted VLANs and SSIDs summary",
+                    "DEBUG"
+                )
 
         self.log("Final Statuses = {0}".format(final_status_list), "DEBUG")
 

@@ -2005,6 +2005,13 @@ class VirtualNetwork(DnacBase):
 
             if vlan_update_payload["associatedLayer3VirtualNetworkName"]:
                 fabric_enable_wireless = new_vlan_config.get("fabric_enabled_wireless")
+                self.log(
+                    "Evaluating wireless flooding settings - wireless_enabled: {0}, "
+                    "fabric_enable_wireless: {1}".format(
+                        wireless_enabled, fabric_enable_wireless
+                    ),
+                    "DEBUG"
+                )
                 if wireless_enabled and wireless_enabled is True:
                     vlan_update_payload["isWirelessFloodingEnabled"] = wireless_flooding_enable
                 elif fabric_enable_wireless and fabric_enable_wireless is False:
