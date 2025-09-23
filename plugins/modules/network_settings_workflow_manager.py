@@ -1835,7 +1835,7 @@ class NetworkSettings(DnacBase):
         Returns:
             network_details: Processed Network data in a format suitable for configuration according to cisco catalyst center version.
         """
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
             self.log(
                 "Using get_network_params_v1 based on version check",
                 "DEBUG",
@@ -3138,7 +3138,8 @@ class NetworkSettings(DnacBase):
             self.log("No matching global pool found in the current batch of results. Continuing to next batch.", "WARNING")
 
             self.log("Failed to find the global pool after exhausting all results.", "ERROR")
-            return None
+            self.msg = "Invalid global_pool_name '{0}' under reserve_pool_details".format(global_pool_name)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_want_global_pool_v1(self, global_ippool):
         """
@@ -3253,6 +3254,9 @@ class NetworkSettings(DnacBase):
         want_ippool = want_global.get("settings").get("ippool")
         global_pool_index = 0
 
+        # Valid pool types enforced by API
+        VALID_POOL_TYPES = ["Tunnel", "Generic"]
+
         # Process each pool in the global_ippool
         for pool_details in global_ippool:
             cidr_value = pool_details.get("cidr")
@@ -3265,6 +3269,22 @@ class NetworkSettings(DnacBase):
                 continue
             subnet = cidr.get("network_prefix")
             prefix_len = cidr.get("prefix_length")
+
+            # Normalize pool_type: first letter capitalized, rest lowercase
+            user_pool_type = pool_details.get("pool_type", "")
+            normalized_pool_type = (
+                user_pool_type.capitalize() if isinstance(user_pool_type, str) else ""
+            )
+
+            if normalized_pool_type not in VALID_POOL_TYPES:
+                self.log(
+                    f"Invalid or missing pool_type '{user_pool_type}'. "
+                    f"Valid options are {VALID_POOL_TYPES}.",
+                    "ERROR"
+                )
+                self.msg = f"Invalid or missing pool_type '{user_pool_type}'. Valid options are {VALID_POOL_TYPES}."
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
             pool_values = {
                 "addressSpace": {
                     "subnet": subnet,
@@ -3276,7 +3296,7 @@ class NetworkSettings(DnacBase):
                         pool_details.get("dns_server_ips")
                 },
                 "name": pool_details.get("name"),
-                "poolType": pool_details.get("pool_type")
+                "poolType": normalized_pool_type
             }
             self.log(f"Initial pool values: {pool_values}", "DEBUG")
 
@@ -3305,9 +3325,7 @@ class NetworkSettings(DnacBase):
                 })
                 for key in ["dhcpServers", "dnsServers", "gatewayIpAddress"]:
                     if address_space.get(key) is None and have_ippool.get("addressSpace").get(key) is not None:
-                        address_space[key] = have_ippool[key]
-                    else:
-                        address_space.pop(key)
+                        address_space[key] = have_ippool.get("addressSpace").get(key)
 
             want_ippool.append(pool_values)
             self.log(f"Processed pool values: {pool_values}", "DEBUG")
@@ -3512,16 +3530,21 @@ class NetworkSettings(DnacBase):
         max_addresses = 2 ** max_bits
         self.log(f"Max addresses for {ip_version}: {max_addresses}.", "DEBUG")
 
-        if total_hosts <= 0 or total_hosts > max_addresses or (total_hosts & (total_hosts - 1)) != 0:
+        # Validate total_hosts
+        if total_hosts <= 0 or total_hosts > (max_addresses - 2 if ip_version == "IPv4" else max_addresses):
             self.msg = (
                 f"Invalid total_hosts '{total_hosts}' for {ip_version}. "
-                f"Total hosts must be a positive power of 2 and not exceed {max_addresses}."
+                f"Total hosts must be greater than 0 and not exceed {max_addresses}."
             )
             self.log(self.msg, "WARNING")
             self.set_operation_result("failed", False, self.msg,
                                       "ERROR", self.global_pool_response).check_return_status()
 
-        prefix_length = max_bits - int(math.log2(total_hosts))
+        # Calculate host bits (add 2 for network + broadcast in IPv4)
+        adjustment = 2 if ip_version == "IPv4" else 0
+        host_bits = math.ceil(math.log2(total_hosts + adjustment))
+        prefix_length = max_bits - host_bits
+
         self.log(
             f"Calculated prefix length for total_hosts={total_hosts}, ip_version={ip_version}: {prefix_length}.",
             "INFO",
@@ -3632,8 +3655,14 @@ class NetworkSettings(DnacBase):
             }
             self.log(f"Processed IPv4 address space: {ipv4_address_space}", "DEBUG")
 
-            # Process IPv6 details if enabledx
+            # Process IPv6 details if enabled
             ipv6_address = item.get("ipv6_address_space")
+            if ipv6_address is not None and not isinstance(ipv6_address, bool):
+                self.msg = "Invalid value for 'ipv6_address_space' parameter: '{0}'. Expected boolean value (True or False), but received {1}.".format(
+                    ipv6_address, type(ipv6_address).__name__)
+                self.log("IPv6 address space validation failed: {0}".format(self.msg), "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
             # Check for missing required parameters in the playbook
             if ipv6_address is True:
                 self.log(f"Processing IPv6 details for reserve pool index {reserve_pool_index + 1}.", "DEBUG")
@@ -3778,7 +3807,7 @@ class NetworkSettings(DnacBase):
             want_network_settings = want_network.get("settings")
             self.log("Current state (have): {0}".format(self.have), "DEBUG")
             have_network_details = self.have.get("network")[network_management_index].get("net_details").get("settings")
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
                 if item.get("dhcp_server") is not None:
                     want_network_settings.update({
                         "dhcpServer": item.get("dhcp_server")
@@ -5100,6 +5129,15 @@ class NetworkSettings(DnacBase):
                 prev_name = item.get("prev_name")
                 self.log(f"Checking if global pool '{name}' (or previous name '{prev_name}') requires an update.", "DEBUG")
                 for pool_value in self.have.get("globalPool", []):
+                    if not pool_value.get("exists"):
+                        self.log(
+                            "Skipping global pool '{0}' as it does not exist".format(
+                                pool_name
+                            ),
+                            "DEBUG",
+                        )
+                        continue
+
                     pool_exists = pool_value.get("exists")
                     pool_name = pool_value.get("details", {}).get("name")
                     self.log(f"Evaluating existing global pool: {pool_name}, exists: {pool_exists}", "DEBUG")
@@ -5852,7 +5890,7 @@ class NetworkSettings(DnacBase):
                 "Network parameters for 'update_network_v2': {0}".format(net_params),
                 "DEBUG",
             )
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
                 if "client_and_endpoint_aaa" in net_params["settings"]:
                     net_params["settings"]["clientAndEndpoint_aaa"] = net_params[
                         "settings"
