@@ -37,4 +37,3 @@ delete_nfs_configuration:
   - nfs_configuration:
       - server_ip: 172.27.17.90
         source_path: /home/nfsshare/backups/TB19
-

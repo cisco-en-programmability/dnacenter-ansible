@@ -160,9 +160,3 @@
         - "'deleted successfully' in item.response"
     loop: "{{ result_delete_backup.results }}"
     when: result_delete_backup is defined
-
-
-
-
-
-
