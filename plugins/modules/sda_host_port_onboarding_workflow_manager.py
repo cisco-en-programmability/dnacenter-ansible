@@ -4475,7 +4475,7 @@ class SDAHostPortOnboarding(DnacBase):
         ]
         msg["Port assignment does not needs any update for following interface(s)"] = {
             "success_count": len(interface_list),
-            "success_no_port_assign_update": interface_list,
+            "port_assignments_no_update_needed": interface_list,
         }
         return msg
 
@@ -4502,7 +4502,7 @@ class SDAHostPortOnboarding(DnacBase):
         ]
         msg["Port channel does not needs any update for following port channel(s)"] = {
             "success_count": len(port_channels_list),
-            "success_no_port_channel_update": port_channels_list,
+            "port_channels_no_update_needed": port_channels_list,
         }
         return msg
 
@@ -4530,7 +4530,7 @@ class SDAHostPortOnboarding(DnacBase):
             vlan_ssid_list.append(f"{vlan}: {', '.join(ssid_names)}")
         msg["VLANs and SSIDs does not needs any update for following VLAN(s) and SSID(s)"] = {
             "success_count": len(vlan_ssid_list),
-            "success_no_vlan_ssid_update": vlan_ssid_list,
+            "vlans_ssid_no_update_needed": vlan_ssid_list,
         }
         return msg
 
@@ -5915,12 +5915,6 @@ class SDAHostPortOnboarding(DnacBase):
             ),
         }
 
-        # Check if all action_map keys are missing in self.want
-        if not any(action_param in self.want for action_param in action_map.keys()):
-            self.msg = "Host Onboarding(Add/Update) operation(s) are not required for the provided input parameters in the Cisco Catalyst Center."
-            self.set_operation_result("ok", False, self.msg, "INFO")
-            return self
-
         final_status_list = []
         result_details = {}
 
@@ -6046,7 +6040,7 @@ class SDAHostPortOnboarding(DnacBase):
                 )
                 result_details["Already deleted port assignments for the followng interface(s): "] = {
                     "success_count": len(already_deleted_port_assignments),
-                    "success_interfaces": already_deleted_port_assignments,
+                    "already_deleted_interfaces": already_deleted_port_assignments,
                 }
                 final_status_list.append("ok")
 
@@ -6066,7 +6060,7 @@ class SDAHostPortOnboarding(DnacBase):
                 )
                 result_details["Already deleted port channels for the followng interface(s): "] = {
                     "success_count": len(already_deleted_port_channels),
-                    "success_interfaces": already_deleted_port_channels,
+                    "already_deleted_port_channels_interfaces": already_deleted_port_channels,
                 }
                 final_status_list.append("ok")
 
@@ -6111,7 +6105,7 @@ class SDAHostPortOnboarding(DnacBase):
                 )
                 result_details["Already deleted vlans and ssids mapped to vlans: "] = {
                     "success_count": len(already_deleted_vlans_and_ssids),
-                    "success_vlans": already_deleted_vlans_and_ssids,
+                    "already_deleted_vlans_ssids": already_deleted_vlans_and_ssids,
                 }
                 final_status_list.append("ok")
 
