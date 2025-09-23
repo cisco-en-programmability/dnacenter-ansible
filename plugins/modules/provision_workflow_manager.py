@@ -4112,7 +4112,7 @@ class Provision(DnacBase):
             ips = [item["management_ip_address"] for item in input]
             ip_list_str = ", ".join(ips)
 
-            self.msg = "Provisioning skipped for IPs: {0} (devices already provisioned)".format(ip_list_str)
+            self.msg = "No provisioning operations were executed for these IPs: {0}".format(ip_list_str)
             self.set_operation_result(
                 "success", False, self.msg, "INFO"
             )
