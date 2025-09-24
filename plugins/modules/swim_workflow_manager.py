@@ -35,6 +35,7 @@ description:
     a device. The software image must be imported into
     Catalyst Center before it can be distributed.
   - Provides an API to delete software images from Catalyst Center.
+  - A golden tag is mandatory for a site, and the workflow cannot proceed without it
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
