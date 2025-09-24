@@ -1895,6 +1895,15 @@ class FabricDevicesInfo(DnacBase):
         self.log("Using retry configuration - timeout: {0}s, retries: {1}, interval: {2}s".format(timeout, retries, interval), "DEBUG")
         self.log("Starting device identification using direct parameter lookup for {0} parameter types".format(len(param_keys)), "DEBUG")
 
+        required_timeout = retries * interval
+        if timeout < required_timeout:
+            self.msg = (
+                "Warning: Timeout {0} seconds may be too short. It should be greater than {1} seconds "
+                "for retrying {2} times at an interval of {3} seconds."
+                .format(timeout, required_timeout, retries, interval)
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
         for field_name in param_keys:
             values = filtered_config.get(field_name, [])
             if not isinstance(values, list) or len(values) == 0:
