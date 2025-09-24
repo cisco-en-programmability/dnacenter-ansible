@@ -1438,7 +1438,6 @@ class Swim(DnacBase):
                         "Processing site as a building: {site_name}".format(site_name=site_name),
                         "DEBUG",
                     )
-
                     site_info = {}
 
                     self.log("Fetching parent site data for building: {0}".format(site_name), "DEBUG")
@@ -1464,6 +1463,7 @@ class Swim(DnacBase):
                         self.log("Parent site data: {0}".format(str(parent_site_data)), "DEBUG")
                     else:
                         self.log("No data found for parent site: {0}".format(site_name), "WARNING")
+
                     self.log("Current site_info after parent processing: {0}".format(site_info), "DEBUG")
                     wildcard_site_name = site_name + "/.*"
                     self.log("Attempting to fetch child sites for building with wildcard: {0}".format(wildcard_site_name), "DEBUG")
@@ -1662,7 +1662,6 @@ class Swim(DnacBase):
                         device_list_response = self.dnac._exec(
                             family="devices",
                             function="get_device_list",
-                            op_modifies=True,
                             params=device_params,
                         )
                     self.log(
