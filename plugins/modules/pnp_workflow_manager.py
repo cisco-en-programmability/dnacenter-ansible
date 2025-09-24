@@ -2007,7 +2007,7 @@ class PnP(DnacBase):
             "DEBUG",
         )
 
-        pnp_state = dev_details_response.get("deviceInfo").get("state")
+        pnp_state = dev_details_response.get("deviceInfo", {}).get("state")
         self.log("PnP state of the device: {0}".format(pnp_state), "INFO")
 
         device_info = self.want.get("pnp_params")[0].get("deviceInfo")
