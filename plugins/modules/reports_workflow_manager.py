@@ -170,8 +170,9 @@ options:
                       description:
                         - List of days for weekly recurrence.
                         - Required for C(WEEKLY) recurrence_type.
-                        - Must include all 7 days for daily execution
-                          [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY].
+                        - Can specify individual days or use C(DAILY) for all seven days.
+                        - Must include all 7 days for daily execution or DAILY.
+                          ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"] or ["DAILY"].
                       type: list
                       elements: str
                       required: false
@@ -1360,10 +1361,19 @@ class Reports(DnacBase):
 
         expected_days = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY",
                          "FRIDAY", "SATURDAY", "SUNDAY"}
-        if set(recurrence_days) != expected_days:
-            self.msg = "Only daily recurrence (WEEKLY with all 7 days) is supported."
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
+
+        # Normalize input (uppercase for consistency)
+        recurrence_days = [d.upper() for d in recurrence_days]
+
+        # If DAILY is provided, expand it to all days
+        if "DAILY" in recurrence_days:
+            recurrence["days"] = list(expected_days)
+        else:
+            # Validate input
+            if not set(recurrence_days).issubset(expected_days):
+                self.msg = "Invalid recurrence days. Must be DAILY or any of: MONDAY–SUNDAY."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
 
         self.log("Weekly recurrence validated with all 7 days", "DEBUG")
         return True
@@ -1663,9 +1673,8 @@ class Reports(DnacBase):
         self.log("Processing location filter {0}".format(filter_index + 1), "DEBUG")
 
         filter_value = filter_entry.get("value")
-        if not filter_value:
-            filter_entry["value"] = []
-            filter_entry["display_value"] = []
+        if not filter_entry.get("display_value"):
+            filter_entry["display_value"] = filter_entry["name"]
             return True
 
         if not isinstance(filter_value, list):
@@ -2453,7 +2462,7 @@ class Reports(DnacBase):
             return False
 
         try:
-            self.log("Sending report creation request to Catalyst Center API", "DEBUG")
+            self.log("Sending report creation request to Catalyst Center API with payload: {0}".format(self.pprint(report_payload)), "DEBUG")
             response = self.dnac._exec(
                 family="reports",
                 function="create_or_schedule_a_report",
