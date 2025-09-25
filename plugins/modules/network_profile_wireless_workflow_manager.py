@@ -1356,7 +1356,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         feature_template_designs = config.get("feature_template_designs")
         if feature_template_designs \
-           and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") > 0:
+           and self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             self.log("Fetching feature template information.", "DEBUG")
             self.get_feature_template_info(feature_template_designs, profile_info)
 
@@ -1925,7 +1925,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                             )
 
                 if feature_template_designs \
-                   and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") > 0:
+                   and self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
                     self.log("Validating feature template configurations against existing profile template assignments", "DEBUG")
                     self.log("Processing {0} feature template designs for configuration comparison with existing assignments".format(
                         len(feature_template_designs)), "DEBUG")
@@ -2283,7 +2283,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     elif (
                         key == "feature_template_designs"
                         and isinstance(value, list)
-                        and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") > 0
+                        and self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0
                     ):
                         payload_data["featureTemplates"] = []
                         feature_template_designs = wireless_data[key]
