@@ -5591,12 +5591,17 @@ class NetworkSettings(DnacBase):
             "INFO",
         )
 
+        param = {"id": site_id, "timeZone": time_zone_settings}
+        if time_zone_settings == {}:
+            payload = {"settings": {"timeZone": {}}}
+            param = {"id": site_id, "payload": payload}
+
         try:
             response = self.dnac._exec(
                 family="network_settings",
                 function="set_time_zone_for_a_site",
                 op_modifies=True,
-                params={"id": site_id, "timeZone": time_zone_settings},
+                params=param,
             )
             self.log(
                 "Time zone settings updated for site '{0}' (ID: {1}): {2}".format(
@@ -5745,12 +5750,16 @@ class NetworkSettings(DnacBase):
             "INFO",
         )
 
+        param = {"id": site_id, "banner": banner_settings}
+        if banner_settings == {}:
+            payload = {"settings": {"messageOfTheday": {}}}
+            param = {"id": site_id, "payload": payload}
         try:
             response = self.dnac._exec(
                 family="network_settings",
                 function="set_banner_settings_for_a_site",
                 op_modifies=True,
-                params={"id": site_id, "banner": banner_settings},
+                params=param,
             )
             self.log(
                 "Banner settings updated for site '{0}' (ID: {1}): {2}".format(
@@ -5808,6 +5817,10 @@ class NetworkSettings(DnacBase):
             param = {"id": site_id, "aaaNetwork": network_aaa}
         elif client_and_endpoint_aaa is not None:
             param = {"id": site_id, "aaaClient": client_and_endpoint_aaa}
+
+        if network_aaa == {} and client_and_endpoint_aaa == {}:
+            payload = {"settings": {"aaaNetwork": {}, "aaaClient": {}}}
+            param = {"id": site_id, "payload": payload}
 
         try:
             response = self.dnac._exec(
