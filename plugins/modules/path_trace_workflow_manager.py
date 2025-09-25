@@ -117,11 +117,31 @@ options:
         default: true
       flow_analysis_id:
         description: |
-          The Flow Analysis ID for the path trace, used to delete an existing path trace
-          when in the 'deleted' state. If not provided, the module will search and delete
-          based on the following search parameters.
-          When create a path trace, it returns a flow_analysis_id (the "id" from the "request"
-          section), which should be shown in a register
+          The Flow Analysis ID uniquely identifies a specific path trace operation in
+          Cisco Catalyst Center. This UUID-format identifier serves multiple purposes
+          across different operational states.
+
+          **Creation Context:**
+          When creating a new path trace, the API returns a flow_analysis_id in the
+          response's "request.id" field. This identifier should be captured using
+          Ansible's register functionality for subsequent operations.
+
+          **Retrieval Operations:**
+          - If provided, retrieves the specific path trace associated with this ID
+          - If omitted, the module searches based on source_ip and dest_ip parameters
+          - Provides precise identification when multiple traces exist between the same endpoints
+
+          **Deletion Operations:**
+          - When state is 'deleted', this ID enables targeted removal of specific traces
+          - If not provided, the module searches for matching traces using source_ip/dest_ip
+          - Essential for scenarios where multiple path traces exist with identical endpoints
+
+          **Best Practices:**
+          - Always capture flow_analysis_id when creating path traces using register
+          - Use flow_analysis_id for precise trace management in automation workflows
+          - Preferred over source_ip/dest_ip combination for unique trace identification
+
+          **Format:** UUID string (For example, "99e067de-8776-40d2-9f6a-1e6ab2ef083c")
         type: str
         required: false
 requirements:
