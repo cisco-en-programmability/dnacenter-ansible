@@ -391,6 +391,27 @@ EXAMPLES = r"""
                       antenna_name: Internal-CW9172H-x-5GHz
                       azimuth: 1  # support upto 360
                       elevation: 30  # support -90 upto 90
+    # Delete assigned access point from the floor location
+    - name: Unassign the access point from the floor location
+      cisco.dnac.accesspoint_location_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: deleted
+        config:  # Minimum 1; Maximum 100 config hierarchy
+          - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
+            access_points:
+              - accesspoint_name: IAC-TB4-SJ-AP1
+                action: delete_position  # Delete the access point from the floor location
 """
 
 RETURN = r"""
@@ -517,6 +538,24 @@ response_create_assign_idempotent:
                 Following Access Point(s) assigned to planned location(s): '['IAC-TB4-SJ-AP1']'.
                 Following Access Point Location(s): 'None' already exist.",
         "response": [],
+        "status": "success"
+    }
+
+# Case 8: Unassign the access point from existing access points planned location.
+response_unassign_idempotent:
+  description: >
+    A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK
+    when a access point planned location is successfully unassigned. The response confirms
+    the successful unassignment of the planned location and provides details about the status,
+    including its access point name and status.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Access Point planned/assigned Location(s) deleted and verified successfully for '['IAC-TB4-SJ-AP1']'.",
+        "response": [
+            "IAC-TB4-SJ-AP1"
+        ],
         "status": "success"
     }
 """
