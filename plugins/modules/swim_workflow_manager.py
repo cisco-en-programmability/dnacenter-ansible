@@ -35,6 +35,7 @@ description:
     a device. The software image must be imported into
     Catalyst Center before it can be distributed.
   - Provides an API to delete software images from Catalyst Center.
+  - A golden tag is mandatory for a site, and the workflow cannot proceed without it
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -1427,319 +1428,320 @@ class Swim(DnacBase):
                     for item_dict in item["response"]:
                         site_response_list.append(item_dict)
         else:
-            site_type = self.get_sites_type(site_name)
-            site_info = {}
-
-            self.log("Starting site hierarchy processing for: '{0}' (Type: {1})".format(site_name, site_type), "INFO")
-            if site_type == "building":
-                self.log(
-                    "Processing site as a building: {site_name}".format(site_name=site_name),
-                    "DEBUG",
-                )
-
+            if site_name:
+                site_type = self.get_sites_type(site_name)
+                self.log("Determined site type: {0}".format(site_type), "DEBUG")
                 site_info = {}
 
-                self.log("Fetching parent site data for building: {0}".format(site_name), "DEBUG")
-                parent_site_data = self.get_site(site_name)
-
-                if parent_site_data.get("response"):
+                self.log("Starting site hierarchy processing for: '{0}' (Type: {1})".format(site_name, site_type), "INFO")
+                if site_type == "building":
                     self.log(
-                        "Parent site data found for building: '{0}'. Processing {1} items.".format(
-                            site_name,
-                            len(parent_site_data.get('response') or [])
-                        ),
-                        "DEBUG"
+                        "Processing site as a building: {site_name}".format(site_name=site_name),
+                        "DEBUG",
                     )
-                    for item in parent_site_data["response"]:
-                        if "nameHierarchy" in item and "id" in item:
-                            site_info[item["nameHierarchy"]] = item["id"]
-                            self.log("Added parent site '{0}' with ID '{1}' to site_info.".format(item['nameHierarchy'], item['id']), "DEBUG")
-                        else:
-                            self.log(
-                                "Missing 'nameHierarchy' or 'id' in parent site item: {0}".format(str(item)),
-                                "WARNING"
-                            )
-                    self.log("Parent site data: {0}".format(str(parent_site_data)), "DEBUG")
-                else:
-                    self.log("No data found for parent site: {0}".format(site_name), "WARNING")
-                self.log("Current site_info after parent processing: {0}".format(site_info), "DEBUG")
-                wildcard_site_name = site_name + "/.*"
-                self.log("Attempting to fetch child sites for building with wildcard: {0}".format(wildcard_site_name), "DEBUG")
-                child_site_data = self.get_site(wildcard_site_name)
+                    site_info = {}
 
-                if child_site_data and child_site_data.get("response"):
-                    self.log(
-                        "Child site data found for building: '{0}'. Processing {1} items.".format(
-                            wildcard_site_name,
-                            len(child_site_data.get('response') or [])
-                        ),
-                        "DEBUG"
-                    )
-                    for item in child_site_data["response"]:
-                        if "nameHierarchy" in item and "id" in item:
-                            site_info[item["nameHierarchy"]] = item["id"]
-                            self.log("Added child site '{0}' with ID '{1}' to site_info.".format(item['nameHierarchy'], item['id']), "DEBUG")
-                        else:
-                            self.log(
-                                "Missing 'nameHierarchy' or 'id' in child site item: {0}".format(str(item)),
-                                "WARNING"
-                            )
-                    self.log("Child site data found and logged for: {0}".format(wildcard_site_name), "DEBUG")
-                    site_names = wildcard_site_name
-                else:
-                    self.log("No child site data found under: {0}".format(wildcard_site_name), "DEBUG")
-                    site_names = site_name
+                    self.log("Fetching parent site data for building: {0}".format(site_name), "DEBUG")
+                    parent_site_data = self.get_site(site_name)
 
-            elif site_type == "area":
-                self.log(
-                    "Processing site as an area: {site_name}".format(site_name=site_name),
-                    "DEBUG",
-                )
-
-                wildcard_site_name = site_name + "/.*"
-                self.log("Attempting to fetch child sites for area using wildcard:: {0}".format(wildcard_site_name), "DEBUG")
-                child_site_data = self.get_site(wildcard_site_name)
-                self.log("Child site data: {0}".format(str(child_site_data)), "DEBUG")
-
-                if child_site_data and child_site_data.get("response"):
-                    self.log("Child sites found for area: '{0}'. Setting site_names to wildcard.".format(wildcard_site_name), "DEBUG")
-                    site_names = wildcard_site_name
-                else:
-                    self.log("No child sites found under area: '{0}'. Using original site name: '{1}'.".format(wildcard_site_name, site_name), "DEBUG")
-                    site_names = site_name
-
-            elif site_type == "floor":
-                self.log(
-                    "Processing site as a floor: {site_name}".format(
-                        site_name=site_name
-                    ),
-                    "DEBUG",
-                )
-                site_names = site_name
-
-            else:
-                self.log(
-                    "Unknown site type '{site_type}' for site '{site_name}'.".format(
-                        site_type=site_type, site_name=site_name
-                    ),
-                    "ERROR",
-                )
-
-            if site_type in ["area", "floor"]:
-                self.log("Fetching site names for pattern: {0}".format(site_names), "DEBUG")
-                get_site_names = self.get_site(site_names)
-                self.log("Fetched site names: {0}".format(str(get_site_names)), "DEBUG")
-
-                for item in get_site_names.get('response', []):
-                    if 'nameHierarchy' in item and 'id' in item:
-                        site_info[item['nameHierarchy']] = item['id']
+                    if parent_site_data.get("response"):
+                        self.log(
+                            "Parent site data found for building: '{0}'. Processing {1} items.".format(
+                                site_name,
+                                len(parent_site_data.get('response') or [])
+                            ),
+                            "DEBUG"
+                        )
+                        for item in parent_site_data["response"]:
+                            if "nameHierarchy" in item and "id" in item:
+                                site_info[item["nameHierarchy"]] = item["id"]
+                                self.log("Added parent site '{0}' with ID '{1}' to site_info.".format(item['nameHierarchy'], item['id']), "DEBUG")
+                            else:
+                                self.log(
+                                    "Missing 'nameHierarchy' or 'id' in parent site item: {0}".format(str(item)),
+                                    "WARNING"
+                                )
+                        self.log("Parent site data: {0}".format(str(parent_site_data)), "DEBUG")
                     else:
+                        self.log("No data found for parent site: {0}".format(site_name), "WARNING")
+
+                    self.log("Current site_info after parent processing: {0}".format(site_info), "DEBUG")
+                    wildcard_site_name = site_name + "/.*"
+                    self.log("Attempting to fetch child sites for building with wildcard: {0}".format(wildcard_site_name), "DEBUG")
+                    child_site_data = self.get_site(wildcard_site_name)
+
+                    if child_site_data and child_site_data.get("response"):
                         self.log(
-                            "Missing 'nameHierarchy' or 'id' in site item: {0}".format(str(item)),
-                            "WARNING"
+                            "Child site data found for building: '{0}'. Processing {1} items.".format(
+                                wildcard_site_name,
+                                len(child_site_data.get('response') or [])
+                            ),
+                            "DEBUG"
                         )
-            self.log("Site information retrieved: {0}".format(str(site_info)), "DEBUG")
+                        for item in child_site_data["response"]:
+                            if "nameHierarchy" in item and "id" in item:
+                                site_info[item["nameHierarchy"]] = item["id"]
+                                self.log("Added child site '{0}' with ID '{1}' to site_info.".format(item['nameHierarchy'], item['id']), "DEBUG")
+                            else:
+                                self.log(
+                                    "Missing 'nameHierarchy' or 'id' in child site item: {0}".format(str(item)),
+                                    "WARNING"
+                                )
+                        self.log("Child site data found and logged for: {0}".format(wildcard_site_name), "DEBUG")
+                        site_names = wildcard_site_name
+                    else:
+                        self.log("No child site data found under: {0}".format(wildcard_site_name), "DEBUG")
+                        site_names = site_name
 
-            for site_name, site_id in site_info.items():
-                offset = 1
-                limit = self.get_device_details_limit()
+                elif site_type == "area":
+                    self.log(
+                        "Processing site as an area: {site_name}".format(site_name=site_name),
+                        "DEBUG",
+                    )
 
-                while True:
+                    wildcard_site_name = site_name + "/.*"
+                    self.log("Attempting to fetch child sites for area using wildcard:: {0}".format(wildcard_site_name), "DEBUG")
+                    child_site_data = self.get_site(wildcard_site_name)
+                    self.log("Child site data: {0}".format(str(child_site_data)), "DEBUG")
+
+                    if child_site_data and child_site_data.get("response"):
+                        self.log("Child sites found for area: '{0}'. Setting site_names to wildcard.".format(wildcard_site_name), "DEBUG")
+                        site_names = wildcard_site_name
+                    else:
+                        self.log("No child sites found under area: '{0}'. Using original site name: '{1}'.".format(wildcard_site_name, site_name), "DEBUG")
+                        site_names = site_name
+
+                elif site_type == "floor":
+                    self.log(
+                        "Processing site as a floor: {site_name}".format(
+                            site_name=site_name
+                        ),
+                        "DEBUG",
+                    )
+                    site_names = site_name
+
+                else:
+                    self.log(
+                        "Unknown site type '{site_type}' for site '{site_name}'.".format(
+                            site_type=site_type, site_name=site_name
+                        ),
+                        "ERROR",
+                    )
+
+                if site_type in ["area", "floor"]:
+                    self.log("Fetching site names for pattern: {0}".format(site_names), "DEBUG")
+                    get_site_names = self.get_site(site_names)
+                    self.log("Fetched site names: {0}".format(str(get_site_names)), "DEBUG")
+
+                    for item in get_site_names.get('response', []):
+                        if 'nameHierarchy' in item and 'id' in item:
+                            site_info[item['nameHierarchy']] = item['id']
+                        else:
+                            self.log(
+                                "Missing 'nameHierarchy' or 'id' in site item: {0}".format(str(item)),
+                                "WARNING"
+                            )
+                self.log("Site information retrieved: {0}".format(str(site_info)), "DEBUG")
+
+                for site_name, site_id in site_info.items():
+                    offset = 1
+                    limit = self.get_device_details_limit()
+
+                    while True:
+                        try:
+                            response = self.dnac._exec(
+                                family="site_design",
+                                function="get_site_assigned_network_devices",
+                                params={
+                                    "site_id": site_id,
+                                    "offset": offset,
+                                    "limit": limit,
+                                },
+                            )
+                            self.log(
+                                "Received API response from 'get_site_assigned_network_devices' for site '{0}': {1}".format(
+                                    site_name, response
+                                ),
+                                "DEBUG",
+                            )
+
+                            devices = response.get("response", [])
+                            if not devices:
+                                self.log(
+                                    "No more devices found for site '{0}'.".format(
+                                        site_name
+                                    ),
+                                    "INFO",
+                                )
+                                break
+
+                            for device in devices:
+                                device_id_list.append(device.get("deviceId"))
+
+                            offset += limit
+
+                        except Exception as e:
+                            self.log(
+                                "Unable to fetch devices for site '{0}' due to '{1}'".format(
+                                    site_name, e
+                                ),
+                                "WARNING",
+                            )
+                            break
+
+                for device_id in device_id_list:
+                    self.log("Processing device_id: {0}".format(device_id))
                     try:
-                        response = self.dnac._exec(
-                            family="site_design",
-                            function="get_site_assigned_network_devices",
-                            params={
-                                "site_id": site_id,
-                                "offset": offset,
-                                "limit": limit,
-                            },
+                        device_list_response = self.dnac._exec(
+                            family="devices",
+                            function="get_device_list",
+                            params={"id": device_id},
                         )
+
                         self.log(
-                            "Received API response from 'get_site_assigned_network_devices' for site '{0}': {1}".format(
-                                site_name, response
+                            "Received API response from 'get_device_list': {0}".format(
+                                str(device_list_response)
                             ),
                             "DEBUG",
                         )
 
-                        devices = response.get("response", [])
-                        if not devices:
+                        device_response = device_list_response.get("response")
+                        if not device_response:
                             self.log(
-                                "No more devices found for site '{0}'.".format(
-                                    site_name
-                                ),
+                                "No device data found for device_id: {0}".format(device_id),
                                 "INFO",
                             )
-                            break
+                            continue
 
-                        for device in devices:
-                            device_id_list.append(device.get("deviceId"))
-
-                        offset += limit
+                        for device in device_response:
+                            if device.get("instanceUuid") in device_id_list:
+                                if (
+                                    device_family is None
+                                    or device.get("family") == device_family
+                                ):
+                                    site_response_list.append(device)
 
                     except Exception as e:
                         self.log(
-                            "Unable to fetch devices for site '{0}' due to '{1}'".format(
-                                site_name, e
+                            "Unable to fetch devices for site '{0}' due to: {1}".format(
+                                site_name, str(e)
                             ),
                             "WARNING",
                         )
-                        break
+                        return device_uuid_list
 
-            for device_id in device_id_list:
-                self.log("Processing device_id: {0}".format(device_id))
+            self.device_ips = []
+            for item in site_response_list:
+                device_ip = item["managementIpAddress"]
+                self.device_ips.append(device_ip)
+
+            if device_role.upper() == "ALL":
+                device_role = None
+
+            device_params = {
+                "series": device_series_name,
+                "family": device_family,
+                "role": device_role,
+            }
+            offset = 0
+            limit = self.get_device_details_limit()
+            initial_exec = False
+            site_memberships_ids, device_response_ids = [], []
+
+            while True:
                 try:
-                    device_list_response = self.dnac._exec(
-                        family="devices",
-                        function="get_device_list",
-                        params={"id": device_id},
-                    )
-
+                    if initial_exec:
+                        device_params["limit"] = limit
+                        device_params["offset"] = offset * limit
+                        device_list_response = self.dnac._exec(
+                            family="devices",
+                            function="get_device_list",
+                            params=device_params,
+                        )
+                    else:
+                        initial_exec = True
+                        device_list_response = self.dnac._exec(
+                            family="devices",
+                            function="get_device_list",
+                            params=device_params,
+                        )
                     self.log(
-                        "Received API response from 'get_device_list': {0}".format(
+                        "Received API response from 'device_list_response': {0}".format(
                             str(device_list_response)
                         ),
                         "DEBUG",
                     )
-
+                    offset = offset + 1
                     device_response = device_list_response.get("response")
+
                     if not device_response:
                         self.log(
-                            "No device data found for device_id: {0}".format(device_id),
+                            "Failed to retrieve devices associated with the site '{0}' due to empty API response.".format(
+                                site_name
+                            ),
                             "INFO",
                         )
-                        continue
+                        break
 
-                    for device in device_response:
-                        if device.get("instanceUuid") in device_id_list:
-                            if (
-                                device_family is None
-                                or device.get("family") == device_family
-                            ):
-                                site_response_list.append(device)
+                    for item in site_response_list:
+                        if item["reachabilityStatus"] != "Reachable":
+                            self.log(
+                                """Device '{0}' is currently '{1}' and cannot be included in the SWIM distribution/activation
+                                        process.""".format(
+                                    item["managementIpAddress"], item["reachabilityStatus"]
+                                ),
+                                "INFO",
+                            )
+                            continue
+                        self.log(
+                            """Device '{0}' from site '{1}' is ready for the SWIM distribution/activation
+                                    process.""".format(
+                                item["managementIpAddress"], site_name
+                            ),
+                            "INFO",
+                        )
+                        site_memberships_ids.append(item["instanceUuid"])
 
+                    for item in device_response:
+                        if item["reachabilityStatus"] != "Reachable":
+                            self.log(
+                                """Unable to proceed with the device '{0}' for SWIM distribution/activation as its status is
+                                        '{1}'.""".format(
+                                    item["managementIpAddress"], item["reachabilityStatus"]
+                                ),
+                                "INFO",
+                            )
+                            continue
+                        self.log(
+                            """Device '{0}' matches to the specified filter requirements and is set for SWIM
+                                distribution/activation.""".format(
+                                item["managementIpAddress"]
+                            ),
+                            "INFO",
+                        )
+                        device_response_ids.append(item["instanceUuid"])
                 except Exception as e:
-                    self.log(
-                        "Unable to fetch devices for site '{0}' due to: {1}".format(
-                            site_name, str(e)
-                        ),
-                        "WARNING",
+                    self.msg = "An exception occured while fetching the device uuids from Cisco Catalyst Center: {0}".format(
+                        str(e)
                     )
+                    self.log(self.msg, "ERROR")
                     return device_uuid_list
 
-        self.device_ips = []
-        for item in site_response_list:
-            device_ip = item["managementIpAddress"]
-            self.device_ips.append(device_ip)
-
-        if device_role.upper() == "ALL":
-            device_role = None
-
-        device_params = {
-            "series": device_series_name,
-            "family": device_family,
-            "role": device_role,
-        }
-        offset = 0
-        limit = self.get_device_details_limit()
-        initial_exec = False
-        site_memberships_ids, device_response_ids = [], []
-
-        while True:
-            try:
-                if initial_exec:
-                    device_params["limit"] = limit
-                    device_params["offset"] = offset * limit
-                    device_list_response = self.dnac._exec(
-                        family="devices",
-                        function="get_device_list",
-                        params=device_params,
-                    )
-                else:
-                    initial_exec = True
-                    device_list_response = self.dnac._exec(
-                        family="devices",
-                        function="get_device_list",
-                        op_modifies=True,
-                        params=device_params,
-                    )
+            if not device_response_ids or not site_memberships_ids:
                 self.log(
-                    "Received API response from 'device_list_response': {0}".format(
-                        str(device_list_response)
+                    "Failed to retrieve devices associated with the site '{0}' due to empty API response.".format(
+                        site_name
                     ),
-                    "DEBUG",
+                    "INFO",
                 )
-                offset = offset + 1
-                device_response = device_list_response.get("response")
-
-                if not device_response:
-                    self.log(
-                        "Failed to retrieve devices associated with the site '{0}' due to empty API response.".format(
-                            site_name
-                        ),
-                        "INFO",
-                    )
-                    break
-
-                for item in site_response_list:
-                    if item["reachabilityStatus"] != "Reachable":
-                        self.log(
-                            """Device '{0}' is currently '{1}' and cannot be included in the SWIM distribution/activation
-                                    process.""".format(
-                                item["managementIpAddress"], item["reachabilityStatus"]
-                            ),
-                            "INFO",
-                        )
-                        continue
-                    self.log(
-                        """Device '{0}' from site '{1}' is ready for the SWIM distribution/activation
-                                process.""".format(
-                            item["managementIpAddress"], site_name
-                        ),
-                        "INFO",
-                    )
-                    site_memberships_ids.append(item["instanceUuid"])
-
-                for item in device_response:
-                    if item["reachabilityStatus"] != "Reachable":
-                        self.log(
-                            """Unable to proceed with the device '{0}' for SWIM distribution/activation as its status is
-                                    '{1}'.""".format(
-                                item["managementIpAddress"], item["reachabilityStatus"]
-                            ),
-                            "INFO",
-                        )
-                        continue
-                    self.log(
-                        """Device '{0}' matches to the specified filter requirements and is set for SWIM
-                            distribution/activation.""".format(
-                            item["managementIpAddress"]
-                        ),
-                        "INFO",
-                    )
-                    device_response_ids.append(item["instanceUuid"])
-            except Exception as e:
-                self.msg = "An exception occured while fetching the device uuids from Cisco Catalyst Center: {0}".format(
-                    str(e)
-                )
-                self.log(self.msg, "ERROR")
                 return device_uuid_list
 
-        if not device_response_ids or not site_memberships_ids:
-            self.log(
-                "Failed to retrieve devices associated with the site '{0}' due to empty API response.".format(
-                    site_name
-                ),
-                "INFO",
+            # Find the intersection of device IDs with the response get from get_membership api and get_device_list api with provided filters
+            device_uuid_list = set(site_memberships_ids).intersection(
+                set(device_response_ids)
             )
+
             return device_uuid_list
-
-        # Find the intersection of device IDs with the response get from get_membership api and get_device_list api with provided filters
-        device_uuid_list = set(site_memberships_ids).intersection(
-            set(device_response_ids)
-        )
-
-        return device_uuid_list
 
     def get_device_family_identifier(self, family_name):
         """
@@ -3721,11 +3723,22 @@ class Swim(DnacBase):
 
                 # Correct: Combine all image IDs into one installedImages list
                 activation_payload = {
-                    "id": activation_device_id,
-                    "installedImages": [{"id": image_id} for image_id in image_ids.values()],
-                    "compatibleFeatures": activation_details.get("compatible_features", []),
-                    "networkValidationIds": activation_details.get("network_validation_ids", []),
+                    "id": activation_device_id
                 }
+
+                # Add installedImages only if image_ids has values
+                if image_ids:
+                    activation_payload["installedImages"] = [{"id": image_id} for image_id in image_ids.values() if image_id]
+
+                # Add compatibleFeatures only if available
+                compatible_features = activation_details.get("compatible_features")
+                if compatible_features:
+                    activation_payload["compatibleFeatures"] = compatible_features
+
+                # Add networkValidationIds only if available
+                network_validation_ids = activation_details.get("network_validation_ids")
+                if network_validation_ids:
+                    activation_payload["networkValidationIds"] = network_validation_ids
 
                 self.log("Payload for 'update_images_on_the_network_device': {0}".format(str(activation_payload)), "DEBUG")
 
@@ -3892,37 +3905,50 @@ class Swim(DnacBase):
 
         # NEW FLOW (for DNAC >= 2.3.7.9)
         else:
+            image_id_base = self.have.get("activation_image_id")
+            # Resolve sub-package ids (if any)
+            sub_image_ids = [self.get_image_id_v1(pkg) for pkg in sub_package_images] if sub_package_images else []
             device_ips = []
             activation_payload_list = []
+            device_ip_for_not_elg_list = []
+
             for device_uuid in device_uuid_list:
                 device_ip = self.get_device_ip_from_id(device_uuid)
                 device_ips.append(device_ip)
                 self.log("Processing device: {0}".format(device_ip), "DEBUG")
-                for image_name, image_id in image_ids.items():
-                    elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
 
-                    if not elg_device_ip:
-                        device_ip_for_not_elg_list.append(device_ip)
-                        continue
+                # Aggregate all image ids for this device
+                installed_image_ids = set()
 
-                    activation_payload = {}
+                if image_id_base:
+                    installed_image_ids.add(image_id_base)
 
-                    if device_id:
-                        activation_payload["id"] = device_id
+                for sid in sub_image_ids:
+                    if sid:
+                        installed_image_ids.add(sid)
 
-                    if image_id:
-                        activation_payload["installedImages"] = [{"id": image_id}]
+                elg_device_ip, device_id = self.check_device_compliance(device_uuid)
 
-                    compatible_features = activation_details.get("compatible_features")
-                    if compatible_features:
-                        activation_payload["compatibleFeatures"] = compatible_features
+                if not elg_device_ip:
+                    self.log("Device not eligible for activation: {0}".format(device_ip), "INFO")
+                    device_ip_for_not_elg_list.append(device_ip)
+                    continue
 
-                    network_validation_ids = activation_details.get("network_validation_ids")
-                    if network_validation_ids:
-                        activation_payload["networkValidationIds"] = network_validation_ids
+                activation_payload = {}
+                if device_id:
+                    activation_payload["id"] = device_id
 
-                    if activation_payload:
-                        activation_payload_list.append(activation_payload)
+                activation_payload["installedImages"] = [{"id": iid} for iid in installed_image_ids]
+
+                compatible_features = activation_details.get("compatible_features")
+                if compatible_features:
+                    activation_payload["compatibleFeatures"] = compatible_features
+
+                network_validation_ids = activation_details.get("network_validation_ids")
+                if network_validation_ids:
+                    activation_payload["networkValidationIds"] = network_validation_ids
+
+                activation_payload_list.append(activation_payload)
 
             self.log("Activation Payload List: {0}".format(str(activation_payload_list)), "DEBUG")
 
@@ -3933,6 +3959,7 @@ class Swim(DnacBase):
                 self.log(self.msg, "INFO")
                 self.set_operation_result("success", False, self.msg, "ERROR")
                 return self
+
             try:
                 response = self.dnac._exec(
                     family="software_image_management_swim",
@@ -3942,18 +3969,22 @@ class Swim(DnacBase):
                 )
                 self.log("API response from 'bulk_update_images_on_network_devices': {0}".format(str(response)), "DEBUG")
                 self.check_tasks_response_status(response, "bulk_update_images_on_network_devices")
+
                 if response and self.status not in ["failed", "exited"]:
                     self.msg = "All eligible images activated successfully on the devices {0}.".format(", ".join(device_ips))
                     self.set_operation_result("success", True, self.msg, "INFO")
                     return self
                 else:
                     self.msg = "Some or all image activations failed for the devices {0}.".format(", ".join(device_ips))
-                    failed_activation_list = list(image_ids.keys())
+                    failed_activation_list = device_ips
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             except Exception as e:
                 self.log("Exception during bulk activation: {0}".format(str(e)), "ERROR")
                 failed_msg_parts = ["Exception during bulk activation: {0}".format(str(e))]
-                failed_activation_list = list(image_ids.keys())
+                failed_activation_list = device_ips
+                self.msg = "Exception during bulk activation: {0}".format(str(e))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
 
         # Final single-line message formation
         final_msg = ""
