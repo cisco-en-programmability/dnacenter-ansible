@@ -959,6 +959,7 @@ class AccessPointLocation(DnacBase):
             have["selected_ap_model"].append(selected_ap_model)
 
         accesspoint_exists, new_accesspoint, update_accesspoint = [], [], []
+        assigned_accesspoint = []
         access_point_devices = []
         delete_accesspoint = []
         for access_point in config.get("access_points", []):
@@ -981,6 +982,17 @@ class AccessPointLocation(DnacBase):
                 ap_details = self.get_planned_ap_position(
                     have["site_id"], have["site_name"], access_point, True
                 )
+                if ap_details:
+                    self.log("Access point planned position found for deletion: {0}".format(
+                        access_point.get("accesspoint_name")), "INFO")
+                    if self.params.get("state") == "deleted":
+                        ap_details[0]["action"] = access_point.get("action")
+                        delete_accesspoint.append(ap_details[0])
+                    else:
+                        self.log("Access point planned position already exist: {0}".format(
+                            access_point.get("accesspoint_name")), "INFO")
+                        assigned_accesspoint.append(ap_details[0])
+                    continue
 
             if ap_details:
                 if self.params.get("state") == "deleted":
@@ -992,6 +1004,8 @@ class AccessPointLocation(DnacBase):
                 ap_status, ap_update = self.compare_accesspoint_location_details(
                     ap_details[0], access_point)
                 if ap_status:
+                    self.log("Access point planned location already exist: {0}".format(
+                        access_point.get("accesspoint_name")), "INFO")
                     accesspoint_exists.append(access_point)
                 else:
                     update_accesspoint.append(access_point)
@@ -1003,6 +1017,7 @@ class AccessPointLocation(DnacBase):
         have["update_accesspoint"] = update_accesspoint
         have["existing_accesspoint"] = accesspoint_exists
         have["delete_accesspoint"] = delete_accesspoint
+        have["already_assigned_accesspoint"] = assigned_accesspoint
         self.have = have
         self.log("Current State (have): {0}".format(self.pprint(self.have)), "INFO")
 
@@ -1047,6 +1062,7 @@ class AccessPointLocation(DnacBase):
             floor_id (str) - The ID of the floor where the access point is located.
             floor_name (str) - The name of the floor where the access point is located.
             ap_details (dict) - The access point details from the playbook config.
+            recheck (bool) - Flag to indicate if this is a recheck for deletion.
 
         Returns:
             dict - Planned access point position information
@@ -1147,6 +1163,7 @@ class AccessPointLocation(DnacBase):
                     band, exist_radio.get("bands", [])), "INFO")
 
                 if band in exist_radio.get("bands", []):
+                    radio["id"] = exist_radio.get("id")
                     for key in ["channel", "tx_power", "antenna"]:
                         self.log("Comparing access point radio field '{0}': {1} with {2}".format(
                             key, radio.get(key), exist_radio.get(self.keymap[key])), "DEBUG")
@@ -1159,7 +1176,10 @@ class AccessPointLocation(DnacBase):
                                 if ant_key == "azimuth":
                                     current_azimuth = int(radio.get("antenna", {}).get(ant_key))
                                     existing_azimuth = int(exist_radio.get(self.keymap[key], {}).get(self.keymap[ant_key]))
-                                    if current_azimuth != existing_azimuth + 1:
+                                    if band == 2.4:
+                                        existing_azimuth = existing_azimuth + 1
+
+                                    if current_azimuth != existing_azimuth:
                                         self.log("Access point antenna azimuth details do not match: {0}".format(radio), "INFO")
                                         radio["id"] = exist_radio.get("id")
                                         un_matched_value.append(("antenna", radio.get("antenna"), None))
@@ -1187,7 +1207,6 @@ class AccessPointLocation(DnacBase):
 
                         elif radio.get(key) != exist_radio.get(self.keymap[key]):
                             self.log("Access point radio details do not match: {0}".format(radio), "INFO")
-                            radio["id"] = exist_radio.get("id")
                             un_matched_value.append(("radios", radio, None))
                             compare_state = False
 
@@ -1227,7 +1246,7 @@ class AccessPointLocation(DnacBase):
             if ap_response_data:
                 self.log("Access point details found: {0}".format(
                     self.pprint(ap_response_data)
-                ))
+                ), "INFO")
                 return ap_response_data[0]
 
         except Exception as e:
@@ -1279,6 +1298,7 @@ class AccessPointLocation(DnacBase):
                     "elevation": radio.get("antenna", {}).get("elevation"),
                 },
             }
+
             if radio.get("id"):
                 radio_payload["id"] = radio.get("id")
             radios_payload.append(radio_payload)
@@ -1505,7 +1525,8 @@ class AccessPointLocation(DnacBase):
                 self.log("Processing assign access point to planned location: {0}".format(
                     self.pprint(access_point)), "INFO")
                 ap_device = self.find_dict_by_key_value(
-                    access_point_devices, "hostname", access_point.get("accesspoint_name")
+                    access_point_devices, "hostname",
+                    access_point.get("accesspoint_name", access_point.get("name"))
                 )
                 if not ap_device:
                     msg = "No device details found for access point: {0}".format(
@@ -1576,17 +1597,15 @@ class AccessPointLocation(DnacBase):
             self.log("Processing delete access point: {0}".format(
                 self.pprint(access_point)), "INFO")
 
-            delete_payload = {
-                "floor_id": self.have.get("site_id")
-            }
+            delete_payload = {}
             family_name = "site_design"
             function_name = "delete_planned_access_points_position"
 
             if access_point.get("action") == "delete_position":
-                delete_payload["planned_access_point_uuid"] = access_point.get("id")
-                family_name = "devices"
-                function_name = "delete_planned_access_point_for_floor"
+                delete_payload["deviceIds"] = [access_point.get("id")]
+                function_name = "unassign_network_devices_from_sites"
             else:
+                delete_payload["floor_id"] = self.have.get("site_id")
                 delete_payload["id"] = access_point.get("id")
 
             self.log("Deleting planned access point position Payload: {0}".format(
@@ -1678,6 +1697,13 @@ class AccessPointLocation(DnacBase):
             self.changed = False
             self.status = "success"
 
+        if self.have.get("already_assigned_accesspoint"):
+            for access_point in self.have.get("already_assigned_accesspoint", []):
+                self.location_exist.append(access_point.get("name"))
+            self.msg = "No Changes required, Access Point Location(s) already assigned."
+            self.changed = False
+            self.status = "success"
+
         if self.have.get("new_accesspoint") or self.have.get("update_accesspoint"):
             responses = self.accesspoint_location_creation_updation()
 
@@ -1690,7 +1716,7 @@ class AccessPointLocation(DnacBase):
             assign_response = self.assign_accesspoint_to_location()
 
             self.msg = "Access Point Location assigned successfully for '{0}'.".format(
-                str(self.location_created + self.location_updated)
+                str(self.location_created + self.location_updated + self.location_exist)
             )
             self.log(self.msg, "INFO")
             self.changed = True
@@ -1739,7 +1765,7 @@ class AccessPointLocation(DnacBase):
             self.changed = True
             self.status = "success"
 
-        if (self.location_exist
+        if (self.location_exist and not self.location_created and not self.location_updated
            and len(self.location_exist) == len(config.get("access_points", []))):
             self.msg = "No Changes required, Access Point Location(s) already exist."
             self.changed = False
@@ -1776,13 +1802,6 @@ class AccessPointLocation(DnacBase):
             )
             self.log(self.msg, "DEBUG")
 
-        if self.location_exist:
-            self.msg += " Following Access Point Location(s): '{0}' already exist.".format(
-                ", ".join(map(str, self.location_exist))
-            )
-            self.log(self.msg, "DEBUG")
-            self.status = "success"
-
         if self.location_not_updated:
             self.msg += " Unable to update the following Access Point Location(s): '{0}'.".format(
                 ", ".join(map(str, self.location_not_updated))
@@ -1796,9 +1815,10 @@ class AccessPointLocation(DnacBase):
             self.status = "failed"
 
         self.log(self.msg, "INFO")
+        unique_list = [list(t) for t in set(map(
+            tuple, self.location_created + self.location_updated + self.location_assigned))]
         self.set_operation_result(
-            self.status, self.changed, self.msg, "INFO",
-            self.location_created + self.location_updated + self.location_assigned
+            self.status, self.changed, self.msg, "INFO", unique_list
         ).check_return_status()
         return self
 
@@ -1887,7 +1907,7 @@ class AccessPointLocation(DnacBase):
             self.status = "success"
 
         if len(self.location_deleted) == len(config.get("access_points", [])):
-            self.msg = "Access Point planned Location(s) deleted " +\
+            self.msg = "Access Point planned/assigned Location(s) deleted " +\
                 "and verified successfully for '{0}'.".format(self.location_deleted)
             self.changed = True
             self.status = "success"
