@@ -160,7 +160,7 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "Access Point planned Location(s) deleted and verified successfully",
+            "Access Point planned/assigned Location(s) deleted and verified successfully for '['IAC-TB4-SJ-AP1']'.",
             result.get('msg')
         )
 
