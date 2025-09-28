@@ -35,6 +35,7 @@ class TestDnacNetworkSettings(TestDnacModule):
     playbook_config_reserve_pool_deletion = test_data.get("playbook_config_reserve_pool_deletion")
     playbook_config_global_pool_deletion = test_data.get("playbook_config_global_pool_deletion")
     playbook_config_device_controlability = test_data.get("playbook_config_device_controlability")
+    playbook_reset_network = test_data.get("playbook_reset_network")
 
     def setUp(self):
         super(TestDnacNetworkSettings, self).setUp()
@@ -360,6 +361,19 @@ class TestDnacNetworkSettings(TestDnacModule):
                 self.test_data.get("get_sites_test"),
             ]
 
+        if "resetting_server_configuration" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
+                self.test_data.get("get_AAA"),
+                self.test_data.get("get_sites_test"),
+            ]
+
         if "null_network_params" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
@@ -427,6 +441,32 @@ class TestDnacNetworkSettings(TestDnacModule):
                 self.test_data.get("get_device_controlability"),
                 self.test_data.get("update_device_controlability"),
                 self.test_data.get("get_tasks_by_id_device_controlability"),
+            ]
+
+        if "resetting_server_configuration" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_sites_resetting_server_configuration"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
+                self.test_data.get("get_AAA"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
             ]
 
     def test_Network_settings_workflow_manager_network_network_not_need_update(self):
@@ -1029,4 +1069,29 @@ class TestDnacNetworkSettings(TestDnacModule):
         self.assertIn(
             "An exception occurred while retrieving Site details for Site 'Global/Abc2' does not exist in the Cisco Catalyst Center.",
             result["response"]
+        )
+
+    def test_Network_settings_workflow_manager_resetting_server_configuration(self):
+        """
+        Test case for network settings workflow manager when resetting server configuration.
+
+        This test case checks the behavior of the network settings workflow manager when resetting server configuration.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=False,
+                dnac_version="2.3.7.9",
+                config=self.playbook_reset_network
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result["response"][2]["network"]["msg"])
+        self.assertEqual(
+            {'Global/Testing/test': 'Network Updated successfully'},
+            result["response"][2]["network"]["msg"]
         )
