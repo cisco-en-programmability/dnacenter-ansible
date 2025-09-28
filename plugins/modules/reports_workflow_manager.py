@@ -144,7 +144,9 @@ options:
                   description:
                     - Time zone identifier for the schedule.
                     - Uses standard time zone identifiers like C(Asia/Calcutta),
-                      C(America/New_York), etc.
+                      C(America/New_York), etc. For a complete list of supported time zones,
+                      please refer to the time_zone field in the Inventory Workflow Manager documentation
+                      https://galaxy.ansible.com/ui/repo/published/cisco/dnac/content/module/inventory_workflow_manager.
                   type: str
                   required: true
                 recurrence:
@@ -452,7 +454,7 @@ options:
                     description:
                       - Value(s) to apply in the filter based on filter_type.
                       - For C(TIME_RANGE), this is a dict with time_range_option,
-                        start_date_time, end_date_time, and time_zone_id.
+                        start_date_time, end_date_time, and time_zone.
                       - For other types, this is a list of dicts with C(value) and
                         C(display_value) keys.
                       - Location filters are automatically resolved to site hierarchy IDs.
