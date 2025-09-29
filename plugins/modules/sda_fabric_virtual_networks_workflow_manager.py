@@ -158,10 +158,7 @@ options:
               restrictions at the VLAN level within the fabric network.
               When enabled, it enhances the security posture of the
               fabric VLAN by enforcing stricter access policies and
-              monitoring capabilities. If the VLAN is not associated
-              with a layer 3 virtual network, this field must be set
-              to false as the security controls require L3VN integration
-              for proper functionality.
+              monitoring capabilities.
             type: bool
             default: false
           flooding_address_assignment:
@@ -456,10 +453,7 @@ options:
               restrictions at the VLAN level within the fabric network.
               When enabled, it enhances the security posture of the
               anycast gateway by enforcing stricter access policies and
-              monitoring capabilities. If the anycast gateway is not associated
-              with a layer 3 virtual network, this field must be set
-              to false as the security controls require L3VN integration
-              for proper functionality.
+              monitoring capabilities.
               This field is not applicable to INFRA_VN.
             type: bool
             default: false
@@ -1992,7 +1986,6 @@ class VirtualNetwork(DnacBase):
                     "layer2FloodingAddressAssignment"
                 )
 
-            vlan_update_payload["isWirelessFloodingEnabled"] = wireless_flooding_enable
             vlan_update_payload["isResourceGuardEnabled"] = resource_guard_enable
             vlan_update_payload["layer2FloodingAddressAssignment"] = flooding_address_assignment
 
@@ -2009,6 +2002,31 @@ class VirtualNetwork(DnacBase):
                     )
                     flooding_address = current_vlan_config.get("layer2FloodingAddress")
                 vlan_update_payload["layer2FloodingAddress"] = flooding_address
+
+            if vlan_update_payload["associatedLayer3VirtualNetworkName"]:
+                fabric_enable_wireless = new_vlan_config.get("fabric_enabled_wireless")
+                self.log(
+                    "Evaluating wireless flooding settings - wireless_enabled: {0}, "
+                    "fabric_enable_wireless: {1}".format(
+                        wireless_enabled, fabric_enable_wireless
+                    ),
+                    "DEBUG"
+                )
+                if wireless_enabled and wireless_enabled is True:
+                    vlan_update_payload["isWirelessFloodingEnabled"] = wireless_flooding_enable
+                elif fabric_enable_wireless and fabric_enable_wireless is False:
+                    vlan_update_payload["isWirelessFloodingEnabled"] = False
+
+                self.log(
+                    "Constructed update payload for fabric VLAN with associated Layer3 VN: {0}".format(
+                        vlan_update_payload
+                    ),
+                    "DEBUG",
+                )
+
+                return vlan_update_payload
+
+            vlan_update_payload["isWirelessFloodingEnabled"] = vlan_update_payload["isFabricEnabledWireless"]
 
         self.log(
             "Constructed update payload for fabric VLAN: {0}".format(
