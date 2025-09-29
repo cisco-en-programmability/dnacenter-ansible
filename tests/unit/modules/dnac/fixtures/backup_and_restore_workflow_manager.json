@@ -1,7 +1,7 @@
 {
   "playbook_delete_schedule_backup": [
     {
-      "backup": [
+      "backup_job_creation": [
         {
           "name": "BACKUP25_07",
           "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
@@ -565,7 +565,7 @@
   },
   "playbook_create_schedule_backup": [
     {
-      "backup": [
+      "backup_job_creation": [
         {
           "name": "BACKUP24_07",
           "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
@@ -1438,7 +1438,7 @@
   },
   "playbook_backup_alreadyexists": [
     {
-      "backup": [
+      "backup_job_creation": [
         {
           "name": "BACKUP24_07",
           "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
@@ -2323,7 +2323,7 @@
   },
   "playbook_backup_config_alreadyexists": [
     {
-      "backup_configuration": [
+      "backup_storage_configuration": [
         {
           "data_retention_period": 53,
           "encryption_passphrase": "Karthick@zigzag333",
@@ -2529,7 +2529,7 @@
   },
   "playbook_backup_schedule_alreadydeleted": [
     {
-      "backup": [
+      "backup_job_creation": [
         {
           "name": "BACKUP24_07",
           "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
@@ -2579,7 +2579,7 @@
   },
   "playbook_backup_configuration_exception_dataretention_period": [
     {
-      "backup_configuration": [
+      "backup_storage_configuration": [
         {
           "data_retention_period": 61,
           "encryption_passphrase": "Karthick@zigzag333",
@@ -2665,7 +2665,7 @@
   },
   "playbook_negative_scenario1": [
     {
-      "backup": [
+      "backup_job_creation": [
         {
           "name": "BACKUP25_07"
         }
@@ -3028,7 +3028,7 @@
   },
   "playbook_negative_scenario2": [
     {
-      "backup": [
+      "backup_job_creation": [
         {
           "name": "BACKUP25_07"
         }
@@ -3452,7 +3452,7 @@
   },
   "playbook_negative_scenario5": [
     {
-      "backup_configuration": [
+      "backup_storage_configuration": [
         {
           "data_retention_period": 53,
           "encryption_passphrase": "Karthick@zigzag333",
@@ -3921,7 +3921,7 @@
   },
   "playbook_negative_scenario8": [
     {
-      "backup": [
+      "backup_job_creation": [
         {
           "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
         }
@@ -4351,7 +4351,7 @@
   },
   "playbook_negative_scenario10": [
     {
-      "backup": [
+      "backup_job_creation": [
         {
           "name": "BACKUP24/07",
           "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
@@ -4381,7 +4381,7 @@
   },
   "playbook_negative_scenario11": [
     {
-      "backup_configuration": [
+      "backup_storage_configuration": [
         {
           "data_retention_period": 53,
           "encryption_passphrase": "Karthick@zigzag333",
@@ -4425,7 +4425,7 @@
   ],
   "playbook_negative_scenario13": [
     {
-      "backup_configuration": {
+      "backup_storage_configuration": {
         "data_retention_period": 53,
         "encryption_passphrase": "Karthick@zigzag333",
         "nfs_details": {
@@ -4552,7 +4552,7 @@
   },
   "playbook_update_backup_config": [
     {
-      "backup_configuration": [
+      "backup_storage_configuration": [
         {
           "data_retention_period": 9,
           "encryption_passphrase": "Karthick@zigzag333",
@@ -4765,7 +4765,7 @@
   },
   "playbook_backup_config_alreadyexists1": [
     {
-      "backup_configuration": [
+      "backup_storage_configuration": [
         {
           "data_retention_period": 9,
           "encryption_passphrase": "Karthick@zigzag333",
@@ -4926,7 +4926,7 @@
   },
   "playbook_backup_config_password_exception": [
     {
-      "backup_configuration": [
+      "backup_storage_configuration": [
         {
           "data_retention_period": 9,
           "encryption_passphrase": "Karthick@zigza",
@@ -5070,7 +5070,7 @@
   },
   "playbook_mountpath_notfound": [
     {
-      "backup_configuration": [
+      "backup_storage_configuration": [
         {
           "data_retention_period": 9,
           "encryption_passphrase": "Karthick@zigzag333",
@@ -5947,7 +5947,7 @@
   },
   "playbook_backup_schedule_alreadydeleted1": [
     {
-      "backup": [
+      "backup_job_creation": [
         {
           "name": "BACKUP25_07",
           "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
@@ -6781,7 +6781,7 @@
   },
   "playbook_delete_backup_schedule": [
     {
-      "backup": [
+      "backup_job_creation": [
         {
           "name": "BACKUP24_07",
           "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
@@ -7492,7 +7492,7 @@
   },
   "playbook_backup_schedule_alreadyexists": [
     {
-      "backup": [
+      "backup_job_creation": [
         {
           "name": "BACKUP24_07",
           "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"

@@ -551,7 +551,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             "Backup and restore workflow requires at least one configuration section: "
-            "'backup_configuration', 'nfs_configuration', 'backup', or 'restore_operations'"
+            "'backup_storage_configuration', 'nfs_configuration', 'backup_job_creation', or 'restore_operations'"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario13(self):
@@ -579,7 +579,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             'Configuration validation failed with invalid parameters: '
-            '["\'backup_configuration\': \'{\'data_retention_period\': 53, \'encryption_passphrase\': '
+            '["\'backup_storage_configuration\': \'{\'data_retention_period\': 53, \'encryption_passphrase\': '
             '\'Karthick@zigzag333\', \'nfs_details\': {\'nfs_port\': 2049, \'nfs_port_mapper\': 111, '
             '\'nfs_version\': \'nfs4\', \'server_ip\': \'172.27.17.90\', \'source_path\': '
             '\'/home/nfsshare/backups/TB19\'}, \'server_type\': \'NFS\'}\' is invalid. '

@@ -13,12 +13,12 @@ create_nfs_configuration:
         nfs_port_mapper: 111
 
 create_backup:
-  - backup:
-      - name: BACKUP25_07
+  - backup_job_creation:
+      - name: BACKUP30_07
         scope: CISCO_DNA_DATA_WITHOUT_ASSURANCE
 
 update_backup_configuration:
-  - backup_configuration:
+  - backup_storage_configuration:
       - server_type: NFS
         nfs_details:
           server_ip: 172.27.17.90
@@ -26,12 +26,12 @@ update_backup_configuration:
           nfs_port: 2049
           nfs_version: nfs4
           nfs_port_mapper: 111
-        data_retention_period: 12
+        data_retention_period: 21
         encryption_passphrase: Karthick@zigzag333
 
 delete_backup:
-  - backup:
-      - name: BACKUP25_07
+  - backup_job_creation:
+      - name: BACKUP29_07
 
 delete_nfs_configuration:
   - nfs_configuration:
