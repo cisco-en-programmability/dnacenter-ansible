@@ -361,19 +361,6 @@ class TestDnacNetworkSettings(TestDnacModule):
                 self.test_data.get("get_sites_test"),
             ]
 
-        if "resetting_server_configuration" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_sites_test"),
-                self.test_data.get("dhcp_get_response"),
-                self.test_data.get("dns_get_response"),
-                self.test_data.get("telemetry_get"),
-                self.test_data.get("ntp_get_response"),
-                self.test_data.get("timezone_get_response"),
-                self.test_data.get("banner_get_response"),
-                self.test_data.get("get_AAA"),
-                self.test_data.get("get_sites_test"),
-            ]
-
         if "null_network_params" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_test"),
