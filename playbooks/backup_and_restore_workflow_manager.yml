@@ -40,7 +40,7 @@
         <<: *dnac_login
         state: merged
         config:
-          - backup_configuration:
+          - backup_storage_configuration:
               - server_type: NFS
                 nfs_details:
                   server_ip: "{{ backup_configuration.server_ip }}"
@@ -57,8 +57,8 @@
         <<: *dnac_login
         state: merged
         config:
-          - backup:
-              - name: BACKUP21_09
+          - backup_job_creation:
+              - name: BACKUP29_09
                 scope: CISCO_DNA_DATA_WITHOUT_ASSURANCE
       tags: backup_creation
 
@@ -68,7 +68,7 @@
         state: merged
         config:
           - restore_operations:
-              - name: "BACKUP17_09"
+              - name: "BACKUP29_09"
                 encryption_passphrase: "{{ restore_operations.encryption_passphrase }}"
       tags: restore_backup
 
@@ -87,6 +87,6 @@
         <<: *dnac_login
         state: deleted
         config:
-          - backup:
-              - name: BACKUP22_09
+          - backup_job_creation:
+              - name: BACKUP29_09
       tags: delete_backup

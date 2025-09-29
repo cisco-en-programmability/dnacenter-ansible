@@ -117,10 +117,12 @@ options:
               - Used for dynamic port allocation and service discovery.
             type: int
             default: 111
-      backup_configuration:
+      backup_storage_configuration:
         description:
-          - Comprehensive backup target configuration including server type,
-            encryption settings, and retention policies for data protection.
+          - Configuration for backup storage infrastructure and data management policies.
+          - Sets up NFS storage targets, encryption, and data retention settings.
+          - This configures WHERE and HOW backup data will be stored.
+          - Does not create or execute backups, only prepares storage infrastructure.
         type: list
         elements: dict
         suboptions:
@@ -170,9 +172,12 @@ options:
               - Passphrase for encrypting backup data during storage operations.
               - Strongly recommended for secure data protection and compliance.
             type: str
-      backup:
+      backup_job_creation:
         description:
-          - Configuration for creating backup including scope specifications for data preservation.
+          - Configuration for creating and executing backup jobs.
+          - Creates backup jobs with specified name and data scope.
+          - This CREATES and EXECUTES backups immediately (not scheduling).
+          - Requires backup storage configuration to be set up first.
         type: list
         elements: dict
         suboptions:
@@ -330,7 +335,7 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - backup_configuration:
+          - backup_storage_configuration:
               - server_type: NFS
                 nfs_details:
                   server_ip: "{{ nfs_configuration.server_ip }}"
@@ -339,7 +344,7 @@ EXAMPLES = r"""
                   nfs_version: nfs4
                   nfs_port_mapper: 111
                 data_retention_period: 51
-                encryption_passphrase: "{{ backup_configuration.encryption_passphrase }}"
+                encryption_passphrase: "{{ backup_storage_configuration.encryption_passphrase }}"
 
 # Example 3: Create backups for systematic data preservation
 - name: Create backups for automated network infrastructure backup
@@ -365,7 +370,7 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - backup:
+          - backup_job_creation:
               - name: BACKUP24_07
                 scope: CISCO_DNA_DATA_WITHOUT_ASSURANCE
 
@@ -450,7 +455,7 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: deleted
         config:
-          - backup:
+          - backup_job_creation:
               - name: BACKUP24_07
 
 # Example 7: Comprehensive backup workflow for enterprise deployment
@@ -486,14 +491,14 @@ EXAMPLES = r"""
             backup_configuration:
               - server_type: NFS
                 nfs_details:
-                  server_ip: "{{ backup_configuration.server_ip }}"
-                  source_path: "{{ backup_configuration.source_path }}"
+                  server_ip: "{{ backup_storage_configuration.server_ip }}"
+                  source_path: "{{ backup_storage_configuration.source_path }}"
                   nfs_port: 2049
                   nfs_version: nfs4
                   nfs_port_mapper: 111
                 data_retention_period: 30
                 encryption_passphrase: Enterprise@Backup2024
-            backup:
+            backup_job_creation:
               - name: ENTERPRISE_DAILY_BACKUP
                 scope: CISCO_DNA_DATA_WITH_ASSURANCE
 
@@ -553,7 +558,7 @@ response_nfs_configuration_created:
               created successfully in Cisco Catalyst Center."
 
 # Case 2: Successful backup target configuration with encryption
-response_backup_configuration_created:
+response_backup_storage_configuration_created:
   description:
     - Confirms successful creation or update of backup target configuration
       including storage type, retention policies, and encryption settings.
@@ -720,7 +725,7 @@ class BackupRestore(DnacBase):
             - Each item in 'config' must be a dictionary.
             - Uses a predefined specification ('config_spec') to validate structure and data types of fields including:
                 - 'nfs_configuration': Validates server IP, path, port, version (nfs3/nfs4), port mapper.
-                - 'backup_configuration': Validates server type, NFS details, retention period (3–60), passphrase.
+                - 'backup_storage_configuration': Validates server type, NFS details, retention period (3–60), passphrase.
                 - 'backup': Validates backup name format and scope values.
                 - 'restore_operations': Validates presence of backup name and encryption passphrase.
             - Validates allowed values, default values, and optional/mandatory constraints using 'validate_list_of_dicts'.
@@ -779,7 +784,7 @@ class BackupRestore(DnacBase):
                     "range_max": 65535
                 }
             },
-            "backup_configuration": {
+            "backup_storage_configuration": {
                 "type": "list",
                 "elements": "dict",
                 "server_type": {
@@ -819,7 +824,7 @@ class BackupRestore(DnacBase):
                 "data_retention_period": {"type": "int", "range_min": 3, "range_max": 60},
                 "encryption_passphrase": {"type": "str"},
             },
-            "backup": {
+            "backup_job_creation": {
                 "type": "list",
                 "elements": "dict",
                 "name": {
@@ -878,9 +883,9 @@ class BackupRestore(DnacBase):
             self (object): An instance of a class interacting with Cisco Catalyst Center.
             config (dict): A dictionary containing the playbook configuration, expected to include
                             one or more of the following keys:
-                            - 'backup_configuration'
+                            - 'backup_storage_configuration'
                             - 'nfs_configuration'
-                            - 'backup'
+                            - 'backup_job_creation'
                             - 'restore_operations'
 
         Returns:
@@ -892,7 +897,7 @@ class BackupRestore(DnacBase):
             sections required for backup and restore operations. Specifically, it performs the following steps:
 
             - Validates that at least one of the expected keys is present in the config.
-            - Extracts values from 'backup_configuration', 'nfs_configuration', 'backup',
+            - Extracts values from 'backup_storage_configuration', 'nfs_configuration', 'backup_job_creation',
                 and 'restore_operations', if present.
             - Logs the final desired state for visibility.
         """
@@ -900,18 +905,18 @@ class BackupRestore(DnacBase):
         self.log("Processing configuration sections for comprehensive workflow validation", "DEBUG")
 
         want = {}
-        backup_config = config.get("backup_configuration")
+        backup_config = config.get("backup_storage_configuration")
         nfs_config = config.get("nfs_configuration")
-        backup = config.get("backup")
+        backup = config.get("backup_job_creation")
         restore_operations = config.get("restore_operations")
 
         config_sections = []
         if backup_config:
-            config_sections.append("backup_configuration")
+            config_sections.append("backup_storage_configuration")
         if nfs_config:
             config_sections.append("nfs_configuration")
         if backup:
-            config_sections.append("backup")
+            config_sections.append("backup_job_creation")
         if restore_operations:
             config_sections.append("restore_operations")
 
@@ -920,13 +925,13 @@ class BackupRestore(DnacBase):
         if not any([backup_config, nfs_config, backup, restore_operations]):
             self.msg = (
                 "Backup and restore workflow requires at least one configuration section: "
-                "'backup_configuration', 'nfs_configuration', 'backup', or 'restore_operations'"
+                "'backup_storage_configuration', 'nfs_configuration', 'backup_job_creation', or 'restore_operations'"
             )
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         want = {
-            "backup_configuration": backup_config,
-            "backup": backup,
+            "backup_storage_configuration": backup_config,
+            "backup_job_creation": backup,
             "restore_operations": restore_operations,
             "nfs_configuration": nfs_config
         }
@@ -958,7 +963,7 @@ class BackupRestore(DnacBase):
             It performs the following operations:
             - Parses the 'server_ip' and 'source_path' from either:
                 - The first item in 'nfs_configuration', or
-                - The nested 'nfs_details' under 'backup_configuration'.
+                - The nested 'nfs_details' under 'backup_storage_configuration'.
             - Calls the Catalyst Center API ('get_all_n_f_s_configurations') to retrieve existing NFS configurations.
             - Validates the API response structure and logs it for traceability.
             - Iterates through existing NFS configs to find a match based on both 'server' and 'sourcePath' fields.
@@ -1030,7 +1035,7 @@ class BackupRestore(DnacBase):
         current_backup_configuration = {}
         matched_config = {}
 
-        backup_config_list = self.want.get("backup_configuration", [])
+        backup_config_list = self.want.get("backup_storage_configuration", [])
         expected_server_type = expected_server_ip = expected_source_path = None
 
         if backup_config_list and isinstance(backup_config_list, list):
@@ -1124,7 +1129,7 @@ class BackupRestore(DnacBase):
         current_backups = []
         matched_config = {}
 
-        backup_list = self.want.get("backup", [])
+        backup_list = self.want.get("backup_job_creation", [])
         expected_backup_name = None
 
         if backup_list and isinstance(backup_list, list):
@@ -1204,10 +1209,10 @@ class BackupRestore(DnacBase):
                 - If 'nfs_configuration' is provided in the desired state:
                     - Calls 'get_nfs_configuration_details()' to fetch and match the NFS config.
                     - Extracts and stores the matched configuration and its existence flag.
-                - If 'backup_configuration' is present:
+                - If 'backup_storage_configuration' is present:
                     - Calls 'get_backup_configuration()' to retrieve the existing backup config.
                     - Stores the matched configuration and existence flag.
-                - If 'backup' is provided:
+                - If 'backup_job_creation' is provided:
                     - Calls 'get_backup()' to retrieve and match backups by name.
                     - Stores the matched backup and its existence flag.
                 - If 'restore_operations' is provided:
@@ -1223,7 +1228,7 @@ class BackupRestore(DnacBase):
         self.log("Retrieved {0} NFS configurations for backup infrastructure evaluation".format(
             len(current_nfs_configs)), "DEBUG")
 
-        backup_configuration_details = self.want.get("backup_configuration", [])
+        backup_configuration_details = self.want.get("backup_storage_configuration", [])
 
         if backup_configuration_details:
             self.log("Retrieving current backup target configuration for validation", "DEBUG")
@@ -1235,7 +1240,7 @@ class BackupRestore(DnacBase):
                 have["backup_configuration_exists"]), "DEBUG")
             self.log("Current backup configuration details retrieved for comparison", "DEBUG")
 
-        backup_details = self.want.get("backup", [])
+        backup_details = self.want.get("backup_job_creation", [])
         if backup_details:
             self.log("Retrieving current backup information for validation", "DEBUG")
             backup_exists, current_backups, matched_backup = self.get_backup()
@@ -1272,7 +1277,7 @@ class BackupRestore(DnacBase):
             config (dict): The configuration dictionary containing the desired state for:
                         - NFS configuration
                         - Backup configuration
-                        - backups
+                        - backup create
                         - Restore details
 
         Returns:
@@ -1280,7 +1285,7 @@ class BackupRestore(DnacBase):
 
         Description:
             This method processes the configuration details provided in the playbook for Catalyst Center backup and restore workflows.
-            It checks for the presence of specific configuration options—such as NFS configuration, backup configuration, backups,
+            It checks for the presence of specific configuration options—such as NFS configuration, backup configuration, backup create,
             and restore details—and triggers corresponding diff methods for each section:
 
             - 'get_diff_nfs_configuration()': Validates and computes the difference between current and desired NFS settings.
@@ -1304,12 +1309,12 @@ class BackupRestore(DnacBase):
             self.log("Processing NFS server configuration for backup storage validation", "DEBUG")
             self.get_diff_nfs_configuration()
 
-        if config.get("backup_configuration"):
+        if config.get("backup_storage_configuration"):
             self.log("Processing backup target configuration for data protection workflow", "DEBUG")
             self.get_diff_backup_configuration()
 
-        if config.get("backup"):
-            self.log("Processing backups details...", "INFO")
+        if config.get("backup_job_creation"):
+            self.log("Processing backup details...", "INFO")
             self.get_diff_backup()
 
         if config.get("restore_operations"):
@@ -1358,8 +1363,8 @@ class BackupRestore(DnacBase):
             self.log("Processing NFS server configuration deletion for infrastructure cleanup", "DEBUG")
             self.delete_nfs_configuration()
 
-        if config.get("backup"):
-            self.log("Processing backups details for deletion...", "INFO")
+        if config.get("backup_job_creation"):
+            self.log("Processing backup details for deletion...", "INFO")
             self.delete_backup()
 
         self.log("Backup infrastructure deletion processing completed successfully", "DEBUG")
@@ -1478,7 +1483,7 @@ class BackupRestore(DnacBase):
         """
         self.log("Processing backup configuration details...", "INFO")
 
-        expected_backup_configs = self.want.get("backup_configuration", [])
+        expected_backup_configs = self.want.get("backup_storage_configuration", [])
         backup_configuration = self.have
 
         self.log("Processing backup target configurations for enterprise data protection validation", "DEBUG")
@@ -1637,7 +1642,7 @@ class BackupRestore(DnacBase):
 
         backup = self.have
 
-        for backup_details in self.want.get("backup", []):
+        for backup_details in self.want.get("backup_job_creation", []):
             name = backup_details.get("name")
             scope = backup_details.get("scope")
 
@@ -2374,7 +2379,7 @@ class BackupRestore(DnacBase):
         """
         self.log("Starting backups deletion workflow", "INFO")
 
-        backup_details = self.want.get("backup", [])
+        backup_details = self.want.get("backup_job_creation", [])
         self.log("backups details: {0}".format(backup_details), "INFO")
 
         if not backup_details:
@@ -2482,14 +2487,14 @@ class BackupRestore(DnacBase):
                     )
                 )
 
-        if self.want.get("backup"):
-            self.log("Verifying backups creation/update results", "DEBUG")
+        if self.want.get("backup_job_creation"):
+            self.log("Verifying backups creation results", "DEBUG")
             self.get_have()
             self.log("Current State (have): {0}".format(str(self.have)), "INFO")
             self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
             backup_exists = self.have.get("backup_exists")
-            backup = self.want.get("backup", [])[0]
+            backup = self.want.get("backup_job_creation", [])[0]
             name = backup.get("name")
             scope = backup.get("scope")
 
@@ -2507,14 +2512,14 @@ class BackupRestore(DnacBase):
                     )
                 )
 
-        if self.want.get("backup_configuration"):
+        if self.want.get("backup_storage_configuration"):
             self.log("Verifying backup configuration creation/update results", "DEBUG")
             self.get_have()
             self.log("Current State (have): {0}".format(str(self.have)), "INFO")
             self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
             backup_config_exists = self.have.get("backup_configuration_exists")
-            backup_config = self.want.get("backup_configuration", [])[0]
+            backup_config = self.want.get("backup_storage_configuration", [])[0]
             server_ip = backup_config.get("server_ip")
             path = backup_config.get("path")
 
@@ -2577,7 +2582,7 @@ class BackupRestore(DnacBase):
                     "WARNING"
                 )
 
-        if self.want.get("backup"):
+        if self.want.get("backup_job_creation"):
             self.log("Waiting for backups deletion to complete on backend", "DEBUG")
             time.sleep(120)
             self.get_have()
@@ -2586,7 +2591,7 @@ class BackupRestore(DnacBase):
 
             backup_exists = self.have.get("backup_exists")
             self.log("Backup exists: {0}".format(backup_exists), "DEBUG")
-            backup_name = self.want.get("backup", [])[0].get("name")
+            backup_name = self.want.get("backup_job_creation", [])[0].get("name")
 
             if not backup_exists:
                 self.log(
