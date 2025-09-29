@@ -290,7 +290,6 @@ options:
                 - Ranges use hyphen notation (e.g., "100-200" includes VLANs 100-200).
                 - The keyword 'all' permits all VLANs 1-4094 on the trunk link.
                 - Restricting VLAN ranges improves security by limiting VLAN scope.
-                - Must include native_vlan_id in the allowed ranges for proper operation.
                 - Examples
                     - "100,200,300-400" - Specific VLANs and range
                     - "1-100,200-300" - Multiple ranges
@@ -421,7 +420,6 @@ options:
               - Ranges use hyphen notation (e.g., "100-200" includes VLANs 100-200).
               - The keyword 'all' permits all VLANs 1-4094 on the trunk link.
               - Restricting VLAN ranges improves security by limiting VLAN scope.
-              - Must include native_vlan_id in the allowed ranges for proper operation.
               - Examples
                   - "100,200,300-400" - Specific VLANs and range
                   - "1-100,200-300" - Multiple ranges
@@ -716,7 +714,7 @@ EXAMPLES = r"""
           # Trunking device with default native VLAN and specific ranges
           - interface_name: "FortyGigabitEthernet1/1/2"
             connected_device_type: "TRUNKING_DEVICE"
-            allowed_vlan_ranges: "1,10-20,100-200"
+            allowed_vlan_ranges: "5,10-20,100-200"
             interface_description: "Trunk port with management and data VLANs"
           # Trunking device with custom native VLAN and all VLANs allowed
           - interface_name: "FortyGigabitEthernet1/1/3"
@@ -776,7 +774,7 @@ EXAMPLES = r"""
           - interface_name: "FortyGigabitEthernet1/1/1"
             connected_device_type: "TRUNKING_DEVICE"
             native_vlan_id: 1
-            allowed_vlan_ranges: "1,100-110,200-210"
+            allowed_vlan_ranges: "100-110,200-210"
             interface_description: "Updated trunk with security restrictions"
 
 - name: Add or Update port channels
