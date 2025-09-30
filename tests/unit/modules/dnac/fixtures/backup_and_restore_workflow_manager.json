@@ -2159,7 +2159,7 @@
       "nfs_configuration": [
         {
           "nfs_port": 2049,
-          "nfs_portmapper_port": 111,
+          "nfs_port_mapper": 111,
           "nfs_version": "nfs4",
           "server_ip": "172.27.17.90",
           "source_path": "/home/nfsshare/backups/TB19"
@@ -2329,7 +2329,7 @@
           "encryption_passphrase": "Karthick@zigzag333",
           "nfs_details": {
             "nfs_port": 2049,
-            "nfs_portmapper_port": 111,
+            "nfs_port_mapper": 111,
             "nfs_version": "nfs4",
             "server_ip": "172.27.17.90",
             "source_path": "/home/nfsshare/backups/TB17"
@@ -2441,7 +2441,7 @@
       "nfs_configuration": [
         {
           "nfs_port": 2049,
-          "nfs_portmapper_port": 111,
+          "nfs_port_mapper": 111,
           "nfs_version": "nfs4",
           "server_ip": "172.27.17.90",
           "source_path": "/home/nfsshare/backups/TB19"
@@ -2585,7 +2585,7 @@
           "encryption_passphrase": "Karthick@zigzag333",
           "nfs_details": {
             "nfs_port": 2049,
-            "nfs_portmapper_port": 111,
+            "nfs_port_mapper": 111,
             "nfs_version": "nfs4",
             "server_ip": "172.27.17.90",
             "source_path": "/home/nfsshare/backups/TB18"
@@ -3404,7 +3404,7 @@
       "nfs_configuration": [
         {
           "nfs_port": 2049,
-          "nfs_portmapper_port": 111,
+          "nfs_port_mapper": 111,
           "nfs_version": "nfs4",
           "server_ip": "172.27.17.90"
         }
@@ -3458,7 +3458,7 @@
           "encryption_passphrase": "Karthick@zigzag333",
           "nfs_details": {
             "nfs_port": 2049,
-            "nfs_portmapper_port": 111,
+            "nfs_port_mapper": 111,
             "nfs_version": "nfs4",
             "server_ip": "172.27.17.90",
             "source_path": "/home/nfsshare/backups/TB19"
@@ -4387,7 +4387,7 @@
           "encryption_passphrase": "Karthick@zigzag333",
           "nfs_details": {
             "nfs_port": 2049,
-            "nfs_portmapper_port": 111,
+            "nfs_port_mapper": 111,
             "nfs_version": "nfs4",
             "source_path": "/home/nfsshare/backups/TB19"
           },
@@ -4414,7 +4414,7 @@
           "encryption_passphrase": "Karthick@zigzag333",
           "nfs_details": {
             "nfs_port": 2049,
-            "nfs_portmapper_port": 111,
+            "nfs_port_mapper": 111,
             "nfs_version": "nfs4",
             "source_path": "/home/nfsshare/backups/TB19"
           },
@@ -4430,7 +4430,7 @@
         "encryption_passphrase": "Karthick@zigzag333",
         "nfs_details": {
           "nfs_port": 2049,
-          "nfs_portmapper_port": 111,
+          "nfs_port_mapper": 111,
           "nfs_version": "nfs4",
           "server_ip": "172.27.17.90",
           "source_path": "/home/nfsshare/backups/TB19"
@@ -4444,7 +4444,7 @@
       "nfs_configuration": [
         {
           "nfs_port": 2049,
-          "nfs_portmapper_port": 111,
+          "nfs_port_mapper": 111,
           "nfs_version": "nfs4",
           "server_ip": "172.27.17.90",
           "source_path": "/home/nfsshare/backups/TB22"
@@ -4551,28 +4551,47 @@
     ]
   },
   "playbook_update_backup_config": [
-    {
-      "backup_storage_configuration": [
-        {
-          "data_retention_period": 9,
-          "encryption_passphrase": "Karthick@zigzag333",
-          "nfs_details": {
-            "nfs_port": 2049,
-            "nfs_portmapper_port": 111,
-            "nfs_version": "nfs4",
-            "server_ip": "172.27.17.90",
-            "source_path": "/home/nfsshare/backups/TB18"
-          },
-          "server_type": "NFS"
-        }
-      ]
-    }
+      {
+          "backup_storage_configuration": [
+              {
+                  "data_retention_period": 51,
+                  "encryption_passphrase": "Karthick@zigzag33333",
+                  "nfs_details": {
+                      "nfs_port": 2049,
+                      "nfs_port_mapper": 111,
+                      "nfs_version": "nfs4",
+                      "server_ip": "172.27.17.90",
+                      "source_path": "/home/nfsshare/backups/TB18"
+                  },
+                  "server_type": "NFS"
+              }
+          ]
+      }
   ],
   "get_all_n_f_s_configurations10": {
     "version": "2.0",
     "response": [
       {
-        "id": "8b737087-5995-40fd-8c78-1f3422958e13",
+        "id": "597b3978-4255-481e-9b76-cc97500a5e18",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB19"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-0e1cfb41-59f4-52d8-9895-f5c784d5596e",
+          "state": "UnHealthy",
+          "subResourceState": "172.23.9.219=NFS mount point could not be mounted on the node",
+          "unhealthyNodes": [
+            "172.23.9.219"
+          ]
+        }
+      },
+      {
+        "id": "cfa6d1f6-5a78-4272-892a-db77d443a497",
         "spec": {
           "nfsPort": 2049,
           "nfsVersion": "nfs4",
@@ -4586,42 +4605,6 @@
           "state": "Healthy",
           "subResourceState": "",
           "unhealthyNodes": null
-        }
-      },
-      {
-        "id": "c2f70608-3864-4457-9247-ce63841b386f",
-        "spec": {
-          "nfsPort": 2049,
-          "nfsVersion": "nfs4",
-          "portMapperPort": 111,
-          "server": "172.27.17.90",
-          "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB17"
-        },
-        "status": {
-          "destinationPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
-          "state": "Healthy",
-          "subResourceState": "",
-          "unhealthyNodes": null
-        }
-      },
-      {
-        "id": "eff7ff94-00e1-49ed-a703-e5a4ce1445d9",
-        "spec": {
-          "nfsPort": 2049,
-          "nfsVersion": "nfs4",
-          "portMapperPort": 111,
-          "server": "172.27.17.90",
-          "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB22"
-        },
-        "status": {
-          "destinationPath": "/data/external/nfs-68f9d1cf-acf0-53da-9676-ba325f65c637",
-          "state": "UnHealthy",
-          "subResourceState": "172.23.9.219=NFS mount point could not be mounted on the node",
-          "unhealthyNodes": [
-            "172.23.9.219"
-          ]
         }
       }
     ]
@@ -4630,9 +4613,9 @@
     "version": "2.0",
     "response": {
       "type": "NFS",
-      "dataRetention": 9,
-      "mountPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
-      "id": "1fa840d8-ee9f-4e0d-a560-694c5e939680",
+      "dataRetention": 52,
+      "mountPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
+      "id": "5dfb56b0-3dd6-4ae2-8244-535d06618afb",
       "isEncryptionPassPhraseAvailable": true
     }
   },
@@ -4640,7 +4623,26 @@
     "version": "2.0",
     "response": [
       {
-        "id": "8b737087-5995-40fd-8c78-1f3422958e13",
+        "id": "597b3978-4255-481e-9b76-cc97500a5e18",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB19"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-0e1cfb41-59f4-52d8-9895-f5c784d5596e",
+          "state": "UnHealthy",
+          "subResourceState": "172.23.9.219=NFS mount point could not be mounted on the node",
+          "unhealthyNodes": [
+            "172.23.9.219"
+          ]
+        }
+      },
+      {
+        "id": "cfa6d1f6-5a78-4272-892a-db77d443a497",
         "spec": {
           "nfsPort": 2049,
           "nfsVersion": "nfs4",
@@ -4654,52 +4656,34 @@
           "state": "Healthy",
           "subResourceState": "",
           "unhealthyNodes": null
-        }
-      },
-      {
-        "id": "c2f70608-3864-4457-9247-ce63841b386f",
-        "spec": {
-          "nfsPort": 2049,
-          "nfsVersion": "nfs4",
-          "portMapperPort": 111,
-          "server": "172.27.17.90",
-          "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB17"
-        },
-        "status": {
-          "destinationPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
-          "state": "Healthy",
-          "subResourceState": "",
-          "unhealthyNodes": null
-        }
-      },
-      {
-        "id": "eff7ff94-00e1-49ed-a703-e5a4ce1445d9",
-        "spec": {
-          "nfsPort": 2049,
-          "nfsVersion": "nfs4",
-          "portMapperPort": 111,
-          "server": "172.27.17.90",
-          "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB22"
-        },
-        "status": {
-          "destinationPath": "/data/external/nfs-68f9d1cf-acf0-53da-9676-ba325f65c637",
-          "state": "UnHealthy",
-          "subResourceState": "172.23.9.219=NFS mount point could not be mounted on the node",
-          "unhealthyNodes": [
-            "172.23.9.219"
-          ]
         }
       }
     ]
   },
-  "create_backup_configuration": null,
   "get_all_n_f_s_configurations12": {
     "version": "2.0",
     "response": [
       {
-        "id": "8b737087-5995-40fd-8c78-1f3422958e13",
+        "id": "597b3978-4255-481e-9b76-cc97500a5e18",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB19"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-0e1cfb41-59f4-52d8-9895-f5c784d5596e",
+          "state": "UnHealthy",
+          "subResourceState": "172.23.9.219=NFS mount point could not be mounted on the node",
+          "unhealthyNodes": [
+            "172.23.9.219"
+          ]
+        }
+      },
+      {
+        "id": "cfa6d1f6-5a78-4272-892a-db77d443a497",
         "spec": {
           "nfsPort": 2049,
           "nfsVersion": "nfs4",
@@ -4714,41 +4698,52 @@
           "subResourceState": "",
           "unhealthyNodes": null
         }
-      },
+      }
+    ]
+  },
+  "create_backup_configuration": {
+    "version": "2.0",
+    "response": {
+      "message": "Backup configuration created successfully."
+    }
+  },
+  "get_all_n_f_s_configurations31": {
+    "version": "2.0",
+    "response": [
       {
-        "id": "c2f70608-3864-4457-9247-ce63841b386f",
+        "id": "597b3978-4255-481e-9b76-cc97500a5e18",
         "spec": {
           "nfsPort": 2049,
           "nfsVersion": "nfs4",
           "portMapperPort": 111,
           "server": "172.27.17.90",
           "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB17"
+          "sourcePath": "/home/nfsshare/backups/TB19"
         },
         "status": {
-          "destinationPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
-          "state": "Healthy",
-          "subResourceState": "",
-          "unhealthyNodes": null
-        }
-      },
-      {
-        "id": "eff7ff94-00e1-49ed-a703-e5a4ce1445d9",
-        "spec": {
-          "nfsPort": 2049,
-          "nfsVersion": "nfs4",
-          "portMapperPort": 111,
-          "server": "172.27.17.90",
-          "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB22"
-        },
-        "status": {
-          "destinationPath": "/data/external/nfs-68f9d1cf-acf0-53da-9676-ba325f65c637",
+          "destinationPath": "/data/external/nfs-0e1cfb41-59f4-52d8-9895-f5c784d5596e",
           "state": "UnHealthy",
           "subResourceState": "172.23.9.219=NFS mount point could not be mounted on the node",
           "unhealthyNodes": [
             "172.23.9.219"
           ]
+        }
+      },
+      {
+        "id": "cfa6d1f6-5a78-4272-892a-db77d443a497",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB18"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
         }
       }
     ]
@@ -4757,45 +4752,45 @@
     "version": "2.0",
     "response": {
       "type": "NFS",
-      "dataRetention": 9,
+      "dataRetention": 51,
       "mountPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
-      "id": "1fa840d8-ee9f-4e0d-a560-694c5e939680",
+      "id": "5dfb56b0-3dd6-4ae2-8244-535d06618afb",
       "isEncryptionPassPhraseAvailable": true
     }
   },
-  "playbook_backup_config_alreadyexists1": [
+    "playbook_backup_config_alreadyexists1": [
     {
-      "backup_storage_configuration": [
-        {
-          "data_retention_period": 9,
-          "encryption_passphrase": "Karthick@zigzag333",
-          "nfs_details": {
-            "nfs_port": 2049,
-            "nfs_portmapper_port": 111,
-            "nfs_version": "nfs4",
-            "server_ip": "172.27.17.90",
-            "source_path": "/home/nfsshare/backups/TB17"
-          },
-          "server_type": "NFS"
-        }
-      ]
+        "backup_storage_configuration": [
+            {
+                "data_retention_period": 51,
+                "encryption_passphrase": "Karthick@zigzag33333",
+                "nfs_details": {
+                    "nfs_port": 2049,
+                    "nfs_port_mapper": 111,
+                    "nfs_version": "nfs4",
+                    "server_ip": "172.27.17.90",
+                    "source_path": "/home/nfsshare/backups/TB18"
+                },
+                "server_type": "NFS"
+            }
+        ]
     }
-  ],
+],
   "get_all_n_f_s_configurations13": {
     "version": "2.0",
     "response": [
       {
-        "id": "2c3b1518-12c9-4ae1-abe6-3ee858fac515",
+        "id": "597b3978-4255-481e-9b76-cc97500a5e18",
         "spec": {
           "nfsPort": 2049,
           "nfsVersion": "nfs4",
           "portMapperPort": 111,
           "server": "172.27.17.90",
           "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB21"
+          "sourcePath": "/home/nfsshare/backups/TB19"
         },
         "status": {
-          "destinationPath": "/data/external/nfs-17a13b08-f346-5694-9ad6-6a32620cec1f",
+          "destinationPath": "/data/external/nfs-0e1cfb41-59f4-52d8-9895-f5c784d5596e",
           "state": "UnHealthy",
           "subResourceState": "172.23.9.219=NFS mount point could not be mounted on the node",
           "unhealthyNodes": [
@@ -4804,17 +4799,17 @@
         }
       },
       {
-        "id": "7c2f408d-c218-431e-aab6-95a65970737f",
+        "id": "cfa6d1f6-5a78-4272-892a-db77d443a497",
         "spec": {
           "nfsPort": 2049,
           "nfsVersion": "nfs4",
           "portMapperPort": 111,
           "server": "172.27.17.90",
           "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB17"
+          "sourcePath": "/home/nfsshare/backups/TB18"
         },
         "status": {
-          "destinationPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
+          "destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
           "state": "Healthy",
           "subResourceState": "",
           "unhealthyNodes": null
@@ -4826,9 +4821,9 @@
     "version": "2.0",
     "response": {
       "type": "NFS",
-      "dataRetention": 9,
-      "mountPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
-      "id": "1fa840d8-ee9f-4e0d-a560-694c5e939680",
+      "dataRetention": 51,
+      "mountPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
+      "id": "5dfb56b0-3dd6-4ae2-8244-535d06618afb",
       "isEncryptionPassPhraseAvailable": true
     }
   },
@@ -4836,17 +4831,17 @@
     "version": "2.0",
     "response": [
       {
-        "id": "2c3b1518-12c9-4ae1-abe6-3ee858fac515",
+        "id": "597b3978-4255-481e-9b76-cc97500a5e18",
         "spec": {
           "nfsPort": 2049,
           "nfsVersion": "nfs4",
           "portMapperPort": 111,
           "server": "172.27.17.90",
           "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB21"
+          "sourcePath": "/home/nfsshare/backups/TB19"
         },
         "status": {
-          "destinationPath": "/data/external/nfs-17a13b08-f346-5694-9ad6-6a32620cec1f",
+          "destinationPath": "/data/external/nfs-0e1cfb41-59f4-52d8-9895-f5c784d5596e",
           "state": "UnHealthy",
           "subResourceState": "172.23.9.219=NFS mount point could not be mounted on the node",
           "unhealthyNodes": [
@@ -4855,17 +4850,17 @@
         }
       },
       {
-        "id": "7c2f408d-c218-431e-aab6-95a65970737f",
+        "id": "cfa6d1f6-5a78-4272-892a-db77d443a497",
         "spec": {
           "nfsPort": 2049,
           "nfsVersion": "nfs4",
           "portMapperPort": 111,
           "server": "172.27.17.90",
           "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB17"
+          "sourcePath": "/home/nfsshare/backups/TB18"
         },
         "status": {
-          "destinationPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
+          "destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
           "state": "Healthy",
           "subResourceState": "",
           "unhealthyNodes": null
@@ -4877,17 +4872,17 @@
     "version": "2.0",
     "response": [
       {
-        "id": "2c3b1518-12c9-4ae1-abe6-3ee858fac515",
+        "id": "597b3978-4255-481e-9b76-cc97500a5e18",
         "spec": {
           "nfsPort": 2049,
           "nfsVersion": "nfs4",
           "portMapperPort": 111,
           "server": "172.27.17.90",
           "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB21"
+          "sourcePath": "/home/nfsshare/backups/TB19"
         },
         "status": {
-          "destinationPath": "/data/external/nfs-17a13b08-f346-5694-9ad6-6a32620cec1f",
+          "destinationPath": "/data/external/nfs-0e1cfb41-59f4-52d8-9895-f5c784d5596e",
           "state": "UnHealthy",
           "subResourceState": "172.23.9.219=NFS mount point could not be mounted on the node",
           "unhealthyNodes": [
@@ -4896,17 +4891,58 @@
         }
       },
       {
-        "id": "7c2f408d-c218-431e-aab6-95a65970737f",
+        "id": "cfa6d1f6-5a78-4272-892a-db77d443a497",
         "spec": {
           "nfsPort": 2049,
           "nfsVersion": "nfs4",
           "portMapperPort": 111,
           "server": "172.27.17.90",
           "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB17"
+          "sourcePath": "/home/nfsshare/backups/TB18"
         },
         "status": {
-          "destinationPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
+          "destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      }
+    ]
+  },
+  "get_all_n_f_s_configurations32": {
+    "version": "2.0",
+    "response": [
+      {
+        "id": "597b3978-4255-481e-9b76-cc97500a5e18",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB19"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-0e1cfb41-59f4-52d8-9895-f5c784d5596e",
+          "state": "UnHealthy",
+          "subResourceState": "172.23.9.219=NFS mount point could not be mounted on the node",
+          "unhealthyNodes": [
+            "172.23.9.219"
+          ]
+        }
+      },
+      {
+        "id": "cfa6d1f6-5a78-4272-892a-db77d443a497",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB18"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
           "state": "Healthy",
           "subResourceState": "",
           "unhealthyNodes": null
@@ -4918,12 +4954,13 @@
     "version": "2.0",
     "response": {
       "type": "NFS",
-      "dataRetention": 9,
-      "mountPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
-      "id": "1fa840d8-ee9f-4e0d-a560-694c5e939680",
+      "dataRetention": 51,
+      "mountPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
+      "id": "5dfb56b0-3dd6-4ae2-8244-535d06618afb",
       "isEncryptionPassPhraseAvailable": true
     }
   },
+
   "playbook_backup_config_password_exception": [
     {
       "backup_storage_configuration": [
@@ -4932,7 +4969,7 @@
           "encryption_passphrase": "Karthick@zigza",
           "nfs_details": {
             "nfs_port": 2049,
-            "nfs_portmapper_port": 111,
+            "nfs_port_mapper": 111,
             "nfs_version": "nfs4",
             "server_ip": "172.27.17.90",
             "source_path": "/home/nfsshare/backups/TB18"
@@ -5070,186 +5107,105 @@
   },
   "playbook_mountpath_notfound": [
     {
-      "backup_storage_configuration": [
+        "backup_storage_configuration": [
+            {
+                "data_retention_period": 54,
+                "encryption_passphrase": "Karthick@zigzag33333",
+                "nfs_details": {
+                    "nfs_port": 2049,
+                    "nfs_port_mapper": 111,
+                    "nfs_version": "nfs4",
+                    "server_ip": "172.27.17.90",
+                    "source_path": "/home/nfsshare/backups/TB19"
+                },
+                "server_type": "NFS"
+            }
+        ]
+    }
+],
+  "get_all_n_f_s_configurations18":{
+      "version": "2.0",
+      "response": [
         {
-          "data_retention_period": 9,
-          "encryption_passphrase": "Karthick@zigzag333",
-          "nfs_details": {
-            "nfs_port": 2049,
-            "nfs_portmapper_port": 111,
-            "nfs_version": "nfs4",
-            "server_ip": "172.27.17.90",
-            "source_path": "/home/nfsshare/backups/TB22"
+          "id": "597b3978-4255-481e-9b76-cc97500a5e18",
+          "spec": {
+            "nfsPort": 2049,
+            "nfsVersion": "nfs4",
+            "portMapperPort": 111,
+            "server": "172.27.17.90",
+            "serverType": "NFS",
+            "sourcePath": "/home/nfsshare/backups/TB19"
           },
-          "server_type": "NFS"
+          "status": {
+            "destinationPath": "/data/external/nfs-0e1cfb41-59f4-52d8-9895-f5c784d5596e",
+            "state": "UnHealthy",
+            "subResourceState": "172.23.9.219=NFS mount point could not be mounted on the node",
+            "unhealthyNodes": [
+              "172.23.9.219"
+            ]
+          }
         }
       ]
-    }
-  ],
-  "get_all_n_f_s_configurations18": {
-    "version": "2.0",
-    "response": [
-      {
-        "id": "2c3b1518-12c9-4ae1-abe6-3ee858fac515",
-        "spec": {
-          "nfsPort": 2049,
-          "nfsVersion": "nfs4",
-          "portMapperPort": 111,
-          "server": "172.27.17.90",
-          "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB21"
-        },
-        "status": {
-          "destinationPath": "/data/external/nfs-17a13b08-f346-5694-9ad6-6a32620cec1f",
-          "state": "UnHealthy",
-          "subResourceState": "172.23.9.219=NFS mount point could not be mounted on the node",
-          "unhealthyNodes": [
-            "172.23.9.219"
-          ]
-        }
-      },
-      {
-        "id": "4f09c3d7-ba64-49e1-ac2d-a27e80ac63df",
-        "spec": {
-          "nfsPort": 2049,
-          "nfsVersion": "nfs4",
-          "portMapperPort": 111,
-          "server": "172.27.17.90",
-          "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB18"
-        },
-        "status": {
-          "destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
-          "state": "Healthy",
-          "subResourceState": "",
-          "unhealthyNodes": null
-        }
-      },
-      {
-        "id": "6a1490a6-4ca5-42b8-8a3f-9a352430b9fc",
-        "spec": {
-          "nfsPort": 2049,
-          "nfsVersion": "nfs4",
-          "portMapperPort": 111,
-          "server": "172.27.17.90",
-          "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB22"
-        },
-        "status": {
-          "destinationPath": "/data/external/nfs-68f9d1cf-acf0-53da-9676-ba325f65c637",
-          "state": "UnHealthy",
-          "subResourceState": "172.23.9.219=NFS mount point could not be mounted on the node",
-          "unhealthyNodes": [
-            "172.23.9.219"
-          ]
-        }
-      },
-      {
-        "id": "7c2f408d-c218-431e-aab6-95a65970737f",
-        "spec": {
-          "nfsPort": 2049,
-          "nfsVersion": "nfs4",
-          "portMapperPort": 111,
-          "server": "172.27.17.90",
-          "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB17"
-        },
-        "status": {
-          "destinationPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
-          "state": "Healthy",
-          "subResourceState": "",
-          "unhealthyNodes": null
-        }
-      }
-    ]
-  },
+    },
   "get_backup_configuration11": {
-    "version": "2.0",
-    "response": {
-      "type": "NFS",
-      "dataRetention": 9,
-      "mountPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
-      "id": "1fa840d8-ee9f-4e0d-a560-694c5e939680",
-      "isEncryptionPassPhraseAvailable": true
-    }
-  },
+      "version": "2.0",
+      "response": {
+        "type": "NFS",
+        "dataRetention": 3,
+        "mountPath": "",
+        "id": "5dfb56b0-3dd6-4ae2-8244-535d06618afb",
+        "isEncryptionPassPhraseAvailable": true
+      }
+    },
   "get_all_n_f_s_configurations19": {
     "version": "2.0",
     "response": [
       {
-        "id": "2c3b1518-12c9-4ae1-abe6-3ee858fac515",
+        "id": "597b3978-4255-481e-9b76-cc97500a5e18",
         "spec": {
           "nfsPort": 2049,
           "nfsVersion": "nfs4",
           "portMapperPort": 111,
           "server": "172.27.17.90",
           "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB21"
+          "sourcePath": "/home/nfsshare/backups/TB19"
         },
         "status": {
-          "destinationPath": "/data/external/nfs-17a13b08-f346-5694-9ad6-6a32620cec1f",
+          "destinationPath": "/data/external/nfs-0e1cfb41-59f4-52d8-9895-f5c784d5596e",
           "state": "UnHealthy",
           "subResourceState": "172.23.9.219=NFS mount point could not be mounted on the node",
           "unhealthyNodes": [
             "172.23.9.219"
           ]
-        }
-      },
-      {
-        "id": "4f09c3d7-ba64-49e1-ac2d-a27e80ac63df",
-        "spec": {
-          "nfsPort": 2049,
-          "nfsVersion": "nfs4",
-          "portMapperPort": 111,
-          "server": "172.27.17.90",
-          "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB18"
-        },
-        "status": {
-          "destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
-          "state": "Healthy",
-          "subResourceState": "",
-          "unhealthyNodes": null
-        }
-      },
-      {
-        "id": "6a1490a6-4ca5-42b8-8a3f-9a352430b9fc",
-        "spec": {
-          "nfsPort": 2049,
-          "nfsVersion": "nfs4",
-          "portMapperPort": 111,
-          "server": "172.27.17.90",
-          "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB22"
-        },
-        "status": {
-          "destinationPath": "/data/external/nfs-68f9d1cf-acf0-53da-9676-ba325f65c637",
-          "state": "UnHealthy",
-          "subResourceState": "172.23.9.219=NFS mount point could not be mounted on the node",
-          "unhealthyNodes": [
-            "172.23.9.219"
-          ]
-        }
-      },
-      {
-        "id": "7c2f408d-c218-431e-aab6-95a65970737f",
-        "spec": {
-          "nfsPort": 2049,
-          "nfsVersion": "nfs4",
-          "portMapperPort": 111,
-          "server": "172.27.17.90",
-          "serverType": "NFS",
-          "sourcePath": "/home/nfsshare/backups/TB17"
-        },
-        "status": {
-          "destinationPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
-          "state": "Healthy",
-          "subResourceState": "",
-          "unhealthyNodes": null
         }
       }
     ]
   },
+
+  "get_all_n_f_s_configurations30":{
+      "version": "2.0",
+      "response": [
+        {
+          "id": "597b3978-4255-481e-9b76-cc97500a5e18",
+          "spec": {
+            "nfsPort": 2049,
+            "nfsVersion": "nfs4",
+            "portMapperPort": 111,
+            "server": "172.27.17.90",
+            "serverType": "NFS",
+            "sourcePath": "/home/nfsshare/backups/TB19"
+          },
+          "status": {
+            "destinationPath": "/data/external/nfs-0e1cfb41-59f4-52d8-9895-f5c784d5596e",
+            "state": "UnHealthy",
+            "subResourceState": "172.23.9.219=NFS mount point could not be mounted on the node",
+            "unhealthyNodes": [
+              "172.23.9.219"
+            ]
+          }
+        }
+      ]
+    },
   "playbook_negative_scenario14": [
     {
       "restore_operations": [
@@ -5782,7 +5738,7 @@
       "nfs_configuration": [
         {
           "nfs_port": 2049,
-          "nfs_portmapper_port": 111,
+          "nfs_port_mapper": 111,
           "nfs_version": "nfs4",
           "server_ip": "172.27.17.90",
           "source_path": "/home/nfsshare/backups/TB22"
