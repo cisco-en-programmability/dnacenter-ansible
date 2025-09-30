@@ -113,7 +113,7 @@ options:
             choices: ["nfs3", "nfs4"]
           nfs_portmapper_port:
             description:
-              - Port number for the NFS port mapper service on target server.
+              - Port number for the NFS portmapper service on target server.
               - Used for dynamic port allocation and service discovery.
             type: int
             default: 111
@@ -158,7 +158,7 @@ options:
                 default: nfs4
                 choices: ["nfs3", "nfs4"]
               nfs_portmapper_port:
-                description: Port number for the NFS port mapper service.
+                description: Port number for the NFS portmapper service.
                 type: int
                 default: 111
           data_retention_period:
@@ -724,7 +724,7 @@ class BackupRestore(DnacBase):
             - Ensures 'config' is present and is a list.
             - Each item in 'config' must be a dictionary.
             - Uses a predefined specification ('config_spec') to validate structure and data types of fields including:
-                - 'nfs_configuration': Validates server IP, path, port, version (nfs3/nfs4), port mapper.
+                - 'nfs_configuration': Validates server IP, path, port, version (nfs3/nfs4), portmapper.
                 - 'backup_storage_configuration': Validates server type, NFS details, retention period (3–60), passphrase.
                 - 'backup': Validates backup name format and scope values.
                 - 'restore_operations': Validates presence of backup name and encryption passphrase.
@@ -1898,7 +1898,7 @@ class BackupRestore(DnacBase):
                 Optional fields:
                     - nfs_port (int): Port number used for NFS communication.
                     - nfs_version (str): Version of NFS protocol (e.g., "v3", "v4").
-                    - nfs_portmapper_port (int): Port number for the port mapper service.
+                    - nfs_portmapper_port (int): Port number for the portmapper service.
 
         Returns:
             self: The current class instance with updated operation result.
