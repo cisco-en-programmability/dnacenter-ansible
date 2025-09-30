@@ -583,7 +583,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
             result.get("response"),
             'Configuration validation failed with invalid parameters: '
             '["\'backup_storage_configuration\': \'{\'data_retention_period\': 53, \'encryption_passphrase\': '
-            '\'Karthick@zigzag333\', \'nfs_details\': {\'nfs_port\': 2049, \'nfs_port_mapper\': 111, '
+            '\'Karthick@zigzag333\', \'nfs_details\': {\'nfs_port\': 2049, \'nfs_portmapper_portmapper\': 111, '
             '\'nfs_version\': \'nfs4\', \'server_ip\': \'172.27.17.90\', \'source_path\': '
             '\'/home/nfsshare/backups/TB19\'}, \'server_type\': \'NFS\'}\' is invalid. '
             'Reason: expected type: \'list\'. Provided type: \'dict\'. "]'
