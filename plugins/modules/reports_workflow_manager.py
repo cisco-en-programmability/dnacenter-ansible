@@ -482,6 +482,84 @@ notes:
     GET /dna/intent/api/v1/data/reports/{reportId}/executions/{executionId}
 """
 
+"""
+Mapping of View Names to View Groups, Mandatory Filters, Available Filters and Available Format Types:
+
+View Name                                         View Group                         Mandatory Filters                     Available Filters                                  Available Format Types
+---------                                         ----------                        -----------------                    -----------------                                ----------------------
+Network Device Compliance                         Compliance                           Location                          Location, Device Type, Collection Status            CSV, PDF, JSON, TDE
+Network Device Availability                       Network Devices                      Location                          Location, Device Type, Time Range                  CSV, PDF, JSON, TDE
+Channel Change Count                              Network Devices                      Location                          Location, Device Type, Time Range                  CSV, PDF, JSON, TDE
+Transmit Power Change Count                       Network Devices                      Location                          Location, Device Type, Time Range                  CSV, PDF, JSON, TDE
+VLAN                                              Network Devices                       Location                         Location, Device Type                               CSV, PDF, JSON, TDE
+Port Capacity                                     Network Devices                       Location                         Location, Device Type                               CSV, PDF, JSON, TDE
+Energy Management                                 Network Devices                       Location                         Location, Device Type                               CSV, PDF, JSON, TDE
+PoE                                               Network Devices                       Location                         Location, Device Type                               CSV, PDF, JSON, TDE
+Device CPU and Memory Utilization                 Network Devices                       Location                         Location, Device Type, Time Range                  CSV, PDF, JSON, TDE
+Network Interface Utilization                     Network Devices                       Location                         Location, Device Type, Interface Type, Time Range  CSV, PDF, JSON, TDE
+Executive Summary                                 Executive Summary                     Location                         Location, Device Type, Time Range                  CSV, PDF, JSON, TDE
+All Data                                          Inventory                             Location                         Location, Device Type, Software Version            CSV, JSON, TDE
+Port Reclaim View                                 Inventory                             Location                         Location, Device Type                               CSV, JSON, TDE
+All Data Version 2.0                              Inventory                             Location                         Location, Device Type, Software Version            CSV, JSON, TDE
+All Data                                          SWIM                                  N/A                              Device Type, Image Name, Software Version          CSV, JSON, TDE
+All Data Version 2.0                              SWIM                                  N/A                              Device Type, Image Name, Software Version          CSV, JSON, TDE
+AP                                                Access Point                          Location                         Location, AP Name, Model, Controller               CSV, PDF, JSON, TDE
+AP Radio                                          Access Point                          Location                         Location, AP Name, Radio Band, Controller          CSV, PDF, JSON, TDE
+AP - Usage and Client Breakdown                   Access Point                          Location, SSID                   Location, SSID, AP Name, Controller                CSV, PDF, JSON, TDE
+Worst Interferers                                 Access Point                          Location                         Location, AP Name, Controller, Time Range          CSV, PDF, JSON, TDE
+AP RRM Events                                     Access Point                          Location                         Location, AP Name, Controller, Time Range          CSV, PDF, JSON, TDE
+AP Performance Report                             Long Term                             Location                         Location, AP Name, Controller, Time Range          CSV, PDF, JSON, TDE
+Long Term AP Detail                               Long Term                             Location                         Location, AP Name, Controller, Time Range          CSV, PDF, JSON, TDE
+Long Term AP Radio                                Long Term                             Location                         Location, AP Name, Radio Band, Time Range          CSV, PDF, JSON, TDE
+Long Term AP Usage and Client Breakdown           Long Term                             Location, SSID                   Location, SSID, AP Name, Time Range                CSV, PDF, JSON, TDE
+Long Term Client Detail                           Long Term                             Location, SSID, Time Range       Location, SSID, Client MAC, User Name, Time Range  CSV, PDF, JSON, TDE
+Long Term Client Session                          Long Term                             Location, SSID, Time Range       Location, SSID, Client MAC, Session ID, Time Range CSV, PDF, JSON, TDE
+Long Term Network Device Availability             Long Term                             Location                         Location, Device Type, Time Range                  CSV, PDF, JSON, TDE
+Security Group to Security Group                 Group Pair Communication Analytics   Source/Destination SGT             SGT, VN, Time Range                                CSV, PDF, JSON, TDE
+Security Group to ISE Endpoint Profile Group     Group Pair Communication Analytics   SGT, Endpoint Profile              SGT, Endpoint Profile, VN, Time Range              CSV, PDF, JSON, TDE
+Security Group to Host Group                     Group Pair Communication Analytics   SGT, Host Group                    SGT, Host Group, VN, Time Range                    CSV, PDF, JSON, TDE
+ISE Endpoint Profile Group to Security Group     Group Pair Communication Analytics   Endpoint Profile, SGT              Endpoint Profile, SGT, VN, Time Range              CSV, PDF, JSON, TDE
+ISE Endpoint Profile Group to 
+    ISE Endpoint Profile Group                    Group Pair Communication Analytics   Endpoint Profile                Endpoint Profile, VN, Time Range                   CSV, PDF, JSON, TDE
+ISE Endpoint Profile Group to Host Group         Group Pair Communication Analytics   Endpoint Profile, Host Group       Endpoint Profile, Host Group, VN, Time Range       CSV, PDF, JSON, TDE
+Host Group to Security Group                     Group Pair Communication Analytics   Host Group, SGT                    Host Group, SGT, VN, Time Range                    CSV, PDF, JSON, TDE
+Host Group to ISE Endpoint Profile Group         Group Pair Communication Analytics   Host Group, Endpoint Profile       Host Group, Endpoint Profile, VN, Time Range       CSV, PDF, JSON, TDE
+Host Group to Host Group                          Group Pair Communication Analytics   Host Group                        Host Group, VN, Time Range                         CSV, PDF, JSON, TDE
+Device Lifecycle Information                      Telemetry                             Location                         Location, Device Type, Hardware Info               CSV, JSON, TDE
+Security Group to Security Groups                Group Communication Summary           SGT                               SGT, VN, Time Range                                CSV, PDF, JSON, TDE
+Security Group to ISE Endpoint Profile Groups    Group Communication Summary           SGT, Endpoint Profile             SGT, Endpoint Profile, VN, Time Range              CSV, PDF, JSON, TDE
+Security Group to Host Groups                    Group Communication Summary           SGT, Host Group                   SGT, Host Group, VN, Time Range                    CSV, PDF, JSON, TDE
+ISE Endpoint Profile Group to Security Groups    Group Communication Summary           Endpoint Profile, SGT             Endpoint Profile, SGT, VN, Time Range              CSV, PDF, JSON, TDE
+ISE Endpoint Profile Group to 
+    ISE Endpoint Profile Groups                   Group Communication Summary           Endpoint Profile                Endpoint Profile, VN, Time Range                   CSV, PDF, JSON, TDE
+ISE Endpoint Profile Group to Host Groups        Group Communication Summary           Endpoint Profile, Host Group       Endpoint Profile, Host Group, VN, Time Range       CSV, PDF, JSON, TDE
+Host Group to Security Groups                    Group Communication Summary           Host Group, SGT                    Host Group, SGT, VN, Time Range                    CSV, PDF, JSON, TDE
+Host Group to ISE Endpoint Profile Group         Group Communication Summary           Host Group, Endpoint Profile       Host Group, Endpoint Profile, VN, Time Range       CSV, PDF, JSON, TDE
+Host Group to Host Group                          Group Communication Summary           Host Group                        Host Group, VN, Time Range                         CSV, PDF, JSON, TDE
+EoX Data                                          EoX                                   N/A                               Device Type, EoX Type, Bulletin ID                 CSV, JSON, TDE
+Threat Detail                                     Rogue and aWIPS                      Location                           Location, Threat Type, Severity, Time Range        CSV, PDF, JSON, TDE
+New Threat                                        Rogue and aWIPS                      Location                           Location, Threat Type, Severity, Time Range        CSV, PDF, JSON, TDE
+Rogue Additional Detail                           Rogue and aWIPS                      Location                           Location, Threat Type, MAC Address, Time Range     CSV, PDF, JSON, TDE
+Non Compliant Devices                             Licensing                             Location                          Location, Device Type, License Type                CSV, PDF, JSON, TDE
+Non Compliance Summary                            Licensing                             Location                          Location, License Type, Compliance Status          CSV, PDF, JSON, TDE
+AireOS Controllers Licenses                       Licensing                             N/A                               Controller Name, License Type, Status              CSV, JSON, TDE
+License Usage Upload Details                      Licensing                             N/A                               Upload Date, License Type, Status                  CSV, JSON, TDE
+License Historical Usage                          Licensing                             N/A                               License Type, Time Range, Usage Type               CSV, JSON, TDE
+Endpoint Profiling                                AI Endpoint Analytics                 Location                          Location, Device Type, Profile Name, Time Range    CSV, PDF, JSON, TDE
+Audit Log                                         Audit Log                             Time Range                        User Name, Event Category, Time Range, Object Type CSV, PDF, JSON, TDE
+Configuration Archive                             Configuration Archive                 Device, Time Range                Device Name, Location, Archive Status, Time Range  CSV, PDF, JSON, TDE
+Client                                            Client                                Location, SSID                    Location, SSID, Client MAC, Device Type            CSV, PDF, JSON, TDE
+Client Summary                                    Client                                Location, SSID                    Location, SSID, Device Type, Connection Status     CSV, PDF, JSON, TDE
+Top N Summary                                     Client                                Location, SSID                    Location, SSID, Metric Type, Time Range            CSV, PDF, JSON, TDE
+Client Detail                                     Client                                Location, SSID                    Location, SSID, Client MAC, User Name              CSV, PDF, JSON, TDE
+Client Trend                                      Client                                Location, SSID, Time Range        Location, SSID, Client MAC, Metric Type, Time Range CSV, PDF, JSON, TDE
+Client Session                                    Client                                Location, SSID, Time Range        Location, SSID, Client MAC, Session ID, Time Range CSV, PDF, JSON, TDE
+Busiest Client                                    Client                                Location, SSID                    Location, SSID, Client MAC, Traffic Type           CSV, PDF, JSON, TDE
+Unique Clients and Users Summary                  Client                                Location, SSID                    Location, SSID, Time Range, Device Type            CSV, PDF, JSON, TDE
+"""
+
+"""Filters types for each filter category:
+"""
 EXAMPLES = r'''
 - name: Create/Schedule a compliance report with immediate execution
   cisco.dnac.reports_workflow_manager:
@@ -967,12 +1045,26 @@ class Reports(DnacBase):
                         "elements": "dict",
                         "required": False,
                         "email_addresses": {"type": "list", "elements": "str", "required": False},
-                        "email_attach": {"type": "bool", "required": False},
+                        "email_attach": {"type": "bool", "required": False, "default": False},
                         "notify": {
                             "type": "list",
                             "elements": "str",
                             "required": False,
-                            "choices": ["IN_QUEUE", "IN_PROGRESS", "COMPLETED"]
+                            "choices": [["IN_QUEUE"],
+                                        ["IN_PROGRESS"],
+                                        ["COMPLETED"],
+                                        ["IN_QUEUE", "IN_PROGRESS"],
+                                        ["IN_PROGRESS", "IN_QUEUE"],
+                                        ["IN_QUEUE", "COMPLETED"],
+                                        ["COMPLETED", "IN_QUEUE"],
+                                        ["IN_PROGRESS", "COMPLETED"],
+                                        ["COMPLETED", "IN_PROGRESS"],
+                                        ["IN_QUEUE", "IN_PROGRESS", "COMPLETED"],
+                                        ["IN_QUEUE", "COMPLETED", "IN_PROGRESS"],
+                                        ["IN_PROGRESS", "IN_QUEUE", "COMPLETED"],
+                                        ["IN_PROGRESS", "COMPLETED", "IN_QUEUE"],
+                                        ["COMPLETED", "IN_QUEUE", "IN_PROGRESS"],
+                                        ["COMPLETED", "IN_PROGRESS", "IN_QUEUE"]],
                         },
                     },
                     "webhook_name": {"type": "str", "required": False},
@@ -1041,7 +1133,7 @@ class Reports(DnacBase):
             self.log("Configuration validation failed. No valid config found: {0}".format(valid_config))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        self.log("Configuration validated successfully: {0}".format(valid_config), "INFO")
+        self.log("Configuration validated successfully: {0}".format(self.pprint(valid_config)), "INFO")
         self.validated_config = valid_config
         return self
 
@@ -1223,6 +1315,16 @@ class Reports(DnacBase):
         if epoch_time is None:
             self.msg = "Invalid date_time format. Expected 'YYYY-MM-DD HH:MM AM/PM'."
             self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # Additional Check: Ensure the scheduled time is not in the past
+        current_epoch = int(time.time() * 1000)  # current time in milliseconds
+        if epoch_time <= current_epoch:
+            self.msg = (
+                f"Invalid schedule: The provided date_time '{date_time}' is in the past. "
+                "Please provide a future date and time for 'SCHEDULE_LATER' and 'SCHEDULE_RECURRENCE'."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             return False
 
         entry["schedule"]["date_time"] = epoch_time
@@ -2521,7 +2623,7 @@ class Reports(DnacBase):
         self.result["response"].append({"create_report": result})
 
         # Handle download for existing reports if requested
-        if self._is_download_requested(report_entry):
+        if self._is_download_requested(report_entry) and self._should_download_immediately(report_entry):
             self.log(
                 "Download requested for existing report '{0}' - proceeding to download".format(
                     report_name
