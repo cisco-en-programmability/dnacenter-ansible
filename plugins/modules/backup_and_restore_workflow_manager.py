@@ -111,7 +111,7 @@ options:
             type: str
             default: nfs4
             choices: ["nfs3", "nfs4"]
-          nfs_port_mapper:
+          nfs_portmapper_port:
             description:
               - Port number for the NFS port mapper service on target server.
               - Used for dynamic port allocation and service discovery.
@@ -157,7 +157,7 @@ options:
                 type: str
                 default: nfs4
                 choices: ["nfs3", "nfs4"]
-              nfs_port_mapper:
+              nfs_portmapper_port:
                 description: Port number for the NFS port mapper service.
                 type: int
                 default: 111
@@ -308,7 +308,7 @@ EXAMPLES = r"""
                 source_path: "{{ nfs_configuration.source_path }}"
                 nfs_port: 2049
                 nfs_version: nfs4
-                nfs_port_mapper: 111
+                nfs_portmapper_port: 111
 
 # Example 2: Configure backup target with encryption and retention policies
 - name: Configure backup target for automated data protection workflow
@@ -342,7 +342,7 @@ EXAMPLES = r"""
                   source_path: "{{ nfs_configuration.source_path }}"
                   nfs_port: 2049
                   nfs_version: nfs4
-                  nfs_port_mapper: 111
+                  nfs_portmapper_port: 111
                 data_retention_period: 51
                 encryption_passphrase: "{{ backup_storage_configuration.encryption_passphrase }}"
 
@@ -487,7 +487,7 @@ EXAMPLES = r"""
                 source_path: "{{ nfs_configuration.source_path }}"
                 nfs_port: 2049
                 nfs_version: nfs4
-                nfs_port_mapper: 111
+                nfs_portmapper_port: 111
             backup_configuration:
               - server_type: NFS
                 nfs_details:
@@ -495,7 +495,7 @@ EXAMPLES = r"""
                   source_path: "{{ backup_storage_configuration.source_path }}"
                   nfs_port: 2049
                   nfs_version: nfs4
-                  nfs_port_mapper: 111
+                  nfs_portmapper_port: 111
                 data_retention_period: 30
                 encryption_passphrase: Enterprise@Backup2024
             backup_job_creation:
@@ -531,12 +531,12 @@ EXAMPLES = r"""
                 source_path: "{{ nfs_configuration.source_path }}"
                 nfs_port: 2049
                 nfs_version: nfs4
-                nfs_port_mapper: 111
+                nfs_portmapper_port: 111
               - server_ip: "{{ nfs_configuration.server_ip }}"
                 source_path: "{{ nfs_configuration.source_path }}"
                 nfs_port: 2049
                 nfs_version: nfs4
-                nfs_port_mapper: 111
+                nfs_portmapper_port: 111
 """
 
 RETURN = r"""
@@ -777,7 +777,7 @@ class BackupRestore(DnacBase):
                     "allowed_values": ["nfs3", "nfs4"],
                     "default": "nfs4"
                 },
-                "nfs_port_mapper": {
+                "nfs_portmapper_port": {
                     "type": "int",
                     "default": 111,
                     "range_min": 1,
@@ -814,7 +814,7 @@ class BackupRestore(DnacBase):
                         "allowed_values": ["nfs3", "nfs4"],
                         "default": "nfs4"
                     },
-                    "nfs_port_mapper": {
+                    "nfs_portmapper_port": {
                         "type": "int",
                         "default": 111,
                         "range_min": 1,
@@ -1898,7 +1898,7 @@ class BackupRestore(DnacBase):
                 Optional fields:
                     - nfs_port (int): Port number used for NFS communication.
                     - nfs_version (str): Version of NFS protocol (e.g., "v3", "v4").
-                    - nfs_port_mapper (int): Port number for the port mapper service.
+                    - nfs_portmapper_port (int): Port number for the port mapper service.
 
         Returns:
             self: The current class instance with updated operation result.
@@ -1931,7 +1931,7 @@ class BackupRestore(DnacBase):
         optional_fields = [
             ("nfs_port", "nfsPort"),
             ("nfs_version", "nfsVersion"),
-            ("nfs_port_mapper", "portMapperPort"),
+            ("nfs_portmapper_port", "portMapperPort"),
         ]
 
         self.log("Adding optional fields to NFS payload", "DEBUG")
@@ -1940,7 +1940,7 @@ class BackupRestore(DnacBase):
             if value is not None:
                 payload[key] = (
                     int(value)
-                    if field in ("nfs_port", "nfs_port_mapper")
+                    if field in ("nfs_port", "nfs_portmapper_port")
                     else value
                 )
                 self.log(
