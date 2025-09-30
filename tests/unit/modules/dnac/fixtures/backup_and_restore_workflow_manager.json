@@ -2159,7 +2159,7 @@
       "nfs_configuration": [
         {
           "nfs_port": 2049,
-          "nfs_portmapper_portmapper": 111,
+          "nfs_portmapper_port": 111,
           "nfs_version": "nfs4",
           "server_ip": "172.27.17.90",
           "source_path": "/home/nfsshare/backups/TB19"
@@ -2329,7 +2329,7 @@
           "encryption_passphrase": "Karthick@zigzag333",
           "nfs_details": {
             "nfs_port": 2049,
-            "nfs_portmapper_portmapper": 111,
+            "nfs_portmapper_port": 111,
             "nfs_version": "nfs4",
             "server_ip": "172.27.17.90",
             "source_path": "/home/nfsshare/backups/TB17"
@@ -2441,7 +2441,7 @@
       "nfs_configuration": [
         {
           "nfs_port": 2049,
-          "nfs_portmapper_portmapper": 111,
+          "nfs_portmapper_port": 111,
           "nfs_version": "nfs4",
           "server_ip": "172.27.17.90",
           "source_path": "/home/nfsshare/backups/TB19"
@@ -2585,7 +2585,7 @@
           "encryption_passphrase": "Karthick@zigzag333",
           "nfs_details": {
             "nfs_port": 2049,
-            "nfs_portmapper_portmapper": 111,
+            "nfs_portmapper_port": 111,
             "nfs_version": "nfs4",
             "server_ip": "172.27.17.90",
             "source_path": "/home/nfsshare/backups/TB18"
@@ -3404,7 +3404,7 @@
       "nfs_configuration": [
         {
           "nfs_port": 2049,
-          "nfs_portmapper_portmapper": 111,
+          "nfs_portmapper_port": 111,
           "nfs_version": "nfs4",
           "server_ip": "172.27.17.90"
         }
@@ -3458,7 +3458,7 @@
           "encryption_passphrase": "Karthick@zigzag333",
           "nfs_details": {
             "nfs_port": 2049,
-            "nfs_portmapper_portmapper": 111,
+            "nfs_portmapper_port": 111,
             "nfs_version": "nfs4",
             "server_ip": "172.27.17.90",
             "source_path": "/home/nfsshare/backups/TB19"
@@ -4387,7 +4387,7 @@
           "encryption_passphrase": "Karthick@zigzag333",
           "nfs_details": {
             "nfs_port": 2049,
-            "nfs_portmapper_portmapper": 111,
+            "nfs_portmapper_port": 111,
             "nfs_version": "nfs4",
             "source_path": "/home/nfsshare/backups/TB19"
           },
@@ -4414,7 +4414,7 @@
           "encryption_passphrase": "Karthick@zigzag333",
           "nfs_details": {
             "nfs_port": 2049,
-            "nfs_portmapper_portmapper": 111,
+            "nfs_portmapper_port": 111,
             "nfs_version": "nfs4",
             "source_path": "/home/nfsshare/backups/TB19"
           },
@@ -4430,7 +4430,7 @@
         "encryption_passphrase": "Karthick@zigzag333",
         "nfs_details": {
           "nfs_port": 2049,
-          "nfs_portmapper_portmapper": 111,
+          "nfs_portmapper_port": 111,
           "nfs_version": "nfs4",
           "server_ip": "172.27.17.90",
           "source_path": "/home/nfsshare/backups/TB19"
@@ -4444,7 +4444,7 @@
       "nfs_configuration": [
         {
           "nfs_port": 2049,
-          "nfs_portmapper_portmapper": 111,
+          "nfs_portmapper_port": 111,
           "nfs_version": "nfs4",
           "server_ip": "172.27.17.90",
           "source_path": "/home/nfsshare/backups/TB22"
@@ -4558,7 +4558,7 @@
                   "encryption_passphrase": "Karthick@zigzag33333",
                   "nfs_details": {
                       "nfs_port": 2049,
-                      "nfs_portmapper_portmapper": 111,
+                      "nfs_portmapper_port": 111,
                       "nfs_version": "nfs4",
                       "server_ip": "172.27.17.90",
                       "source_path": "/home/nfsshare/backups/TB18"
@@ -4766,7 +4766,7 @@
                 "encryption_passphrase": "Karthick@zigzag33333",
                 "nfs_details": {
                     "nfs_port": 2049,
-                    "nfs_portmapper_portmapper": 111,
+                    "nfs_portmapper_port": 111,
                     "nfs_version": "nfs4",
                     "server_ip": "172.27.17.90",
                     "source_path": "/home/nfsshare/backups/TB18"
@@ -4969,7 +4969,7 @@
           "encryption_passphrase": "Karthick@zigza",
           "nfs_details": {
             "nfs_port": 2049,
-            "nfs_portmapper_portmapper": 111,
+            "nfs_portmapper_port": 111,
             "nfs_version": "nfs4",
             "server_ip": "172.27.17.90",
             "source_path": "/home/nfsshare/backups/TB18"
@@ -5113,7 +5113,7 @@
                 "encryption_passphrase": "Karthick@zigzag33333",
                 "nfs_details": {
                     "nfs_port": 2049,
-                    "nfs_portmapper_portmapper": 111,
+                    "nfs_portmapper_port": 111,
                     "nfs_version": "nfs4",
                     "server_ip": "172.27.17.90",
                     "source_path": "/home/nfsshare/backups/TB19"
@@ -5738,7 +5738,7 @@
       "nfs_configuration": [
         {
           "nfs_port": 2049,
-          "nfs_portmapper_portmapper": 111,
+          "nfs_portmapper_port": 111,
           "nfs_version": "nfs4",
           "server_ip": "172.27.17.90",
           "source_path": "/home/nfsshare/backups/TB22"
