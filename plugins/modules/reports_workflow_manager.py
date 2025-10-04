@@ -519,7 +519,7 @@ Security Group to Security Group                 Group Pair Communication Analyt
 Security Group to ISE Endpoint Profile Group     Group Pair Communication Analytics   SGT, Endpoint Profile              SGT, Endpoint Profile, VN, Time Range              CSV, PDF, JSON, TDE
 Security Group to Host Group                     Group Pair Communication Analytics   SGT, Host Group                    SGT, Host Group, VN, Time Range                    CSV, PDF, JSON, TDE
 ISE Endpoint Profile Group to Security Group     Group Pair Communication Analytics   Endpoint Profile, SGT              Endpoint Profile, SGT, VN, Time Range              CSV, PDF, JSON, TDE
-ISE Endpoint Profile Group to 
+ISE Endpoint Profile Group to
     ISE Endpoint Profile Group                    Group Pair Communication Analytics   Endpoint Profile                Endpoint Profile, VN, Time Range                   CSV, PDF, JSON, TDE
 ISE Endpoint Profile Group to Host Group         Group Pair Communication Analytics   Endpoint Profile, Host Group       Endpoint Profile, Host Group, VN, Time Range       CSV, PDF, JSON, TDE
 Host Group to Security Group                     Group Pair Communication Analytics   Host Group, SGT                    Host Group, SGT, VN, Time Range                    CSV, PDF, JSON, TDE
@@ -530,7 +530,7 @@ Security Group to Security Groups                Group Communication Summary    
 Security Group to ISE Endpoint Profile Groups    Group Communication Summary           SGT, Endpoint Profile             SGT, Endpoint Profile, VN, Time Range              CSV, PDF, JSON, TDE
 Security Group to Host Groups                    Group Communication Summary           SGT, Host Group                   SGT, Host Group, VN, Time Range                    CSV, PDF, JSON, TDE
 ISE Endpoint Profile Group to Security Groups    Group Communication Summary           Endpoint Profile, SGT             Endpoint Profile, SGT, VN, Time Range              CSV, PDF, JSON, TDE
-ISE Endpoint Profile Group to 
+ISE Endpoint Profile Group to
     ISE Endpoint Profile Groups                   Group Communication Summary           Endpoint Profile                Endpoint Profile, VN, Time Range                   CSV, PDF, JSON, TDE
 ISE Endpoint Profile Group to Host Groups        Group Communication Summary           Endpoint Profile, Host Group       Endpoint Profile, Host Group, VN, Time Range       CSV, PDF, JSON, TDE
 Host Group to Security Groups                    Group Communication Summary           Host Group, SGT                    Host Group, SGT, VN, Time Range                    CSV, PDF, JSON, TDE
@@ -558,8 +558,467 @@ Busiest Client                                    Client                        
 Unique Clients and Users Summary                  Client                                Location, SSID                    Location, SSID, Time Range, Device Type            CSV, PDF, JSON, TDE
 """
 
-"""Filters types for each filter category:
+"""Filter types for each filter category in Cisco Catalyst Center Reports:
+
+Filter Name: Location
+    Filter Type: MULTI_SELECT_TREE
+    Description: Hierarchical selection of network locations/sites
+
+Filter Name: Device Type
+    Filter Type: MULTI_SELECT
+    Description: Selection of device categories (Switch, Router, AP, etc.)
+
+Filter Name: Time Range
+    Filter Type: TIME_RANGE
+    Description: Date/time range specification for historical data
+
+Filter Name: Collection Status
+    Filter Type: MULTI_SELECT
+    Description: Device collection status (Collected, Not Collected, etc.)
+
+Filter Name: Software Version
+    Filter Type: MULTI_SELECT
+    Description: Device software/firmware versions
+
+Filter Name: Interface Type
+    Filter Type: MULTI_SELECT
+    Description: Network interface categories (Ethernet, Wireless, etc.)
+
+Filter Name: Image Name
+    Filter Type: MULTI_SELECT
+    Description: Software image names for SWIM reports
+
+Filter Name: AP Name
+    Filter Type: MULTI_SELECT
+    Description: Access Point device names
+
+Filter Name: Model
+    Filter Type: MULTI_SELECT
+    Description: Device hardware model numbers
+
+Filter Name: Controller
+    Filter Type: MULTI_SELECT
+    Description: Wireless controller names
+
+Filter Name: Radio Band
+    Filter Type: MULTI_SELECT
+    Description: Wireless radio frequency bands (2.4GHz, 5GHz, 6GHz)
+
+Filter Name: SSID
+    Filter Type: MULTI_SELECT
+    Description: Wireless network SSID names
+
+Filter Name: SGT (Security Group Tag)
+    Filter Type: MULTI_SELECT
+    Description: Cisco TrustSec security group tags
+
+Filter Name: Endpoint Profile
+    Filter Type: MULTI_SELECT
+    Description: ISE endpoint profile groups
+
+Filter Name: Host Group
+    Filter Type: MULTI_SELECT
+    Description: Host group classifications
+
+Filter Name: VN (Virtual Network)
+    Filter Type: MULTI_SELECT
+    Description: Virtual network identifiers
+
+Filter Name: Hardware Info
+    Filter Type: MULTI_SELECT
+    Description: Device hardware information categories
+
+Filter Name: EoX Type
+    Filter Type: MULTI_SELECT
+    Description: End of Life/Support announcement types
+
+Filter Name: Bulletin ID
+    Filter Type: SINGLE_SELECT_ARRAY
+    Description: Security bulletin identifiers
+
+Filter Name: Threat Type
+    Filter Type: MULTI_SELECT
+    Description: Security threat categories
+
+Filter Name: Severity
+    Filter Type: MULTI_SELECT
+    Description: Threat/alert severity levels
+
+Filter Name: MAC Address
+    Filter Type: MULTI_SELECT
+    Description: Device MAC addresses
+
+Filter Name: License Type
+    Filter Type: MULTI_SELECT
+    Description: Software license categories
+
+Filter Name: Compliance Status
+    Filter Type: MULTI_SELECT
+    Description: License compliance states
+
+Filter Name: Status
+    Filter Type: MULTI_SELECT
+    Description: General status indicators
+
+Filter Name: Upload Date
+    Filter Type: TIME_RANGE
+    Description: File upload date ranges
+
+Filter Name: Usage Type
+    Filter Type: MULTI_SELECT
+    Description: License usage categories
+
+Filter Name: Profile Name
+    Filter Type: MULTI_SELECT
+    Description: AI Endpoint Analytics profile names
+
+Filter Name: User Name
+    Filter Type: MULTI_SELECT
+    Description: User account names
+
+Filter Name: Event Category
+    Filter Type: MULTI_SELECT
+    Description: Audit log event categories
+
+Filter Name: Object Type
+    Filter Type: MULTI_SELECT
+    Description: Audit log object types
+
+Filter Name: Device Name
+    Filter Type: MULTI_SELECT
+    Description: Network device names
+
+Filter Name: Archive Status
+    Filter Type: MULTI_SELECT
+    Description: Configuration archive status
+
+Filter Name: Client MAC
+    Filter Type: MULTI_SELECT
+    Description: Client device MAC addresses
+
+Filter Name: Connection Status
+    Filter Type: MULTI_SELECT
+    Description: Client connection states
+
+Filter Name: Metric Type
+    Filter Type: MULTI_SELECT
+    Description: Performance metric categories
+
+Filter Name: Session ID
+    Filter Type: MULTI_SELECT
+    Description: Client session identifiers
+
+Filter Name: Traffic Type
+    Filter Type: MULTI_SELECT
+    Description: Network traffic categories
+
+Note:
+- MULTI_SELECT: Allows selection of multiple discrete values
+- MULTI_SELECT_TREE: Allows hierarchical multi-selection (like site locations)
+- SINGLE_SELECT_ARRAY: Allows single value selection from an array
+- TIME_RANGE: Allows date/time range specification with start_date_time, end_date_time, and time_zone
 """
+
+REPORT_TYPES_AND_FORMATS = r'''
+Report Types with View Names and Eligible Format Types:
+
+COMPLIANCE REPORTS:
+- View Name: "Network Device Compliance"
+- View Group: "Compliance"
+- Available Formats: CSV, PDF, JSON, TDE
+
+EXECUTIVE SUMMARY REPORTS:
+- View Name: "Executive Summary"
+- View Group: "Executive Summary"
+- Available Formats: CSV, PDF, JSON, TDE
+
+INVENTORY REPORTS:
+- View Name: "All Data"
+- View Group: "Inventory"
+- Available Formats: CSV, JSON, TDE
+
+- View Name: "Port Reclaim View"
+- View Group: "Inventory"
+- Available Formats: CSV, JSON, TDE
+
+- View Name: "All Data Version 2.0"
+- View Group: "Inventory"
+- Available Formats: CSV, JSON, TDE
+
+SWIM REPORTS:
+- View Name: "All Data"
+- View Group: "SWIM"
+- Available Formats: CSV, JSON, TDE
+
+- View Name: "All Data Version 2.0"
+- View Group: "SWIM"
+- Available Formats: CSV, JSON, TDE
+
+ACCESS POINT REPORTS:
+- View Name: "AP"
+- View Group: "Access Point"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "AP Radio"
+- View Group: "Access Point"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "AP - Usage and Client Breakdown"
+- View Group: "Access Point"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Worst Interferers"
+- View Group: "Access Point"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "AP RRM Events"
+- View Group: "Access Point"
+- Available Formats: CSV, PDF, JSON, TDE
+
+NETWORK DEVICE REPORTS:
+- View Name: "Network Device Availability"
+- View Group: "Network Devices"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Channel Change Count"
+- View Group: "Network Devices"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Transmit Power Change Count"
+- View Group: "Network Devices"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "VLAN"
+- View Group: "Network Devices"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Port Capacity"
+- View Group: "Network Devices"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Energy Management"
+- View Group: "Network Devices"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "PoE"
+- View Group: "Network Devices"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Device CPU and Memory Utilization"
+- View Group: "Network Devices"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Network Interface Utilization"
+- View Group: "Network Devices"
+- Available Formats: CSV, PDF, JSON, TDE
+
+LONG TERM REPORTS:
+- View Name: "AP Performance Report"
+- View Group: "Long Term"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Long Term AP Detail"
+- View Group: "Long Term"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Long Term AP Radio"
+- View Group: "Long Term"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Long Term AP Usage and Client Breakdown"
+- View Group: "Long Term"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Long Term Client Detail"
+- View Group: "Long Term"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Long Term Client Session"
+- View Group: "Long Term"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Long Term Network Device Availability"
+- View Group: "Long Term"
+- Available Formats: CSV, PDF, JSON, TDE
+
+GROUP PAIR COMMUNICATION ANALYTICS REPORTS:
+- View Name: "Security Group to Security Group"
+- View Group: "Group Pair Communication Analytics"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Security Group to ISE Endpoint Profile Group"
+- View Group: "Group Pair Communication Analytics"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Security Group to Host Group"
+- View Group: "Group Pair Communication Analytics"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "ISE Endpoint Profile Group to Security Group"
+- View Group: "Group Pair Communication Analytics"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "ISE Endpoint Profile Group to ISE Endpoint Profile Group"
+- View Group: "Group Pair Communication Analytics"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "ISE Endpoint Profile Group to Host Group"
+- View Group: "Group Pair Communication Analytics"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Host Group to Security Group"
+- View Group: "Group Pair Communication Analytics"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Host Group to ISE Endpoint Profile Group"
+- View Group: "Group Pair Communication Analytics"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Host Group to Host Group"
+- View Group: "Group Pair Communication Analytics"
+- Available Formats: CSV, PDF, JSON, TDE
+
+TELEMETRY REPORTS:
+- View Name: "Device Lifecycle Information"
+- View Group: "Telemetry"
+- Available Formats: CSV, JSON, TDE
+
+GROUP COMMUNICATION SUMMARY REPORTS:
+- View Name: "Security Group to Security Groups"
+- View Group: "Group Communication Summary"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Security Group to ISE Endpoint Profile Groups"
+- View Group: "Group Communication Summary"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Security Group to Host Groups"
+- View Group: "Group Communication Summary"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "ISE Endpoint Profile Group to Security Groups"
+- View Group: "Group Communication Summary"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "ISE Endpoint Profile Group to ISE Endpoint Profile Groups"
+- View Group: "Group Communication Summary"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "ISE Endpoint Profile Group to Host Groups"
+- View Group: "Group Communication Summary"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Host Group to Security Groups"
+- View Group: "Group Communication Summary"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Host Group to ISE Endpoint Profile Group"
+- View Group: "Group Communication Summary"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Host Group to Host Group"
+- View Group: "Group Communication Summary"
+- Available Formats: CSV, PDF, JSON, TDE
+
+EOX REPORTS:
+- View Name: "EoX Data"
+- View Group: "EoX"
+- Available Formats: CSV, JSON, TDE
+
+ROGUE AND aWIPS REPORTS:
+- View Name: "Threat Detail"
+- View Group: "Rogue and aWIPS"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "New Threat"
+- View Group: "Rogue and aWIPS"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Rogue Additional Detail"
+- View Group: "Rogue and aWIPS"
+- Available Formats: CSV, PDF, JSON, TDE
+
+LICENSING REPORTS:
+- View Name: "Non Compliant Devices"
+- View Group: "Licensing"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Non Compliance Summary"
+- View Group: "Licensing"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "AireOS Controllers Licenses"
+- View Group: "Licensing"
+- Available Formats: CSV, JSON, TDE
+
+- View Name: "License Usage Upload Details"
+- View Group: "Licensing"
+- Available Formats: CSV, JSON, TDE
+
+- View Name: "License Historical Usage"
+- View Group: "Licensing"
+- Available Formats: CSV, JSON, TDE
+
+AI ENDPOINT ANALYTICS REPORTS:
+- View Name: "Endpoint Profiling"
+- View Group: "AI Endpoint Analytics"
+- Available Formats: CSV, PDF, JSON, TDE
+
+AUDIT LOG REPORTS:
+- View Name: "Audit Log"
+- View Group: "Audit Log"
+- Available Formats: CSV, PDF, JSON, TDE
+
+CONFIGURATION ARCHIVE REPORTS:
+- View Name: "Configuration Archive"
+- View Group: "Configuration Archive"
+- Available Formats: CSV, PDF, JSON, TDE
+
+CLIENT REPORTS:
+- View Name: "Client"
+- View Group: "Client"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Client Summary"
+- View Group: "Client"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Top N Summary"
+- View Group: "Client"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Client Detail"
+- View Group: "Client"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Client Trend"
+- View Group: "Client"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Client Session"
+- View Group: "Client"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Busiest Client"
+- View Group: "Client"
+- Available Formats: CSV, PDF, JSON, TDE
+
+- View Name: "Unique Clients and Users Summary"
+- View Group: "Client"
+- Available Formats: CSV, PDF, JSON, TDE
+
+FORMAT TYPE DESCRIPTIONS:
+- CSV: Comma-Separated Values format, suitable for spreadsheets and data analysis
+- PDF: Portable Document Format, ideal for sharing and printing reports
+- JSON: JavaScript Object Notation, useful for structured data exchange and integration
+- TDE: Tableau Data Extract, optimized for use with Tableau software for data visualization
+
+Note: The available format types are retrieved through the following API endpoints:
+- GET /dna/intent/api/v1/data/view-groups (to get all view groups)
+- GET /dna/intent/api/v1/data/view-groups/{viewGroupId} (to get views for a view group)
+- GET /dna/intent/api/v1/data/view-groups/{viewGroupId}/views/{viewId} (to get view details including format options)
+'''
+
 EXAMPLES = r'''
 - name: Create/Schedule a compliance report with immediate execution
   cisco.dnac.reports_workflow_manager:
@@ -1774,15 +2233,16 @@ class Reports(DnacBase):
             - Logs detailed debug information at each step for traceability.
             - Updates the operation result with clear error messages when validation fails.
         """
-        self.log("Processing location filter {0}".format(filter_index + 1), "DEBUG")
+        self.log("Processing location filter {0} with filter entry as {1}".format(filter_index + 1, self.pprint(filter_entry)), "DEBUG")
 
         filter_value = filter_entry.get("value")
+        self.log("Current location filter value: {0}".format(filter_value), "DEBUG")
         if not filter_entry.get("display_value"):
             filter_entry["display_value"] = filter_entry["name"]
-            return True
 
         if not isinstance(filter_value, list):
             self.msg = "value for 'Location' filter must be a list."
+            self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
@@ -1790,6 +2250,7 @@ class Reports(DnacBase):
         for item_index, item in enumerate(filter_value):
             if not isinstance(item, dict) or "value" not in item:
                 self.msg = "Each item in 'Location' filter value must contain 'value'."
+                self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
@@ -1799,29 +2260,21 @@ class Reports(DnacBase):
             self.log("Resolving site hierarchy for location: {0}".format(
                 item["value"]), "DEBUG")
 
-            site_response = self.get_site(item["value"])
-            if not site_response or not site_response.get("response"):
-                self.msg = "Failed to retrieve site information for location: {0}".format(
+            site_exist, site_id = self.get_site_id(item["value"])
+            if not site_exist:
+                self.msg = "Failed to retrieve site information for location as site doesn't exist: {0}".format(
                     item["value"])
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return False
-
-            site_response = site_response["response"][0]
-            site_hierarchy_id = site_response.get("id")
-
-            if not site_hierarchy_id:
-                self.msg = "Failed to resolve siteHierarchyId for location: {0}".format(
-                    item["value"])
+                self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
             updated_values.append({
-                "value": site_hierarchy_id,
+                "value": site_id,
                 "display_value": display_value
             })
 
-            self.log("Resolved location '{0}' to site hierarchy ID: {1}".format(
-                item["value"], site_hierarchy_id), "DEBUG")
+            self.log("Resolved location '{0}' to site ID: {1}".format(
+                item["value"], site_id), "DEBUG")
 
         filter_entry["value"] = updated_values
         self.log("Successfully processed location filter with {0} locations".format(
