@@ -151,195 +151,195 @@ class TestDnacreportsWorkflow(TestDnacModule):
             ]
 
 
-    # def test_reports_workflow_manager_create_n_schedule_reports_download(self):
-    #     """
-    #     Test case for reports workflow manager when creating and scheduling reports for download.
+    def test_reports_workflow_manager_create_n_schedule_reports_download(self):
+        """
+        Test case for reports workflow manager when creating and scheduling reports for download.
 
-    #     Verifies that the reports workflow manager correctly handles the creation and scheduling of reports
-    #     for download, ensuring the system behaves as expected during this process.
-    #     """
+        Verifies that the reports workflow manager correctly handles the creation and scheduling of reports
+        for download, ensuring the system behaves as expected during this process.
+        """
 
-    #     set_module_args(
-    #         dict(
-    #             dnac_host="1.1.1.1",
-    #             dnac_username="dummy",
-    #             dnac_password="dummy",
-    #             dnac_log=True,
-    #             state="merged",
-    #             dnac_version="3.1.3.0",
-    #             config_verify=True,
-    #             config=self.playbook_config_create
-    #         )
-    #     )
-    #     result = self.execute_module(changed=True, failed=True)
-    #     print(result['response'])
-    #     self.assertIn(
-    #         "Failed to download report 'compliance_report_test1'",
-    #         result['response']
-    #     )
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                dnac_version="3.1.3.0",
+                config_verify=True,
+                config=self.playbook_config_create
+            )
+        )
+        result = self.execute_module(changed=True, failed=True)
+        print(result['response'])
+        self.assertIn(
+            "Failed to download report 'compliance_report_test1'",
+            result['response']
+        )
 
-    # def test_reports_workflow_manager_delete_reports(self):
-    #     """
-    #     Test case for reports workflow manager when creating and scheduling reports for download.
+    def test_reports_workflow_manager_delete_reports(self):
+        """
+        Test case for reports workflow manager when creating and scheduling reports for download.
 
-    #     Verifies that the reports workflow manager correctly handles the creation and scheduling of reports
-    #     for download, ensuring the system behaves as expected during this process.
-    #     """
+        Verifies that the reports workflow manager correctly handles the creation and scheduling of reports
+        for download, ensuring the system behaves as expected during this process.
+        """
 
-    #     set_module_args(
-    #         dict(
-    #             dnac_host="1.1.1.1",
-    #             dnac_username="dummy",
-    #             dnac_password="dummy",
-    #             dnac_log=True,
-    #             state="deleted",
-    #             dnac_version="3.1.3.0",
-    #             config_verify=True,
-    #             config=self.playbook_config_create
-    #         )
-    #     )
-    #     result = self.execute_module(changed=True, failed=False)
-    #     print(result['response'])
-    #     delete_msg = result["response"][0]["delete_report"]["msg"]
-    #     self.assertIn(
-    #         "Report 'compliance_report_test1' has been successfully deleted.",
-    #         delete_msg
-    #     )
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="deleted",
+                dnac_version="3.1.3.0",
+                config_verify=True,
+                config=self.playbook_config_create
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result['response'])
+        delete_msg = result["response"][0]["delete_report"]["msg"]
+        self.assertIn(
+            "Report 'compliance_report_test1' has been successfully deleted.",
+            delete_msg
+        )
 
-    # def test_reports_workflow_manager_download_report(self):
-    #     """
-    #     Test case for reports workflow manager when creating and scheduling reports for download.
+    def test_reports_workflow_manager_download_report(self):
+        """
+        Test case for reports workflow manager when creating and scheduling reports for download.
 
-    #     Verifies that the reports workflow manager correctly handles the creation and scheduling of reports
-    #     for download, ensuring the system behaves as expected during this process.
-    #     """
+        Verifies that the reports workflow manager correctly handles the creation and scheduling of reports
+        for download, ensuring the system behaves as expected during this process.
+        """
 
-    #     set_module_args(
-    #         dict(
-    #             dnac_host="1.1.1.1",
-    #             dnac_username="dummy",
-    #             dnac_password="dummy",
-    #             dnac_log=True,
-    #             state="merged",
-    #             dnac_version="3.1.3.0",
-    #             config_verify=True,
-    #             config=self.playbook_config_create
-    #         )
-    #     )
-    #     result = self.execute_module(changed=False, failed=True)
-    #     print(result['response'])
-    #     self.assertIn(
-    #         "An error occurred while downloading the report",
-    #         result['response']
-    #     )
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                dnac_version="3.1.3.0",
+                config_verify=True,
+                config=self.playbook_config_create
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result['response'])
+        self.assertIn(
+            "An error occurred while downloading the report",
+            result['response']
+        )
 
-    # def test_reports_workflow_manager_missing_schedule_type(self):
-    #     """
-    #     Test case for reports workflow manager when creating and scheduling reports for download.
+    def test_reports_workflow_manager_missing_schedule_type(self):
+        """
+        Test case for reports workflow manager when creating and scheduling reports for download.
 
-    #     Verifies that the reports workflow manager correctly handles the creation and scheduling of reports
-    #     for download, ensuring the system behaves as expected during this process.
-    #     """
+        Verifies that the reports workflow manager correctly handles the creation and scheduling of reports
+        for download, ensuring the system behaves as expected during this process.
+        """
 
-    #     set_module_args(
-    #         dict(
-    #             dnac_host="1.1.1.1",
-    #             dnac_username="dummy",
-    #             dnac_password="dummy",
-    #             dnac_log=True,
-    #             state="merged",
-    #             dnac_version="3.1.3.0",
-    #             config_verify=True,
-    #             config=self.playbook_config_missing_schedule_type
-    #         )
-    #     )
-    #     result = self.execute_module(changed=False, failed=True)
-    #     print(result)
-    #     self.assertIn(
-    #         "Invalid parameters in playbook: ['schedule_type : Required parameter not found']",
-    #         result['response']
-    #     )
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                dnac_version="3.1.3.0",
+                config_verify=True,
+                config=self.playbook_config_missing_schedule_type
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertIn(
+            "Invalid parameters in playbook: ['schedule_type : Required parameter not found']",
+            result['response']
+        )
 
-    # def test_reports_workflow_manager_schedule_later(self):
-    #     """
-    #     Test case for reports workflow manager when creating and scheduling reports for download.
+    def test_reports_workflow_manager_schedule_later(self):
+        """
+        Test case for reports workflow manager when creating and scheduling reports for download.
 
-    #     Verifies that the reports workflow manager correctly handles the creation and scheduling of reports
-    #     for download, ensuring the system behaves as expected during this process.
-    #     """
+        Verifies that the reports workflow manager correctly handles the creation and scheduling of reports
+        for download, ensuring the system behaves as expected during this process.
+        """
 
-    #     set_module_args(
-    #         dict(
-    #             dnac_host="1.1.1.1",
-    #             dnac_username="dummy",
-    #             dnac_password="dummy",
-    #             dnac_log=True,
-    #             state="merged",
-    #             dnac_version="3.1.3.0",
-    #             config_verify=True,
-    #             config=self.playbook_config_schedule_later
-    #         )
-    #     )
-    #     result = self.execute_module(changed=True, failed=False)
-    #     print(result['response'][0]["create_report"]["msg"])
-    #     self.assertIn(
-    #         "Successfully created or scheduled report 'compliance_report_test1'.",
-    #         result['response'][0]["create_report"]["msg"]
-    #     )
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                dnac_version="3.1.3.0",
+                config_verify=True,
+                config=self.playbook_config_schedule_later
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result['response'][0]["create_report"]["msg"])
+        self.assertIn(
+            "Successfully created or scheduled report 'compliance_report_test1'.",
+            result['response'][0]["create_report"]["msg"]
+        )
 
-    # def test_reports_workflow_manager_schedule_RECURRENCE_monthly(self):
-    #     """
-    #     Test case for reports workflow manager when creating and scheduling reports for download.
+    def test_reports_workflow_manager_schedule_RECURRENCE_monthly(self):
+        """
+        Test case for reports workflow manager when creating and scheduling reports for download.
 
-    #     Verifies that the reports workflow manager correctly handles the creation and scheduling of reports
-    #     for download, ensuring the system behaves as expected during this process.
-    #     """
+        Verifies that the reports workflow manager correctly handles the creation and scheduling of reports
+        for download, ensuring the system behaves as expected during this process.
+        """
 
-    #     set_module_args(
-    #         dict(
-    #             dnac_host="1.1.1.1",
-    #             dnac_username="dummy",
-    #             dnac_password="dummy",
-    #             dnac_log=True,
-    #             state="merged",
-    #             dnac_version="3.1.3.0",
-    #             config_verify=True,
-    #             config=self.playbook_config_schedule_recurrance
-    #         )
-    #     )
-    #     result = self.execute_module(changed=True, failed=False)
-    #     print(result['response'][0]["create_report"]["msg"])
-    #     self.assertIn(
-    #         "Successfully created or scheduled report 'compliance_report_test1'.",
-    #         result['response'][0]["create_report"]["msg"]
-    #     )
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                dnac_version="3.1.3.0",
+                config_verify=True,
+                config=self.playbook_config_schedule_recurrance
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result['response'][0]["create_report"]["msg"])
+        self.assertIn(
+            "Successfully created or scheduled report 'compliance_report_test1'.",
+            result['response'][0]["create_report"]["msg"]
+        )
 
-    # def test_reports_workflow_manager_schedule_RECURRENCE_weekly(self):
-    #     """
-    #     Test case for reports workflow manager when creating and scheduling reports for download.
+    def test_reports_workflow_manager_schedule_RECURRENCE_weekly(self):
+        """
+        Test case for reports workflow manager when creating and scheduling reports for download.
 
-    #     Verifies that the reports workflow manager correctly handles the creation and scheduling of reports
-    #     for download, ensuring the system behaves as expected during this process.
-    #     """
+        Verifies that the reports workflow manager correctly handles the creation and scheduling of reports
+        for download, ensuring the system behaves as expected during this process.
+        """
 
-    #     set_module_args(
-    #         dict(
-    #             dnac_host="1.1.1.1",
-    #             dnac_username="dummy",
-    #             dnac_password="dummy",
-    #             dnac_log=True,
-    #             state="merged",
-    #             dnac_version="3.1.3.0",
-    #             config_verify=True,
-    #             config=self.playbook_config_schedule_recurrance_weekly
-    #         )
-    #     )
-    #     result = self.execute_module(changed=True, failed=False)
-    #     print(result['response'][0]["create_report"]["msg"])
-    #     self.assertIn(
-    #         "Successfully created or scheduled report 'compliance_report_test1'.",
-    #         result['response'][0]["create_report"]["msg"]
-    #     )
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                dnac_version="3.1.3.0",
+                config_verify=True,
+                config=self.playbook_config_schedule_recurrance_weekly
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result['response'][0]["create_report"]["msg"])
+        self.assertIn(
+            "Successfully created or scheduled report 'compliance_report_test1'.",
+            result['response'][0]["create_report"]["msg"]
+        )
 
     def test_reports_workflow_manager_schedule_RECUR_daily(self):
         """

@@ -96,7 +96,7 @@
             "schedule": {
                 "time_zone": "Asia/Calcutta",
                 "schedule_type": "SCHEDULE_LATER",
-                "date_time": "2025-08-12 12:40 PM"
+                "date_time": "2027-08-12 12:40 PM"
             },
             "view": {
                 "view_name": "Network Device Compliance",

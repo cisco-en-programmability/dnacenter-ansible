@@ -2240,11 +2240,10 @@ class Reports(DnacBase):
         if not filter_entry.get("display_value"):
             filter_entry["display_value"] = filter_entry["name"]
 
-        if not isinstance(filter_value, list):
-            self.msg = "value for 'Location' filter must be a list."
-            self.log(self.msg, "ERROR")
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
+        if not filter_value:
+            self.log("No locations provided in filter; initializing empty list", "DEBUG")
+            filter_entry["value"] = []
+            return True
 
         updated_values = []
         for item_index, item in enumerate(filter_value):
