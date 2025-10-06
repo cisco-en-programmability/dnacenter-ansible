@@ -1216,7 +1216,10 @@ EXAMPLES = r'''
     config_verify: true
     config:
       - generate_report:
-          name: "compliance_report"  # The name of the report to be deleted
+          - name: "compliance_report"  # The name of the report to be deleted is required
+            view_group_name: "Compliance"  # Required for identification
+            view:
+              view_name: "Network Device Compliance"  # Required for identification
 '''
 
 RETURN = r"""
@@ -1458,7 +1461,7 @@ class Reports(DnacBase):
                 "name": {"type": "str", "required": False},
                 "view_group_name": {
                     "type": "str",
-                    "required": True,
+                    "required": False,
                     "choices": [
                         "Compliance", "Executive Summary", "Inventory", "SWIM",
                         "Access Point", "Long Term", "Network Devices",
@@ -1472,7 +1475,7 @@ class Reports(DnacBase):
 
                 "schedule": {
                     "type": "dict",
-                    "required": True,
+                    "required": False,
                     "schedule_type": {
                         "type": "str",
                         "element": "str",
@@ -1500,7 +1503,7 @@ class Reports(DnacBase):
                 "deliveries": {
                     "type": "list",
                     "elements": "dict",
-                    "required": True,
+                    "required": False,
                     "delivery_type": {
                         "type": "str",
                         "required": True,
@@ -1539,7 +1542,7 @@ class Reports(DnacBase):
 
                 "view": {
                     "type": "dict",
-                    "required": True,
+                    "required": False,
                     "view_name": {"type": "str", "required": True},
                     "field_groups": {
                         "type": "list",
@@ -1555,7 +1558,7 @@ class Reports(DnacBase):
                     },
                     "format": {
                         "type": "dict",
-                        "required": True,
+                        "required": False,
                         "format_type": {
                             "type": "str",
                             "required": True,
@@ -1691,6 +1694,8 @@ class Reports(DnacBase):
             entry.setdefault("tags", [])
             entry.setdefault("view_group_version", "2.0.0")
             entry.get("view").setdefault("filters", [])
+            entry.get("view").setdefault("field_groups", [])
+            entry.get("view").setdefault("format", {"format_type": "CSV"})
 
             # Validate and transform schedule configuration
             if not self._validate_schedule_configuration(entry):
@@ -1861,6 +1866,16 @@ class Reports(DnacBase):
         if epoch_time is None:
             self.msg = "Invalid date_time format for SCHEDULE_RECURRENCE."
             self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # Additional Check: Ensure the scheduled time is not in the past
+        current_epoch = int(time.time() * 1000)  # current time in milliseconds
+        if epoch_time <= current_epoch:
+            self.msg = (
+                f"Invalid schedule: The provided date_time '{date_time}' is in the past. "
+                "Please provide a future date and time for 'SCHEDULE_LATER' and 'SCHEDULE_RECURRENCE'."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             return False
 
         schedule.pop("date_time")
@@ -3647,7 +3662,7 @@ class Reports(DnacBase):
                     return self
 
                 result = {
-                    "response": {},
+                    "response": {"report_id": report_entry.get("report_id")},
                     "msg": "Report '{0}' has been successfully deleted.".format(report_entry.get("name")),
                 }
                 self.result["response"].append({"delete_report": result})
@@ -3857,7 +3872,6 @@ class Reports(DnacBase):
             - Logs all major decision points and verification steps for traceability
             - Ensures complete state cleanup and deletion compliance
         """
-        # getattr(self, "get_have")(self.validated_config[0])
         self.log(
             "Starting deleted state verification for {0} report entries against Catalyst Center".format(
                 len(config.get("generate_report", []))
@@ -3902,14 +3916,15 @@ class Reports(DnacBase):
 
             # Count delivery types for verification complexity assessment
             deliveries = report_entry.get("deliveries", [])
-            for delivery in deliveries:
-                delivery_type = delivery.get("type", "").upper()
-                if delivery_type == "WEBHOOK":
-                    verification_summary["webhook_deliveries"] += 1
-                elif delivery_type == "NOTIFICATION":
-                    verification_summary["notification_deliveries"] += 1
-                elif delivery_type == "DOWNLOAD":
-                    verification_summary["download_deliveries"] += 1
+            if deliveries:
+                for delivery in deliveries:
+                    delivery_type = delivery.get("type", "").upper()
+                    if delivery_type == "WEBHOOK":
+                        verification_summary["webhook_deliveries"] += 1
+                    elif delivery_type == "NOTIFICATION":
+                        verification_summary["notification_deliveries"] += 1
+                    elif delivery_type == "DOWNLOAD":
+                        verification_summary["download_deliveries"] += 1
 
             self.log(
                 "Report {0}/{1}: '{2}' - {3}".format(
@@ -3940,10 +3955,6 @@ class Reports(DnacBase):
         # Validate required fields for deletion verification
         if not report_name or report_name == "unnamed":
             validation_errors.append("Report entry missing valid name for deletion verification")
-
-        # Validate that we have sufficient information to verify deletion
-        if not report_entry.get("view_group_name"):
-            validation_errors.append("Report '{0}' missing view_group_name for deletion verification".format(report_name))
 
         if validation_errors:
             self.msg = "Configuration validation failed for deletion verification: {0}".format("; ".join(validation_errors))
