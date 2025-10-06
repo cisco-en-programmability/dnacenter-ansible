@@ -16,6 +16,15 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
+
+# common approach when a module relies on optional dependencies that are not available during the validation process.
+try:
+    import pytz  # pylint: disable=unused-import
+    HAS_PYTZ = True
+except ImportError:
+    HAS_PYTZ = False
+    pytz = None
+import unittest
 from unittest.mock import patch
 from ansible_collections.cisco.dnac.plugins.modules import reports_workflow_manager
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
@@ -150,6 +159,7 @@ class TestDnacreportsWorkflow(TestDnacModule):
                 self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
             ]
 
+    @unittest.skipIf(not HAS_PYTZ, "pytz is not installed")
     def test_reports_workflow_manager_create_n_schedule_reports_download(self):
         """
         Test case for reports workflow manager when creating and scheduling reports for download.
@@ -205,6 +215,7 @@ class TestDnacreportsWorkflow(TestDnacModule):
             delete_msg
         )
 
+    @unittest.skipUnless(HAS_PYTZ, "pytz is required for timezone validation tests")
     def test_reports_workflow_manager_download_report(self):
         """
         Test case for reports workflow manager when creating and scheduling reports for download.
@@ -259,6 +270,7 @@ class TestDnacreportsWorkflow(TestDnacModule):
             result['response']
         )
 
+    @unittest.skipUnless(HAS_PYTZ, "pytz is required for timezone validation tests")
     def test_reports_workflow_manager_schedule_later(self):
         """
         Test case for reports workflow manager when creating and scheduling reports for download.
@@ -286,6 +298,7 @@ class TestDnacreportsWorkflow(TestDnacModule):
             result['response'][0]["create_report"]["msg"]
         )
 
+    @unittest.skipUnless(HAS_PYTZ, "pytz is required for timezone validation tests")
     def test_reports_workflow_manager_schedule_RECURRENCE_monthly(self):
         """
         Test case for reports workflow manager when creating and scheduling reports for download.
@@ -313,6 +326,7 @@ class TestDnacreportsWorkflow(TestDnacModule):
             result['response'][0]["create_report"]["msg"]
         )
 
+    @unittest.skipUnless(HAS_PYTZ, "pytz is required for timezone validation tests")
     def test_reports_workflow_manager_schedule_RECURRENCE_weekly(self):
         """
         Test case for reports workflow manager when creating and scheduling reports for download.
@@ -340,6 +354,7 @@ class TestDnacreportsWorkflow(TestDnacModule):
             result['response'][0]["create_report"]["msg"]
         )
 
+    @unittest.skipUnless(HAS_PYTZ, "pytz is required for timezone validation tests")
     def test_reports_workflow_manager_schedule_RECUR_daily(self):
         """
         Test case for reports workflow manager when creating and scheduling reports with daily recurrence.
