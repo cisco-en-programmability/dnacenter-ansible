@@ -481,81 +481,80 @@ notes:
     DELETE /dna/intent/api/v1/data/reports/{reportId}
     GET /dna/intent/api/v1/data/reports/{reportId}/executions/{executionId}
 """
-
 """
-Mapping of View Names to View Groups, Mandatory Filters, Available Filters and Available Format Types:
+Mapping of View Names to Mandatory Filters and Available Filters:
 
-View Name                                         View Group                         Mandatory Filters                     Available Filters                                  Available Format Types
----------                                         ----------                        -----------------                    -----------------                                ----------------------
-Network Device Compliance                         Compliance                           Location                          Location, Device Type, Collection Status            CSV, PDF, JSON, TDE
-Network Device Availability                       Network Devices                      Location                          Location, Device Type, Time Range                  CSV, PDF, JSON, TDE
-Channel Change Count                              Network Devices                      Location                          Location, Device Type, Time Range                  CSV, PDF, JSON, TDE
-Transmit Power Change Count                       Network Devices                      Location                          Location, Device Type, Time Range                  CSV, PDF, JSON, TDE
-VLAN                                              Network Devices                       Location                         Location, Device Type                               CSV, PDF, JSON, TDE
-Port Capacity                                     Network Devices                       Location                         Location, Device Type                               CSV, PDF, JSON, TDE
-Energy Management                                 Network Devices                       Location                         Location, Device Type                               CSV, PDF, JSON, TDE
-PoE                                               Network Devices                       Location                         Location, Device Type                               CSV, PDF, JSON, TDE
-Device CPU and Memory Utilization                 Network Devices                       Location                         Location, Device Type, Time Range                  CSV, PDF, JSON, TDE
-Network Interface Utilization                     Network Devices                       Location                         Location, Device Type, Interface Type, Time Range  CSV, PDF, JSON, TDE
-Executive Summary                                 Executive Summary                     Location                         Location, Device Type, Time Range                  CSV, PDF, JSON, TDE
-All Data                                          Inventory                             Location                         Location, Device Type, Software Version            CSV, JSON, TDE
-Port Reclaim View                                 Inventory                             Location                         Location, Device Type                               CSV, JSON, TDE
-All Data Version 2.0                              Inventory                             Location                         Location, Device Type, Software Version            CSV, JSON, TDE
-All Data                                          SWIM                                  N/A                              Device Type, Image Name, Software Version          CSV, JSON, TDE
-All Data Version 2.0                              SWIM                                  N/A                              Device Type, Image Name, Software Version          CSV, JSON, TDE
-AP                                                Access Point                          Location                         Location, AP Name, Model, Controller               CSV, PDF, JSON, TDE
-AP Radio                                          Access Point                          Location                         Location, AP Name, Radio Band, Controller          CSV, PDF, JSON, TDE
-AP - Usage and Client Breakdown                   Access Point                          Location, SSID                   Location, SSID, AP Name, Controller                CSV, PDF, JSON, TDE
-Worst Interferers                                 Access Point                          Location                         Location, AP Name, Controller, Time Range          CSV, PDF, JSON, TDE
-AP RRM Events                                     Access Point                          Location                         Location, AP Name, Controller, Time Range          CSV, PDF, JSON, TDE
-AP Performance Report                             Long Term                             Location                         Location, AP Name, Controller, Time Range          CSV, PDF, JSON, TDE
-Long Term AP Detail                               Long Term                             Location                         Location, AP Name, Controller, Time Range          CSV, PDF, JSON, TDE
-Long Term AP Radio                                Long Term                             Location                         Location, AP Name, Radio Band, Time Range          CSV, PDF, JSON, TDE
-Long Term AP Usage and Client Breakdown           Long Term                             Location, SSID                   Location, SSID, AP Name, Time Range                CSV, PDF, JSON, TDE
-Long Term Client Detail                           Long Term                             Location, SSID, Time Range       Location, SSID, Client MAC, User Name, Time Range  CSV, PDF, JSON, TDE
-Long Term Client Session                          Long Term                             Location, SSID, Time Range       Location, SSID, Client MAC, Session ID, Time Range CSV, PDF, JSON, TDE
-Long Term Network Device Availability             Long Term                             Location                         Location, Device Type, Time Range                  CSV, PDF, JSON, TDE
-Security Group to Security Group                 Group Pair Communication Analytics   Source/Destination SGT             SGT, VN, Time Range                                CSV, PDF, JSON, TDE
-Security Group to ISE Endpoint Profile Group     Group Pair Communication Analytics   SGT, Endpoint Profile              SGT, Endpoint Profile, VN, Time Range              CSV, PDF, JSON, TDE
-Security Group to Host Group                     Group Pair Communication Analytics   SGT, Host Group                    SGT, Host Group, VN, Time Range                    CSV, PDF, JSON, TDE
-ISE Endpoint Profile Group to Security Group     Group Pair Communication Analytics   Endpoint Profile, SGT              Endpoint Profile, SGT, VN, Time Range              CSV, PDF, JSON, TDE
+View Name                                         Mandatory Filters                     Available Filters
+---------                                         -----------------                     -----------------
+Network Device Compliance                         Location                              Location, Device Type, Collection Status
+Network Device Availability                       Location                              Location, Device Type, Time Range
+Channel Change Count                              Location                              Location, Device Type, Time Range
+Transmit Power Change Count                       Location                              Location, Device Type, Time Range
+VLAN                                              Location                              Location, Device Type
+Port Capacity                                     Location                              Location, Device Type
+Energy Management                                 Location                              Location, Device Type
+PoE                                               Location                              Location, Device Type
+Device CPU and Memory Utilization                 Location                              Location, Device Type, Time Range
+Network Interface Utilization                     Location                              Location, Device Type, Interface Type, Time Range
+Executive Summary                                 Location                              Location, Device Type, Time Range
+All Data                                          Location                              Location, Device Type, Software Version
+Port Reclaim View                                 Location                              Location, Device Type
+All Data Version 2.0                              Location                              Location, Device Type, Software Version
+All Data                                          N/A                                   Device Type, Image Name, Software Version
+All Data Version 2.0                              N/A                                   Device Type, Image Name, Software Version
+AP                                                Location                              Location, AP Name, Model, Controller
+AP Radio                                          Location                              Location, AP Name, Radio Band, Controller
+AP - Usage and Client Breakdown                   Location, SSID                       Location, SSID, AP Name, Controller
+Worst Interferers                                 Location                              Location, AP Name, Controller, Time Range
+AP RRM Events                                     Location                              Location, AP Name, Controller, Time Range
+AP Performance Report                             Location                              Location, AP Name, Controller, Time Range
+Long Term AP Detail                               Location                              Location, AP Name, Controller, Time Range
+Long Term AP Radio                                Location                              Location, AP Name, Radio Band, Time Range
+Long Term AP Usage and Client Breakdown           Location, SSID                       Location, SSID, AP Name, Time Range
+Long Term Client Detail                           Location, SSID, Time Range           Location, SSID, Client MAC, User Name, Time Range
+Long Term Client Session                          Location, SSID, Time Range           Location, SSID, Client MAC, Session ID, Time Range
+Long Term Network Device Availability             Location                              Location, Device Type, Time Range
+Security Group to Security Group                 Source/Destination SGT               SGT, VN, Time Range
+Security Group to ISE Endpoint Profile Group     SGT, Endpoint Profile                SGT, Endpoint Profile, VN, Time Range
+Security Group to Host Group                     SGT, Host Group                      SGT, Host Group, VN, Time Range
+ISE Endpoint Profile Group to Security Group     Endpoint Profile, SGT                Endpoint Profile, SGT, VN, Time Range
 ISE Endpoint Profile Group to
-    ISE Endpoint Profile Group                    Group Pair Communication Analytics   Endpoint Profile                Endpoint Profile, VN, Time Range                   CSV, PDF, JSON, TDE
-ISE Endpoint Profile Group to Host Group         Group Pair Communication Analytics   Endpoint Profile, Host Group       Endpoint Profile, Host Group, VN, Time Range       CSV, PDF, JSON, TDE
-Host Group to Security Group                     Group Pair Communication Analytics   Host Group, SGT                    Host Group, SGT, VN, Time Range                    CSV, PDF, JSON, TDE
-Host Group to ISE Endpoint Profile Group         Group Pair Communication Analytics   Host Group, Endpoint Profile       Host Group, Endpoint Profile, VN, Time Range       CSV, PDF, JSON, TDE
-Host Group to Host Group                          Group Pair Communication Analytics   Host Group                        Host Group, VN, Time Range                         CSV, PDF, JSON, TDE
-Device Lifecycle Information                      Telemetry                             Location                         Location, Device Type, Hardware Info               CSV, JSON, TDE
-Security Group to Security Groups                Group Communication Summary           SGT                               SGT, VN, Time Range                                CSV, PDF, JSON, TDE
-Security Group to ISE Endpoint Profile Groups    Group Communication Summary           SGT, Endpoint Profile             SGT, Endpoint Profile, VN, Time Range              CSV, PDF, JSON, TDE
-Security Group to Host Groups                    Group Communication Summary           SGT, Host Group                   SGT, Host Group, VN, Time Range                    CSV, PDF, JSON, TDE
-ISE Endpoint Profile Group to Security Groups    Group Communication Summary           Endpoint Profile, SGT             Endpoint Profile, SGT, VN, Time Range              CSV, PDF, JSON, TDE
+    ISE Endpoint Profile Group                    Endpoint Profile                      Endpoint Profile, VN, Time Range
+ISE Endpoint Profile Group to Host Group         Endpoint Profile, Host Group         Endpoint Profile, Host Group, VN, Time Range
+Host Group to Security Group                     Host Group, SGT                      Host Group, SGT, VN, Time Range
+Host Group to ISE Endpoint Profile Group         Host Group, Endpoint Profile         Host Group, Endpoint Profile, VN, Time Range
+Host Group to Host Group                          Host Group                           Host Group, VN, Time Range
+Device Lifecycle Information                      Location                             Location, Device Type, Hardware Info
+Security Group to Security Groups                SGT                                  SGT, VN, Time Range
+Security Group to ISE Endpoint Profile Groups    SGT, Endpoint Profile               SGT, Endpoint Profile, VN, Time Range
+Security Group to Host Groups                    SGT, Host Group                     SGT, Host Group, VN, Time Range
+ISE Endpoint Profile Group to Security Groups    Endpoint Profile, SGT               Endpoint Profile, SGT, VN, Time Range
 ISE Endpoint Profile Group to
-    ISE Endpoint Profile Groups                   Group Communication Summary           Endpoint Profile                Endpoint Profile, VN, Time Range                   CSV, PDF, JSON, TDE
-ISE Endpoint Profile Group to Host Groups        Group Communication Summary           Endpoint Profile, Host Group       Endpoint Profile, Host Group, VN, Time Range       CSV, PDF, JSON, TDE
-Host Group to Security Groups                    Group Communication Summary           Host Group, SGT                    Host Group, SGT, VN, Time Range                    CSV, PDF, JSON, TDE
-Host Group to ISE Endpoint Profile Group         Group Communication Summary           Host Group, Endpoint Profile       Host Group, Endpoint Profile, VN, Time Range       CSV, PDF, JSON, TDE
-Host Group to Host Group                          Group Communication Summary           Host Group                        Host Group, VN, Time Range                         CSV, PDF, JSON, TDE
-EoX Data                                          EoX                                   N/A                               Device Type, EoX Type, Bulletin ID                 CSV, JSON, TDE
-Threat Detail                                     Rogue and aWIPS                      Location                           Location, Threat Type, Severity, Time Range        CSV, PDF, JSON, TDE
-New Threat                                        Rogue and aWIPS                      Location                           Location, Threat Type, Severity, Time Range        CSV, PDF, JSON, TDE
-Rogue Additional Detail                           Rogue and aWIPS                      Location                           Location, Threat Type, MAC Address, Time Range     CSV, PDF, JSON, TDE
-Non Compliant Devices                             Licensing                             Location                          Location, Device Type, License Type                CSV, PDF, JSON, TDE
-Non Compliance Summary                            Licensing                             Location                          Location, License Type, Compliance Status          CSV, PDF, JSON, TDE
-AireOS Controllers Licenses                       Licensing                             N/A                               Controller Name, License Type, Status              CSV, JSON, TDE
-License Usage Upload Details                      Licensing                             N/A                               Upload Date, License Type, Status                  CSV, JSON, TDE
-License Historical Usage                          Licensing                             N/A                               License Type, Time Range, Usage Type               CSV, JSON, TDE
-Endpoint Profiling                                AI Endpoint Analytics                 Location                          Location, Device Type, Profile Name, Time Range    CSV, PDF, JSON, TDE
-Audit Log                                         Audit Log                             Time Range                        User Name, Event Category, Time Range, Object Type CSV, PDF, JSON, TDE
-Configuration Archive                             Configuration Archive                 Device, Time Range                Device Name, Location, Archive Status, Time Range  CSV, PDF, JSON, TDE
-Client                                            Client                                Location, SSID                    Location, SSID, Client MAC, Device Type            CSV, PDF, JSON, TDE
-Client Summary                                    Client                                Location, SSID                    Location, SSID, Device Type, Connection Status     CSV, PDF, JSON, TDE
-Top N Summary                                     Client                                Location, SSID                    Location, SSID, Metric Type, Time Range            CSV, PDF, JSON, TDE
-Client Detail                                     Client                                Location, SSID                    Location, SSID, Client MAC, User Name              CSV, PDF, JSON, TDE
-Client Trend                                      Client                                Location, SSID, Time Range        Location, SSID, Client MAC, Metric Type, Time Range CSV, PDF, JSON, TDE
-Client Session                                    Client                                Location, SSID, Time Range        Location, SSID, Client MAC, Session ID, Time Range CSV, PDF, JSON, TDE
-Busiest Client                                    Client                                Location, SSID                    Location, SSID, Client MAC, Traffic Type           CSV, PDF, JSON, TDE
-Unique Clients and Users Summary                  Client                                Location, SSID                    Location, SSID, Time Range, Device Type            CSV, PDF, JSON, TDE
+    ISE Endpoint Profile Groups                   Endpoint Profile                    Endpoint Profile, VN, Time Range
+ISE Endpoint Profile Group to Host Groups        Endpoint Profile, Host Group         Endpoint Profile, Host Group, VN, Time Range
+Host Group to Security Groups                    Host Group, SGT                      Host Group, SGT, VN, Time Range
+Host Group to ISE Endpoint Profile Group         Host Group, Endpoint Profile         Host Group, Endpoint Profile, VN, Time Range
+Host Group to Host Group                          Host Group                           Host Group, VN, Time Range
+EoX Data                                          N/A                                  Device Type, EoX Type, Bulletin ID
+Threat Detail                                     Location                             Location, Threat Type, Severity, Time Range
+New Threat                                        Location                             Location, Threat Type, Severity, Time Range
+Rogue Additional Detail                           Location                             Location, Threat Type, MAC Address, Time Range
+Non Compliant Devices                             Location                             Location, Device Type, License Type
+Non Compliance Summary                            Location                             Location, License Type, Compliance Status
+AireOS Controllers Licenses                       N/A                                  Controller Name, License Type, Status
+License Usage Upload Details                      N/A                                  Upload Date, License Type, Status
+License Historical Usage                          N/A                                  License Type, Time Range, Usage Type
+Endpoint Profiling                                Location                             Location, Device Type, Profile Name, Time Range
+Audit Log                                         Time Range                           User Name, Event Category, Time Range, Object Type
+Configuration Archive                             Device, Time Range                   Device Name, Location, Archive Status, Time Range
+Client                                            Location, SSID                      Location, SSID, Client MAC, Device Type
+Client Summary                                    Location, SSID                      Location, SSID, Device Type, Connection Status
+Top N Summary                                     Location, SSID                      Location, SSID, Metric Type, Time Range
+Client Detail                                     Location, SSID                      Location, SSID, Client MAC, User Name
+Client Trend                                      Location, SSID, Time Range          Location, SSID, Client MAC, Metric Type, Time Range
+Client Session                                    Location, SSID, Time Range          Location, SSID, Client MAC, Session ID, Time Range
+Busiest Client                                    Location, SSID                      Location, SSID, Client MAC, Traffic Type
+Unique Clients and Users Summary                  Location, SSID                      Location, SSID, Time Range, Device Type
 """
 
 """Filter types for each filter category in Cisco Catalyst Center Reports:
@@ -1416,6 +1415,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
 )
 import json
 import re
+import pytz
 
 
 class Reports(DnacBase):
@@ -1707,6 +1707,20 @@ class Reports(DnacBase):
         """
         self.log("Validating schedule configuration for report: {0}".format(
             entry.get("name")), "DEBUG")
+
+        schedule = entry.get("schedule", {})
+        # Validate timezone
+        time_zone = schedule.get("time_zone")
+        if not time_zone:
+            self.msg = "Missing required schedule field: 'time_zone'"
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        if time_zone not in pytz.all_timezones:
+            self.msg = f"Invalid time_zone '{time_zone}'.\
+                        Please provide a valid timezone as per the IANA timezone database (e.g., 'Asia/Calcutta')."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
 
         # Transform schedule_type to type
         if "schedule" in entry and "schedule_type" in entry["schedule"]:
@@ -2328,7 +2342,7 @@ class Reports(DnacBase):
                         ),
                         "DEBUG",
                     )
-                    response = response.get("statusMessage")
+                    response = response.get("statusMessage", [])
 
                     if not response:
                         self.log(
@@ -2371,15 +2385,15 @@ class Reports(DnacBase):
                                 "WARNING",
                             )
                             return None
-                self.log(
-                    "Webhook destination '{0}' not found after checking all available destinations".format(name),
-                    "WARNING"
-                )
-                self.log(
-                    "Completed webhook destination retrieval for name='{0}' - not found after exhaustive search".format(name),
-                    "INFO"
-                )
-                return None
+            self.log(
+                "Webhook destination '{0}' not found after checking all available destinations".format(name),
+                "WARNING"
+            )
+            self.log(
+                "Completed webhook destination retrieval for name='{0}' - not found after exhaustive search".format(name),
+                "INFO"
+            )
+            return None
 
         except Exception as e:
             self.status = "failed"
@@ -2779,7 +2793,6 @@ class Reports(DnacBase):
 
                 webhook_id = webhook_destinations.get("webhookId")
                 delivery["webhook_id"] = webhook_id
-                delivery.pop("webhook_name", None)
 
                 self.log("Successfully validated webhook destination '{0}' with ID: {1}".format(
                     webhook_name, webhook_id), "DEBUG")
