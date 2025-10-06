@@ -190,11 +190,11 @@ options:
               - When generate_new_backup=true, uses this name as prefix and appends timestamp.
               - Timestamp format is "YYYYMMDD_HHMMSS" using server local time (e.g., 20241230_143052).
               - Example with generate_new_backup=true and name="DAILY_BACKUP" creates "DAILY_BACKUP_20241230_143052".
-              - For backup deletion (state=deleted), when used alone without deletion_time_hours, deletes backup with this exact name.
-              - When used with deletion_time_hours, treats this as prefix to filter backups by age.
-              - Example with name="DAILY_BACKUP" and deletion_time_hours=72 deletes all backups starting with "DAILY_BACKUP" older than 72 hours.
-              - Backup name must begin with an alphabet and can contain letters, digits,
-                and the following special characters @, _, -, and space, #.
+              - For backup deletion (state=deleted), when used alone without deletion_timestamp, deletes backup with this exact name.
+              - When used with deletion_timestamp, treats this as prefix to filter backups by creation time.
+              - Example with name="DAILY_BACKUP" and deletion_timestamp="20241230_120000" deletes all backups starting with
+                "DAILY_BACKUP" created before Dec 30, 2024 12:00:00.
+              - Backup name must begin with an alphabet and can contain letters, digits, and the following special characters @, _, -, space, and #.
             type: str
           generate_new_backup:
             description:
@@ -496,7 +496,35 @@ EXAMPLES = r"""
           - backup_job_creation:
               - name: BACKUP24_07
 
-# Example 7: Delete all backups for complete infrastructure cleanup
+# Example 7: Delete backup with timestamp-based filtering for lifecycle management
+- name: Remove backup using timestamp-based filtering for automated cleanup
+  hosts: localhost
+  vars_files:
+    - "credentials.yml"
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Delete backup with prefix and timestamp cutoff for backup lifecycle management
+      cisco.dnac.backup_and_restore_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: deleted
+        config:
+          - backup_job_creation:
+              - name: BACKUP03_10
+                deletion_timestamp: "20251003_133325"
+
+# Example 8: Delete all backups for complete infrastructure cleanup
 - name: Remove all backups from Cisco Catalyst Center
   hosts: localhost
   vars_files:
@@ -523,7 +551,7 @@ EXAMPLES = r"""
           - backup_job_creation:
               - delete_all_backup: true
 
-# Example 8: Comprehensive backup workflow for enterprise deployment
+# Example 9: Comprehensive backup workflow for enterprise deployment
 - name: Complete backup and restore workflow for enterprise infrastructure
   hosts: localhost
   vars_files:
@@ -567,7 +595,7 @@ EXAMPLES = r"""
               - name: ENTERPRISE_DAILY_BACKUP
                 scope: CISCO_DNA_DATA_WITH_ASSURANCE
 
-# Example 9: Multiple NFS server configuration for redundant backup storage
+# Example 10: Multiple NFS server configuration for redundant backup storage
 - name: Configure multiple NFS servers for backup redundancy
   hosts: localhost
   vars_files:
@@ -603,15 +631,15 @@ EXAMPLES = r"""
                 nfs_version: nfs4
                 nfs_portmapper_port: 111
 
-# Example 10: Prefix-based creation with timestamp, always creates new backup regardless of existing names
-- name: Create backup with timestamp
+# Example 11: Create backup with timestamp prefix for automated backup workflows
+- name: Create automated backup with timestamp for unique identification
   hosts: localhost
   vars_files:
     - "credentials.yml"
   connection: local
   gather_facts: false
   tasks:
-    - name: Create backup with timestamp
+    - name: Generate timestamped backup for automated data protection workflows
       cisco.dnac.backup_and_restore_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -770,6 +798,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
 )
 from ansible.module_utils.basic import AnsibleModule
+from datetime import datetime, timezone, timedelta
 
 import time
 import json
@@ -940,6 +969,9 @@ class BackupRestore(DnacBase):
                 "delete_all_backup": {
                     "type": "bool",
                     "default": False
+                },
+                "deletion_timestamp": {
+                    "type": "str",
                 }
             },
             "restore_operations": {
@@ -2518,6 +2550,9 @@ class BackupRestore(DnacBase):
 
         delete_all = backup_details[0].get("delete_all_backup", False)
         name = backup_details[0].get("name")
+        deletion_timestamp = backup_details[0].get("deletion_timestamp")
+
+        backups_to_delete = []
 
         if delete_all:
             backups_to_delete = backup.get("all_backups", [])
@@ -2526,6 +2561,40 @@ class BackupRestore(DnacBase):
                 self.set_operation_result("success", False, self.msg, "INFO")
                 return self
             self.log("Deleting ALL backup from Catalyst Center", "INFO")
+
+        elif name and deletion_timestamp:
+            self.log("Initiating prefix-based backup deletion with timestamp filtering", "INFO")
+
+            cutoff_date_time = datetime.strptime(deletion_timestamp, "%Y%m%d_%H%M%S")
+            ist = timezone(timedelta(hours=5, minutes=30))
+            cutoff_date_time = cutoff_date_time.replace(tzinfo=ist)
+            self.log("Cutoff datetime (IST): {0}".format(cutoff_date_time.strftime("%Y-%m-%d %H:%M:%S")))
+
+            all_backups = backup.get("all_backups", [])
+            self.log(
+                "Filtering backups by name as prefix '{0}' and cutoff '{1}'".format(name, deletion_timestamp),
+                "INFO",
+            )
+
+            for backup in all_backups:
+                backup_name = backup.get("name")
+                created_date_time = backup.get("createdDate")  # e.g., "2025-09-11T04:19:58Z"
+
+                if created_date_time:
+                    created_date_time = datetime.strptime(created_date_time, "%Y-%m-%dT%H:%M:%SZ")
+                    created_date_time = created_date_time.replace(tzinfo=timezone.utc)
+                    created_date_time = created_date_time.astimezone(ist)
+                    self.log("Backup '{0}' created (IST): {1}".format(backup_name, created_date_time.strftime("%Y-%m-%d %H:%M:%S")))
+
+                    if backup_name.startswith(name) and created_date_time < cutoff_date_time:
+                        backups_to_delete.append(backup)
+
+            self.log("Backups identified for deletion: {0}".format(backups_to_delete), "DEBUG")
+
+            if not backups_to_delete:
+                self.msg = "No backups found with prefix '{0}' older than timestamp '{1}'.".format(name, deletion_timestamp)
+                self.set_operation_result("success", False, self.msg, "INFO")
+                return self
 
         elif name:
             if not backup.get("backup_exists"):
@@ -2567,9 +2636,10 @@ class BackupRestore(DnacBase):
                 status = self.get_backup_status_by_task_id(task_id)
 
                 if status == "SUCCESS":
-                    self.msg = "backup '{0}' deleted successfully.".format(backup_name)
+                    self.msg = "Backup '{0}' deleted successfully.".format(backup_name)
                     self.set_operation_result("success", True, self.msg, "INFO")
                     self.deleted_backup.append(backup_name)
+                    time.sleep(30)
 
                 elif status == "FAILED":
                     self.msg = "Deletion of backup '{0}' failed.".format(backup_name)
@@ -2580,13 +2650,12 @@ class BackupRestore(DnacBase):
                     self.msg = "Unexpected deletion status '{0}' for backup '{1}'.".format(status, backup_name)
                     self.set_operation_result("failed", False, self.msg, "WARNING")
                     self.delete_backup_failed.append(backup_name)
-                time.sleep(90)
 
             except Exception as e:
                 self.msg = "An error occurred while deleting backup: {0}".format(e)
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            self.log("Exiting backup deletion workflow", "INFO")
+        self.log("Exiting backup deletion workflow", "INFO")
         return self
 
     def verify_diff_merged(self):
