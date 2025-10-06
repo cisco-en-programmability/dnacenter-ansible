@@ -1973,9 +1973,9 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                             "Feature template with applicability_ssids '{0}' not found.".format(template_ssids)
                         )
                         self.log(
-                            "Feature template SSID applicability mismatch detected - "
-                            "SSIDs '{0}' not found in existing profile template assignments".format(
-                                template_ssids), "WARNING")
+                            "Feature template SSID applicability no of mismatch "
+                            "detected '{0}'- SSIDs '{1}' not found in existing profile template assignments".format(
+                                len(unmatched_keys), template_ssids), "WARNING")
 
                 # Log comprehensive feature template validation summary
                 if feature_templates_with_mismatches > 0:
