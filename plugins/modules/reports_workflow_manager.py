@@ -1216,8 +1216,8 @@ EXAMPLES = r'''
     config_verify: true
     config:
       - generate_report:
-          name: "compliance_report"  # The name of the report to be deleted is required
-          view_group_name: "Compliance" # Required for identification
+          name: "compliance_report".  # The name of the report to be deleted is required
+          view_group_name: "Compliance"  # Required for identification
           view:
             view_name: "Network Device Compliance"  # Required for identification
 '''
