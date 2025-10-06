@@ -150,7 +150,6 @@ class TestDnacreportsWorkflow(TestDnacModule):
                 self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
             ]
 
-
     def test_reports_workflow_manager_create_n_schedule_reports_download(self):
         """
         Test case for reports workflow manager when creating and scheduling reports for download.
