@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -29,15 +32,16 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    state=dict(type="str", default="present", choices=["present", "absent"]),
-    fabricName=dict(type="str"),
-    siteNameHierarchy=dict(type="str"),
-    fabricType=dict(type="str"),
-))
+argument_spec.update(
+    dict(
+        state=dict(type="str", default="present", choices=["present", "absent"]),
+        fabricName=dict(type="str"),
+        siteNameHierarchy=dict(type="str"),
+        fabricType=dict(type="str"),
+    )
+)
 
-required_if = [
-]
+required_if = []
 required_one_of = []
 mutually_exclusive = []
 required_together = []
@@ -55,22 +59,25 @@ class SdaFabricSite(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['site_name_hierarchy'] = self.new_object.get(
-            'siteNameHierarchy') or self.new_object.get('site_name_hierarchy')
+        new_object_params["site_name_hierarchy"] = self.new_object.get(
+            "siteNameHierarchy"
+        ) or self.new_object.get("site_name_hierarchy")
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['fabricName'] = self.new_object.get('fabricName')
-        new_object_params['siteNameHierarchy'] = self.new_object.get(
-            'siteNameHierarchy')
-        new_object_params['fabricType'] = self.new_object.get('fabricType')
+        new_object_params["fabricName"] = self.new_object.get("fabricName")
+        new_object_params["siteNameHierarchy"] = self.new_object.get(
+            "siteNameHierarchy"
+        )
+        new_object_params["fabricType"] = self.new_object.get("fabricType")
         return new_object_params
 
     def delete_all_params(self):
         new_object_params = {}
-        new_object_params['site_name_hierarchy'] = self.new_object.get(
-            'site_name_hierarchy')
+        new_object_params["site_name_hierarchy"] = self.new_object.get(
+            "site_name_hierarchy"
+        )
         return new_object_params
 
     def get_object_by_name(self, name, is_absent=False):
@@ -83,14 +90,14 @@ class SdaFabricSite(object):
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
+                if "response" in items:
+                    items = items.get("response")
                 if isinstance(items, dict) and items.get("status") == "failed":
                     if is_absent:
                         raise AnsibleSDAException(response=items)
                     result = None
                     return result
-            result = get_dict_result(items, 'name', name)
+            result = get_dict_result(items, "name", name)
         except Exception:
             if is_absent:
                 raise
@@ -105,8 +112,11 @@ class SdaFabricSite(object):
     def exists(self, is_absent=False):
         name = self.new_object.get("name")
         prev_obj = self.get_object_by_name(name, is_absent=is_absent)
-        it_exists = prev_obj is not None and isinstance(
-            prev_obj, dict) and 'fabricName' in prev_obj
+        it_exists = (
+            prev_obj is not None
+            and isinstance(prev_obj, dict)
+            and "fabricName" in prev_obj
+        )
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
@@ -120,9 +130,12 @@ class SdaFabricSite(object):
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
-        return any(not dnac_compare_equality(current_obj.get(dnac_param),
-                                             requested_obj.get(ansible_param))
-                   for (dnac_param, ansible_param) in obj_params)
+        return any(
+            not dnac_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
+            for (dnac_param, ansible_param) in obj_params
+        )
 
     def create(self):
         result = self.dnac.exec(
@@ -132,8 +145,8 @@ class SdaFabricSite(object):
             op_modifies=True,
         )
         if isinstance(result, dict):
-            if 'response' in result:
-                result = result.get('response')
+            if "response" in result:
+                result = result.get("response")
             if isinstance(result, dict) and result.get("status") == "failed":
                 raise AnsibleSDAException(response=result)
         return result
@@ -154,7 +167,8 @@ class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
             raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -204,9 +218,7 @@ class ActionModule(ActionBase):
                     response = obj.create()
                     dnac.object_created()
                 except AnsibleSDAException as e:
-                    dnac.fail_json(
-                        "Could not create object {e}".format(
-                            e=e._response))
+                    dnac.fail_json("Could not create object {e}".format(e=e._response))
         elif state == "absent":
             try:
                 (obj_exists, prev_obj) = obj.exists(is_absent=True)
@@ -217,8 +229,8 @@ class ActionModule(ActionBase):
                     dnac.object_already_absent()
             except AnsibleSDAException as e:
                 dnac.fail_json(
-                    "Could not get object to be delete {e}".format(
-                        e=e._response))
+                    "Could not get object to be delete {e}".format(e=e._response)
+                )
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

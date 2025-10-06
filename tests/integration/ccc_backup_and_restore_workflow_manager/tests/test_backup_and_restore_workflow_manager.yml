@@ -1,0 +1,162 @@
+---
+- debug: msg="Starting backup and restore workflow manager test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name:  Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_backup_and_restore_workflow_manager.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "172.23.9.219"
+        dnac_username: "admin"
+        dnac_password: "P@ssword9"
+        dnac_verify: "false"
+        dnac_port: "443"
+        dnac_version: "3.1.3.0"
+        dnac_debug: "false"
+        dnac_log: true
+        dnac_log_level: DEBUG
+
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+
+####################################################
+#              CREATE NFS CONFIGURATION           #
+####################################################
+
+  - name: Create NFS Configuration
+    cisco.dnac.backup_and_restore_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.create_nfs_configuration }}"
+    register: result_create_nfs_configuration
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_application.results }}"
+  #   when: result_create_application is defined
+
+  - name: Assert Create NFS Configuration
+    assert:
+      that:
+        - item.changed == true
+        - "'created successfully' in item.response"
+    loop: "{{ result_create_nfs_configuration.results }}"
+    when: result_create_nfs_configuration is defined
+
+####################################################
+#              UPDATE BACKUP CONFIGURATION           #
+####################################################
+
+  - name: Update Backup Configuration
+    cisco.dnac.backup_and_restore_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.update_backup_configuration }}"
+    register: result_update_backup_configuration
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_application.results }}"
+  #   when: result_create_application is defined
+
+  - name: Assert Update Backup Configuration
+    assert:
+      that:
+        - item.changed == true
+        - "'updated successfully' in item.response"
+    loop: "{{ result_update_backup_configuration.results }}"
+    when: result_update_backup_configuration is defined
+
+####################################################
+#              CREATE BACKUP                       #
+####################################################
+
+  - name: Create Backup
+    cisco.dnac.backup_and_restore_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.create_backup }}"
+    register: result_create_backup
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_application.results }}"
+  #   when: result_create_application is defined
+
+  - name: Assert Create Backup
+    assert:
+      that:
+        - item.changed == true
+        - "'created successfully' in item.response"
+    loop: "{{ result_create_backup.results }}"
+    when: result_create_backup is defined
+
+####################################################
+#              DELETE NFS CONFIGURATION           #
+####################################################
+
+  - name: Delete NFS Configuration
+    cisco.dnac.backup_and_restore_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.delete_nfs_configuration }}"
+    register: result_delete_nfs_configuration
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_application.results }}"
+  #   when: result_create_application is defined
+
+  - name: Assert Delete NFS Configuration
+    assert:
+      that:
+        - item.changed == true
+        - "'deleted successfully' in item.response"
+    loop: "{{ result_delete_nfs_configuration.results }}"
+    when: result_delete_nfs_configuration is defined
+
+####################################################
+#              DELETE BACKUP                       #
+####################################################
+
+  - name: Delete Backup
+    cisco.dnac.backup_and_restore_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.delete_backup }}"
+    register: result_delete_backup
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_application.results }}"
+  #   when: result_create_application is defined
+
+  - name: Assert Delete Backup
+    assert:
+      that:
+        - item.changed == true
+        - "'deleted successfully' in item.response"
+    loop: "{{ result_delete_backup.results }}"
+    when: result_delete_backup is defined

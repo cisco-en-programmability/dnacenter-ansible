@@ -28,7 +28,7 @@ options:
         must be set to "external".
     type: str
 requirements:
-  - dnacentersdk >= 2.4.9
+  - dnacentersdk >= 2.10.1
   - python >= 3.5
 seealso:
   - name: Cisco DNA Center documentation for User and
@@ -38,7 +38,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-external-authentication-servers-api
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.get_external_authentication_servers_api,
+    user_and_roles.UserandRoles.get_external_authentication_servers_api,
   - Paths used are
     get /dna/system/api/v1/users/external-servers,
 """

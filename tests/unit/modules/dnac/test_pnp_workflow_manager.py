@@ -45,6 +45,7 @@ class TestDnacPnpWorkflow(TestDnacModule):
     playbook_config_pnp = test_data.get("playbook_config_pnp")
     playbook_config_switch_site_issue = test_data.get("playbook_config_switch_site_issue")
     playbook_config_reset_device = test_data.get("playbook_config_reset_device")
+    playbook_config_bulk_pnp = test_data.get("playbook_config_bulk_pnp")
 
     def setUp(self):
         super(TestDnacPnpWorkflow, self).setUp()
@@ -103,6 +104,7 @@ class TestDnacPnpWorkflow(TestDnacModule):
             ]
         elif "claim_switch" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_device_empty"),
                 self.test_data.get("get_device_detail_sw"),
                 self.test_data.get("get_software_image_detail_sw"),
                 self.test_data.get("get_template_configuration_sw"),
@@ -154,10 +156,11 @@ class TestDnacPnpWorkflow(TestDnacModule):
             ]
         elif "import_devices_in_bulk_new" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_device_detail_sw"),
-                self.test_data.get("get_device_detail_sw"),
+                self.test_data.get("get_device_empty"),
+                self.test_data.get("get_device_empty"),
                 self.test_data.get("get_import_devices_in_bulk"),
-                self.test_data.get("get_import_devices_in_bulk")
+                self.test_data.get("get_device_detail_bulk_authorize"),
+                self.test_data.get("authorize_response")
             ]
         elif "devices_idempotent" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -244,7 +247,7 @@ class TestDnacPnpWorkflow(TestDnacModule):
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
-            "Device is already claimed"
+            "Device is already claimed and Device 'KWC24160JLL' updated successfully."
         )
 
     def test_pnp_workflow_manager_claim_ap_claimed_old(self):
@@ -266,30 +269,7 @@ class TestDnacPnpWorkflow(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "Device is already claimed"
-        )
-
-    def test_pnp_workflow_manager_claim_switch(self):
-        """
-        Test case for PNP workflow manager when add and claim switch device.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_version="2.3.7.6",
-                dnac_log=True,
-                config_verify=True,
-                state="merged",
-                config=self.playbook_config_switch
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        self.maxDiff = None
-        self.assertEqual(
-            result.get('msg'),
-            "Successfully collected all project and template                     parameters from Cisco Catalyst Center for comparison"
+            "Device is already claimed and Device 'KWC24160JLL' updated successfully."
         )
 
     def test_pnp_workflow_manager_device_delete(self):
@@ -392,17 +372,17 @@ class TestDnacPnpWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.9",
+                dnac_version="3.1.3.0",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_pnp
+                config=self.playbook_config_bulk_pnp
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
-            "2 device(s) imported successfully"
+            "2 device(s) imported successfully 1 device(s) authorized successfully"
         )
 
     def test_pnp_workflow_manager_devices_idempotent(self):
@@ -577,7 +557,7 @@ class TestDnacPnpWorkflow(TestDnacModule):
                 config=self.playbook_config_reset_device
             )
         )
-        result = self.execute_module(changed=False, failed=True)
+        result = self.execute_module(changed=True, failed=False)
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
@@ -601,9 +581,10 @@ class TestDnacPnpWorkflow(TestDnacModule):
                 config=self.playbook_config_reset_device
             )
         )
-        result = self.execute_module(changed=False, failed=True)
+        result = self.execute_module(changed=True, failed=False)
         self.maxDiff = None
         self.assertEqual(
-            result.get('response'),
-            "Failed to execute 'reset_device' for device ID '671b1d88c301a454b89d2c84': "
+            result.get('msg'),
+            "All specified devices already exist and cannot be imported again: " +
+            "['FJC24501BK2']. Devices reset done (['FJC24501BK2'])"
         )

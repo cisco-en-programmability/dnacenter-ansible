@@ -8906,6 +8906,32 @@
         }
     ],
 
+    "playbook_config_bulk_pnp": [
+        {
+        "device_info": [
+            {
+                "serial_number": "AJC272127LW",
+                "state": "Unclaimed",
+                "pid": "C9300-48UN",
+                "is_sudi_required": false,
+                "hostname": "Test_pnp11",
+                "authorize": true
+            },
+            {
+                "serial_number": "BJC272127LW",
+                "state": "Unclaimed",
+                "pid": "C9300-48S",
+                "hostname": "Test_pnp12"
+            }
+        ]
+        }
+    ],
+
+    "get_device_empty": {
+        "response": [],
+        "version": "1.0"
+    },
+
     "playbook_config_pnp_site": [{
             "device_info": [
             {
@@ -8931,8 +8957,8 @@
         {
             "version": 0,
             "deviceInfo": {
-            "serialNumber": "FJC24501BK",
-            "name": "FJC24501BK2",
+            "serialNumber": "AJC272127LW",
+            "name": "Test_pnp11",
             "deviceType": "Switch",
             "dnacDeviceType": "NETWORK",
             "pid": "C9300-48UN",
@@ -8943,7 +8969,7 @@
             "lastContact": 0,
             "lastContactDuration": 0,
             "provisionedOn": 0,
-            "state": "Unclaimed",
+            "state": "Pending Authorization",
             "onbState": "Not Contacted",
             "cmState": "Not Contacted",
             "source": "User",
@@ -9000,7 +9026,7 @@
         {
             "version": 0,
             "deviceInfo": {
-            "serialNumber": "FJC24441MSV",
+            "serialNumber": "BJC272127LW",
             "name": "FJC24441MSV",
             "deviceType": "Switch",
             "dnacDeviceType": "NETWORK",
@@ -9069,6 +9095,88 @@
         }
         ],
         "failureList": []
+    },
+
+    "get_device_detail_bulk_authorize": [{
+        "version": 0,
+        "deviceInfo": {
+            "serialNumber": "AJC272127LW",
+            "name": "FOC2439LA89",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-24UXB",
+            "lastSyncTime": 0,
+            "addedOn": 1729830280825,
+            "lastUpdateOn": 1729830280825,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Pending Authorization",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "hostname": "SJ-EN-10-9300",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "NONE",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_NONE",
+            "hseclicense": false,
+            "sudiRequired": false,
+            "stack": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+        },
+        "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+        },
+        "workflowParameters": {},
+        "dayNCmdQueue": [],
+        "runSummaryList": [
+            {
+                "timestamp": 1729830280826,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+        ],
+        "tenantId": "66ea0af5c60db15238522111",
+        "id": "671b1d88c301a454b89d2c84"
+    }],
+
+    "authorize_response": {
+        "jsonResponse": {
+            "empty": ""
+        },
+        "message": "string",
+        "statusCode": "200",
+        "jsonArrayResponse": [
+            "string"
+        ]
     },
 
     "get_device_detail_exist1": [{

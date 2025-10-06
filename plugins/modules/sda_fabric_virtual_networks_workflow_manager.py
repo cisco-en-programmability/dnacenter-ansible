@@ -39,10 +39,10 @@ options:
     description: Sets the maximum number of fabric VLANs
       that can be created or updated at a time via the
       SDA API, aligning with GUI constraints. The default
-      is 50, as the GUI allows creating up to 50 fabric
+      is 20, as the GUI allows creating up to 20 fabric
       VLANs at a time.
     type: int
-    default: 50
+    default: 20
   sda_fabric_gateway_limit:
     description: Sets the maximum number of anycast
       gateways that can be created or updated at a time
@@ -130,6 +130,74 @@ options:
               environment. By default, it is set to
               False.
             type: bool
+          wireless_flooding_enable:
+            description: Controls wireless flooding behavior for
+              the fabric VLAN, which determines how BUM traffic
+              (Broadcast, Unknown unicast, and Multicast) from
+              wireless clients is handled within the fabric network.
+              When enabled, BUM traffic from wireless clients is
+              flooded across the fabric to ensure proper connectivity
+              and service discovery. When disabled, BUM traffic
+              flooding is suppressed, which can improve network
+              efficiency but may impact certain network services
+              that rely on broadcast or multicast communication.
+              If there is an associated layer 3 virtual network,
+              wireless flooding will default to false and can only
+              be set to true when fabric-enabled wireless is also
+              enabled. If there is no associated layer 3 virtual
+              network, wireless flooding will match the
+              fabric-enabled wireless setting.
+            type: bool
+            default: false
+          resource_guard_enable:
+            description: A security feature control for fabric VLANs
+              that enables or disables Resource Guard functionality.
+              Resource Guard is a security mechanism that provides
+              protection against unauthorized access to network resources
+              by implementing additional security controls and access
+              restrictions at the VLAN level within the fabric network.
+              When enabled, it enhances the security posture of the
+              fabric VLAN by enforcing stricter access policies and
+              monitoring capabilities. If the VLAN is not associated
+              with a layer 3 virtual network, this field must be set
+              to false as the security controls require L3VN integration
+              for proper functionality.
+            type: bool
+            default: false
+          flooding_address_assignment:
+            description: Controls the source configuration for flooding
+              addresses used in layer 2 flooding within the fabric VLAN.
+              This parameter determines whether the layer 2 virtual network
+              uses a 'SHARED' flooding address from the parent fabric or a
+              'CUSTOM' address specific to this virtual network. Two
+              options are available - "SHARED" means that the layer 2
+              virtual network will inherit the flooding address from
+              the parent fabric configuration, ensuring consistency
+              across the fabric. "CUSTOM" allows the layer 2 virtual
+              network to use a different flooding address for specific
+              use cases or network segmentation requirements. When set
+              to "CUSTOM", you must also provide a valid flooding_address
+              parameter.
+            type: str
+            choices: ["SHARED", "CUSTOM"]
+            default: "SHARED"
+          flooding_address:
+            description: Specifies a custom multicast IP address for layer 2
+              flooding operations within the fabric VLAN. This parameter defines
+              the multicast address used when the fabric needs to flood traffic
+              to all ports in the VLAN for unknown unicast, broadcast, or
+              multicast frames. The IP address must be in the 239.0.0.0/8
+              multicast range (239.0.0.1 through 239.255.255.255) to ensure
+              proper multicast behavior and compliance with RFC standards.
+              This property is applicable only when the flooding_address_assignment
+              is set to "CUSTOM". If flooding_address_assignment is "SHARED",
+              this parameter will be ignored as the flooding address is inherited
+              from the parent fabric configuration. The address should be unique
+              within your network topology to avoid multicast conflicts and
+              ensure proper traffic isolation between different VLANs or fabric
+              segments.
+            type: str
+            required: false
           associated_layer3_virtual_network:
             description: Name of the layer3 virtual
               network associated with the layer2 fabric
@@ -319,12 +387,80 @@ options:
               to INFRA_VN.
             type: bool
             default: false
+          flooding_address_assignment:
+            description: Controls the source configuration for flooding
+                addresses used in layer 2 flooding within the anycast gateway.
+                This parameter determines whether the virtual network uses
+                a 'SHARED' flooding address from the parent fabric or a
+                'CUSTOM' address specific to this virtual network. Two
+                options are available - "SHARED" means that the layer 2
+                virtual network will inherit the flooding address from
+                the parent fabric configuration, ensuring consistency
+                across the fabric. "CUSTOM" allows the layer 2 virtual
+                network to use a different flooding address for specific
+                use cases or network segmentation requirements. When set
+                to "CUSTOM", you must also provide a valid flooding_address
+                parameter. This field is not applicable to INFRA_VN.
+            type: str
+            choices: ["SHARED", "CUSTOM"]
+            default: "SHARED"
+          flooding_address:
+            description: Specifies a custom multicast IP address for layer 2
+              flooding operations within the anycast gateway. This parameter defines
+              the multicast address used when the fabric needs to flood traffic
+              to all ports in the VLAN for unknown unicast, broadcast, or
+              multicast frames. The IP address must be in the 239.0.0.0/8
+              multicast range (239.0.0.1 through 239.255.255.255) to ensure
+              proper multicast behavior and compliance with RFC standards.
+              This property is applicable only when the flooding_address_assignment
+              is set to "CUSTOM". If flooding_address_assignment is "SHARED",
+              this parameter will be ignored as the flooding address is inherited
+              from the parent fabric configuration. The address should be unique
+              within your network topology to avoid multicast conflicts and
+              ensure proper traffic isolation between different VLANs or fabric
+              segments. This field is not applicable to INFRA_VN.
+            type: str
+            required: false
           fabric_enabled_wireless:
             description: Specifies whether the anycast
               gateway is enabled for wireless in the
               fabric. By default, this field is set
               to false. This field is not applicable
               to INFRA_VN.
+            type: bool
+            default: false
+          wireless_flooding_enable:
+            description: Controls wireless flooding behavior for
+              the anycast gateway, which determines how BUM traffic
+              (Broadcast, Unknown unicast, and Multicast) from
+              wireless clients is handled within the fabric network.
+              When enabled, BUM traffic from wireless clients is
+              flooded across the fabric to ensure proper connectivity
+              and service discovery. When disabled, BUM traffic
+              flooding is suppressed, which can improve network
+              efficiency but may impact certain network services
+              that rely on broadcast or multicast communication.
+              If there is an associated layer 3 virtual network,
+              wireless flooding will default to false and can only
+              be set to true when fabric-enabled wireless is also
+              enabled. If there is no associated layer 3 virtual
+              network, wireless flooding will match the
+              fabric-enabled wireless setting.
+            type: bool
+          resource_guard_enable:
+            description: A security feature control for anycast gateways
+              that enables or disables Resource Guard functionality.
+              Resource Guard is a security mechanism that provides
+              protection against unauthorized access to network resources
+              by implementing additional security controls and access
+              restrictions at the VLAN level within the fabric network.
+              When enabled, it enhances the security posture of the
+              anycast gateway by enforcing stricter access policies and
+              monitoring capabilities. If the anycast gateway is not associated
+              with a layer 3 virtual network, this field must be set
+              to false as the security controls require L3VN integration
+              for proper functionality.
+              This field is not applicable to INFRA_VN.
             type: bool
             default: false
           ip_directed_broadcast:
@@ -442,6 +578,12 @@ notes:
     ccc_virtual_network.sda.get_reserve_ip_subpool ccc_virtual_network.sda.get_anycast_gateways
     ccc_virtual_network.sda.add_anycast_gateways ccc_virtual_network.sda.update_anycast_gateways
     ccc_virtual_network.sda.delete_anycast_gateway_by_id
+  - New parameters added in the module are
+    wireless_flooding_enable, resource_guard_enable,
+    flooding_address_assignment, flooding_address
+    as part of fabric_vlan and anycast_gateways creation/updation
+    will start supporting from Catalsyt Center
+    with version 3.1.3.0 onwards.
 """
 EXAMPLES = r"""
 ---
@@ -476,6 +618,58 @@ EXAMPLES = r"""
             vlan_id: 1334
             traffic_type: "VOICE"
             fabric_enabled_wireless: false
+
+- name: Create Layer2 Fabric VLAN with wireless flooding, resource guard, and custom
+    L2 flooding address for SDA in Cisco Catalyst Center.
+  cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: false
+    state: merged
+    config:
+      - fabric_vlan:
+          - vlan_name: "vlan_added_params"
+            fabric_site_locations:
+              - site_name_hierarchy: "Global/India/Bangalore"
+                fabric_type: "fabric_site"
+            vlan_id: 1933
+            traffic_type: "VOICE"
+            fabric_enabled_wireless: true
+            wireless_flooding_enable: true
+            resource_guard_enable: true
+            flooding_address_assignment: CUSTOM
+            flooding_address: 239.0.0.1
+
+- name: Update Layer 2 Voice VLAN in Bangalore site to use shared flooding address assignment.
+  cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: false
+    state: merged
+    config:
+      - fabric_vlan:
+          - vlan_name: "vlan_added_params"
+            fabric_site_locations:
+              - site_name_hierarchy: "Global/India/Bangalore"
+                fabric_type: "fabric_site"
+            vlan_id: 1933
+            traffic_type: "VOICE"
+            fabric_enabled_wireless: true
+            resource_guard_enable: true
+            flooding_address_assignment: SHARED# Inherit flooding address from the fabric
+
 - name: Update Layer 2 Fabric VLAN for SDA in Cisco
     Catalyst Center.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
@@ -500,6 +694,7 @@ EXAMPLES = r"""
             vlan_id: 1333
             traffic_type: "VOICE"
             fabric_enabled_wireless: true
+
 - name: Deleting Layer 2 Fabric VLAN from the Cisco
     Catalyst Center.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
@@ -520,6 +715,7 @@ EXAMPLES = r"""
               - site_name_hierarchy: "Global/India/Chennai"
                 fabric_type: "fabric_zone"
             vlan_id: 1333
+
 - name: Create layer3 Virtual Network and anchored the
     site to the VN as well.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
@@ -540,6 +736,7 @@ EXAMPLES = r"""
               - site_name_hierarchy: "Global/India"
                 fabric_type: "fabric_site"
             anchored_site_name: "Global/India"
+
 - name: Create layer3 Virtual Network and extend it
     to multiple fabric sites.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
@@ -561,6 +758,7 @@ EXAMPLES = r"""
                 fabric_type: "fabric_site"
               - site_name_hierarchy: "Global/USA"
                 fabric_type: "fabric_site"
+
 - name: Update layer3 Virtual Network in the Cisco Catalyst
     Center.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
@@ -584,6 +782,7 @@ EXAMPLES = r"""
                 fabric_type: "fabric_site"
               - site_name_hierarchy: "Global/China"
                 fabric_type: "fabric_site"
+
 - name: Removing the fabric sites only from the given
     Virtual Network in the Cisco Catalyst Center.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
@@ -605,6 +804,7 @@ EXAMPLES = r"""
                 fabric_type: "fabric_site"
               - site_name_hierarchy: "Global/USA"
                 fabric_type: "fabric_site"
+
 - name: Deleting Virtual Network from the Cisco Catalyst
     Center and removing fabric sites if any.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
@@ -621,6 +821,7 @@ EXAMPLES = r"""
     config:
       - virtual_networks:
           - vn_name: "vlan_test1"
+
 - name: Create the Anycast gateway(s) for SDA in Catalsyt
     Center.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
@@ -645,6 +846,67 @@ EXAMPLES = r"""
             traffic_type: "DATA"
             is_critical_pool: false
             auto_generate_vlan_name: true
+
+- name: Create Anycast gateway in SDA fabric with new parameters
+    (wireless flooding, resource guard, custom flooding address)
+    in Cisco Catalyst Center
+  cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: false
+    state: merged
+    config:
+      - anycast_gateways:
+          - vn_name: VN_Test
+            fabric_site_location:
+              site_name_hierarchy: Global/India
+              fabric_type: fabric_site
+            ip_pool_name: AB_Pool
+            tcp_mss_adjustment: 701
+            traffic_type: DATA
+            is_critical_pool: false
+            layer2_flooding_enabled: true
+            fabric_enabled_wireless: true
+            wireless_flooding_enable: true
+            resource_guard_enable: false
+            ip_directed_broadcast: false
+            intra_subnet_routing_enabled: false
+            multiple_ip_to_mac_addresses: false
+            supplicant_based_extended_node_onboarding: false
+            group_policy_enforcement_enabled: true
+            flooding_address_assignment: CUSTOM
+            flooding_address: 239.0.0.1
+            auto_generate_vlan_name: true
+
+- name: Update Anycast gateway with shared flooding address
+    and resource guard enabled in Cisco Catalyst Center.
+  cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: false
+    state: merged
+    config:
+      - anycast_gateways:
+          - vn_name: VN_Test
+            fabric_site_location:
+              site_name_hierarchy: Global/India
+              fabric_type: fabric_site
+            ip_pool_name: AB_Pool
+            flooding_address_assignment: SHARED
+            resource_guard_enable: true
+
 - name: Update the Anycast gateway(s) for SDA in Catalsyt
     Center.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
@@ -670,6 +932,7 @@ EXAMPLES = r"""
             is_critical_pool: false
             layer2_flooding_enabled: false
             multiple_ip_to_mac_addresses: false
+
 - name: Deleting Anycast Gateway from the Cisco Catalyst
     Center.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
@@ -778,6 +1041,10 @@ class VirtualNetwork(DnacBase):
                     "site_name_hierarchy": {"type": "str"},
                     "fabric_type": {"type": "str"},
                 },
+                "wireless_flooding_enable": {"type": "bool", "default": False},
+                "resource_guard_enable": {"type": "bool"},
+                "flooding_address_assignment": {"type": "str"},
+                "flooding_address": {"type": "str"},
             },
             "virtual_networks": {
                 "type": "list",
@@ -809,7 +1076,11 @@ class VirtualNetwork(DnacBase):
                 "security_group_name": {"type": "str"},
                 "is_critical_pool": {"type": "bool"},
                 "layer2_flooding_enabled": {"type": "bool"},
+                "flooding_address_assignment": {"type": "str"},
+                "flooding_address": {"type": "str"},
                 "fabric_enabled_wireless": {"type": "bool"},
+                "wireless_flooding_enable": {"type": "bool"},
+                "resource_guard_enable": {"type": "bool"},
                 "ip_directed_broadcast": {"type": "bool"},
                 "intra_subnet_routing_enabled": {"type": "bool"},
                 "multiple_ip_to_mac_addresses": {"type": "bool"},
@@ -1344,6 +1615,11 @@ class VirtualNetwork(DnacBase):
                 - traffic_type (str): The type of traffic, either "DATA" or "VOICE". Defaults to "DATA".
                 - fabric_enabled_wireless (bool): Whether fabric-enabled wireless is enabled for the VLAN.
                 - associated_layer3_virtual_network (str): The associated Layer 3 virtual network name.
+                - wireless_flooding_enable (bool, optional): Whether wireless flooding is enabled.
+                - resource_guard_enable (bool, optional): Whether resource guard is enabled.
+                - flooding_address_assignment (str, optional): How the flooding address is assigned
+                  ("SHARED" or "CUSTOM").
+                - flooding_address (str, optional): The custom flooding address, if assignment is "CUSTOM".
             fabric_id_list (list): A list of fabric IDs where the VLAN configuration will be applied.
         Returns:
             list: A list of dictionaries, each containing the payload required to create or configure the VLAN
@@ -1354,6 +1630,12 @@ class VirtualNetwork(DnacBase):
             and appends the result to the payload list. The function returns the list of payloads, one for each fabric ID.
         """
 
+        self.log(
+            "Creating fabric VLAN payloads for VLAN '{vlan_name}' across {count} fabric(s)".format(
+                vlan_name=vlan.get("vlan_name"), count=len(fabric_id_list)
+            ),
+            "DEBUG",
+        )
         create_vlan_payload_list = []
         traffic_type = vlan.get("traffic_type", "DATA").upper()
         # Validate the given traffic type for Vlan/VN/Anycast configuration.
@@ -1368,6 +1650,26 @@ class VirtualNetwork(DnacBase):
                 "associated_layer3_virtual_network"
             ),
         }
+
+        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+            self.log(
+                "Using new payload structure for fabric VLAN creation in Cisco Catalyst Center.",
+                "DEBUG",
+            )
+            vlan_payload["isWirelessFloodingEnabled"] = vlan.get(
+                "wireless_flooding_enable", False
+            )
+            vlan_payload["isResourceGuardEnabled"] = vlan.get(
+                "resource_guard_enable", False
+            )
+            vlan_payload["layer2FloodingAddressAssignment"] = vlan.get(
+                "flooding_address_assignment", "SHARED"
+            )
+            if vlan_payload["layer2FloodingAddressAssignment"] == "CUSTOM":
+                vlan_payload["layer2FloodingAddress"] = vlan.get(
+                    "flooding_address", None
+                )
+
         self.log(
             "Creating payloads for VLAN '{0}' with ID '{1}' across fabric IDs: {2}".format(
                 vlan_payload["vlanName"], vlan_payload["vlanId"], fabric_id_list
@@ -1380,6 +1682,13 @@ class VirtualNetwork(DnacBase):
             deep_payload_dict["fabricId"] = fabric_id
             create_vlan_payload_list.append(deep_payload_dict)
             del deep_payload_dict
+
+        self.log(
+            "Successfully created {count} payloads for VLAN '{vlan_name}'.".format(
+                count=len(create_vlan_payload_list), vlan_name=vlan.get("vlan_name")
+            ),
+            "DEBUG",
+        )
 
         return create_vlan_payload_list
 
@@ -1399,7 +1708,7 @@ class VirtualNetwork(DnacBase):
             class status accordingly.
         """
 
-        req_limit = self.params.get("sda_fabric_vlan_limit", 50)
+        req_limit = self.params.get("sda_fabric_vlan_limit", 20)
         self.log(
             "API request batch size set to '{0}' for fabric VLAN creation.".format(
                 req_limit
@@ -1454,10 +1763,13 @@ class VirtualNetwork(DnacBase):
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             desired_vlan_config (dict): A dictionary containing the desired VLAN configuration, which may include:
                 - traffic_type (str): The type of traffic for the VLAN (e.g., "DATA", "VOICE").
-                - fabric_enabled_wireless (bool): Indicates whether fabric-enabled wireless is enabled for the VLAN.
-            fabric_vlan_in_ccc (dict): A dictionary representing the current VLAN configuration, which includes:
-                - trafficType (str): The current type of traffic for the VLAN.
-                - isFabricEnabledWireless (bool): The current status of fabric-enabled wireless for the VLAN.
+                - fabric_enabled_wireless (bool): Indicates if fabric-enabled wireless is enabled.
+                - wireless_flooding_enable (bool): Indicates if wireless flooding is enabled.
+                - resource_guard_enable (bool): Indicates if resource guard is enabled.
+                - flooding_address_assignment (str): The assignment method for the flooding address
+                  ('SHARED' or 'CUSTOM').
+                - flooding_address (str): The custom flooding IP address.
+            current_vlan_config (dict): A dictionary representing the current VLAN configuration from Catalyst Center.
         Returns:
             bool: Returns `True` if the VLAN needs to be updated and `False` otherwise.
         Description:
@@ -1466,6 +1778,14 @@ class VirtualNetwork(DnacBase):
             function returns `true`. If both parameters match the current configuration, it returns `false`.
         """
 
+        self.log(
+            "Comparing desired VLAN config '{desired}' with current config '{current}' to determine if an"
+            " update is needed.".format(
+                desired=desired_vlan_config.get("vlan_name"),
+                current=current_vlan_config.get("vlanName"),
+            ),
+            "DEBUG",
+        )
         desired_traffic_type = desired_vlan_config.get("traffic_type")
         current_traffic_type = current_vlan_config.get("trafficType")
 
@@ -1503,6 +1823,75 @@ class VirtualNetwork(DnacBase):
             )
             return True
 
+        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+            self.log(
+                "Using new payload structure for fabric VLAN configuration in Cisco Catalyst Center.",
+                "DEBUG",
+            )
+            wireless_flooding_enable = desired_vlan_config.get("wireless_flooding_enable")
+            if (
+                wireless_flooding_enable is not None
+                and wireless_flooding_enable != current_vlan_config.get(
+                    "isWirelessFloodingEnabled"
+                )
+            ):
+                self.log(
+                    "Wireless flooding setting needs update: desired='{0}', current='{1}'".format(
+                        wireless_flooding_enable,
+                        current_vlan_config.get("isWirelessFloodingEnabled"),
+                    ),
+                    "DEBUG",
+                )
+                return True
+
+            resource_guard_enable = desired_vlan_config.get("resource_guard_enable")
+            if (
+                resource_guard_enable is not None
+                and resource_guard_enable != current_vlan_config.get(
+                    "isResourceGuardEnabled"
+                )
+            ):
+                self.log(
+                    "Resource guard setting needs update: desired='{0}', current='{1}'".format(
+                        resource_guard_enable,
+                        current_vlan_config.get("isResourceGuardEnabled"),
+                    ),
+                    "DEBUG",
+                )
+                return True
+
+            flooding_address_assignment = desired_vlan_config.get(
+                "flooding_address_assignment"
+            )
+            if flooding_address_assignment and flooding_address_assignment != current_vlan_config.get(
+                "layer2FloodingAddressAssignment"
+            ):
+                self.log(
+                    "Flooding address assignment needs update: desired='{0}', current='{1}'".format(
+                        flooding_address_assignment,
+                        current_vlan_config.get("layer2FloodingAddressAssignment"),
+                    ),
+                    "DEBUG",
+                )
+                return True
+
+            flooding_address = desired_vlan_config.get("flooding_address")
+            address_assignment = flooding_address_assignment or current_vlan_config.get(
+                "layer2FloodingAddressAssignment"
+            )
+            if (
+                flooding_address and address_assignment == "CUSTOM"
+                and flooding_address != current_vlan_config.get("layer2FloodingAddress")
+            ):
+                self.log(
+                    "Flooding address needs update: desired='{0}', current='{1}'".format(
+                        flooding_address,
+                        current_vlan_config.get("layer2FloodingAddress"),
+                    ),
+                    "DEBUG",
+                )
+                return True
+
         self.log("No updates required for the fabric VLAN configuration.", "DEBUG")
 
         return False
@@ -1525,7 +1914,12 @@ class VirtualNetwork(DnacBase):
             is structured to include the VLAN ID, fabric ID, traffic type, wireless enablement status, and associated
             Layer3 virtual network name and used to submit an update request to the Cisco Catalyst Center API.
         """
-
+        self.log(
+            "Constructing update payload for VLAN '{vlan_name}' on fabric '{fabric_id}'.".format(
+                vlan_name=new_vlan_config.get("vlan_name"), fabric_id=fabric_id
+            ),
+            "DEBUG",
+        )
         traffic_type = new_vlan_config.get("traffic_type")
         if traffic_type:
             traffic_type = traffic_type.upper()
@@ -1553,6 +1947,69 @@ class VirtualNetwork(DnacBase):
                 "associatedLayer3VirtualNetworkName"
             ),
         }
+
+        if vlan_update_payload.get("associatedLayer3VirtualNetworkName"):
+            vlan_update_payload["isWirelessFloodingEnabled"] = False
+            self.log(
+                "Associated Layer3 Virtual Network is set, disabling wireless flooding for VLAN '{0}'.".format(
+                    vlan_update_payload["vlanName"]
+                ),
+                "DEBUG",
+            )
+
+        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+            self.log(
+                "Using new payload structure for fabric VLAN update in Cisco Catalyst Center.",
+                "DEBUG",
+            )
+            wireless_flooding_enable = new_vlan_config.get("wireless_flooding_enable")
+            if wireless_flooding_enable is None:
+                self.log(
+                    "Parameter 'wireless_flooding_enable' not provided; using current value from Catalyst Center.",
+                    "DEBUG",
+                )
+                wireless_flooding_enable = current_vlan_config.get(
+                    "isWirelessFloodingEnabled"
+                )
+
+            resource_guard_enable = new_vlan_config.get("resource_guard_enable")
+            if resource_guard_enable is None:
+                self.log(
+                    "Parameter 'resource_guard_enable' not provided; using current value from Catalyst Center.",
+                    "DEBUG",
+                )
+                resource_guard_enable = current_vlan_config.get("isResourceGuardEnabled")
+
+            flooding_address_assignment = new_vlan_config.get(
+                "flooding_address_assignment"
+            )
+            if flooding_address_assignment is None:
+                self.log(
+                    "Parameter 'flooding_address_assignment' not provided; using current value from Catalyst Center.",
+                    "DEBUG",
+                )
+                flooding_address_assignment = current_vlan_config.get(
+                    "layer2FloodingAddressAssignment"
+                )
+
+            vlan_update_payload["isWirelessFloodingEnabled"] = wireless_flooding_enable
+            vlan_update_payload["isResourceGuardEnabled"] = resource_guard_enable
+            vlan_update_payload["layer2FloodingAddressAssignment"] = flooding_address_assignment
+
+            if flooding_address_assignment == "CUSTOM":
+                self.log(
+                    "Using 'CUSTOM' flooding address assignment for the VLAN update payload.",
+                    "DEBUG",
+                )
+                flooding_address = new_vlan_config.get("flooding_address")
+                if flooding_address is None:
+                    self.log(
+                        "Parameter 'flooding_address' not provided; using current value from Catalyst Center.",
+                        "DEBUG",
+                    )
+                    flooding_address = current_vlan_config.get("layer2FloodingAddress")
+                vlan_update_payload["layer2FloodingAddress"] = flooding_address
+
         self.log(
             "Constructed update payload for fabric VLAN: {0}".format(
                 vlan_update_payload
@@ -1580,7 +2037,7 @@ class VirtualNetwork(DnacBase):
             and sets the status to "failed".
         """
 
-        req_limit = self.params.get("sda_fabric_vlan_limit", 50)
+        req_limit = self.params.get("sda_fabric_vlan_limit", 20)
         self.log(
             "API request batch size set to '{0}' for fabric VLAN updation.".format(
                 req_limit
@@ -2666,6 +3123,7 @@ class VirtualNetwork(DnacBase):
             - The `vlan_id` is checked to be within the range of 2 to 4094, excluding the reserved
                 VLAN IDs 1002-1005 and 2046. An error message is logged, and the status is set to
                 "failed" if the `vlan_id` is invalid.
+            - The `flooding_address_assignment` is validated to be either "SHARED" or "CUSTOM".
             If all parameters are valid, a success message is logged indicating successful validation
             of the Anycast Gateway configuration parameters.
         """
@@ -2708,6 +3166,24 @@ class VirtualNetwork(DnacBase):
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
 
+        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+            self.log(
+                "CCC version is 3.1.3 or above, validating additional parameters for Anycast Gateway.",
+                "DEBUG",
+            )
+            flooding_address_assignment = anycast.get("flooding_address_assignment")
+            if flooding_address_assignment and flooding_address_assignment not in [
+                "SHARED",
+                "CUSTOM",
+            ]:
+                self.msg = (
+                    "Invalid flooding_address_assignment '{0}' given in the playbook. Allowed values are "
+                    "'SHARED' or 'CUSTOM'."
+                ).format(flooding_address_assignment)
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+
         self.log(
             "Given parameters '{0}' for the configuration of anycast gateway validated successfully.".format(
                 str(anycast)
@@ -2749,6 +3225,10 @@ class VirtualNetwork(DnacBase):
             "multiple_ip_to_mac_addresses": "isMultipleIpToMacAddresses",
             "supplicant_based_extended_node_onboarding": "isSupplicantBasedExtendedNodeOnboarding",
             "group_policy_enforcement_enabled": "isGroupBasedPolicyEnforcementEnabled",
+            "flooding_address_assignment": "layer2FloodingAddressAssignment",
+            "flooding_address": "layer2FloodingAddress",
+            "wireless_flooding_enable": "isWirelessFloodingEnabled",
+            "resource_guard_enable": "isResourceGuardEnabled"
         }
 
         if vn_name == "INFRA_VN":
@@ -2760,12 +3240,35 @@ class VirtualNetwork(DnacBase):
                 "ip_directed_broadcast",
                 "intra_subnet_routing_enabled",
                 "multiple_ip_to_mac_addresses",
+                "flooding_address_assignment",
+                "wireless_flooding_enable",
+                "resource_guard_enable"
             ]
 
             for item in params_to_remove:
                 gateway_mapping.pop(item, None)
                 self.log(
                     "Removing parameter '{0}' from gateway mapping for INFRA_VN.".format(
+                        item
+                    ),
+                    "DEBUG",
+                )
+        elif self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") < 0:
+            self.log(
+                "CCC version is below 3.1.3, removing certain parameters from gateway mapping.",
+                "DEBUG",
+            )
+            params_to_remove = [
+                "flooding_address",
+                "flooding_address_assignment",
+                "wireless_flooding_enable",
+                "resource_guard_enable"
+            ]
+
+            for item in params_to_remove:
+                gateway_mapping.pop(item, None)
+                self.log(
+                    "Removing parameter '{0}' from gateway mapping for versions below 3.1.3.".format(
                         item
                     ),
                     "DEBUG",
@@ -2868,6 +3371,24 @@ class VirtualNetwork(DnacBase):
                     anycast_payload[value] = False
                     self.log("Setting '{0}' to False in payload.".format(key), "DEBUG")
 
+            if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+                self.log(
+                    "CCC version is 3.1.3 or above, checking additional parameters for Anycast Gateway.",
+                    "DEBUG",
+                )
+                flooding_address_assignment = anycast_payload.get(
+                    "layer2FloodingAddressAssignment"
+                )
+                flooding_address = anycast.get("flooding_address")
+                if flooding_address and flooding_address_assignment == "CUSTOM":
+                    anycast_payload["layer2FloodingAddress"] = flooding_address
+                    self.log(
+                        "Adding custom flooding address '{0}' to payload.".format(
+                            flooding_address
+                        ),
+                        "DEBUG",
+                    )
+
         if (
             anycast.get("auto_generate_vlan_name") is True
             or anycast_payload.get("isCriticalPool") is True
@@ -2928,6 +3449,17 @@ class VirtualNetwork(DnacBase):
             "supplicant_based_extended_node_onboarding",
             "group_policy_enforcement_enabled",
         ]
+
+        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+            self.log(
+                "CCC version is 3.1.3 or above, adding additional parameters for Anycast Gateway update checks.",
+                "DEBUG",
+            )
+            update_param_to_check.append("flooding_address_assignment")
+            update_param_to_check.append("flooding_address")
+            update_param_to_check.append("wireless_flooding_enable")
+            update_param_to_check.append("resource_guard_enable")
+
         vn_name = anycast.get("vn_name")
         anycast_mapping = self.get_anycast_gateway_mapping(vn_name)
         self.log(
@@ -2942,6 +3474,10 @@ class VirtualNetwork(DnacBase):
                 "fabric_enabled_wireless",
                 "ip_directed_broadcast",
                 "multiple_ip_to_mac_addresses",
+                "flooding_address_assignment",
+                "flooding_address",
+                "wireless_flooding_enable",
+                "resource_guard_enable",
             ]
             for param in params_to_remove:
                 if param in update_param_to_check:
@@ -2960,6 +3496,24 @@ class VirtualNetwork(DnacBase):
                 "'group_policy_enforcement_enabled'.",
                 "DEBUG",
             )
+            if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+                self.log(
+                    "CCC version is 3.1.3 or above, checking additional parameters for non-INFRA_VN.",
+                    "DEBUG",
+                )
+                flooding_address = anycast.get("flooding_address")
+                address_in_ccc = anycast_details_in_ccc.get("layer2FloodingAddress")
+                update_param_to_check.remove("flooding_address")
+                if flooding_address and anycast_details_in_ccc.get(
+                    "layer2FloodingAddressAssignment"
+                ) == "CUSTOM" and flooding_address != address_in_ccc:
+                    self.log(
+                        "Given flooding address '{0}' does not match the one in CCC '{1}'; gateway needs update.".format(
+                            flooding_address, address_in_ccc
+                        ),
+                        "INFO",
+                    )
+                    return True
 
         if (
             anycast.get("traffic_type")
@@ -3047,6 +3601,7 @@ class VirtualNetwork(DnacBase):
                 "ip_directed_broadcast",
                 "multiple_ip_to_mac_addresses",
             ]
+
             for param in params_to_remove:
                 if param in params_in_playbook:
                     params_in_playbook.remove(param)
@@ -3101,6 +3656,49 @@ class VirtualNetwork(DnacBase):
                         key, anycast_details_in_ccc.get(key)
                     ),
                     "DEBUG",
+                )
+
+        if vn_name != "INFRA_VN" and self.compare_dnac_versions(
+            self.get_ccc_version(), "3.1.3.0"
+        ) >= 0:
+            self.log(
+                "Catalyst version {0} supports new Anycast Gateway parameters; processing them."
+                .format(self.get_ccc_version()),
+                "DEBUG",
+            )
+            self.log(
+                "Processing additional parameters for non-INFRA_VN Anycast Gateway.",
+                "DEBUG",
+            )
+            flooding_address_assignment = anycast.get("flooding_address_assignment")
+            anycast_payload["layer2FloodingAddressAssignment"] = (
+                flooding_address_assignment
+                or anycast_details_in_ccc.get("layer2FloodingAddressAssignment", "SHARED")
+            )
+
+            flooding_address = anycast.get("flooding_address")
+            if flooding_address_assignment == "CUSTOM":
+                anycast_payload["layer2FloodingAddress"] = flooding_address or anycast_details_in_ccc.get(
+                    "layer2FloodingAddress"
+                )
+
+            wireless_flooding_enable = anycast.get("wireless_flooding_enable")
+            fabric_enabled_wireless = anycast_payload.get("isWirelessPool") or anycast_details_in_ccc.get(
+                "isWirelessPool"
+            )
+            if fabric_enabled_wireless and fabric_enabled_wireless is True:
+                anycast_payload["isWirelessFloodingEnabled"] = (
+                    wireless_flooding_enable
+                    if wireless_flooding_enable is not None
+                    else anycast_details_in_ccc.get("isWirelessFloodingEnabled", False)
+                )
+
+            resource_guard_enable = anycast.get("resource_guard_enable")
+            if resource_guard_enable is not None:
+                anycast_payload["isResourceGuardEnabled"] = resource_guard_enable
+            else:
+                anycast_payload["isResourceGuardEnabled"] = anycast_details_in_ccc.get(
+                    "isResourceGuardEnabled", False
                 )
 
         self.log(
@@ -3389,6 +3987,16 @@ class VirtualNetwork(DnacBase):
                     "Required parameter(s) '{0}' are missing and they must be given in the playbook in order to  "
                     "perform any layer2 fabric vlan operation in Cisco Catalyst Center."
                 ).format(missing_required_param)
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+
+            flooding_address_assignment = vlan.get("flooding_address_assignment")
+            if flooding_address_assignment and flooding_address_assignment not in ["SHARED", "CUSTOM"]:
+                self.msg = (
+                    "Invalid flooding_address_assignment '{0}' given in the playbook. Allowed values are "
+                    "'SHARED' or 'CUSTOM'."
+                ).format(flooding_address_assignment)
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
                 ).check_return_status()
@@ -4477,10 +5085,20 @@ class VirtualNetwork(DnacBase):
                     "DEBUG",
                 )
                 fabric_ids = self.get_fabric_ids(fabric_locations)
-                fabric_ids_in_ccc = vn_in_ccc.get("fabricIds")
                 if not fabric_ids:
+                    self.absent_virtual_networks.append(vn_name + " with fabric sites: " + str(fabric_locations))
                     self.log(
                         "No fabric IDs found for the provided locations so cannot remove any site.",
+                        "WARNING",
+                    )
+                    continue
+
+                fabric_ids_in_ccc = vn_in_ccc.get("fabricIds")
+                if not fabric_ids_in_ccc:
+                    self.absent_virtual_networks.append(vn_name + " with fabric sites: " + str(fabric_locations))
+                    self.log(
+                        "No fabric IDs found in the Catalyst Center for the VN {0} against "
+                        "the fabric_ids: {1}".format(vn_name, fabric_ids),
                         "WARNING",
                     )
                     continue
@@ -4560,8 +5178,12 @@ class VirtualNetwork(DnacBase):
                             ),
                             "DEBUG",
                         )
+                        removed_vn_site_list.append(fabric_id)
                         fabric_ids_in_ccc.remove(fabric_id)
 
+                self.removed_vn_sites.append(
+                    vn_name + ": " + str(removed_vn_site_list)
+                )
                 vn_in_ccc["fabricIds"] = fabric_ids_in_ccc
                 # Call the update API to remove the fabric sites from the given virtual network
                 self.update_virtual_networks([vn_in_ccc]).check_return_status()
@@ -4668,6 +5290,7 @@ class VirtualNetwork(DnacBase):
             deletions and any gateways that could not be found, ensuring clarity and traceability of actions taken within
             the Cisco Catalyst Center.
         """
+        self.log("Starting the process to delete anycast gateways from Cisco Catalyst Center.", "INFO")
         anchored_gateway_dict = {}
 
         for anycast in anycast_gateways:
@@ -4686,6 +5309,11 @@ class VirtualNetwork(DnacBase):
                 ).check_return_status()
 
             fabric_type = anycast.get("fabric_site_location").get("fabric_type")
+            self.log(
+                f"Processing Anycast Gateway: VN='{vn_name}', IP Pool='{ip_pool_name}', "
+                f"Site='{site_name}', Fabric Type='{fabric_type}'.",
+                "DEBUG",
+            )
 
             if fabric_type == "fabric_site":
                 fabric_id = self.get_fabric_site_id(site_name, site_id)
@@ -4694,6 +5322,19 @@ class VirtualNetwork(DnacBase):
 
             # Collect the gateway id with combination of vn_name, ip_pool_name and fabric id
             unique_anycast = vn_name + "_" + ip_pool_name + "_" + site_name
+            if not fabric_id:
+                self.absent_anycast_gateways.append(unique_anycast)
+                self.log(
+                    f"Anycast Gateway '{unique_anycast}' is not associated with a valid Fabric ID in the Catalyst Center. "
+                    f"Fabric Type: '{fabric_type}', Site: '{site_name}'. Skipping deletion.",
+                    "INFO",
+                )
+                continue
+
+            self.log(
+                f"Checking if IP Pool '{ip_pool_name}' exists in site '{site_name}' (Fabric Type: {fabric_type}).",
+                "DEBUG",
+            )
             is_pool_exist = self.is_ip_pool_exist(ip_pool_name, site_id)
             self.log(
                 "Checking if given ip pool '{0}' already deleted from the Cisco Catalyst Center "
@@ -5310,7 +5951,7 @@ def main():
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "sda_fabric_vlan_limit": {"type": "int", "default": 50},
+        "sda_fabric_vlan_limit": {"type": "int", "default": 20},
         "sda_fabric_gateway_limit": {"type": "int", "default": 20},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},

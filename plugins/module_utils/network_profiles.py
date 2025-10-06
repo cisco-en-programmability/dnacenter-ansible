@@ -355,7 +355,7 @@ class NetworkProfileFunctions(DnacBase):
                  format(template_name, template_id, profile_name, profile_id), "INFO")
         function_name = "detach_a_list_of_network_profiles_from_a_day_n_cli_template"
         profile_payload = {
-            "profileId": profile_id,
+            "profile_id": profile_id,
             "template_id": template_id
         }
         try:
@@ -389,7 +389,7 @@ class NetworkProfileFunctions(DnacBase):
         template_response = []
 
         for each_template in templates:
-            template_name = each_template.get("name")
+            template_name = each_template.get("template_name")
             self.log("Checking template: {0}".format(template_name), "DEBUG")
 
             template_exist = each_template.get("template_exist")
@@ -405,8 +405,15 @@ class NetworkProfileFunctions(DnacBase):
             if not previous_templates:
                 self.log("No previous templates to check, attaching '{0}'.".format(
                     template_name), "DEBUG")
-                template_response.append(self.attach_networkprofile_cli_template(
-                    profile_name, profile_id, template_name, template_id))
+
+                template_status = self.attach_networkprofile_cli_template(
+                    profile_name, profile_id, template_name, template_id)
+                if template_status.get("progress"):
+                    msg = "Template '{0}' successfully attached to the network profile".format(
+                        template_name
+                    )
+                    template_response.append(msg)
+
                 continue  # Continue to the next template
 
             # If template already exists in previous templates, skip it
@@ -418,8 +425,14 @@ class NetworkProfileFunctions(DnacBase):
             # Otherwise, attach the template
             self.log("Template '{0}' not found in previous templates, attaching..".format(
                 template_name), "DEBUG")
-            template_response.append(self.attach_networkprofile_cli_template(
-                profile_name, profile_id, template_name, template_id))
+            template_status = self.attach_networkprofile_cli_template(
+                profile_name, profile_id, template_name, template_id)
+
+            if template_status.get("progress"):
+                msg = "Template '{0}' successfully attached to the network profile".format(
+                    template_name
+                )
+                template_response.append(msg)
 
         self.log("Finished processing templates. Total attached: {0}".format(
             len(template_response)), "DEBUG")
@@ -503,7 +516,9 @@ class NetworkProfileFunctions(DnacBase):
                                 matched_template.append(template)
 
                 if matched_template and data_list and\
-                   len(matched_template) == len(data_list) and not un_match_template:
+                   len(matched_template) <= len(data_list) and not un_match_template:
+                    self.log("Given templates: {0} are matched with existing template: {1}".
+                             format(data_list, each_config.get(template_type)), "DEBUG")
                     return True, matched_template
 
                 if not matched_template and not each_config.get("onboarding_templates") and not each_config.get("day_n_templates"):
@@ -784,3 +799,76 @@ class NetworkProfileFunctions(DnacBase):
                     seen.add(value)
 
         return list(duplicates)
+
+    def deduplicate_list_of_dict(self, list_of_dicts):
+        """
+        Removes duplicate dictionaries from a list.
+
+        Args:
+            list_of_dicts (list): A list of dictionaries to deduplicate.
+
+        Returns:
+            list: A list of unique dictionaries (duplicates removed).
+
+        Description:
+            Iterates through a list of dictionaries and removes duplicates based on their content.
+            Uses a content-based comparison approach where dictionaries with identical key-value pairs
+            are considered duplicates. The first occurrence of each unique dictionary is preserved.
+            Empty lists and non-list inputs are handled gracefully.
+        """
+        self.log("Initiating deduplication process for dictionary list", "DEBUG")
+
+        # Input validation
+        if not isinstance(list_of_dicts, list):
+            self.log("Input is not a list, returning empty list. Input type: {0}".format(
+                type(list_of_dicts).__name__), "WARNING")
+            return []
+
+        if not list_of_dicts:
+            self.log("Empty list provided for deduplication - returning empty list", "DEBUG")
+            return []
+
+        original_count = len(list_of_dicts)
+        self.log("Starting deduplication for list with {0} dictionaries: {1}".format(
+            original_count, self.pprint(list_of_dicts)), "DEBUG")
+
+        seen = set()
+        unique_dicts = []
+        duplicates_found = 0
+
+        for index, d in enumerate(list_of_dicts):
+            # Validate that each item is a dictionary
+            if not isinstance(d, dict):
+                self.log("Skipping non-dictionary item at index {0}: {1} (type: {2})".format(
+                    index, d, type(d).__name__), "WARNING")
+                continue
+
+            # Convert dictionary to a tuple of sorted items (hashable representation)
+            try:
+                identifier = tuple(sorted(d.items()))
+            except TypeError as e:
+                self.log("Cannot create hashable identifier for dictionary at index {0}: {1}. Error: {2}".format(
+                    index, d, str(e)), "WARNING")
+                # For unhashable values, fall back to string representation
+                identifier = str(sorted(d.items()))
+
+            if identifier not in seen:
+                seen.add(identifier)
+                unique_dicts.append(d)
+                self.log("Added unique dictionary at index {0} to result list".format(index), "DEBUG")
+            else:
+                duplicates_found += 1
+                self.log("Found duplicate dictionary at index {0} - skipping".format(index), "DEBUG")
+
+        final_count = len(unique_dicts)
+
+        if duplicates_found > 0:
+            self.log("Deduplication completed: removed {0} duplicate(s) from {1} total items. Final count: {2}".format(
+                duplicates_found, original_count, final_count), "INFO")
+        else:
+            self.log("Deduplication completed: no duplicates found in {0} items".format(
+                original_count), "DEBUG")
+
+        self.log("Deduplicated list result: {0}".format(self.pprint(unique_dicts)), "DEBUG")
+
+        return unique_dicts
