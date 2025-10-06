@@ -53,6 +53,11 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
     playbook_backup_schedule_alreadydeleted1 = test_data.get("playbook_backup_schedule_alreadydeleted1")
     playbook_delete_backup_schedule = test_data.get("playbook_delete_backup_schedule")
     playbook_backup_schedule_alreadyexists = test_data.get("playbook_backup_schedule_alreadyexists")
+    playbook_delete_backup_timestamp = test_data.get("playbook_delete_backup_timestamp")
+    playbook_delete_all_backup = test_data.get("playbook_delete_all_backup")
+    playbook_no_backup_todelete = test_data.get("playbook_no_backup_todelete")
+    playbook_no_backup_todelete = test_data.get("playbook_no_backup_todelete")
+    playbook_generate_new_backup = test_data.get("playbook_generate_new_backup")
 
     def setUp(self):
         super(TestDnacApplicationPolicyWorkflowManager, self).setUp()
@@ -201,6 +206,42 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 self.test_data.get("get_all_backup16"),
                 self.test_data.get("get_all_n_f_s_configurations29"),
                 self.test_data.get("get_all_backup17"),
+            ]
+
+        elif "playbook_delete_backup_timestamp" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_all_n_f_s_configurations33"),
+                self.test_data.get("get_all_backup33"),
+                self.test_data.get("get_all_n_f_s_configurations34"),
+                self.test_data.get("get_all_backup34"),
+            ]
+
+        elif "playbook_delete_all_backup" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_all_n_f_s_configurations35"),
+                self.test_data.get("get_all_backup35"),
+                self.test_data.get("delete_backup35"),
+                self.test_data.get("get_backup_and_restore_execution35"),
+                self.test_data.get("get_backup_and_restore_execution36"),
+                self.test_data.get("get_all_n_f_s_configurations36"),
+                self.test_data.get("get_all_backup36"),
+            ]
+
+        elif "playbook_no_backup_todelete" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_all_n_f_s_configurations37"),
+                self.test_data.get("get_all_backup37"),
+                self.test_data.get("get_all_n_f_s_configurations38"),
+                self.test_data.get("get_all_backup38"),
+            ]
+
+        elif "playbook_generate_new_backup" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_all_n_f_s_configurations39"),
+                self.test_data.get("get_all_backup39"),
+                self.test_data.get("create_backup"),
+                self.test_data.get("get_backup_and_restore_execution39"),
+                self.test_data.get("get_backup_and_restore_execution40"),
             ]
 
     def test_backup_and_restore_workflow_manager_playbook_create_schedule_backup(self):
@@ -816,4 +857,103 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             "Backup 'BACKUP24_07' already exists."
+        )
+
+    def test_backup_and_restore_workflow_manager_playbook_delete_backup_timestamp(self):
+        """
+        Test case for handling backup deletion with timestamp.
+        Verifies that the workflow manager correctly identifies the backup to delete
+        based on the provided timestamp.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="deleted",
+                config_verify=True,
+                dnac_version="3.1.3.0",
+                config=self.playbook_delete_backup_timestamp
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "No backups found with prefix 'BACKUP03_10' older than timestamp '20251003_133323'."
+        )
+
+    def test_backup_and_restore_workflow_manager_playbook_delete_all_backup(self):
+        """
+        Test case for handling deletion of all backups.
+        Verifies that the workflow manager correctly identifies and deletes all backups.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="deleted",
+                config_verify=True,
+                dnac_version="3.1.3.0",
+                config=self.playbook_delete_all_backup
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "All Backup(s) 'BACKUP03_10_20251003_165205' deleted successfully from Cisco Catalyst Center."
+        )
+
+    def test_backup_and_restore_workflow_manager_playbook_no_backup_todelete(self):
+        """
+        Test case for handling no backup to delete scenario.
+        Verifies that the workflow manager correctly identifies when there are no backups to delete.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="deleted",
+                config_verify=True,
+                dnac_version="3.1.3.0",
+                config=self.playbook_no_backup_todelete
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "No backup available in Cisco Catalyst Center to delete."
+        )
+
+    def test_backup_and_restore_workflow_manager_playbook_generate_new_backup(self):
+        """
+        Test case for handling no backup to delete scenario.
+        Verifies that the workflow manager correctly identifies when there are no backups to delete.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="3.1.3.0",
+                config=self.playbook_generate_new_backup
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "An error occurred while creating backup: "
+            "{'msg': \"Creation of backup 'BACKUP05_10' failed\", "
+            "'response': \"Creation of backup 'BACKUP05_10' failed\", 'failed': True}"
         )

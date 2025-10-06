@@ -8291,5 +8291,2788 @@
     "filter": {
       
     }
+  },
+
+  "playbook_delete_backup_timestamp": [
+      {
+          "backup_job_creation": [
+              {
+                  "delete_all_backup": false,
+                  "deletion_timestamp": "20251003_133323",
+                  "name": "BACKUP03_10"
+              }
+          ]
+      }
+  ],
+  "get_all_n_f_s_configurations33": {
+    "version": "2.0",
+    "response": [
+      {
+        "id": "3648a5e6-f9d9-42fb-a66f-32beec8387e6",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB17"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "7b960aea-b2ef-4f19-969b-aa16eb608223",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB30"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-b42b9005-d788-596e-a2e7-cb9d89f7466e",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "9aa86409-69ff-4e5c-8a7b-68b8d40fa142",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "10.195.189.95",
+          "serverType": "NFS",
+          "sourcePath": "/data/nfsshare/iac"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-13fdd4b5-e0bf-54a3-92a1-e296ecda3e0c",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "d9ceef12-5979-4a73-8772-d72989206d71",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB18"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      }
+    ]
+  },
+  "get_all_backup33": {
+    "version": "2.0",
+    "response": [
+      {
+        "name": "BACKUP03_10_20251003_133323",
+        "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE",
+        "versions": [
+          "mks-upgrade:3.1.59",
+          "core-platform:0.10.186",
+          "managed-services-shared:0.10.18",
+          "gateway:0.10.8-1",
+          "core-addons:0.10.40",
+          "iam:5.4.39",
+          "harbor-ui:3.5.141",
+          "idm-ui-plugin:5.4.24",
+          "data-ingestion-infra:6.6.15",
+          "data-contextstore:6.6.10",
+          "data-analytics-infra:6.6.123",
+          "data-platform-pipeline-infra:6.6.123",
+          "data-store-management:6.6.41",
+          "data-platform-ui:6.6.101",
+          "cloud-connectivity-datahub:6.10.22",
+          "cloud-connectivity:6.10.10",
+          "dnacaap:6.9.41",
+          "dnac-search:6.9.3",
+          "system-management-operations:1.6.42",
+          "telemetry:4.7.17",
+          "cloud-connectivity-sense:7.0.7",
+          "digestor:7.0.4",
+          "rca-scripts:0.5.6",
+          "platform-refresh:1.3.31",
+          "catalyst-center-api-catalog:6.8.91",
+          "b2b-upgrade:2.732.65192",
+          "system-commons:2.732.65192",
+          "ise-bridge:3.130.14",
+          "ncp:2.732.65192",
+          "assurance-base-analytics:3.150.100154",
+          "appsvc-remediation:3.15.0",
+          "assurance:3.150.111",
+          "ai-network-analytics:4.0.30",
+          "ssa:2.732.1095081",
+          "aca:2.732.65192",
+          "group-based-policy-analytics:3.150.1",
+          "sda:2.732.65192",
+          "app-visibility-and-policy:2.732.117578",
+          "endpoint-analytics:1.11.1540",
+          "rogue-management:3.1.200",
+          "app-hosting:2.3.225061205",
+          "sea-app-package:2.732.685005",
+          "icap:2.732.65192",
+          "sensor-automation:2.732.65192",
+          "sensor-assurance:3.150.109",
+          "disaster-recovery:2.732.365010",
+          "support-services:2.730.885298",
+          "multi-dnac-enablement:2.732.65192"
+        ],
+        "id": "7b0d42c9-eda3-4ddf-9f28-13776feea8f4",
+        "size": 0,
+        "createdDate": "2025-10-03T08:03:24Z",
+        "isBackupAvailable": false,
+        "isCompatible": false,
+        "context": {
+          "type": "ON_DEMAND",
+          "schedule": ""
+        },
+        "storage": {
+          "type": "NFS",
+          "mountPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
+          "id": "ff131865-4f07-43f6-a320-71540b24b37d",
+          "name": "",
+          "host": "",
+          "serverPath": ""
+        },
+        "status": "FAILED",
+        "endDate": "2025-10-03T08:04:28Z",
+        "createdBy": "Anonymous",
+        "duration": 64,
+        "releaseName": "uber-dnac",
+        "releaseDisplayName": "Cisco Catalyst Center",
+        "releaseVersion": "",
+        "releaseDisplayVersion": "3.1.5-75038",
+        "installedPackages": [
+          {
+            "name": "mks-upgrade",
+            "displayName": "System",
+            "version": "3.1.59"
+          },
+          {
+            "name": "core-platform",
+            "displayName": "Core Platform",
+            "version": "0.10.186"
+          },
+          {
+            "name": "managed-services-shared",
+            "displayName": "Shared Managed Services",
+            "version": "0.10.18"
+          },
+          {
+            "name": "gateway",
+            "displayName": "Catalyst Center Gateway Service",
+            "version": "0.10.8-1"
+          },
+          {
+            "name": "core-addons",
+            "displayName": "System Addons",
+            "version": "0.10.40"
+          },
+          {
+            "name": "iam",
+            "displayName": "Identity and Access Management",
+            "version": "5.4.39"
+          },
+          {
+            "name": "harbor-ui",
+            "displayName": "Cisco Catalyst Center UI",
+            "version": "3.5.141"
+          },
+          {
+            "name": "idm-ui-plugin",
+            "displayName": "Identity and Access Management - UI",
+            "version": "5.4.24"
+          },
+          {
+            "name": "data-ingestion-infra",
+            "displayName": "Network Data Platform - Ingestion Infra",
+            "version": "6.6.15"
+          },
+          {
+            "name": "data-contextstore",
+            "displayName": "Network Data Platform - Caching Infra",
+            "version": "6.6.10"
+          },
+          {
+            "name": "data-analytics-infra",
+            "displayName": "Network Data Platform - Core",
+            "version": "6.6.123"
+          },
+          {
+            "name": "data-platform-pipeline-infra",
+            "displayName": "Network Data Platform - Pipeline Infra",
+            "version": "6.6.123"
+          },
+          {
+            "name": "data-store-management",
+            "displayName": "Network Data Platform - Storage Management",
+            "version": "6.6.41"
+          },
+          {
+            "name": "data-platform-ui",
+            "displayName": "Network Data Platform - Manager",
+            "version": "6.6.101"
+          },
+          {
+            "name": "cloud-connectivity-datahub",
+            "displayName": "DxHub Cloud Connectivity",
+            "version": "6.10.22"
+          },
+          {
+            "name": "cloud-connectivity",
+            "displayName": "Cloud Connectivity",
+            "version": "6.10.10"
+          },
+          {
+            "name": "dnacaap",
+            "displayName": "Cisco Catalyst Center Platform",
+            "version": "6.9.41"
+          },
+          {
+            "name": "dnac-search",
+            "displayName": "Cisco Catalyst Center Global Search",
+            "version": "6.9.3"
+          },
+          {
+            "name": "system-management-operations",
+            "displayName": "System Management Operations",
+            "version": "1.6.42"
+          },
+          {
+            "name": "telemetry",
+            "displayName": "Telemetry",
+            "version": "4.7.17"
+          },
+          {
+            "name": "cloud-connectivity-sense",
+            "displayName": "Cloud Connectivity - Contextual Content",
+            "version": "7.0.7"
+          },
+          {
+            "name": "digestor",
+            "displayName": "Cloud Connectivity - Digestor",
+            "version": "7.0.4"
+          },
+          {
+            "name": "rca-scripts",
+            "displayName": "RCA-Scripts Package",
+            "version": "0.5.6"
+          },
+          {
+            "name": "platform-refresh",
+            "displayName": "Platform Refresh",
+            "version": "1.3.31"
+          },
+          {
+            "name": "catalyst-center-api-catalog",
+            "displayName": "Catalyst Center API Catalog",
+            "version": "6.8.91"
+          },
+          {
+            "name": "b2b-upgrade",
+            "displayName": "",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "system-commons",
+            "displayName": "System Commons",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "ise-bridge",
+            "displayName": "Cisco Identity Services Engine Bridge",
+            "version": "3.130.14"
+          },
+          {
+            "name": "ncp",
+            "displayName": "Network Controller Platform",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "assurance-base-analytics",
+            "displayName": "Network Data Platform - Base Analytics",
+            "version": "3.150.100154"
+          },
+          {
+            "name": "appsvc-remediation",
+            "displayName": "Application and Service Remediation",
+            "version": "3.15.0"
+          },
+          {
+            "name": "assurance",
+            "displayName": "Assurance",
+            "version": "3.150.111"
+          },
+          {
+            "name": "ai-network-analytics",
+            "displayName": "AI Network Analytics",
+            "version": "4.0.30"
+          },
+          {
+            "name": "ssa",
+            "displayName": "Stealthwatch Security Analytics",
+            "version": "2.732.1095081"
+          },
+          {
+            "name": "aca",
+            "displayName": "Access Control Application",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "group-based-policy-analytics",
+            "displayName": "Group Based Policy Analytics",
+            "version": "3.150.1"
+          },
+          {
+            "name": "sda",
+            "displayName": "SD Access",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "app-visibility-and-policy",
+            "displayName": "Application Visibility and Policy",
+            "version": "2.732.117578"
+          },
+          {
+            "name": "endpoint-analytics",
+            "displayName": "AI Endpoint Analytics",
+            "version": "1.11.1540"
+          },
+          {
+            "name": "rogue-management",
+            "displayName": "Rogue and aWIPS",
+            "version": "3.1.200"
+          },
+          {
+            "name": "app-hosting",
+            "displayName": "Application Hosting",
+            "version": "2.3.225061205"
+          },
+          {
+            "name": "sea-app-package",
+            "displayName": "SEA App",
+            "version": "2.732.685005"
+          },
+          {
+            "name": "icap",
+            "displayName": "Automation - Intelligent Capture",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "sensor-automation",
+            "displayName": "Automation - Sensor",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "sensor-assurance",
+            "displayName": "Assurance - Sensor",
+            "version": "3.150.109"
+          },
+          {
+            "name": "disaster-recovery",
+            "displayName": "Disaster Recovery",
+            "version": "2.732.365010"
+          },
+          {
+            "name": "support-services",
+            "displayName": "Support Services",
+            "version": "2.730.885298"
+          },
+          {
+            "name": "multi-dnac-enablement",
+            "displayName": "Multiple Cisco Catalyst Center",
+            "version": "2.732.65192"
+          }
+        ],
+        "numberOfNodes": 1,
+        "productType": "DNAC",
+        "productVersion": "3.732.75038",
+        "internetProtocolVersion": "ipv4",
+        "fipsEnabled": false,
+        "compatibilityError": [
+          {
+            "endDate": "2025-10-03T08:04:55.074Z",
+            "startDate": "2025-10-03T08:04:55.074Z",
+            "serviceName": "System",
+            "namespace": "",
+            "response": {
+              "error": "backups with status FAILED are incompatible.",
+              "status": "not ok"
+            }
+          }
+        ]
+      },
+      {
+        "name": "BACKUP03_10_20251003_165205",
+        "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE",
+        "versions": [
+          "mks-upgrade:3.1.59",
+          "core-platform:0.10.186",
+          "managed-services-shared:0.10.18",
+          "gateway:0.10.8-1",
+          "core-addons:0.10.40",
+          "iam:5.4.39",
+          "harbor-ui:3.5.141",
+          "idm-ui-plugin:5.4.24",
+          "data-ingestion-infra:6.6.15",
+          "data-contextstore:6.6.10",
+          "data-analytics-infra:6.6.123",
+          "data-platform-pipeline-infra:6.6.123",
+          "data-store-management:6.6.41",
+          "data-platform-ui:6.6.101",
+          "cloud-connectivity-datahub:6.10.22",
+          "cloud-connectivity:6.10.10",
+          "dnacaap:6.9.41",
+          "dnac-search:6.9.3",
+          "system-management-operations:1.6.42",
+          "telemetry:4.7.17",
+          "cloud-connectivity-sense:7.0.7",
+          "digestor:7.0.4",
+          "rca-scripts:0.5.6",
+          "platform-refresh:1.3.31",
+          "catalyst-center-api-catalog:6.8.91",
+          "b2b-upgrade:2.732.65192",
+          "system-commons:2.732.65192",
+          "ise-bridge:3.130.14",
+          "ncp:2.732.65192",
+          "assurance-base-analytics:3.150.100154",
+          "appsvc-remediation:3.15.0",
+          "assurance:3.150.111",
+          "ai-network-analytics:4.0.30",
+          "ssa:2.732.1095081",
+          "aca:2.732.65192",
+          "group-based-policy-analytics:3.150.1",
+          "sda:2.732.65192",
+          "app-visibility-and-policy:2.732.117578",
+          "endpoint-analytics:1.11.1540",
+          "rogue-management:3.1.200",
+          "app-hosting:2.3.225061205",
+          "sea-app-package:2.732.685005",
+          "icap:2.732.65192",
+          "sensor-automation:2.732.65192",
+          "sensor-assurance:3.150.109",
+          "disaster-recovery:2.732.365010",
+          "support-services:2.730.885298",
+          "multi-dnac-enablement:2.732.65192"
+        ],
+        "id": "1efb2b97-7245-48c2-b307-63c5c8fbd34b",
+        "size": 0,
+        "createdDate": "2025-10-03T11:22:05Z",
+        "isBackupAvailable": false,
+        "isCompatible": false,
+        "context": {
+          "type": "ON_DEMAND",
+          "schedule": ""
+        },
+        "storage": {
+          "type": "NFS",
+          "mountPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
+          "id": "ff131865-4f07-43f6-a320-71540b24b37d",
+          "name": "",
+          "host": "",
+          "serverPath": ""
+        },
+        "status": "FAILED",
+        "endDate": "2025-10-03T11:23:09Z",
+        "createdBy": "Anonymous",
+        "duration": 64,
+        "releaseName": "uber-dnac",
+        "releaseDisplayName": "Cisco Catalyst Center",
+        "releaseVersion": "",
+        "releaseDisplayVersion": "3.1.5-75038",
+        "installedPackages": [
+          {
+            "name": "mks-upgrade",
+            "displayName": "System",
+            "version": "3.1.59"
+          },
+          {
+            "name": "core-platform",
+            "displayName": "Core Platform",
+            "version": "0.10.186"
+          },
+          {
+            "name": "managed-services-shared",
+            "displayName": "Shared Managed Services",
+            "version": "0.10.18"
+          },
+          {
+            "name": "gateway",
+            "displayName": "Catalyst Center Gateway Service",
+            "version": "0.10.8-1"
+          },
+          {
+            "name": "core-addons",
+            "displayName": "System Addons",
+            "version": "0.10.40"
+          },
+          {
+            "name": "iam",
+            "displayName": "Identity and Access Management",
+            "version": "5.4.39"
+          },
+          {
+            "name": "harbor-ui",
+            "displayName": "Cisco Catalyst Center UI",
+            "version": "3.5.141"
+          },
+          {
+            "name": "idm-ui-plugin",
+            "displayName": "Identity and Access Management - UI",
+            "version": "5.4.24"
+          },
+          {
+            "name": "data-ingestion-infra",
+            "displayName": "Network Data Platform - Ingestion Infra",
+            "version": "6.6.15"
+          },
+          {
+            "name": "data-contextstore",
+            "displayName": "Network Data Platform - Caching Infra",
+            "version": "6.6.10"
+          },
+          {
+            "name": "data-analytics-infra",
+            "displayName": "Network Data Platform - Core",
+            "version": "6.6.123"
+          },
+          {
+            "name": "data-platform-pipeline-infra",
+            "displayName": "Network Data Platform - Pipeline Infra",
+            "version": "6.6.123"
+          },
+          {
+            "name": "data-store-management",
+            "displayName": "Network Data Platform - Storage Management",
+            "version": "6.6.41"
+          },
+          {
+            "name": "data-platform-ui",
+            "displayName": "Network Data Platform - Manager",
+            "version": "6.6.101"
+          },
+          {
+            "name": "cloud-connectivity-datahub",
+            "displayName": "DxHub Cloud Connectivity",
+            "version": "6.10.22"
+          },
+          {
+            "name": "cloud-connectivity",
+            "displayName": "Cloud Connectivity",
+            "version": "6.10.10"
+          },
+          {
+            "name": "dnacaap",
+            "displayName": "Cisco Catalyst Center Platform",
+            "version": "6.9.41"
+          },
+          {
+            "name": "dnac-search",
+            "displayName": "Cisco Catalyst Center Global Search",
+            "version": "6.9.3"
+          },
+          {
+            "name": "system-management-operations",
+            "displayName": "System Management Operations",
+            "version": "1.6.42"
+          },
+          {
+            "name": "telemetry",
+            "displayName": "Telemetry",
+            "version": "4.7.17"
+          },
+          {
+            "name": "cloud-connectivity-sense",
+            "displayName": "Cloud Connectivity - Contextual Content",
+            "version": "7.0.7"
+          },
+          {
+            "name": "digestor",
+            "displayName": "Cloud Connectivity - Digestor",
+            "version": "7.0.4"
+          },
+          {
+            "name": "rca-scripts",
+            "displayName": "RCA-Scripts Package",
+            "version": "0.5.6"
+          },
+          {
+            "name": "platform-refresh",
+            "displayName": "Platform Refresh",
+            "version": "1.3.31"
+          },
+          {
+            "name": "catalyst-center-api-catalog",
+            "displayName": "Catalyst Center API Catalog",
+            "version": "6.8.91"
+          },
+          {
+            "name": "b2b-upgrade",
+            "displayName": "",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "system-commons",
+            "displayName": "System Commons",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "ise-bridge",
+            "displayName": "Cisco Identity Services Engine Bridge",
+            "version": "3.130.14"
+          },
+          {
+            "name": "ncp",
+            "displayName": "Network Controller Platform",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "assurance-base-analytics",
+            "displayName": "Network Data Platform - Base Analytics",
+            "version": "3.150.100154"
+          },
+          {
+            "name": "appsvc-remediation",
+            "displayName": "Application and Service Remediation",
+            "version": "3.15.0"
+          },
+          {
+            "name": "assurance",
+            "displayName": "Assurance",
+            "version": "3.150.111"
+          },
+          {
+            "name": "ai-network-analytics",
+            "displayName": "AI Network Analytics",
+            "version": "4.0.30"
+          },
+          {
+            "name": "ssa",
+            "displayName": "Stealthwatch Security Analytics",
+            "version": "2.732.1095081"
+          },
+          {
+            "name": "aca",
+            "displayName": "Access Control Application",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "group-based-policy-analytics",
+            "displayName": "Group Based Policy Analytics",
+            "version": "3.150.1"
+          },
+          {
+            "name": "sda",
+            "displayName": "SD Access",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "app-visibility-and-policy",
+            "displayName": "Application Visibility and Policy",
+            "version": "2.732.117578"
+          },
+          {
+            "name": "endpoint-analytics",
+            "displayName": "AI Endpoint Analytics",
+            "version": "1.11.1540"
+          },
+          {
+            "name": "rogue-management",
+            "displayName": "Rogue and aWIPS",
+            "version": "3.1.200"
+          },
+          {
+            "name": "app-hosting",
+            "displayName": "Application Hosting",
+            "version": "2.3.225061205"
+          },
+          {
+            "name": "sea-app-package",
+            "displayName": "SEA App",
+            "version": "2.732.685005"
+          },
+          {
+            "name": "icap",
+            "displayName": "Automation - Intelligent Capture",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "sensor-automation",
+            "displayName": "Automation - Sensor",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "sensor-assurance",
+            "displayName": "Assurance - Sensor",
+            "version": "3.150.109"
+          },
+          {
+            "name": "disaster-recovery",
+            "displayName": "Disaster Recovery",
+            "version": "2.732.365010"
+          },
+          {
+            "name": "support-services",
+            "displayName": "Support Services",
+            "version": "2.730.885298"
+          },
+          {
+            "name": "multi-dnac-enablement",
+            "displayName": "Multiple Cisco Catalyst Center",
+            "version": "2.732.65192"
+          }
+        ],
+        "numberOfNodes": 1,
+        "productType": "DNAC",
+        "productVersion": "3.732.75038",
+        "internetProtocolVersion": "ipv4",
+        "fipsEnabled": false,
+        "compatibilityError": [
+          {
+            "endDate": "2025-10-03T11:23:36.405Z",
+            "startDate": "2025-10-03T11:23:36.404Z",
+            "serviceName": "System",
+            "namespace": "",
+            "response": {
+              "error": "backups with status FAILED are incompatible.",
+              "status": "not ok"
+            }
+          }
+        ]
+      }
+    ],
+    "page": {
+      "limit": 50,
+      "offset": 1,
+      "count": 2,
+      "sortBy": [
+        {
+          "name": "startDate",
+          "order": "desc"
+        }
+      ]
+    },
+    "filter": {
+      
+    }
+  },
+  "get_all_n_f_s_configurations34": {
+    "version": "2.0",
+    "response": [
+      {
+        "id": "3648a5e6-f9d9-42fb-a66f-32beec8387e6",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB17"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "7b960aea-b2ef-4f19-969b-aa16eb608223",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB30"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-b42b9005-d788-596e-a2e7-cb9d89f7466e",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "9aa86409-69ff-4e5c-8a7b-68b8d40fa142",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "10.195.189.95",
+          "serverType": "NFS",
+          "sourcePath": "/data/nfsshare/iac"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-13fdd4b5-e0bf-54a3-92a1-e296ecda3e0c",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "d9ceef12-5979-4a73-8772-d72989206d71",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB18"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      }
+    ]
+  },
+  "get_all_backup34": {
+    "version": "2.0",
+    "response": [
+      {
+        "name": "BACKUP03_10_20251003_133323",
+        "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE",
+        "versions": [
+          "mks-upgrade:3.1.59",
+          "core-platform:0.10.186",
+          "managed-services-shared:0.10.18",
+          "gateway:0.10.8-1",
+          "core-addons:0.10.40",
+          "iam:5.4.39",
+          "harbor-ui:3.5.141",
+          "idm-ui-plugin:5.4.24",
+          "data-ingestion-infra:6.6.15",
+          "data-contextstore:6.6.10",
+          "data-analytics-infra:6.6.123",
+          "data-platform-pipeline-infra:6.6.123",
+          "data-store-management:6.6.41",
+          "data-platform-ui:6.6.101",
+          "cloud-connectivity-datahub:6.10.22",
+          "cloud-connectivity:6.10.10",
+          "dnacaap:6.9.41",
+          "dnac-search:6.9.3",
+          "system-management-operations:1.6.42",
+          "telemetry:4.7.17",
+          "cloud-connectivity-sense:7.0.7",
+          "digestor:7.0.4",
+          "rca-scripts:0.5.6",
+          "platform-refresh:1.3.31",
+          "catalyst-center-api-catalog:6.8.91",
+          "b2b-upgrade:2.732.65192",
+          "system-commons:2.732.65192",
+          "ise-bridge:3.130.14",
+          "ncp:2.732.65192",
+          "assurance-base-analytics:3.150.100154",
+          "appsvc-remediation:3.15.0",
+          "assurance:3.150.111",
+          "ai-network-analytics:4.0.30",
+          "ssa:2.732.1095081",
+          "aca:2.732.65192",
+          "group-based-policy-analytics:3.150.1",
+          "sda:2.732.65192",
+          "app-visibility-and-policy:2.732.117578",
+          "endpoint-analytics:1.11.1540",
+          "rogue-management:3.1.200",
+          "app-hosting:2.3.225061205",
+          "sea-app-package:2.732.685005",
+          "icap:2.732.65192",
+          "sensor-automation:2.732.65192",
+          "sensor-assurance:3.150.109",
+          "disaster-recovery:2.732.365010",
+          "support-services:2.730.885298",
+          "multi-dnac-enablement:2.732.65192"
+        ],
+        "id": "7b0d42c9-eda3-4ddf-9f28-13776feea8f4",
+        "size": 0,
+        "createdDate": "2025-10-03T08:03:24Z",
+        "isBackupAvailable": false,
+        "isCompatible": false,
+        "context": {
+          "type": "ON_DEMAND",
+          "schedule": ""
+        },
+        "storage": {
+          "type": "NFS",
+          "mountPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
+          "id": "ff131865-4f07-43f6-a320-71540b24b37d",
+          "name": "",
+          "host": "",
+          "serverPath": ""
+        },
+        "status": "FAILED",
+        "endDate": "2025-10-03T08:04:28Z",
+        "createdBy": "Anonymous",
+        "duration": 64,
+        "releaseName": "uber-dnac",
+        "releaseDisplayName": "Cisco Catalyst Center",
+        "releaseVersion": "",
+        "releaseDisplayVersion": "3.1.5-75038",
+        "installedPackages": [
+          {
+            "name": "mks-upgrade",
+            "displayName": "System",
+            "version": "3.1.59"
+          },
+          {
+            "name": "core-platform",
+            "displayName": "Core Platform",
+            "version": "0.10.186"
+          },
+          {
+            "name": "managed-services-shared",
+            "displayName": "Shared Managed Services",
+            "version": "0.10.18"
+          },
+          {
+            "name": "gateway",
+            "displayName": "Catalyst Center Gateway Service",
+            "version": "0.10.8-1"
+          },
+          {
+            "name": "core-addons",
+            "displayName": "System Addons",
+            "version": "0.10.40"
+          },
+          {
+            "name": "iam",
+            "displayName": "Identity and Access Management",
+            "version": "5.4.39"
+          },
+          {
+            "name": "harbor-ui",
+            "displayName": "Cisco Catalyst Center UI",
+            "version": "3.5.141"
+          },
+          {
+            "name": "idm-ui-plugin",
+            "displayName": "Identity and Access Management - UI",
+            "version": "5.4.24"
+          },
+          {
+            "name": "data-ingestion-infra",
+            "displayName": "Network Data Platform - Ingestion Infra",
+            "version": "6.6.15"
+          },
+          {
+            "name": "data-contextstore",
+            "displayName": "Network Data Platform - Caching Infra",
+            "version": "6.6.10"
+          },
+          {
+            "name": "data-analytics-infra",
+            "displayName": "Network Data Platform - Core",
+            "version": "6.6.123"
+          },
+          {
+            "name": "data-platform-pipeline-infra",
+            "displayName": "Network Data Platform - Pipeline Infra",
+            "version": "6.6.123"
+          },
+          {
+            "name": "data-store-management",
+            "displayName": "Network Data Platform - Storage Management",
+            "version": "6.6.41"
+          },
+          {
+            "name": "data-platform-ui",
+            "displayName": "Network Data Platform - Manager",
+            "version": "6.6.101"
+          },
+          {
+            "name": "cloud-connectivity-datahub",
+            "displayName": "DxHub Cloud Connectivity",
+            "version": "6.10.22"
+          },
+          {
+            "name": "cloud-connectivity",
+            "displayName": "Cloud Connectivity",
+            "version": "6.10.10"
+          },
+          {
+            "name": "dnacaap",
+            "displayName": "Cisco Catalyst Center Platform",
+            "version": "6.9.41"
+          },
+          {
+            "name": "dnac-search",
+            "displayName": "Cisco Catalyst Center Global Search",
+            "version": "6.9.3"
+          },
+          {
+            "name": "system-management-operations",
+            "displayName": "System Management Operations",
+            "version": "1.6.42"
+          },
+          {
+            "name": "telemetry",
+            "displayName": "Telemetry",
+            "version": "4.7.17"
+          },
+          {
+            "name": "cloud-connectivity-sense",
+            "displayName": "Cloud Connectivity - Contextual Content",
+            "version": "7.0.7"
+          },
+          {
+            "name": "digestor",
+            "displayName": "Cloud Connectivity - Digestor",
+            "version": "7.0.4"
+          },
+          {
+            "name": "rca-scripts",
+            "displayName": "RCA-Scripts Package",
+            "version": "0.5.6"
+          },
+          {
+            "name": "platform-refresh",
+            "displayName": "Platform Refresh",
+            "version": "1.3.31"
+          },
+          {
+            "name": "catalyst-center-api-catalog",
+            "displayName": "Catalyst Center API Catalog",
+            "version": "6.8.91"
+          },
+          {
+            "name": "b2b-upgrade",
+            "displayName": "",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "system-commons",
+            "displayName": "System Commons",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "ise-bridge",
+            "displayName": "Cisco Identity Services Engine Bridge",
+            "version": "3.130.14"
+          },
+          {
+            "name": "ncp",
+            "displayName": "Network Controller Platform",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "assurance-base-analytics",
+            "displayName": "Network Data Platform - Base Analytics",
+            "version": "3.150.100154"
+          },
+          {
+            "name": "appsvc-remediation",
+            "displayName": "Application and Service Remediation",
+            "version": "3.15.0"
+          },
+          {
+            "name": "assurance",
+            "displayName": "Assurance",
+            "version": "3.150.111"
+          },
+          {
+            "name": "ai-network-analytics",
+            "displayName": "AI Network Analytics",
+            "version": "4.0.30"
+          },
+          {
+            "name": "ssa",
+            "displayName": "Stealthwatch Security Analytics",
+            "version": "2.732.1095081"
+          },
+          {
+            "name": "aca",
+            "displayName": "Access Control Application",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "group-based-policy-analytics",
+            "displayName": "Group Based Policy Analytics",
+            "version": "3.150.1"
+          },
+          {
+            "name": "sda",
+            "displayName": "SD Access",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "app-visibility-and-policy",
+            "displayName": "Application Visibility and Policy",
+            "version": "2.732.117578"
+          },
+          {
+            "name": "endpoint-analytics",
+            "displayName": "AI Endpoint Analytics",
+            "version": "1.11.1540"
+          },
+          {
+            "name": "rogue-management",
+            "displayName": "Rogue and aWIPS",
+            "version": "3.1.200"
+          },
+          {
+            "name": "app-hosting",
+            "displayName": "Application Hosting",
+            "version": "2.3.225061205"
+          },
+          {
+            "name": "sea-app-package",
+            "displayName": "SEA App",
+            "version": "2.732.685005"
+          },
+          {
+            "name": "icap",
+            "displayName": "Automation - Intelligent Capture",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "sensor-automation",
+            "displayName": "Automation - Sensor",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "sensor-assurance",
+            "displayName": "Assurance - Sensor",
+            "version": "3.150.109"
+          },
+          {
+            "name": "disaster-recovery",
+            "displayName": "Disaster Recovery",
+            "version": "2.732.365010"
+          },
+          {
+            "name": "support-services",
+            "displayName": "Support Services",
+            "version": "2.730.885298"
+          },
+          {
+            "name": "multi-dnac-enablement",
+            "displayName": "Multiple Cisco Catalyst Center",
+            "version": "2.732.65192"
+          }
+        ],
+        "numberOfNodes": 1,
+        "productType": "DNAC",
+        "productVersion": "3.732.75038",
+        "internetProtocolVersion": "ipv4",
+        "fipsEnabled": false,
+        "compatibilityError": [
+          {
+            "endDate": "2025-10-03T08:04:55.074Z",
+            "startDate": "2025-10-03T08:04:55.074Z",
+            "serviceName": "System",
+            "namespace": "",
+            "response": {
+              "error": "backups with status FAILED are incompatible.",
+              "status": "not ok"
+            }
+          }
+        ]
+      },
+      {
+        "name": "BACKUP03_10_20251003_165205",
+        "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE",
+        "versions": [
+          "mks-upgrade:3.1.59",
+          "core-platform:0.10.186",
+          "managed-services-shared:0.10.18",
+          "gateway:0.10.8-1",
+          "core-addons:0.10.40",
+          "iam:5.4.39",
+          "harbor-ui:3.5.141",
+          "idm-ui-plugin:5.4.24",
+          "data-ingestion-infra:6.6.15",
+          "data-contextstore:6.6.10",
+          "data-analytics-infra:6.6.123",
+          "data-platform-pipeline-infra:6.6.123",
+          "data-store-management:6.6.41",
+          "data-platform-ui:6.6.101",
+          "cloud-connectivity-datahub:6.10.22",
+          "cloud-connectivity:6.10.10",
+          "dnacaap:6.9.41",
+          "dnac-search:6.9.3",
+          "system-management-operations:1.6.42",
+          "telemetry:4.7.17",
+          "cloud-connectivity-sense:7.0.7",
+          "digestor:7.0.4",
+          "rca-scripts:0.5.6",
+          "platform-refresh:1.3.31",
+          "catalyst-center-api-catalog:6.8.91",
+          "b2b-upgrade:2.732.65192",
+          "system-commons:2.732.65192",
+          "ise-bridge:3.130.14",
+          "ncp:2.732.65192",
+          "assurance-base-analytics:3.150.100154",
+          "appsvc-remediation:3.15.0",
+          "assurance:3.150.111",
+          "ai-network-analytics:4.0.30",
+          "ssa:2.732.1095081",
+          "aca:2.732.65192",
+          "group-based-policy-analytics:3.150.1",
+          "sda:2.732.65192",
+          "app-visibility-and-policy:2.732.117578",
+          "endpoint-analytics:1.11.1540",
+          "rogue-management:3.1.200",
+          "app-hosting:2.3.225061205",
+          "sea-app-package:2.732.685005",
+          "icap:2.732.65192",
+          "sensor-automation:2.732.65192",
+          "sensor-assurance:3.150.109",
+          "disaster-recovery:2.732.365010",
+          "support-services:2.730.885298",
+          "multi-dnac-enablement:2.732.65192"
+        ],
+        "id": "1efb2b97-7245-48c2-b307-63c5c8fbd34b",
+        "size": 0,
+        "createdDate": "2025-10-03T11:22:05Z",
+        "isBackupAvailable": false,
+        "isCompatible": false,
+        "context": {
+          "type": "ON_DEMAND",
+          "schedule": ""
+        },
+        "storage": {
+          "type": "NFS",
+          "mountPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
+          "id": "ff131865-4f07-43f6-a320-71540b24b37d",
+          "name": "",
+          "host": "",
+          "serverPath": ""
+        },
+        "status": "FAILED",
+        "endDate": "2025-10-03T11:23:09Z",
+        "createdBy": "Anonymous",
+        "duration": 64,
+        "releaseName": "uber-dnac",
+        "releaseDisplayName": "Cisco Catalyst Center",
+        "releaseVersion": "",
+        "releaseDisplayVersion": "3.1.5-75038",
+        "installedPackages": [
+          {
+            "name": "mks-upgrade",
+            "displayName": "System",
+            "version": "3.1.59"
+          },
+          {
+            "name": "core-platform",
+            "displayName": "Core Platform",
+            "version": "0.10.186"
+          },
+          {
+            "name": "managed-services-shared",
+            "displayName": "Shared Managed Services",
+            "version": "0.10.18"
+          },
+          {
+            "name": "gateway",
+            "displayName": "Catalyst Center Gateway Service",
+            "version": "0.10.8-1"
+          },
+          {
+            "name": "core-addons",
+            "displayName": "System Addons",
+            "version": "0.10.40"
+          },
+          {
+            "name": "iam",
+            "displayName": "Identity and Access Management",
+            "version": "5.4.39"
+          },
+          {
+            "name": "harbor-ui",
+            "displayName": "Cisco Catalyst Center UI",
+            "version": "3.5.141"
+          },
+          {
+            "name": "idm-ui-plugin",
+            "displayName": "Identity and Access Management - UI",
+            "version": "5.4.24"
+          },
+          {
+            "name": "data-ingestion-infra",
+            "displayName": "Network Data Platform - Ingestion Infra",
+            "version": "6.6.15"
+          },
+          {
+            "name": "data-contextstore",
+            "displayName": "Network Data Platform - Caching Infra",
+            "version": "6.6.10"
+          },
+          {
+            "name": "data-analytics-infra",
+            "displayName": "Network Data Platform - Core",
+            "version": "6.6.123"
+          },
+          {
+            "name": "data-platform-pipeline-infra",
+            "displayName": "Network Data Platform - Pipeline Infra",
+            "version": "6.6.123"
+          },
+          {
+            "name": "data-store-management",
+            "displayName": "Network Data Platform - Storage Management",
+            "version": "6.6.41"
+          },
+          {
+            "name": "data-platform-ui",
+            "displayName": "Network Data Platform - Manager",
+            "version": "6.6.101"
+          },
+          {
+            "name": "cloud-connectivity-datahub",
+            "displayName": "DxHub Cloud Connectivity",
+            "version": "6.10.22"
+          },
+          {
+            "name": "cloud-connectivity",
+            "displayName": "Cloud Connectivity",
+            "version": "6.10.10"
+          },
+          {
+            "name": "dnacaap",
+            "displayName": "Cisco Catalyst Center Platform",
+            "version": "6.9.41"
+          },
+          {
+            "name": "dnac-search",
+            "displayName": "Cisco Catalyst Center Global Search",
+            "version": "6.9.3"
+          },
+          {
+            "name": "system-management-operations",
+            "displayName": "System Management Operations",
+            "version": "1.6.42"
+          },
+          {
+            "name": "telemetry",
+            "displayName": "Telemetry",
+            "version": "4.7.17"
+          },
+          {
+            "name": "cloud-connectivity-sense",
+            "displayName": "Cloud Connectivity - Contextual Content",
+            "version": "7.0.7"
+          },
+          {
+            "name": "digestor",
+            "displayName": "Cloud Connectivity - Digestor",
+            "version": "7.0.4"
+          },
+          {
+            "name": "rca-scripts",
+            "displayName": "RCA-Scripts Package",
+            "version": "0.5.6"
+          },
+          {
+            "name": "platform-refresh",
+            "displayName": "Platform Refresh",
+            "version": "1.3.31"
+          },
+          {
+            "name": "catalyst-center-api-catalog",
+            "displayName": "Catalyst Center API Catalog",
+            "version": "6.8.91"
+          },
+          {
+            "name": "b2b-upgrade",
+            "displayName": "",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "system-commons",
+            "displayName": "System Commons",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "ise-bridge",
+            "displayName": "Cisco Identity Services Engine Bridge",
+            "version": "3.130.14"
+          },
+          {
+            "name": "ncp",
+            "displayName": "Network Controller Platform",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "assurance-base-analytics",
+            "displayName": "Network Data Platform - Base Analytics",
+            "version": "3.150.100154"
+          },
+          {
+            "name": "appsvc-remediation",
+            "displayName": "Application and Service Remediation",
+            "version": "3.15.0"
+          },
+          {
+            "name": "assurance",
+            "displayName": "Assurance",
+            "version": "3.150.111"
+          },
+          {
+            "name": "ai-network-analytics",
+            "displayName": "AI Network Analytics",
+            "version": "4.0.30"
+          },
+          {
+            "name": "ssa",
+            "displayName": "Stealthwatch Security Analytics",
+            "version": "2.732.1095081"
+          },
+          {
+            "name": "aca",
+            "displayName": "Access Control Application",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "group-based-policy-analytics",
+            "displayName": "Group Based Policy Analytics",
+            "version": "3.150.1"
+          },
+          {
+            "name": "sda",
+            "displayName": "SD Access",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "app-visibility-and-policy",
+            "displayName": "Application Visibility and Policy",
+            "version": "2.732.117578"
+          },
+          {
+            "name": "endpoint-analytics",
+            "displayName": "AI Endpoint Analytics",
+            "version": "1.11.1540"
+          },
+          {
+            "name": "rogue-management",
+            "displayName": "Rogue and aWIPS",
+            "version": "3.1.200"
+          },
+          {
+            "name": "app-hosting",
+            "displayName": "Application Hosting",
+            "version": "2.3.225061205"
+          },
+          {
+            "name": "sea-app-package",
+            "displayName": "SEA App",
+            "version": "2.732.685005"
+          },
+          {
+            "name": "icap",
+            "displayName": "Automation - Intelligent Capture",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "sensor-automation",
+            "displayName": "Automation - Sensor",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "sensor-assurance",
+            "displayName": "Assurance - Sensor",
+            "version": "3.150.109"
+          },
+          {
+            "name": "disaster-recovery",
+            "displayName": "Disaster Recovery",
+            "version": "2.732.365010"
+          },
+          {
+            "name": "support-services",
+            "displayName": "Support Services",
+            "version": "2.730.885298"
+          },
+          {
+            "name": "multi-dnac-enablement",
+            "displayName": "Multiple Cisco Catalyst Center",
+            "version": "2.732.65192"
+          }
+        ],
+        "numberOfNodes": 1,
+        "productType": "DNAC",
+        "productVersion": "3.732.75038",
+        "internetProtocolVersion": "ipv4",
+        "fipsEnabled": false,
+        "compatibilityError": [
+          {
+            "endDate": "2025-10-03T11:23:36.405Z",
+            "startDate": "2025-10-03T11:23:36.404Z",
+            "serviceName": "System",
+            "namespace": "",
+            "response": {
+              "error": "backups with status FAILED are incompatible.",
+              "status": "not ok"
+            }
+          }
+        ]
+      }
+    ],
+    "page": {
+      "limit": 50,
+      "offset": 1,
+      "count": 2,
+      "sortBy": [
+        {
+          "name": "startDate",
+          "order": "desc"
+        }
+      ]
+    },
+    "filter": {
+      
+    }
+  },
+
+  "playbook_delete_all_backup": [
+      {
+          "backup_job_creation": [
+              {
+                  "delete_all_backup": true
+              }
+          ]
+      }
+  ],
+  "get_all_n_f_s_configurations35": {
+    "version": "2.0",
+    "response": [
+      {
+        "id": "3648a5e6-f9d9-42fb-a66f-32beec8387e6",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB17"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "7b960aea-b2ef-4f19-969b-aa16eb608223",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB30"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-b42b9005-d788-596e-a2e7-cb9d89f7466e",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "9aa86409-69ff-4e5c-8a7b-68b8d40fa142",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "10.195.189.95",
+          "serverType": "NFS",
+          "sourcePath": "/data/nfsshare/iac"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-13fdd4b5-e0bf-54a3-92a1-e296ecda3e0c",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "d9ceef12-5979-4a73-8772-d72989206d71",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB18"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      }
+    ]
+  },
+  "get_all_backup35": {
+    "version": "2.0",
+    "response": [
+      {
+        "name": "BACKUP03_10_20251003_165205",
+        "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE",
+        "versions": [
+          "mks-upgrade:3.1.59",
+          "core-platform:0.10.186",
+          "managed-services-shared:0.10.18",
+          "gateway:0.10.8-1",
+          "core-addons:0.10.40",
+          "iam:5.4.39",
+          "harbor-ui:3.5.141",
+          "idm-ui-plugin:5.4.24",
+          "data-ingestion-infra:6.6.15",
+          "data-contextstore:6.6.10",
+          "data-analytics-infra:6.6.123",
+          "data-platform-pipeline-infra:6.6.123",
+          "data-store-management:6.6.41",
+          "data-platform-ui:6.6.101",
+          "cloud-connectivity-datahub:6.10.22",
+          "cloud-connectivity:6.10.10",
+          "dnacaap:6.9.41",
+          "dnac-search:6.9.3",
+          "system-management-operations:1.6.42",
+          "telemetry:4.7.17",
+          "cloud-connectivity-sense:7.0.7",
+          "digestor:7.0.4",
+          "rca-scripts:0.5.6",
+          "platform-refresh:1.3.31",
+          "catalyst-center-api-catalog:6.8.91",
+          "b2b-upgrade:2.732.65192",
+          "system-commons:2.732.65192",
+          "ise-bridge:3.130.14",
+          "ncp:2.732.65192",
+          "assurance-base-analytics:3.150.100154",
+          "appsvc-remediation:3.15.0",
+          "assurance:3.150.111",
+          "ai-network-analytics:4.0.30",
+          "ssa:2.732.1095081",
+          "aca:2.732.65192",
+          "group-based-policy-analytics:3.150.1",
+          "sda:2.732.65192",
+          "app-visibility-and-policy:2.732.117578",
+          "endpoint-analytics:1.11.1540",
+          "rogue-management:3.1.200",
+          "app-hosting:2.3.225061205",
+          "sea-app-package:2.732.685005",
+          "icap:2.732.65192",
+          "sensor-automation:2.732.65192",
+          "sensor-assurance:3.150.109",
+          "disaster-recovery:2.732.365010",
+          "support-services:2.730.885298",
+          "multi-dnac-enablement:2.732.65192"
+        ],
+        "id": "1efb2b97-7245-48c2-b307-63c5c8fbd34b",
+        "size": 0,
+        "createdDate": "2025-10-03T11:22:05Z",
+        "isBackupAvailable": false,
+        "isCompatible": false,
+        "context": {
+          "type": "ON_DEMAND",
+          "schedule": ""
+        },
+        "storage": {
+          "type": "NFS",
+          "mountPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
+          "id": "ff131865-4f07-43f6-a320-71540b24b37d",
+          "name": "",
+          "host": "",
+          "serverPath": ""
+        },
+        "status": "FAILED",
+        "endDate": "2025-10-03T11:23:09Z",
+        "createdBy": "Anonymous",
+        "duration": 64,
+        "releaseName": "uber-dnac",
+        "releaseDisplayName": "Cisco Catalyst Center",
+        "releaseVersion": "",
+        "releaseDisplayVersion": "3.1.5-75038",
+        "installedPackages": [
+          {
+            "name": "mks-upgrade",
+            "displayName": "System",
+            "version": "3.1.59"
+          },
+          {
+            "name": "core-platform",
+            "displayName": "Core Platform",
+            "version": "0.10.186"
+          },
+          {
+            "name": "managed-services-shared",
+            "displayName": "Shared Managed Services",
+            "version": "0.10.18"
+          },
+          {
+            "name": "gateway",
+            "displayName": "Catalyst Center Gateway Service",
+            "version": "0.10.8-1"
+          },
+          {
+            "name": "core-addons",
+            "displayName": "System Addons",
+            "version": "0.10.40"
+          },
+          {
+            "name": "iam",
+            "displayName": "Identity and Access Management",
+            "version": "5.4.39"
+          },
+          {
+            "name": "harbor-ui",
+            "displayName": "Cisco Catalyst Center UI",
+            "version": "3.5.141"
+          },
+          {
+            "name": "idm-ui-plugin",
+            "displayName": "Identity and Access Management - UI",
+            "version": "5.4.24"
+          },
+          {
+            "name": "data-ingestion-infra",
+            "displayName": "Network Data Platform - Ingestion Infra",
+            "version": "6.6.15"
+          },
+          {
+            "name": "data-contextstore",
+            "displayName": "Network Data Platform - Caching Infra",
+            "version": "6.6.10"
+          },
+          {
+            "name": "data-analytics-infra",
+            "displayName": "Network Data Platform - Core",
+            "version": "6.6.123"
+          },
+          {
+            "name": "data-platform-pipeline-infra",
+            "displayName": "Network Data Platform - Pipeline Infra",
+            "version": "6.6.123"
+          },
+          {
+            "name": "data-store-management",
+            "displayName": "Network Data Platform - Storage Management",
+            "version": "6.6.41"
+          },
+          {
+            "name": "data-platform-ui",
+            "displayName": "Network Data Platform - Manager",
+            "version": "6.6.101"
+          },
+          {
+            "name": "cloud-connectivity-datahub",
+            "displayName": "DxHub Cloud Connectivity",
+            "version": "6.10.22"
+          },
+          {
+            "name": "cloud-connectivity",
+            "displayName": "Cloud Connectivity",
+            "version": "6.10.10"
+          },
+          {
+            "name": "dnacaap",
+            "displayName": "Cisco Catalyst Center Platform",
+            "version": "6.9.41"
+          },
+          {
+            "name": "dnac-search",
+            "displayName": "Cisco Catalyst Center Global Search",
+            "version": "6.9.3"
+          },
+          {
+            "name": "system-management-operations",
+            "displayName": "System Management Operations",
+            "version": "1.6.42"
+          },
+          {
+            "name": "telemetry",
+            "displayName": "Telemetry",
+            "version": "4.7.17"
+          },
+          {
+            "name": "cloud-connectivity-sense",
+            "displayName": "Cloud Connectivity - Contextual Content",
+            "version": "7.0.7"
+          },
+          {
+            "name": "digestor",
+            "displayName": "Cloud Connectivity - Digestor",
+            "version": "7.0.4"
+          },
+          {
+            "name": "rca-scripts",
+            "displayName": "RCA-Scripts Package",
+            "version": "0.5.6"
+          },
+          {
+            "name": "platform-refresh",
+            "displayName": "Platform Refresh",
+            "version": "1.3.31"
+          },
+          {
+            "name": "catalyst-center-api-catalog",
+            "displayName": "Catalyst Center API Catalog",
+            "version": "6.8.91"
+          },
+          {
+            "name": "b2b-upgrade",
+            "displayName": "",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "system-commons",
+            "displayName": "System Commons",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "ise-bridge",
+            "displayName": "Cisco Identity Services Engine Bridge",
+            "version": "3.130.14"
+          },
+          {
+            "name": "ncp",
+            "displayName": "Network Controller Platform",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "assurance-base-analytics",
+            "displayName": "Network Data Platform - Base Analytics",
+            "version": "3.150.100154"
+          },
+          {
+            "name": "appsvc-remediation",
+            "displayName": "Application and Service Remediation",
+            "version": "3.15.0"
+          },
+          {
+            "name": "assurance",
+            "displayName": "Assurance",
+            "version": "3.150.111"
+          },
+          {
+            "name": "ai-network-analytics",
+            "displayName": "AI Network Analytics",
+            "version": "4.0.30"
+          },
+          {
+            "name": "ssa",
+            "displayName": "Stealthwatch Security Analytics",
+            "version": "2.732.1095081"
+          },
+          {
+            "name": "aca",
+            "displayName": "Access Control Application",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "group-based-policy-analytics",
+            "displayName": "Group Based Policy Analytics",
+            "version": "3.150.1"
+          },
+          {
+            "name": "sda",
+            "displayName": "SD Access",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "app-visibility-and-policy",
+            "displayName": "Application Visibility and Policy",
+            "version": "2.732.117578"
+          },
+          {
+            "name": "endpoint-analytics",
+            "displayName": "AI Endpoint Analytics",
+            "version": "1.11.1540"
+          },
+          {
+            "name": "rogue-management",
+            "displayName": "Rogue and aWIPS",
+            "version": "3.1.200"
+          },
+          {
+            "name": "app-hosting",
+            "displayName": "Application Hosting",
+            "version": "2.3.225061205"
+          },
+          {
+            "name": "sea-app-package",
+            "displayName": "SEA App",
+            "version": "2.732.685005"
+          },
+          {
+            "name": "icap",
+            "displayName": "Automation - Intelligent Capture",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "sensor-automation",
+            "displayName": "Automation - Sensor",
+            "version": "2.732.65192"
+          },
+          {
+            "name": "sensor-assurance",
+            "displayName": "Assurance - Sensor",
+            "version": "3.150.109"
+          },
+          {
+            "name": "disaster-recovery",
+            "displayName": "Disaster Recovery",
+            "version": "2.732.365010"
+          },
+          {
+            "name": "support-services",
+            "displayName": "Support Services",
+            "version": "2.730.885298"
+          },
+          {
+            "name": "multi-dnac-enablement",
+            "displayName": "Multiple Cisco Catalyst Center",
+            "version": "2.732.65192"
+          }
+        ],
+        "numberOfNodes": 1,
+        "productType": "DNAC",
+        "productVersion": "3.732.75038",
+        "internetProtocolVersion": "ipv4",
+        "fipsEnabled": false,
+        "compatibilityError": [
+          {
+            "endDate": "2025-10-03T11:23:36.405Z",
+            "startDate": "2025-10-03T11:23:36.404Z",
+            "serviceName": "System",
+            "namespace": "",
+            "response": {
+              "error": "backups with status FAILED are incompatible.",
+              "status": "not ok"
+            }
+          }
+        ]
+      }
+    ],
+    "page": {
+      "limit": 50,
+      "offset": 1,
+      "count": 1,
+      "sortBy": [
+        {
+          "name": "startDate",
+          "order": "desc"
+        }
+      ]
+    },
+    "filter": {
+      
+    }
+  },
+  "delete_backup35": {
+    "version": "2.0",
+    "response": {
+      "taskId": "5d4d3a9f-b4c7-4bee-af70-3cea42bdc13e",
+      "url": "/dna/intent/api/v1/backupRestoreExecutions/5d4d3a9f-b4c7-4bee-af70-3cea42bdc13e"
+    }
+  },
+  "get_backup_and_restore_execution35": {
+    "version": "2.0",
+    "response": {
+      "backupId": "1efb2b97-7245-48c2-b307-63c5c8fbd34b",
+      "id": "5d4d3a9f-b4c7-4bee-af70-3cea42bdc13e",
+      "jobType": "DELETE_BACKUP",
+      "status": "IN_PROGRESS",
+      "endDate": "1970-01-01T00:00:00.000Z",
+      "startDate": "2025-10-03T12:01:53.656Z",
+      "createdBy": "Anonymous",
+      "errorMessage": "",
+      "errorCode": "",
+      "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE",
+      "isForceUpdate": false,
+      "updateMessage": "",
+      "failedTaskDetail": {
+        
+      },
+      "systemErrorMessage": "",
+      "completedPercentage": 0,
+      "_metadata": null,
+      "tasks": [
+        {
+          "id": "534bb2a1-40c3-4d7e-9b7f-2b221c43e345",
+          "taskName": "initialize Values",
+          "status": "SUCCESS",
+          "endDate": "2025-10-03T12:01:53.668Z",
+          "startDate": "2025-10-03T12:01:53.657Z",
+          "message": "",
+          "failedTaskDetail": {
+            
+          }
+        },
+        {
+          "id": "f353f6ba-2ac6-47eb-8944-0b47ad675313",
+          "taskName": "Trigger",
+          "status": "SUCCESS",
+          "endDate": "2025-10-03T12:01:53.657Z",
+          "startDate": "2025-10-03T12:01:53.657Z",
+          "message": "",
+          "failedTaskDetail": {
+            
+          }
+        },
+        {
+          "id": "73f5e2ce-a341-42e6-b5eb-bbd500b5ae07",
+          "taskName": "Validate Disk Reachability",
+          "status": "SUCCESS",
+          "endDate": "2025-10-03T12:01:53.694Z",
+          "startDate": "2025-10-03T12:01:53.668Z",
+          "message": "",
+          "failedTaskDetail": {
+            
+          }
+        },
+        {
+          "id": "b0e71e37-50fe-47e8-a41d-2068fe717301",
+          "taskName": "Get Backup",
+          "status": "SUCCESS",
+          "endDate": "2025-10-03T12:01:53.699Z",
+          "startDate": "2025-10-03T12:01:53.694Z",
+          "message": "",
+          "failedTaskDetail": {
+            
+          }
+        },
+        {
+          "id": "987a9b5a-55ab-4da3-83e1-c650f7445056",
+          "taskName": "Validate Backup",
+          "status": "SUCCESS",
+          "endDate": "2025-10-03T12:01:53.727Z",
+          "startDate": "2025-10-03T12:01:53.699Z",
+          "message": "",
+          "failedTaskDetail": {
+            
+          }
+        },
+        {
+          "id": "582bf84a-8af7-4108-b2b8-77a63c8562fb",
+          "taskName": "Prepare Delete",
+          "status": "SUCCESS",
+          "endDate": "2025-10-03T12:01:53.772Z",
+          "startDate": "2025-10-03T12:01:53.727Z",
+          "message": "",
+          "failedTaskDetail": {
+            
+          }
+        },
+        {
+          "id": "6e240cca-6ea5-4a71-8634-2b54f756d5df",
+          "taskName": "Delete MKS / System Manager / Managed Service Backup",
+          "status": "INPROGRESS",
+          "endDate": "",
+          "startDate": "2025-10-03T12:01:53.772Z",
+          "message": "",
+          "failedTaskDetail": {
+            
+          }
+        }
+      ]
+    }
+  },
+  "get_backup_and_restore_execution36": {
+    "version": "2.0",
+    "response": {
+      "backupId": "1efb2b97-7245-48c2-b307-63c5c8fbd34b",
+      "id": "5d4d3a9f-b4c7-4bee-af70-3cea42bdc13e",
+      "jobType": "DELETE_BACKUP",
+      "status": "SUCCESS",
+      "endDate": "2025-10-03T12:02:23.943Z",
+      "startDate": "2025-10-03T12:01:53.656Z",
+      "createdBy": "Anonymous",
+      "errorMessage": "",
+      "errorCode": "",
+      "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE",
+      "isForceUpdate": false,
+      "updateMessage": "",
+      "failedTaskDetail": {
+        
+      },
+      "systemErrorMessage": "",
+      "completedPercentage": 0,
+      "_metadata": null,
+      "tasks": [
+        {
+          "id": "b8f05096-992c-4fb3-a4fe-b3fb96387731",
+          "taskName": "initialize Values",
+          "status": "SUCCESS",
+          "endDate": "2025-10-03T12:01:53.668Z",
+          "startDate": "2025-10-03T12:01:53.657Z",
+          "message": "",
+          "failedTaskDetail": {
+            
+          }
+        },
+        {
+          "id": "6adcd054-921b-4539-8513-0777e2477061",
+          "taskName": "Trigger",
+          "status": "SUCCESS",
+          "endDate": "2025-10-03T12:01:53.657Z",
+          "startDate": "2025-10-03T12:01:53.657Z",
+          "message": "",
+          "failedTaskDetail": {
+            
+          }
+        },
+        {
+          "id": "32423a11-f364-427d-bb27-cb19b1cd2149",
+          "taskName": "Validate Disk Reachability",
+          "status": "SUCCESS",
+          "endDate": "2025-10-03T12:01:53.694Z",
+          "startDate": "2025-10-03T12:01:53.668Z",
+          "message": "",
+          "failedTaskDetail": {
+            
+          }
+        },
+        {
+          "id": "b25a4804-c09e-45da-a9d8-57543d54d2d9",
+          "taskName": "Get Backup",
+          "status": "SUCCESS",
+          "endDate": "2025-10-03T12:01:53.699Z",
+          "startDate": "2025-10-03T12:01:53.694Z",
+          "message": "",
+          "failedTaskDetail": {
+            
+          }
+        },
+        {
+          "id": "7a64cf30-e084-4096-835a-ab854d19893c",
+          "taskName": "Validate Backup",
+          "status": "SUCCESS",
+          "endDate": "2025-10-03T12:01:53.727Z",
+          "startDate": "2025-10-03T12:01:53.699Z",
+          "message": "",
+          "failedTaskDetail": {
+            
+          }
+        },
+        {
+          "id": "dec90474-ce43-4502-ae69-a6db3e0860aa",
+          "taskName": "Prepare Delete",
+          "status": "SUCCESS",
+          "endDate": "2025-10-03T12:01:53.772Z",
+          "startDate": "2025-10-03T12:01:53.727Z",
+          "message": "",
+          "failedTaskDetail": {
+            
+          }
+        },
+        {
+          "id": "3636912f-1a13-4684-a3a4-a1869f04ed68",
+          "taskName": "Delete MKS / System Manager / Managed Service Backup",
+          "status": "SUCCESS",
+          "endDate": "2025-10-03T12:02:23.930Z",
+          "startDate": "2025-10-03T12:01:53.772Z",
+          "message": "",
+          "failedTaskDetail": {
+            
+          }
+        },
+        {
+          "id": "4ba0d668-4288-4c5f-a26d-8b38a8af9815",
+          "taskName": "Delete Backup Metadata",
+          "status": "SUCCESS",
+          "endDate": "2025-10-03T12:02:23.939Z",
+          "startDate": "2025-10-03T12:02:23.936Z",
+          "message": "",
+          "failedTaskDetail": {
+            
+          }
+        }
+      ]
+    }
+  },
+  "get_all_n_f_s_configurations36": {
+    "version": "2.0",
+    "response": [
+      {
+        "id": "3648a5e6-f9d9-42fb-a66f-32beec8387e6",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB17"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "7b960aea-b2ef-4f19-969b-aa16eb608223",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB30"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-b42b9005-d788-596e-a2e7-cb9d89f7466e",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "9aa86409-69ff-4e5c-8a7b-68b8d40fa142",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "10.195.189.95",
+          "serverType": "NFS",
+          "sourcePath": "/data/nfsshare/iac"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-13fdd4b5-e0bf-54a3-92a1-e296ecda3e0c",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "d9ceef12-5979-4a73-8772-d72989206d71",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB18"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      }
+    ]
+  },
+  "get_all_backup36": {
+    "version": "2.0",
+    "response": [
+      
+    ],
+    "page": {
+      "limit": 50,
+      "offset": 1,
+      "count": 0,
+      "sortBy": [
+        {
+          "name": "startDate",
+          "order": "desc"
+        }
+      ]
+    },
+    "filter": {
+      
+    }
+  },
+
+  "playbook_no_backup_todelete": [
+      {
+          "backup_job_creation": [
+              {
+                  "delete_all_backup": true
+              }
+          ]
+      }
+  ],
+  "get_all_n_f_s_configurations37": {
+    "version": "2.0",
+    "response": [
+      {
+        "id": "3648a5e6-f9d9-42fb-a66f-32beec8387e6",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB17"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "7b960aea-b2ef-4f19-969b-aa16eb608223",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB30"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-b42b9005-d788-596e-a2e7-cb9d89f7466e",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "9aa86409-69ff-4e5c-8a7b-68b8d40fa142",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "10.195.189.95",
+          "serverType": "NFS",
+          "sourcePath": "/data/nfsshare/iac"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-13fdd4b5-e0bf-54a3-92a1-e296ecda3e0c",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "d9ceef12-5979-4a73-8772-d72989206d71",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB18"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      }
+    ]
+  },
+  "get_all_backup37": {
+    "version": "2.0",
+    "response": [
+      
+    ],
+    "page": {
+      "limit": 50,
+      "offset": 1,
+      "count": 0,
+      "sortBy": [
+        {
+          "name": "startDate",
+          "order": "desc"
+        }
+      ]
+    },
+    "filter": {
+      
+    }
+  },
+  "get_all_n_f_s_configurations38": {
+    "version": "2.0",
+    "response": [
+      {
+        "id": "3648a5e6-f9d9-42fb-a66f-32beec8387e6",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB17"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "7b960aea-b2ef-4f19-969b-aa16eb608223",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB30"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-b42b9005-d788-596e-a2e7-cb9d89f7466e",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "9aa86409-69ff-4e5c-8a7b-68b8d40fa142",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "10.195.189.95",
+          "serverType": "NFS",
+          "sourcePath": "/data/nfsshare/iac"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-13fdd4b5-e0bf-54a3-92a1-e296ecda3e0c",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "d9ceef12-5979-4a73-8772-d72989206d71",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB18"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      }
+    ]
+  },
+  "get_all_backup38": {
+    "version": "2.0",
+    "response": [
+      
+    ],
+    "page": {
+      "limit": 50,
+      "offset": 1,
+      "count": 0,
+      "sortBy": [
+        {
+          "name": "startDate",
+          "order": "desc"
+        }
+      ]
+    },
+    "filter": {
+      
+    }
+  },
+
+
+  "playbook_generate_new_backup": [
+      {
+          "backup_job_creation": [
+              {
+                  "generate_new_backup": true,
+                  "name": "BACKUP05_10",
+                  "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
+              }
+          ]
+      }
+  ],
+  "get_all_n_f_s_configurations39": {
+    "version": "2.0",
+    "response": [
+      {
+        "id": "3648a5e6-f9d9-42fb-a66f-32beec8387e6",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB17"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-e9f731e5-ea3c-512d-acef-c169bca98d04",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "7b960aea-b2ef-4f19-969b-aa16eb608223",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB30"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-b42b9005-d788-596e-a2e7-cb9d89f7466e",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "9aa86409-69ff-4e5c-8a7b-68b8d40fa142",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "10.195.189.95",
+          "serverType": "NFS",
+          "sourcePath": "/data/nfsshare/iac"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-13fdd4b5-e0bf-54a3-92a1-e296ecda3e0c",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      },
+      {
+        "id": "d9ceef12-5979-4a73-8772-d72989206d71",
+        "spec": {
+          "nfsPort": 2049,
+          "nfsVersion": "nfs4",
+          "portMapperPort": 111,
+          "server": "172.27.17.90",
+          "serverType": "NFS",
+          "sourcePath": "/home/nfsshare/backups/TB18"
+        },
+        "status": {
+          "destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff",
+          "state": "Healthy",
+          "subResourceState": "",
+          "unhealthyNodes": null
+        }
+      }
+    ]
+  },
+  "get_all_backup39": {
+    "version": "2.0",
+    "response": [
+      
+    ],
+    "page": {
+      "limit": 50,
+      "offset": 1,
+      "count": 0,
+      "sortBy": [
+        {
+          "name": "startDate",
+          "order": "desc"
+        }
+      ]
+    },
+    "filter": {
+      
+    }
+  },
+  "create_backup": {
+    "version": "2.0",
+    "response": {
+      "taskId": "9b32befa-2a8a-458e-a65c-9225ebada422",
+      "url": "/dna/intent/api/v1/backupRestoreExecutions/9b32befa-2a8a-458e-a65c-9225ebada422"
+    }
+  },
+  "get_backup_and_restore_execution39": {
+    "version": "2.0",
+    "response": {
+      "backupId": "7f62ec6b-d932-4641-bceb-96cd8c08afb3",
+      "id": "9b32befa-2a8a-458e-a65c-9225ebada422",
+      "jobType": "CREATE_BACKUP",
+      "status": "IN_PROGRESS",
+      "endDate": "1970-01-01T00:00:00.000Z",
+      "startDate": "2025-10-06T05:33:28.309Z",
+      "createdBy": "Anonymous",
+      "errorMessage": "",
+      "errorCode": "",
+      "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE",
+      "isForceUpdate": false,
+      "updateMessage": "",
+      "failedTaskDetail": {
+        
+      },
+      "systemErrorMessage": "",
+      "completedPercentage": 0,
+      "_metadata": null,
+      "tasks": [
+        {
+          "id": "4a55a4d4-7a1d-4b16-939a-a345c507ccc4",
+          "taskName": "Create Backup Metadata",
+          "status": "SUCCESS",
+          "endDate": "2025-10-06T05:33:28.977Z",
+          "startDate": "2025-10-06T05:33:28.875Z",
+          "message": "",
+          "failedTaskDetail": {
+            
+          }
+        },
+        {
+          "id": "7d8fee47-06da-47ed-9a8e-5bee9be7dbba",
+          "taskName": "Validation",
+          "status": "INPROGRESS",
+          "endDate": "",
+          "startDate": "2025-10-06T05:33:28.977Z",
+          "message": "",
+          "failedTaskDetail": {
+            
+          }
+        }
+      ]
+    }
+  },
+  "get_backup_and_restore_execution40": {
+    "version": "2.0",
+    "response": {
+      "backupId": "7f62ec6b-d932-4641-bceb-96cd8c08afb3",
+      "id": "9b32befa-2a8a-458e-a65c-9225ebada422",
+      "jobType": "CREATE_BACKUP",
+      "status": "FAILED",
+      "endDate": "2025-10-06T05:34:35.183Z",
+      "startDate": "2025-10-06T05:33:28.309Z",
+      "createdBy": "Anonymous",
+      "errorMessage": "replicatedfs:app-hosting- backup failed. Error: backup for backupId 6d7f33c8-c5e7-4c90-bdd5-63ee6fa199e6 failed due to backup job failure",
+      "errorCode": "MANAGED-SERVICE#CREATE_BACKUP_STATUS_FAILED_replicatedfs",
+      "scope": "CISCO_DNA_DATA_WITHOUT_ASSURANCE",
+      "isForceUpdate": false,
+      "updateMessage": "",
+      "failedTaskDetail": {
+        "bapiExecutionAttempt": 1,
+        "endTime": "Mon Oct 06 05:34:32 GMT 2025",
+        "endTimeEpoch": 1759728872295,
+        "errorCode": "MANAGED-SERVICE#CREATE_BACKUP_STATUS_FAILED_replicatedfs",
+        "errorMessage": "replicatedfs:app-hosting- backup failed. Error: backup for backupId 6d7f33c8-c5e7-4c90-bdd5-63ee6fa199e6 failed due to backup job failure",
+        "memoryConsumed": 0.296875,
+        "mockApplied": false,
+        "mockTypeApplied": "NO_MOCK",
+        "startTime": "Mon Oct 06 05:34:32 GMT 2025",
+        "startTimeEpoch": 1759728872284,
+        "status": "FAILURE",
+        "systemErrorDetails": {
+          "errorCode": "500",
+          "errorMessage": "9b32befa-2a8a-458e-a65c-9225ebada422 | 9d2679be-0684-458a-8815-88621da4ce50 | 41a4-a8ef-4b7a-8196 : ScriptProcessor Execution Failed with error: Exception: replicatedfs:app-hosting- backup failed. Error: backup for backupId 6d7f33c8-c5e7-4c90-bdd5-63ee6fa199e6 failed due to backup job failure in <script> at line number : 21 "
+        },
+        "taskExecTime": 11,
+        "taskExecutionAttempt": 1,
+        "taskExecutionId": "9d2679be-0684-458a-8815-88621da4ce50",
+        "taskExternalExecTime": 0,
+        "taskId": "uuid5ab24bca",
+        "taskInput": [
+          {
+            "name": "service",
+            "value": "{\"name\":\"replicatedfs\",\"namespace\":\"app-hosting\"}"
+          },
+          {
+            "name": "commonBackupMetadata",
+            "value": "{\"start_timestamp\":1759728808.0,\"release_display_version\":\"3.1.5-75038\",\"description\":\"BACKUP05_10_20251006_110327\", ... }"
+          }
+        ],
+        "taskLogs": [
+          "9b32befa-2a8a-458e-a65c-9225ebada422 | 9d2679be-0684-458a-8815-88621da4ce50 | 41a4-a8ef-4b7a-8196: Loop Index: 0"
+        ],
+        "taskName": "Parse managed service poll response",
+        "taskOutput": [
+          {
+            "name": "__taskExecutionId",
+            "value": "9d2679be-0684-458a-8815-88621da4ce50"
+          },
+          {
+            "name": "bakcupMetaData",
+            "value": ""
+          },
+          {
+            "name": "errMessage",
+            "value": "replicatedfs:app-hosting- backup failed. Error: backup for backupId 6d7f33c8-c5e7-4c90-bdd5-63ee6fa199e6 failed due to backup job failure"
+          }
+        ],
+        "taskType": "PYTHON_TRANSFORM",
+        "userErrorDetails": {
+          "errorCode": "MANAGED-SERVICE#CREATE_BACKUP_STATUS_FAILED_replicatedfs",
+          "errorMessage": "replicatedfs:app-hosting- backup failed. Error: backup for backupId 6d7f33c8-c5e7-4c90-bdd5-63ee6fa199e6 failed due to backup job failure"
+        }
+      },
+      "systemErrorMessage": "9b32befa-2a8a-458e-a65c-9225ebada422 | 9d2679be-0684-458a-8815-88621da4ce50 | 41a4-a8ef-4b7a-8196 : ScriptProcessor Execution Failed with error: Exception: replicatedfs:app-hosting- backup failed. Error: backup for backupId 6d7f33c8-c5e7-4c90-bdd5-63ee6fa199e6 failed due to backup job failure in <script> at line number : 21 ",
+      "completedPercentage": 0,
+      "_metadata": null,
+      "tasks": [
+        {
+          "id": "10649db2-e8e7-4d31-b709-3a9a2e68a66b",
+          "taskName": "Create Backup Metadata",
+          "status": "SUCCESS",
+          "endDate": "2025-10-06T05:33:28.977Z",
+          "startDate": "2025-10-06T05:33:28.875Z",
+          "message": "",
+          "failedTaskDetail": {}
+        },
+        {
+          "id": "97c5906c-4196-4305-8653-9eeb3428de99",
+          "taskName": "Validation",
+          "status": "SUCCESS",
+          "endDate": "2025-10-06T05:33:29.990Z",
+          "startDate": "2025-10-06T05:33:28.977Z",
+          "message": "",
+          "failedTaskDetail": {}
+        },
+        {
+          "id": "779294f9-7f9a-42c8-b2b9-1f079b2e7d0e",
+          "taskName": "MKS Backup",
+          "status": "SUCCESS",
+          "endDate": "2025-10-06T05:34:00.172Z",
+          "startDate": "2025-10-06T05:33:29.990Z",
+          "message": "",
+          "failedTaskDetail": {}
+        },
+        {
+          "id": "762157c4-5510-4575-a4e6-2e173df66f5e",
+          "taskName": "System Manager Backup",
+          "status": "SUCCESS",
+          "endDate": "2025-10-06T05:34:01.886Z",
+          "startDate": "2025-10-06T05:34:00.172Z",
+          "message": "",
+          "failedTaskDetail": {}
+        },
+        {
+          "id": "1e6a3934-c99d-48f7-b1c5-cd27ceecf22d",
+          "taskName": "Managed Services Backup",
+          "status": "FAILED",
+          "endDate": "2025-10-06T05:34:32.295Z",
+          "startDate": "2025-10-06T05:34:01.970Z",
+          "message": "replicatedfs:app-hosting- backup failed. Error: backup for backupId 6d7f33c8-c5e7-4c90-bdd5-63ee6fa199e6 failed due to backup job failure",
+          "systemErrorMessage": "9b32befa-2a8a-458e-a65c-9225ebada422 | 9d2679be-0684-458a-8815-88621da4ce50 | 41a4-a8ef-4b7a-8196 : ScriptProcessor Execution Failed with error: Exception: replicatedfs:app-hosting- backup failed. Error: backup for backupId 6d7f33c8-c5e7-4c90-bdd5-63ee6fa199e6 failed due to backup job failure in <script> at line number : 21 ",
+          "errorCode": "MANAGED-SERVICE#CREATE_BACKUP_STATUS_FAILED_replicatedfs"
+        }
+      ]
+    }
   }
+
 }
