@@ -1862,7 +1862,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         ssid_list = input_config.get("ssid_details", [])
         have_ssid_details = have_prof_info.get("ssidDetails", [])
         ap_zones_list = input_config.get("ap_zones", [])
-        feature_template_designs = have_prof_info.get("feature_template_designs", [])
+        feature_template_designs = have_info.get("feature_template_designs", [])
 
         have_ap_zones = have_prof_info.get("ssidDetails", [])
         additional_interfaces = input_config.get("additional_interfaces", [])
@@ -1892,85 +1892,100 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                         "WARNING",
                                     )
 
-                if ap_zones_list:
-                    for ap_zone in ap_zones_list:
-                        for have_zone in have_ap_zones:
-                            if ap_zone.get("ap_zone_name") == have_zone.get(
-                                "apZoneName"
-                            ):
-                                zone_match, unmatched_values = (
-                                    self.compare_each_config_with_have(
-                                        ap_zone, have_zone, "ap_zones"
-                                    )
+        if ap_zones_list:
+            if not have_ap_zones:
+                self.log("No AP Zone details found in the existing profile.", "DEBUG")
+                unmatched_keys.append(ap_zones_list)
+            else:
+                self.log("Comparing AP Zone configurations with existing profile AP Zones", "INFO")
+                for ap_zone in ap_zones_list:
+                    for have_zone in have_ap_zones:
+                        if ap_zone.get("ap_zone_name") == have_zone.get(
+                            "apZoneName"
+                        ):
+                            zone_match, unmatched_values = (
+                                self.compare_each_config_with_have(
+                                    ap_zone, have_zone, "ap_zones"
                                 )
-                                if not zone_match:
-                                    self.log(
-                                        "AP Zone mismatch found: {0}".format(
-                                            unmatched_values
-                                        ),
-                                        "WARNING",
-                                    )
-                                    unmatched_keys.append(unmatched_values)
-
-                if additional_interfaces:
-                    for each_interface in additional_interfaces:
-                        interface_name = each_interface.get("interface_name")
-                        if interface_name not in have_additional_interfaces:
-                            unmatched_keys.append(unmatched_values)
-                            self.log(
-                                "Additional interface '{0}' not found in existing config.".format(
-                                    interface_name
-                                ),
-                                "WARNING",
                             )
+                            if not zone_match:
+                                self.log(
+                                    "AP Zone mismatch found: {0}".format(
+                                        unmatched_values
+                                    ),
+                                    "WARNING",
+                                )
+                                unmatched_keys.append(unmatched_values)
 
-                if feature_template_designs \
-                   and self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
-                    self.log("Validating feature template configurations against existing profile template assignments", "DEBUG")
-                    self.log("Processing {0} feature template designs for configuration comparison with existing assignments".format(
-                        len(feature_template_designs)), "DEBUG")
+        if additional_interfaces:
+            if not have_additional_interfaces:
+                self.log("No Additional interface details found in the existing profile.", "DEBUG")
+                unmatched_keys.append(additional_interfaces)
+            else:
+                self.log("Validating additional interface configurations against existing profile interfaces", "INFO")
+                for each_interface in additional_interfaces:
+                    interface_name = each_interface.get("interface_name")
+                    if interface_name not in have_additional_interfaces:
+                        unmatched_keys.append(unmatched_values)
+                        self.log(
+                            "Additional interface '{0}' not found in existing config.".format(
+                                interface_name
+                            ),
+                            "WARNING",
+                        )
 
-                    feature_templates_processed = 0
-                    feature_templates_with_mismatches = 0
-                    for feature_template_design in feature_template_designs:
-                        feature_templates_processed += 1
-                        template_design_name = feature_template_design.get("design_name")
-                        template_design_id = feature_template_design.get("design_id")
-                        template_ssids = feature_template_design.get("ssids")
+        if feature_template_designs \
+            and self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
 
-                        self.log("Validating feature template {0}/{1} with design '{2}'".format(
-                            feature_templates_processed, len(feature_template_designs), template_design_name), "DEBUG")
+            if not have_feature_templates:
+                self.log("No Feature template details found in the existing profile.", "DEBUG")
+                unmatched_keys.append(feature_template_designs)
+            else:
+                self.log("Validating feature template configurations against existing profile template assignments", "DEBUG")
+                self.log("Processing {0} feature template designs for configuration comparison with existing assignments".format(
+                    len(feature_template_designs)), "DEBUG")
 
-                        # Validate template design ID exists in current profile assignments
-                        if template_design_id and not self.value_exists(have_feature_templates, "id", template_design_id):
-                            feature_templates_with_mismatches += 1
-                            unmatched_keys.append(
-                                "Feature template designs with feature template '{0}' not found.".format(template_design_name)
-                            )
-                            self.log(
-                                "Feature template design mismatch detected - feature template "
-                                "'{0}' (ID: {1}) not found in existing profile assignments".format(
-                                    template_design_name, template_design_id), "WARNING")
+                feature_templates_processed = 0
+                feature_templates_with_mismatches = 0
+                for feature_template_design in feature_template_designs:
+                    feature_templates_processed += 1
+                    template_design_name = feature_template_design.get("design_name")
+                    template_design_id = feature_template_design.get("design_id")
+                    template_ssids = feature_template_design.get("ssids")
 
-                        # Validate SSID applicability exists in current profile assignments
-                        if template_ssids and not self.value_exists(have_feature_templates, "ssids", template_ssids):
-                            feature_templates_with_mismatches += 1
-                            unmatched_keys.append(
-                                "Feature template with applicability_ssids '{0}' not found.".format(template_ssids)
-                            )
-                            self.log(
-                                "Feature template SSID applicability mismatch detected - "
-                                "SSIDs '{0}' not found in existing profile template assignments".format(
-                                    template_ssids), "WARNING")
+                    self.log("Validating feature template {0}/{1} with design '{2}'".format(
+                        feature_templates_processed, len(feature_template_designs), template_design_name), "DEBUG")
 
-                    # Log comprehensive feature template validation summary
-                    if feature_templates_with_mismatches > 0:
-                        self.log("Feature template validation completed with mismatches"
-                                 " - {0}/{1} templates have configuration differences".format(
-                                     feature_templates_with_mismatches, feature_templates_processed), "WARNING")
-                    else:
-                        self.log("Feature template validation completed successfully - all {0} templates match existing profile assignments".format(
-                            feature_templates_processed), "DEBUG")
+                    # Validate template design ID exists in current profile assignments
+                    if template_design_id and not self.value_exists(have_feature_templates, "id", template_design_id):
+                        feature_templates_with_mismatches += 1
+                        unmatched_keys.append(
+                            "Feature template designs with feature template '{0}' not found.".format(template_design_name)
+                        )
+                        self.log(
+                            "Feature template design mismatch detected - feature template "
+                            "'{0}' (ID: {1}) not found in existing profile assignments".format(
+                                template_design_name, template_design_id), "WARNING")
+
+                    # Validate SSID applicability exists in current profile assignments
+                    if template_ssids and not self.value_exists(have_feature_templates, "ssids", template_ssids):
+                        feature_templates_with_mismatches += 1
+                        unmatched_keys.append(
+                            "Feature template with applicability_ssids '{0}' not found.".format(template_ssids)
+                        )
+                        self.log(
+                            "Feature template SSID applicability mismatch detected - "
+                            "SSIDs '{0}' not found in existing profile template assignments".format(
+                                template_ssids), "WARNING")
+
+                # Log comprehensive feature template validation summary
+                if feature_templates_with_mismatches > 0:
+                    self.log("Feature template validation completed with mismatches"
+                                " - {0}/{1} templates have configuration differences".format(
+                                    feature_templates_with_mismatches, feature_templates_processed), "WARNING")
+                else:
+                    self.log("Feature template validation completed successfully - all {0} templates match existing profile assignments".format(
+                        feature_templates_processed), "DEBUG")
 
         if unmatched_keys:
             self.log(
