@@ -1868,6 +1868,16 @@ class Reports(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
+        # Additional Check: Ensure the scheduled time is not in the past
+        current_epoch = int(time.time() * 1000)  # current time in milliseconds
+        if epoch_time <= current_epoch:
+            self.msg = (
+                f"Invalid schedule: The provided date_time '{date_time}' is in the past. "
+                "Please provide a future date and time for 'SCHEDULE_LATER' and 'SCHEDULE_RECURRENCE'."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return False
+
         schedule.pop("date_time")
         schedule["time"] = epoch_time
         schedule["start_date"] = epoch_time
@@ -3862,7 +3872,6 @@ class Reports(DnacBase):
             - Logs all major decision points and verification steps for traceability
             - Ensures complete state cleanup and deletion compliance
         """
-        getattr(self, "get_have")(self.validated_config[0])
         self.log(
             "Starting deleted state verification for {0} report entries against Catalyst Center".format(
                 len(config.get("generate_report", []))
