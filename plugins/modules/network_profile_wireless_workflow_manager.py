@@ -1935,8 +1935,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         )
 
         if feature_template_designs \
-            and self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
-
+           and self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             if not have_feature_templates:
                 self.log("No Feature template details found in the existing profile.", "DEBUG")
                 unmatched_keys.append(feature_template_designs)
@@ -1981,8 +1980,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 # Log comprehensive feature template validation summary
                 if feature_templates_with_mismatches > 0:
                     self.log("Feature template validation completed with mismatches"
-                                " - {0}/{1} templates have configuration differences".format(
-                                    feature_templates_with_mismatches, feature_templates_processed), "WARNING")
+                             " - {0}/{1} templates have configuration differences".format(
+                                 feature_templates_with_mismatches, feature_templates_processed), "WARNING")
                 else:
                     self.log("Feature template validation completed successfully - all {0} templates match existing profile assignments".format(
                         feature_templates_processed), "DEBUG")
