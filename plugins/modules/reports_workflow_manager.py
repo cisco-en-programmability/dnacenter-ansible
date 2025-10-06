@@ -1415,7 +1415,15 @@ from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
 )
 import json
 import re
-import pytz
+
+# common approach when a module relies on optional dependencies that are not available during the validation process.
+try:
+    import pytz
+
+    HAS_PYZIPPER = True
+except ImportError:
+    HAS_PYZIPPER = False
+    pyzipper = None
 
 
 class Reports(DnacBase):
