@@ -610,12 +610,12 @@ notes:
     - sda.Sda.delete_fabric_device_layer3_handoff_with_ip_transit_by_id
     - task.Task.get_tasks_by_id
     - task.Task.get_task_details_by_id
-    - fabric_wireless.FabricWireless.get_sda_wireless_details_from_switches_v1
-    - wireless.Wireless.get_primary_managed_ap_locations_for_specific_wireless_controller_v1
-    - wireless.Wireless.get_secondary_managed_ap_locations_for_specific_wireless_controller_v1
-    - wireless.Wireless.assign_managed_ap_locations_for_w_l_c_v1
-    - fabric_wireless.Wireless.reload_switch_for_wireless_controller_cleanup_v1
-    - fabric_wireless.Wireless.switch_wireless_setting_and_rolling_ap_upgrade_management_v1
+    - fabric_wireless.FabricWireless.get_sda_wireless_details_from_switches
+    - wireless.Wireless.get_primary_managed_ap_locations_for_specific_wireless_controller
+    - wireless.Wireless.get_secondary_managed_ap_locations_for_specific_wireless_controller
+    - wireless.Wireless.assign_managed_ap_locations_for_w_l_c
+    - fabric_wireless.Wireless.reload_switch_for_wireless_controller_cleanup
+    - fabric_wireless.Wireless.switch_wireless_setting_and_rolling_ap_upgrade_management
 
   - Paths used are
     - GET /dna/intent/api/v1/sites
@@ -1269,6 +1269,7 @@ class FabricDevices(DnacBase):
         )
         self.fabric_l3_handoff_ip_obj_params = self.get_obj_params("fabricIpL3Handoff")
         self.max_timeout = self.params.get("dnac_api_task_timeout")
+        self.fabric_type = None                     # Can be either 'fabric_site' or 'fabric_zone'
 
     def validate_input(self):
         """
@@ -2727,6 +2728,7 @@ class FabricDevices(DnacBase):
         fabric_site_id = self.get_fabric_site_id_from_name(fabric_name, site_id)
         if not fabric_site_id:
             fabric_site_id = self.get_fabric_zone_id_from_name(fabric_name, site_id)
+            self.fabric_type = "fabric_zone"
             if not fabric_site_id:
                 self.msg = "The provided 'fabric_name' '{fabric_name}' is not a valid fabric site.".format(
                     fabric_name=fabric_name
@@ -2748,6 +2750,7 @@ class FabricDevices(DnacBase):
                 "DEBUG",
             )
         else:
+            self.fabric_type = "fabric_site"
             self.log(
                 "Fabric site ID obtained: {fabric_site_id}.".format(
                     fabric_site_id=fabric_site_id
@@ -2828,9 +2831,20 @@ class FabricDevices(DnacBase):
                     "proceeding with provisioning checks.".format(ip=fabric_device_ip),
                     "DEBUG",
                 )
-                self.check_device_is_provisioned(
-                    fabric_device_ip, network_device_id, site_id, fabric_name
-                ).check_return_status()
+                state = self.params.get("state")
+                if state == "deleted":
+                    self.log(
+                        f"The state is 'deleted', so skipping the provisioning checks for the device with the IP '{fabric_device_ip}'.",
+                        "DEBUG",
+                    )
+                else:
+                    self.log(
+                        f"Checking if the device with the IP '{fabric_device_ip}' is provisioned in the fabric '{fabric_name}'.",
+                        "DEBUG",
+                    )
+                    self.check_device_is_provisioned(
+                        fabric_device_ip, network_device_id, site_id, fabric_name
+                    ).check_return_status()
             else:
                 self.log(
                     "The device with the IP '{ip}' is a Wireless Controller, "
@@ -2870,12 +2884,15 @@ class FabricDevices(DnacBase):
                 f"Fetching wireless controller settings for the fabric '{fabric_name}'.",
                 "DEBUG",
             )
-            wireless_controller_settings = self.get_have_wireless_controller_settings(
-                fabric_name, fabric_site_id, network_device_id, fabric_device_ip
-            )
-            fabric_devices_info.update(
-                {"wireless_controller_settings": wireless_controller_settings}
-            )
+            if self.fabric_type == "fabric_site":
+                wireless_controller_settings = self.get_have_wireless_controller_settings(
+                    fabric_name, fabric_site_id, network_device_id, fabric_device_ip
+                )
+                fabric_devices_info.update(
+                    {"wireless_controller_settings": wireless_controller_settings}
+                )
+            else:
+                self.log(f"Fabric type is '{self.fabric_type}', skipping wireless controller settings retrieval.", "DEBUG")
 
             is_border_device = False
             if "BORDER_NODE" in device_roles:
@@ -3004,12 +3021,12 @@ class FabricDevices(DnacBase):
         try:
             response = self.dnac._exec(
                 family="fabric_wireless",
-                function="get_sda_wireless_details_from_switches_v1",
+                function="get_sda_wireless_details_from_switches",
                 params={"fabric_id": fabric_id},
             )
 
             self.log(
-                f"Received API response from 'get_sda_wireless_details_from_switches_v1' for the fabric '{fabric_name}': {response}",
+                f"Received API response from 'get_sda_wireless_details_from_switches' for the fabric '{fabric_name}': {response}",
                 "DEBUG",
             )
 
@@ -3090,7 +3107,7 @@ class FabricDevices(DnacBase):
             return []
 
         api_function = (
-            f"get_{ap_type}_managed_ap_locations_for_specific_wireless_controller_v1"
+            f"get_{ap_type}_managed_ap_locations_for_specific_wireless_controller"
         )
 
         managed_ap_locations_all = []
@@ -3415,6 +3432,38 @@ class FabricDevices(DnacBase):
         self.log("The 'local_autonomous_system_number' is successfully validated.")
         return
 
+    def validate_device_roles(self, device_roles, device_ip):
+        """
+        Validate the device roles against the list of valid roles.
+
+        Parameters:
+            device_roles (list): The list of device roles to validate.
+            device_ip (str): The IP address of the device.
+
+        Returns:
+            None
+
+        Description:
+            Validate the device roles against the list of valid roles.
+            If any device_role is not correct, The workflow will fail with an error.
+        """
+        if not device_roles:
+            self.msg = f"The 'device_roles' list cannot be empty for the IP '{device_ip}'."
+            self.fail_and_exit(self.msg)
+
+        valid_device_roles_list = [
+            "CONTROL_PLANE_NODE",
+            "EDGE_NODE",
+            "BORDER_NODE",
+            "WIRELESS_CONTROLLER_NODE",
+        ]
+        for device_role in device_roles:
+            if device_role not in valid_device_roles_list:
+                self.msg = f"The value '{device_role}' in 'device_roles' for the IP '{device_ip}' should be in the list '{', '.join(valid_device_roles_list)}'."
+                self.fail_and_exit(self.msg)
+
+        return
+
     def get_device_params(self, fabric_id, network_id, device_details, config_index):
         """
         Get the SDA fabric devices detail along with the border
@@ -3447,6 +3496,7 @@ class FabricDevices(DnacBase):
         device_info = {
             "networkDeviceId": network_id,
             "fabricId": fabric_id,
+            "embedded_wireless_controller_capabilities": False
         }
 
         # If the user didnot provide the mandatory information and if it can be
@@ -3505,56 +3555,44 @@ class FabricDevices(DnacBase):
             self.log(self.msg, "ERROR")
             self.status = "failed"
             self.check_return_status()
-
-        if not have_device_exists:
-            if not device_roles:
-                self.msg = (
-                    "The parameter 'device_roles is mandatory under 'device_config' "
-                    "for the device with IP '{ip}'.".format(ip=device_ip)
-                )
-                self.status = "failed"
-                return self.check_return_status()
-
-            if "WIRELESS_CONTROLLER_NODE" in device_roles:
-                device_roles.remove("WIRELESS_CONTROLLER_NODE")
-                # WIRELESS_CONTROLLER_NODE is added from backend and can't be passed to the API if not present in the backend.
-
+        if device_roles == ["WIRELESS_CONTROLLER_NODE"]:
+            self.log("Device is a Wireless Controller.", "DEBUG")
+            device_info["embedded_wireless_controller_capabilities"] = False
         else:
-            device_roles_list = [
-                "CONTROL_PLANE_NODE",
-                "EDGE_NODE",
-                "BORDER_NODE",
-                "WIRELESS_CONTROLLER_NODE",
-            ]
-            if device_roles is not None:
-                for item in device_roles:
-                    if item not in device_roles_list:
-                        self.msg = "The value '{item}' in 'device_roles' for the IP '{ip}' should be in the list '{roles_list}'.".format(
-                            item=item, ip=device_ip, roles_list=device_roles_list
+            self.log("Device is a switch with Embedded Wireless Controller capabilities.", "DEBUG")
+            device_info["embedded_wireless_controller_capabilities"] = True
+            if not have_device_exists:
+                if not device_roles:
+                    self.msg = (
+                        "The parameter 'device_roles is mandatory under 'device_config' "
+                        "for the device with IP '{ip}'.".format(ip=device_ip)
+                    )
+                    self.fail_and_exit(self.msg)
+
+                self.validate_device_roles(device_roles, device_ip)
+
+                if "WIRELESS_CONTROLLER_NODE" in device_roles:
+                    device_roles.remove("WIRELESS_CONTROLLER_NODE")
+                    # WIRELESS_CONTROLLER_NODE is added from backend and can't be passed to the API if not present in the backend.
+            else:
+                if device_roles is None:
+                    device_roles = have_device_details.get("deviceRoles")
+                else:
+                    self.validate_device_roles(device_roles, device_ip)
+                    have_wireless_controller_node = (
+                        "WIRELESS_CONTROLLER_NODE" in have_device_details.get("deviceRoles")
+                    )
+                    want_wireless_controller_node = "WIRELESS_CONTROLLER_NODE" in device_roles
+
+                    if want_wireless_controller_node and not have_wireless_controller_node:
+                        device_roles.remove("WIRELESS_CONTROLLER_NODE")
+                        # WIRELESS_CONTROLLER_NODE is added from backend and can't be passed to the API if not present in the backend.
+
+                    if sorted(device_roles) != sorted(have_device_details.get("deviceRoles")):
+                        self.msg = "The parameter 'device_roles' cannot be updated in the device with IP '{ip}'.".format(
+                            ip=device_ip
                         )
-                        self.status = "failed"
-                        return self.check_return_status()
-
-            have_wireless_controller_node = (
-                "WIRELESS_CONTROLLER_NODE" in have_device_details.get("deviceRoles")
-            )
-            want_wireless_controller_node = "WIRELESS_CONTROLLER_NODE" in device_roles
-
-            if want_wireless_controller_node and not have_wireless_controller_node:
-                device_roles.remove("WIRELESS_CONTROLLER_NODE")
-                # WIRELESS_CONTROLLER_NODE is added from backend and can't be passed to the API if not present in the backend.
-
-            if device_roles and sorted(device_roles) != sorted(
-                have_device_details.get("deviceRoles")
-            ):
-                self.msg = "The parameter 'device_roles' cannot be updated in the device with IP '{ip}'.".format(
-                    ip=device_ip
-                )
-                self.status = "failed"
-                return self.check_return_status()
-
-            if not device_roles:
-                device_roles = have_device_details.get("deviceRoles")
+                        self.fail_and_exit(self.msg)
 
         device_info.update({"deviceRoles": device_roles})
         self.log(
@@ -5199,9 +5237,13 @@ class FabricDevices(DnacBase):
             "primary_managed_ap_locations"
         )
         if primary_managed_ap_locations is None:
-            have_primary_managed_ap_locations = have_wireless_controller_settings.get(
-                "primary_managed_ap_locations"
-            )
+            if have_wireless_controller_settings:
+                have_primary_managed_ap_locations = have_wireless_controller_settings.get(
+                    "primary_managed_ap_locations"
+                )
+            else:
+                have_primary_managed_ap_locations = None
+
             if not have_primary_managed_ap_locations:
                 self.log(
                     "No 'primary_managed_ap_locations' found in both playbook and existing catalyst center config. Setting to empty list.",
@@ -5225,9 +5267,13 @@ class FabricDevices(DnacBase):
             "secondary_managed_ap_locations"
         )
         if secondary_managed_ap_locations is None:
-            have_secondary_managed_ap_locations = have_wireless_controller_settings.get(
-                "secondary_managed_ap_locations"
-            )
+            if have_wireless_controller_settings:
+                have_secondary_managed_ap_locations = have_wireless_controller_settings.get(
+                    "secondary_managed_ap_locations"
+                )
+            else:
+                have_secondary_managed_ap_locations = None
+
             if not have_secondary_managed_ap_locations:
                 secondary_managed_ap_locations = []
                 self.log(
@@ -5249,9 +5295,13 @@ class FabricDevices(DnacBase):
         # ROLLING AP UPGRADE
         rolling_ap_upgrade = want_wireless_controller_settings.get("rolling_ap_upgrade")
         if rolling_ap_upgrade is None:
-            have_rolling_ap_upgrade = have_wireless_controller_settings.get(
-                "rolling_ap_upgrade"
-            )
+            if have_wireless_controller_settings:
+                have_rolling_ap_upgrade = have_wireless_controller_settings.get(
+                    "rolling_ap_upgrade"
+                )
+            else:
+                have_rolling_ap_upgrade = None
+
             if have_rolling_ap_upgrade is None:
                 rolling_ap_upgrade = {"enable": True, "ap_reboot_percentage": 25}
                 self.log(
@@ -5371,10 +5421,16 @@ class FabricDevices(DnacBase):
                     device_config_index,
                     fabric_name,
                 ),
-                "wireless_controller_settings": self.get_want_wireless_controller_settings(
-                    item, fabric_name, device_ip, device_config_index
-                ),
             }
+            if self.fabric_type == "fabric_site":
+                self.log(f"Gathering wireless controller settings for fabric type: {self.fabric_type}", "DEBUG")
+                fabric_devices_info["wireless_controller_settings"] = self.get_want_wireless_controller_settings(
+                    item, fabric_name, device_ip, device_config_index
+                )
+            else:
+                self.log(f"Skipping wireless controller settings for fabric type: {self.fabric_type}", "DEBUG")
+                fabric_devices_info["wireless_controller_settings"] = None
+
             self.log(
                 "The fabric device with IP '{ip}' details under the site '{site}': {details}".format(
                     ip=device_ip, site=fabric_name, details=fabric_devices_info
@@ -6117,7 +6173,7 @@ class FabricDevices(DnacBase):
             "INFO",
         )
 
-        task_name = "assign_managed_ap_locations_for_w_l_c_v1"
+        task_name = "assign_managed_ap_locations_for_w_l_c"
         primary_managed_ap_locations_site_id = [
             scope_details.get("siteId")
             for scope_details in managed_ap_locations.get(
@@ -6275,9 +6331,20 @@ class FabricDevices(DnacBase):
 
         for device_config_index, item in enumerate(device_config):
             self.log(f"Processing device at index {device_config_index}.", "DEBUG")
+
+            # Retrieve desired device details to check if embedded wireless controller capabilities are present
+            want_device_details = self.want.get("fabric_devices")[device_config_index].get("device_details")
+
+            if not want_device_details.get("embedded_wireless_controller_capabilities"):
+                self.log(
+                    f"Skipping Device at index {device_config_index} as it does not have embedded wireless controller capabilities.",
+                    "DEBUG",
+                )
+                continue
+
             if item.get("wireless_controller_settings") is None:
                 self.log(
-                    f"Skipping device at index {device_config_index} as it has no wireless controller settings.",
+                    f"Skipping device at index {device_config_index} as it has no wireless controller settings to configure.",
                     "DEBUG",
                 )
                 continue
@@ -6456,7 +6523,7 @@ class FabricDevices(DnacBase):
             f"Constructed API payload for device '{device_ip}': {self.pprint(payload)}",
             "DEBUG",
         )
-        task_name = "switch_wireless_setting_and_rolling_ap_upgrade_management_v1"
+        task_name = "switch_wireless_setting_and_rolling_ap_upgrade_management"
         parameters = payload
 
         task_id = self.get_taskid_post_api_call(
@@ -6515,7 +6582,7 @@ class FabricDevices(DnacBase):
             f"Constructed API payload for device '{device_ip}': {self.pprint(payload)}",
             "DEBUG",
         )
-        task_name = "reload_switch_for_wireless_controller_cleanup_v1"
+        task_name = "reload_switch_for_wireless_controller_cleanup"
         parameters = payload
         task_id = self.get_taskid_post_api_call(
             "fabric_wireless", task_name, parameters
@@ -6915,11 +6982,19 @@ class FabricDevices(DnacBase):
             )
             try:
                 self.update_fabric_devices(fabric_devices).check_return_status()
-                # To Update Wireless Controller Settings, have should be updated with the fabric ID in case of new fabric creation.
-                self.get_have(config)
-                self.update_wireless_controller_settings(
-                    fabric_devices
-                ).check_return_status()
+
+                if self.fabric_type == "fabric_site":
+                    # To Update Wireless Controller Settings, have should be updated with the fabric ID in case of new fabric creation.
+                    self.get_have(config)
+                    self.log("Updating wireless controller settings for fabric type 'fabric_site'.", "DEBUG")
+                    self.update_wireless_controller_settings(
+                        fabric_devices
+                    ).check_return_status()
+                else:
+                    self.log(
+                        f"Skipping wireless controller settings update for fabric type '{self.fabric_type}'.",
+                        "DEBUG",
+                    )
                 self.log("Successfully updated fabric devices.", "INFO")
             except Exception as e:
                 self.log(
@@ -7874,36 +7949,41 @@ class FabricDevices(DnacBase):
                 have_details = self.have.get("fabric_devices")[fabric_device_index]
                 want_details = self.want.get("fabric_devices")[fabric_device_index]
                 if item.get("wireless_controller_settings"):
-                    self.log(
-                        f"Starting verification of wireless controller settings for device with IP '{device_ip}' under fabric '{fabric_name}'.",
-                        "INFO",
-                    )
-                    have_wireless_controller_settings = have_details.get(
-                        "wireless_controller_settings", None
-                    )
-                    want_wireless_controller_settings = want_details.get(
-                        "wireless_controller_settings"
-                    )
-                    enable = want_wireless_controller_settings.get("enable")
-                    if enable:
+                    if self.fabric_type == "fabric_site":
                         self.log(
-                            f"Verifying that wireless controller settings are enabled for device with IP '{device_ip}'.",
-                            "DEBUG",
+                            f"Starting verification of wireless controller settings for device with IP '{device_ip}' under fabric '{fabric_name}'.",
+                            "INFO",
                         )
-                        self.verify_enable_wireless_controller_settings(
-                            have_wireless_controller_settings,
-                            want_wireless_controller_settings,
-                            fabric_name,
-                            device_ip,
-                        ).check_return_status()
+                        have_wireless_controller_settings = have_details.get(
+                            "wireless_controller_settings", None
+                        )
+                        want_wireless_controller_settings = want_details.get(
+                            "wireless_controller_settings"
+                        )
+                        enable = want_wireless_controller_settings.get("enable")
+                        if enable:
+                            self.log(
+                                f"Verifying that wireless controller settings are enabled for device with IP '{device_ip}'.",
+                                "DEBUG",
+                            )
+                            self.verify_enable_wireless_controller_settings(
+                                have_wireless_controller_settings,
+                                want_wireless_controller_settings,
+                                fabric_name,
+                                device_ip,
+                            ).check_return_status()
+                        else:
+                            self.log(
+                                f"Verifying that wireless controller settings are disabled for device with IP '{device_ip}'.",
+                                "DEBUG",
+                            )
+                            self.verify_disable_wireless_controller_settings(
+                                have_wireless_controller_settings, fabric_name, device_ip
+                            ).check_return_status()
                     else:
                         self.log(
-                            f"Verifying that wireless controller settings are disabled for device with IP '{device_ip}'.",
-                            "DEBUG",
+                            f"Skipping wireless controller settings verification for fabric type '{self.fabric_type}'.", "DEBUG"
                         )
-                        self.verify_disable_wireless_controller_settings(
-                            have_wireless_controller_settings, fabric_name, device_ip
-                        ).check_return_status()
 
                 # Verifying whether the IP L3 Handoff is applied to the Cisco Catalyst Center or not
                 if item.get("layer3_handoff_ip_transit"):
@@ -8097,7 +8177,7 @@ class FabricDevices(DnacBase):
         Returns:
             None
         """
-
+        self.fabric_type = None
         self.have.clear()
         self.want.clear()
         return

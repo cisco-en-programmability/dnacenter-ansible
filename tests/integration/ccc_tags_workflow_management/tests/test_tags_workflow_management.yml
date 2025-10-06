@@ -405,6 +405,35 @@
   #   when: remove_tags_from_devices is defined
 
 
+
+# ###############################################################
+# #       UPDATING TAGS: CHANGE TAG NAME                        #
+# ###############################################################
+
+  - name: Updating tag to change tag name
+    cisco.dnac.tags_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.change_tag_name }}"
+    register: result_tags_name_update
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_tags_name_update.results }}"
+  #   when: result_tags_name_update is defined
+
+  - name: Verify the change of tag name
+    assert:
+      that:
+        - item.changed == true
+        - "'updated successfully' in item.response"
+    loop: "{{ result_tags_name_update.results }}"
+    when: result_tags_name_update is defined
+
+
 #############################################
 #                Clean Up                   #
 #############################################
