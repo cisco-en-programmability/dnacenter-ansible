@@ -112,6 +112,10 @@ options:
             type: list
             elements: str
             required: false
+          view_group_version:
+            description:
+              - The version of the view group to be used for the report.
+              - Defaults to C(2.0.0) if not specified.
           schedule:
             description:
               - Defines when the report should be executed (immediately, later, or
@@ -138,6 +142,7 @@ options:
                       C(SCHEDULE_RECURRENCE).
                     - Must be in 'YYYY-MM-DD HH:MM AM/PM' format.
                     - Example "2025-09-02 07:30 PM".
+                    - Only future dates are allowed.
                   type: str
                   required: false
                 time_zone:
