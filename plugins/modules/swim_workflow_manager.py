@@ -3792,7 +3792,7 @@ class Swim(DnacBase):
                             self.log(failed_msg, "ERROR")
                             break
 
-            # NEW FLOW (for Catalyst Center >= 2.3.7.9)
+            # NEW FLOW (for Catalyst Center > 2.3.7.9)
             else:
                 self.log("Using new SWIM API for image activation (after 2.3.7.9)", "INFO")
 
@@ -3893,7 +3893,7 @@ class Swim(DnacBase):
         elg_device_list = []
         device_ip_for_not_elg_list = []
 
-        # OLD FLOW (for DNAC < 2.3.7.9)
+        # OLD FLOW (for DNAC <= 2.3.7.9)
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
             for device_uuid in device_uuid_list:
                 device_ip = self.get_device_ip_from_id(device_uuid)
