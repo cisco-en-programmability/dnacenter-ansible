@@ -260,36 +260,36 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - profile_name: "Corporate_Wireless_Profile"
+          - profile_name: Corporate_Wireless_Profile
             site_names:
-              - "Global/Headquarters"
-              - "Global/BranchOffice"
+              - Global/Headquarters
+              - Global/BranchOffice
             ssid_details:
-              - ssid_name: "Corporate_WiFi"
+              - ssid_name: Corporate_WiFi
                 enable_fabric: false
-                dot11be_profile_name: "Corporate_VLAN"
-                vlan_group_name: "Corporate_VLAN_Group"
-              - ssid_name: "Guest_WiFi"
+                dot11be_profile_name: Corporate_VLAN
+                vlan_group_name: Corporate_VLAN_Group
+              - ssid_name: Guest_WiFi
                 enable_fabric: false
-                dot11be_profile_name: "Corporate_VLAN"
-                interface_name: "guest_network"
+                dot11be_profile_name: Corporate_VLAN
+                interface_name: guest_network
                 local_to_vlan: 3002
             ap_zones:
-              - ap_zone_name: "HQ_AP_Zone"
-                rf_profile_name: "HIGH"
+              - ap_zone_name: HQ_AP_Zone
+                rf_profile_name: HIGH
                 ssids:
-                  - "Corporate_WiFi"
-              - ap_zone_name: "Branch_AP_Zone"
-                rf_profile_name: "TYPICAL"
+                  - Corporate_WiFi
+              - ap_zone_name: Branch_AP_Zone
+                rf_profile_name: TYPICAL
                 ssids:
-                  - "Guest_WiFi"
+                  - Guest_WiFi
             additional_interfaces:
-              - interface_name: "Corp_Interface_1"
+              - interface_name: Corp_Interface_1
                 vlan_id: 100
-              - interface_name: "Guest_Interface_1"
+              - interface_name: Guest_Interface_1
                 vlan_id: 3002
             day_n_templates:
-              - "Wireless_Controller_Config"
+              - Wireless_Controller_Config
             feature_template_designs:
               - design_type: Advanced SSID Configuration
                 feature_templates:
@@ -297,6 +297,160 @@ EXAMPLES = r"""
                 applicability_ssids:
                   - HQ_WiFi
                   - Branch_Secure
+
+    - name: Create network wireless profile name only
+      cisco.dnac.network_profile_wireless_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          - profile_name: Corporate_Wireless_Profile
+
+    - name: Create network wireless profile assign to site
+      cisco.dnac.network_profile_wireless_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          - profile_name: Corporate_Wireless_Profile
+            site_names:
+              - Global/USA/SAN JOSE/SJ_BLD20
+
+    - name: Create network wireless profile with feature template assign to site
+      cisco.dnac.network_profile_wireless_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          - profile_name: Corporate_Wireless_Profile
+            site_names:
+              - Global/USA/SAN JOSE/SJ_BLD20/FLOOR3
+            feature_template_designs:
+              - design_type: AAA_RADIUS_ATTRIBUTES_CONFIGURATION
+                feature_templates:
+                  - Default AAA_Radius_Attributes_Configuration
+
+    - name: Update network wireless profile with feature template
+      cisco.dnac.network_profile_wireless_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          - profile_name: Corporate_Wireless_Profile
+            site_names:
+              - Global/USA/SAN JOSE/SJ_BLD20/FLOOR3
+            feature_template_designs:
+              - design_type: AAA_RADIUS_ATTRIBUTES_CONFIGURATION
+                feature_templates:
+                  - Default AAA_Radius_Attributes_Configuration
+              - design_type: CLEANAIR_CONFIGURATION
+                feature_templates:
+                  - SAMPLE
+                  - Default CleanAir 6GHz Design
+
+    - name: Create network wireless profile with SSID details
+      cisco.dnac.network_profile_wireless_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          - profile_name: Corporate_Wireless_Profile
+            ssid_details:
+              - ssid_name: Guest_WiFi
+                enable_fabric: false
+                dot11be_profile_name: Corporate_VLAN
+                interface_name: guest_network
+                local_to_vlan: 3002
+              - ssid_name: ODC_WiFi
+                enable_fabric: false
+                dot11be_profile_name: Corporate_VLAN
+                interface_name: guest_network
+                local_to_vlan: 3001
+
+    - name: Update network wireless profile with additional SSID details
+      cisco.dnac.network_profile_wireless_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          - profile_name: Corporate_Wireless_Profile
+            ssid_details:
+              - ssid_name: Guest_WiFi
+                enable_fabric: false
+                dot11be_profile_name: Corporate_VLAN
+                interface_name: guest_network
+                local_to_vlan: 3002
+              - ssid_name: ODC_WiFi
+                enable_fabric: false
+                dot11be_profile_name: Corporate_VLAN
+                interface_name: guest_network
+                local_to_vlan: 3001
+              - ssid_name: Corporate_WiFi
+                enable_fabric: false
+                dot11be_profile_name: Corporate_VLAN
+                interface_name: guest_network
+                local_to_vlan: 3003
+
     - name: Update wireless network profile
       cisco.dnac.network_profile_wireless_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -313,27 +467,27 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - profile_name: "Corporate_Wireless_Profile"
+          - profile_name: Corporate_Wireless_Profile
             site_names:
-              - "Global/FrontOffice"
+              - Global/FrontOffice
             ssid_details:
-              - ssid_name: "Guest_WiFi"
+              - ssid_name: Guest_WiFi
                 enable_fabric: false
-                dot11be_profile_name: "Corporate_VLAN"
-                interface_name: "guest_network"
+                dot11be_profile_name: Corporate_VLAN
+                interface_name: guest_network
                 local_to_vlan: 3002
             ap_zones:
-              - ap_zone_name: "Branch_AP_Zone"
-                rf_profile_name: "TYPICAL"
+              - ap_zone_name: Branch_AP_Zone
+                rf_profile_name: TYPICAL
                 ssids:
-                  - "Guest_WiFi"
+                  - Guest_WiFi
             additional_interfaces:
-              - interface_name: "Guest_Interface_4"
+              - interface_name: Guest_Interface_4
                 vlan_id: 2002
             day_n_templates:
-              - "Wireless_Controller_Config"
-    - name: Delete wireless profile from Cisco Catalyst
-        Center.
+              - Wireless_Controller_Config
+
+    - name: Delete wireless profile from Cisco Catalyst Center.
       cisco.dnac.network_profile_wireless_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -349,7 +503,7 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: deleted
         config:
-          - profile_name: "Corporate_Wireless_Profile"
+          - profile_name: Corporate_Wireless_Profile
 """
 
 RETURN = r"""
@@ -371,7 +525,139 @@ response_create:
         ],
         "status": "success"
     }
-# Case 2: Successfully deleted wireless profile
+
+# Case 2: Successful creation of wireless profile name only
+response_create_profile_name_only:
+  description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
+    This response indicates that the wireless profile was created successfully.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Wireless profile(s) created/updated and verified successfully:
+            [{'profile_name': 'Corporate_Wireless_Profile',
+            'profile_status': 'Network Profile [d21fb2fb-399e-4b0a-b850-0a7e2327bfd1] Successfully Created'}]",
+        "response": [
+            {
+                "profile_name": "Corporate_Wireless_Profile",
+                "profile_status": "Network Profile [d21fb2fb-399e-4b0a-b850-0a7e2327bfd1] Successfully Created"
+            }
+        ],
+        "status": "success"
+    }
+
+# Case 3: Successful creation of wireless profile and assigned to site
+response_create_profile_assigned_to_site:
+  description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
+    This response indicates that the wireless profile was created successfully and assigned to a site.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Wireless profile(s) created/updated and verified successfully:
+            [{'profile_name': 'Corporate_Wireless_Profile',
+            'profile_status': 'Network Profile [9a1c37bd-52a9-436c-af8c-35e64f788abd] Successfully Created',
+            'site_status': Sites '['Global/USA/SAN JOSE/SJ_BLD20/FLOOR3', 'Global/USA/SAN JOSE/SJ_BLD20/FLOOR1',
+            'Global/USA/SAN JOSE/SJ_BLD20/FLOOR2', 'Global/USA/SAN JOSE/SJ_BLD20/FLOOR4',
+            'Global/USA/SAN JOSE/SJ_BLD20']' successfully associated to network profile: Corporate_Wireless_Profile.}]",
+        "response": [
+            {
+                "profile_name": "Corporate_Wireless_Profile",
+                "profile_status": "Network Profile [9a1c37bd-52a9-436c-af8c-35e64f788abd] Successfully Created",
+                "site_status": "Sites '['Global/USA/SAN JOSE/SJ_BLD20/FLOOR3', 'Global/USA/SAN JOSE/SJ_BLD20/FLOOR1',
+                                'Global/USA/SAN JOSE/SJ_BLD20/FLOOR2', 'Global/USA/SAN JOSE/SJ_BLD20/FLOOR4',
+                                'Global/USA/SAN JOSE/SJ_BLD20']' successfully associated to
+                                network profile: Corporate_Wireless_Profile."
+            }
+        ],
+        "status": "success"
+    }
+
+# Case 4: Successful creation of wireless profile with feature template and assigned to site
+response_create_profile_with_feature_template:
+  description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
+    This response indicates that the wireless profile was created successfully with a feature template and assigned to a site.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Wireless profile(s) created/updated and verified successfully:
+            [{'profile_name': 'Corporate_Wireless_Profile',
+            'profile_status': 'Network Profile [153b0ac3-1f14-4167-a4ef-79126cef2c9c] Successfully Created',
+            'site_status': Sites '['Global/USA/SAN JOSE/SJ_BLD20/FLOOR3']' successfully associated to
+            network profile: Corporate_Wireless_Profile.}]",
+        "response": [
+            {
+                "profile_name": "Corporate_Wireless_Profile",
+                "profile_status": "Network Profile [153b0ac3-1f14-4167-a4ef-79126cef2c9c] Successfully Created",
+                "site_status": "Sites '['Global/USA/SAN JOSE/SJ_BLD20/FLOOR3']' successfully associated to
+                                network profile: Corporate_Wireless_Profile."
+            }
+        ],
+        "status": "success"
+    }
+
+# Case 5: Successful update of wireless profile with feature template
+response_update_profile_with_feature_template:
+  description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
+    This response indicates that the wireless profile was updated successfully with a feature template.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Wireless profile(s) created/updated and verified successfully:
+            [{'profile_name': 'Corporate_Wireless_Profile',
+            'profile_status': 'Network Profile [153b0ac3-1f14-4167-a4ef-79126cef2c9c] Successfully Updated'}]",
+        "response": [
+            {
+                "profile_name": "Corporate_Wireless_Profile",
+                "profile_status": "Network Profile [153b0ac3-1f14-4167-a4ef-79126cef2c9c] Successfully Updated"
+            }
+        ],
+        "status": "success"
+    }
+
+# Case 6: Successful create of wireless profile with SSID details
+response_create_profile_with_ssid_details:
+  description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
+    This response indicates that the wireless profile was created successfully with SSID details.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Wireless profile(s) created/updated and verified successfully:
+            [{'profile_name': 'Corporate_Wireless_Profile',
+            'profile_status': 'Network Profile [9c0c19a3-11de-445e-a5ec-4e9a561ae4b6] Successfully Created'}]",
+        "response": [
+            {
+                "profile_name": "Corporate_Wireless_Profile",
+                "profile_status": "Network Profile [9c0c19a3-11de-445e-a5ec-4e9a561ae4b6] Successfully Created"
+            }
+        ],
+        "status": "success"
+    }
+
+# Case 7: Successful update of wireless profile with additional SSID details
+response_update_profile_with_additional_ssid_details:
+  description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
+    This response indicates that the wireless profile was updated successfully with additional SSID details.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Wireless profile(s) created/updated and verified successfully:
+            [{'profile_name': 'Corporate_Wireless_Profile',
+            'profile_status': 'Network Profile [bba6fd01-9d65-4bde-973a-a7ba6a9ad9b4] Successfully Updated'}]",
+        "response": [
+            {
+                "profile_name": "Corporate_Wireless_Profile",
+                "profile_status": "Network Profile [bba6fd01-9d65-4bde-973a-a7ba6a9ad9b4] Successfully Updated"
+            }
+        ],
+        "status": "success"
+    }
+
+# Case 8: Successfully deleted wireless profile
 response_delete:
   description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
     This response indicates that the wireless profile was successfully deleted from the system.
@@ -1864,7 +2150,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         ap_zones_list = input_config.get("ap_zones", [])
         feature_template_designs = have_info.get("feature_template_designs", [])
 
-        have_ap_zones = have_prof_info.get("ssidDetails", [])
+        have_ap_zones = have_prof_info.get("apZones", [])
         additional_interfaces = input_config.get("additional_interfaces", [])
         have_additional_interfaces = have_prof_info.get("additionalInterfaces", [])
         have_feature_templates = have_prof_info.get("featureTemplates", [])
@@ -1876,8 +2162,14 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             else:
                 if ssid_list:
                     for each_ssid in ssid_list:
+                        self.log("Comparing Input SSID configurations for {0}".format(
+                            each_ssid.get("ssid_name")), "INFO")
+                        input_ssid_exist_state = False
                         for have_ssid in have_ssid_details:
                             if each_ssid.get("ssid_name") == have_ssid.get("ssidName"):
+                                input_ssid_exist_state = True
+                                self.log("Matching SSID found: {0}. Comparing configurations...".format(
+                                    each_ssid.get("ssid_name")), "INFO")
                                 ssid_match, unmatched_values = (
                                     self.compare_each_config_with_have(
                                         each_ssid, have_ssid, "ssid_details"
@@ -1892,6 +2184,15 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                         "WARNING",
                                     )
 
+                        if not input_ssid_exist_state:
+                            unmatched_keys.append(each_ssid)
+                            self.log(
+                                "SSID '{0}' not found in existing profile.".format(
+                                    each_ssid.get("ssid_name")
+                                ),
+                                "WARNING",
+                            )
+
         if ap_zones_list:
             if not have_ap_zones:
                 self.log("No AP Zone details found in the existing profile.", "DEBUG")
@@ -1899,10 +2200,16 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             else:
                 self.log("Comparing AP Zone configurations with existing profile AP Zones", "INFO")
                 for ap_zone in ap_zones_list:
+                    self.log("Comparing Input AP Zone configuration for {0}".format(
+                            ap_zone.get("ap_zone_name")), "INFO")
+                    input_ap_zone_exist_state = False
                     for have_zone in have_ap_zones:
                         if ap_zone.get("ap_zone_name") == have_zone.get(
                             "apZoneName"
                         ):
+                            input_ap_zone_exist_state = True
+                            self.log("Matching AP Zone found: {0}. Comparing configurations...".format(
+                                ap_zone.get("ap_zone_name")), "INFO")
                             zone_match, unmatched_values = (
                                 self.compare_each_config_with_have(
                                     ap_zone, have_zone, "ap_zones"
@@ -1916,6 +2223,15 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                     "WARNING",
                                 )
                                 unmatched_keys.append(unmatched_values)
+
+                    if not input_ap_zone_exist_state:
+                        unmatched_keys.append(ap_zone)
+                        self.log(
+                            "AP Zone '{0}' not found in existing profile.".format(
+                                ap_zone.get("ap_zone_name")
+                            ),
+                            "WARNING",
+                        )
 
         if additional_interfaces:
             if not have_additional_interfaces:
@@ -2491,6 +2807,15 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                 ),
                                 "DEBUG",
                             )
+                    if zone_value != have_data.get(zone_key):
+                        self.log(
+                            "SSID list mismatch in AP Zone. Expected: {0}, Found: {1}".format(
+                                zone_value, have_data.get(zone_key)
+                            ),
+                            "DEBUG",
+                        )
+                        un_match_data[zone_key] = zone_value
+
                 elif zone_key in ["ap_zone_name", "rf_profile_name"]:
                     if input_data[zone_key] != have_data.get(self.keymap[zone_key]):
                         un_match_data[zone_key] = zone_value
