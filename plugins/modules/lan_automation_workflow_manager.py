@@ -854,7 +854,8 @@ EXAMPLES = r"""
     state: deleted
     config:
     - port_channel:
-        - source_device_management_ip_address: 10.1.1.1   # Deletes every Port Channel from source device 10.1.1.1, regardless of destination.
+        - source_device_management_ip_address: 10.1.1.1
+        # Deletes every Port Channel from source device 10.1.1.1, regardless of destination.
 """
 RETURN = r"""
 dnac_response:
