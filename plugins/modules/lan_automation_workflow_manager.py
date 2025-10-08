@@ -705,17 +705,17 @@ EXAMPLES = r"""
     config_verify: false
     state: merged
     config:
-    - port_channel:
-        - source_device_management_ip_address: 10.1.1.1
-          destination_device_management_ip_address: 20.1.1.1
-          links:
-            - source_port: GigabitEthernet1/0/1
-              destination_port: GigabitEthernet2/0/1
-            - source_port: GigabitEthernet1/0/2
-              destination_port: GigabitEthernet2/0/2
+      - port_channel:
+          - source_device_management_ip_address: 10.1.1.1
+            destination_device_management_ip_address: 20.1.1.1
+            links:
+              - source_port: GigabitEthernet1/0/1
+                destination_port: GigabitEthernet2/0/1
+              - source_port: GigabitEthernet1/0/2
+                destination_port: GigabitEthernet2/0/2
 
-- name: Update an existing Port Channel when Port Channels already exist (Provide at least one existing link)
 # Provide at least one existing link to identify the Port Channel.
+- name: Update an existing Port Channel when Port Channels already exist (Provide at least one existing link)
   cisco.dnac.lan_automation_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -728,16 +728,16 @@ EXAMPLES = r"""
     config_verify: false
     state: merged
     config:
-    - port_channel:
-        - source_device_management_ip_address: 10.1.1.1
-          destination_device_management_ip_address: 20.1.1.1
-          links:
-            # Existing link already part of the Port Channel
-            - source_port: GigabitEthernet1/0/1
-              destination_port: GigabitEthernet2/0/1
-            # New link to be added
-            - source_port: GigabitEthernet1/0/10
-              destination_port: GigabitEthernet2/0/10
+      - port_channel:
+          - source_device_management_ip_address: 10.1.1.1
+            destination_device_management_ip_address: 20.1.1.1
+            links:
+                # Existing link already part of the Port Channel
+              - source_port: GigabitEthernet1/0/1
+                destination_port: GigabitEthernet2/0/1
+                # New link to be added
+              - source_port: GigabitEthernet1/0/10
+                destination_port: GigabitEthernet2/0/10
 
 - name: Update a Port Channel using port_channel_number
 # No need to specify existing links when port_channel_number is provided.
@@ -753,13 +753,13 @@ EXAMPLES = r"""
     config_verify: false
     state: merged
     config:
-    - port_channel:
-        - source_device_management_ip_address: 10.1.1.1
-          destination_device_management_ip_address: 20.1.1.1
-          port_channel_number: 1
-          links:
-            - source_port: GigabitEthernet1/0/10
-              destination_port: GigabitEthernet2/0/10
+      - port_channel:
+          - source_device_management_ip_address: 10.1.1.1
+            destination_device_management_ip_address: 20.1.1.1
+            port_channel_number: 1
+            links:
+              - source_port: GigabitEthernet1/0/10
+                destination_port: GigabitEthernet2/0/10
 
 - name: Delete all Port Channels between two devices
   cisco.dnac.lan_automation_workflow_manager:
@@ -774,9 +774,9 @@ EXAMPLES = r"""
     config_verify: false
     state: deleted
     config:
-    - port_channel:
-        - source_device_management_ip_address: 10.1.1.1
-          destination_device_management_ip_address: 20.1.1.1
+      - port_channel:
+          - source_device_management_ip_address: 10.1.1.1
+            destination_device_management_ip_address: 20.1.1.1
 
 - name: Delete a specific link from a Port Channel
   cisco.dnac.lan_automation_workflow_manager:
@@ -791,12 +791,12 @@ EXAMPLES = r"""
     config_verify: false
     state: deleted
     config:
-    - port_channel:
-        - source_device_management_ip_address: 10.1.1.1
-          destination_device_management_ip_address: 20.1.1.1
-          links:
-            - source_port: GigabitEthernet1/0/1
-              destination_port: GigabitEthernet2/0/1            # This link will be removed from its associated Port Channel.
+      - port_channel:
+          - source_device_management_ip_address: 10.1.1.1
+            destination_device_management_ip_address: 20.1.1.1
+            links:
+              - source_port: GigabitEthernet1/0/1
+                destination_port: GigabitEthernet2/0/1            # This link will be removed from its associated Port Channel.
 
 - name: Delete an entire Port Channel between two devices by specifying all the links
   cisco.dnac.lan_automation_workflow_manager:
@@ -811,16 +811,16 @@ EXAMPLES = r"""
     config_verify: false
     state: deleted
     config:
-    - port_channel:
-        - source_device_management_ip_address: 10.1.1.1
-          destination_device_management_ip_address: 20.1.1.1
-          links:
-            - source_port: GigabitEthernet1/0/1
-              destination_port: GigabitEthernet2/0/1
-            - source_port: GigabitEthernet1/0/2
-              destination_port: GigabitEthernet2/0/2
-            - source_port: GigabitEthernet1/0/3
-              destination_port: GigabitEthernet2/0/3
+      - port_channel:
+          - source_device_management_ip_address: 10.1.1.1
+            destination_device_management_ip_address: 20.1.1.1
+            links:
+              - source_port: GigabitEthernet1/0/1
+                destination_port: GigabitEthernet2/0/1
+              - source_port: GigabitEthernet1/0/2
+                destination_port: GigabitEthernet2/0/2
+              - source_port: GigabitEthernet1/0/3
+                destination_port: GigabitEthernet2/0/3
 
 - name: Delete an entire Port Channel between two devices by specifying the port_channel_number
   cisco.dnac.lan_automation_workflow_manager:
@@ -835,10 +835,10 @@ EXAMPLES = r"""
     config_verify: false
     state: deleted
     config:
-    - port_channel:
-        - source_device_management_ip_address: 10.1.1.1
-          destination_device_management_ip_address: 20.1.1.1
-          port_channel_number: 1
+      - port_channel:
+          - source_device_management_ip_address: 10.1.1.1
+            destination_device_management_ip_address: 20.1.1.1
+            port_channel_number: 1
 
 - name: Delete all Port Channels originating from a source device
   cisco.dnac.lan_automation_workflow_manager:
@@ -853,9 +853,9 @@ EXAMPLES = r"""
     config_verify: false
     state: deleted
     config:
-    - port_channel:
-        - source_device_management_ip_address: 10.1.1.1
-        # Deletes every Port Channel from source device 10.1.1.1, regardless of destination.
+      - port_channel:
+          - source_device_management_ip_address: 10.1.1.1
+          # Deletes every Port Channel from source device 10.1.1.1, regardless of destination.
 """
 RETURN = r"""
 dnac_response:
