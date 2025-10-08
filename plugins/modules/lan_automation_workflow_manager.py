@@ -732,15 +732,15 @@ EXAMPLES = r"""
           - source_device_management_ip_address: 10.1.1.1
             destination_device_management_ip_address: 20.1.1.1
             links:
-                # Existing link already part of the Port Channel
+              # Existing link already part of the Port Channel
               - source_port: GigabitEthernet1/0/1
                 destination_port: GigabitEthernet2/0/1
-                # New link to be added
+              # New link to be added
               - source_port: GigabitEthernet1/0/10
                 destination_port: GigabitEthernet2/0/10
 
 - name: Update a Port Channel using port_channel_number
-# No need to specify existing links when port_channel_number is provided.
+  # No need to specify existing links when port_channel_number is provided.
   cisco.dnac.lan_automation_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
