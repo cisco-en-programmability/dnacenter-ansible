@@ -2201,7 +2201,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 self.log("Comparing AP Zone configurations with existing profile AP Zones", "INFO")
                 for ap_zone in ap_zones_list:
                     self.log("Comparing Input AP Zone configuration for {0}".format(
-                            ap_zone.get("ap_zone_name")), "INFO")
+                        ap_zone.get("ap_zone_name")), "INFO")
                     input_ap_zone_exist_state = False
                     for have_zone in have_ap_zones:
                         if ap_zone.get("ap_zone_name") == have_zone.get(
