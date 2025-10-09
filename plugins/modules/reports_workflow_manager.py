@@ -112,6 +112,15 @@ options:
             type: list
             elements: str
             required: false
+          view_group_version:
+            description:
+              - The version of the view group to be used for the report.
+              - Determines which version of the view group schema and available fields to use.
+              - Different versions may have different available views, field groups, and filtering options.
+              - Defaults to C(2.0.0) if not specified.
+            type: str
+            required: false
+            default: "2.0.0"
           schedule:
             description:
               - Defines when the report should be executed (immediately, later, or
@@ -138,6 +147,7 @@ options:
                       C(SCHEDULE_RECURRENCE).
                     - Must be in 'YYYY-MM-DD HH:MM AM/PM' format.
                     - Example "2025-09-02 07:30 PM".
+                    - Only future dates are allowed.
                   type: str
                   required: false
                 time_zone:
@@ -367,6 +377,7 @@ options:
                   - Client Session # viewName in viewGroup Client
                   - Busiest Client # viewName in viewGroup Client
                   - Unique Clients and Users Summary # viewName in viewGroup Client
+                  - Security Advisories Data  # viewName in viewGroup Security Advisories
               field_groups:
                 description:
                   - Groups of fields to include in the report, as defined in the
@@ -497,22 +508,22 @@ PoE                                               Location                      
 Device CPU and Memory Utilization                 Location                              Location, Device Type, Time Range
 Network Interface Utilization                     Location                              Location, Device Type, Interface Type, Time Range
 Executive Summary                                 Location                              Location, Device Type, Time Range
-All Data                                          Location                              Location, Device Type, Software Version
+All Data (inventory)                                         N/A                              Location, Device Type, Software Version
 Port Reclaim View                                 Location                              Location, Device Type
 All Data Version 2.0                              Location                              Location, Device Type, Software Version
-All Data                                          N/A                                   Device Type, Image Name, Software Version
+All Data (swim)                                         N/A                                   Device Type, Image Name, Software Version
 All Data Version 2.0                              N/A                                   Device Type, Image Name, Software Version
 AP                                                Location                              Location, AP Name, Model, Controller
 AP Radio                                          Location                              Location, AP Name, Radio Band, Controller
-AP - Usage and Client Breakdown                   Location, SSID                       Location, SSID, AP Name, Controller
+AP - Usage and Client Breakdown                   Location, AP Name                       Location, AP Name, Controller, Time Range
 Worst Interferers                                 Location                              Location, AP Name, Controller, Time Range
 AP RRM Events                                     Location                              Location, AP Name, Controller, Time Range
 AP Performance Report                             Location                              Location, AP Name, Controller, Time Range
 Long Term AP Detail                               Location                              Location, AP Name, Controller, Time Range
 Long Term AP Radio                                Location                              Location, AP Name, Radio Band, Time Range
-Long Term AP Usage and Client Breakdown           Location, SSID                       Location, SSID, AP Name, Time Range
-Long Term Client Detail                           Location, SSID, Time Range           Location, SSID, Client MAC, User Name, Time Range
-Long Term Client Session                          Location, SSID, Time Range           Location, SSID, Client MAC, Session ID, Time Range
+Long Term AP Usage and Client Breakdown           Location, AP Name                       Location, AP Name, Time Range
+Long Term Client Detail                           Location, Time Range                    Location, Client MAC, User Name, Time Range
+Long Term Client Session                          Location, Time Range                    Location, Client MAC, Session ID, Time Range
 Long Term Network Device Availability             Location                              Location, Device Type, Time Range
 Security Group to Security Group                 Source/Destination SGT               SGT, VN, Time Range
 Security Group to ISE Endpoint Profile Group     SGT, Endpoint Profile                SGT, Endpoint Profile, VN, Time Range
@@ -545,16 +556,17 @@ AireOS Controllers Licenses                       N/A                           
 License Usage Upload Details                      N/A                                  Upload Date, License Type, Status
 License Historical Usage                          N/A                                  License Type, Time Range, Usage Type
 Endpoint Profiling                                Location                             Location, Device Type, Profile Name, Time Range
-Audit Log                                         Time Range                           User Name, Event Category, Time Range, Object Type
+Audit Log                                         N/A                                  Time Range
 Configuration Archive                             Device, Time Range                   Device Name, Location, Archive Status, Time Range
-Client                                            Location, SSID                      Location, SSID, Client MAC, Device Type
-Client Summary                                    Location, SSID                      Location, SSID, Device Type, Connection Status
-Top N Summary                                     Location, SSID                      Location, SSID, Metric Type, Time Range
-Client Detail                                     Location, SSID                      Location, SSID, Client MAC, User Name
-Client Trend                                      Location, SSID, Time Range          Location, SSID, Client MAC, Metric Type, Time Range
-Client Session                                    Location, SSID, Time Range          Location, SSID, Client MAC, Session ID, Time Range
-Busiest Client                                    Location, SSID                      Location, SSID, Client MAC, Traffic Type
-Unique Clients and Users Summary                  Location, SSID                      Location, SSID, Time Range, Device Type
+Client                                            Location                              Location, Client MAC, Device Type
+Client Summary                                    Location                              Location, Device Type, Connection Status
+Top N Summary                                     Location                              Location, Metric Type, Time Range
+Client Detail                                     Location                              Location, Client MAC, User Name
+Client Trend                                      Location, Time Range                  Location, Client MAC, Metric Type, Time Range
+Client Session                                    Location, Time Range                  Location, Client MAC, Session ID, Time Range
+Busiest Client                                    N/A                                  Location, Client MAC, Traffic Type
+Unique Clients and Users Summary                  Location, Client MAC                  Location, Client MAC, Time Range, Device Type
+Security Advisories Data                         N/A                                  Device Type, Software Version, Image Name, Time Range
 """
 
 """Filter types for each filter category in Cisco Catalyst Center Reports:
@@ -724,17 +736,17 @@ Report Types with View Names and Eligible Format Types:
 COMPLIANCE REPORTS:
 - View Name: "Network Device Compliance"
 - View Group: "Compliance"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, PDF, JSON
 
 EXECUTIVE SUMMARY REPORTS:
 - View Name: "Executive Summary"
 - View Group: "Executive Summary"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: PDF
 
 INVENTORY REPORTS:
 - View Name: "All Data"
 - View Group: "Inventory"
-- Available Formats: CSV, JSON, TDE
+- Available Formats: PDF, CSV, TDE
 
 - View Name: "Port Reclaim View"
 - View Group: "Inventory"
@@ -742,12 +754,12 @@ INVENTORY REPORTS:
 
 - View Name: "All Data Version 2.0"
 - View Group: "Inventory"
-- Available Formats: CSV, JSON, TDE
+- Available Formats: CSV, PDF, TDE
 
 SWIM REPORTS:
 - View Name: "All Data"
 - View Group: "SWIM"
-- Available Formats: CSV, JSON, TDE
+- Available Formats: CSV, PDF, TDE
 
 - View Name: "All Data Version 2.0"
 - View Group: "SWIM"
@@ -756,11 +768,11 @@ SWIM REPORTS:
 ACCESS POINT REPORTS:
 - View Name: "AP"
 - View Group: "Access Point"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "AP Radio"
 - View Group: "Access Point"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "AP - Usage and Client Breakdown"
 - View Group: "Access Point"
@@ -768,61 +780,61 @@ ACCESS POINT REPORTS:
 
 - View Name: "Worst Interferers"
 - View Group: "Access Point"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "AP RRM Events"
 - View Group: "Access Point"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 NETWORK DEVICE REPORTS:
 - View Name: "Network Device Availability"
 - View Group: "Network Devices"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "Channel Change Count"
 - View Group: "Network Devices"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "Transmit Power Change Count"
 - View Group: "Network Devices"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "VLAN"
 - View Group: "Network Devices"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, TDE
 
 - View Name: "Port Capacity"
 - View Group: "Network Devices"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, TDE
 
 - View Name: "Energy Management"
 - View Group: "Network Devices"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "PoE"
 - View Group: "Network Devices"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "Device CPU and Memory Utilization"
 - View Group: "Network Devices"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "Network Interface Utilization"
 - View Group: "Network Devices"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 LONG TERM REPORTS:
 - View Name: "AP Performance Report"
 - View Group: "Long Term"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "Long Term AP Detail"
 - View Group: "Long Term"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "Long Term AP Radio"
 - View Group: "Long Term"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "Long Term AP Usage and Client Breakdown"
 - View Group: "Long Term"
@@ -830,148 +842,148 @@ LONG TERM REPORTS:
 
 - View Name: "Long Term Client Detail"
 - View Group: "Long Term"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "Long Term Client Session"
 - View Group: "Long Term"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "Long Term Network Device Availability"
 - View Group: "Long Term"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 GROUP PAIR COMMUNICATION ANALYTICS REPORTS:
 - View Name: "Security Group to Security Group"
 - View Group: "Group Pair Communication Analytics"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 - View Name: "Security Group to ISE Endpoint Profile Group"
 - View Group: "Group Pair Communication Analytics"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 - View Name: "Security Group to Host Group"
 - View Group: "Group Pair Communication Analytics"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 - View Name: "ISE Endpoint Profile Group to Security Group"
 - View Group: "Group Pair Communication Analytics"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 - View Name: "ISE Endpoint Profile Group to ISE Endpoint Profile Group"
 - View Group: "Group Pair Communication Analytics"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 - View Name: "ISE Endpoint Profile Group to Host Group"
 - View Group: "Group Pair Communication Analytics"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 - View Name: "Host Group to Security Group"
 - View Group: "Group Pair Communication Analytics"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 - View Name: "Host Group to ISE Endpoint Profile Group"
 - View Group: "Group Pair Communication Analytics"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 - View Name: "Host Group to Host Group"
 - View Group: "Group Pair Communication Analytics"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 TELEMETRY REPORTS:
 - View Name: "Device Lifecycle Information"
 - View Group: "Telemetry"
-- Available Formats: CSV, JSON, TDE
+- Available Formats: JSON
 
 GROUP COMMUNICATION SUMMARY REPORTS:
 - View Name: "Security Group to Security Groups"
 - View Group: "Group Communication Summary"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 - View Name: "Security Group to ISE Endpoint Profile Groups"
 - View Group: "Group Communication Summary"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 - View Name: "Security Group to Host Groups"
 - View Group: "Group Communication Summary"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 - View Name: "ISE Endpoint Profile Group to Security Groups"
 - View Group: "Group Communication Summary"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 - View Name: "ISE Endpoint Profile Group to ISE Endpoint Profile Groups"
 - View Group: "Group Communication Summary"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 - View Name: "ISE Endpoint Profile Group to Host Groups"
 - View Group: "Group Communication Summary"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 - View Name: "Host Group to Security Groups"
 - View Group: "Group Communication Summary"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 - View Name: "Host Group to ISE Endpoint Profile Group"
 - View Group: "Group Communication Summary"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 - View Name: "Host Group to Host Group"
 - View Group: "Group Communication Summary"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 EOX REPORTS:
 - View Name: "EoX Data"
 - View Group: "EoX"
-- Available Formats: CSV, JSON, TDE
+- Available Formats: CSV, PDF, TDE
 
 ROGUE AND aWIPS REPORTS:
 - View Name: "Threat Detail"
 - View Group: "Rogue and aWIPS"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "New Threat"
 - View Group: "Rogue and aWIPS"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "Rogue Additional Detail"
 - View Group: "Rogue and aWIPS"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 LICENSING REPORTS:
 - View Name: "Non Compliant Devices"
 - View Group: "Licensing"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, PDF
 
 - View Name: "Non Compliance Summary"
 - View Group: "Licensing"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, PDF
 
 - View Name: "AireOS Controllers Licenses"
 - View Group: "Licensing"
-- Available Formats: CSV, JSON, TDE
+- Available Formats: CSV, PDF
 
 - View Name: "License Usage Upload Details"
 - View Group: "Licensing"
-- Available Formats: CSV, JSON, TDE
+- Available Formats: CSV, PDF
 
 - View Name: "License Historical Usage"
 - View Group: "Licensing"
-- Available Formats: CSV, JSON, TDE
+- Available Formats: CSV
 
 AI ENDPOINT ANALYTICS REPORTS:
 - View Name: "Endpoint Profiling"
 - View Group: "AI Endpoint Analytics"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV
 
 AUDIT LOG REPORTS:
 - View Name: "Audit Log"
 - View Group: "Audit Log"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON
 
 CONFIGURATION ARCHIVE REPORTS:
 - View Name: "Configuration Archive"
 - View Group: "Configuration Archive"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, PDF, JSON
 
 CLIENT REPORTS:
 - View Name: "Client"
@@ -980,31 +992,36 @@ CLIENT REPORTS:
 
 - View Name: "Client Summary"
 - View Group: "Client"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: PDF
 
 - View Name: "Top N Summary"
 - View Group: "Client"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: PDF
 
 - View Name: "Client Detail"
 - View Group: "Client"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "Client Trend"
 - View Group: "Client"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: PDF
 
 - View Name: "Client Session"
 - View Group: "Client"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "Busiest Client"
 - View Group: "Client"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: CSV, JSON, TDE
 
 - View Name: "Unique Clients and Users Summary"
 - View Group: "Client"
-- Available Formats: CSV, PDF, JSON, TDE
+- Available Formats: PDF
+
+SECURITY ADVISORIES REPORTS:
+- View Name: "Security Advisories Data"
+- View Group: "Security Advisories"
+- Available Formats: CSV, PDF, TDE
 
 FORMAT TYPE DESCRIPTIONS:
 - CSV: Comma-Separated Values format, suitable for spreadsheets and data analysis
@@ -1472,6 +1489,7 @@ class Reports(DnacBase):
                     ]
                 },
                 "tags": {"type": "list", "elements": "str", "default": []},
+                "view_group_version": {"type": "str", "required": False, "default": "2.0.0"},
 
                 "schedule": {
                     "type": "dict",
