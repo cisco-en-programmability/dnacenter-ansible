@@ -3614,6 +3614,10 @@ class Provision(DnacBase):
     def initialize_feature_template_payload_structure(self, payload):
         """
         Initializes the feature template payload structure if not already present.
+        Args:
+            payload (dict): The wireless provisioning payload to be updated.
+        Returns:
+            None: The function modifies the payload in place.
         """
         self.log("Initializing feature template payload structure", "DEBUG")
 
