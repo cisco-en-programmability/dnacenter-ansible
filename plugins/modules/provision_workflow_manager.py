@@ -1793,7 +1793,6 @@ class Provision(DnacBase):
                     "DEBUG",
                 )
                 self.want["application_telemetry"] = application_telemetry
-                return self
 
             else:
                 self.msg = "Application telemetry is available only in version {0} or higher. Current version: {1}".format(
@@ -2045,7 +2044,7 @@ class Provision(DnacBase):
                                 self.device_ip
                             )
                         )
-                        self.set_operation_result("success", False, self.msg, "INFO")
+                        self.already_provisioned_wireless_device.append(self.device_ip)
                         return self
 
                 self.log("Starting wireless device provisioning...", "INFO")
@@ -2172,11 +2171,12 @@ class Provision(DnacBase):
                 ]
 
                 if (device_type and device_type in unsupported_devices) or \
-                   (device_family and device_family.lower() not in ["routers", "wireless lan controllers", "switches and hubs"]):
+                   (device_family and device_family.lower() not in ["routers", "wireless lan controllers", "switches and hubs", "wireless controller"]):
                     self.msg = ("No telemetry-applicable interfaces/WLANs found. "
                                 "device : {0} Telemetry not supported for device type: {1}, family: {2}".format(ip, device_type, device_family))
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                     return self
+
                 device_type = self.get_dev_type()
 
                 device_id = self.get_device_id_for_app_telemetry()
@@ -3556,101 +3556,212 @@ class Provision(DnacBase):
             appropriate payload structure for the provisioning API, and ensures all mandatory fields
             are present and properly formatted before adding the template configuration to the payload.
         """
-        self.log("Initiating feature template configuration processing for wireless provisioning", "DEBUG")
+        self.log("Processing feature template configuration with {0} templates".format(
+            len(feature_templates) if feature_templates else 0), "DEBUG")
+        self.log("Input feature_templates: {0}".format(self.pprint(feature_templates)), "DEBUG")
+        self.log("Input payload structure: {0}".format(self.pprint(payload)), "DEBUG")
 
         if not feature_templates:
-            self.log("Empty feature template list provided for processing", "WARNING")
+            self.log("No feature templates provided; returning original payload unchanged", "DEBUG")
             return payload
 
-        self.log("Processing feature template(s) for wireless provisioning", "DEBUG")
+        self.initialize_feature_template_payload_structure(payload)
 
-        # Process the first feature template (assuming single template for current implementation)
-        ft = feature_templates[0]
-        self.log("Processing feature template configuration data: {0}".format(self.pprint(ft)), "DEBUG")
+        processing_stats = {"processed": 0, "skipped": 0, "errors": 0}
 
-        # Validate design name
-        design_name = ft.get("design_name")
-        if not design_name:
-            self.msg = "Feature template 'design_name' is required but not provided"
-            self.log(self.msg, "ERROR")
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+        for template_index, feature_template in enumerate(feature_templates):
+            self.log("Processing feature template #{0}: {1}".format(
+                template_index + 1, self.pprint(feature_template)), "DEBUG")
 
-        self.log("Validated feature template design name: '{0}'".format(design_name), "DEBUG")
+            if not isinstance(feature_template, dict):
+                message = "Feature template entry #{0} must be a dictionary. Skipping invalid entry.".format(
+                    template_index + 1)
+                self.log(message, "WARNING")
+                processing_stats["skipped"] += 1
+                continue
 
-        # Validate additional identifiers
-        additional_identifiers = ft.get("additional_identifiers", {})
-        if not additional_identifiers:
-            self.msg = "Feature template 'additional_identifiers' is required but not provided"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            try:
+                template_entry = self.process_individual_feature_template(
+                    template_index, feature_template)
 
-        # Extract and validate WLAN profile and site hierarchy
-        wlan_profile = additional_identifiers.get("wlan_profile_name")
-        site_hierarchy = additional_identifiers.get("site_name_hierarchy")
+                if template_entry:
+                    payload["featureTemplatesOverridenAttributes"]["editFeatureTemplates"].append(
+                        template_entry)
+                    processing_stats["processed"] += 1
+                    self.log("Successfully added feature template entry for templateId '{0}'".format(
+                        template_entry.get("featureTemplateId")), "INFO")
+                else:
+                    processing_stats["skipped"] += 1
 
-        if not wlan_profile:
-            self.msg = "Feature template 'wlan_profile_name' is required in additional_identifiers but not provided"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            except Exception as exception:
+                processing_stats["errors"] += 1
+                error_message = "Failed to process feature template #{0}: {1}".format(
+                    template_index + 1, str(exception))
+                self.log(error_message, "ERROR")
 
-        if not site_hierarchy:
-            self.msg = "Feature template 'site_name_hierarchy' is required in additional_identifiers but not provided"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                if hasattr(self, "set_operation_result"):
+                    self.set_operation_result("failed", False, error_message, "ERROR").check_return_status()
+                    return payload
 
-        excluded_attributes = ft.get("excluded_attributes", [])
+        self.log("Feature template processing completed - Processed: {0}, Skipped: {1}, Errors: {2}".format(
+            processing_stats["processed"], processing_stats["skipped"], processing_stats["errors"]), "INFO")
 
-        self.log("Feature template validation completed successfully - design_name: '{0}', wlan_profile: '{1}', site_hierarchy: '{2}'".format(
-            design_name, wlan_profile, site_hierarchy), "DEBUG")
+        self.log("Final payload with feature templates: {0}".format(
+            self.pprint(payload["featureTemplatesOverridenAttributes"])), "DEBUG")
 
-        # Resolve feature template ID
-        self.log("Resolving feature template ID for design name: '{0}'".format(design_name), "DEBUG")
-        feature_template_id = self.resolve_template_id(design_name)
-        if not feature_template_id:
-            self.msg = "Failed to resolve feature template ID for design name: '{0}'".format(design_name)
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+        return payload
 
-        self.log("Successfully resolved feature template ID: '{0}' for design name: '{1}'".format(
-            feature_template_id, design_name), "INFO")
+    def initialize_feature_template_payload_structure(self, payload):
+        """
+        Initializes the feature template payload structure if not already present.
+        Args:
+            payload (dict): The wireless provisioning payload to be updated.
+        Returns:
+            None: The function modifies the payload in place.
+        """
+        self.log("Initializing feature template payload structure", "DEBUG")
 
-        # Resolve site UUID
-        self.log("Resolving site UUID for site hierarchy: '{0}'".format(site_hierarchy), "DEBUG")
-        site_exists, site_id = self.get_site_id(site_hierarchy)
-        if not site_exists or not site_id:
-            self.msg = "Failed to resolve site UUID for site hierarchy: '{0}'".format(site_hierarchy)
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+        if "featureTemplatesOverridenAttributes" not in payload:
+            payload["featureTemplatesOverridenAttributes"] = {"editFeatureTemplates": []}
+            self.log("Created new featureTemplatesOverridenAttributes structure", "DEBUG")
+            return
 
-        site_uuid = site_id
-        self.log("Successfully resolved site UUID: '{0}' for site hierarchy: '{1}'".format(
-            site_uuid, site_hierarchy), "DEBUG")
+        feature_template_attributes = payload["featureTemplatesOverridenAttributes"]
+        if (
+            "editFeatureTemplates" not in feature_template_attributes
+            or not isinstance(feature_template_attributes["editFeatureTemplates"], list)
+        ):
+            feature_template_attributes["editFeatureTemplates"] = []
+            self.log("Initialized editFeatureTemplates as empty list", "DEBUG")
 
-        # Build feature template entry
+        return
+
+    def process_individual_feature_template(self, template_index, feature_template):
+        """
+        Processes a single feature template entry and returns the formatted template entry.
+        Args:
+            template_index (int): Index of the template being processed
+            feature_template (dict): Individual feature template configuration
+        Returns:
+            dict or None: Formatted template entry for API payload, or None if skipped
+        """
+        self.log("Processing individual feature template at index {0}".format(template_index), "DEBUG")
+
+        normalized_params = self.normalize_feature_template_input(feature_template)
+        feature_template_id = normalized_params["feature_template_id"]
+        design_name = normalized_params["design_name"]
+
+        if not feature_template_id and not design_name:
+            message = "Feature template #{0} missing both 'featureTemplateId' and 'design_name'. Skipping entry.".format(
+                template_index + 1)
+            self.log(message, "WARNING")
+            return None
+
+        # Resolve template ID if only design name provided
+        if not feature_template_id and design_name:
+            self.log("Resolving feature template ID for design name '{0}'".format(design_name), "DEBUG")
+            try:
+                feature_template_id = self.resolve_template_id(design_name)
+                if not feature_template_id:
+                    message = "Failed to resolve template ID for design '{0}'. Skipping entry.".format(design_name)
+                    self.log(message, "WARNING")
+                    return None
+
+                self.log("Resolved template ID '{0}' for design '{1}'".format(
+                    feature_template_id, design_name), "DEBUG")
+
+            except Exception as exception:
+                error_message = "Exception resolving template ID for design '{0}': {1}".format(
+                    design_name, str(exception))
+                self.log(error_message, "ERROR")
+                raise
+
+        additional_identifiers_payload = self._process_additional_identifiers(
+            normalized_params["additional_identifiers"], feature_template_id)
+
+        # Perform template metadata validation (non-blocking)
+        self._validate_template_metadata_requirements(
+            feature_template_id, additional_identifiers_payload)
+
+        # Build final template entry
         template_entry = {
             "featureTemplateId": feature_template_id,
-            "attributes": {},
-            "additionalIdentifiers": {
-                "wlanProfileName": wlan_profile,
-                "siteUuid": site_uuid
-            }
+            "attributes": normalized_params["attributes"] if normalized_params["attributes"] else {}
         }
 
-        if excluded_attributes:
-            template_entry["excludedAttributes"] = excluded_attributes
-            self.log("Added {0} excluded attributes to feature template entry: {1}".format(
-                len(excluded_attributes), excluded_attributes), "DEBUG")
-        else:
-            self.log("No excluded attributes specified for feature template", "DEBUG")
+        if additional_identifiers_payload:
+            template_entry["additionalIdentifiers"] = additional_identifiers_payload
 
-        # Initialize feature templates structure in payload if not exists
-        if "featureTemplatesOverridenAttributes" not in payload:
-            payload["featureTemplatesOverridenAttributes"] = {
-                "editFeatureTemplates": []
-            }
-            self.log("Initialized featureTemplatesOverridenAttributes structure in payload", "DEBUG")
+        if normalized_params["excluded_attributes"]:
+            template_entry["excludedAttributes"] = normalized_params["excluded_attributes"]
 
-        # Add the feature template entry to payload
-        payload["featureTemplatesOverridenAttributes"]["editFeatureTemplates"].append(template_entry)
-        self.log("Successfully added feature template entry to payload for design: '{0}'".format(design_name), "INFO")
+        self.log("Built template entry: {0}".format(self.pprint(template_entry)), "DEBUG")
+        return template_entry
 
-        self.log("Feature template configuration processing completed successfully", "INFO")
-        return payload
+    def normalize_feature_template_input(self, feature_template):
+        """
+        Normalizes feature template input to handle both camelCase and snake_case formats.
+        Args:
+            feature_template (dict): Raw feature template input
+        Returns:
+            dict: Normalized parameter dictionary
+        """
+        self.log("Normalizing feature template input parameters", "DEBUG")
+
+        # Extract template identifiers with fallbacks
+        feature_template_id = (
+            feature_template.get("featureTemplateId")
+            or feature_template.get("feature_template_id")
+        )
+
+        design_name = (
+            feature_template.get("design_name")
+            or feature_template.get("designName")
+            or feature_template.get("designname")
+        )
+
+        # Extract configuration parameters
+        attributes = feature_template.get("attributes") or feature_template.get("attrs") or {}
+        if attributes is None:
+            attributes = {}
+
+        excluded_attributes = (
+            feature_template.get("excludedAttributes")
+            or feature_template.get("excluded_attributes")
+            or []
+        )
+        if excluded_attributes is None:
+            excluded_attributes = []
+
+        # Process additional identifiers
+        additional_identifiers_input = (
+            feature_template.get("additionalIdentifiers")
+            or feature_template.get("additional_identifiers")
+            or {}
+        )
+
+        # Collect top-level identifier keys if not in nested structure
+        if not additional_identifiers_input:
+            additional_identifiers_input = {}
+            identifier_keys = [
+                "wlan_profile_name", "wlanProfileName",
+                "site_name_hierarchy", "siteHierarchy",
+                "siteUuid", "site_uuid"
+            ]
+            for key in identifier_keys:
+                if key in feature_template:
+                    additional_identifiers_input[key] = feature_template[key]
+
+        normalized_result = {
+            "feature_template_id": feature_template_id,
+            "design_name": design_name,
+            "attributes": attributes,
+            "excluded_attributes": excluded_attributes,
+            "additional_identifiers": additional_identifiers_input
+        }
+
+        self.log("Normalized parameters: {0}".format(self.pprint(normalized_result)), "DEBUG")
+        return normalized_result
 
     def get_diff_deleted(self):
         """
