@@ -115,7 +115,12 @@ options:
           view_group_version:
             description:
               - The version of the view group to be used for the report.
+              - Determines which version of the view group schema and available fields to use.
+              - Different versions may have different available views, field groups, and filtering options.
               - Defaults to C(2.0.0) if not specified.
+            type: str
+            required: false
+            default: "2.0.0"
           schedule:
             description:
               - Defines when the report should be executed (immediately, later, or
