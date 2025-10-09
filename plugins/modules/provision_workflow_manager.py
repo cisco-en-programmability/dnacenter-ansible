@@ -3614,7 +3614,6 @@ class Provision(DnacBase):
     def initialize_feature_template_payload_structure(self, payload):
         """
         Initializes the feature template payload structure if not already present.
-    DOC String update....
         """
         self.log("Initializing feature template payload structure", "DEBUG")
 
