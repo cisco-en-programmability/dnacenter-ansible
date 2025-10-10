@@ -617,33 +617,6 @@ response_verification_failed:
     status: "failed"
     changed: true
 
-# Response Fields Documentation
-response_fields:
-  description: Common fields that may appear in response objects
-  fields:
-    profile_name:
-      description: Name of the wireless profile being operated on
-      type: str
-    profile_status:
-      description: Status message from the profile creation/update operation
-      type: str
-    site_status:
-      description: Status message for site assignment operations
-      type: str
-      #returned: when sites are assigned to the profile
-    template_status:
-      description: Status message for template attachment operations
-      type: str
-      #returned: when templates are attached to the profile
-    error:
-      description: Error message when operation fails
-      type: str
-      #returned: when status is failed
-    warnings:
-      description: List of warning messages for partial successes
-      type: list
-      elements: str
-      #returned: when there are non-fatal issues
 """
 
 import re
