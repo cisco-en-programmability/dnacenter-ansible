@@ -529,7 +529,9 @@ response_merged:
       response:
         - profile_name: "Corporate_Wireless_Profile"
           profile_status: "Network Profile [9a1c37bd-52a9-436c-af8c-35e64f788abd] Successfully Created"
-          site_status: "Sites ['Global/USA/SAN JOSE/SJ_BLD20/FLOOR3', 'Global/USA/SAN JOSE/SJ_BLD20/FLOOR1'] successfully associated to network profile: Corporate_Wireless_Profile"
+          site_status: "Sites ['Global/USA/SAN JOSE/SJ_BLD20/FLOOR3',
+                        'Global/USA/SAN JOSE/SJ_BLD20/FLOOR1'] successfully associated
+                        to network profile: Corporate_Wireless_Profile"
       status: "success"
       changed: true
 
