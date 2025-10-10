@@ -507,174 +507,143 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-# Case 1: Successful creation/update of wireless profile
-response_create:
-  description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
-    This response indicates that the wireless profile was either created or updated successfully.
-  returned: always
+# Case 1: Successful wireless profile operations (create/update)
+response_merged:
+  description: Response returned when wireless profile operations complete successfully.
+    Contains details about profile creation, updates, site assignments, and template associations.
+  returned: always when state=merged
   type: dict
-  sample: >
-    {
-        "msg": "Wireless Profile created/updated successfully for '[{'profile_name': 'Corporate_Wireless_Profile',
-            'status': 'Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully created'}]'.",
-        "response": [
-            {
-                "profile_name": "Corporate_Wireless_Profile",
-                "status": "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] created Successfully"
-            }
-        ],
-        "status": "success"
-    }
+  sample:
+    # Basic profile creation
+    profile_create_basic:
+      msg: "Wireless profile(s) created/updated and verified successfully"
+      response:
+        - profile_name: "Corporate_Wireless_Profile"
+          profile_status: "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Created"
+      status: "success"
+      changed: true
 
-# Case 2: Successful creation of wireless profile name only
-response_create_profile_name_only:
-  description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
-    This response indicates that the wireless profile was created successfully.
-  returned: always
-  type: dict
-  sample: >
-    {
-        "msg": "Wireless profile(s) created/updated and verified successfully:
-            [{'profile_name': 'Corporate_Wireless_Profile',
-            'profile_status': 'Network Profile [d21fb2fb-399e-4b0a-b850-0a7e2327bfd1] Successfully Created'}]",
-        "response": [
-            {
-                "profile_name": "Corporate_Wireless_Profile",
-                "profile_status": "Network Profile [d21fb2fb-399e-4b0a-b850-0a7e2327bfd1] Successfully Created"
-            }
-        ],
-        "status": "success"
-    }
+    # Profile with site assignment
+    profile_create_with_sites:
+      msg: "Wireless profile(s) created/updated and verified successfully"
+      response:
+        - profile_name: "Corporate_Wireless_Profile"
+          profile_status: "Network Profile [9a1c37bd-52a9-436c-af8c-35e64f788abd] Successfully Created"
+          site_status: "Sites ['Global/USA/SAN JOSE/SJ_BLD20/FLOOR3', 'Global/USA/SAN JOSE/SJ_BLD20/FLOOR1'] successfully associated to network profile: Corporate_Wireless_Profile"
+      status: "success"
+      changed: true
 
-# Case 3: Successful creation of wireless profile and assigned to site
-response_create_profile_assigned_to_site:
-  description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
-    This response indicates that the wireless profile was created successfully and assigned to a site.
-  returned: always
-  type: dict
-  sample: >
-    {
-        "msg": "Wireless profile(s) created/updated and verified successfully:
-            [{'profile_name': 'Corporate_Wireless_Profile',
-            'profile_status': 'Network Profile [9a1c37bd-52a9-436c-af8c-35e64f788abd] Successfully Created',
-            'site_status': Sites '['Global/USA/SAN JOSE/SJ_BLD20/FLOOR3', 'Global/USA/SAN JOSE/SJ_BLD20/FLOOR1',
-            'Global/USA/SAN JOSE/SJ_BLD20/FLOOR2', 'Global/USA/SAN JOSE/SJ_BLD20/FLOOR4',
-            'Global/USA/SAN JOSE/SJ_BLD20']' successfully associated to network profile: Corporate_Wireless_Profile.}]",
-        "response": [
-            {
-                "profile_name": "Corporate_Wireless_Profile",
-                "profile_status": "Network Profile [9a1c37bd-52a9-436c-af8c-35e64f788abd] Successfully Created",
-                "site_status": "Sites '['Global/USA/SAN JOSE/SJ_BLD20/FLOOR3', 'Global/USA/SAN JOSE/SJ_BLD20/FLOOR1',
-                                'Global/USA/SAN JOSE/SJ_BLD20/FLOOR2', 'Global/USA/SAN JOSE/SJ_BLD20/FLOOR4',
-                                'Global/USA/SAN JOSE/SJ_BLD20']' successfully associated to
-                                network profile: Corporate_Wireless_Profile."
-            }
-        ],
-        "status": "success"
-    }
+    # Profile update with template assignment
+    profile_update_with_template_assignment:
+      msg: "Wireless profile(s) created/updated and verified successfully"
+      response:
+        - profile_name: "Corporate_Wireless_Profile"
+          profile_status: "Network Profile [bba6fd01-9d65-4bde-973a-a7ba6a9ad9b4] Successfully Updated"
+          template_status: "Templates successfully attached to network profile"
+      status: "success"
+      changed: true
 
-# Case 4: Successful creation of wireless profile with feature template and assigned to site
-response_create_profile_with_feature_template:
-  description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
-    This response indicates that the wireless profile was created successfully with a feature template and assigned to a site.
-  returned: always
+# Case 2: Successful wireless profile deletion
+response_deleted:
+  description: Response returned when wireless profile deletion completes successfully.
+    Contains details about profile removal and site disassociation.
+  returned: always when state=deleted
   type: dict
-  sample: >
-    {
-        "msg": "Wireless profile(s) created/updated and verified successfully:
-            [{'profile_name': 'Corporate_Wireless_Profile',
-            'profile_status': 'Network Profile [153b0ac3-1f14-4167-a4ef-79126cef2c9c] Successfully Created',
-            'site_status': Sites '['Global/USA/SAN JOSE/SJ_BLD20/FLOOR3']' successfully associated to
-            network profile: Corporate_Wireless_Profile.}]",
-        "response": [
-            {
-                "profile_name": "Corporate_Wireless_Profile",
-                "profile_status": "Network Profile [153b0ac3-1f14-4167-a4ef-79126cef2c9c] Successfully Created",
-                "site_status": "Sites '['Global/USA/SAN JOSE/SJ_BLD20/FLOOR3']' successfully associated to
-                                network profile: Corporate_Wireless_Profile."
-            }
-        ],
-        "status": "success"
-    }
+  sample:
+    msg: "Wireless profile(s) deleted and verified successfully"
+    response:
+      - profile_name: "Corporate_Wireless_Profile"
+        status: "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted"
+        sites_unassigned: "Sites successfully disassociated before deletion"
+    status: "success"
+    changed: true
 
-# Case 5: Successful update of wireless profile with feature template
-response_update_profile_with_feature_template:
-  description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
-    This response indicates that the wireless profile was updated successfully with a feature template.
-  returned: always
+# Case 3: No changes required (idempotent)
+response_no_changes:
+  description: Response when no changes are required as the desired state already exists.
+  returned: when configuration already matches desired state
   type: dict
-  sample: >
-    {
-        "msg": "Wireless profile(s) created/updated and verified successfully:
-            [{'profile_name': 'Corporate_Wireless_Profile',
-            'profile_status': 'Network Profile [153b0ac3-1f14-4167-a4ef-79126cef2c9c] Successfully Updated'}]",
-        "response": [
-            {
-                "profile_name": "Corporate_Wireless_Profile",
-                "profile_status": "Network Profile [153b0ac3-1f14-4167-a4ef-79126cef2c9c] Successfully Updated"
-            }
-        ],
-        "status": "success"
-    }
+  sample:
+    msg: "No changes required, profile(s) already exist and match desired configuration"
+    response: []
+    status: "success"
+    changed: false
 
-# Case 6: Successful create of wireless profile with SSID details
-response_create_profile_with_ssid_details:
-  description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
-    This response indicates that the wireless profile was created successfully with SSID details.
-  returned: always
+# Case 4: Partial success with warnings
+response_partial_success:
+  description: Response when some operations succeed but others encounter issues.
+    Contains details about successful operations and any warnings or failures.
+  returned: when some operations succeed but others fail
   type: dict
-  sample: >
-    {
-        "msg": "Wireless profile(s) created/updated and verified successfully:
-            [{'profile_name': 'Corporate_Wireless_Profile',
-            'profile_status': 'Network Profile [9c0c19a3-11de-445e-a5ec-4e9a561ae4b6] Successfully Created'}]",
-        "response": [
-            {
-                "profile_name": "Corporate_Wireless_Profile",
-                "profile_status": "Network Profile [9c0c19a3-11de-445e-a5ec-4e9a561ae4b6] Successfully Created"
-            }
-        ],
-        "status": "success"
-    }
+  sample:
+    msg: "Wireless profile(s) created/updated with warnings"
+    response:
+      - profile_name: "Corporate_Wireless_Profile"
+        profile_status: "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Created"
+        warnings:
+          - "Some templates could not be attached due to permission issues"
+          - "Site assignment failed for 1 out of 3 sites"
+    status: "success"
+    changed: true
+    warnings: 2
 
-# Case 7: Successful update of wireless profile with additional SSID details
-response_update_profile_with_additional_ssid_details:
-  description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
-    This response indicates that the wireless profile was updated successfully with additional SSID details.
-  returned: always
+# Case 5: Operation failure
+response_failed:
+  description: Response when wireless profile operations fail.
+    Contains error details and information about what failed.
+  returned: when operations fail
   type: dict
-  sample: >
-    {
-        "msg": "Wireless profile(s) created/updated and verified successfully:
-            [{'profile_name': 'Corporate_Wireless_Profile',
-            'profile_status': 'Network Profile [bba6fd01-9d65-4bde-973a-a7ba6a9ad9b4] Successfully Updated'}]",
-        "response": [
-            {
-                "profile_name": "Corporate_Wireless_Profile",
-                "profile_status": "Network Profile [bba6fd01-9d65-4bde-973a-a7ba6a9ad9b4] Successfully Updated"
-            }
-        ],
-        "status": "success"
-    }
+  sample:
+    msg: "Failed to create/update wireless profile: API validation error"
+    response:
+      - profile_name: "Corporate_Wireless_Profile"
+        error: "Invalid SSID configuration: AP Zone SSID names does not exist."
+        failed_operation: "profile_creation"
+    status: "failed"
+    changed: false
 
-# Case 8: Successfully deleted wireless profile
-response_delete:
-  description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
-    This response indicates that the wireless profile was successfully deleted from the system.
-  returned: always
+# Case 6: Verification failure
+response_verification_failed:
+  description: Response when profile operations complete but verification fails.
+    Indicates the operation may have succeeded but the final state doesn't match expectations.
+  returned: when config_verify=true and verification fails
   type: dict
-  sample: >
-    {
-        "msg": "Wireless Profile deleted successfully for '[{'profile_name': 'Corporate_Wireless_Profile',
-        'status': 'Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted'}]'.",
-        "response": [
-            {
-                "profile_name": "Corporate_Wireless_Profile",
-                "status": "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted"
-            }
-        ],
-        "status": "success"
-    }
+  sample:
+    msg: "Profile operation completed but verification failed"
+    response:
+      - profile_name: "Corporate_Wireless_Profile"
+        operation_status: "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Created"
+        verification_error: "Unable to verify the profile doesn't match expected state"
+    status: "failed"
+    changed: true
+
+# Response Fields Documentation
+response_fields:
+  description: Common fields that may appear in response objects
+  fields:
+    profile_name:
+      description: Name of the wireless profile being operated on
+      type: str
+    profile_status:
+      description: Status message from the profile creation/update operation
+      type: str
+    site_status:
+      description: Status message for site assignment operations
+      type: str
+      returned: when sites are assigned to the profile
+    template_status:
+      description: Status message for template attachment operations
+      type: str
+      returned: when templates are attached to the profile
+    error:
+      description: Error message when operation fails
+      type: str
+      returned: when status is failed
+    warnings:
+      description: List of warning messages for partial successes
+      type: list
+      elements: str
+      returned: when there are non-fatal issues
 """
 
 import re
@@ -2225,10 +2194,11 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                 unmatched_keys.append(unmatched_values)
 
                     if not input_ap_zone_exist_state:
+                        ap_zone_name = ap_zone.get("ap_zone_name", "Unknown") if ap_zone else "Unknown"
                         unmatched_keys.append(ap_zone)
                         self.log(
-                            "AP Zone '{0}' not found in existing profile.".format(
-                                ap_zone.get("ap_zone_name")
+                            "AP Zone '{0}' not found in existing profile configuration.".format(
+                                ap_zone_name
                             ),
                             "WARNING",
                         )
@@ -2807,10 +2777,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                 ),
                                 "DEBUG",
                             )
-                    if zone_value != have_data.get(zone_key):
+
+                    have_zone_value = have_data.get(zone_key)
+                    if zone_value != have_zone_value:
                         self.log(
                             "SSID list mismatch in AP Zone. Expected: {0}, Found: {1}".format(
-                                zone_value, have_data.get(zone_key)
+                                zone_value, have_zone_value
                             ),
                             "DEBUG",
                         )
