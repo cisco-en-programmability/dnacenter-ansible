@@ -79,6 +79,13 @@ options:
                 2025 08:26 PM".
             type: str
             required: false
+          new_report:
+            description:
+              - Specifies whether to create a new report when a report with the same name already exists.
+              - If set to C(True) and a report with the same name is found,
+                a new report is created with a unique timestamp suffix appended to its name.
+            type: bool
+            default: true
           view_group_name:
             description:
               - The name of the view group as defined in Catalyst Center. For example, C(Inventory)
@@ -115,12 +122,7 @@ options:
           view_group_version:
             description:
               - The version of the view group to be used for the report.
-              - Determines which version of the view group schema and available fields to use.
-              - Different versions may have different available views, field groups, and filtering options.
               - Defaults to C(2.0.0) if not specified.
-            type: str
-            required: false
-            default: "2.0.0"
           schedule:
             description:
               - Defines when the report should be executed (immediately, later, or
@@ -1217,7 +1219,48 @@ EXAMPLES = r'''
                 - name: "Time Range"
                   filter_type: "TIME_RANGE"
                   value:
-                    value: "LAST_30_DAYS"
+                    time_range_option: "LAST_30_DAYS"
+
+- name: Create monthly report with time range CUSTOM filter
+  cisco.dnac.reports_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    state: merged
+    config_verify: true
+    config:
+      - generate_report:
+          - name: "monthly_client_report"
+            view_group_name: "Client"
+            tags: ["monthly", "clients"]
+            deliveries:
+              - delivery_type: "DOWNLOAD"
+                file_path: "/home/reports/monthly"
+            schedule:
+              schedule_type: "SCHEDULE_RECURRENCE"
+              date_time: "2025-09-01 06:00 AM"
+              time_zone: "Asia/Calcutta"
+              recurrence:
+                recurrence_type: "MONTHLY"
+                last_day_of_month: true
+            view:
+              view_name: "Client Detail"
+              field_groups: []
+              format:
+                format_type: "JSON"
+              filters:
+                - name: "Time Range"
+                  filter_type: "TIME_RANGE"
+                  value:
+                    time_range_option: "CUSTOM"
+                    start_date_time: "2025-10-09 07:30 PM"
+                    end_date_time: "2025-10-31 11:59 PM"
+                    time_zone: "Asia/Calcutta"
 
 - name: Delete a report from Catalyst Center
   cisco.dnac.reports_workflow_manager:
@@ -1476,6 +1519,7 @@ class Reports(DnacBase):
                 "required": True,
                 # fields for each generate_report item
                 "name": {"type": "str", "required": False},
+                "new_report": {"type": "bool", "required": False, "default": True},
                 "view_group_name": {
                     "type": "str",
                     "required": False,
@@ -1594,7 +1638,16 @@ class Reports(DnacBase):
                         },
                         "value": {
                             "type": "list",
+                            "elements": "dict",
                             "value": {"type": "str", "required": False},
+                            "start_date_time": {"type": "str", "required": False},
+                            "end_date_time": {"type": "str", "required": False},
+                            "time_zone": {"type": "str", "required": False},
+                            "time_range_option": {
+                                "type": "str", 
+                                "required": False,
+                                "choices": ["CUSTOM", "LAST_7_DAYS","LAST_24_HOURS", "LAST_3_HOURS"]
+                                },
                             "required": False
                         },
                     },
@@ -2252,7 +2305,107 @@ class Reports(DnacBase):
                 if not self._process_location_filter(filter_entry, filter_index):
                     return False
 
+            # Process time range filters
+            if filter_entry.get("name") == "Time Range":
+                if not self._process_time_range_filter(filter_entry, filter_index):
+                    return False
+
         self.log("View configuration validation completed successfully", "DEBUG")
+        return True
+
+    def _process_time_range_filter(self, filter_entry, filter_index):
+        """Validate and process the 'Time Range' filter by converting date strings to epoch milliseconds.
+
+        This method:
+        - Validates the presence and format of `start_date_time`, `end_date_time`, and `time_zone`.
+        - Converts readable date strings (e.g., "2025-10-09 07:30 PM") to epoch milliseconds.
+        - Updates the filter value to match the format expected by the DNAC API.
+
+        Parameters:
+            filter_entry (dict): Filter configuration containing 'value' with date/time fields.
+            filter_index (int): Index of the filter being processed (for logging context).
+
+        Returns:
+            bool: True if successful; False if validation or conversion fails.
+        """
+        self.log(
+            f"Processing time range filter {filter_index + 1} with filter entry: {self.pprint(filter_entry)}",
+            "DEBUG"
+        )
+
+        filter_value = filter_entry.get("value")
+        if not filter_value:
+            self.log("No time range provided, please provide a valid time range.", "DEBUG")
+            self.msg = "No time range provided in 'Time Range' filter."
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return False
+
+        # Expecting a single dict, not a list
+        item = filter_value[0] if isinstance(filter_value, list) else filter_value
+        time_range_option = item.get("time_range_option")
+        if not time_range_option:
+            self.msg = "Missing required field 'time_range_option' in 'Time Range' filter."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        if time_range_option in ["LAST_7_DAYS", "LAST_24_HOURS", "LAST_3_HOURS"]:
+            updated_value = {
+                "timeRangeOption": item.get("time_range_option", "Custom"),
+                "displayValue": filter_entry.get("display_value", filter_entry["name"]),
+            }
+            filter_entry["value"] = updated_value
+            self.log(f"Time range option '{time_range_option}' does not require further processing.", "DEBUG")
+            return True  # No further processing needed for these options
+
+        required_fields = ["start_date_time", "end_date_time", "time_zone"]
+        for field in required_fields:
+            if field not in item or not item[field]:
+                self.msg = f"Missing required field '{field}' in 'Time Range' filter."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+        # Validate timezone
+        time_zone = item["time_zone"]
+        if time_zone not in pytz.all_timezones:
+            self.msg = (
+                f"Invalid time_zone '{time_zone}'. "
+                "Please use a valid IANA timezone (e.g., 'Asia/Calcutta')."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # Convert dates to epoch
+        start_str, end_str = item["start_date_time"], item["end_date_time"]
+        self.log(f"Converting time range: start={start_str}, end={end_str}", "DEBUG")
+
+        start_epoch = self.convert_to_epoch(start_str)
+        end_epoch = self.convert_to_epoch(end_str)
+
+        if start_epoch is None or end_epoch is None:
+            self.msg = (
+                "Invalid date format in 'Time Range' filter. "
+                "Expected 'YYYY-MM-DD HH:MM AM/PM'."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # Prepare final structure
+        display_value = f"{start_str} to {end_str}"
+        updated_value = {
+            "timeRangeOption": item.get("time_range_option", "Custom"),
+            "startDateTime": start_epoch,
+            "endDateTime": end_epoch,
+            "timeZone": time_zone,
+            "displayValue": display_value,
+        }
+
+        filter_entry["value"] = updated_value
+        filter_entry["display_value"] = filter_entry.get("display_value", filter_entry["name"])
+
+        self.log(
+            f"Successfully processed time range filter: start={start_epoch}, end={end_epoch}, zone={time_zone}",
+            "DEBUG"
+        )
         return True
 
     def _process_location_filter(self, filter_entry, filter_index):
@@ -2999,7 +3152,7 @@ class Reports(DnacBase):
                     return self
 
                 # Handle existing reports
-                if report_entry.get("exists"):
+                if report_entry.get("exists") and report_entry.get("new_report") is False:
                     if not self._handle_existing_report(report_entry):
                         return self
                     continue
@@ -3065,6 +3218,17 @@ class Reports(DnacBase):
         """
         report_name = report_entry.get("name")
         self.log("Creating new report: '{0}'".format(report_name), "DEBUG")
+        if report_entry.get("exists") and report_entry.get("new_report", True) is True:
+            # Append timestamp to make the name unique
+            timestamp_suffix = datetime.now().strftime("%Y%m%dT%H%M%S")
+            new_report_name = f"{report_name}_{timestamp_suffix}"
+            self.log(
+                f"Report with name '{report_name}' already exists. "
+                f"Updating name to '{new_report_name}' to ensure uniqueness.",
+                "DEBUG"
+            )
+            report_entry["name"] = new_report_name
+            report_name = report_entry.get("name")
 
         # Prepare API payload
         report_payload = self._prepare_report_payload(report_entry)
