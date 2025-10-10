@@ -411,15 +411,36 @@ options:
             description: Specify the name of the device
               family such as Switches and Hubs, etc.
             type: str
-          api_task_timeout:
+          distribution_task_timeout:
             description: |
-              Timeout duration in seconds for image distribution API operations. Controls how long
-              the system waits for image distribution tasks to complete, including image transfer
-              to target devices, network propagation, and distribution validation. Default of 2400
-              seconds (40 minutes) accounts for large image files, multiple target devices, and
-              network latency. Adjust based on distribution scope, network bandwidth, and image size.
-            type: int
-            default: 1800
+              Timeout duration in seconds for image distribution API operations.
+              Controls how long the system waits for image distribution tasks to complete,
+              including image transfer to target devices, network propagation, and distribution validation.
+
+              Operation phases covered by this timeout:
+              - Image preparation and validation on Catalyst Center
+              - Network transfer to target devices
+              - Installation verification on target devices
+              - Distribution status confirmation
+
+              Default of 1800 seconds (30 minutes) accounts for:
+              - Large image files (up to several GB)
+              - Multiple target devices in site-based operations
+              - Network latency and bandwidth constraints
+              - Device processing and storage capabilities
+
+              Recommended timeout values:
+              - Small networks (1-10 devices): 900-1800 seconds
+              - Medium networks (10-50 devices): 1800-3600 seconds
+              - Large networks (50+ devices): 3600-7200 seconds
+
+              Note: This timeout is independent of the global 'dnac_api_task_timeout' parameter
+              and specifically applies to distribution operations only.
+
+              default: 1800
+              type: int
+              version_added: 3.1.3.0
+
           site_name:
             description: Used to get device details
               associated to this site.
@@ -476,15 +497,39 @@ options:
               ACCESS, BORDER ROUTER, DISTRIBUTION, and
               CORE.
             type: str
-          api_task_timeout:
+          activation_task_timeout:
             description: |
-              Timeout duration in seconds for image activation API operations. Controls how long
-              the system waits for image upload, installation, and activation processes to complete
-              before timing out. Default of 2400 seconds (40 minutes) accommodates large image
-              transfers and device processing time. Adjust based on network speed, image size,
-              and device capabilities.
-            type: int
-            default: 1800
+              Timeout duration in seconds for image activation API operations.
+              Controls how long the system waits for image activation processes to complete
+              before timing out, including device reboot and startup verification.
+
+              Operation phases covered by this timeout:
+              - Image validation and preparation for activation
+              - Device upgrade mode processing (install/bundle/currentlyExists)
+              - Device reboot and startup sequence (if required)
+              - Post-activation connectivity and status verification
+              - Golden image validation (if applicable)
+
+              Default of 1800 seconds (30 minutes) accommodates:
+              - Device boot time variations (switches: 5-15 min, routers: 10-20 min)
+              - Image installation and verification processes
+              - Network convergence and connectivity restoration
+              - Multiple devices in concurrent activation scenarios
+
+              Recommended timeout values by device type:
+              - Access switches: 1200-1800 seconds (20-30 minutes)
+              - Distribution/Core switches: 1800-2700 seconds (30-45 minutes)
+              - Routers and complex devices: 2700-3600 seconds (45-60 minutes)
+
+              Warning: Setting timeout too low may cause premature failure reporting
+              for successful but slow activation processes.
+
+              Note: This timeout is independent of the global 'dnac_api_task_timeout' parameter
+
+              type: int
+              default: 1800
+              version_added: 3.1.3.0
+
           device_family_name:
             description: Specify the name of the device
               family such as Switches and Hubs, etc.
@@ -910,7 +955,7 @@ EXAMPLES = r"""
     config:
       - image_activation_details:
           site_name: Global/USA/San Francisco/BGL_18
-          api_task_timeout: 2500
+          activation_task_timeout: 2500
           device_role: ALL
           device_family_name: Switches and Hubs
           device_series_name: Cisco Catalyst 9300 Series Switches
@@ -1429,16 +1474,19 @@ class Swim(DnacBase):
         device_uuid_list = []
         device_id_list, site_response_list = [], []
         if not site_name:
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+            current_version = self.get_ccc_version()
+            if self.compare_dnac_versions(current_version, "2.3.5.3") <= 0:
                 site_name = "Global/.*"
                 self.log(
-                    "Site name not specified; defaulting to 'Global/.*' to fetch all devices under this category",
+                    "Catalyst Center version {0} (≤2.3.5.3) detected - using wildcard pattern 'Global/.*' "
+                    "to fetch devices from Global site and all child sites via legacy API".format(current_version),
                     "INFO",
                 )
             else:
                 site_name = "Global"
                 self.log(
-                    "Site name not specified; defaulting to 'Global' to fetch all devices under this category",
+                    "Catalyst Center version {0} (>2.3.5.3) detected - using 'Global' site name "
+                    "to fetch devices via enhanced site hierarchy API".format(current_version),
                     "INFO",
                 )
 
@@ -1499,7 +1547,6 @@ class Swim(DnacBase):
                     for item_dict in item["response"]:
                         site_response_list.append(item_dict)
         else:
-            self.log(site_name, "DEBUG")
             if site_name:
                 self.log(
                     "Fetching devices for site '{0}'".format(site_name), "DEBUG"
@@ -3074,7 +3121,7 @@ class Swim(DnacBase):
         device_family = distribution_details.get("device_family_name")
         device_role = distribution_details.get("device_role", "ALL")
         device_series_name = distribution_details.get("device_series_name")
-        self.max_timeout = distribution_details.get("api_task_timeout", 1800)
+        self.max_timeout = distribution_details.get("distribution_task_timeout", 1800)
         self.log(
             "Fetching device UUIDs for site '{0}', family '{1}', role '{2}', and series '{3}'.".format(
                 site_name, device_family, device_role, device_series_name
@@ -3635,7 +3682,7 @@ class Swim(DnacBase):
         device_family = activation_details.get("device_family_name")
         device_role = activation_details.get("device_role", "ALL")
         device_series_name = activation_details.get("device_series_name")
-        self.max_timeout = activation_details.get("api_task_timeout", 1800)
+        self.max_timeout = activation_details.get("activation_task_timeout", 1800)
 
         self.log(
             "Fetching device UUIDs for site '{0}', family '{1}', role '{2}', and series '{3}'.".format(
@@ -4046,7 +4093,7 @@ class Swim(DnacBase):
                     params={"payload": activation_payload_list},
                 )
                 self.log("API response from 'bulk_update_images_on_network_devices': {0}".format(str(response)), "DEBUG")
-                self.check_swim_tasks_response_status(response, "bulk_update_images_on_network_devices")
+                self.check_swim_tasks_response_status(response, "bulk_update_images_on_network_devices", "activation_task_timeout")
 
                 if response and self.status not in ["failed", "exited"]:
                     self.msg = "All eligible images activated successfully on the devices {0}.".format(", ".join(device_ips))
@@ -4092,70 +4139,224 @@ class Swim(DnacBase):
             self.complete_successful_activation = True
         return self
 
-    def check_swim_tasks_response_status(self, response, api_name):
+    def check_swim_tasks_response_status(self, response, api_name, operation_details=None):
         """
-        Get the task response status from taskId
+        Get the task response status from taskId for SWIM operations.
         Args:
-            self: The current object details.
-            response (dict): API response.
-            api_name (str): API name.
-        Returns:
-            self (object): The current object with updated desired Fabric Transits information.
-        Description:
-            Poll the function 'get_tasks_by_id' until it returns either 'SUCCESS' or 'FAILURE'
-            state or till it reaches the maximum timeout.
-            Log the task details and return self.
-        """
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            response (dict): API response containing task information from SWIM operations.
+            api_name (str): Name of the API operation being monitored for logging context.
+            operation_details (dict, optional): Operation configuration for timeout determination.
 
+        Returns:
+            self (object): Updated instance with task execution results and status information.
+
+        Description:
+            Monitors SWIM task execution by polling the 'get_tasks_by_id' function until the task
+            reaches SUCCESS or FAILURE state, or until the maximum timeout is exceeded. Uses
+            operation-specific timeouts when available, falling back to global or default values.
+            Handles error conditions, timeout scenarios, and provides detailed logging throughout
+            the monitoring process.
+        """
+        self.log("Starting SWIM task status monitoring for API operation: {0}".format(api_name), "DEBUG")
+        self.log("Input response: {0}".format(response), "DEBUG")
+        self.log("Operation details for timeout calculation: {0}".format(operation_details), "DEBUG")
         if not response:
-            self.msg = "response is empty"
+            self.msg = "Empty response received from API '{0}' - cannot monitor task status".format(api_name)
             self.status = "exited"
             return self
 
         if not isinstance(response, dict):
-            self.msg = "response is not a dictionary"
+            self.msg = "Invalid response format from API '{0}' - expected dictionary, got {1}".format(
+                api_name, type(response).__name__
+            )
             self.status = "exited"
             return self
 
         task_info = response.get("response")
+        if not task_info:
+            self.msg = "Missing task information in response from API '{0}'".format(api_name)
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self
+
         if task_info.get("errorcode") is not None:
-            self.msg = response.get("response").get("detail")
+            error_detail = task_info.get("detail", "Unknown error occurred")
+            self.msg = "API '{0}' returned error: {1}".format(api_name, error_detail)
+            self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
 
         task_id = task_info.get("taskId")
+        if not task_id:
+            self.msg = "Missing taskId in response from API '{0}'".format(api_name)
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self
         start_time = time.time()
+        # Determine appropriate timeout for this operation
+        if operation_details:
+            operation_type = api_name.lower().replace("trigger_software_image_", "").replace("_", "")
+            max_timeout = self.get_operation_timeout(operation_type, operation_details)
+        else:
+            max_timeout = getattr(self, 'max_timeout', self.params.get("dnac_api_task_timeout", 1800))
+
+        poll_interval = self.params.get("dnac_task_poll_interval", 2)
+
+        self.log(
+            "Monitoring task '{0}' from API '{1}' with timeout {2}s and poll interval {3}s".format(
+                task_id, api_name, max_timeout, poll_interval
+            ),
+            "INFO"
+        )
+
+        start_time = time.time()
+        task_status_history = []
         while True:
             elapsed_time = time.time() - start_time
-            if elapsed_time >= self.max_timeout:
-                self.msg = "Max timeout of {0} sec has reached for the task id '{1}'. " \
-                           .format(self.max_timeout, task_id) + \
-                           "Exiting the loop due to unexpected API '{0}' status.".format(api_name)
+
+            # Check for timeout
+            if elapsed_time >= max_timeout:
+                self.msg = (
+                    "Timeout of {0} seconds reached for task '{1}' from API '{2}'. "
+                    "Task may still be running on Catalyst Center. "
+                    "Consider increasing timeout or checking task status manually."
+                ).format(max_timeout, task_id, api_name)
                 self.log(self.msg, "WARNING")
                 self.status = "failed"
                 break
 
-            task_details = self.get_tasks_by_id(task_id)
-            self.log('Getting tasks details from task ID {0}: {1}'
-                     .format(task_id, task_details), "DEBUG")
+            # Get current task status
+            try:
+                task_details = self.get_tasks_by_id(task_id)
+                self.log(
+                    "Retrieved task details for ID '{0}': {1}".format(task_id, task_details),
+                    "DEBUG"
+                )
+            except Exception as e:
+                self.msg = "Failed to retrieve task details for ID '{0}': {1}".format(task_id, str(e))
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                break
 
-            task_status = task_details.get("status")
+            if not task_details:
+                self.log(
+                    "Empty task details received for ID '{0}', retrying...".format(task_id),
+                    "WARNING"
+                )
+                time.sleep(poll_interval)
+                continue
+
+            task_status = task_details.get("status", "UNKNOWN")
+
+            # Track status changes for debugging
+            if not task_status_history or task_status_history[-1] != task_status:
+                task_status_history.append(task_status)
+                self.log(
+                    "Task '{0}' status changed to: {1} (elapsed: {2:.1f}s)".format(
+                        task_id, task_status, elapsed_time
+                    ),
+                    "INFO"
+                )
+
+            # Handle terminal states
             if task_status == "FAILURE":
-                details = self.get_task_details_by_id(task_id)
-                self.msg = details.get("failureReason")
+                try:
+                    failure_details = self.get_task_details_by_id(task_id)
+                    failure_reason = failure_details.get("failureReason", "Unknown failure reason")
+                    self.msg = "Task '{0}' from API '{1}' failed: {2}".format(
+                        task_id, api_name, failure_reason
+                    )
+                    self.log(self.msg, "ERROR")
+                except Exception as e:
+                    self.msg = "Task '{0}' failed and unable to retrieve failure details: {1}".format(
+                        task_id, str(e)
+                    )
+                    self.log(self.msg, "ERROR")
+
                 self.status = "failed"
                 break
 
             elif task_status == "SUCCESS":
                 self.result["changed"] = True
-                self.log("The task with task ID '{0}' is executed successfully."
-                         .format(task_id), "INFO")
+                self.msg = "Task '{0}' from API '{1}' completed successfully in {2:.1f} seconds".format(
+                    task_id, api_name, elapsed_time
+                )
+                self.log(self.msg, "INFO")
+                self.status = "success"
                 break
 
-            self.log("Progress is {0} for task ID: {1}"
-                     .format(task_status, task_id), "DEBUG")
+            # Handle unknown/unexpected status
+            elif task_status not in ["IN_PROGRESS", "PENDING", "RUNNING"]:
+                self.log(
+                    "Unexpected task status '{0}' for task '{1}'. Continuing to monitor...".format(
+                        task_status, task_id
+                    ),
+                    "WARNING"
+                )
+
+            # Log periodic progress updates
+            if int(elapsed_time) % 30 == 0 and elapsed_time > 0:  # Every 30 seconds
+                progress_info = task_details.get("progress", "No progress information")
+                self.log(
+                    "Task '{0}' progress update: {1} (status: {2}, elapsed: {3:.1f}s)".format(
+                        task_id, progress_info, task_status, elapsed_time
+                    ),
+                    "DEBUG"
+                )
+
+            time.sleep(poll_interval)
+
+        # Log final task monitoring summary
+        self.log(
+            "Task monitoring completed for '{0}'. Final status: {1}, Total time: {2:.1f}s, Status history: {3}".format(
+                task_id, self.status, time.time() - start_time, " -> ".join(task_status_history)
+            ),
+            "INFO"
+        )
 
         return self
+
+    def get_operation_timeout(self, operation_type, operation_details):
+        """
+        Get the appropriate timeout value for specific SWIM operations.
+
+        Args:
+            operation_type (str): Type of operation ('distribution' or 'activation')
+            operation_details (dict): Operation configuration details
+
+        Returns:
+            int: Timeout value in seconds
+        """
+        self.log("Determining timeout for {0} operation".format(operation_type), "DEBUG")
+
+        # Map operation types to their specific timeout parameter names
+        timeout_key_mapping = {
+            "distribution": "distribution_task_timeout",
+            "activation": "activation_task_timeout"
+        }
+
+        # Get operation-specific timeout if provided
+        timeout_key = timeout_key_mapping.get(operation_type)
+        if timeout_key and timeout_key in operation_details:
+            operation_timeout = operation_details[timeout_key]
+            self.log(
+                "Using operation-specific {0}: {1} seconds for {2}".format(
+                    timeout_key, operation_timeout, operation_type
+                ),
+                "INFO"
+            )
+            return operation_timeout
+
+        # Fallback to global timeout
+        global_timeout = self.params.get("dnac_api_task_timeout", 1800)
+        self.log(
+            "Using global dnac_api_task_timeout: {0} seconds for {1}".format(
+                global_timeout, operation_type
+            ),
+            "INFO"
+        )
+        return global_timeout
 
     def get_diff_merged(self, config):
         """
