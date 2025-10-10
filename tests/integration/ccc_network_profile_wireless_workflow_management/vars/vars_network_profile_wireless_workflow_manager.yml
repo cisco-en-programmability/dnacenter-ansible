@@ -1,94 +1,69 @@
 ---
 create_wireless_profile:
-  - profile_name: "test_wireless_1"
+  - profile_name: "Corporate_Wireless_Profile"
     site_names:
-      - "Global/Chennai/LTTS/FLOOR11"
+      - "Global/Chennai/LTTS/FLOOR1"
       - "Global/Madurai/LTTS/FLOOR1"
     ssid_details:
       - ssid: "GuestLTTS"
         enable_fabric: false
-        wlan_profile_name: "GuestLTTS_profile"
-        policy_profile_name: "GuestLTTS_profile"
-        vlan_group_name: "test_vlan_group_1"
+        dot11be_profile_name: "Corporate_VLAN"
+        vlan_group_name: "Corporate_VLAN_Group"
       - ssid: "NY_SSID"
         enable_fabric: false
-        wlan_profile_name: "NY_SSID_Profile"
-        policy_profile_name: "NY_SSID_Profile"
-        interface_name: "test_interface_1"
-        local_to_vlan: 2001
+        dot11be_profile_name: "Corporate_VLAN"
+        interface_name: "guest_network"
+        local_to_vlan: 3002
     ap_zones:
       - ap_zone_name: "AP_Zone_North"
         rf_profile_name: "LOW"
         ssids:
           - "GuestLTTS"
     additional_interfaces:
-      - interface_name: "test_interface_1"
+      - interface_name: "Corp_Interface_1"
         vlan_id: 20
-      - interface_name: "test_interface_2"
+      - interface_name: "Corp_Interface_1"
         vlan_id: 22
-    onboarding_templates:
-      - "Ansible_PNP_Switch"
     day_n_templates:
       - "WLC Template"
+    feature_template_designs:
+      - design_type: Advanced SSID Configuration
+        feature_templates:
+          - Default Advanced SSID Design
+        applicability_ssids:
+          - HQ_WiFi
+          - Branch_Secure
 
 update_wireless_profile:
-  - profile_name: "test_wireless_1"
+  - profile_name: "Corporate_Wireless_Profile"
     site_names:
       - "Global/Chennai/LTTS/FLOOR11"
     ssid_details:
       - ssid: "GuestLTTS"
         enable_fabric: false
-        wlan_profile_name: "GuestLTTS_profile"
-        policy_profile_name: "GuestLTTS_profile"
-        vlan_group_name: "test_vlan_group_1"
+        dot11be_profile_name: "Corporate_VLAN"
+        vlan_group_name: "Corporate_VLAN_Group"
       - ssid: "NY_SSID"
         enable_fabric: false
-        wlan_profile_name: "NY_SSID_Profile"
-        policy_profile_name: "NY_SSID_Profile"
-        interface_name: "test_interface_1"
-        local_to_vlan: 2001
+        dot11be_profile_name: "Corporate_VLAN"
+        interface_name: "guest_network"
+        local_to_vlan: 3002
     ap_zones:
       - ap_zone_name: "AP_Zone_North"
         rf_profile_name: "LOW"
         ssids:
           - "GuestLTTS"
     additional_interfaces:
-      - interface_name: "test_interface_1"
+      - interface_name: "Corp_Interface_1"
         vlan_id: 20
-      - interface_name: "test_interface_2"
+      - interface_name: "Corp_Interface_1"
         vlan_id: 22
-    onboarding_templates:
-      - "Ansible_PNP_Switch"
     day_n_templates:
       - "WLC Template"
+    feature_template_designs:
+      - design_type: AAA_RADIUS_ATTRIBUTES_CONFIGURATION
+        feature_templates:
+          - Radius Feature templates
 
 delete_wireless_profile:
-  - profile_name: "test_wireless_1"
-    site_names:
-      - "Global/Chennai/LTTS/FLOOR11"
-    ssid_details:
-      - ssid: "GuestLTTS"
-        enable_fabric: false
-        wlan_profile_name: "GuestLTTS_profile"
-        policy_profile_name: "GuestLTTS_profile"
-        vlan_group_name: "test_vlan_group_1"
-      - ssid: "NY_SSID"
-        enable_fabric: false
-        wlan_profile_name: "NY_SSID_Profile"
-        policy_profile_name: "NY_SSID_Profile"
-        interface_name: "test_interface_1"
-        local_to_vlan: 2001
-    ap_zones:
-      - ap_zone_name: "AP_Zone_North"
-        rf_profile_name: "LOW"
-        ssids:
-          - "GuestLTTS"
-    additional_interfaces:
-      - interface_name: "test_interface_1"
-        vlan_id: 20
-      - interface_name: "test_interface_2"
-        vlan_id: 22
-    onboarding_templates:
-      - "Ansible_PNP_Switch"
-    day_n_templates:
-      - "WLC Template"
+  - profile_name: "Corporate_Wireless_Profile"
