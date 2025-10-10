@@ -1,0 +1,10 @@
+{
+    "docs": "https://docs.ansible.com/ansible-core/2.15/dev_guide/testing/sanity/validate-modules.html", 
+    "results": [
+        {
+            "message": "The test `ansible-test sanity --test validate-modules` [[explain](https://docs.ansible.com/ansible-core/2.15/dev_guide/testing/sanity/validate-modules.html)] failed with 1 error:", 
+            "output": "plugins/modules/swim_workflow_manager.py:0:0: option-invalid-version-added: DOCUMENTATION.options.config.suboptions.image_distribution_details.suboptions.distribution_task_timeout: version_added ('3.1.3.0') is not a valid collection version (see specification at https://semver.org/): invalid semantic version '3.1.3.0' for dictionary value @ data['options']['config']['suboptions']['image_distribution_details']['suboptions']['distribution_task_timeout']. Got {'description': \"Timeout duration in seconds for image distribution API operations.\\nControls how long the system waits for image distribution tasks to complete,\\nincluding image transfer to target devices, network propagation, and distribution validation.\\n\\nOperation phases covered by this timeout:\\n- Image preparation and validation on Catalyst Center\\n- Network transfer to target devices\\n- Installation verification on target devices\\n- Distribution status confirmation\\n\\nDefault of 1800 ..."
+        }
+    ], 
+    "verified": false
+}
