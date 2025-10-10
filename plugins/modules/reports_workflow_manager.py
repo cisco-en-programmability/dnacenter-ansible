@@ -1644,10 +1644,10 @@ class Reports(DnacBase):
                             "end_date_time": {"type": "str", "required": False},
                             "time_zone": {"type": "str", "required": False},
                             "time_range_option": {
-                                "type": "str", 
+                                "type": "str",
                                 "required": False,
-                                "choices": ["CUSTOM", "LAST_7_DAYS","LAST_24_HOURS", "LAST_3_HOURS"]
-                                },
+                                "choices": ["CUSTOM", "LAST_7_DAYS", "LAST_24_HOURS", "LAST_3_HOURS"]
+                            },
                             "required": False
                         },
                     },
