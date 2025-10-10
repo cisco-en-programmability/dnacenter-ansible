@@ -618,7 +618,7 @@ response_verification_failed:
     changed: true
 
 # Response Fields Documentation
-response_fields:
+response:
   description: Common fields that may appear in response objects
   fields:
     profile_name:
