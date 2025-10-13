@@ -411,7 +411,7 @@ options:
             description: Specify the name of the device
               family such as Switches and Hubs, etc.
             type: str
-          Image_distribution_timeout:
+          image_distribution_timeout:
             description: |
               Timeout duration in seconds for image distribution API operations.
               Controls how long the system waits for image distribution tasks to complete,
@@ -3121,7 +3121,7 @@ class Swim(DnacBase):
         device_family = distribution_details.get("device_family_name")
         device_role = distribution_details.get("device_role", "ALL")
         device_series_name = distribution_details.get("device_series_name")
-        self.max_timeout = distribution_details.get("Image_distribution_timeout", 1800)
+        self.max_timeout = distribution_details.get("image_distribution_timeout", 1800)
         self.log(
             "Fetching device UUIDs for site '{0}', family '{1}', role '{2}', and series '{3}'.".format(
                 site_name, device_family, device_role, device_series_name
