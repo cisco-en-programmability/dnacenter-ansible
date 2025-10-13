@@ -1680,8 +1680,8 @@ class FabricDevicesInfo(DnacBase):
                             self.msg = (
                                 "Invalid or unrecognized key '{0}' found in device_identifier. "
                                 "Allowed keys are: {1}".format(
-                                    key, ", ".join(allowed_device_identifier_filters)
-                                ),
+                                    key, ", ".join(sorted(allowed_device_identifier_filters))
+                                )
                             )
                             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
@@ -2046,6 +2046,7 @@ class FabricDevicesInfo(DnacBase):
                                     function="get_device_list",
                                     params=params
                                 )
+                                self.log("Received API response from 'get_device_list': {0}".format(response), "DEBUG")
                                 devices = response.get("response", [])
 
                                 if devices:
@@ -2080,6 +2081,9 @@ class FabricDevicesInfo(DnacBase):
                             ).format(key, ip_or_value, retries, timeout)
                             self.set_operation_result("success", False, self.msg, "INFO")
 
+                            if self.msg not in self.total_response:
+                                self.total_response.append(self.msg)
+
         total_devices = len(ip_uuid_map)
         self.log("Device UUID mapping completed — mapped {0} managed devices.".format(total_devices), "INFO")
 
@@ -2100,7 +2104,7 @@ class FabricDevicesInfo(DnacBase):
             dict: A dictionary mapping device IP addresses to their corresponding UUIDs for devices
                 that are both managed and part of the fabric site. Returns None if an error occurs.
         """
-        # self.log("Processing fabric device filtering for {0} network devices - checking fabric site membership".format(len(device_ids)), "INFO")
+        self.log("Starting comprehensive fabric device filtering", "INFO")
         site_hierarchy = self.want["fabric_devices"][0].get("fabric_site_hierarchy")
         fabric_exists, fabric_id = self.is_fabric_site(site_hierarchy)
         device_ids = self.get_device_id(filtered_config)
@@ -2894,6 +2898,7 @@ class FabricDevicesInfo(DnacBase):
         devices_processed = 0
         devices_with_interfaces = 0
         devices_without_interfaces = 0
+        interfaces_without_ids = 0
         devices_with_errors = 0
         total_interfaces_discovered = 0
 
@@ -2912,6 +2917,7 @@ class FabricDevicesInfo(DnacBase):
                         function="get_interface_info_by_id",
                         params={"device_id": device_uuid}
                     )
+                    self.log("Received API response for interface query on device {0}".format(ip), "DEBUG")
                     interface_response_data = response.get("response", [])
                     self.log(
                         "Interface query completed for device {0} - found {1} interface records".format(
@@ -3279,7 +3285,7 @@ class FabricDevicesInfo(DnacBase):
             )
 
             self.log(
-                "The device response from 'get_network_device_by_ip' API for IP {0} is {1}".format(
+                "Received API response from 'get_network_device_by_ip' API for IP {0} is {1}".format(
                     ip_address, str(dev_response)
                 ),
                 "DEBUG",
@@ -3530,7 +3536,7 @@ class FabricDevicesInfo(DnacBase):
                     params={"device_management_ip_address": ip}
                 )
                 provision_data = response
-                self.log("Received API response for device {0}: {1}".format(ip, response), "DEBUG")
+                self.log("Received API response from 'get_provisioned_wired_device' for device {0}: {1}".format(ip, response), "DEBUG")
 
                 if provision_data:
                     devices_with_provisioning_status += 1
@@ -3702,7 +3708,7 @@ class FabricDevicesInfo(DnacBase):
                 self.log("Warning: {0} devices encountered errors during onboarding information retrieval".format(devices_with_errors), "WARNING")
 
             self.log("Completed onboarding info retrieval. Total devices processed: {0}".format(len(all_onboarding_info_list)), "INFO")
-            self.log("Aggregated device‑onboarding info: {0}".format(result), "DEBUG")
+            self.log("Aggregated device-onboarding info: {0}".format(result), "DEBUG")
 
             return result
 
