@@ -1,0 +1,635 @@
+---
+# Common device information
+device_info: &device_info
+  ip_address: "204.1.2.3"
+  device_collection_status_check: false
+
+###################################################################################################################
+# Comprehensive Positive Test Cases for All Features
+
+#############################################
+#    MERGED STATE - All Features Combined   #
+#############################################
+
+# Test comprehensive configuration with all supported features
+test_comprehensive_merged_all_features:
+  <<: *device_info
+  layer2_configuration:
+    # VTP Configuration
+    vtp:
+      vtp_mode: "TRANSPARENT"
+      vtp_version: "VERSION_2"
+      vtp_domain_name: "ComprehensiveTestDomain"
+      vtp_pruning: false
+      vtp_configuration_file_name: "flash:comprehensive_vtp.dat"
+      vtp_source_interface: "Loopback0"
+
+    # VLANs Configuration - These can use any VLAN IDs for testing
+    vlans:
+      - vlan_id: 4010
+        vlan_name: "Test_VLAN_Merged_All"
+        vlan_admin_status: true
+      - vlan_id: 4011
+        vlan_name: "Test_VLAN_Merged_All_2"
+        vlan_admin_status: true
+      - vlan_id: 4012
+        vlan_admin_status: true
+
+    # CDP Configuration
+    cdp:
+      cdp_admin_status: true
+      cdp_hold_time: 180
+      cdp_timer: 60
+      cdp_advertise_v2: true
+      cdp_log_duplex_mismatch: true
+
+    # LLDP Configuration
+    lldp:
+      lldp_admin_status: true
+      lldp_hold_time: 220
+      lldp_timer: 30
+      lldp_reinitialization_delay: 3
+
+    # STP Configuration - Using available experimental VLANs
+    stp:
+      stp_mode: "MST"
+      stp_portfast_mode: "ENABLE"
+      stp_bpdu_guard: true
+      stp_bpdu_filter: false
+      stp_backbonefast: true
+      stp_extended_system_id: true
+      stp_logging: true
+      stp_loopguard: false
+      stp_transmit_hold_count: 8
+      stp_uplinkfast: false
+      stp_uplinkfast_max_update_rate: 200
+      stp_etherchannel_guard: true
+      stp_instances:
+        - stp_instance_vlan_id: 98
+          stp_instance_priority: 32768
+          enable_stp: true
+          stp_instance_max_age_timer: 20
+          stp_instance_hello_interval_timer: 2
+          stp_instance_forward_delay_timer: 15
+        - stp_instance_vlan_id: 99
+          stp_instance_priority: 28672
+          enable_stp: true
+
+    # DHCP Snooping Configuration - Using available experimental VLANs
+    dhcp_snooping:
+      dhcp_admin_status: true
+      dhcp_snooping_vlans: [98, 99, 202]
+      dhcp_snooping_glean: true
+      dhcp_snooping_database_agent_url: "tftp://192.168.1.100/comprehensive_dhcp.db"
+      dhcp_snooping_database_timeout: 600
+      dhcp_snooping_database_write_delay: 300
+      dhcp_snooping_proxy_bridge_vlans: [98, 99]
+
+    # IGMP Snooping Configuration - Using available experimental VLANs and interfaces
+    igmp_snooping:
+      enable_igmp_snooping: true
+      igmp_snooping_querier: false
+      igmp_snooping_querier_address: "192.168.1.10"
+      igmp_snooping_querier_version: "VERSION_2"
+      igmp_snooping_querier_query_interval: 125
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 400
+          enable_igmp_snooping: true
+          igmp_snooping_querier: false
+          igmp_snooping_querier_address: "192.168.1.11"
+          igmp_snooping_querier_version: "VERSION_2"
+          igmp_snooping_querier_query_interval: 125
+          igmp_snooping_mrouter_port_list: ["GigabitEthernet1/0/10", "GigabitEthernet1/0/11"]
+        - igmp_snooping_vlan_id: 401
+          enable_igmp_snooping: true
+          igmp_snooping_querier: true
+          igmp_snooping_querier_address: "192.168.1.12"
+          igmp_snooping_querier_version: "VERSION_3"
+          igmp_snooping_querier_query_interval: 90
+        - igmp_snooping_vlan_id: 98
+          enable_igmp_snooping: true
+          igmp_snooping_querier: false
+          igmp_snooping_querier_address: "192.168.1.13"  # FIXED: Added valid IP
+          igmp_snooping_querier_version: "VERSION_2"
+          igmp_snooping_querier_query_interval: 125
+          igmp_snooping_mrouter_port_list: ["GigabitEthernet1/0/1", "GigabitEthernet1/0/2"]
+        - igmp_snooping_vlan_id: 99
+          enable_igmp_snooping: true
+          igmp_snooping_querier: false
+          igmp_snooping_querier_address: "192.168.1.14"  # FIXED: Added valid IP
+          igmp_snooping_querier_version: "VERSION_2"
+          igmp_snooping_querier_query_interval: 125
+        - igmp_snooping_vlan_id: 202
+          enable_igmp_snooping: true
+          igmp_snooping_querier: false
+          igmp_snooping_querier_address: "192.168.1.15"  # FIXED: Added valid IP
+          igmp_snooping_querier_version: "VERSION_2"
+          igmp_snooping_querier_query_interval: 125
+        - igmp_snooping_vlan_id: 402
+          enable_igmp_snooping: true
+          igmp_snooping_querier: false
+          igmp_snooping_querier_address: "192.168.1.16"  # FIXED: Added valid IP
+          igmp_snooping_querier_version: "VERSION_2"
+          igmp_snooping_querier_query_interval: 125
+        - igmp_snooping_vlan_id: 403
+          enable_igmp_snooping: true
+          igmp_snooping_querier: false
+          igmp_snooping_querier_address: "192.168.1.17"  # FIXED: Added valid IP
+          igmp_snooping_querier_version: "VERSION_2"
+          igmp_snooping_querier_query_interval: 125
+
+    # MLD Snooping Configuration - Using available experimental VLANs and interfaces
+    mld_snooping:
+      enable_mld_snooping: true
+      mld_snooping_querier: false
+      mld_snooping_querier_address: "fe80::1"
+      mld_snooping_querier_version: "VERSION_2"
+      mld_snooping_listener: true
+      mld_snooping_querier_query_interval: 125
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 402
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: false
+          mld_snooping_querier: false
+          mld_snooping_querier_address: "fe80::10"
+          mld_snooping_querier_version: "VERSION_2"
+          mld_snooping_querier_query_interval: 125
+          mld_snooping_mrouter_port_list: ["GigabitEthernet1/0/12", "GigabitEthernet1/0/13"]
+        - mld_snooping_vlan_id: 403
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: true
+          mld_snooping_querier: true
+          mld_snooping_querier_address: "fe80::11"
+          mld_snooping_querier_version: "VERSION_1"
+          mld_snooping_querier_query_interval: 90
+        - mld_snooping_vlan_id: 98
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: false
+          mld_snooping_querier: false
+          mld_snooping_querier_address: "fe80::13"
+          mld_snooping_querier_version: "VERSION_2"
+          mld_snooping_querier_query_interval: 125
+          mld_snooping_mrouter_port_list: ["GigabitEthernet1/0/1", "GigabitEthernet1/0/2"]
+        - mld_snooping_vlan_id: 99
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: false
+          mld_snooping_querier: false
+          mld_snooping_querier_address: "fe80::14"
+          mld_snooping_querier_version: "VERSION_2"
+          mld_snooping_querier_query_interval: 125
+        - mld_snooping_vlan_id: 202
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: false
+          mld_snooping_querier: false
+          mld_snooping_querier_address: "fe80::15"
+          mld_snooping_querier_version: "VERSION_2"
+          mld_snooping_querier_query_interval: 125
+        - mld_snooping_vlan_id: 300
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: false
+          mld_snooping_querier: false
+          mld_snooping_querier_address: "fe80::15"
+          mld_snooping_querier_version: "VERSION_2"
+          mld_snooping_querier_query_interval: 125
+        - mld_snooping_vlan_id: 400
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: false
+          mld_snooping_querier: false
+          mld_snooping_querier_address: "fe80::16"
+          mld_snooping_querier_version: "VERSION_2"
+          mld_snooping_querier_query_interval: 125
+          mld_snooping_mrouter_port_list: ["GigabitEthernet1/0/10", "GigabitEthernet1/0/11"]
+        - mld_snooping_vlan_id: 401
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: false
+          mld_snooping_querier: false
+          mld_snooping_querier_address: "fe80::17"
+          mld_snooping_querier_version: "VERSION_2"
+          mld_snooping_querier_query_interval: 125
+
+    # Authentication Configuration
+    authentication:
+      enable_dot1x_authentication: true
+      authentication_config_mode: "LEGACY"
+
+    # Logical Ports Configuration - Using available interfaces
+    logical_ports:
+      port_channel_auto: false
+      port_channel_lacp_system_priority: 4096
+      port_channel_load_balancing_method: "SRC_DST_MIXED_IP_PORT"
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel10"
+          port_channel_min_links: 2
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/14"
+              port_channel_mode: "ACTIVE"
+              port_channel_port_priority: 128
+              port_channel_rate: 30
+            - port_channel_interface_name: "GigabitEthernet1/0/15"
+              port_channel_mode: "ACTIVE"
+              port_channel_port_priority: 128
+              port_channel_rate: 30
+        - port_channel_protocol: "PAGP"
+          port_channel_name: "Port-channel11"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/16"
+              port_channel_mode: "DESIRABLE"
+              port_channel_port_priority: 128
+              port_channel_learn_method: "AGGREGATION_PORT"
+
+    # Port Configuration - Using available interfaces and experimental VLANs
+    port_configuration:
+      - interface_name: "GigabitEthernet1/0/17"
+        switchport_interface_config:
+          switchport_description: "Comprehensive Test Port 1"
+          switchport_mode: "ACCESS"
+          access_vlan: 98
+          admin_status: true
+          voice_vlan: 99
+        vlan_trunking_interface_config:
+          enable_dtp_negotiation: false
+          protected: false
+        dot1x_interface_config:
+          dot1x_interface_authentication_order: ["DOT1X", "MAB"]
+          dot1x_interface_authentication_mode: "OPEN"
+          dot1x_interface_pae_type: "AUTHENTICATOR"
+          dot1x_interface_control_direction: "BOTH"
+          dot1x_interface_host_mode: "MULTI_AUTHENTICATION"
+          dot1x_interface_port_control: "AUTO"
+          dot1x_interface_inactivity_timer: 300
+          dot1x_interface_max_reauth_requests: 3
+          dot1x_interface_reauth_timer: 3600
+        mab_interface_config:
+          mab_interface_enable: true
+        stp_interface_config:
+          stp_interface_enable_portfast: true
+          stp_interface_enable_bpdu_guard: true
+          stp_interface_enable_bpdu_filter: false
+          stp_interface_enable_root_guard: false
+          stp_interface_enable_loop_guard: false
+          stp_interface_port_priority: 128
+          stp_interface_cost: 19
+        dhcp_snooping_interface_config:
+          dhcp_snooping_interface_rate_limit: 100
+          dhcp_snooping_interface_trust: true
+        cdp_interface_config:
+          cdp_interface_admin_status: true
+          cdp_interface_logging: true
+        lldp_interface_config:
+          lldp_interface_transmit: true
+          lldp_interface_receive: true
+        vtp_interface_config:
+          vtp_interface_admin_status: true
+      - interface_name: "GigabitEthernet1/0/18"
+        switchport_interface_config:
+          switchport_description: "Comprehensive Test Port 2"
+          switchport_mode: "TRUNK"
+          allowed_vlans: [202, 400, 401]
+          native_vlan_id: 202
+          admin_status: true
+        vlan_trunking_interface_config:
+          enable_dtp_negotiation: true
+          protected: true
+          pruning_vlan_ids: [400, 401]
+        stp_interface_config:
+          stp_interface_enable_portfast: false
+          stp_interface_enable_bpdu_guard: false
+          stp_interface_enable_bpdu_filter: false
+          stp_interface_enable_root_guard: true
+          stp_interface_enable_loop_guard: true
+          stp_interface_port_priority: 64
+          stp_interface_cost: 100
+
+#############################################
+#    UPDATED STATE - All Features Modified  #
+#############################################
+
+# Test comprehensive parameter updates across all supported features
+test_comprehensive_updated_all_features:
+  <<: *device_info
+  layer2_configuration:
+    # VLANs Configuration - Update existing VLANs with modified parameters
+    vlans:
+      - vlan_id: 4010
+        vlan_name: "Test_VLAN_Updated_All"
+        vlan_admin_status: false  # Changed from true
+      - vlan_id: 4011
+        vlan_name: "Test_VLAN_Updated_All_2"
+        vlan_admin_status: false  # Changed from true
+      - vlan_id: 4012
+        vlan_name: "Test_VLAN_Updated_New_Name"  # Added name
+        vlan_admin_status: true   # Explicit true
+
+    # CDP Configuration - Updated parameters
+    cdp:
+      cdp_admin_status: true
+      cdp_hold_time: 200        # Changed from 180
+      cdp_timer: 90             # Changed from 60
+      cdp_advertise_v2: false   # Changed from true
+      cdp_log_duplex_mismatch: false  # Changed from true
+
+    # LLDP Configuration - Updated parameters
+    lldp:
+      lldp_admin_status: true
+      lldp_hold_time: 240       # Changed from 220
+      lldp_timer: 45            # Changed from 30
+      lldp_reinitialization_delay: 5  # Changed from 3
+
+    # STP Configuration - Updated parameters and instances
+    stp:
+      stp_mode: "RAPID_PVST"    # CORRECTED: was "RAPID_PVST", should be "RSTP"
+      stp_portfast_mode: "DISABLE"  # Changed from ENABLE
+      stp_bpdu_guard: false     # Changed from true
+      stp_bpdu_filter: true     # Changed from false
+      stp_backbonefast: false   # Changed from true
+      stp_extended_system_id: true
+      stp_logging: false        # Changed from true
+      stp_loopguard: true       # Changed from false
+      stp_transmit_hold_count: 12  # Changed from 8
+      stp_uplinkfast: true      # Changed from false
+      stp_uplinkfast_max_update_rate: 150  # Changed from 200
+      stp_etherchannel_guard: false  # Changed from true
+      stp_instances:
+        - stp_instance_vlan_id: 98
+          stp_instance_priority: 24576  # Changed from 32768
+          enable_stp: true
+          stp_instance_max_age_timer: 25  # Changed from 20
+          stp_instance_hello_interval_timer: 3  # Changed from 2
+          stp_instance_forward_delay_timer: 20  # Changed from 15
+        - stp_instance_vlan_id: 99
+          stp_instance_priority: 20480  # Changed from 28672
+          enable_stp: false     # Changed from true
+        # Add new STP instance
+        - stp_instance_vlan_id: 202
+          stp_instance_priority: 16384
+          enable_stp: true
+          stp_instance_max_age_timer: 18
+          stp_instance_hello_interval_timer: 2
+          stp_instance_forward_delay_timer: 12
+
+    # VTP Configuration - Updated parameters
+    vtp:
+      vtp_mode: "CLIENT"        # Changed from TRANSPARENT
+      vtp_version: "VERSION_3"  # Changed from VERSION_2
+      vtp_pruning: true         # Changed from false
+      vtp_configuration_file_name: "flash:updated_vtp.dat"  # Changed filename
+      vtp_source_interface: "Loopback1"  # Changed from Loopback0
+
+    # DHCP Snooping Configuration - Updated parameters and VLANs
+    dhcp_snooping:
+      dhcp_admin_status: true
+      dhcp_snooping_vlans: [99, 202, 400]  # Modified VLAN list
+      dhcp_snooping_glean: false  # Changed from true
+      dhcp_snooping_database_agent_url: "tftp://192.168.1.200/updated_dhcp.db"  # Changed URL
+      dhcp_snooping_database_timeout: 900  # Changed from 600
+      dhcp_snooping_database_write_delay: 450  # Changed from 300
+      dhcp_snooping_proxy_bridge_vlans: [99, 202]  # Modified VLAN list
+
+    # IGMP Snooping Configuration - Updated parameters and VLAN settings
+    igmp_snooping:
+      enable_igmp_snooping: true
+      igmp_snooping_querier: true   # Changed from false
+      igmp_snooping_querier_address: "192.168.1.20"  # Changed IP
+      igmp_snooping_querier_version: "VERSION_3"  # Changed from VERSION_2
+      igmp_snooping_querier_query_interval: 100  # Changed from 125
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 400
+          enable_igmp_snooping: true
+          igmp_snooping_querier: true   # Changed from false
+          igmp_snooping_querier_address: "192.168.1.21"  # Changed IP
+          igmp_snooping_querier_version: "VERSION_3"  # Changed from VERSION_2
+          igmp_snooping_querier_query_interval: 110  # Changed from 125
+          igmp_snooping_mrouter_port_list: ["GigabitEthernet1/0/19", "GigabitEthernet1/0/20"]  # Changed ports
+        - igmp_snooping_vlan_id: 401
+          enable_igmp_snooping: false   # Changed from true
+          igmp_snooping_querier: false  # Changed from true
+          igmp_snooping_querier_address: "192.168.1.22"  # Changed IP
+          igmp_snooping_querier_version: "VERSION_2"  # Changed from VERSION_3
+          igmp_snooping_querier_query_interval: 80   # Changed from 90
+        # Add new IGMP VLAN
+        - igmp_snooping_vlan_id: 402
+          enable_igmp_snooping: true
+          igmp_snooping_querier: false
+          igmp_snooping_querier_address: "192.168.1.23"
+          igmp_snooping_querier_version: "VERSION_2"
+          igmp_snooping_querier_query_interval: 120
+          igmp_snooping_mrouter_port_list: ["GigabitEthernet1/0/21"]
+
+    # MLD Snooping Configuration - Updated parameters and VLAN settings
+    mld_snooping:
+      enable_mld_snooping: true
+      mld_snooping_querier: true    # Changed from false
+      mld_snooping_querier_address: "fe80::2"  # Changed IPv6
+      mld_snooping_querier_version: "VERSION_1"  # Changed from VERSION_2
+      mld_snooping_listener: false  # Changed from true
+      mld_snooping_querier_query_interval: 100  # Changed from 125
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 402
+          enable_mld_snooping: false  # Changed from true
+          mld_snooping_enable_immediate_leave: true  # Changed from false
+          mld_snooping_querier: true   # Changed from false
+          mld_snooping_querier_address: "fe80::20"  # Changed IPv6
+          mld_snooping_querier_version: "VERSION_1"  # Changed from VERSION_2
+          mld_snooping_querier_query_interval: 110  # Changed from 125
+          mld_snooping_mrouter_port_list: ["GigabitEthernet1/0/22", "GigabitEthernet1/1/1"]  # Changed ports
+        - mld_snooping_vlan_id: 403
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: false  # Changed from true
+          mld_snooping_querier: false  # Changed from true
+          mld_snooping_querier_address: "fe80::21"  # Changed IPv6
+          mld_snooping_querier_version: "VERSION_2"  # Changed from VERSION_1
+          mld_snooping_querier_query_interval: 70   # Changed from 90
+
+    # Authentication Configuration - Updated parameters
+    authentication:
+      enable_dot1x_authentication: false  # Changed from true
+      authentication_config_mode: "LEGACY"  # Changed from NEW_STYLE
+
+    # Logical Ports Configuration - Updated parameters and new port channel
+    logical_ports:
+      port_channel_auto: true       # Changed from false
+      port_channel_lacp_system_priority: 8192  # Changed from 4096
+      port_channel_load_balancing_method: "SRC_DST_IP"  # Changed method
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel10"
+          port_channel_min_links: 1  # Changed from 2
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/14"
+              port_channel_mode: "PASSIVE"  # Changed from ACTIVE
+              port_channel_port_priority: 64  # Changed from 128
+              port_channel_rate: 30     # CORRECTED: was 60, should be 30 (valid range)
+            - port_channel_interface_name: "GigabitEthernet1/0/15"
+              port_channel_mode: "PASSIVE"  # Changed from ACTIVE
+              port_channel_port_priority: 64  # Changed from 128
+              port_channel_rate: 30     # CORRECTED: was 60, should be 30 (valid range)
+        - port_channel_protocol: "PAGP"
+          port_channel_name: "Port-channel11"
+          port_channel_min_links: 1
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/16"
+              port_channel_mode: "AUTO"  # Changed from DESIRABLE
+              port_channel_port_priority: 64  # Changed from 128
+              port_channel_learn_method: "PHYSICAL_PORT"  # CORRECTED: was "INGRESS_PORT"
+        # Add new port channel
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel12"
+          port_channel_min_links: 1
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/1/2"
+              port_channel_mode: "ACTIVE"
+              port_channel_port_priority: 128
+              port_channel_rate: 30
+
+    # Port Configuration - Updated interface parameters
+    port_configuration:
+      - interface_name: "GigabitEthernet1/0/17"
+        switchport_interface_config:
+          switchport_description: "Updated Test Port 1"  # Changed description
+          switchport_mode: "TRUNK"     # Changed from ACCESS
+          allowed_vlans: [98, 99, 202] # Changed to trunk config
+          native_vlan_id: 98           # Changed native VLAN
+          admin_status: false          # Changed from true
+        vlan_trunking_interface_config:
+          enable_dtp_negotiation: true  # CORRECTED: was "ON", changed to boolean
+          protected: true              # Changed from false
+          pruning_vlan_ids: [99, 202]  # Added pruning
+        dot1x_interface_config:
+          dot1x_interface_authentication_order: ["MAB", "DOT1X"]  # Changed order
+          dot1x_interface_authentication_mode: "CLOSED"  # Changed from OPEN
+          dot1x_interface_pae_type: "AUTHENTICATOR"
+          dot1x_interface_control_direction: "IN"  # Changed from BOTH
+          dot1x_interface_host_mode: "SINGLE_HOST"  # Changed from MULTI_AUTHENTICATION
+          dot1x_interface_port_control: "FORCE_AUTHORIZED"  # Changed from AUTO
+          dot1x_interface_inactivity_timer: 600   # Changed from 300
+          dot1x_interface_max_reauth_requests: 5  # Changed from 3
+          dot1x_interface_reauth_timer: 7200      # Changed from 3600
+        mab_interface_config:
+          mab_interface_enable: false  # Changed from true
+        stp_interface_config:
+          stp_interface_enable_portfast: false    # Changed from true
+          stp_interface_enable_bpdu_guard: false  # Changed from true
+          stp_interface_enable_bpdu_filter: true  # Changed from false
+          stp_interface_enable_root_guard: true   # Changed from false
+          stp_interface_enable_loop_guard: true   # Changed from false
+          stp_interface_port_priority: 64         # Changed from 128
+          stp_interface_cost: 39                  # Changed from 19
+        dhcp_snooping_interface_config:
+          dhcp_snooping_interface_rate_limit: 200  # Changed from 100
+          dhcp_snooping_interface_trust: false     # Changed from true
+        cdp_interface_config:
+          cdp_interface_admin_status: false  # Changed from true
+          cdp_interface_logging: false       # Changed from true
+        lldp_interface_config:
+          lldp_interface_transmit: false  # Changed from true
+          lldp_interface_receive: false   # Changed from true
+        vtp_interface_config:
+          vtp_interface_admin_status: false  # Changed from true
+      - interface_name: "GigabitEthernet1/0/18"
+        switchport_interface_config:
+          switchport_description: "Updated Test Port 2"  # Changed description
+          switchport_mode: "ACCESS"     # Changed from TRUNK
+          access_vlan: 400             # Changed to access config
+          admin_status: false          # Changed from true
+          voice_vlan: 401              # Added voice VLAN
+        vlan_trunking_interface_config:
+          enable_dtp_negotiation: false  # CORRECTED: was "AUTO", changed to boolean
+          protected: false             # Changed from true
+        stp_interface_config:
+          stp_interface_enable_portfast: true   # Changed from false
+          stp_interface_enable_bpdu_guard: true # Changed from false
+          stp_interface_enable_bpdu_filter: true # Changed from false
+          stp_interface_enable_root_guard: false # Changed from true
+          stp_interface_enable_loop_guard: false # Changed from true
+          stp_interface_port_priority: 32       # Changed from 64
+          stp_interface_cost: 200               # Changed from 100
+      # Add new interface configuration
+      - interface_name: "GigabitEthernet1/1/3"
+        switchport_interface_config:
+          switchport_description: "New Updated Test Port 3"
+          switchport_mode: "ACCESS"
+          access_vlan: 403
+          admin_status: true
+        vlan_trunking_interface_config:
+          enable_dtp_negotiation: false  # CORRECTED: was "AUTO", changed to boolean
+          protected: false
+        stp_interface_config:
+          stp_interface_enable_portfast: true
+          stp_interface_enable_bpdu_guard: true
+          stp_interface_enable_bpdu_filter: false
+          stp_interface_enable_root_guard: false
+          stp_interface_enable_loop_guard: false
+          stp_interface_port_priority: 128
+          stp_interface_cost: 19
+
+#############################################
+#    DELETED STATE - All Features Combined  #
+#############################################
+
+# Test comprehensive deletion with all supported features (Note: some features may not support delete)
+test_comprehensive_deleted_all_features:
+  <<: *device_info
+  layer2_configuration:
+    # VLANs - supports delete
+    vlans:
+      - vlan_id: 4010
+      - vlan_id: 4011
+      - vlan_id: 4012
+
+    # CDP - supports delete (reset to defaults)
+    cdp: {}
+
+    # LLDP - supports delete (reset to defaults)
+    lldp: {}
+
+    # STP - supports delete (reset global + delete instances)
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 98
+        - stp_instance_vlan_id: 99
+        - stp_instance_vlan_id: 202
+
+    # VTP - supports delete (reset to defaults)
+    vtp: {}
+
+    # DHCP Snooping - supports delete (reset to defaults)
+    dhcp_snooping: {}
+
+    # IGMP Snooping - supports delete (reset to defaults)
+    igmp_snooping: {}
+
+    # MLD Snooping - supports delete (reset to defaults)
+    mld_snooping: {}
+
+    # Authentication - supports delete (reset to defaults)
+    authentication: {}
+
+    # Note: Logical Ports and Port Configuration typically don't support global delete
+    # They require specific interface/port channel targeting
+
+#############################################
+#     Cleanup Test Configuration           #
+#############################################
+
+# Complete cleanup configuration for all created test VLANs and features
+test_complete_cleanup_all_features:
+  <<: *device_info
+  layer2_configuration:
+    # Cleanup all test VLANs
+    vlans:
+      - vlan_id: 4010
+      - vlan_id: 4011
+      - vlan_id: 4012
+
+    # Reset all protocols to defaults
+    cdp: {}
+    lldp: {}
+    vtp: {}
+    dhcp_snooping: {}
+    igmp_snooping: {}
+    mld_snooping: {}
+    authentication: {}
+
+    # Reset STP to defaults and cleanup instances
+    stp: {}

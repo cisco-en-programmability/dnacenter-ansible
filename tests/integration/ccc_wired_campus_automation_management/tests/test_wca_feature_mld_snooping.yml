@@ -1,0 +1,1042 @@
+# ---
+# # ===================================================================================================
+# # MLD SNOOPING FEATURE TESTS SUMMARY
+# # ===================================================================================================
+# #
+# # This test suite validates MLD Snooping configuration for Wired Campus Automation.
+# #
+# # TEST CATEGORIES:
+# #
+# # 1. NEGATIVE VALIDATION TESTS (Lines 25-820)
+# #    a) MLD Global Configuration Tests
+# #       - Global enabled validation (string/integer instead of boolean)
+# #       - Global querier enabled validation (string/integer instead of boolean)
+# #       - Global querier address validation (IPv4 instead of IPv6, integer instead of string)
+# #       - Global querier version validation (invalid choice, integer instead of string)
+# #       - Global listener validation (string/integer instead of boolean)
+# #       - Global query interval validation (string/boolean instead of integer, range validation)
+# #
+# #    b) MLD VLAN Configuration Tests
+# #       - VLAN ID validation (string instead of integer, negative/zero/max values)
+# #       - Missing required VLAN ID validation
+# #       - VLAN enabled validation (string/integer instead of boolean)
+# #       - VLAN immediate leave validation (string/integer instead of boolean)
+# #       - VLAN querier enabled validation (string/integer instead of boolean)
+# #       - VLAN querier address validation (IPv4 instead of IPv6, integer instead of string)
+# #       - VLAN querier version validation (invalid choice, integer instead of string)
+# #       - VLAN query interval validation (string instead of integer, range validation)
+# #       - VLAN mrouter port list validation (string instead of list, integer in list)
+# #
+# #    c) Data Type and Structure Tests
+# #       - MLD configuration validation (string/list instead of dictionary)
+# #       - MLD VLANs validation (string/dictionary instead of list)
+# #       - MLD VLAN item validation (string instead of dictionary)
+# #
+# # 2. POSITIVE VALIDATION TESTS (Lines 820-1200)
+# #    a) MLD Creation Tests (Merged State)
+# #       - Global parameters only configuration
+# #       - VLANs only configuration
+# #       - Single VLAN configuration
+# #       - Global and VLANs combined configuration
+# #       - Minimal VLAN parameters configuration
+# #       - Multiple VLANs with different settings
+# #
+# #    b) MLD Update Tests (Merged State)
+# #       - Global parameters only updates
+# #       - Modifying existing VLANs
+# #       - Global and VLANs combined updates
+# #       - Global enablement state changes
+# #       - Single VLAN updates
+# #
+# # VALIDATION RANGES:
+# # - MLD Global Enabled: boolean (true/false)
+# # - MLD Global Querier Enabled: boolean (true/false)
+# # - MLD Global Querier Address: string (valid IPv6 address format)
+# # - MLD Global Querier Version: string ("VERSION_1", "VERSION_2")
+# # - MLD Global Listener: boolean (true/false)
+# # - MLD Global Query Interval: integer (1-18000 seconds)
+# # - MLD VLAN ID: integer (1-4094)
+# # - MLD VLAN Enabled: boolean (true/false)
+# # - MLD VLAN Immediate Leave: boolean (true/false)
+# # - MLD VLAN Querier Enabled: boolean (true/false)
+# # - MLD VLAN Querier Address: string (valid IPv6 address format)
+# # - MLD VLAN Querier Version: string ("VERSION_1", "VERSION_2")
+# # - MLD VLAN Query Interval: integer (1-18000 seconds)
+# # - MLD VLAN Mrouter Port List: list of strings (interface names)
+# #
+# # EXPECTED BEHAVIORS:
+# # - Negative tests should fail with appropriate error messages
+# # - Positive tests should succeed with changed=true and response defined
+# # - Global and VLAN configurations can be applied independently
+# # - Multiple VLANs can be configured with different settings
+# # - VLAN ID is required when configuring VLAN-specific settings
+# # - All boolean fields reject string/integer values
+# # - All integer fields reject string/boolean values
+# # - Range validation enforced for numeric fields
+# # - Structure validation enforced for complex data types
+# # - IPv6 address validation enforced for querier addresses
+# #
+# # ===================================================================================================
+
+# - debug: msg="Starting MLD Snooping feature tests for Wired Campus Automation"
+# - debug: msg="Role Path {{ role_path }}"
+
+# - block:
+#     - name: Load MLD Snooping test variables
+#       include_vars:
+#         file: "{{ role_path }}/vars/vars_wca_test_feature_mld_snooping.yml"
+#         name: mld_vars_map
+#       vars:
+#         dnac_login: &dnac_login
+#           dnac_host: "{{ dnac_host }}"
+#           dnac_username: "{{ dnac_username }}"
+#           dnac_password: "{{ dnac_password }}"
+#           dnac_verify: "{{ dnac_verify }}"
+#           dnac_port: "{{ dnac_port }}"
+#           dnac_version: "{{ dnac_version }}"
+#           dnac_debug: "{{ dnac_debug }}"
+#           dnac_log: true
+#           dnac_log_level: DEBUG
+#           config_verify: true
+#           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
+#           dnac_log_append: false
+
+#     ###################################################################################################################
+#     # Negative Validation Tests for MLD Snooping
+
+#     #############################################
+#     #        MLD Global Configuration Tests    #
+#     #############################################
+
+#     - name: Test MLD global enabled validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_global_enabled_string }}"
+#       register: result_mld_global_enabled_string
+#       ignore_errors: yes
+#       tags: [negative, mld, global, enabled]
+
+#     - name: Assert MLD global enabled string validation failed
+#       assert:
+#         that:
+#           - result_mld_global_enabled_string.failed == true
+#           - "'must be of type boolean' in result_mld_global_enabled_string.msg"
+#         fail_msg: "MLD global enabled string validation should have failed"
+#         success_msg: "MLD global enabled string validation correctly failed"
+#       tags: [negative, mld, global, enabled]
+
+#     - name: Test MLD global enabled validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_global_enabled_integer }}"
+#       register: result_mld_global_enabled_integer
+#       ignore_errors: yes
+#       tags: [negative, mld, global, enabled]
+
+#     - name: Assert MLD global enabled integer validation failed
+#       assert:
+#         that:
+#           - result_mld_global_enabled_integer.failed == true
+#           - "'must be of type boolean' in result_mld_global_enabled_integer.msg"
+#         fail_msg: "MLD global enabled integer validation should have failed"
+#         success_msg: "MLD global enabled integer validation correctly failed"
+#       tags: [negative, mld, global, enabled]
+
+#     - name: Test MLD global querier enabled validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_global_querier_enabled_string }}"
+#       register: result_mld_global_querier_enabled_string
+#       ignore_errors: yes
+#       tags: [negative, mld, global, querier]
+
+#     - name: Assert MLD global querier enabled string validation failed
+#       assert:
+#         that:
+#           - result_mld_global_querier_enabled_string.failed == true
+#           - "'must be of type boolean' in result_mld_global_querier_enabled_string.msg"
+#         fail_msg: "MLD global querier enabled string validation should have failed"
+#         success_msg: "MLD global querier enabled string validation correctly failed"
+#       tags: [negative, mld, global, querier]
+
+#     - name: Test MLD global querier enabled validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_global_querier_enabled_integer }}"
+#       register: result_mld_global_querier_enabled_integer
+#       ignore_errors: yes
+#       tags: [negative, mld, global, querier]
+
+#     - name: Assert MLD global querier enabled integer validation failed
+#       assert:
+#         that:
+#           - result_mld_global_querier_enabled_integer.failed == true
+#           - "'must be of type boolean' in result_mld_global_querier_enabled_integer.msg"
+#         fail_msg: "MLD global querier enabled integer validation should have failed"
+#         success_msg: "MLD global querier enabled integer validation correctly failed"
+#       tags: [negative, mld, global, querier]
+
+#     - name: Test MLD global querier address validation - IPv4 instead of IPv6 should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_global_querier_address_invalid }}"
+#       register: result_mld_global_querier_address_invalid
+#       ignore_errors: yes
+#       tags: [negative, mld, global, querier_address]
+
+#     - name: Assert MLD global querier address IPv4 validation failed
+#       assert:
+#         that:
+#           - result_mld_global_querier_address_invalid.failed == true
+#           - "'IPv6' in result_mld_global_querier_address_invalid.msg or 'invalid format' in result_mld_global_querier_address_invalid.msg"
+#         fail_msg: "MLD global querier address IPv4 validation should have failed"
+#         success_msg: "MLD global querier address IPv4 validation correctly failed"
+#       tags: [negative, mld, global, querier_address]
+
+#     - name: Test MLD global querier version validation - invalid choice should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_global_querier_version_invalid }}"
+#       register: result_mld_global_querier_version_invalid
+#       ignore_errors: yes
+#       tags: [negative, mld, global, querier_version]
+
+#     - name: Assert MLD global querier version invalid validation failed
+#       assert:
+#         that:
+#           - result_mld_global_querier_version_invalid.failed == true
+#           - "'not a valid choice' in result_mld_global_querier_version_invalid.msg or 'VERSION_3' in result_mld_global_querier_version_invalid.msg"
+#         fail_msg: "MLD global querier version invalid validation should have failed"
+#         success_msg: "MLD global querier version invalid validation correctly failed"
+#       tags: [negative, mld, global, querier_version]
+
+#     - name: Test MLD global querier version validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_global_querier_version_integer }}"
+#       register: result_mld_global_querier_version_integer
+#       ignore_errors: yes
+#       tags: [negative, mld, global, querier_version]
+
+#     - name: Assert MLD global querier version integer validation failed
+#       assert:
+#         that:
+#           - result_mld_global_querier_version_integer.failed == true
+#           - "'must be of type string' in result_mld_global_querier_version_integer.msg"
+#         fail_msg: "MLD global querier version integer validation should have failed"
+#         success_msg: "MLD global querier version integer validation correctly failed"
+#       tags: [negative, mld, global, querier_version]
+
+#     - name: Test MLD global listener validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_global_listener_string }}"
+#       register: result_mld_global_listener_string
+#       ignore_errors: yes
+#       tags: [negative, mld, global, listener]
+
+#     - name: Assert MLD global listener string validation failed
+#       assert:
+#         that:
+#           - result_mld_global_listener_string.failed == true
+#           - "'must be of type boolean' in result_mld_global_listener_string.msg"
+#         fail_msg: "MLD global listener string validation should have failed"
+#         success_msg: "MLD global listener string validation correctly failed"
+#       tags: [negative, mld, global, listener]
+
+#     - name: Test MLD global listener validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_global_listener_integer }}"
+#       register: result_mld_global_listener_integer
+#       ignore_errors: yes
+#       tags: [negative, mld, global, listener]
+
+#     - name: Assert MLD global listener integer validation failed
+#       assert:
+#         that:
+#           - result_mld_global_listener_integer.failed == true
+#           - "'must be of type boolean' in result_mld_global_listener_integer.msg"
+#         fail_msg: "MLD global listener integer validation should have failed"
+#         success_msg: "MLD global listener integer validation correctly failed"
+#       tags: [negative, mld, global, listener]
+
+#     - name: Test MLD global query interval validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_global_query_interval_string }}"
+#       register: result_mld_global_query_interval_string
+#       ignore_errors: yes
+#       tags: [negative, mld, global, query_interval]
+
+#     - name: Assert MLD global query interval string validation failed
+#       assert:
+#         that:
+#           - result_mld_global_query_interval_string.failed == true
+#           - "'must be of type integer' in result_mld_global_query_interval_string.msg"
+#         fail_msg: "MLD global query interval string validation should have failed"
+#         success_msg: "MLD global query interval string validation correctly failed"
+#       tags: [negative, mld, global, query_interval]
+
+#     - name: Test MLD global query interval validation - boolean value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_global_query_interval_boolean }}"
+#       register: result_mld_global_query_interval_boolean
+#       ignore_errors: yes
+#       tags: [negative, mld, global, query_interval]
+
+#     - name: Assert MLD global query interval boolean validation failed
+#       assert:
+#         that:
+#           - result_mld_global_query_interval_boolean.failed == true
+#           - "'must be of type integer' in result_mld_global_query_interval_boolean.msg"
+#         fail_msg: "MLD global query interval boolean validation should have failed"
+#         success_msg: "MLD global query interval boolean validation correctly failed"
+#       tags: [negative, mld, global, query_interval]
+
+#     - name: Test MLD global query interval validation - below minimum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_global_query_interval_min }}"
+#       register: result_mld_global_query_interval_min
+#       ignore_errors: yes
+#       tags: [negative, mld, global, query_interval, range]
+
+#     - name: Assert MLD global query interval minimum validation failed
+#       assert:
+#         that:
+#           - result_mld_global_query_interval_min.failed == true
+#           - "'must be within the range' in result_mld_global_query_interval_min.msg or 'query_interval' in result_mld_global_query_interval_min.msg"
+#         fail_msg: "MLD global query interval minimum validation should have failed"
+#         success_msg: "MLD global query interval minimum validation correctly failed"
+#       tags: [negative, mld, global, query_interval, range]
+
+#     - name: Test MLD global query interval validation - exceeds maximum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_global_query_interval_max }}"
+#       register: result_mld_global_query_interval_max
+#       ignore_errors: yes
+#       tags: [negative, mld, global, query_interval, range]
+
+#     - name: Assert MLD global query interval maximum validation failed
+#       assert:
+#         that:
+#           - result_mld_global_query_interval_max.failed == true
+#           - "'must be within the range' in result_mld_global_query_interval_max.msg or 'query_interval' in result_mld_global_query_interval_max.msg"
+#         fail_msg: "MLD global query interval maximum validation should have failed"
+#         success_msg: "MLD global query interval maximum validation correctly failed"
+#       tags: [negative, mld, global, query_interval, range]
+
+#     #############################################
+#     #        MLD VLAN Configuration Tests     #
+#     #############################################
+
+#     - name: Test MLD VLAN ID validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_id_string }}"
+#       register: result_mld_vlan_id_string
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, id]
+
+#     - name: Assert MLD VLAN ID string validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_id_string.failed == true
+#           - "'must be of type integer' in result_mld_vlan_id_string.msg"
+#         fail_msg: "MLD VLAN ID string validation should have failed"
+#         success_msg: "MLD VLAN ID string validation correctly failed"
+#       tags: [negative, mld, vlan, id]
+
+#     - name: Test MLD VLAN ID validation - negative value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_id_negative }}"
+#       register: result_mld_vlan_id_negative
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, id, range]
+
+#     - name: Assert MLD VLAN ID negative validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_id_negative.failed == true
+#           - "'must be within the range' in result_mld_vlan_id_negative.msg or 'vlan_id' in result_mld_vlan_id_negative.msg"
+#         fail_msg: "MLD VLAN ID negative validation should have failed"
+#         success_msg: "MLD VLAN ID negative validation correctly failed"
+#       tags: [negative, mld, vlan, id, range]
+
+#     - name: Test MLD VLAN ID validation - exceeds maximum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_id_max }}"
+#       register: result_mld_vlan_id_max
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, id, range]
+
+#     - name: Assert MLD VLAN ID maximum validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_id_max.failed == true
+#           - "'must be within the range' in result_mld_vlan_id_max.msg or 'vlan_id' in result_mld_vlan_id_max.msg"
+#         fail_msg: "MLD VLAN ID maximum validation should have failed"
+#         success_msg: "MLD VLAN ID maximum validation correctly failed"
+#       tags: [negative, mld, vlan, id, range]
+
+#     - name: Test MLD VLAN ID validation - zero value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_id_zero }}"
+#       register: result_mld_vlan_id_zero
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, id, range]
+
+#     - name: Assert MLD VLAN ID zero validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_id_zero.failed == true
+#           - "'must be within the range' in result_mld_vlan_id_zero.msg or 'vlan_id' in result_mld_vlan_id_zero.msg"
+#         fail_msg: "MLD VLAN ID zero validation should have failed"
+#         success_msg: "MLD VLAN ID zero validation correctly failed"
+#       tags: [negative, mld, vlan, id, range]
+
+#     - name: Test missing required MLD VLAN ID
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_id_missing }}"
+#       register: result_mld_vlan_id_missing
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, id, required]
+
+#     - name: Assert missing MLD VLAN ID validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_id_missing.failed == true
+#           - "'mld_snooping_vlan_id' in result_mld_vlan_id_missing.msg or 'required' in result_mld_vlan_id_missing.msg"
+#         fail_msg: "Missing MLD VLAN ID validation should have failed"
+#         success_msg: "Missing MLD VLAN ID validation correctly failed"
+#       tags: [negative, mld, vlan, id, required]
+
+#     - name: Test MLD VLAN enabled validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_enabled_string }}"
+#       register: result_mld_vlan_enabled_string
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, enabled]
+
+#     - name: Assert MLD VLAN enabled string validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_enabled_string.failed == true
+#           - "'must be of type boolean' in result_mld_vlan_enabled_string.msg"
+#         fail_msg: "MLD VLAN enabled string validation should have failed"
+#         success_msg: "MLD VLAN enabled string validation correctly failed"
+#       tags: [negative, mld, vlan, enabled]
+
+#     - name: Test MLD VLAN enabled validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_enabled_integer }}"
+#       register: result_mld_vlan_enabled_integer
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, enabled]
+
+#     - name: Assert MLD VLAN enabled integer validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_enabled_integer.failed == true
+#           - "'must be of type boolean' in result_mld_vlan_enabled_integer.msg"
+#         fail_msg: "MLD VLAN enabled integer validation should have failed"
+#         success_msg: "MLD VLAN enabled integer validation correctly failed"
+#       tags: [negative, mld, vlan, enabled]
+
+#     - name: Test MLD VLAN immediate leave validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_immediate_leave_string }}"
+#       register: result_mld_vlan_immediate_leave_string
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, immediate_leave]
+
+#     - name: Assert MLD VLAN immediate leave string validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_immediate_leave_string.failed == true
+#           - "'must be of type boolean' in result_mld_vlan_immediate_leave_string.msg"
+#         fail_msg: "MLD VLAN immediate leave string validation should have failed"
+#         success_msg: "MLD VLAN immediate leave string validation correctly failed"
+#       tags: [negative, mld, vlan, immediate_leave]
+
+#     - name: Test MLD VLAN immediate leave validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_immediate_leave_integer }}"
+#       register: result_mld_vlan_immediate_leave_integer
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, immediate_leave]
+
+#     - name: Assert MLD VLAN immediate leave integer validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_immediate_leave_integer.failed == true
+#           - "'must be of type boolean' in result_mld_vlan_immediate_leave_integer.msg"
+#         fail_msg: "MLD VLAN immediate leave integer validation should have failed"
+#         success_msg: "MLD VLAN immediate leave integer validation correctly failed"
+#       tags: [negative, mld, vlan, immediate_leave]
+
+#     - name: Test MLD VLAN querier enabled validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_querier_enabled_string }}"
+#       register: result_mld_vlan_querier_enabled_string
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, querier]
+
+#     - name: Assert MLD VLAN querier enabled string validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_querier_enabled_string.failed == true
+#           - "'must be of type boolean' in result_mld_vlan_querier_enabled_string.msg"
+#         fail_msg: "MLD VLAN querier enabled string validation should have failed"
+#         success_msg: "MLD VLAN querier enabled string validation correctly failed"
+#       tags: [negative, mld, vlan, querier]
+
+#     - name: Test MLD VLAN querier enabled validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_querier_enabled_integer }}"
+#       register: result_mld_vlan_querier_enabled_integer
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, querier]
+
+#     - name: Assert MLD VLAN querier enabled integer validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_querier_enabled_integer.failed == true
+#           - "'must be of type boolean' in result_mld_vlan_querier_enabled_integer.msg"
+#         fail_msg: "MLD VLAN querier enabled integer validation should have failed"
+#         success_msg: "MLD VLAN querier enabled integer validation correctly failed"
+#       tags: [negative, mld, vlan, querier]
+
+#     - name: Test MLD VLAN querier address validation - IPv4 instead of IPv6 should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_querier_address_ipv4 }}"
+#       register: result_mld_vlan_querier_address_ipv4
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, querier_address]
+
+#     - name: Assert MLD VLAN querier address IPv4 validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_querier_address_ipv4.failed == true
+#           - "'IPv6' in result_mld_vlan_querier_address_ipv4.msg or 'invalid format' in result_mld_vlan_querier_address_ipv4.msg"
+#         fail_msg: "MLD VLAN querier address IPv4 validation should have failed"
+#         success_msg: "MLD VLAN querier address IPv4 validation correctly failed"
+#       tags: [negative, mld, vlan, querier_address]
+
+#     - name: Test MLD VLAN querier version validation - invalid choice should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_querier_version_invalid }}"
+#       register: result_mld_vlan_querier_version_invalid
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, querier_version]
+
+#     - name: Assert MLD VLAN querier version invalid validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_querier_version_invalid.failed == true
+#           - "'not a valid choice' in result_mld_vlan_querier_version_invalid.msg or 'VERSION_3' in result_mld_vlan_querier_version_invalid.msg"
+#         fail_msg: "MLD VLAN querier version invalid validation should have failed"
+#         success_msg: "MLD VLAN querier version invalid validation correctly failed"
+#       tags: [negative, mld, vlan, querier_version]
+
+#     - name: Test MLD VLAN querier version validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_querier_version_integer }}"
+#       register: result_mld_vlan_querier_version_integer
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, querier_version]
+
+#     - name: Assert MLD VLAN querier version integer validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_querier_version_integer.failed == true
+#           - "'must be of type string' in result_mld_vlan_querier_version_integer.msg"
+#         fail_msg: "MLD VLAN querier version integer validation should have failed"
+#         success_msg: "MLD VLAN querier version integer validation correctly failed"
+#       tags: [negative, mld, vlan, querier_version]
+
+#     - name: Test MLD VLAN query interval validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_query_interval_string }}"
+#       register: result_mld_vlan_query_interval_string
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, query_interval]
+
+#     - name: Assert MLD VLAN query interval string validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_query_interval_string.failed == true
+#           - "'must be of type integer' in result_mld_vlan_query_interval_string.msg"
+#         fail_msg: "MLD VLAN query interval string validation should have failed"
+#         success_msg: "MLD VLAN query interval string validation correctly failed"
+#       tags: [negative, mld, vlan, query_interval]
+
+#     - name: Test MLD VLAN query interval validation - below minimum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_query_interval_min }}"
+#       register: result_mld_vlan_query_interval_min
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, query_interval, range]
+
+#     - name: Assert MLD VLAN query interval minimum validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_query_interval_min.failed == true
+#           - "'must be within the range' in result_mld_vlan_query_interval_min.msg or 'query_interval' in result_mld_vlan_query_interval_min.msg"
+#         fail_msg: "MLD VLAN query interval minimum validation should have failed"
+#         success_msg: "MLD VLAN query interval minimum validation correctly failed"
+#       tags: [negative, mld, vlan, query_interval, range]
+
+#     - name: Test MLD VLAN query interval validation - exceeds maximum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_query_interval_max }}"
+#       register: result_mld_vlan_query_interval_max
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, query_interval, range]
+
+#     - name: Assert MLD VLAN query interval maximum validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_query_interval_max.failed == true
+#           - "'must be within the range' in result_mld_vlan_query_interval_max.msg or 'query_interval' in result_mld_vlan_query_interval_max.msg"
+#         fail_msg: "MLD VLAN query interval maximum validation should have failed"
+#         success_msg: "MLD VLAN query interval maximum validation correctly failed"
+#       tags: [negative, mld, vlan, query_interval, range]
+
+#     - name: Test MLD VLAN mrouter port list validation - string instead of list should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_mrouter_port_list_string }}"
+#       register: result_mld_vlan_mrouter_port_list_string
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, mrouter_port_list]
+
+#     - name: Assert MLD VLAN mrouter port list string validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_mrouter_port_list_string.failed == true
+#           - "'must be of type list' in result_mld_vlan_mrouter_port_list_string.msg"
+#         fail_msg: "MLD VLAN mrouter port list string validation should have failed"
+#         success_msg: "MLD VLAN mrouter port list string validation correctly failed"
+#       tags: [negative, mld, vlan, mrouter_port_list]
+
+#     #############################################
+#     #        Data Type and Structure Tests     #
+#     #############################################
+
+#     - name: Test MLD configuration validation - string instead of dictionary should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_invalid_dict_type }}"
+#       register: result_mld_invalid_dict_type
+#       ignore_errors: yes
+#       tags: [negative, mld, structure, dict]
+
+#     - name: Assert MLD configuration dictionary type validation failed
+#       assert:
+#         that:
+#           - result_mld_invalid_dict_type.failed == true
+#           - "'must be of type dict' in result_mld_invalid_dict_type.msg or 'mld_snooping' in result_mld_invalid_dict_type.msg"
+#         fail_msg: "MLD configuration dictionary type validation should have failed"
+#         success_msg: "MLD configuration dictionary type validation correctly failed"
+#       tags: [negative, mld, structure, dict]
+
+#     - name: Test MLD configuration validation - list instead of dictionary should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_invalid_list_type }}"
+#       register: result_mld_invalid_list_type
+#       ignore_errors: yes
+#       tags: [negative, mld, structure, list]
+
+#     - name: Assert MLD configuration list type validation failed
+#       assert:
+#         that:
+#           - result_mld_invalid_list_type.failed == true
+#           - "'must be of type dict' in result_mld_invalid_list_type.msg or 'mld_snooping' in result_mld_invalid_list_type.msg"
+#         fail_msg: "MLD configuration list type validation should have failed"
+#         success_msg: "MLD configuration list type validation correctly failed"
+#       tags: [negative, mld, structure, list]
+
+#     - name: Test MLD VLANs validation - string instead of list should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlans_invalid_string }}"
+#       register: result_mld_vlans_invalid_string
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, structure, string]
+
+#     - name: Assert MLD VLANs string type validation failed
+#       assert:
+#         that:
+#           - result_mld_vlans_invalid_string.failed == true
+#           - "'be a list of dictionaries' in result_mld_vlans_invalid_string.msg"
+#         fail_msg: "MLD VLANs string type validation should have failed"
+#         success_msg: "MLD VLANs string type validation correctly failed"
+#       tags: [negative, mld, vlan, structure, string]
+
+#     - name: Test MLD VLANs validation - dictionary instead of list should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlans_invalid_dict }}"
+#       register: result_mld_vlans_invalid_dict
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, structure, dict]
+
+#     - name: Assert MLD VLANs dictionary type validation failed
+#       assert:
+#         that:
+#           - result_mld_vlans_invalid_dict.failed == true
+#           - "'be a list of dictionaries' in result_mld_vlans_invalid_dict.msg or 'mld_snooping_vlans' in result_mld_vlans_invalid_dict.msg"
+#         fail_msg: "MLD VLANs dictionary type validation should have failed"
+#         success_msg: "MLD VLANs dictionary type validation correctly failed"
+#       tags: [negative, mld, vlan, structure, dict]
+
+#     - name: Test MLD VLAN item validation - string instead of dictionary should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_vlan_invalid_dict_type }}"
+#       register: result_mld_vlan_invalid_dict_type
+#       ignore_errors: yes
+#       tags: [negative, mld, vlan, structure, item]
+
+#     - name: Assert MLD VLAN item dictionary type validation failed
+#       assert:
+#         that:
+#           - result_mld_vlan_invalid_dict_type.failed == true
+#           - "'must be a dictionary' in result_mld_vlan_invalid_dict_type.msg or 'mld_snooping_vlans' in result_mld_vlan_invalid_dict_type.msg"
+#         fail_msg: "MLD VLAN item dictionary type validation should have failed"
+#         success_msg: "MLD VLAN item dictionary type validation correctly failed"
+#       tags: [negative, mld, vlan, structure, item]
+
+#     ###################################################################################################################
+#     # Positive Test Cases for MLD Snooping
+
+#     #############################################
+#     #        POSITIVE TEST CASES - CREATE      #
+#     #############################################
+
+#     - name: Create MLD snooping configuration with global parameters only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_create_global_only }}"
+#       register: result_mld_create_global_only
+#       tags: [positive, mld, create, global]
+
+#     - name: Assert MLD global only creation succeeded
+#       assert:
+#         that:
+#           - result_mld_create_global_only.changed == true
+#           - result_mld_create_global_only.response is defined
+#         fail_msg: "MLD global only creation should have succeeded"
+#         success_msg: "MLD global only creation succeeded"
+#       tags: [positive, mld, create, global]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, mld, create]
+
+#     - name: Create MLD snooping configuration with VLANs only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_create_vlans_only }}"
+#       register: result_mld_create_vlans_only
+#       tags: [positive, mld, create, vlans]
+
+#     - name: Assert MLD VLANs only creation succeeded
+#       assert:
+#         that:
+#           - result_mld_create_vlans_only.changed == true
+#           - result_mld_create_vlans_only.response is defined
+#         fail_msg: "MLD VLANs only creation should have succeeded"
+#         success_msg: "MLD VLANs only creation succeeded"
+#       tags: [positive, mld, create, vlans]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, mld, create]
+
+#     - name: Create MLD snooping configuration with single VLAN
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_create_single_vlan }}"
+#       register: result_mld_create_single_vlan
+#       tags: [positive, mld, create, single_vlan]
+
+#     - name: Assert MLD single VLAN creation succeeded
+#       assert:
+#         that:
+#           - result_mld_create_single_vlan.changed == true
+#           - result_mld_create_single_vlan.response is defined
+#         fail_msg: "MLD single VLAN creation should have succeeded"
+#         success_msg: "MLD single VLAN creation succeeded"
+#       tags: [positive, mld, create, single_vlan]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, mld, create]
+
+#     - name: Create MLD snooping configuration with global and VLANs
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_create_global_and_vlans }}"
+#       register: result_mld_create_global_and_vlans
+#       tags: [positive, mld, create, combined]
+
+#     - name: Assert MLD global and VLANs creation succeeded
+#       assert:
+#         that:
+#           - result_mld_create_global_and_vlans.changed == true
+#           - result_mld_create_global_and_vlans.response is defined
+#         fail_msg: "MLD global and VLANs creation should have succeeded"
+#         success_msg: "MLD global and VLANs creation succeeded"
+#       tags: [positive, mld, create, combined]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, mld, create]
+
+#     - name: Create MLD snooping configuration with minimal VLAN parameters
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_create_minimal_vlan }}"
+#       register: result_mld_create_minimal_vlan
+#       tags: [positive, mld, create, minimal, vlan]
+
+#     - name: Assert MLD minimal VLAN creation succeeded
+#       assert:
+#         that:
+#           - result_mld_create_minimal_vlan.changed == true
+#           - result_mld_create_minimal_vlan.response is defined
+#         fail_msg: "MLD minimal VLAN creation should have succeeded"
+#         success_msg: "MLD minimal VLAN creation succeeded"
+#       tags: [positive, mld, create, minimal, vlan]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, mld, create]
+
+#     - name: Create MLD snooping configuration with multiple VLANs - different settings
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_create_multiple_vlans_different_settings }}"
+#       register: result_mld_create_multiple_vlans_different_settings
+#       tags: [positive, mld, create, multiple, different]
+
+#     - name: Assert MLD multiple VLANs with different settings creation succeeded
+#       assert:
+#         that:
+#           - result_mld_create_multiple_vlans_different_settings.changed == true
+#           - result_mld_create_multiple_vlans_different_settings.response is defined
+#         fail_msg: "MLD multiple VLANs with different settings creation should have succeeded"
+#         success_msg: "MLD multiple VLANs with different settings creation succeeded"
+#       tags: [positive, mld, create, multiple, different]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, mld, create]
+
+#     #############################################
+#     #        POSITIVE TEST CASES - UPDATE      #
+#     #############################################
+
+#     - name: Update MLD snooping global parameters only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_update_global_only }}"
+#       register: result_mld_update_global_only
+#       tags: [positive, mld, update, global]
+
+#     - name: Assert MLD global only update succeeded
+#       assert:
+#         that:
+#           - result_mld_update_global_only.changed == true
+#           - result_mld_update_global_only.response is defined
+#         fail_msg: "MLD global only update should have succeeded"
+#         success_msg: "MLD global only update succeeded"
+#       tags: [positive, mld, update, global]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, mld, update]
+
+#     - name: Update MLD snooping by modifying existing VLANs
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_update_modify_vlans }}"
+#       register: result_mld_update_modify_vlans
+#       tags: [positive, mld, update, modify_vlans]
+
+#     - name: Assert MLD modify VLANs update succeeded
+#       assert:
+#         that:
+#           - result_mld_update_modify_vlans.changed == true
+#           - result_mld_update_modify_vlans.response is defined
+#         fail_msg: "MLD modify VLANs update should have succeeded"
+#         success_msg: "MLD modify VLANs update succeeded"
+#       tags: [positive, mld, update, modify_vlans]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, mld, update]
+
+#     - name: Update MLD snooping global and VLANs together
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_update_global_and_vlans }}"
+#       register: result_mld_update_global_and_vlans
+#       tags: [positive, mld, update, combined]
+
+#     - name: Assert MLD global and VLANs update succeeded
+#       assert:
+#         that:
+#           - result_mld_update_global_and_vlans.changed == true
+#           - result_mld_update_global_and_vlans.response is defined
+#         fail_msg: "MLD global and VLANs update should have succeeded"
+#         success_msg: "MLD global and VLANs update succeeded"
+#       tags: [positive, mld, update, combined]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, mld, update]
+
+#     - name: Update MLD snooping single VLAN
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ mld_vars_map.test_mld_update_single_vlan }}"
+#       register: result_mld_update_single_vlan
+#       tags: [positive, mld, update, single_vlan]
+
+#     - name: Assert MLD single VLAN update succeeded
+#       assert:
+#         that:
+#           - result_mld_update_single_vlan.changed == true
+#           - result_mld_update_single_vlan.response is defined
+#         fail_msg: "MLD single VLAN update should have succeeded"
+#         success_msg: "MLD single VLAN update succeeded"
+#       tags: [positive, mld, update, single_vlan]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, mld, update]
