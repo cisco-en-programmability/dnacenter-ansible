@@ -1,0 +1,316 @@
+---
+# Common device information
+device_info: &device_info
+  ip_address: "204.1.2.3"
+  device_collection_status_check: false
+
+###################################################################################################################
+# Negative Validation Tests for CDP
+
+#############################################
+#        CDP Admin Status Tests
+#############################################
+
+# Test invalid admin status - string instead of boolean
+test_cdp_admin_status_string:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_admin_status: "true" # Invalid: string instead of boolean
+
+# Test invalid admin status - integer instead of boolean
+test_cdp_admin_status_integer:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_admin_status: 1 # Invalid: integer instead of boolean
+
+#############################################
+#        CDP Hold Time Tests
+#############################################
+
+# Test CDP hold time below minimum (9)
+test_cdp_hold_time_below_min:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_hold_time: 9 # Invalid: below minimum of 10
+
+# Test CDP hold time above maximum (256)
+test_cdp_hold_time_above_max:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_hold_time: 256 # Invalid: above maximum of 255
+
+# Test CDP hold time as string
+test_cdp_hold_time_string:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_hold_time: "180" # Invalid: string instead of integer
+
+# Test CDP hold time as float
+test_cdp_hold_time_float:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_hold_time: 180.5 # Invalid: float instead of integer
+
+# Test CDP hold time negative
+test_cdp_hold_time_negative:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_hold_time: -10 # Invalid: negative value
+
+#############################################
+#        CDP Timer Tests
+#############################################
+
+# Test CDP timer below minimum (4)
+test_cdp_timer_below_min:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_timer: 4 # Invalid: below minimum of 5
+
+# Test CDP timer above maximum (255)
+test_cdp_timer_above_max:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_timer: 255 # Invalid: above maximum of 254
+
+# Test CDP timer as string
+test_cdp_timer_string:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_timer: "60" # Invalid: string instead of integer
+
+# Test CDP timer as float
+test_cdp_timer_float:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_timer: 60.5 # Invalid: float instead of integer
+
+# Test CDP timer negative
+test_cdp_timer_negative:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_timer: -5 # Invalid: negative value
+
+#############################################
+#        CDP Advertise V2 Tests
+#############################################
+
+# Test invalid advertise v2 - string instead of boolean
+test_cdp_advertise_v2_string:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_advertise_v2: "true" # Invalid: string instead of boolean
+
+# Test invalid advertise v2 - integer instead of boolean
+test_cdp_advertise_v2_integer:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_advertise_v2: 1 # Invalid: integer instead of boolean
+
+#############################################
+#        CDP Log Duplex Mismatch Tests
+#############################################
+
+# Test invalid log duplex mismatch - string instead of boolean
+test_cdp_log_duplex_mismatch_string:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_log_duplex_mismatch: "false" # Invalid: string instead of boolean
+
+# Test invalid log duplex mismatch - integer instead of boolean
+test_cdp_log_duplex_mismatch_integer:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_log_duplex_mismatch: 0 # Invalid: integer instead of boolean
+
+#############################################
+#        Data Type and Structure Tests
+#############################################
+
+# Test invalid CDP configuration - string instead of dictionary
+test_cdp_invalid_dict_type:
+  <<: *device_info
+  layer2_configuration:
+    cdp: "invalid_cdp_string" # Invalid: string instead of dictionary
+
+# Test invalid CDP configuration - list instead of dictionary
+test_cdp_invalid_list_type:
+  <<: *device_info
+  layer2_configuration:
+    cdp: ["invalid", "cdp", "list"] # Invalid: list instead of dictionary
+
+#############################################
+#        Edge Case Tests
+#############################################
+
+# Test CDP hold time equal to timer (should be valid but not recommended)
+test_cdp_hold_time_equal_timer:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_hold_time: 60
+      cdp_timer: 60 # Edge case: hold_time equals timer
+
+# Test CDP hold time less than timer (should be valid but not recommended)
+test_cdp_hold_time_less_than_timer:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_hold_time: 30
+      cdp_timer: 60 # Edge case: hold_time less than timer
+
+###################################################################################################################
+# Positive Validation Tests for CDP
+
+#############################################
+#        POSITIVE TEST CASES - CREATE
+#############################################
+
+# Test CDP configuration with admin status only
+test_cdp_create_admin_status_only:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_admin_status: false
+
+# Test CDP configuration with all parameters
+test_cdp_create_all_params:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_admin_status: true
+      cdp_hold_time: 180
+      cdp_timer: 60
+      cdp_advertise_v2: true
+      cdp_log_duplex_mismatch: true
+
+# Test CDP configuration with custom timers
+test_cdp_create_custom_timers:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_hold_time: 120
+      cdp_timer: 30
+
+# Test CDP disabled configuration
+test_cdp_create_disabled:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_admin_status: false
+      cdp_advertise_v2: false
+      cdp_log_duplex_mismatch: false
+
+#############################################
+#        POSITIVE TEST CASES - UPDATE
+#############################################
+
+# Test CDP update - enable CDP
+test_cdp_update_enable:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_admin_status: true
+
+# Test CDP update - modify timers
+test_cdp_update_timers:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_hold_time: 240
+      cdp_timer: 90
+
+# Test CDP update - disable features
+test_cdp_update_disable_features:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_advertise_v2: true
+      cdp_log_duplex_mismatch: true
+
+# Test CDP update - all parameters
+test_cdp_update_all_params:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_admin_status: false
+      cdp_hold_time: 150
+      cdp_timer: 45
+      cdp_advertise_v2: false
+      cdp_log_duplex_mismatch: false
+
+#############################################
+#        POSITIVE TEST CASES - DELETE
+#############################################
+
+# Test CDP deletion/reset - empty configuration
+test_cdp_delete_empty:
+  <<: *device_info
+  layer2_configuration:
+    cdp: {}
+
+# Test CDP deletion/reset - with existing parameters (should reset to defaults)
+test_cdp_delete_with_params:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_admin_status: true # Parameters provided but should reset to defaults in delete state
+      cdp_hold_time: 180
+      cdp_timer: 60
+
+#############################################
+#        Boundary Value Tests
+#############################################
+
+# Test CDP with minimum valid values
+test_cdp_boundary_min_values:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_hold_time: 10 # Minimum valid
+      cdp_timer: 5 # Minimum valid
+
+# Test CDP with maximum valid values
+test_cdp_boundary_max_values:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_hold_time: 255 # Maximum valid
+      cdp_timer: 254 # Maximum valid
+
+# Test CDP with recommended values (hold_time > timer)
+test_cdp_recommended_values:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_hold_time: 180 # 3x timer (recommended)
+      cdp_timer: 60
+
+#############################################
+#        Special Configuration Tests
+#############################################
+
+# Test CDP with null values (should be treated as not provided)
+test_cdp_with_nulls:
+  <<: *device_info
+  layer2_configuration:
+    cdp:
+      cdp_admin_status: null
+      cdp_hold_time: 180
+      cdp_timer: null

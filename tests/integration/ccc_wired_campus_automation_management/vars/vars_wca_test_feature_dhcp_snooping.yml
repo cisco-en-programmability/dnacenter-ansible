@@ -1,0 +1,414 @@
+---
+# Common device information
+device_info: &device_info
+  ip_address: "204.1.2.3"
+  device_collection_status_check: false
+
+###################################################################################################################
+# Negative Validation Tests for DHCP Snooping
+
+#############################################
+#        DHCP Admin Status Tests
+#############################################
+
+# Test invalid DHCP admin status - string instead of boolean
+test_dhcp_snooping_admin_status_string:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_admin_status: "true" # Invalid: string instead of boolean
+
+# Test invalid DHCP admin status - integer instead of boolean
+test_dhcp_snooping_admin_status_integer:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_admin_status: 1 # Invalid: integer instead of boolean
+
+#############################################
+#        DHCP Snooping VLANs Tests
+#############################################
+
+# Test invalid DHCP snooping VLANs - string instead of list
+test_dhcp_snooping_vlans_string:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_vlans: "100,200" # Invalid: string instead of list
+
+# Test invalid DHCP snooping VLANs - integer instead of list
+test_dhcp_snooping_vlans_integer:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_vlans: 100 # Invalid: integer instead of list
+
+# Test invalid DHCP snooping VLANs - boolean instead of list
+test_dhcp_snooping_vlans_boolean:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_vlans: true # Invalid: boolean instead of list
+
+# Test invalid DHCP snooping VLANs - VLAN ID out of range (too low)
+test_dhcp_snooping_vlans_range_low:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_vlans: [0, 100] # Invalid: VLAN ID 0 is out of range
+
+# Test invalid DHCP snooping VLANs - VLAN ID out of range (too high)
+test_dhcp_snooping_vlans_range_high:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_vlans: [100, 4095] # Invalid: VLAN ID 4095 is out of range
+
+# Test invalid DHCP snooping VLANs - string elements in list
+test_dhcp_snooping_vlans_string_elements:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_vlans: ["100", "200"] # Invalid: string elements instead of integers
+
+# Test DHCP snooping VLANs - empty list (potential API bug test)
+test_dhcp_snooping_vlans_empty_list:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_vlans: [] # Test: empty list may cause API issues
+
+#############################################
+#        DHCP Snooping Glean Tests
+#############################################
+
+# Test invalid DHCP snooping glean - string instead of boolean
+test_dhcp_snooping_glean_string:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_glean: "false" # Invalid: string instead of boolean
+
+# Test invalid DHCP snooping glean - integer instead of boolean
+test_dhcp_snooping_glean_integer:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_glean: 0 # Invalid: integer instead of boolean
+
+#############################################
+#        DHCP Database Agent URL Tests
+#############################################
+
+# Test invalid DHCP database agent URL - integer instead of string
+test_dhcp_snooping_database_agent_url_integer:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_database_agent_url: 12345 # Invalid: integer instead of string
+
+# Test invalid DHCP database agent URL - boolean instead of string
+test_dhcp_snooping_database_agent_url_boolean:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_database_agent_url: true # Invalid: boolean instead of string
+
+# Test invalid DHCP database agent URL - exceeds maximum length (228 characters)
+test_dhcp_snooping_database_agent_url_max_length:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_database_agent_url: "tftp://192.168.1.100/this_is_an_extremely_long_filename_that_exceeds_the_maximum_allowed_length_for_dhcp_snooping_database_agent_url_and_should_cause_validation_to_fail_because_it_is_way_too_long_for_the_url_field_to_handle_properly_and_efficiently_so_we_need_to_reject_it_completely.db" # Invalid: > 227 chars
+
+#############################################
+#        DHCP Database Timeout Tests
+#############################################
+
+# Test invalid DHCP database timeout - string instead of integer
+test_dhcp_snooping_database_timeout_string:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_database_timeout: "300" # Invalid: string instead of integer
+
+# Test invalid DHCP database timeout - boolean instead of integer
+test_dhcp_snooping_database_timeout_boolean:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_database_timeout: false # Invalid: boolean instead of integer
+
+# Test invalid DHCP database timeout - negative value
+test_dhcp_snooping_database_timeout_negative:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_database_timeout: -1 # Invalid: negative value
+
+# Test invalid DHCP database timeout - exceeds maximum value
+test_dhcp_snooping_database_timeout_max:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_database_timeout: 86401 # Invalid: exceeds maximum of 86400
+
+#############################################
+#        DHCP Database Write Delay Tests
+#############################################
+
+# Test invalid DHCP database write delay - string instead of integer
+test_dhcp_snooping_database_write_delay_string:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_database_write_delay: "300" # Invalid: string instead of integer
+
+# Test invalid DHCP database write delay - boolean instead of integer
+test_dhcp_snooping_database_write_delay_boolean:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_database_write_delay: true # Invalid: boolean instead of integer
+
+# Test invalid DHCP database write delay - below minimum value
+test_dhcp_snooping_database_write_delay_min:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_database_write_delay: 14 # Invalid: below minimum of 15
+
+# Test invalid DHCP database write delay - exceeds maximum value
+test_dhcp_snooping_database_write_delay_max:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_database_write_delay: 86401 # Invalid: exceeds maximum of 86400
+
+#############################################
+#        DHCP Proxy Bridge VLANs Tests
+#############################################
+
+# Test invalid DHCP proxy bridge VLANs - string instead of list
+test_dhcp_snooping_proxy_bridge_vlans_string:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_proxy_bridge_vlans: "100,200" # Invalid: string instead of list
+
+# Test invalid DHCP proxy bridge VLANs - integer instead of list
+test_dhcp_snooping_proxy_bridge_vlans_integer:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_proxy_bridge_vlans: 100 # Invalid: integer instead of list
+
+# Test invalid DHCP proxy bridge VLANs - VLAN ID out of range (too low)
+test_dhcp_snooping_proxy_bridge_vlans_range_low:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_proxy_bridge_vlans: [0, 100] # Invalid: VLAN ID 0 is out of range
+
+# Test invalid DHCP proxy bridge VLANs - VLAN ID out of range (too high)
+test_dhcp_snooping_proxy_bridge_vlans_range_high:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_proxy_bridge_vlans: [100, 4095] # Invalid: VLAN ID 4095 is out of range
+
+# Test DHCP proxy bridge VLANs - empty list (potential API bug test)
+test_dhcp_snooping_proxy_bridge_vlans_empty_list:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_proxy_bridge_vlans: [] # Test: empty list may cause API issues
+
+#############################################
+#        Data Type and Structure Tests
+#############################################
+
+# Test invalid DHCP snooping configuration - string instead of dictionary
+test_dhcp_snooping_invalid_dict_type:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping: "invalid_dhcp_snooping_string" # Invalid: string instead of dictionary
+
+# Test invalid DHCP snooping configuration - list instead of dictionary
+test_dhcp_snooping_invalid_list_type:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping: ["invalid", "dhcp_snooping", "list"] # Invalid: list instead of dictionary
+
+###################################################################################################################
+# Positive Validation Tests for DHCP Snooping
+
+#############################################
+#        POSITIVE TEST CASES - CREATE
+#############################################
+
+# Test DHCP snooping configuration with admin status only
+test_dhcp_snooping_create_admin_status_only:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_admin_status: true
+      dhcp_snooping_database_agent_url: "tftp://192.168.1.100/test_dhcp_bindings.db"
+
+# Test DHCP snooping configuration with VLANs only
+test_dhcp_snooping_create_vlans_only:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_vlans: [400, 401, 402, 98]
+
+# Test DHCP snooping configuration with glean only
+test_dhcp_snooping_create_glean_only:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_glean: true
+
+# Test DHCP snooping configuration with database agent URL only
+test_dhcp_snooping_create_database_url_only:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_database_agent_url: "tftp://192.168.1.100/dhcp_bindings.db"
+
+# Test DHCP snooping configuration with database timeout only
+test_dhcp_snooping_create_database_timeout_only:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_database_timeout: 600
+
+# Test DHCP snooping configuration with database write delay only
+test_dhcp_snooping_create_database_write_delay_only:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_database_write_delay: 600
+
+# Test DHCP snooping configuration with proxy bridge VLANs only
+test_dhcp_snooping_create_proxy_bridge_vlans_only:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_proxy_bridge_vlans: [98, 402]
+
+# Test DHCP snooping configuration with all parameters
+test_dhcp_snooping_create_all_params:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_admin_status: true
+      dhcp_snooping_vlans: [99, 98, 402, 401]
+      dhcp_snooping_glean: true
+      dhcp_snooping_database_agent_url: "tftp://192.168.1.100/comprehensive_dhcp_bindings.db"
+      dhcp_snooping_database_timeout: 1200
+      dhcp_snooping_database_write_delay: 900
+      dhcp_snooping_proxy_bridge_vlans: [402, 401]
+
+#############################################
+#        POSITIVE TEST CASES - UPDATE
+#############################################
+
+# Test DHCP snooping update - disable admin status
+test_dhcp_snooping_update_disable_admin:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_admin_status: false
+
+# Test DHCP snooping update - update VLANs list
+test_dhcp_snooping_update_vlans:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_vlans: []
+
+# Test DHCP snooping update - disable glean
+test_dhcp_snooping_update_disable_glean:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_glean: false
+
+# Test DHCP snooping update - update database agent URL
+test_dhcp_snooping_update_database_url:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_database_agent_url: "ftp://192.168.2.200/updated_dhcp_bindings.db"
+
+# Test DHCP snooping update - update database timeout
+test_dhcp_snooping_update_database_timeout:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_database_timeout: 1800
+
+# Test DHCP snooping update - update database write delay
+test_dhcp_snooping_update_database_write_delay:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_database_write_delay: 1200
+
+# Test DHCP snooping update - update proxy bridge VLANs
+test_dhcp_snooping_update_proxy_bridge_vlans:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_proxy_bridge_vlans: [401, 98]
+
+# Test DHCP snooping update - comprehensive update
+test_dhcp_snooping_update_comprehensive:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_admin_status: true
+      dhcp_snooping_vlans: [401, 402, 403]
+      dhcp_snooping_glean: false
+      dhcp_snooping_database_agent_url: "tftp://192.168.3.300/final_dhcp_bindings.db"
+      dhcp_snooping_database_timeout: 2400
+      dhcp_snooping_database_write_delay: 1800
+      dhcp_snooping_proxy_bridge_vlans: [402, 403]
+
+#############################################
+#        POSITIVE TEST CASES - RESET
+#############################################
+
+# Test DHCP snooping reset - empty configuration (deleted state resets to defaults)
+test_dhcp_snooping_reset_empty:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping: {}
+
+# Test DHCP snooping reset - with existing parameters (deleted state resets to defaults)
+test_dhcp_snooping_reset_with_params:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_admin_status: true # Parameters provided but should reset to defaults in delete state
+      dhcp_snooping_vlans: [401, 402, 403]
+      dhcp_snooping_glean: true
+
+#############################################
+#        Special Configuration Tests
+#############################################
+
+# Test DHCP snooping with database agent URL empty string
+test_dhcp_snooping_special_url_empty_string:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_database_agent_url: ""
+
+# Test DHCP snooping with proxy bridge VLANs empty list
+test_dhcp_snooping_special_vlan_empty_list:
+  <<: *device_info
+  layer2_configuration:
+    dhcp_snooping:
+      dhcp_snooping_proxy_bridge_vlans: []
