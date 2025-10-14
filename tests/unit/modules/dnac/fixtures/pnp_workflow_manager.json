@@ -9458,5 +9458,38 @@
         "response":{
             "status": "Device reset done Successfully"
         }
-    }]
+    }],
+
+    "playbook_config_wrong_serial_pnp": [
+        {
+        "device_info": [
+            {
+                "serial_number": "AJC272127LW",
+                "state": "Unclaimed",
+                "pid": "",
+                "is_sudi_required": false,
+                "hostname": "Test_pnp11",
+                "authorize": true
+            },
+            {
+                "serial_number": "BJC272127LW",
+                "state": "Unclaimed",
+                "pid": "C9300-48S",
+                "hostname": "Test_pnp12"
+            },
+            {
+                "serial_number": "BJC272127LW",
+                "state": "Unclaimed",
+                "pid": "C9300-48S",
+                "hostname": "Test_pnp12"
+            },
+            {
+                "serial_number": "",
+                "state": "Unclaimed",
+                "pid": "C9300-48S",
+                "hostname": "Test_pnp12"
+            }
+        ]
+        }
+    ]
 }
