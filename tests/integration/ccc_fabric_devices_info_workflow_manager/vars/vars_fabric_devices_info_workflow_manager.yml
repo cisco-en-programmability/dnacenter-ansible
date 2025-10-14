@@ -1,14 +1,12 @@
 ---
 fabric_devices_info:
   - fabric_devices:
-      - ip_address: ["91.1.1.2"]
-        hostname: ["SJ-Border2-9500.cisco.com"]
-        serial_number: ["FCW2243F199"]
-        device_role: ["BORDER ROUTER"]
-        device_type: ["Cisco Catalyst 9500 Switch"]
-        site_hierarchy: ["Global/USA/New York/BLDNYC"]
+      - fabric_site_hierarchy: "Global/rishipat_area/Fabric-area-1"  # Mandatory parameter
+        fabric_device_role: "EDGE_NODE"
+        device_identifier:
+          - ip_address: ["192.168.200.69"]
         timeout: 30
-        retries: 2
+        retries: 3
         interval: 10
         requested_info:
           - fabric_info
@@ -20,5 +18,5 @@ fabric_devices_info:
         output_file_info:
           file_path: /Users/priyadharshini/Downloads/fabric_device_info
           file_format: yaml
-          file_mode: a
-          timestamp: True
+          file_mode: w
+          timestamp: false
