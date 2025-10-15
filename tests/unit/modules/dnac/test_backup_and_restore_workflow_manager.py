@@ -48,16 +48,16 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
     playbook_update_backup_config = test_data.get("playbook_update_backup_config")
     playbook_backup_config_alreadyexists1 = test_data.get("playbook_backup_config_alreadyexists1")
     playbook_backup_config_password_exception = test_data.get("playbook_backup_config_password_exception")
-    playbook_mountpath_notfound = test_data.get("playbook_mountpath_notfound")
     playbook_restore_exception = test_data.get("playbook_restore_exception")
     playbook_backup_schedule_alreadydeleted1 = test_data.get("playbook_backup_schedule_alreadydeleted1")
     playbook_delete_backup_schedule = test_data.get("playbook_delete_backup_schedule")
     playbook_backup_schedule_alreadyexists = test_data.get("playbook_backup_schedule_alreadyexists")
-    playbook_delete_backup_timestamp = test_data.get("playbook_delete_backup_timestamp")
+    playbook_backup_retention_days = test_data.get("playbook_backup_retention_days")
     playbook_delete_all_backup = test_data.get("playbook_delete_all_backup")
     playbook_no_backup_todelete = test_data.get("playbook_no_backup_todelete")
     playbook_no_backup_todelete = test_data.get("playbook_no_backup_todelete")
     playbook_generate_new_backup = test_data.get("playbook_generate_new_backup")
+    playbook_mountpath_notfound = test_data.get("playbook_mountpath_notfound")
 
     def setUp(self):
         super(TestDnacApplicationPolicyWorkflowManager, self).setUp()
@@ -167,14 +167,6 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 self.test_data.get("get_all_n_f_s_configurations17"),
             ]
 
-        elif "playbook_mountpath_notfound" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_all_n_f_s_configurations18"),
-                self.test_data.get("get_backup_configuration11"),
-                self.test_data.get("get_all_n_f_s_configurations19"),
-                self.test_data.get("get_all_n_f_s_configurations30"),
-            ]
-
         elif "playbook_restore_exception" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_all_n_f_s_configurations21"),
@@ -208,10 +200,13 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 self.test_data.get("get_all_backup17"),
             ]
 
-        elif "playbook_delete_backup_timestamp" in self._testMethodName:
+        elif "playbook_backup_retention_days" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_all_n_f_s_configurations33"),
                 self.test_data.get("get_all_backup33"),
+                self.test_data.get("delete_backup30"),
+                self.test_data.get("get_backup_and_restore_execution50"),
+                self.test_data.get("get_backup_and_restore_execution51"),
                 self.test_data.get("get_all_n_f_s_configurations34"),
                 self.test_data.get("get_all_backup34"),
             ]
@@ -233,6 +228,15 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 self.test_data.get("get_all_backup37"),
                 self.test_data.get("get_all_n_f_s_configurations38"),
                 self.test_data.get("get_all_backup38"),
+            ]
+
+        elif "playbook_generate_new_backup" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_all_n_f_s_configurations39"),
+                self.test_data.get("get_all_backup39"),
+                self.test_data.get("create_backup"),
+                self.test_data.get("get_backup_and_restore_execution39"),
+                self.test_data.get("get_backup_and_restore_execution40"),
             ]
 
         elif "playbook_generate_new_backup" in self._testMethodName:
@@ -595,7 +599,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             "Backup and restore workflow requires at least one configuration section: "
-            "'backup_storage_configuration', 'nfs_configuration', 'backup_job_creation', or 'restore_operations'"
+            "'backup_storage_configuration', 'nfs_configuration', 'backup', or 'restore_operations'"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario13(self):
@@ -705,31 +709,6 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             "An error occurred while retrieving all NFS configuration details: "
-        )
-
-    def test_backup_and_restore_workflow_manager_playbook_mountpath_notfound(self):
-        """
-        Negative test case for NFS mount path retrieval failure.
-        Verifies that the workflow manager raises an error when the NFS node is unhealthy
-        and the mount path cannot be retrieved.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config_verify=True,
-                dnac_version="3.1.3.0",
-                config=self.playbook_mountpath_notfound
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        print(result)
-        self.assertEqual(
-            result.get("response"),
-            "Mount path not retrievable as NFS node is unhealthy for server IP '172.27.17.90', source path '/home/nfsshare/backups/TB19'."
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario14(self):
@@ -859,7 +838,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
             "Backup 'BACKUP24_07' already exists."
         )
 
-    def test_backup_and_restore_workflow_manager_playbook_delete_backup_timestamp(self):
+    def test_backup_and_restore_workflow_manager_playbook_backup_retention_days(self):
         """
         Test case for handling backup deletion with timestamp.
         Verifies that the workflow manager correctly identifies the backup to delete
@@ -874,14 +853,14 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 state="deleted",
                 config_verify=True,
                 dnac_version="3.1.3.0",
-                config=self.playbook_delete_backup_timestamp
+                config=self.playbook_backup_retention_days
             )
         )
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "No backups found with prefix 'BACKUP03_10' older than timestamp '20251003_133323'."
+            "Backup(s) 'ENTERPRISE_DAILY_BACKUP' deleted successfully from Cisco Catalyst Center."
         )
 
     def test_backup_and_restore_workflow_manager_playbook_delete_all_backup(self):

@@ -172,7 +172,7 @@ options:
               - Passphrase for encrypting backup data during storage operations.
               - Strongly recommended for secure data protection and compliance.
             type: str
-      backup_job_creation:
+      backup:
         description:
           - Configuration for creating and executing backup jobs.
           - Creates backup jobs with specified name and data scope.
@@ -188,12 +188,12 @@ options:
               - For backup creation (state=merged), when generate_new_backup=false or not specified, creates backup with this exact name.
               - Follows standard Ansible idempotency - if backup exists with same name, no new backup is created.
               - When generate_new_backup=true, uses this name as prefix and appends timestamp.
-              - Timestamp format is "YYYYMMDD_HHMMSS" using server local time (e.g., 20241230_143052).
+              - Timestamp format is "YYYYMMDD_HHMMSS" using Indian Standard Time (IST) (e.g., 20241230_143052).
               - Example with generate_new_backup=true and name="DAILY_BACKUP" creates "DAILY_BACKUP_20241230_143052".
-              - For backup deletion (state=deleted), when used alone without deletion_timestamp, deletes backup with this exact name.
-              - When used with deletion_timestamp, treats this as prefix to filter backups by creation time.
-              - Example with name="DAILY_BACKUP" and deletion_timestamp="20241230_120000" deletes all backups starting with
-                "DAILY_BACKUP" created before Dec 30, 2024 12:00:00.
+              - For backup deletion (state=deleted), when used alone, deletes backup with this exact name.
+              - When used with backup_retention_days, treats this as prefix to filter backups by name and retention period.
+              - Example with name="DAILY_BACKUP" and backup_retention_days=7 deletes all backups starting with
+                "DAILY_BACKUP" created more than 7 days ago.
               - Backup name must begin with an alphabet and can contain letters, digits, and the following special characters @, _, -, space, and #.
             type: str
           generate_new_backup:
@@ -203,7 +203,7 @@ options:
               - When false or not specified, uses exact name and follows idempotent behavior.
               - Only applicable when state=merged for backup creation operations.
               - Ignored during deletion operations (state=deleted).
-              - Timestamp format is "YYYYMMDD_HHMMSS" using server local time.
+              - Timestamp format is "YYYYMMDD_HHMMSS" using Indian Standard Time (IST).
               - Useful for automated backup schedules where unique names are required.
             type: bool
             default: false
@@ -223,17 +223,19 @@ options:
               - Useful for complete backup infrastructure cleanup or maintenance operations.
             type: bool
             default: false
-          deletion_timestamp:
+          backup_retention_days:
             description:
-              - Timestamp cutoff for prefix-based backup deletion with precise time control.
-              - Must be used with name parameter for filtering backups by prefix and creation time.
-              - Only backups matching name prefix AND created before this timestamp are deleted.
-              - Timestamp format is "YYYYMMDD_HHMMSS" using server local time (e.g., 20241230_143052).
+              - Duration-based backup retention policy for automated cleanup operations.
+              - Retains backups created within the specified number of days and deletes older backups.
+              - When used with name parameter, applies retention policy only to backups matching the name prefix.
+              - When used alone, applies retention policy to all backups in the system.
+              - Must be a positive integer representing number of days (e.g., 7 for one week, 30 for one month).
               - Only valid when state=deleted is specified.
-              - Example deletion_timestamp="20241230_120000" with name="DAILY_BACKUP"
-                deletes backups starting with "DAILY_BACKUP" created before Dec 30, 2024 12:00:00.
+              - Example backup_retention_days=7 with name="DAILY_BACKUP" retains backups with "DAILY_BACKUP" prefix created in last 7 days, deletes older ones.
+              - Example backup_retention_days=30 without name parameter retains all backups created in last 30 days,
+                deletes all older backups regardless of name.
               - Ignored when delete_all_backup=true is specified.
-            type: str
+            type: int
       restore_operations:
         description:
           - Parameters for restoring data from previously created backups
@@ -408,7 +410,7 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - backup_job_creation:
+          - backup:
               - name: BACKUP24_07
                 scope: CISCO_DNA_DATA_WITHOUT_ASSURANCE
 
@@ -493,18 +495,18 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: deleted
         config:
-          - backup_job_creation:
+          - backup:
               - name: BACKUP24_07
 
-# Example 7: Delete backup with timestamp-based filtering for lifecycle management
-- name: Remove backup using timestamp-based filtering for automated cleanup
+# Example 7: Delete backups using retention policy with name prefix filtering
+- name: Remove old backups using retention-based cleanup with name filtering
   hosts: localhost
   vars_files:
     - "credentials.yml"
   connection: local
   gather_facts: false
   tasks:
-    - name: Delete backup with prefix and timestamp cutoff for backup lifecycle management
+    - name: Delete backups with prefix 'BACKUP03_10' older than 7 days using retention policy
       cisco.dnac.backup_and_restore_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -520,11 +522,38 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: deleted
         config:
-          - backup_job_creation:
+          - backup:
               - name: BACKUP03_10
-                deletion_timestamp: "20251003_133325"
+                backup_retention_days: 7
 
-# Example 8: Delete all backups for complete infrastructure cleanup
+# Example 8: Delete backups with prefix 'BACKUP03_10' older than 7 days using retention policy
+- name: Remove all old backups using retention policy
+  hosts: localhost
+  vars_files:
+    - "credentials.yml"
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Delete all backups older than 7 days retention policy
+      cisco.dnac.backup_and_restore_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: deleted
+        config:
+          - backup:
+              - backup_retention_days: 7
+
+# Example 9: Delete all backups for complete infrastructure cleanup
 - name: Remove all backups from Cisco Catalyst Center
   hosts: localhost
   vars_files:
@@ -548,10 +577,10 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: deleted
         config:
-          - backup_job_creation:
+          - backup:
               - delete_all_backup: true
 
-# Example 9: Comprehensive backup workflow for enterprise deployment
+# Example 10: Comprehensive backup workflow for enterprise deployment
 - name: Complete backup and restore workflow for enterprise infrastructure
   hosts: localhost
   vars_files:
@@ -591,11 +620,11 @@ EXAMPLES = r"""
                   nfs_portmapper_port: 111
                 data_retention_period: 30
                 encryption_passphrase: Enterprise@Backup2024
-            backup_job_creation:
+            backup:
               - name: ENTERPRISE_DAILY_BACKUP
                 scope: CISCO_DNA_DATA_WITH_ASSURANCE
 
-# Example 10: Multiple NFS server configuration for redundant backup storage
+# Example 11: Multiple NFS server configuration for redundant backup storage
 - name: Configure multiple NFS servers for backup redundancy
   hosts: localhost
   vars_files:
@@ -631,7 +660,7 @@ EXAMPLES = r"""
                 nfs_version: nfs4
                 nfs_portmapper_port: 111
 
-# Example 11: Create backup with timestamp prefix for automated backup workflows
+# Example 12: Create backup with timestamp prefix for automated backup workflows
 - name: Create automated backup with timestamp for unique identification
   hosts: localhost
   vars_files:
@@ -655,7 +684,7 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - backup_job_creation:
+          - backup:
               - name: "DAILY_AUTO_BACKUP"
                 scope: "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
                 generate_new_backup: true
@@ -949,7 +978,7 @@ class BackupRestore(DnacBase):
                 "data_retention_period": {"type": "int", "range_min": 3, "range_max": 60},
                 "encryption_passphrase": {"type": "str"},
             },
-            "backup_job_creation": {
+            "backup": {
                 "type": "list",
                 "elements": "dict",
                 "name": {
@@ -970,8 +999,8 @@ class BackupRestore(DnacBase):
                     "type": "bool",
                     "default": False
                 },
-                "deletion_timestamp": {
-                    "type": "str",
+                "backup_retention_days": {
+                    "type": "int",
                 }
             },
             "restore_operations": {
@@ -1020,7 +1049,7 @@ class BackupRestore(DnacBase):
                             one or more of the following keys:
                             - 'backup_storage_configuration'
                             - 'nfs_configuration'
-                            - 'backup_job_creation'
+                            - 'backup'
                             - 'restore_operations'
 
         Returns:
@@ -1032,7 +1061,7 @@ class BackupRestore(DnacBase):
             sections required for backup and restore operations. Specifically, it performs the following steps:
 
             - Validates that at least one of the expected keys is present in the config.
-            - Extracts values from 'backup_storage_configuration', 'nfs_configuration', 'backup_job_creation',
+            - Extracts values from 'backup_storage_configuration', 'nfs_configuration', 'backup',
                 and 'restore_operations', if present.
             - Logs the final desired state for visibility.
         """
@@ -1042,7 +1071,7 @@ class BackupRestore(DnacBase):
         want = {}
         backup_config = config.get("backup_storage_configuration")
         nfs_config = config.get("nfs_configuration")
-        backup = config.get("backup_job_creation")
+        backup = config.get("backup")
         restore_operations = config.get("restore_operations")
 
         config_sections = []
@@ -1051,7 +1080,7 @@ class BackupRestore(DnacBase):
         if nfs_config:
             config_sections.append("nfs_configuration")
         if backup:
-            config_sections.append("backup_job_creation")
+            config_sections.append("backup")
         if restore_operations:
             config_sections.append("restore_operations")
 
@@ -1060,13 +1089,13 @@ class BackupRestore(DnacBase):
         if not any([backup_config, nfs_config, backup, restore_operations]):
             self.msg = (
                 "Backup and restore workflow requires at least one configuration section: "
-                "'backup_storage_configuration', 'nfs_configuration', 'backup_job_creation', or 'restore_operations'"
+                "'backup_storage_configuration', 'nfs_configuration', 'backup', or 'restore_operations'"
             )
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         want = {
             "backup_storage_configuration": backup_config,
-            "backup_job_creation": backup,
+            "backup": backup,
             "restore_operations": restore_operations,
             "nfs_configuration": nfs_config
         }
@@ -1130,7 +1159,7 @@ class BackupRestore(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         self.log("Retrieved {0} NFS configurations for backup infrastructure evaluation".format(
-            len(current_nfs_configs)), "DEBUG")
+            len(current_nfs_configs)), "error")
 
         return current_nfs_configs
 
@@ -1264,7 +1293,7 @@ class BackupRestore(DnacBase):
         current_backups = []
         matched_config = {}
 
-        backup_list = self.want.get("backup_job_creation", [])
+        backup_list = self.want.get("backup", [])
         expected_backup_name = None
 
         if backup_list and isinstance(backup_list, list):
@@ -1347,7 +1376,7 @@ class BackupRestore(DnacBase):
                 - If 'backup_storage_configuration' is present:
                     - Calls 'get_backup_configuration()' to retrieve the existing backup config.
                     - Stores the matched configuration and existence flag.
-                - If 'backup_job_creation' is provided:
+                - If 'backup' is provided:
                     - Calls 'get_backup()' to retrieve and match backup by name.
                     - Stores the matched backup and its existence flag.
                 - If 'restore_operations' is provided:
@@ -1375,7 +1404,7 @@ class BackupRestore(DnacBase):
                 have["backup_configuration_exists"]), "DEBUG")
             self.log("Current backup configuration details retrieved for comparison", "DEBUG")
 
-        backup_details = self.want.get("backup_job_creation", [])
+        backup_details = self.want.get("backup", [])
         if backup_details:
             self.log("Retrieving current backup information for validation", "DEBUG")
             backup_exists, current_backups, matched_backup = self.get_backup()
@@ -1449,7 +1478,7 @@ class BackupRestore(DnacBase):
             self.log("Processing backup target configuration for data protection workflow", "DEBUG")
             self.get_diff_backup_configuration()
 
-        if config.get("backup_job_creation"):
+        if config.get("backup"):
             self.log("Processing backup details...", "INFO")
             self.get_diff_backup()
 
@@ -1499,7 +1528,7 @@ class BackupRestore(DnacBase):
             self.log("Processing NFS server configuration deletion for infrastructure cleanup", "DEBUG")
             self.delete_nfs_configuration()
 
-        if config.get("backup_job_creation"):
+        if config.get("backup"):
             self.log("Processing backup details for deletion...", "INFO")
             self.delete_backup()
 
@@ -1625,7 +1654,6 @@ class BackupRestore(DnacBase):
         self.log("Processing backup target configurations for enterprise data protection validation", "DEBUG")
         self.log("Expected backup configurations: {0}".format(len(expected_backup_configs)), "DEBUG")
 
-        # Process each desired backup configuration for enterprise data protection
         for config_index, backup_config_details in enumerate(expected_backup_configs):
             nfs_details = backup_config_details.get("nfs_details", {})
             server_ip = nfs_details.get("server_ip")
@@ -1675,6 +1703,8 @@ class BackupRestore(DnacBase):
                 self.log("NFS mount path not found for {0}:{1}, attempting to create/verify NFS configuration.".format(server_ip, source_path), "INFO")
                 self.create_nfs_configuration(nfs_details)
 
+            time.sleep(30)
+
             refreshed_config = self.get_nfs_configuration_details()
             for item in refreshed_config:
                 if (
@@ -1689,15 +1719,47 @@ class BackupRestore(DnacBase):
             self.log("NFS node health status - unhealthy nodes: {0}".format(unhealthy_nodes), "DEBUG")
 
             if unhealthy_nodes:
-                spec = matched_config.get("spec", {})
-                server_ip = spec.get("server")
-                source_path = spec.get("sourcePath")
+                timeout_seconds = 120
+                retry_interval = 10
 
-                self.msg = (
-                    "Mount path not retrievable as NFS node is unhealthy for server IP '{0}', source path '{1}'."
-                    .format(server_ip, source_path)
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.log("Detected unhealthy NFS node(s). Retrying health check for up to {0} seconds.".format(timeout_seconds), "INFO")
+
+                start_time = time.time()
+                while unhealthy_nodes and (time.time() - start_time) < timeout_seconds:
+                    self.log("Waiting {0} seconds before next health check...".format(retry_interval), "DEBUG")
+                    time.sleep(retry_interval)
+                    refreshed_config = self.get_nfs_configuration_details()
+                    matched_config = next(
+                        (
+                            item
+                            for item in refreshed_config
+                            if item.get("spec", {}).get("server") == server_ip
+                            and item.get("spec", {}).get("sourcePath") == source_path
+                        ),
+                        None,
+                    )
+                    unhealthy_nodes = matched_config.get("status", {}).get("unhealthyNodes") if matched_config else None
+                    self.log("NFS node retry check - unhealthy nodes: {0}".format(unhealthy_nodes), "DEBUG")
+
+                if unhealthy_nodes:
+                    spec = matched_config.get("spec", {})
+                    server_ip = spec.get("server")
+                    source_path = spec.get("sourcePath")
+
+                    self.msg = (
+                        "Mount path not retrievable as NFS node is unhealthy for server IP '{0}', source path '{1}'."
+                        .format(server_ip, source_path)
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                else:
+                    self.log(
+                        "NFS node health validation completed successfully - server '{0}' with source path '{1}' "
+                        "recovered from unhealthy state to healthy status".format(server_ip, source_path),
+                        "INFO",
+                    )
+                    mount_path = matched_config.get("status", {}).get("destinationPath") if matched_config else None
+
             else:
                 self.log("NFS node is healthy - retrieving mount path for backup configuration", "DEBUG")
                 mount_path = matched_config.get("status", {}).get("destinationPath") if matched_config else None
@@ -1743,6 +1805,7 @@ class BackupRestore(DnacBase):
                 payload['encryptionPassphrase'] = backup_config_details['encryption_passphrase']
 
             self.log("Final payload for backup configuration: {0}".format(json.dumps(payload, indent=4)), "DEBUG")
+
         try:
             response = self.dnac._exec(
                 family="backup",
@@ -1789,7 +1852,7 @@ class BackupRestore(DnacBase):
         self.log("Processing backup details...", "INFO")
 
         backup = self.have
-        backup_detail = self.want.get("backup_job_creation", [])
+        backup_detail = self.want.get("backup", [])
         for backup_details in backup_detail:
             name = backup_details.get("name")
             scope = backup_details.get("scope")
@@ -2178,9 +2241,10 @@ class BackupRestore(DnacBase):
         final_name = name
 
         if generate_new_backup:
-            timestamp = time.strftime("%Y%m%d_%H%M%S")
+            ist = timezone(timedelta(hours=5, minutes=30))
+            timestamp = datetime.now(ist).strftime("%Y%m%d_%H%M%S")
             final_name = "{0}_{1}".format(name, timestamp)
-            self.log("generate_new_backup enabled: Final backup name = {0}".format(final_name), "DEBUG")
+            self.log("generate_new_backup enabled: Final backup name (IST) = {0}".format(final_name), "DEBUG")
 
         if not name or not scope:
             self.msg = "Mandatory fields 'name' and 'scope' must be specified for backup."
@@ -2208,7 +2272,7 @@ class BackupRestore(DnacBase):
             if status not in ["FAILED", "CANCELLED", "IN_PROGRESS"]:
                 self.msg = "Backup '{0}' created successfully.".format(name)
                 self.set_operation_result("success", True, self.msg, "INFO")
-                self.backup.append(name)
+                self.backup.append(final_name)
 
             if status == "FAILED":
                 self.msg = "Creation of backup '{0}' failed".format(name)
@@ -2538,7 +2602,7 @@ class BackupRestore(DnacBase):
         """
         self.log("Starting backup deletion workflow", "INFO")
 
-        backup_details = self.want.get("backup_job_creation", [])
+        backup_details = self.want.get("backup", [])
         self.log("backup details: {0}".format(backup_details), "INFO")
 
         if not backup_details:
@@ -2550,7 +2614,7 @@ class BackupRestore(DnacBase):
 
         delete_all = backup_details[0].get("delete_all_backup", False)
         name = backup_details[0].get("name")
-        deletion_timestamp = backup_details[0].get("deletion_timestamp")
+        backup_retention_days = backup_details[0].get("backup_retention_days")
 
         backups_to_delete = []
 
@@ -2562,19 +2626,44 @@ class BackupRestore(DnacBase):
                 return self
             self.log("Deleting ALL backup from Catalyst Center", "INFO")
 
-        elif name and deletion_timestamp:
-            self.log("Initiating prefix-based backup deletion with timestamp filtering", "INFO")
+        elif backup_retention_days:
+            self.log("Initiating backup retention-based cleanup", "INFO")
 
-            cutoff_date_time = datetime.strptime(deletion_timestamp, "%Y%m%d_%H%M%S")
+            retention_days = int(backup_retention_days)
+            if retention_days <= 0:
+                self.msg = "Invalid value for backup_retention_days: must be a positive integer."
+                self.set_operation_result("failed", True, self.msg, "ERROR")
+                return self
+
             ist = timezone(timedelta(hours=5, minutes=30))
-            cutoff_date_time = cutoff_date_time.replace(tzinfo=ist)
-            self.log("Cutoff datetime (IST): {0}".format(cutoff_date_time.strftime("%Y-%m-%d %H:%M:%S")))
+            current_time = datetime.now(ist)
+            cutoff_date_time = current_time - timedelta(days=retention_days)
 
-            all_backups = backup.get("all_backups", [])
+            self.log("Current IST time: {0}".format(cutoff_date_time), "DEBUG")
+
             self.log(
-                "Filtering backups by name as prefix '{0}' and cutoff '{1}'".format(name, deletion_timestamp),
+                "Applying retention policy: retain backups created after '{0}', delete older ones.".format(
+                    cutoff_date_time.strftime("%Y-%m-%d %H:%M:%S")
+                ),
                 "INFO",
             )
+
+            all_backups = backup.get("all_backups", [])
+
+            if name:
+                self.log(
+                    "Filtering backups by name prefix '{0}' and retention period of {1} days".format(
+                        name, retention_days
+                    ),
+                    "INFO",
+                )
+            else:
+                self.log(
+                    "Applying retention policy to all backups (no name prefix provided) with retention of {0} days".format(
+                        retention_days
+                    ),
+                    "INFO",
+                )
 
             for backup in all_backups:
                 backup_name = backup.get("name")
@@ -2584,15 +2673,30 @@ class BackupRestore(DnacBase):
                     created_date_time = datetime.strptime(created_date_time, "%Y-%m-%dT%H:%M:%SZ")
                     created_date_time = created_date_time.replace(tzinfo=timezone.utc)
                     created_date_time = created_date_time.astimezone(ist)
-                    self.log("Backup '{0}' created (IST): {1}".format(backup_name, created_date_time.strftime("%Y-%m-%d %H:%M:%S")))
 
-                    if backup_name.startswith(name) and created_date_time < cutoff_date_time:
+                    self.log(
+                        "Backup '{0}' created (IST): {1}".format(
+                            backup_name, created_date_time.strftime("%Y-%m-%d %H:%M:%S")
+                        ),
+                        "DEBUG",
+                    )
+
+                    if (not name or backup_name.startswith(name)) and created_date_time < cutoff_date_time:
                         backups_to_delete.append(backup)
 
-            self.log("Backups identified for deletion: {0}".format(backups_to_delete), "DEBUG")
+            self.log(
+                "Backups identified for deletion (older than {0} days): {1}".format(
+                    retention_days, backups_to_delete
+                ),
+                "DEBUG",
+            )
+            self.log("Total backups to delete based on retention policy: {0}".format(backups_to_delete), "INFO")
 
             if not backups_to_delete:
-                self.msg = "No backups found with prefix '{0}' older than timestamp '{1}'.".format(name, deletion_timestamp)
+                target = "with prefix '{0}' ".format(name) if name else ""
+                self.msg = "No backups found {0}older than retention period ({1} days).".format(
+                    target, retention_days
+                )
                 self.set_operation_result("success", False, self.msg, "INFO")
                 return self
 
@@ -2699,14 +2803,14 @@ class BackupRestore(DnacBase):
                     )
                 )
 
-        if self.want.get("backup_job_creation"):
+        if self.want.get("backup"):
             self.log("Verifying backup creation results", "DEBUG")
             self.get_have()
             self.log("Current State (have): {0}".format(str(self.have)), "INFO")
             self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
             backup_exists = self.have.get("backup_exists")
-            backup = self.want.get("backup_job_creation", [])[0]
+            backup = self.want.get("backup", [])[0]
             name = backup.get("name")
             scope = backup.get("scope")
 
@@ -2795,16 +2899,16 @@ class BackupRestore(DnacBase):
                     "WARNING"
                 )
 
-        if self.want.get("backup_job_creation"):
+        if self.want.get("backup"):
             self.log("Waiting for backup deletion to complete on backend", "DEBUG")
-            time.sleep(90)
+            time.sleep(30)
             self.get_have()
             self.log("Current State (have): {0}".format(str(self.have)), "INFO")
             self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
             backup_exists = self.have.get("backup_exists")
             self.log("Backup exists: {0}".format(backup_exists), "DEBUG")
-            backup_name = self.want.get("backup_job_creation", [])[0].get("name")
+            backup_name = self.want.get("backup", [])[0].get("name")
 
             if not backup_exists:
                 self.log(
@@ -2884,7 +2988,7 @@ class BackupRestore(DnacBase):
             result_msg_list.append(msg)
 
         if self.deleted_backup:
-            backup_details = self.want.get("backup_job_creation", [])
+            backup_details = self.want.get("backup", [])
             delete_all = backup_details[0].get("delete_all_backup", False)
 
             if delete_all:

@@ -57,7 +57,7 @@
         <<: *dnac_login
         state: merged
         config:
-          - backup_job_creation:
+          - backup:
               - name: BACKUP29_09
                 scope: CISCO_DNA_DATA_WITHOUT_ASSURANCE
       tags: backup_creation
@@ -87,6 +87,6 @@
         <<: *dnac_login
         state: deleted
         config:
-          - backup_job_creation:
+          - backup:
               - name: BACKUP29_09
       tags: delete_backup
