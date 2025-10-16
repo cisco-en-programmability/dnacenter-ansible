@@ -49,6 +49,8 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
     playbook_negative_scenario_10 = test_data.get("playbook_negative_scenario_10")
     playbook_negative_scenario_11 = test_data.get("playbook_negative_scenario_11")
     playbook_negative_scenario_12 = test_data.get("playbook_negative_scenario_12")
+    playbook_ip_range_OR_logic_exception = test_data.get("playbook_ip_range_OR_logic_exception")
+    playbook_ip_range_AND_logic_exception = test_data.get("playbook_ip_range_AND_logic_exception")
 
     def setUp(self):
         super(TestDnacFabricDeviceInfoWorkflowManager, self).setUp()
@@ -253,6 +255,37 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 self.test_data.get("get_fabric_sites30"),
                 self.test_data.get("get_sites32"),
                 self.test_data.get("get_fabric_sites31"),
+            ]
+
+        elif "playbook_ip_range_OR_logic_exception" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_sites50"),
+                self.test_data.get("get_sites51"),
+                self.test_data.get("get_fabric_sites50"),
+                self.test_data.get("get_device_list10"),
+                self.test_data.get("get_sites52"),
+                self.test_data.get("get_sites53"),
+                self.test_data.get("get_fabric_sites51"),
+                self.test_data.get("get_device_list10"),
+                self.test_data.get("get_fabric_devices51"),
+                self.test_data.get("192.168.200.68"),
+                self.test_data.get("get_fabric_devices52"),
+                self.test_data.get("192.168.200.691"),
+                self.test_data.get("get_fabric_devices53"),
+                self.test_data.get("192.168.200.74"),
+                self.test_data.get("get_fabric_devices54"),
+            ]
+
+        elif "playbook_ip_range_AND_logic_exception" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_sites60"),
+                self.test_data.get("get_sites61"),
+                self.test_data.get("get_fabric_sites60"),
+                self.test_data.get("ip_address_range=192.168.200.68"),
+                self.test_data.get("ip_address_range=192.168.200.69"),
+                self.test_data.get("ip_address_range=192.168.200.70"),
+                self.test_data.get("serial_number=FOC2443L1VQ"),
+                self.test_data.get("hostname=Fabric-9300-2-2.rcdnlabcead.com"),
             ]
 
     def test_fabric_devices_info_workflow_manager_playbook_fabric_info(self):
@@ -1284,4 +1317,70 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             "The specified site hierarchy 'Global/USA/New York' is not a fabric site."
+        )
+
+    def test_fabric_devices_info_workflow_manager_playbook_ip_range_OR_logic_exception(self):
+        """
+        Test configuration validation when IP range is specified with OR logic.
+
+        This test verifies that the workflow correctly identifies and processes
+        the IP range specified with OR logic, ensuring proper validation and
+        handling of multiple IP addresses.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="2.3.7.9",
+                config=self.playbook_ip_range_OR_logic_exception
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "An exception occurred while retrieving Site details for Site "
+            "'Global/rishipat_area/Fabric-area-1' does not exist in the Cisco Catalyst Center. "
+            "Error: {'msg': \"An error occurred while executing GET API call to Function: 'get_sites' "
+            "from Family: 'site_design'. Parameters: {'name_hierarchy': 'Global/rishipat_area/Fabric-area-1', "
+            "'offset': 1, 'limit': 500}. Exception: .\", 'response': \"An error occurred while executing GET "
+            "API call to Function: 'get_sites' from Family: 'site_design'. Parameters: {'name_hierarchy': "
+            "'Global/rishipat_area/Fabric-area-1', 'offset': 1, 'limit': 500}. Exception: .\", 'failed': True}"
+        )
+
+    def test_fabric_devices_info_workflow_manager_playbook_ip_range_AND_logic_exception(self):
+        """
+        Test configuration validation when IP range is specified with AND logic.
+
+        This test verifies that the workflow correctly identifies and processes
+        the IP range specified with AND logic, ensuring proper validation and
+        handling of multiple IP addresses.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="2.3.7.9",
+                config=self.playbook_ip_range_AND_logic_exception
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "An exception occurred while retrieving Site details for Site "
+            "'Global/rishipat_area/Fabric-area-1' does not exist in the Cisco Catalyst Center. "
+            "Error: {'msg': \"An error occurred while executing GET API call to Function: 'get_sites' "
+            "from Family: 'site_design'. Parameters: {'name_hierarchy': 'Global/rishipat_area/Fabric-area-1', "
+            "'offset': 1, 'limit': 500}. Exception: .\", 'response': \"An error occurred while executing GET "
+            "API call to Function: 'get_sites' from Family: 'site_design'. Parameters: {'name_hierarchy': "
+            "'Global/rishipat_area/Fabric-area-1', 'offset': 1, 'limit': 500}. Exception: .\", 'failed': True}"
         )

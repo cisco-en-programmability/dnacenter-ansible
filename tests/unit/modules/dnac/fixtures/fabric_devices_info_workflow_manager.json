@@ -10144,5 +10144,848 @@
       
     },
     "version": "1.0"
+  },
+
+  "playbook_ip_range_OR_logic_exception": [
+  {
+    "fabric_devices": [
+      {
+        "device_identifier": [
+          {
+            "ip_address_range": "192.168.200.68-192.168.200.75"
+          },
+          {
+            "serial_number": [
+              "FOC2443L1VQ"
+            ]
+          },
+          {
+            "hostname": [
+              "Fabric-9300-2-2.rcdnlabcead.com"
+            ]
+          }
+        ],
+        "fabric_site_hierarchy": "Global/rishipat_area/Fabric-area-1",
+        "interval": 2,
+        "output_file_info": {
+          "file_format": "json",
+          "file_mode": "w",
+          "file_path": "/Users/priyadharshini/Downloads/fabric_device_info",
+          "timestamp": false
+        },
+        "requested_info": [
+          "fabric_info"
+        ],
+        "retries": 1,
+        "timeout": 2
+      }
+    ]
   }
+],
+"get_sites50": {
+  "response": [
+    {
+      "id": "72b9e00a-07c7-45c1-ad70-9cabd782c4dc",
+      "parentId": "ed911876-8c3f-4c68-b7c3-3a0f99cd429e",
+      "name": "Fabric-area-1",
+      "nameHierarchy": "Global/rishipat_area/Fabric-area-1",
+      "type": "area"
+    }
+  ],
+  "version": "1.0"
+},
+"get_sites51": {
+  "response": [
+    {
+      "id": "72b9e00a-07c7-45c1-ad70-9cabd782c4dc",
+      "parentId": "ed911876-8c3f-4c68-b7c3-3a0f99cd429e",
+      "name": "Fabric-area-1",
+      "nameHierarchy": "Global/rishipat_area/Fabric-area-1",
+      "type": "area"
+    }
+  ]
+},
+"get_fabric_sites50": {
+  "response": [
+    {
+      "id": "34ef8d59-1860-4221-8124-2242a776b5e1",
+      "siteId": "72b9e00a-07c7-45c1-ad70-9cabd782c4dc",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": false
+    }
+  ],
+  "version": "1.0"
+},
+"get_sites52": {
+  "response": [
+    {
+      "id": "72b9e00a-07c7-45c1-ad70-9cabd782c4dc",
+      "parentId": "ed911876-8c3f-4c68-b7c3-3a0f99cd429e",
+      "name": "Fabric-area-1",
+      "nameHierarchy": "Global/rishipat_area/Fabric-area-1",
+      "type": "area"
+    }
+  ],
+  "version": "1.0"
+},
+"get_sites53": {
+  "response": [
+    {
+      "id": "72b9e00a-07c7-45c1-ad70-9cabd782c4dc",
+      "parentId": "ed911876-8c3f-4c68-b7c3-3a0f99cd429e",
+      "name": "Fabric-area-1",
+      "nameHierarchy": "Global/rishipat_area/Fabric-area-1",
+      "type": "area"
+    }
+  ]
+},
+"get_fabric_sites51": {
+  "response": [
+    {
+      "id": "34ef8d59-1860-4221-8124-2242a776b5e1",
+      "siteId": "72b9e00a-07c7-45c1-ad70-9cabd782c4dc",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": false
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices51": {
+  "response": [
+    {
+      "id": "5f4092a2-fbc5-42df-8343-f6aeddf8aafc",
+      "fabricId": "34ef8d59-1860-4221-8124-2242a776b5e1",
+      "networkDeviceId": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee",
+      "deviceRoles": [
+        "EDGE_NODE"
+      ]
+    },
+    {
+      "id": "92eac09b-c9ce-4554-8abb-cb99d907a10a",
+      "fabricId": "34ef8d59-1860-4221-8124-2242a776b5e1",
+      "networkDeviceId": "bbb5188f-3bf8-4be6-860f-30d11abb8b6b",
+      "deviceRoles": [
+        "BORDER_NODE",
+        "CONTROL_PLANE_NODE",
+        "WIRELESS_CONTROLLER_NODE"
+      ],
+      "borderDeviceSettings": {
+        "borderTypes": [
+          "LAYER_3"
+        ],
+        "layer3Settings": {
+          "localAutonomousSystemNumber": "10112",
+          "importExternalRoutes": false,
+          "borderPriority": 10,
+          "prependAutonomousSystemCount": 0,
+          "isDefaultExit": true
+        }
+      }
+    },
+    {
+      "id": "7fc116c0-75a4-4fdf-9ec6-e514d6b97820",
+      "fabricId": "34ef8d59-1860-4221-8124-2242a776b5e1",
+      "networkDeviceId": "69a9b64b-8fd3-4019-8a2d-22a69a341479",
+      "deviceRoles": [
+        "EDGE_NODE"
+      ]
+    }
+  ],
+  "version": "1.0"
+},
+"192.168.200.68": {
+  "response": [
+    {
+      "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.5, RELEASE SOFTWARE (fc5) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Mar-25 02:41 by mcpre Wireless Feature Enabled netconf enabled",
+      "deviceSupportLevel": "Supported",
+      "softwareType": "IOS-XE",
+      "softwareVersion": "17.12.5",
+      "lastUpdateTime": 1760582542567,
+      "macAddress": "44:b6:be:89:f4:00",
+      "serialNumber": "FOC2512LKWD",
+      "pendingSyncRequestsCount": "0",
+      "reasonsForDeviceResync": "Config Change Event",
+      "reasonsForPendingSyncRequests": "",
+      "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+      "syncRequestedByApp": "",
+      "collectionInterval": "Global Default",
+      "dnsResolvedManagementAddress": "192.168.200.68",
+      "lastManagedResyncReasons": "Config Change Event",
+      "managementState": "Managed",
+      "upTime": "78 days, 3:49:59.72",
+      "roleSource": "AUTO",
+      "interfaceCount": "0",
+      "associatedWlcIp": "",
+      "lastUpdated": "2025-10-16 02:42:22",
+      "bootDateTime": "2025-07-29 22:53:22",
+      "apManagerInterfaceIp": "",
+      "collectionStatus": "Managed",
+      "family": "Switches and Hubs",
+      "hostname": "Fabric-9300-1-1.rcdnlabcead.com",
+      "locationName": null,
+      "managementIpAddress": "192.168.200.68",
+      "platformId": "C9300-24UXB",
+      "reachabilityFailureReason": "",
+      "reachabilityStatus": "Reachable",
+      "series": "Cisco Catalyst 9300 Series Switches",
+      "snmpContact": "",
+      "snmpLocation": "",
+      "apEthernetMacAddress": null,
+      "errorCode": null,
+      "errorDescription": null,
+      "lastDeviceResyncStartTime": "2025-10-16 02:42:18",
+      "lineCardCount": "0",
+      "lineCardId": "",
+      "managedAtleastOnce": true,
+      "memorySize": "NA",
+      "tagCount": "0",
+      "tunnelUdpPort": null,
+      "uptimeSeconds": 6764827,
+      "vendor": "Cisco",
+      "waasDeviceMode": null,
+      "type": "Cisco Catalyst 9300 Switch",
+      "location": null,
+      "role": "ACCESS",
+      "instanceUuid": "bbb5188f-3bf8-4be6-860f-30d11abb8b6b",
+      "instanceTenantId": "646e980e47fc23431d046907",
+      "id": "bbb5188f-3bf8-4be6-860f-30d11abb8b6b"
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices52": {
+  "response": [
+    {
+      "id": "92eac09b-c9ce-4554-8abb-cb99d907a10a",
+      "fabricId": "34ef8d59-1860-4221-8124-2242a776b5e1",
+      "networkDeviceId": "bbb5188f-3bf8-4be6-860f-30d11abb8b6b",
+      "deviceRoles": [
+        "BORDER_NODE",
+        "CONTROL_PLANE_NODE",
+        "WIRELESS_CONTROLLER_NODE"
+      ],
+      "borderDeviceSettings": {
+        "borderTypes": [
+          "LAYER_3"
+        ],
+        "layer3Settings": {
+          "localAutonomousSystemNumber": "10112",
+          "importExternalRoutes": false,
+          "borderPriority": 10,
+          "prependAutonomousSystemCount": 0,
+          "isDefaultExit": true
+        }
+      }
+    }
+  ],
+  "version": "1.0"
+},
+"192.168.200.691": {
+  "response": [
+    {
+      "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.4, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Tue 23-Jul-24 09:40 by mcpre netconf enabled",
+      "deviceSupportLevel": "Supported",
+      "softwareType": "IOS-XE",
+      "softwareVersion": "17.12.4",
+      "lastUpdateTime": 1760540338171,
+      "macAddress": "dc:77:4c:d3:d5:80",
+      "serialNumber": "FOC2443L1VQ",
+      "pendingSyncRequestsCount": "0",
+      "reasonsForDeviceResync": "Periodic",
+      "reasonsForPendingSyncRequests": "",
+      "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+      "syncRequestedByApp": "",
+      "collectionInterval": "Global Default",
+      "dnsResolvedManagementAddress": "192.168.200.69",
+      "lastManagedResyncReasons": "Periodic",
+      "managementState": "Managed",
+      "upTime": "82 days, 16:38:23.23",
+      "roleSource": "MANUAL",
+      "interfaceCount": "0",
+      "associatedWlcIp": "",
+      "lastUpdated": "2025-10-15 14:58:58",
+      "bootDateTime": "2025-07-24 22:20:58",
+      "apManagerInterfaceIp": "",
+      "collectionStatus": "Managed",
+      "family": "Switches and Hubs",
+      "hostname": "Fabric-9300-2-2.rcdnlabcead.com",
+      "locationName": null,
+      "managementIpAddress": "192.168.200.69",
+      "platformId": "C9300-48U",
+      "reachabilityFailureReason": "",
+      "reachabilityStatus": "Reachable",
+      "series": "Cisco Catalyst 9300 Series Switches",
+      "snmpContact": "",
+      "snmpLocation": "",
+      "apEthernetMacAddress": null,
+      "errorCode": null,
+      "errorDescription": null,
+      "lastDeviceResyncStartTime": "2025-10-15 14:57:38",
+      "lineCardCount": "0",
+      "lineCardId": "",
+      "managedAtleastOnce": true,
+      "memorySize": "NA",
+      "tagCount": "0",
+      "tunnelUdpPort": null,
+      "uptimeSeconds": 7198772,
+      "vendor": "Cisco",
+      "waasDeviceMode": null,
+      "type": "Cisco Catalyst 9300 Switch",
+      "location": null,
+      "role": "ACCESS",
+      "instanceUuid": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee",
+      "instanceTenantId": "646e980e47fc23431d046907",
+      "id": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee"
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices53": {
+  "response": [
+    {
+      "id": "5f4092a2-fbc5-42df-8343-f6aeddf8aafc",
+      "fabricId": "34ef8d59-1860-4221-8124-2242a776b5e1",
+      "networkDeviceId": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee",
+      "deviceRoles": [
+        "EDGE_NODE"
+      ]
+    }
+  ],
+  "version": "1.0"
+},
+"192.168.200.74": {
+  "response": [
+    {
+      "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.4, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Tue 23-Jul-24 09:40 by mcpre netconf enabled",
+      "deviceSupportLevel": "Supported",
+      "softwareType": "IOS-XE",
+      "softwareVersion": "17.12.4",
+      "lastUpdateTime": 1760577697056,
+      "macAddress": "40:f0:78:7f:f8:80",
+      "serialNumber": "FOC2445L0CM",
+      "pendingSyncRequestsCount": "0",
+      "reasonsForDeviceResync": "Config Change Event",
+      "reasonsForPendingSyncRequests": "",
+      "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+      "syncRequestedByApp": "",
+      "collectionInterval": "Global Default",
+      "dnsResolvedManagementAddress": "192.168.200.74",
+      "lastManagedResyncReasons": "Config Change Event",
+      "managementState": "Managed",
+      "upTime": "83 days, 2:36:56.23",
+      "roleSource": "MANUAL",
+      "interfaceCount": "0",
+      "associatedWlcIp": "",
+      "lastUpdated": "2025-10-16 01:21:37",
+      "bootDateTime": "2025-07-24 22:45:37",
+      "apManagerInterfaceIp": "",
+      "collectionStatus": "Managed",
+      "family": "Switches and Hubs",
+      "hostname": "Fabric-9300-2-3.rcdnlabcead.com",
+      "locationName": null,
+      "managementIpAddress": "192.168.200.74",
+      "platformId": "C9300-48P",
+      "reachabilityFailureReason": "",
+      "reachabilityStatus": "Reachable",
+      "series": "Cisco Catalyst 9300 Series Switches",
+      "snmpContact": "",
+      "snmpLocation": "",
+      "apEthernetMacAddress": null,
+      "errorCode": null,
+      "errorDescription": null,
+      "lastDeviceResyncStartTime": "2025-10-16 01:21:32",
+      "lineCardCount": "0",
+      "lineCardId": "",
+      "managedAtleastOnce": true,
+      "memorySize": "NA",
+      "tagCount": "0",
+      "tunnelUdpPort": null,
+      "uptimeSeconds": 7197294,
+      "vendor": "Cisco",
+      "waasDeviceMode": null,
+      "type": "Cisco Catalyst 9300 Switch",
+      "location": null,
+      "role": "ACCESS",
+      "instanceUuid": "69a9b64b-8fd3-4019-8a2d-22a69a341479",
+      "instanceTenantId": "646e980e47fc23431d046907",
+      "id": "69a9b64b-8fd3-4019-8a2d-22a69a341479"
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices54": {
+  "response": [
+    {
+      "id": "7fc116c0-75a4-4fdf-9ec6-e514d6b97820",
+      "fabricId": "34ef8d59-1860-4221-8124-2242a776b5e1",
+      "networkDeviceId": "69a9b64b-8fd3-4019-8a2d-22a69a341479",
+      "deviceRoles": [
+        "EDGE_NODE"
+      ]
+    }
+  ],
+  "version": "1.0"
+},
+"playbook_ip_range_AND_logic_exception": [
+  {
+    "fabric_devices": [
+      {
+        "device_identifier": [
+          {
+            "hostname": [
+              "Fabric-9300-2-2.rcdnlabcead.com"
+            ],
+            "ip_address_range": "192.168.200.68-192.168.200.70",
+            "serial_number": [
+              "FOC2443L1VQ"
+            ]
+          }
+        ],
+        "fabric_site_hierarchy": "Global/rishipat_area/Fabric-area-1",
+        "interval": 10,
+        "output_file_info": {
+          "file_format": "json",
+          "file_mode": "w",
+          "file_path": "/Users/priyadharshini/Downloads/fabric_device_info",
+          "timestamp": true
+        },
+        "requested_info": [
+          "fabric_info"
+        ],
+        "retries": 1,
+        "timeout": 10
+      }
+    ]
+  }
+],
+"get_sites60": {
+  "response": [
+    {
+      "id": "72b9e00a-07c7-45c1-ad70-9cabd782c4dc",
+      "parentId": "ed911876-8c3f-4c68-b7c3-3a0f99cd429e",
+      "name": "Fabric-area-1",
+      "nameHierarchy": "Global/rishipat_area/Fabric-area-1",
+      "type": "area"
+    }
+  ],
+  "version": "1.0"
+},
+"get_sites61": {
+  "response": [
+    {
+      "id": "72b9e00a-07c7-45c1-ad70-9cabd782c4dc",
+      "parentId": "ed911876-8c3f-4c68-b7c3-3a0f99cd429e",
+      "name": "Fabric-area-1",
+      "nameHierarchy": "Global/rishipat_area/Fabric-area-1",
+      "type": "area"
+    }
+  ]
+},
+"get_fabric_sites60": {
+  "response": [
+    {
+      "id": "34ef8d59-1860-4221-8124-2242a776b5e1",
+      "siteId": "72b9e00a-07c7-45c1-ad70-9cabd782c4dc",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": false
+    }
+  ],
+  "version": "1.0"
+},
+"ip_address_range=192.168.200.68": {
+  "response": [
+    {
+      "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.5, RELEASE SOFTWARE (fc5) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Mar-25 02:41 by mcpre Wireless Feature Enabled netconf enabled",
+      "deviceSupportLevel": "Supported",
+      "softwareType": "IOS-XE",
+      "softwareVersion": "17.12.5",
+      "lastUpdateTime": 1760582542567,
+      "macAddress": "44:b6:be:89:f4:00",
+      "serialNumber": "FOC2512LKWD",
+      "pendingSyncRequestsCount": "0",
+      "reasonsForDeviceResync": "Config Change Event",
+      "reasonsForPendingSyncRequests": "",
+      "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+      "syncRequestedByApp": "",
+      "collectionInterval": "Global Default",
+      "dnsResolvedManagementAddress": "192.168.200.68",
+      "lastManagedResyncReasons": "Config Change Event",
+      "managementState": "Managed",
+      "upTime": "78 days, 3:49:59.72",
+      "roleSource": "AUTO",
+      "interfaceCount": "0",
+      "associatedWlcIp": "",
+      "lastUpdated": "2025-10-16 02:42:22",
+      "bootDateTime": "2025-07-29 22:53:22",
+      "apManagerInterfaceIp": "",
+      "collectionStatus": "Managed",
+      "family": "Switches and Hubs",
+      "hostname": "Fabric-9300-1-1.rcdnlabcead.com",
+      "locationName": null,
+      "managementIpAddress": "192.168.200.68",
+      "platformId": "C9300-24UXB",
+      "reachabilityFailureReason": "",
+      "reachabilityStatus": "Reachable",
+      "series": "Cisco Catalyst 9300 Series Switches",
+      "snmpContact": "",
+      "snmpLocation": "",
+      "apEthernetMacAddress": null,
+      "errorCode": null,
+      "errorDescription": null,
+      "lastDeviceResyncStartTime": "2025-10-16 02:42:18",
+      "lineCardCount": "0",
+      "lineCardId": "",
+      "managedAtleastOnce": true,
+      "memorySize": "NA",
+      "tagCount": "0",
+      "tunnelUdpPort": null,
+      "uptimeSeconds": 6769902,
+      "vendor": "Cisco",
+      "waasDeviceMode": null,
+      "type": "Cisco Catalyst 9300 Switch",
+      "location": null,
+      "role": "ACCESS",
+      "instanceUuid": "bbb5188f-3bf8-4be6-860f-30d11abb8b6b",
+      "instanceTenantId": "646e980e47fc23431d046907",
+      "id": "bbb5188f-3bf8-4be6-860f-30d11abb8b6b"
+    }
+  ],
+  "version": "1.0"
+},
+"ip_address_range=192.168.200.69": {
+  "response": [
+    {
+      "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.4, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Tue 23-Jul-24 09:40 by mcpre netconf enabled",
+      "deviceSupportLevel": "Supported",
+      "softwareType": "IOS-XE",
+      "softwareVersion": "17.12.4",
+      "lastUpdateTime": 1760540338171,
+      "macAddress": "dc:77:4c:d3:d5:80",
+      "serialNumber": "FOC2443L1VQ",
+      "pendingSyncRequestsCount": "0",
+      "reasonsForDeviceResync": "Periodic",
+      "reasonsForPendingSyncRequests": "",
+      "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+      "syncRequestedByApp": "",
+      "collectionInterval": "Global Default",
+      "dnsResolvedManagementAddress": "192.168.200.69",
+      "lastManagedResyncReasons": "Periodic",
+      "managementState": "Managed",
+      "upTime": "82 days, 16:38:23.23",
+      "roleSource": "MANUAL",
+      "interfaceCount": "0",
+      "associatedWlcIp": "",
+      "lastUpdated": "2025-10-15 14:58:58",
+      "bootDateTime": "2025-07-24 22:20:58",
+      "apManagerInterfaceIp": "",
+      "collectionStatus": "Managed",
+      "family": "Switches and Hubs",
+      "hostname": "Fabric-9300-2-2.rcdnlabcead.com",
+      "locationName": null,
+      "managementIpAddress": "192.168.200.69",
+      "platformId": "C9300-48U",
+      "reachabilityFailureReason": "",
+      "reachabilityStatus": "Reachable",
+      "series": "Cisco Catalyst 9300 Series Switches",
+      "snmpContact": "",
+      "snmpLocation": "",
+      "apEthernetMacAddress": null,
+      "errorCode": null,
+      "errorDescription": null,
+      "lastDeviceResyncStartTime": "2025-10-15 14:57:38",
+      "lineCardCount": "0",
+      "lineCardId": "",
+      "managedAtleastOnce": true,
+      "memorySize": "NA",
+      "tagCount": "0",
+      "tunnelUdpPort": null,
+      "uptimeSeconds": 7203847,
+      "vendor": "Cisco",
+      "waasDeviceMode": null,
+      "type": "Cisco Catalyst 9300 Switch",
+      "location": null,
+      "role": "ACCESS",
+      "instanceUuid": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee",
+      "instanceTenantId": "646e980e47fc23431d046907",
+      "id": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee"
+    }
+  ],
+  "version": "1.0"
+},
+"ip_address_range=192.168.200.70": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"serial_number=FOC2443L1VQ": {
+  "response": [
+    {
+      "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.4, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Tue 23-Jul-24 09:40 by mcpre netconf enabled",
+      "deviceSupportLevel": "Supported",
+      "softwareType": "IOS-XE",
+      "softwareVersion": "17.12.4",
+      "lastUpdateTime": 1760540338171,
+      "macAddress": "dc:77:4c:d3:d5:80",
+      "serialNumber": "FOC2443L1VQ",
+      "pendingSyncRequestsCount": "0",
+      "reasonsForDeviceResync": "Periodic",
+      "reasonsForPendingSyncRequests": "",
+      "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+      "syncRequestedByApp": "",
+      "collectionInterval": "Global Default",
+      "dnsResolvedManagementAddress": "192.168.200.69",
+      "lastManagedResyncReasons": "Periodic",
+      "managementState": "Managed",
+      "upTime": "82 days, 16:38:23.23",
+      "roleSource": "MANUAL",
+      "interfaceCount": "0",
+      "associatedWlcIp": "",
+      "lastUpdated": "2025-10-15 14:58:58",
+      "bootDateTime": "2025-07-24 22:20:58",
+      "apManagerInterfaceIp": "",
+      "collectionStatus": "Managed",
+      "family": "Switches and Hubs",
+      "hostname": "Fabric-9300-2-2.rcdnlabcead.com",
+      "locationName": null,
+      "managementIpAddress": "192.168.200.69",
+      "platformId": "C9300-48U",
+      "reachabilityFailureReason": "",
+      "reachabilityStatus": "Reachable",
+      "series": "Cisco Catalyst 9300 Series Switches",
+      "snmpContact": "",
+      "snmpLocation": "",
+      "apEthernetMacAddress": null,
+      "errorCode": null,
+      "errorDescription": null,
+      "lastDeviceResyncStartTime": "2025-10-15 14:57:38",
+      "lineCardCount": "0",
+      "lineCardId": "",
+      "managedAtleastOnce": true,
+      "memorySize": "NA",
+      "tagCount": "0",
+      "tunnelUdpPort": null,
+      "uptimeSeconds": 7203858,
+      "vendor": "Cisco",
+      "waasDeviceMode": null,
+      "type": "Cisco Catalyst 9300 Switch",
+      "location": null,
+      "role": "ACCESS",
+      "instanceUuid": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee",
+      "instanceTenantId": "646e980e47fc23431d046907",
+      "id": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee"
+    }
+  ],
+  "version": "1.0"
+},
+"hostname=Fabric-9300-2-2.rcdnlabcead.com": {
+  "response": [
+    {
+      "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.4, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Tue 23-Jul-24 09:40 by mcpre netconf enabled",
+      "deviceSupportLevel": "Supported",
+      "softwareType": "IOS-XE",
+      "softwareVersion": "17.12.4",
+      "lastUpdateTime": 1760540338171,
+      "macAddress": "dc:77:4c:d3:d5:80",
+      "serialNumber": "FOC2443L1VQ",
+      "pendingSyncRequestsCount": "0",
+      "reasonsForDeviceResync": "Periodic",
+      "reasonsForPendingSyncRequests": "",
+      "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+      "syncRequestedByApp": "",
+      "collectionInterval": "Global Default",
+      "dnsResolvedManagementAddress": "192.168.200.69",
+      "lastManagedResyncReasons": "Periodic",
+      "managementState": "Managed",
+      "upTime": "82 days, 16:38:23.23",
+      "roleSource": "MANUAL",
+      "interfaceCount": "0",
+      "associatedWlcIp": "",
+      "lastUpdated": "2025-10-15 14:58:58",
+      "bootDateTime": "2025-07-24 22:20:58",
+      "apManagerInterfaceIp": "",
+      "collectionStatus": "Managed",
+      "family": "Switches and Hubs",
+      "hostname": "Fabric-9300-2-2.rcdnlabcead.com",
+      "locationName": null,
+      "managementIpAddress": "192.168.200.69",
+      "platformId": "C9300-48U",
+      "reachabilityFailureReason": "",
+      "reachabilityStatus": "Reachable",
+      "series": "Cisco Catalyst 9300 Series Switches",
+      "snmpContact": "",
+      "snmpLocation": "",
+      "apEthernetMacAddress": null,
+      "errorCode": null,
+      "errorDescription": null,
+      "lastDeviceResyncStartTime": "2025-10-15 14:57:38",
+      "lineCardCount": "0",
+      "lineCardId": "",
+      "managedAtleastOnce": true,
+      "memorySize": "NA",
+      "tagCount": "0",
+      "tunnelUdpPort": null,
+      "uptimeSeconds": 7203859,
+      "vendor": "Cisco",
+      "waasDeviceMode": null,
+      "type": "Cisco Catalyst 9300 Switch",
+      "location": null,
+      "role": "ACCESS",
+      "instanceUuid": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee",
+      "instanceTenantId": "646e980e47fc23431d046907",
+      "id": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee"
+    }
+  ],
+  "version": "1.0"
+},
+"get_sites62": {
+  "response": [
+    {
+      "id": "72b9e00a-07c7-45c1-ad70-9cabd782c4dc",
+      "parentId": "ed911876-8c3f-4c68-b7c3-3a0f99cd429e",
+      "name": "Fabric-area-1",
+      "nameHierarchy": "Global/rishipat_area/Fabric-area-1",
+      "type": "area"
+    }
+  ],
+  "version": "1.0"
+},
+"get_sites63": {
+  "response": [
+    {
+      "id": "72b9e00a-07c7-45c1-ad70-9cabd782c4dc",
+      "parentId": "ed911876-8c3f-4c68-b7c3-3a0f99cd429e",
+      "name": "Fabric-area-1",
+      "nameHierarchy": "Global/rishipat_area/Fabric-area-1",
+      "type": "area"
+    }
+  ]
+},
+"get_fabric_sites61": {
+  "response": [
+    {
+      "id": "34ef8d59-1860-4221-8124-2242a776b5e1",
+      "siteId": "72b9e00a-07c7-45c1-ad70-9cabd782c4dc",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": false
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices61": {
+  "response": [
+    {
+      "id": "5f4092a2-fbc5-42df-8343-f6aeddf8aafc",
+      "fabricId": "34ef8d59-1860-4221-8124-2242a776b5e1",
+      "networkDeviceId": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee",
+      "deviceRoles": [
+        "EDGE_NODE"
+      ]
+    },
+    {
+      "id": "92eac09b-c9ce-4554-8abb-cb99d907a10a",
+      "fabricId": "34ef8d59-1860-4221-8124-2242a776b5e1",
+      "networkDeviceId": "bbb5188f-3bf8-4be6-860f-30d11abb8b6b",
+      "deviceRoles": [
+        "BORDER_NODE",
+        "CONTROL_PLANE_NODE",
+        "WIRELESS_CONTROLLER_NODE"
+      ],
+      "borderDeviceSettings": {
+        "borderTypes": [
+          "LAYER_3"
+        ],
+        "layer3Settings": {
+          "localAutonomousSystemNumber": "10112",
+          "importExternalRoutes": false,
+          "borderPriority": 10,
+          "prependAutonomousSystemCount": 0,
+          "isDefaultExit": true
+        }
+      }
+    },
+    {
+      "id": "7fc116c0-75a4-4fdf-9ec6-e514d6b97820",
+      "fabricId": "34ef8d59-1860-4221-8124-2242a776b5e1",
+      "networkDeviceId": "69a9b64b-8fd3-4019-8a2d-22a69a341479",
+      "deviceRoles": [
+        "EDGE_NODE"
+      ]
+    }
+  ],
+  "version": "1.0"
+},
+"192.168.200.692": {
+  "response": [
+    {
+      "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.4, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Tue 23-Jul-24 09:40 by mcpre netconf enabled",
+      "deviceSupportLevel": "Supported",
+      "softwareType": "IOS-XE",
+      "softwareVersion": "17.12.4",
+      "lastUpdateTime": 1760540338171,
+      "macAddress": "dc:77:4c:d3:d5:80",
+      "serialNumber": "FOC2443L1VQ",
+      "pendingSyncRequestsCount": "0",
+      "reasonsForDeviceResync": "Periodic",
+      "reasonsForPendingSyncRequests": "",
+      "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+      "syncRequestedByApp": "",
+      "collectionInterval": "Global Default",
+      "dnsResolvedManagementAddress": "192.168.200.69",
+      "lastManagedResyncReasons": "Periodic",
+      "managementState": "Managed",
+      "upTime": "82 days, 16:38:23.23",
+      "roleSource": "MANUAL",
+      "interfaceCount": "0",
+      "associatedWlcIp": "",
+      "lastUpdated": "2025-10-15 14:58:58",
+      "bootDateTime": "2025-07-24 22:20:58",
+      "apManagerInterfaceIp": "",
+      "collectionStatus": "Managed",
+      "family": "Switches and Hubs",
+      "hostname": "Fabric-9300-2-2.rcdnlabcead.com",
+      "locationName": null,
+      "managementIpAddress": "192.168.200.69",
+      "platformId": "C9300-48U",
+      "reachabilityFailureReason": "",
+      "reachabilityStatus": "Reachable",
+      "series": "Cisco Catalyst 9300 Series Switches",
+      "snmpContact": "",
+      "snmpLocation": "",
+      "apEthernetMacAddress": null,
+      "errorCode": null,
+      "errorDescription": null,
+      "lastDeviceResyncStartTime": "2025-10-15 14:57:38",
+      "lineCardCount": "0",
+      "lineCardId": "",
+      "managedAtleastOnce": true,
+      "memorySize": "NA",
+      "tagCount": "0",
+      "tunnelUdpPort": null,
+      "uptimeSeconds": 7203873,
+      "vendor": "Cisco",
+      "waasDeviceMode": null,
+      "type": "Cisco Catalyst 9300 Switch",
+      "location": null,
+      "role": "ACCESS",
+      "instanceUuid": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee",
+      "instanceTenantId": "646e980e47fc23431d046907",
+      "id": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee"
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices62": {
+  "response": [
+    {
+      "id": "5f4092a2-fbc5-42df-8343-f6aeddf8aafc",
+      "fabricId": "34ef8d59-1860-4221-8124-2242a776b5e1",
+      "networkDeviceId": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee",
+      "deviceRoles": [
+        "EDGE_NODE"
+      ]
+    }
+  ],
+  "version": "1.0"
+}
 }
