@@ -2144,6 +2144,7 @@ class Template(DnacBase):
 
         projects = config[0].get("projects")
         if projects and isinstance(projects, list):
+
             for each_project in projects:
                 project_name = each_project.get("name")
                 if project_name and isinstance(project_name, str):
@@ -3044,6 +3045,7 @@ class Template(DnacBase):
                 self.msg = "The parameter 'project_name' is required but not provided."
                 self.status = "failed"
                 return self
+
             template_available = self.get_have_project(config)
             if template_available:
                 self.get_have_template(config, template_available)
@@ -4449,7 +4451,7 @@ class Template(DnacBase):
 
         return filtered_device_list
 
-    def get_latest_template_version_id(self, template_id, template_name, version=None):
+    def get_latest_template_version_id(self, template_id, template_name):
         """
         Fetches the latest version ID of a specified template from the Cisco Catalyst Center.
 
@@ -4505,38 +4507,22 @@ class Template(DnacBase):
                 ),
                 "DEBUG",
             )
-            if not version:
-                version_temp_id = response.get("versionId")
-                if not version_temp_id:
-                    self.log(
-                        "Failed to identify the latest version for template '{0}'. 'versionId' key is missing in the response.".format(
-                            template_name
-                        ), "ERROR"
-                    )
-                    self.msg = "Missing 'versionId' in the response for the template '{0}'.".format(template_name)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
+            version_temp_id = response[0].get("versionId")
+            if not version_temp_id:
                 self.log(
-                    "Identified the latest version for template '{0}'. Version ID: {1}".format(
-                        template_name, version_temp_id), "DEBUG"
+                    "Failed to identify the latest version for template '{0}'. 'versionId' key is missing in the response.".format(
+                        template_name
+                    ), "ERROR"
                 )
-                return version_temp_id
+                self.msg = "Missing 'versionId' in the response for the template '{0}'.".format(template_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             self.log(
-                "Searching for specific version '{0}' in the template '{1}'.".format(version, template_name), "DEBUG"
+                "Identified the latest version for template '{0}'. Version ID: {1}".format(
+                    template_name, version_temp_id), "DEBUG"
             )
-            for temp_details in response:
-                if temp_details.get("version") == version:
-                    version_temp_id = temp_details.get("versionId")
-                    self.log(
-                        "Identified the version '{0}' for template '{1}'. Version ID: {2}".format(
-                            version, template_name, version_temp_id), "DEBUG"
-                    )
-                    return version_temp_id
-
-            self.log(
-                "Given Version '{0}' not found for template '{1}'.".format(version, template_name), "WARNING"
-            )
+            return version_temp_id
 
         except Exception as e:
             error_message = "Error while getting the latest version id for the template '{0}': '{1}'".format(
@@ -4754,8 +4740,7 @@ class Template(DnacBase):
             template_dict[name] = value
 
         # Get the latest version template ID
-        template_version = deploy_temp_details.get("version")
-        version_template_id = self.get_latest_template_version_id(template_id, template_name, template_version)
+        version_template_id = self.get_latest_template_version_id(template_id, template_name)
         if not version_template_id:
             self.log(
                 "No versioning found for the template: {0}".format(template_name),
