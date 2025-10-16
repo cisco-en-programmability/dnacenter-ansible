@@ -1317,7 +1317,7 @@ class LanAutomation(DnacBase):
                 f"Calling 'get_port_channels' API with payload: {self.pprint(payload)}",
                 "DEBUG",
             )
-            response = self.dnac._exec(
+            response = self.dnac_apply["exec"](
                 family="lan_automation", function="get_port_channels", params=payload
             )
 
@@ -3704,6 +3704,9 @@ class LanAutomation(DnacBase):
 
         port_channel = self.want.get("port_channel", {})
         if port_channel:
+            self.get_have(config)
+            self.log(f"Current State (have): {self.pprint(self.have)}", "INFO")
+
             self.log("Verifying Port Channel configurations in merged state.", "INFO")
             self.verify_diff_merged_port_channel(port_channel)
         return self
@@ -4234,7 +4237,10 @@ class LanAutomation(DnacBase):
                 f"Links to be added: {len(updated_required_links)}, Total would be: {len(have_links) + len(updated_required_links)}"
             )
             self.fail_and_exit(self.msg)
-        elif state == "deleted" and (len(have_links) - len(updated_required_links) < 2):
+        elif state == "deleted" and (
+            len(have_links) - len(updated_required_links) == 1
+        ):
+            # When No link remains, the port channel is deleted instead of updating with 0 links.
             self.msg = (
                 f"Port channel configuration update would result in less than 2 links. "
                 f"Minimum required links per port channel is 2. Current links: {len(have_links)}, "
@@ -5652,8 +5658,8 @@ class LanAutomation(DnacBase):
             have_port_channel_config (dict): A dictionary containing the current port channel configuration details, including:
                 - 'id' (str): The unique identifier of the port channel.
                 - 'portChannelNumber' (int): The port channel number.
-                - 'sourceDeviceManagmentIPAddress' (str): IP address of the source device.
-                - 'destinationDeviceManagmentIPAddress' (str): IP address of the destination device.
+                - 'sourceDeviceManagementIPAddress' (str): IP address of the source device.
+                - 'destinationDeviceManagementIPAddress' (str): IP address of the destination device.
 
         Returns:
             None
@@ -5666,10 +5672,10 @@ class LanAutomation(DnacBase):
         """
 
         destination_device_management_ip = have_port_channel_config.get(
-            "destinationDeviceManagmentIPAddress"
+            "destinationDeviceManagementIPAddress"
         )
         source_device_management_ip = have_port_channel_config.get(
-            "sourceDeviceManagmentIPAddress"
+            "sourceDeviceManagementIPAddress"
         )
         port_channel_number = have_port_channel_config.get("portChannelNumber")
         self.log(
@@ -5679,8 +5685,9 @@ class LanAutomation(DnacBase):
         updated_port_channel_config = {
             "id": have_port_channel_config.get("id"),
             "portChannelNumber": port_channel_number,
-            "destinationDeviceManagmentIPAddress": destination_device_management_ip,
-            "sourceDeviceManagmentIPAddress": source_device_management_ip,
+            "destinationDeviceManagementIPAddress": destination_device_management_ip,
+            "sourceDeviceManagementIPAddress": source_device_management_ip,
+            "links": have_port_channel_config.get("links", []),
         }
         self.delete_lan_automated_port_channel(updated_port_channel_config)
 
@@ -5691,8 +5698,8 @@ class LanAutomation(DnacBase):
         Parameters:
             port_channel_config (dict): A dictionary containing the port channel details to be deleted, including:
                 - 'id' (str): Unique identifier of the port channel.
-                - 'sourceDeviceManagmentIPAddress' (str): IP address of the source device.
-                - 'destinationDeviceManagmentIPAddress' (str): IP address of the destination device.
+                - 'sourceDeviceManagementIPAddress' (str): IP address of the source device.
+                - 'destinationDeviceManagementIPAddress' (str): IP address of the destination device.
 
         Returns:
             self: Returns the current instance after initiating deletion and logging the result.
@@ -5712,10 +5719,10 @@ class LanAutomation(DnacBase):
         )
 
         source_device_management_ip = port_channel_config.get(
-            "sourceDeviceManagmentIPAddress"
+            "sourceDeviceManagementIPAddress"
         )
         destination_device_management_ip = port_channel_config.get(
-            "destinationDeviceManagmentIPAddress"
+            "destinationDeviceManagementIPAddress"
         )
 
         delete_port_channel_payload = {
@@ -5750,8 +5757,8 @@ class LanAutomation(DnacBase):
         Parameters:
             port_channel_config (dict): A dictionary containing the port channel details and links to delete, including:
                 - 'id' (str): Unique identifier of the port channel.
-                - 'sourceDeviceManagmentIPAddress' (str): IP address of the source device.
-                - 'destinationDeviceManagmentIPAddress' (str): IP address of the destination device.
+                - 'sourceDeviceManagementIPAddress' (str): IP address of the source device.
+                - 'destinationDeviceManagementIPAddress' (str): IP address of the destination device.
                 - 'links' (list[dict]): List of dictionaries containing links to be removed. Each dictionary should have:
                     - 'sourcePort' (str): Source interface in the port channel.
                     - 'destinationPort' (str): Destination interface in the port channel.
@@ -5769,10 +5776,10 @@ class LanAutomation(DnacBase):
         """
 
         source_device_management_ip = port_channel_config.get(
-            "sourceDeviceManagmentIPAddress"
+            "sourceDeviceManagementIPAddress"
         )
         destination_device_management_ip = port_channel_config.get(
-            "destinationDeviceManagmentIPAddress"
+            "destinationDeviceManagementIPAddress"
         )
 
         self.log(
@@ -5822,8 +5829,8 @@ class LanAutomation(DnacBase):
         Parameters:
             port_channel (list[dict]): A list of port channel configurations to process for deletion. Each dictionary
             can include:
-                - 'sourceDeviceManagmentIPAddress' (str): IP address of the source device.
-                - 'destinationDeviceManagmentIPAddress' (str): IP address of the destination device.
+                - 'sourceDeviceManagementIPAddress' (str): IP address of the source device.
+                - 'destinationDeviceManagementIPAddress' (str): IP address of the destination device.
                 - 'portChannelNumber' (str/int): Port channel number.
                 - 'links' (list[dict]): List of links to delete, where each dictionary contains:
                     - 'sourcePort' (str): Source interface.
@@ -5874,10 +5881,10 @@ class LanAutomation(DnacBase):
                 "DEBUG",
             )
             source_device_management_ip = want_port_channel_config.get(
-                "sourceDeviceManagmentIPAddress"
+                "sourceDeviceManagementIPAddress"
             )
             destination_device_management_ip = want_port_channel_config.get(
-                "destinationDeviceManagmentIPAddress"
+                "destinationDeviceManagementIPAddress"
             )
             links = want_port_channel_config.get("links")
             port_channel_number = want_port_channel_config.get("portChannelNumber")
@@ -5902,7 +5909,7 @@ class LanAutomation(DnacBase):
                 self.process_delete_port_channel(have_port_channel_config)
             elif destination_device_management_ip:
                 self.log(
-                    "Destination device management IP is provided without specific links or port channel number. "
+                    "Source and Destination device management IP is provided without specific links or port channel number. "
                     f"Deleting all the port channel between the source device: '{source_device_management_ip}' "
                     f"and destination device: '{destination_device_management_ip}'.",
                     "DEBUG",
@@ -5988,8 +5995,8 @@ class LanAutomation(DnacBase):
         Parameters:
             port_channel (list[dict]): List of port channel configurations intended for deletion.
                 Each dict may contain:
-                    - sourceDeviceManagmentIPAddress (str): Source device IP.
-                    - destinationDeviceManagmentIPAddress (str): Destination device IP.
+                    - sourceDeviceManagementIPAddress (str): Source device IP.
+                    - destinationDeviceManagementIPAddress (str): Destination device IP.
                     - portChannelNumber (str/int): Port channel number.
                     - links (list[dict]): Links associated with the port channel.
 
@@ -6034,10 +6041,10 @@ class LanAutomation(DnacBase):
                 "DEBUG",
             )
             source_device_management_ip = want_port_channel_config.get(
-                "sourceDeviceManagmentIPAddress"
+                "sourceDeviceManagementIPAddress"
             )
             destination_device_management_ip = want_port_channel_config.get(
-                "destinationDeviceManagmentIPAddress"
+                "destinationDeviceManagementIPAddress"
             )
             links = want_port_channel_config.get("links")
             port_channel_number = want_port_channel_config.get("portChannelNumber")
