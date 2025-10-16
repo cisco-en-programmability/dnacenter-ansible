@@ -1670,7 +1670,11 @@ class FabricDevicesInfo(DnacBase):
             valid_keys_found = set()
             identifiers = device.get("device_identifier", [])
             if identifiers:
+                all_identifier_keys = set()
                 for identifier in identifiers:
+                    self.log("Processing device_identifier: {0}".format(identifier), "DEBUG")
+                    all_identifier_keys.update(identifier.keys())
+
                     for key in identifier:
                         self.log(key)
                         if key in allowed_device_identifier_filters:
@@ -1684,6 +1688,13 @@ class FabricDevicesInfo(DnacBase):
                                 )
                             )
                             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                if "ip_address" in all_identifier_keys and "ip_address_range" in all_identifier_keys:
+                    self.msg = (
+                        "Both 'ip_address' and 'ip_address_range' are specified across device_identifier entries. "
+                        "Please specify only one of them."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 if not valid_keys_found:
                     self.msg = (
@@ -1978,6 +1989,25 @@ class FabricDevicesInfo(DnacBase):
         This method processes device identification criteria from the configuration and maps network
         devices to their corresponding UUIDs. It supports multiple identification methods and only
         considers devices that are managed and reachable in the Catalyst Center inventory.
+        Logic Implementation:
+        The method implements two distinct logical operations based on the structure of device_identifiers:
+
+        Logic Implementation:
+            The method implements two distinct logical operations based on the structure of device_identifiers:
+
+            AND Logic (Single Entry with Multiple Keys):
+                - Triggered when: len(device_identifiers) == 1 AND len(device_identifiers[0].keys()) > 1
+                - Behavior: Devices must match ALL specified criteria within the single entry
+                - Example: [{"ip_address": ["192.168.1.1"], "hostname": ["switch01"]}]
+                - Result: Returns only devices that have IP 192.168.1.1 AND hostname switch01
+                - Implementation: Uses set intersection to find devices matching all criteria
+
+            OR Logic (Multiple Entries):
+                - Triggered when: Multiple device_identifier entries are provided
+                - Behavior: Devices matching ANY of the entries are included
+                - Example: [{"ip_address": ["192.168.1.1"]}, {"hostname": ["switch02"]}]
+                - Result: Returns devices that have IP 192.168.1.1 OR hostname switch02
+                - Implementation: Accumulates devices from each entry independently
 
         Args:
             filtered_config (dict): Configuration dictionary containing device identification parameters.
@@ -2006,83 +2036,194 @@ class FabricDevicesInfo(DnacBase):
         retries = filtered_config.get("retries", 3)
         interval = filtered_config.get("interval", 10)
 
-        for idx, identifier in enumerate(device_identifiers, start=1):
-            self.log("Processing device_identifier entry #{0}: {1}".format(idx, identifier), "DEBUG")
+        # Detect logic type: AND or OR
+        is_and_logic = len(device_identifiers) == 1 and len(device_identifiers[0].keys()) > 1
+        logic_type = "AND" if is_and_logic else "OR"
+        self.log("Detected device_identifier logic type: {0}".format(logic_type), "DEBUG")
 
+        if is_and_logic:
+            identifier = device_identifiers[0]
+            self.log("Processing AND logic for identifiers: {0}".format(identifier), "DEBUG")
+
+            combined_devices = None
             for key, values in identifier.items():
                 if not values:
                     continue
                 if not isinstance(values, list):
                     values = [values]
 
+                expanded_values = []
+
                 for value in values:
-                    ip_list = []
                     if key == "ip_address_range":
                         try:
                             start_ip, end_ip = value.split("-")
                             start = ipaddress.IPv4Address(start_ip.strip())
                             end = ipaddress.IPv4Address(end_ip.strip())
-                            ip_list = [str(ipaddress.IPv4Address(i)) for i in range(int(start), int(end) + 1)]
-                            self.log("Expanded IP range '{0}' into {1} IPs".format(value, len(ip_list)), "DEBUG")
+                            expanded_values.extend([
+                                str(ipaddress.IPv4Address(i))
+                                for i in range(int(start), int(end) + 1)
+                            ])
+                            self.log(
+                                "Expanded IP range '{0}' into {1} IPs".format(value, len(expanded_values)),
+                                "DEBUG"
+                            )
                         except Exception as e:
                             self.log("Invalid IP range '{0}': {1}".format(value, str(e)), "ERROR")
-                            continue
                     else:
-                        ip_list = [value]
+                        expanded_values.append(value)
 
-                    self.log("Expanded {0} device identifier(s) for '{1}' parameter - processing values: {2}".format(len(ip_list), key, ip_list), "DEBUG")
+                param_key = param_key_map.get(key)
+                matched_devices = []
 
-                    for ip_or_value in ip_list:
+                missing_ips = []
+
+                for ip_or_value in expanded_values:
+                    params = {param_key_map.get(key, "managementIpAddress"): ip_or_value}
+                    attempt = 0
+                    start_time = time.time()
+                    device_found = False
+
+                    while attempt < retries or (time.time() - start_time) < timeout:
+                        self.log("Attempt {0} - Calling API with params: {1}".format(attempt + 1, params), "DEBUG")
+                        try:
+                            response = self.dnac._exec(
+                                family="devices",
+                                function="get_device_list",
+                                params=params
+                            )
+                            devices = response.get("response", [])
+                            self.log("Received API response for {0}={1}: {2}".format(key, ip_or_value, response), "DEBUG")
+                            managed_devices = [
+                                device for device in devices
+                                if device.get("collectionStatus") == "Managed"
+                                or device.get("reachabilityStatus") == "Reachable"
+                            ]
+                            if managed_devices:
+                                matched_devices.extend(managed_devices)
+                                device_found = True
+                                break
+                        except Exception as e:
+                            self.log("API call failed for {0}={1}: {2}".format(key, value, str(e)), "WARNING")
+                        attempt += 1
+                        time.sleep(interval)
+
+                    if not device_found:
+                        missing_ips.append(ip_or_value)
+
+                if missing_ips:
+                    display_value = "IP(s) not found: {}".format(", ".join(missing_ips))
+                    self.msg = (
+                        "No managed devices found for the following identifiers: {0}. "
+                        "Device(s) may be unreachable, unmanaged, or not present in Catalyst Center inventory."
+                    ).format(display_value)
+                    self.set_operation_result("success", False, self.msg, "INFO")
+                    if self.msg not in self.total_response:
+                        self.total_response.append(self.msg)
+
+                if combined_devices is None:
+                    combined_devices = matched_devices
+                else:
+                    combined_devices = [
+                        device for device in combined_devices if any(
+                            device.get("instanceUuid") == managed_device.get("instanceUuid") for managed_device in matched_devices
+                        )
+                    ]
+
+            for device in combined_devices or []:
+                uuid = device.get("instanceUuid")
+                ip = device.get("managementIpAddress")
+                if uuid and ip:
+                    ip_uuid_map[ip] = uuid
+
+            if not combined_devices:
+                self.msg = (
+                    "No managed devices found matching all specified identifiers "
+                    "({0}).".format(list(identifier.keys()))
+                )
+                self.set_operation_result("success", False, self.msg, "INFO")
+                self.total_response.append(self.msg)
+
+        else:
+            for idx, identifier in enumerate(device_identifiers, start=1):
+                self.log("Processing OR logic entry #{0}: {1}".format(idx, identifier), "DEBUG")
+
+                for key, values in identifier.items():
+                    if not values:
+                        continue
+                    if not isinstance(values, list):
+                        values = [values]
+
+                    expanded_values = []
+
+                    for value in values:
+                        if key == "ip_address_range":
+                            try:
+                                start_ip, end_ip = value.split("-")
+                                start = ipaddress.IPv4Address(start_ip.strip())
+                                end = ipaddress.IPv4Address(end_ip.strip())
+                                expanded_values.extend([
+                                    str(ipaddress.IPv4Address(i))
+                                    for i in range(int(start), int(end) + 1)
+                                ])
+                                self.log(
+                                    "Expanded IP range '{0}' into {1} IPs".format(value, len(expanded_values)),
+                                    "DEBUG"
+                                )
+                            except Exception as e:
+                                self.log("Invalid IP range '{0}': {1}".format(value, str(e)), "ERROR")
+                        else:
+                            expanded_values.append(value)
+
+                    missing_ips = []
+
+                    for ip_or_value in expanded_values:
                         params = {param_key_map.get(key, "managementIpAddress"): ip_or_value}
+                        attempt = 0
                         attempt = 0
                         start_time = time.time()
                         device_found = False
 
                         while attempt < retries or (time.time() - start_time) < timeout:
-                            self.log("Attempt {0} - Calling API with params: {1}".format(attempt + 1, params))
+                            self.log("Attempt {0} - Calling API with params: {1}".format(attempt + 1, params), "DEBUG")
                             try:
                                 response = self.dnac._exec(
                                     family="devices",
                                     function="get_device_list",
                                     params=params
                                 )
-                                self.log("Received API response from 'get_device_list': {0}".format(response), "DEBUG")
                                 devices = response.get("response", [])
-
-                                if devices:
-                                    managed_devices = [
-                                        device for device in devices
-                                        if device.get("collectionStatus") == "Managed"
-                                        or device.get("reachabilityStatus") == "Reachable"
-                                    ]
-
+                                self.log("Received API response for {0}={1}: {2}".format(key, ip_or_value, response), "DEBUG")
+                                managed_devices = [
+                                    device for device in devices
+                                    if device.get("collectionStatus") == "Managed"
+                                    or device.get("reachabilityStatus") == "Reachable"
+                                ]
+                                if managed_devices:
                                     for device in managed_devices:
                                         uuid = device.get("instanceUuid")
                                         ip = device.get("managementIpAddress")
                                         if uuid and ip:
                                             ip_uuid_map[ip] = uuid
-                                    if managed_devices:
-                                        device_found = True
-                                        break
-
-                                attempt += 1
-                                time.sleep(interval)
-
+                                    device_found = True
+                                    break
                             except Exception as e:
-                                self.log("API call failed for {0}={1}: {2}".format(key, ip_or_value, str(e)), "WARNING")
-                                attempt += 1
-                                time.sleep(interval)
+                                self.log("API call failed for {0}={1}: {2}".format(key, value, str(e)), "WARNING")
+                            attempt += 1
+                            time.sleep(interval)
 
                         if not device_found:
-                            self.msg = (
-                                "No managed devices found for {0}='{1}' after {2} retry attempts "
-                                "within {3} second timeout. Device may be unreachable, unmanaged, "
-                                "or does not exist in Cisco Catalyst Center inventory."
-                            ).format(key, ip_or_value, retries, timeout)
-                            self.set_operation_result("success", False, self.msg, "INFO")
+                            missing_ips.append(ip_or_value)
 
-                            if self.msg not in self.total_response:
-                                self.total_response.append(self.msg)
+                    if missing_ips:
+                        display_value = ", ".join(missing_ips)
+                        self.msg = (
+                            "No managed devices found for the following {0}(s): {1}. "
+                            "Device(s) may be unreachable, unmanaged, or not present in Catalyst Center inventory."
+                        ).format(key, display_value)
+                        self.set_operation_result("success", False, self.msg, "INFO")
+                        if self.msg not in self.total_response:
+                            self.total_response.append(self.msg)
 
         total_devices = len(ip_uuid_map)
         self.log("Device UUID mapping completed — mapped {0} managed devices.".format(total_devices), "INFO")
@@ -2108,6 +2249,13 @@ class FabricDevicesInfo(DnacBase):
         site_hierarchy = self.want["fabric_devices"][0].get("fabric_site_hierarchy")
         fabric_exists, fabric_id = self.is_fabric_site(site_hierarchy)
         device_ids = self.get_device_id(filtered_config)
+
+        if filtered_config.get("device_identifier") and not device_ids:
+            self.log(
+                "Device identifiers were specified in configuration but no matching device UUIDs were found. "
+                "Skipping fabric filtering.", "WARNING"
+            )
+            return None
 
         fabric_device_role = self.want["fabric_devices"][0].get("fabric_device_role")
 
