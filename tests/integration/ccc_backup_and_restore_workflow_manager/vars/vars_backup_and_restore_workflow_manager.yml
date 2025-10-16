@@ -13,7 +13,7 @@ create_nfs_configuration:
         nfs_portmapper_port: 111
 
 create_backup:
-  - backup_job_creation:
+  - backup:
       - name: BACKUP30_07
         scope: CISCO_DNA_DATA_WITHOUT_ASSURANCE
 
@@ -30,7 +30,7 @@ update_backup_configuration:
         encryption_passphrase: Karthick@zigzag333
 
 delete_backup:
-  - backup_job_creation:
+  - backup:
       - name: BACKUP29_07
 
 delete_nfs_configuration:
