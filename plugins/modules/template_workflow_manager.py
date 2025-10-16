@@ -2144,7 +2144,6 @@ class Template(DnacBase):
 
         projects = config[0].get("projects")
         if projects and isinstance(projects, list):
-
             for each_project in projects:
                 project_name = each_project.get("name")
                 if project_name and isinstance(project_name, str):
@@ -3045,7 +3044,6 @@ class Template(DnacBase):
                 self.msg = "The parameter 'project_name' is required but not provided."
                 self.status = "failed"
                 return self
-
             template_available = self.get_have_project(config)
             if template_available:
                 self.get_have_template(config, template_available)
