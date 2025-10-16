@@ -22,14 +22,14 @@
         state: merged
         config:
           - fabric_devices:
-              - ip_address: ["91.1.1.2"]
-                hostname: ["TB1-DM-Transit.solutionsanity.com"]
-                serial_number: ["FJC2335S09F"]
-                device_role: ["ACCESS"]
-                device_type: ["Cisco Catalyst 9130AXE Unified Access Point"]
-                site_hierarchy: ["Global/USA/New York/BLDNYC"]
+              - fabric_site_hierarchy: "Global/rishipat_area/Fabric-area-1"  # Mandatory parameter
+                fabric_device_role: "EDGE_NODE"
+                device_identifier:
+                  - ip_address: ["192.168.200.69"]
+                  - serial_number: ["FOC2443L1VQ"]
+                  - hostname: ["Fabric-9300-2-2.rcdnlabcead.com"]
                 timeout: 30
-                retries: 2
+                retries: 3
                 interval: 10
                 requested_info:
                   - fabric_info
@@ -40,6 +40,6 @@
                   - device_issues_info
                 output_file_info:
                   file_path: /Users/priyadharshini/Downloads/fabric_device_info
-                  file_format: json
+                  file_format: yaml
                   file_mode: w
-                  timestamp: true
+                  timestamp: false
