@@ -31,8 +31,8 @@ argument_spec.update(
     dict(
         ruleType=dict(type="str"),
         includeDeleted=dict(type="bool"),
-        limit=dict(type="float"),
-        offset=dict(type="float"),
+        limit=dict(type="int"),
+        offset=dict(type="int"),
         sortBy=dict(type="str"),
         order=dict(type="str"),
         ruleId=dict(type="str"),

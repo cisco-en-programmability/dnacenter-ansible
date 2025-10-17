@@ -30,7 +30,7 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(
     dict(
         id=dict(type="str"),
-        deviceCount=dict(type="float"),
+        deviceCount=dict(type="int"),
         type=dict(type="str"),
         headers=dict(type="dict"),
     )

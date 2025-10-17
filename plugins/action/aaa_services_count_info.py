@@ -29,8 +29,8 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        startTime=dict(type="float"),
-        endTime=dict(type="float"),
+        startTime=dict(type="int"),
+        endTime=dict(type="int"),
         serverIp=dict(type="str"),
         deviceId=dict(type="str"),
         deviceName=dict(type="str"),

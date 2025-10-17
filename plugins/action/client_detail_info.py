@@ -30,7 +30,7 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(
     dict(
         macAddress=dict(type="str"),
-        timestamp=dict(type="float"),
+        timestamp=dict(type="int"),
         headers=dict(type="dict"),
     )
 )

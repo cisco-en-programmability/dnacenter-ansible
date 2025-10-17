@@ -29,10 +29,10 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        startTime=dict(type="float"),
-        endTime=dict(type="float"),
-        limit=dict(type="float"),
-        offset=dict(type="float"),
+        startTime=dict(type="int"),
+        endTime=dict(type="int"),
+        limit=dict(type="int"),
+        offset=dict(type="int"),
         sortBy=dict(type="str"),
         order=dict(type="str"),
         isGlobal=dict(type="bool"),
