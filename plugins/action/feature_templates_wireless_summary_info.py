@@ -31,8 +31,8 @@ argument_spec.update(
     dict(
         type=dict(type="str"),
         designName=dict(type="str"),
-        limit=dict(type="float"),
-        offset=dict(type="float"),
+        limit=dict(type="int"),
+        offset=dict(type="int"),
         systemTemplate=dict(type="bool"),
         headers=dict(type="dict"),
     )

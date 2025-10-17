@@ -30,8 +30,8 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(
     dict(
         username=dict(type="str"),
-        number_days=dict(type="float"),
-        time_resolution=dict(type="float"),
+        number_days=dict(type="int"),
+        time_resolution=dict(type="int"),
         headers=dict(type="dict"),
     )
 )

@@ -31,9 +31,9 @@ argument_spec.update(
     dict(
         networkDeviceId=dict(type="str"),
         scanStatus=dict(type="str"),
-        noticeCount=dict(type="float"),
-        offset=dict(type="float"),
-        limit=dict(type="float"),
+        noticeCount=dict(type="int"),
+        offset=dict(type="int"),
+        limit=dict(type="int"),
         sortBy=dict(type="str"),
         order=dict(type="str"),
         headers=dict(type="dict"),

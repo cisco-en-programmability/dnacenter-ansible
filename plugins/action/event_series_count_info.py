@@ -30,8 +30,8 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(
     dict(
         eventIds=dict(type="str"),
-        startTime=dict(type="float"),
-        endTime=dict(type="float"),
+        startTime=dict(type="int"),
+        endTime=dict(type="int"),
         category=dict(type="str"),
         type=dict(type="str"),
         severity=dict(type="str"),
