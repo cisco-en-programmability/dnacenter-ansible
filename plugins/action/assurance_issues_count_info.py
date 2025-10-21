@@ -29,8 +29,8 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        startTime=dict(type="int"),
-        endTime=dict(type="int"),
+        startTime=dict(type="float"),
+        endTime=dict(type="float"),
         isGlobal=dict(type="bool"),
         priority=dict(type="str"),
         severity=dict(type="str"),
