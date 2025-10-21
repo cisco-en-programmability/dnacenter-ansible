@@ -31,7 +31,7 @@ argument_spec.update(
     dict(
         networkDeviceId=dict(type="str"),
         scanStatus=dict(type="str"),
-        noticeCount=dict(type="int"),
+        noticeCount=dict(type="float"),
         headers=dict(type="dict"),
     )
 )

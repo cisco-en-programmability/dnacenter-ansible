@@ -30,8 +30,8 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(
     dict(
         id=dict(type="str"),
-        startTime=dict(type="int"),
-        endTime=dict(type="int"),
+        startTime=dict(type="float"),
+        endTime=dict(type="float"),
         views=dict(type="str"),
         attribute=dict(type="str"),
         deviceCategory=dict(type="str"),

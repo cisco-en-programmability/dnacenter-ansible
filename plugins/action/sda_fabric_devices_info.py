@@ -32,8 +32,8 @@ argument_spec.update(
         fabricId=dict(type="str"),
         networkDeviceId=dict(type="str"),
         deviceRoles=dict(type="str"),
-        offset=dict(type="float"),
-        limit=dict(type="float"),
+        offset=dict(type="int"),
+        limit=dict(type="int"),
         headers=dict(type="dict"),
     )
 )

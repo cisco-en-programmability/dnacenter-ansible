@@ -30,10 +30,10 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(
     dict(
         deviceFamily=dict(type="str"),
-        startTime=dict(type="int"),
-        endTime=dict(type="int"),
+        startTime=dict(type="float"),
+        endTime=dict(type="float"),
         messageType=dict(type="str"),
-        severity=dict(type="int"),
+        severity=dict(type="float"),
         siteId=dict(type="str"),
         siteHierarchyId=dict(type="str"),
         networkDeviceName=dict(type="str"),

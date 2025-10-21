@@ -34,7 +34,7 @@ argument_spec.update(
         name=dict(type="str"),
         priority=dict(type="str"),
         isEnabled=dict(type="bool"),
-        severity=dict(type="int"),
+        severity=dict(type="float"),
         facility=dict(type="str"),
         mnemonic=dict(type="str"),
         headers=dict(type="dict"),
