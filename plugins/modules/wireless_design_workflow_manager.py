@@ -13244,7 +13244,7 @@ class WirelessDesign(DnacBase):
                     "DEBUG",
                 )
                 existing[key] = value
-                
+
     def verify_create_update_access_point_profiles_requirement(self, access_point_profiles):
         """
         Determines whether access point profiles need to be created, updated, or require no updates.
