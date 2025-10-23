@@ -1180,8 +1180,8 @@ class AccessPointLocation(DnacBase):
                         self.log(f"Comparing access point radio field '{key}': {radio.get(key)} with {exist_radio.get(self.keymap[key])}", "DEBUG")
                         if key == "antenna":
                             for ant_key in ["antenna_name", "azimuth", "elevation"]:
-                                self.log(f"Comparing access point antenna field '{ant_key}': " +\
-                                         f"{radio.get('antenna', {}).get(ant_key)} with " +\
+                                self.log(f"Comparing access point antenna field '{ant_key}': " +
+                                         f"{radio.get('antenna', {}).get(ant_key)} with " +
                                          f"{exist_radio.get(self.keymap[key], {}).get(self.keymap[ant_key])}", "DEBUG")
 
                                 if ant_key == "azimuth":
@@ -1209,7 +1209,7 @@ class AccessPointLocation(DnacBase):
                                     current_antenna_name = radio.get("antenna", {}).get(ant_key)
                                     existing_antenna_name = exist_radio.get(self.keymap[key], {}).get(self.keymap[ant_key])
                                     if current_antenna_name != existing_antenna_name:
-                                        self.log(f"Access point antenna name does not match: {current_antenna_name}, " +\
+                                        self.log(f"Access point antenna name does not match: {current_antenna_name}, " +
                                                  f"with existing: {existing_antenna_name}", "INFO")
                                         radio["id"] = exist_radio.get("id")
                                         un_matched_value.append(("antenna", radio.get("antenna"), None))
