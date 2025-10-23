@@ -34,6 +34,8 @@ class TestswimWorkflowManager(TestDnacModule):
     playbook_image_activation = test_data.get("playbook_image_activation")
     playbook_import_image = test_data.get("playbook_import_image")
     playbook_multiple_image_distribution_1 = test_data.get("playbook_multiple_image_distribution_1")
+    playbook_sub_package_images = test_data.get("playbook_sub_package_images")
+    playbook_sub_package_images_with_api_task_timeout = test_data.get("playbook_sub_package_images_with_api_task_timeout")
 
     def setUp(self):
         super(TestswimWorkflowManager, self).setUp()
@@ -205,6 +207,56 @@ class TestswimWorkflowManager(TestDnacModule):
                 self.test_data.get("get_software_image_details_12"),
                 self.test_data.get("get_software_image_details_13"),
                 self.test_data.get("multiple_image_distribution_response_1"),
+            ]
+
+        elif "playbook_sub_package_images" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_software_image_details10"),
+                self.test_data.get("get_sites2"),
+                self.test_data.get("get_sites3"),
+                self.test_data.get("get_sites1"),
+                self.test_data.get("get_sites1"),
+                self.test_data.get("get_sites1"),
+                self.test_data.get("get_site_assigned_network_devices1"),
+                self.test_data.get("get_site_assigned_network_devices2"),
+                self.test_data.get("get_device_list1"),
+                self.test_data.get("device_list_response1"),
+                self.test_data.get("device_list_response2"),
+                self.test_data.get("get_software_image_details1"),
+                self.test_data.get("get_software_image_details2"),
+                self.test_data.get("Task_Details_"),
+                self.test_data.get("Task_Status__"),
+                self.test_data.get("get_device_list2"),
+                self.test_data.get("compliance_details_of_device1"),
+                self.test_data.get("get_device_list5"),
+                self.test_data.get("bulk_update_images_on_network_devices"),
+                self.test_data.get("Task_Details_"),
+                self.test_data.get("Task_Status__"),
+            ]
+
+        elif "playbook_sub_package_images_with_api_task_timeout" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_software_image_details10_images_with_api_task_timeout"),
+                self.test_data.get("get_sites2_images_with_api_task_timeout"),
+                self.test_data.get("get_sites3_images_with_api_task_timeout"),
+                self.test_data.get("get_sites1_images_with_api_task_timeout"),
+                self.test_data.get("get_sites1_images_with_api_task_timeout"),
+                self.test_data.get("get_sites1_images_with_api_task_timeout"),
+                self.test_data.get("get_site_assigned_network_devices1_images_with_api_task_timeout"),
+                self.test_data.get("get_site_assigned_network_devices2_images_with_api_task_timeout"),
+                self.test_data.get("get_device_list1_images_with_api_task_timeout"),
+                self.test_data.get("device_list_response1_images_with_api_task_timeout"),
+                self.test_data.get("device_list_response2_images_with_api_task_timeout"),
+                self.test_data.get("get_software_image_details1_images_with_api_task_timeout"),
+                self.test_data.get("get_software_image_details2_images_with_api_task_timeout"),
+                self.test_data.get("Task_Details__images_with_api_task_timeout"),
+                self.test_data.get("Task_Status___images_with_api_task_timeout"),
+                self.test_data.get("get_device_list2_images_with_api_task_timeout"),
+                self.test_data.get("compliance_details_of_device1_images_with_api_task_timeout"),
+                self.test_data.get("get_device_list5_images_with_api_task_timeout"),
+                self.test_data.get("bulk_update_images_on_network_devices_images_with_api_task_timeout"),
+                self.test_data.get("Task_Details__images_with_api_task_timeout"),
+                self.test_data.get("Task_Status___images_with_api_task_timeout"),
             ]
 
     def test_swim_workflow_manager_playbook_inheritted_tag_cannot_be_untagged(self):
@@ -470,5 +522,57 @@ class TestswimWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "All eligible images activated successfully on the devices 204.1.1.26."
+            "Successfully activated: cat9k_iosxe.17.12.02.SPA.bin to 204.1.1.26"
+        )
+
+    def test_swim_workflow_manager_playbook_sub_package_images(self):
+        """
+        Test SWIM workflow manager's image activation process.
+
+        This test verifies that the workflow correctly handles image activation,
+        ensuring that an already imported image can be activated successfully
+        and behaves as expected.
+        """
+
+        set_module_args(
+            dict(
+                dnac_version='3.1.3.0',
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_sub_package_images
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "All eligible images activated successfully on the devices 204.1.2.1."
+        )
+
+    def test_swim_workflow_manager_playbook_sub_package_images_with_api_task_timeout(self):
+        """
+        Test SWIM workflow manager's image activation process.
+
+        This test verifies that the workflow correctly handles image activation,
+        ensuring that an already imported image can be activated successfully
+        and behaves as expected.
+        """
+
+        set_module_args(
+            dict(
+                dnac_version='3.1.3.0',
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_sub_package_images_with_api_task_timeout
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "All eligible images activated successfully on the devices 204.1.2.1."
         )

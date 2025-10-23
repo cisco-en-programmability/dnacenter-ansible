@@ -1,0 +1,325 @@
+---
+# Common device information
+device_info: &device_info
+  ip_address: "204.1.2.3"
+  device_collection_status_check: false
+
+###################################################################################################################
+# Negative Validation Tests for LLDP
+
+#############################################
+#        LLDP Admin Status Tests
+#############################################
+
+# Test invalid admin status - string instead of boolean
+test_lldp_admin_status_string:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_admin_status: "true" # Invalid: string instead of boolean
+
+# Test invalid admin status - integer instead of boolean
+test_lldp_admin_status_integer:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_admin_status: 1 # Invalid: integer instead of boolean
+
+#############################################
+#        LLDP Hold Time Tests
+#############################################
+
+# Test LLDP hold time below minimum (-1)
+test_lldp_hold_time_below_min:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_hold_time: -1 # Invalid: below minimum of 0
+
+# Test LLDP hold time above maximum (32768)
+test_lldp_hold_time_above_max:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_hold_time: 32768 # Invalid: above maximum of 32767
+
+# Test LLDP hold time as string
+test_lldp_hold_time_string:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_hold_time: "120" # Invalid: string instead of integer
+
+# Test LLDP hold time as float
+test_lldp_hold_time_float:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_hold_time: 120.5 # Invalid: float instead of integer
+
+#############################################
+#        LLDP Timer Tests
+#############################################
+
+# Test LLDP timer below minimum (4)
+test_lldp_timer_below_min:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_timer: 4 # Invalid: below minimum of 5
+
+# Test LLDP timer above maximum (32768)
+test_lldp_timer_above_max:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_timer: 32768 # Invalid: above maximum of 32767
+
+# Test LLDP timer as string
+test_lldp_timer_string:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_timer: "30" # Invalid: string instead of integer
+
+# Test LLDP timer as float
+test_lldp_timer_float:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_timer: 30.5 # Invalid: float instead of integer
+
+# Test LLDP timer negative
+test_lldp_timer_negative:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_timer: -5 # Invalid: negative value
+
+#############################################
+#     LLDP Reinitialization Delay Tests
+#############################################
+
+# Test LLDP reinitialization delay below minimum (1)
+test_lldp_reinit_delay_below_min:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_reinitialization_delay: 1 # Invalid: below minimum of 2
+
+# Test LLDP reinitialization delay above maximum (6)
+test_lldp_reinit_delay_above_max:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_reinitialization_delay: 6 # Invalid: above maximum of 5
+
+# Test LLDP reinitialization delay as string
+test_lldp_reinit_delay_string:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_reinitialization_delay: "2" # Invalid: string instead of integer
+
+# Test LLDP reinitialization delay as float
+test_lldp_reinit_delay_float:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_reinitialization_delay: 2.5 # Invalid: float instead of integer
+
+# Test LLDP reinitialization delay negative
+test_lldp_reinit_delay_negative:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_reinitialization_delay: -2 # Invalid: negative value
+
+#############################################
+#        Data Type and Structure Tests
+#############################################
+
+# Test invalid LLDP configuration - string instead of dictionary
+test_lldp_invalid_dict_type:
+  <<: *device_info
+  layer2_configuration:
+    lldp: "invalid_lldp_string" # Invalid: string instead of dictionary
+
+# Test invalid LLDP configuration - list instead of dictionary
+test_lldp_invalid_list_type:
+  <<: *device_info
+  layer2_configuration:
+    lldp: ["invalid", "lldp", "list"] # Invalid: list instead of dictionary
+
+# Test invalid LLDP configuration - null value
+test_lldp_invalid_null_type:
+  <<: *device_info
+  layer2_configuration:
+    lldp: null # Invalid: null instead of dictionary
+
+# #############################################
+# #           Edge Case Tests
+# #############################################
+
+# # Test LLDP hold time equal to timer (should be valid but not recommended)
+# test_lldp_hold_time_equal_timer:
+#   <<: *device_info
+#   layer2_configuration:
+#     lldp:
+#       lldp_hold_time: 30
+#       lldp_timer: 30 # Edge case: hold_time equals timer
+
+# # Test LLDP hold time less than timer (should be valid but not recommended)
+# test_lldp_hold_time_less_than_timer:
+#   <<: *device_info
+#   layer2_configuration:
+#     lldp:
+#       lldp_hold_time: 15
+#       lldp_timer: 30 # Edge case: hold_time less than timer
+
+###################################################################################################################
+# Positive Validation Tests for LLDP
+
+#############################################
+#        POSITIVE TEST CASES - CREATE
+#############################################
+
+# Test LLDP configuration with admin status only
+test_lldp_create_admin_status_only:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_admin_status: true
+
+# Test LLDP configuration with all parameters
+test_lldp_create_all_params:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_admin_status: true
+      lldp_hold_time: 220
+      lldp_timer: 40
+      lldp_reinitialization_delay: 3
+
+# Test LLDP configuration with custom timers
+test_lldp_create_custom_timers:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_hold_time: 240
+      lldp_timer: 60
+
+# Test LLDP disabled configuration
+test_lldp_create_disabled:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_admin_status: false
+
+# Test LLDP with only reinitialization delay
+test_lldp_create_reinit_delay_only:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_reinitialization_delay: 4
+
+#############################################
+#        POSITIVE TEST CASES - UPDATE
+#############################################
+
+# Test LLDP update - enable LLDP
+test_lldp_update_enable:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_admin_status: true
+
+# Test LLDP update - disable LLDP
+test_lldp_update_disable:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_admin_status: false
+
+# Test LLDP update - modify timers
+test_lldp_update_timers:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_hold_time: 180
+      lldp_timer: 45
+
+# Test LLDP update - modify reinitialization delay
+test_lldp_update_reinit_delay:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_reinitialization_delay: 2
+
+# Test LLDP update - all parameters
+test_lldp_update_all_params:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_admin_status: true
+      lldp_hold_time: 300
+      lldp_timer: 90
+      lldp_reinitialization_delay: 5
+
+#############################################
+#        POSITIVE TEST CASES - DELETE
+#############################################
+
+# Test LLDP deletion/reset - empty configuration
+test_lldp_delete_empty:
+  <<: *device_info
+  layer2_configuration:
+    lldp: {}
+
+# Test LLDP deletion/reset - with existing parameters (should reset to defaults)
+test_lldp_delete_with_params:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_admin_status: true # Parameters provided but should reset to defaults in delete state
+      lldp_hold_time: 120
+      lldp_timer: 30
+      lldp_reinitialization_delay: 2
+
+#############################################
+#        Boundary Value Tests
+#############################################
+
+# Test LLDP with minimum valid values
+test_lldp_boundary_min_values:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_hold_time: 0 # Minimum valid (0 means no aging)
+      lldp_timer: 5 # Minimum valid
+      lldp_reinitialization_delay: 2 # Minimum valid
+
+# Test LLDP with maximum valid values
+test_lldp_boundary_max_values:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_hold_time: 32767 # Maximum valid
+      lldp_timer: 32767 # Maximum valid
+      lldp_reinitialization_delay: 5 # Maximum valid
+
+# Test LLDP with recommended values (hold_time > timer)
+test_lldp_recommended_values:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_hold_time: 120 # 4x timer (recommended)
+      lldp_timer: 30
+
+# Test LLDP with zero hold time (no aging)
+test_lldp_zero_hold_time:
+  <<: *device_info
+  layer2_configuration:
+    lldp:
+      lldp_hold_time: 0 # Special case: no aging
+      lldp_timer: 30

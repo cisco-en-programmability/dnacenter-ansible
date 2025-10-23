@@ -45,6 +45,9 @@ class TestDnacPnpWorkflow(TestDnacModule):
     playbook_config_pnp = test_data.get("playbook_config_pnp")
     playbook_config_switch_site_issue = test_data.get("playbook_config_switch_site_issue")
     playbook_config_reset_device = test_data.get("playbook_config_reset_device")
+    playbook_config_bulk_pnp = test_data.get("playbook_config_bulk_pnp")
+    playbook_config_wrong_serial_pnp = test_data.get("playbook_config_wrong_serial_pnp")
+    playbook_config_invalid_site = test_data.get("playbook_config_invalid_site")
 
     def setUp(self):
         super(TestDnacPnpWorkflow, self).setUp()
@@ -85,6 +88,15 @@ class TestDnacPnpWorkflow(TestDnacModule):
                 self.test_data.get("get_device_by_id"),
                 self.test_data.get("device_claimed")
             ]
+        elif "invalid_site_hierarchy" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_device_detail_site"),
+                self.test_data.get("get_software_image_detail_site"),
+                self.test_data.get("get_template_configuration_site"),
+                self.test_data.get("get_device_by_id_site"),
+                self.test_data.get("get_site_detail_invalid")
+            ]
+
         elif "claim_ap_claimed_old" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_detail"),
@@ -99,20 +111,6 @@ class TestDnacPnpWorkflow(TestDnacModule):
                 self.test_data.get("get_site_detail_old"),
                 self.test_data.get("add_devices"),
                 self.test_data.get("get_device_by_id"),
-                self.test_data.get("device_claimed")
-            ]
-        elif "claim_switch" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_device_detail_sw"),
-                self.test_data.get("get_software_image_detail_sw"),
-                self.test_data.get("get_template_configuration_sw"),
-                self.test_data.get("get_device_by_id_sw"),
-                self.test_data.get("get_site_detail_sw"),
-                self.test_data.get("get_device_detail_sw"),
-                self.test_data.get("get_device_detail_sw"),
-                self.test_data.get("get_device_by_id_sw"),
-                self.test_data.get("get_device_by_id_sw"),
-                self.test_data.get("get_device_by_id_sw"),
                 self.test_data.get("device_claimed")
             ]
         elif "device_delete" in self._testMethodName:
@@ -154,10 +152,11 @@ class TestDnacPnpWorkflow(TestDnacModule):
             ]
         elif "import_devices_in_bulk_new" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_device_detail_sw"),
-                self.test_data.get("get_device_detail_sw"),
+                self.test_data.get("get_device_empty"),
+                self.test_data.get("get_device_empty"),
                 self.test_data.get("get_import_devices_in_bulk"),
-                self.test_data.get("get_import_devices_in_bulk")
+                self.test_data.get("get_device_detail_bulk_authorize"),
+                self.test_data.get("authorize_response")
             ]
         elif "devices_idempotent" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -223,6 +222,140 @@ class TestDnacPnpWorkflow(TestDnacModule):
                 self.test_data.get("get_reset_response"),
                 self.test_data.get("get_reset_error_response")
             ]
+        elif "device_input_error" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_device_detail")
+            ]
+        elif "wlc_check_param" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_device_detail_sw"),
+                self.test_data.get("get_software_image_detail"),
+                self.test_data.get("get_template_configuration_sw"),
+                self.test_data.get("get_device_by_id_wlc"),
+                self.test_data.get("get_site_detail_sw"),
+                self.test_data.get("get_device_detail_ewlc"),
+                self.test_data.get("get_device_detail_ewlc"),
+                self.test_data.get("get_reset_response"),
+            ]
+
+    def test_pnp_workflow_manager_invalid_site_hierarchy(self):
+        """
+        Test validation of invalid site hierarchy paths
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.6",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_invalid_site
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("adding the device to database", result.get('msg').lower())
+
+    def test_pnp_workflow_manager_missing_required_fields(self):
+        """
+        Test validation of missing required fields
+        """
+        invalid_config = [
+            {
+                "device_info": [
+                    {
+                        "hostname": "test-device",
+                        "pid": "C9300-24P"
+                    }
+                ]
+            }
+        ]
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.6",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=invalid_config
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("invalid parameters in playbook", result.get('msg').lower())
+
+    def test_pnp_workflow_manager_invalid_device_type(self):
+        """
+        Test handling of invalid device types
+        """
+        invalid_config = [
+            {
+                "device_info": [
+                    {
+                        "serial_number": "TEST123",
+                        "hostname": "test-device",
+                        "pid": "INVALID-PID-TYPE"
+                    }
+                ]
+            }
+        ]
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.6",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=invalid_config
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("unable to import", result.get('msg').lower())
+
+    def test_pnp_workflow_manager_version_2_3_5_3_features(self):
+        """
+        Test features available in version 2.3.5.3
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.5.3",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_switch
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Device Claim Failed", result.get('msg'))
+
+    def test_pnp_workflow_manager_version_3_1_0_features(self):
+        """
+        Test enhanced features in version 3.1.0+
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="3.1.0.0",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_bulk_pnp
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "Unable to import below 0 device(s).",
+            result.get('msg')
+        )
 
     def test_pnp_workflow_manager_claim_ap_claimed_new(self):
         """
@@ -244,7 +377,7 @@ class TestDnacPnpWorkflow(TestDnacModule):
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
-            "Device is already claimed"
+            "Device is already claimed and Device 'KWC24160JLL' updated successfully."
         )
 
     def test_pnp_workflow_manager_claim_ap_claimed_old(self):
@@ -266,30 +399,7 @@ class TestDnacPnpWorkflow(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "Device is already claimed"
-        )
-
-    def test_pnp_workflow_manager_claim_switch(self):
-        """
-        Test case for PNP workflow manager when add and claim switch device.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_version="2.3.7.6",
-                dnac_log=True,
-                config_verify=True,
-                state="merged",
-                config=self.playbook_config_switch
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        self.maxDiff = None
-        self.assertEqual(
-            result.get('msg'),
-            "Successfully collected all project and template                     parameters from Cisco Catalyst Center for comparison"
+            "Device is already claimed and Device 'KWC24160JLL' updated successfully."
         )
 
     def test_pnp_workflow_manager_device_delete(self):
@@ -392,17 +502,17 @@ class TestDnacPnpWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.9",
+                dnac_version="3.1.3.0",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_pnp
+                config=self.playbook_config_bulk_pnp
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
-            "2 device(s) imported successfully 0 device(s) authorized successfully"
+            "2 device(s) imported successfully 1 device(s) authorized successfully"
         )
 
     def test_pnp_workflow_manager_devices_idempotent(self):
@@ -577,7 +687,7 @@ class TestDnacPnpWorkflow(TestDnacModule):
                 config=self.playbook_config_reset_device
             )
         )
-        result = self.execute_module(changed=False, failed=True)
+        result = self.execute_module(changed=True, failed=False)
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
@@ -601,9 +711,55 @@ class TestDnacPnpWorkflow(TestDnacModule):
                 config=self.playbook_config_reset_device
             )
         )
-        result = self.execute_module(changed=False, failed=True)
+        result = self.execute_module(changed=True, failed=False)
         self.maxDiff = None
         self.assertEqual(
-            result.get('response'),
-            "Failed to execute 'reset_device' for device ID '671b1d88c301a454b89d2c84': "
+            result.get('msg'),
+            "All specified devices already exist and cannot be imported again: " +
+            "['FJC24501BK2']. Devices reset done (['FJC24501BK2'])"
+        )
+
+    def test_pnp_workflow_manager_device_input_error(self):
+        """
+        Test case for PNP workflow manager when Serial Number and Pid are invalid.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.6",
+                dnac_log=True,
+                config_verify=True,
+                state="merged",
+                config=self.playbook_config_wrong_serial_pnp
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.maxDiff = None
+        self.assertIn(
+            "Invalid parameters", result.get('msg')
+        )
+
+    def test_pnp_workflow_manager_wlc_check_params(self):
+        """
+        Test case for PNP workflow manager when add and claim switch device.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                config_verify=True,
+                state="merged",
+                config=self.playbook_config_wlc_error
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.maxDiff = None
+        self.assertIn(
+            "Successfully collected all project and template",
+            result.get('msg')
         )

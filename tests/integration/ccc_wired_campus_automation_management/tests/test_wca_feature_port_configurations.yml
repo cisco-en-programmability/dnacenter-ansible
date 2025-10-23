@@ -1,0 +1,2904 @@
+# ---
+# - debug: msg="Starting Port Configuration feature tests for Wired Campus Automation"
+# - debug: msg="Role Path {{ role_path }}"
+
+# - block:
+#   - name: Load Port Configuration test variables
+#     include_vars:
+#       file: "{{ role_path }}/vars/vars_wca_test_feature_port_configuration.yml"
+#       name: port_config_vars_map
+#     vars:
+#       dnac_login: &dnac_login
+#         dnac_host: "{{ dnac_host }}"
+#         dnac_username: "{{ dnac_username }}"
+#         dnac_password: "{{ dnac_password }}"
+#         dnac_verify: "{{ dnac_verify }}"
+#         dnac_port: "{{ dnac_port }}"
+#         dnac_version: "{{ dnac_version }}"
+#         dnac_debug: "{{ dnac_debug }}"
+#         dnac_log: true
+#         dnac_log_level: DEBUG
+#         config_verify: true
+#         dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
+#         dnac_log_append: false
+
+#   #############################################
+#   #        Port Configuration Test Summary   #
+#   #############################################
+
+#   - name: Display Port Configuration test cases summary
+#     debug:
+#       msg: |
+#         Port Configuration Feature Test Cases Summary:
+        
+#         NEGATIVE TEST CASES (Input Validation):
+#         1. Port Configuration Structure Tests - Invalid data types, missing required fields
+#         2. Switchport Interface Config Tests - Invalid modes, VLANs, descriptions
+#         3. VLAN Trunking Interface Config Tests - Invalid DTP settings, protection modes
+#         4. 802.1X Interface Config Tests - Invalid authentication orders, methods
+#         5. MAB Interface Config Tests - Invalid enablement values
+#         6. STP Interface Config Tests - Invalid costs, priorities, modes
+#         7. DHCP Snooping Interface Config Tests - Invalid rates, trust settings
+#         8. CDP/LLDP Interface Config Tests - Invalid admin status, modes
+#         9. VTP Interface Config Tests - Invalid admin status
+        
+#         POSITIVE TEST CASES (Functional Validation):
+#         1. CREATE Operations - Minimal to comprehensive port configurations
+#         2. UPDATE Operations - Modify existing port configurations
+#         3. DELETE Operations - Remove port configurations
+#         4. BOUNDARY Value Tests - Min/max values for all parameters
+#         5. SPECIAL Configuration Tests - All modes, features, edge cases
+#         6. PERFORMANCE Tests - Large scale port configurations
+#         7. REGRESSION Tests - Previously problematic scenarios
+#         8. COMPATIBILITY Tests - Mixed interface types and configurations
+#         9. EDGE CASE Tests - Special characters, unicode, interface variations
+#         10. CLEANUP Operations - Reset ports to default configuration
+        
+#         Total Test Coverage:
+#         - Port Configuration Structure (list/dict validation)
+#         - Switchport Interface Configuration (modes, VLANs, admin status)
+#         - VLAN Trunking Configuration (DTP, protection, pruning)
+#         - 802.1X Authentication Configuration (order, methods)
+#         - MAB Authentication Configuration (enablement)
+#         - STP Interface Configuration (portfast, BPDU, cost, priority)
+#         - DHCP Snooping Configuration (rate, trust)
+#         - CDP Interface Configuration (admin status, logging)
+#         - LLDP Interface Configuration (transmit/receive modes)
+#         - VTP Interface Configuration (admin status)
+
+# # ###################################################################################################################
+# # # NEGATIVE TEST CASES - PORT CONFIGURATION STRUCTURE VALIDATION
+# # ###################################################################################################################
+
+#   # - name: "NEGATIVE TEST - Port Configuration Structure Tests"
+#   #   block:
+#       # - name: "TEST 1: Invalid port configuration - string instead of list"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_invalid_list_type }}"
+#       #   register: result_invalid_list_type
+#       #   ignore_errors: true
+#       #   tags: [negative, structure, port_config_invalid_list_type]
+
+#       # - name: Assert port configuration invalid list type fails
+#       #   assert:
+#       #     that:
+#       #       - result_invalid_list_type.failed == true
+#       #       - "'Port configurations must be a list' in result_invalid_list_type.msg"
+#       #     fail_msg: "Test should fail when port_configuration is not a list"
+#       #     success_msg: "Port configuration invalid list type correctly failed"
+#       #   tags: [negative, structure, port_config_invalid_list_type]
+
+#       # - name: "TEST 2: Invalid port configuration - dictionary instead of list"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_invalid_dict_type }}"
+#       #   register: result_invalid_dict_type
+#       #   ignore_errors: true
+#       #   tags: [negative, structure, port_config_invalid_dict_type]
+
+#       # - name: Assert port configuration invalid dict type fails
+#       #   assert:
+#       #     that:
+#       #       - result_invalid_dict_type.failed == true
+#       #       - "'Port configurations must be a list' in result_invalid_dict_type.msg or 'must be of type list' in result_invalid_dict_type.msg"
+#       #     fail_msg: "Test should fail when port_configuration is a dictionary"
+#       #     success_msg: "Port configuration invalid dict type correctly failed"
+#       #   tags: [negative, structure, port_config_invalid_dict_type]
+
+#       # - name: "TEST 3: Invalid port configuration item - string instead of dictionary"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_item_invalid_dict_type }}"
+#       #   register: result_item_invalid_dict
+#       #   ignore_errors: true
+#       #   tags: [negative, structure, port_config_item_invalid_dict]
+
+#       # - name: Assert port configuration item invalid dict fails
+#       #   assert:
+#       #     that:
+#       #       - result_item_invalid_dict.failed == true
+#       #       - "'must be a dictionary' in result_item_invalid_dict.msg"
+#       #     fail_msg: "Test should fail when port_configuration item is not a dictionary"
+#       #     success_msg: "Port configuration item invalid dict correctly failed"
+#       #   tags: [negative, structure, port_config_item_invalid_dict]
+
+#       # - name: "TEST 4: Missing interface_name - required field"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_missing_interface_name }}"
+#       #   register: result_missing_interface_name
+#       #   ignore_errors: true
+#       #   tags: [negative, structure, missing_interface_name]
+
+#       # - name: Assert missing interface_name fails
+#       #   assert:
+#       #     that:
+#       #       - result_missing_interface_name.failed == true
+#       #       - "'Each port configuration must have an' in result_missing_interface_name.msg"
+#       #     fail_msg: "Test should fail when interface_name is missing"
+#       #     success_msg: "Missing interface_name correctly failed"
+#       #   tags: [negative, structure, missing_interface_name]
+
+#       # - name: "TEST 5: Invalid interface_name - integer instead of string"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_interface_name_integer }}"
+#       #   register: result_interface_name_integer
+#       #   ignore_errors: true
+#       #   tags: [negative, structure, interface_name_integer]
+
+#       # - name: Assert interface_name integer type fails
+#       #   assert:
+#       #     that:
+#       #       - result_interface_name_integer.failed == true
+#       #       - "'interface_name must be a string' in result_interface_name_integer.msg or 'must be of type str' in result_interface_name_integer.msg"
+#       #     fail_msg: "Test should fail when interface_name is an integer"
+#       #     success_msg: "Interface_name integer type correctly failed"
+#       #   tags: [negative, structure, interface_name_integer]
+
+#       # - name: "TEST 6: Invalid interface_name - empty string"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_interface_name_empty }}"
+#       #   register: result_interface_name_empty
+#       #   ignore_errors: true
+#       #   tags: [negative, structure, interface_name_empty]
+
+#       # - name: Assert interface_name empty string fails
+#       #   assert:
+#       #     that:
+#       #       - result_interface_name_empty.failed == true
+#       #       - "'interface_name cannot be empty' in result_interface_name_empty.msg or 'empty' in result_interface_name_empty.msg"
+#       #     fail_msg: "Test should fail when interface_name is empty"
+#       #     success_msg: "Interface_name empty string correctly failed"
+#       #   tags: [negative, structure, interface_name_empty]
+
+# # ###################################################################################################################
+# # # NEGATIVE TEST CASES - SWITCHPORT INTERFACE CONFIG VALIDATION
+# # ###################################################################################################################
+
+#   # - name: "NEGATIVE TEST - Switchport Interface Config Tests"
+#   #   block:
+#       # - name: "TEST 7: Invalid switchport_interface_config - string instead of dict"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_switchport_config_invalid_dict_type }}"
+#       #   register: result_switchport_invalid_dict
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, config_invalid_dict]
+
+#       # - name: Assert switchport_interface_config invalid dict fails
+#       #   assert:
+#       #     that:
+#       #       - result_switchport_invalid_dict.failed == true
+#       #       - "'switchport_interface_config must be a dictionary' in result_switchport_invalid_dict.msg or 'must be of type dict' in result_switchport_invalid_dict.msg"
+#       #     fail_msg: "Test should fail when switchport_interface_config is not a dictionary"
+#       #     success_msg: "Switchport_interface_config invalid dict correctly failed"
+#       #   tags: [negative, switchport, config_invalid_dict]
+
+#       # - name: "TEST 8: Invalid switchport_description - integer instead of string"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_switchport_description_integer }}"
+#       #   register: result_description_integer
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, description_integer]
+
+#       # - name: Assert switchport_description integer fails
+#       #   assert:
+#       #     that:
+#       #       - result_description_integer.failed == true
+#       #       - "'switchport_description must be a string' in result_description_integer.msg or 'must be of type str' in result_description_integer.msg"
+#       #     fail_msg: "Test should fail when switchport_description is an integer"
+#       #     success_msg: "Switchport_description integer correctly failed"
+#       #   tags: [negative, switchport, description_integer]
+
+#       # - name: "TEST 9: Invalid switchport_description - exceeds maximum length"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_switchport_description_max_length }}"
+#       #   register: result_description_max_length
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, description_max_length]
+
+#       # - name: Assert switchport_description max length fails
+#       #   assert:
+#       #     that:
+#       #       - result_description_max_length.failed == true
+#       #       - "'exceeds maximum length of 230' in result_description_max_length.msg"
+#       #     fail_msg: "Test should fail when switchport_description exceeds maximum length"
+#       #     success_msg: "Switchport_description max length correctly failed"
+#       #   tags: [negative, switchport, description_max_length]
+
+#       # - name: "TEST 10: Invalid switchport_mode - invalid choice"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_switchport_mode_invalid }}"
+#       #   register: result_mode_invalid
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, mode_invalid]
+
+#       # - name: Assert switchport_mode invalid choice fails
+#       #   assert:
+#       #     that:
+#       #       - result_mode_invalid.failed == true
+#       #       - "'must be one of' in result_mode_invalid.msg"
+#       #     fail_msg: "Test should fail when switchport_mode has invalid choice"
+#       #     success_msg: "Switchport_mode invalid choice correctly failed"
+#       #   tags: [negative, switchport, mode_invalid]
+
+#       # - name: "TEST 11: Invalid switchport_mode - integer instead of string"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_switchport_mode_integer }}"
+#       #   register: result_mode_integer
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, mode_integer]
+
+#       # - name: Assert switchport_mode integer fails
+#       #   assert:
+#       #     that:
+#       #       - result_mode_integer.failed == true
+#       #       - "'must be of type string' in result_mode_integer.msg"
+#       #     fail_msg: "Test should fail when switchport_mode is an integer"
+#       #     success_msg: "Switchport_mode integer correctly failed"
+#       #   tags: [negative, switchport, mode_integer]
+
+#       # - name: "TEST 12: Invalid access_vlan - string instead of integer"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_access_vlan_string }}"
+#       #   register: result_access_vlan_string
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, access_vlan_string]
+
+#       # - name: Assert access_vlan string type fails
+#       #   assert:
+#       #     that:
+#       #       - result_access_vlan_string.failed == true
+#       #       - "'must be of type integer' in result_access_vlan_string.msg"
+#       #     fail_msg: "Test should fail when access_vlan is a string"
+#       #     success_msg: "Access_vlan string type correctly failed"
+#       #   tags: [negative, switchport, access_vlan_string]
+
+#       # - name: "TEST 13: Invalid access_vlan - negative value"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_access_vlan_negative }}"
+#       #   register: result_access_vlan_negative
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, access_vlan_negative]
+
+#       # - name: Assert access_vlan negative fails
+#       #   assert:
+#       #     that:
+#       #       - result_access_vlan_negative.failed == true
+#       #       - "'must be within the range (1, 4094)' in result_access_vlan_negative.msg or 'must be greater than' in result_access_vlan_negative.msg"
+#       #     fail_msg: "Test should fail when access_vlan is negative"
+#       #     success_msg: "Access_vlan negative correctly failed"
+#       #   tags: [negative, switchport, access_vlan_negative]
+
+#       # - name: "TEST 14: Invalid access_vlan - exceeds maximum value"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_access_vlan_max }}"
+#       #   register: result_access_vlan_max
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, access_vlan_max]
+
+#       # - name: Assert access_vlan maximum value fails
+#       #   assert:
+#       #     that:
+#       #       - result_access_vlan_max.failed == true
+#       #       - "'must be within the range (1, 4094)' in result_access_vlan_max.msg or 'greater than' in result_access_vlan_max.msg"
+#       #     fail_msg: "Test should fail when access_vlan exceeds maximum value"
+#       #     success_msg: "Access_vlan maximum value correctly failed"
+#       #   tags: [negative, switchport, access_vlan_max]
+
+#       # - name: "TEST 15: Invalid access_vlan - zero value"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_access_vlan_zero }}"
+#       #   register: result_access_vlan_zero
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, access_vlan_zero]
+
+#       # - name: Assert access_vlan zero value fails
+#       #   assert:
+#       #     that:
+#       #       - result_access_vlan_zero.failed == true
+#       #       - "'must be within the range (1, 4094)' in result_access_vlan_zero.msg or 'must be greater than 0' in result_access_vlan_zero.msg"
+#       #     fail_msg: "Test should fail when access_vlan is zero"
+#       #     success_msg: "Access_vlan zero value correctly failed"
+#       #   tags: [negative, switchport, access_vlan_zero]
+
+#       # - name: "TEST 16: Invalid admin_status - string instead of boolean"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_admin_status_string }}"
+#       #   register: result_admin_status_string
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, admin_status_string]
+
+#       # - name: Assert admin_status string type fails
+#       #   assert:
+#       #     that:
+#       #       - result_admin_status_string.failed == true
+#       #       - "'must be of type bool' in result_admin_status_string.msg"
+#       #     fail_msg: "Test should fail when admin_status is a string"
+#       #     success_msg: "Admin_status string type correctly failed"
+#       #   tags: [negative, switchport, admin_status_string]
+
+#       # - name: "TEST 17: Invalid admin_status - integer instead of boolean"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_admin_status_integer }}"
+#       #   register: result_admin_status_integer
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, admin_status_integer]
+
+#       # - name: Assert admin_status integer type fails
+#       #   assert:
+#       #     that:
+#       #       - result_admin_status_integer.failed == true
+#       #       - "'must be of type bool' in result_admin_status_integer.msg"
+#       #     fail_msg: "Test should fail when admin_status is an integer"
+#       #     success_msg: "Admin_status integer type correctly failed"
+#       #   tags: [negative, switchport, admin_status_integer]
+
+#       # - name: "TEST 17: Invalid voice_vlan - string instead of integer"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_voice_vlan_string }}"
+#       #   register: result_voice_vlan_string
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, voice_vlan_string]
+
+#       # - name: Assert voice_vlan string type fails
+#       #   assert:
+#       #     that:
+#       #       - result_voice_vlan_string.failed == true
+#       #       - "'must be of type int' in result_voice_vlan_string.msg"
+#       #     fail_msg: "Test should fail when voice_vlan is a string"
+#       #     success_msg: "Voice_vlan string type correctly failed"
+#       #   tags: [negative, switchport, voice_vlan_string]
+
+#       # - name: "TEST 18: Invalid voice_vlan - negative value"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_voice_vlan_negative }}"
+#       #   register: result_voice_vlan_negative
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, voice_vlan_negative]
+
+#       # - name: Assert voice_vlan negative fails
+#       #   assert:
+#       #     that:
+#       #       - result_voice_vlan_negative.failed == true
+#       #       - "'must be within the range (1, 4094)' in result_voice_vlan_negative.msg"
+#       #     fail_msg: "Test should fail when voice_vlan is negative"
+#       #     success_msg: "Voice_vlan negative correctly failed"
+#       #   tags: [negative, switchport, voice_vlan_negative]
+
+#       # - name: "TEST 19: Invalid voice_vlan - exceeds maximum value"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_voice_vlan_max }}"
+#       #   register: result_voice_vlan_max
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, voice_vlan_max]
+
+#       # - name: Assert voice_vlan maximum value fails
+#       #   assert:
+#       #     that:
+#       #       - result_voice_vlan_max.failed == true
+#       #       - "'must be within the range (1, 4094)' in result_voice_vlan_max.msg or 'greater than' in result_voice_vlan_max.msg"
+#       #     fail_msg: "Test should fail when voice_vlan exceeds maximum value"
+#       #     success_msg: "Voice_vlan maximum value correctly failed"
+#       #   tags: [negative, switchport, voice_vlan_max]
+
+#       # - name: "TEST 20: Invalid voice_vlan - zero value"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_voice_vlan_zero }}"
+#       #   register: result_voice_vlan_zero
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, voice_vlan_zero]
+
+#       # - name: Assert voice_vlan zero value fails
+#       #   assert:
+#       #     that:
+#       #       - result_voice_vlan_zero.failed == true
+#       #       - "'must be within the range (1, 4094)' in result_voice_vlan_zero.msg or 'must be greater than 0' in result_voice_vlan_zero.msg"
+#       #     fail_msg: "Test should fail when voice_vlan is zero"
+#       #     success_msg: "Voice_vlan zero value correctly failed"
+#       #   tags: [negative, switchport, voice_vlan_zero]
+
+#       # - name: "TEST 21: Invalid allowed_vlans - string instead of list"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_allowed_vlans_string }}"
+#       #   register: result_allowed_vlans_string
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, allowed_vlans_string]
+
+#       # - name: Assert allowed_vlans string type fails
+#       #   assert:
+#       #     that:
+#       #       - result_allowed_vlans_string.failed == true
+#       #       - "'must be a list' in result_allowed_vlans_string.msg or 'must be of type list' in result_allowed_vlans_string.msg"
+#       #     fail_msg: "Test should fail when allowed_vlans is a string"
+#       #     success_msg: "Allowed_vlans string type correctly failed"
+#       #   tags: [negative, switchport, allowed_vlans_string]
+
+#       # - name: "TEST 22: Invalid allowed_vlans - non-integer elements"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_allowed_vlans_non_integer }}"
+#       #   register: result_allowed_vlans_non_integer
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, allowed_vlans_non_integer]
+
+#       # - name: Assert allowed_vlans non-integer elements fails
+#       #   assert:
+#       #     that:
+#       #       - result_allowed_vlans_non_integer.failed == true
+#       #       - "'must be an integer between 1 and 4094' in result_allowed_vlans_non_integer.msg or 'must be of type int' in result_allowed_vlans_non_integer.msg"
+#       #     fail_msg: "Test should fail when allowed_vlans contains non-integer elements"
+#       #     success_msg: "Allowed_vlans non-integer elements correctly failed"
+#       #   tags: [negative, switchport, allowed_vlans_non_integer]
+
+#       # - name: "TEST 23: Invalid allowed_vlans - out of range values"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_allowed_vlans_out_of_range }}"
+#       #   register: result_allowed_vlans_out_of_range
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, allowed_vlans_out_of_range]
+
+#       # - name: Assert allowed_vlans out of range fails
+#       #   assert:
+#       #     that:
+#       #       - result_allowed_vlans_out_of_range.failed == true
+#       #       - "'must be an integer between 1 and 4094' in result_allowed_vlans_out_of_range.msg or 'out of range' in result_allowed_vlans_out_of_range.msg"
+#       #     fail_msg: "Test should fail when allowed_vlans contains out of range values"
+#       #     success_msg: "Allowed_vlans out of range values correctly failed"
+#       #   tags: [negative, switchport, allowed_vlans_out_of_range]
+
+#       # - name: "TEST 24: Invalid native_vlan_id - string instead of integer"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_native_vlan_id_string }}"
+#       #   register: result_native_vlan_id_string
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, native_vlan_id_string]
+
+#       # - name: Assert native_vlan_id string type fails
+#       #   assert:
+#       #     that:
+#       #       - result_native_vlan_id_string.failed == true
+#       #       - "'must be an integer' in result_native_vlan_id_string.msg or 'must be of type int' in result_native_vlan_id_string.msg"
+#       #     fail_msg: "Test should fail when native_vlan_id is a string"
+#       #     success_msg: "Native_vlan_id string type correctly failed"
+#       #   tags: [negative, switchport, native_vlan_id_string]
+
+#       # - name: "TEST 25: Invalid native_vlan_id - negative value"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_native_vlan_id_negative }}"
+#       #   register: result_native_vlan_id_negative
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, native_vlan_id_negative]
+
+#       # - name: Assert native_vlan_id negative fails
+#       #   assert:
+#       #     that:
+#       #       - result_native_vlan_id_negative.failed == true
+#       #       - "'must be within the range (1, 4094)' in result_native_vlan_id_negative.msg or 'must be greater than' in result_native_vlan_id_negative.msg"
+#       #     fail_msg: "Test should fail when native_vlan_id is negative"
+#       #     success_msg: "Native_vlan_id negative correctly failed"
+#       #   tags: [negative, switchport, native_vlan_id_negative]
+
+#       # - name: "TEST 26: Invalid native_vlan_id - exceeds maximum value"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_native_vlan_id_max }}"
+#       #   register: result_native_vlan_id_max
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, native_vlan_id_max]
+
+#       # - name: Assert native_vlan_id maximum value fails
+#       #   assert:
+#       #     that:
+#       #       - result_native_vlan_id_max.failed == true
+#       #       - "'must be within the range (1, 4094)' in result_native_vlan_id_max.msg or 'greater than maximum' in result_native_vlan_id_max.msg"
+#       #     fail_msg: "Test should fail when native_vlan_id exceeds maximum value"
+#       #     success_msg: "Native_vlan_id maximum value correctly failed"
+#       #   tags: [negative, switchport, native_vlan_id_max]
+
+#       # - name: "TEST 27: Invalid native_vlan_id - zero value"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_native_vlan_id_zero }}"
+#       #   register: result_native_vlan_id_zero
+#       #   ignore_errors: true
+#       #   tags: [negative, switchport, native_vlan_id_zero]
+
+#       # - name: Assert native_vlan_id zero value fails
+#       #   assert:
+#       #     that:
+#       #       - result_native_vlan_id_zero.failed == true
+#       #       - "'must be within the range (1, 4094)' in result_native_vlan_id_zero.msg or 'must be greater than 0' in result_native_vlan_id_zero.msg"
+#       #     fail_msg: "Test should fail when native_vlan_id is zero"
+#       #     success_msg: "Native_vlan_id zero value correctly failed"
+#       #   tags: [negative, switchport, native_vlan_id_zero]
+
+# # ###################################################################################################################
+# # # NEGATIVE TEST CASES - VLAN TRUNKING INTERFACE CONFIG VALIDATION
+# # ###################################################################################################################
+
+#   # - name: "NEGATIVE TEST - VLAN Trunking Interface Config Tests"
+#   #   block:
+#   #     - name: "TEST 28: Invalid vlan_trunking_interface_config - string instead of dict"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_vlan_trunking_config_invalid_dict_type }}"
+#   #       register: result_vlan_trunking_invalid_dict
+#   #       ignore_errors: true
+#   #       tags: [negative, vlan_trunking, config_invalid_dict]
+
+#   #     - name: Assert vlan_trunking_interface_config invalid dict fails
+#   #       assert:
+#   #         that:
+#   #           - result_vlan_trunking_invalid_dict.failed == true
+#   #           - "'vlan_trunking_interface_config must be a dictionary' in result_vlan_trunking_invalid_dict.msg or 'must be of type dict' in result_vlan_trunking_invalid_dict.msg"
+#   #         fail_msg: "Test should fail when vlan_trunking_interface_config is not a dictionary"
+#   #         success_msg: "Vlan_trunking_interface_config invalid dict correctly failed"
+#   #       tags: [negative, vlan_trunking, config_invalid_dict]
+
+#   #     - name: "TEST 29: Invalid dtp_negotiation - str instead of boolean"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_dtp_negotiation_invalid }}"
+#   #       register: result_dtp_negotiation_invalid
+#   #       ignore_errors: true
+#   #       tags: [negative, vlan_trunking, dtp_negotiation_invalid]
+
+#   #     - name: Assert enable_dtp_negotiation invalid choice fails
+#   #       assert:
+#   #         that:
+#   #           - result_dtp_negotiation_invalid.failed == true
+#   #           - "'must be of type boolean' in result_dtp_negotiation_invalid.msg"
+#   #         fail_msg: "Test should fail when dtp_negotiation has invalid choice"
+#   #         success_msg: "Dtp_negotiation invalid choice correctly failed"
+#   #       tags: [negative, vlan_trunking, dtp_negotiation_invalid]
+
+#   #     - name: "TEST 30: Invalid dtp_negotiation - integer instead of bool"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_dtp_negotiation_integer }}"
+#   #       register: result_dtp_negotiation_integer
+#   #       ignore_errors: true
+#   #       tags: [negative, vlan_trunking, dtp_negotiation_integer]
+
+#   #     - name: Assert enable_dtp_negotiation integer type fails
+#   #       assert:
+#   #         that:
+#   #           - result_dtp_negotiation_integer.failed == true
+#   #           - "'must be of type boolean' in result_dtp_negotiation_integer.msg"
+#   #         fail_msg: "Test should fail when dtp_negotiation is an integer"
+#   #         success_msg: "Dtp_negotiation integer type correctly failed"
+#   #       tags: [negative, vlan_trunking, dtp_negotiation_integer]
+
+#   #     - name: "TEST 31: Invalid protected - string instead of boolean"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_protected_string }}"
+#   #       register: result_protected_string
+#   #       ignore_errors: true
+#   #       tags: [negative, vlan_trunking, protected_string]
+
+#   #     - name: Assert protected string type fails
+#   #       assert:
+#   #         that:
+#   #           - result_protected_string.failed == true
+#   #           - "'protected must be a boolean' in result_protected_string.msg or 'must be of type bool' in result_protected_string.msg"
+#   #         fail_msg: "Test should fail when protected is a string"
+#   #         success_msg: "Protected string type correctly failed"
+#   #       tags: [negative, vlan_trunking, protected_string]
+
+#   #     - name: "TEST 32: Invalid protected - integer instead of boolean"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_protected_integer }}"
+#   #       register: result_protected_integer
+#   #       ignore_errors: true
+#   #       tags: [negative, vlan_trunking, protected_integer]
+
+#   #     - name: Assert protected integer type fails
+#   #       assert:
+#   #         that:
+#   #           - result_protected_integer.failed == true
+#   #           - "'protected must be a boolean' in result_protected_integer.msg or 'must be of type bool' in result_protected_integer.msg"
+#   #         fail_msg: "Test should fail when protected is an integer"
+#   #         success_msg: "Protected integer type correctly failed"
+#   #       tags: [negative, vlan_trunking, protected_integer]
+
+#   #     - name: "TEST 33: Invalid pruning_vlan_ids - string instead of list"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_pruning_vlan_ids_string }}"
+#   #       register: result_pruning_vlan_ids_string
+#   #       ignore_errors: true
+#   #       tags: [negative, vlan_trunking, pruning_vlan_ids_string]
+
+#   #     - name: Assert pruning_vlan_ids string type fails
+#   #       assert:
+#   #         that:
+#   #           - result_pruning_vlan_ids_string.failed == true
+#   #           - "'pruning_vlan_ids must be a list' in result_pruning_vlan_ids_string.msg or 'must be of type list' in result_pruning_vlan_ids_string.msg"
+#   #         fail_msg: "Test should fail when pruning_vlan_ids is a string"
+#   #         success_msg: "Pruning_vlan_ids string type correctly failed"
+#   #       tags: [negative, vlan_trunking, pruning_vlan_ids_string]
+
+#   #     - name: "TEST 35: Invalid pruning_vlan_ids - out of range values"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_pruning_vlan_ids_out_of_range }}"
+#   #       register: result_pruning_vlan_ids_out_of_range
+#   #       ignore_errors: true
+#   #       tags: [negative, vlan_trunking, pruning_vlan_ids_out_of_range]
+
+#   #     - name: Assert pruning_vlan_ids out of range fails
+#   #       assert:
+#   #         that:
+#   #           - result_pruning_vlan_ids_out_of_range.failed == true
+#   #           - "'must be within range (1, 4094)' in result_pruning_vlan_ids_out_of_range.msg or 'out of range' in result_pruning_vlan_ids_out_of_range.msg"
+#   #         fail_msg: "Test should fail when pruning_vlan_ids contains out of range values"
+#   #         success_msg: "Pruning_vlan_ids out of range values correctly failed"
+#   #       tags: [negative, vlan_trunking, pruning_vlan_ids_out_of_range]
+
+# # ###################################################################################################################
+# # # NEGATIVE TEST CASES - 802.1X INTERFACE CONFIG VALIDATION
+# # ###################################################################################################################
+
+#   # - name: "NEGATIVE TEST - 802.1X Interface Config Tests"
+#   #   block:
+#   #     - name: "TEST 22: Invalid authentication_order - string instead of list"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_authentication_order_string }}"
+#   #       register: result_auth_order_string
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, auth_order_string]
+
+#   #     - name: Assert authentication_order string type fails
+#   #       assert:
+#   #         that:
+#   #           - result_auth_order_string.failed == true
+#   #           - "'must be a list' in result_auth_order_string.msg or 'must be of type list' in result_auth_order_string.msg"
+#   #         fail_msg: "Test should fail when authentication_order is a string"
+#   #         success_msg: "Authentication_order string type correctly failed"
+#   #       tags: [negative, dot1x, auth_order_string]
+
+#   #     - name: "TEST 23: Invalid authentication_order - exceeds maximum items"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_authentication_order_max_items }}"
+#   #       register: result_auth_order_max
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, auth_order_max]
+
+#   #     - name: Assert authentication_order max items fails
+#   #       assert:
+#   #         that:
+#   #           - result_auth_order_max.failed == true
+#   #           - "'exceeds maximum' in result_auth_order_max.msg"
+#   #         fail_msg: "Test should fail when authentication_order exceeds maximum items"
+#   #         success_msg: "Authentication_order max items correctly failed"
+#   #       tags: [negative, dot1x, auth_order_max]
+
+#   #     - name: "TEST 24: Invalid dot1x_interface_config - string instead of dict"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_dot1x_config_invalid_dict_type }}"
+#   #       register: result_dot1x_invalid_dict
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, config_invalid_dict]
+
+#   #     - name: Assert dot1x_interface_config invalid dict type fails
+#   #       assert:
+#   #         that:
+#   #           - result_dot1x_invalid_dict.failed == true
+#   #           - "'must be of type dictionary' in result_dot1x_invalid_dict.msg"
+#   #         fail_msg: "Test should fail when dot1x_interface_config is a string"
+#   #         success_msg: "Dot1x_interface_config invalid dict type correctly failed"
+#   #       tags: [negative, dot1x, config_invalid_dict]
+
+#   #     - name: "TEST 25: Invalid authentication_order - invalid choice in list"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_authentication_order_invalid_choice }}"
+#   #       register: result_auth_order_invalid_choice
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, auth_order_invalid_choice]
+
+#   #     - name: Assert authentication_order invalid choice fails
+#   #       assert:
+#   #         that:
+#   #           - result_auth_order_invalid_choice.failed == true
+#   #           - "'must be one of' in result_auth_order_invalid_choice.msg"
+#   #         fail_msg: "Test should fail when authentication_order contains invalid choice"
+#   #         success_msg: "Authentication_order invalid choice correctly failed"
+#   #       tags: [negative, dot1x, auth_order_invalid_choice]
+
+#   #     - name: "TEST 26: Invalid authentication_order - non-string elements"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_authentication_order_non_string }}"
+#   #       register: result_auth_order_non_string
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, auth_order_non_string]
+
+#   #     - name: Assert authentication_order non-string elements fails
+#   #       assert:
+#   #         that:
+#   #           - result_auth_order_non_string.failed == true
+#   #           - "'must be one of' in result_auth_order_non_string.msg"
+#   #         fail_msg: "Test should fail when authentication_order contains non-string elements"
+#   #         success_msg: "Authentication_order non-string elements correctly failed"
+#   #       tags: [negative, dot1x, auth_order_non_string]
+
+#   #     - name: "TEST 27: Invalid authentication mode choice"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_invalid_authentication_mode }}"
+#   #       register: result_invalid_auth_mode
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, invalid_auth_mode]
+
+#   #     - name: Assert invalid authentication mode fails
+#   #       assert:
+#   #         that:
+#   #           - result_invalid_auth_mode.failed == true
+#   #           - "'must be one of' in result_invalid_auth_mode.msg"
+#   #         fail_msg: "Test should fail when authentication_mode has invalid choice"
+#   #         success_msg: "Invalid authentication mode correctly failed"
+#   #       tags: [negative, dot1x, invalid_auth_mode]
+
+#   #     - name: "TEST 28: Authentication mode as non-string"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_authentication_mode_non_string }}"
+#   #       register: result_auth_mode_non_string
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, auth_mode_non_string]
+
+#   #     - name: Assert authentication mode non-string fails
+#   #       assert:
+#   #         that:
+#   #           - result_auth_mode_non_string.failed == true
+#   #           - "'must be of type str' in result_auth_mode_non_string.msg"
+#   #         fail_msg: "Test should fail when authentication_mode is not a string"
+#   #         success_msg: "Authentication mode non-string correctly failed"
+#   #       tags: [negative, dot1x, auth_mode_non_string]
+
+#   #     - name: "TEST 29: Invalid PAE type choice"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_invalid_pae_type }}"
+#   #       register: result_invalid_pae_type
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, invalid_pae_type]
+
+#   #     - name: Assert invalid PAE type fails
+#   #       assert:
+#   #         that:
+#   #           - result_invalid_pae_type.failed == true
+#   #           - "'must be one of' in result_invalid_pae_type.msg"
+#   #         fail_msg: "Test should fail when PAE type has invalid choice"
+#   #         success_msg: "Invalid PAE type correctly failed"
+#   #       tags: [negative, dot1x, invalid_pae_type]
+
+#   #     - name: "TEST 30: Invalid control direction choice"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_invalid_control_direction }}"
+#   #       register: result_invalid_control_direction
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, invalid_control_direction]
+
+#   #     - name: Assert invalid control direction fails
+#   #       assert:
+#   #         that:
+#   #           - result_invalid_control_direction.failed == true
+#   #           - "'must be one of' in result_invalid_control_direction.msg"
+#   #         fail_msg: "Test should fail when control direction has invalid choice"
+#   #         success_msg: "Invalid control direction correctly failed"
+#   #       tags: [negative, dot1x, invalid_control_direction]
+
+#   #     - name: "TEST 31: Invalid host mode choice"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_invalid_host_mode }}"
+#   #       register: result_invalid_host_mode
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, invalid_host_mode]
+
+#   #     - name: Assert invalid host mode fails
+#   #       assert:
+#   #         that:
+#   #           - result_invalid_host_mode.failed == true
+#   #           - "'must be one of' in result_invalid_host_mode.msg"
+#   #         fail_msg: "Test should fail when host mode has invalid choice"
+#   #         success_msg: "Invalid host mode correctly failed"
+#   #       tags: [negative, dot1x, invalid_host_mode]
+
+#   #     - name: "TEST 32: Invalid port control choice"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_invalid_port_control }}"
+#   #       register: result_invalid_port_control
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, invalid_port_control]
+
+#   #     - name: Assert invalid port control fails
+#   #       assert:
+#   #         that:
+#   #           - result_invalid_port_control.failed == true
+#   #           - "'must be one of' in result_invalid_port_control.msg"
+#   #         fail_msg: "Test should fail when port control has invalid choice"
+#   #         success_msg: "Invalid port control correctly failed"
+#   #       tags: [negative, dot1x, invalid_port_control]
+
+#   #     - name: "TEST 33: Invalid inactivity timer - below range"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_inactivity_timer_below_range }}"
+#   #       register: result_inactivity_timer_below
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, inactivity_timer_below]
+
+#   #     - name: Assert inactivity timer below range fails
+#   #       assert:
+#   #         that:
+#   #           - result_inactivity_timer_below.failed == true
+#   #           - "'must be within the range (0, 65535)' in result_inactivity_timer_below.msg"
+#   #         fail_msg: "Test should fail when inactivity timer is below range"
+#   #         success_msg: "Inactivity timer below range correctly failed"
+#   #       tags: [negative, dot1x, inactivity_timer_below]
+
+#   #     - name: "TEST 34: Invalid inactivity timer - above range"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_inactivity_timer_above_range }}"
+#   #       register: result_inactivity_timer_above
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, inactivity_timer_above]
+
+#   #     - name: Assert inactivity timer above range fails
+#   #       assert:
+#   #         that:
+#   #           - result_inactivity_timer_above.failed == true
+#   #           - "'must be within the range' in result_inactivity_timer_above.msg"
+#   #         fail_msg: "Test should fail when inactivity timer is above range"
+#   #         success_msg: "Inactivity timer above range correctly failed"
+#   #       tags: [negative, dot1x, inactivity_timer_above]
+
+#   #     - name: "TEST 35: Invalid max reauth requests - below range"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_max_reauth_below_range }}"
+#   #       register: result_max_reauth_below
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, max_reauth_below]
+
+#   #     - name: Assert max reauth requests below range fails
+#   #       assert:
+#   #         that:
+#   #           - result_max_reauth_below.failed == true
+#   #           - "'must be within the range' in result_max_reauth_below.msg"
+#   #         fail_msg: "Test should fail when max reauth requests is below range"
+#   #         success_msg: "Max reauth requests below range correctly failed"
+#   #       tags: [negative, dot1x, max_reauth_below]
+
+#   #     - name: "TEST 36: Invalid reauth timer - below range"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_reauth_timer_below_range }}"
+#   #       register: result_reauth_timer_below
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, reauth_timer_below]
+
+#   #     - name: Assert reauth timer below range fails
+#   #       assert:
+#   #         that:
+#   #           - result_reauth_timer_below.failed == true
+#   #           - "'must be within the range' in result_reauth_timer_below.msg"
+#   #         fail_msg: "Test should fail when reauth timer is below range"
+#   #         success_msg: "Reauth timer below range correctly failed"
+#   #       tags: [negative, dot1x, reauth_timer_below]
+
+#   #     - name: "TEST 37: Invalid tx period - below range"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_tx_period_below_range }}"
+#   #       register: result_tx_period_below
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, tx_period_below]
+
+#   #     - name: Assert tx period below range fails
+#   #       assert:
+#   #         that:
+#   #           - result_tx_period_below.failed == true
+#   #           - "'must be within the range' in result_tx_period_below.msg"
+#   #         fail_msg: "Test should fail when tx period is below range"
+#   #         success_msg: "Tx period below range correctly failed"
+#   #       tags: [negative, dot1x, tx_period_below]
+
+#   #     - name: "TEST 38: Boolean parameter as string"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_boolean_as_string }}"
+#   #       register: result_boolean_as_string
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, boolean_as_string]
+
+#   #     - name: Assert boolean parameter as string fails
+#   #       assert:
+#   #         that:
+#   #           - result_boolean_as_string.failed == true
+#   #           - "'must be of type bool' in result_boolean_as_string.msg"
+#   #         fail_msg: "Test should fail when boolean parameter is a string"
+#   #         success_msg: "Boolean parameter as string correctly failed"
+#   #       tags: [negative, dot1x, boolean_as_string]
+
+#   #     - name: "TEST 39: Boolean parameter as integer"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_boolean_as_integer }}"
+#   #       register: result_boolean_as_integer
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, boolean_as_integer]
+
+#   #     - name: Assert boolean parameter as integer fails
+#   #       assert:
+#   #         that:
+#   #           - result_boolean_as_integer.failed == true
+#   #           - "'must be of type bool' in result_boolean_as_integer.msg"
+#   #         fail_msg: "Test should fail when boolean parameter is an integer"
+#   #         success_msg: "Boolean parameter as integer correctly failed"
+#   #       tags: [negative, dot1x, boolean_as_integer]
+
+#   #     - name: "TEST 40: Invalid priority - exceeds max items"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_priority_max_items }}"
+#   #       register: result_priority_max_items
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, priority_max_items]
+
+#   #     - name: Assert priority max items fails
+#   #       assert:
+#   #         that:
+#   #           - result_priority_max_items.failed == true
+#   #           - "'must be one of' in result_priority_max_items.msg"
+#   #         fail_msg: "Test should fail when priority exceeds maximum items"
+#   #         success_msg: "Priority max items correctly failed"
+#   #       tags: [negative, dot1x, priority_max_items]
+
+#   #     - name: "TEST 41: Invalid priority - invalid choice"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_priority_invalid_choice }}"
+#   #       register: result_priority_invalid_choice
+#   #       ignore_errors: true
+#   #       tags: [negative, dot1x, priority_invalid_choice]
+
+#   #     - name: Assert priority invalid choice fails
+#   #       assert:
+#   #         that:
+#   #           - result_priority_invalid_choice.failed == true
+#   #           - "'must be one of' in result_priority_invalid_choice.msg"
+#   #         fail_msg: "Test should fail when priority contains invalid choice"
+#   #         success_msg: "Priority invalid choice correctly failed"
+#   #       tags: [negative, dot1x, priority_invalid_choice]
+
+# # ###################################################################################################################
+# # # NEGATIVE TEST CASES - MAB INTERFACE CONFIG VALIDATION
+# # ###################################################################################################################
+
+#   # - name: "NEGATIVE TEST - MAB Interface Config Tests"
+#   #   block:
+#   #     - name: "TEST 42: Invalid mab_interface_config - string instead of dict"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_mab_config_invalid_dict_type }}"
+#   #       register: result_mab_invalid_dict
+#   #       ignore_errors: true
+#   #       tags: [negative, mab, config_invalid_dict]
+
+#   #     - name: Assert mab_interface_config invalid dict fails
+#   #       assert:
+#   #         that:
+#   #           - result_mab_invalid_dict.failed == true
+#   #           - "'must be a dictionary' in result_mab_invalid_dict.msg or 'must be of type dict' in result_mab_invalid_dict.msg"
+#   #         fail_msg: "Test should fail when mab_interface_config is not a dictionary"
+#   #         success_msg: "Mab_interface_config invalid dict correctly failed"
+#   #       tags: [negative, mab, config_invalid_dict]
+
+#   #     - name: "TEST 43: Invalid enable_mab - string instead of boolean"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_enable_mab_string }}"
+#   #       register: result_enable_mab_string
+#   #       ignore_errors: true
+#   #       tags: [negative, mab, enable_mab_string]
+
+#   #     - name: Assert enable_mab string type fails
+#   #       assert:
+#   #         that:
+#   #           - result_enable_mab_string.failed == true
+#   #           - "'must be a boolean' in result_enable_mab_string.msg or 'must be of type bool' in result_enable_mab_string.msg"
+#   #         fail_msg: "Test should fail when enable_mab is a string"
+#   #         success_msg: "Enable_mab string type correctly failed"
+#   #       tags: [negative, mab, enable_mab_string]
+
+#   #     - name: "TEST 44: Invalid enable_mab - integer instead of boolean"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_enable_mab_integer }}"
+#   #       register: result_enable_mab_integer
+#   #       ignore_errors: true
+#   #       tags: [negative, mab, enable_mab_integer]
+
+#   #     - name: Assert enable_mab integer type fails
+#   #       assert:
+#   #         that:
+#   #           - result_enable_mab_integer.failed == true
+#   #           - "'must be a boolean' in result_enable_mab_integer.msg or 'must be of type bool' in result_enable_mab_integer.msg"
+#   #         fail_msg: "Test should fail when enable_mab is an integer"
+#   #         success_msg: "Enable_mab integer type correctly failed"
+#   #       tags: [negative, mab, enable_mab_integer]
+
+# # ###################################################################################################################
+# # # NEGATIVE TEST CASES - STP INTERFACE CONFIG VALIDATION
+# # ###################################################################################################################
+
+#   # - name: "NEGATIVE TEST - STP Interface Config Tests"
+#   #   block:
+#   #     - name: "TEST 45: Invalid stp_interface_config - string instead of dict"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_stp_interface_config_invalid_dict_type }}"
+#   #       register: result_stp_config_invalid_dict
+#   #       ignore_errors: true
+#   #       tags: [negative, stp, config_invalid_dict]
+
+#   #     - name: Assert stp_interface_config invalid dict fails
+#   #       assert:
+#   #         that:
+#   #           - result_stp_config_invalid_dict.failed == true
+#   #           - "'stp_interface_config must be a dictionary' in result_stp_config_invalid_dict.msg or 'must be of type dict' in result_stp_config_invalid_dict.msg"
+#   #         fail_msg: "Test should fail when stp_interface_config is not a dictionary"
+#   #         success_msg: "Stp_interface_config invalid dict correctly failed"
+#   #       tags: [negative, stp, config_invalid_dict]
+
+#   #     - name: "TEST 46: Invalid stp_interface_portfast_mode - invalid choice"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_stp_interface_portfast_mode_invalid }}"
+#   #       register: result_stp_portfast_mode_invalid
+#   #       ignore_errors: true
+#   #       tags: [negative, stp, portfast_mode_invalid]
+
+#   #     - name: Assert stp_interface_portfast_mode invalid choice fails
+#   #       assert:
+#   #         that:
+#   #           - result_stp_portfast_mode_invalid.failed == true
+#   #           - "'must be one of' in result_stp_portfast_mode_invalid.msg"
+#   #         fail_msg: "Test should fail when stp_interface_portfast_mode has invalid choice"
+#   #         success_msg: "Stp_interface_portfast_mode invalid choice correctly failed"
+#   #       tags: [negative, stp, portfast_mode_invalid]
+
+#   #     - name: "TEST 47: Invalid stp_interface_portfast_mode - integer instead of string"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_stp_interface_portfast_mode_integer }}"
+#   #       register: result_stp_portfast_mode_integer
+#   #       ignore_errors: true
+#   #       tags: [negative, stp, portfast_mode_integer]
+
+#   #     - name: Assert stp_interface_portfast_mode integer type fails
+#   #       assert:
+#   #         that:
+#   #           - result_stp_portfast_mode_integer.failed == true
+#   #           - "'must be of type str' in result_stp_portfast_mode_integer.msg"
+#   #         fail_msg: "Test should fail when stp_interface_portfast_mode is an integer"
+#   #         success_msg: "Stp_interface_portfast_mode integer type correctly failed"
+#   #       tags: [negative, stp, portfast_mode_integer]
+
+#   #     - name: "TEST 48: Invalid stp_interface_bpdu_filter - string instead of boolean"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_stp_interface_bpdu_filter_string }}"
+#   #       register: result_stp_bpdu_filter_string
+#   #       ignore_errors: true
+#   #       tags: [negative, stp, bpdu_filter_string]
+
+#   #     - name: Assert stp_interface_bpdu_filter string type fails
+#   #       assert:
+#   #         that:
+#   #           - result_stp_bpdu_filter_string.failed == true
+#   #           - "'must be of type bool' in result_stp_bpdu_filter_string.msg"
+#   #         fail_msg: "Test should fail when stp_interface_bpdu_filter is a string"
+#   #         success_msg: "Stp_interface_bpdu_filter string type correctly failed"
+#   #       tags: [negative, stp, bpdu_filter_string]
+
+#   #     - name: "TEST 49: Invalid stp_interface_bpdu_guard - string instead of boolean"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_stp_interface_bpdu_guard_string }}"
+#   #       register: result_stp_bpdu_guard_string
+#   #       ignore_errors: true
+#   #       tags: [negative, stp, bpdu_guard_string]
+
+#   #     - name: Assert stp_interface_bpdu_guard string type fails
+#   #       assert:
+#   #         that:
+#   #           - result_stp_bpdu_guard_string.failed == true
+#   #           - "'must be of type bool' in result_stp_bpdu_guard_string.msg"
+#   #         fail_msg: "Test should fail when stp_interface_bpdu_guard is a string"
+#   #         success_msg: "Stp_interface_bpdu_guard string type correctly failed"
+#   #       tags: [negative, stp, bpdu_guard_string]
+
+#   #     - name: "TEST 50: Invalid stp_interface_cost - string instead of integer"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_stp_interface_cost_string }}"
+#   #       register: result_stp_cost_string
+#   #       ignore_errors: true
+#   #       tags: [negative, stp, cost_string]
+
+#   #     - name: Assert stp_interface_cost string type fails
+#   #       assert:
+#   #         that:
+#   #           - result_stp_cost_string.failed == true
+#   #           - "'stp_interface_cost must be an integer' in result_stp_cost_string.msg or 'must be of type int' in result_stp_cost_string.msg"
+#   #         fail_msg: "Test should fail when stp_interface_cost is a string"
+#   #         success_msg: "Stp_interface_cost string type correctly failed"
+#   #       tags: [negative, stp, cost_string]
+
+#   #     - name: "TEST 51: Invalid stp_interface_cost - negative value"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_stp_interface_cost_negative }}"
+#   #       register: result_stp_cost_negative
+#   #       ignore_errors: true
+#   #       tags: [negative, stp, cost_negative]
+
+#   #     - name: Assert stp_interface_cost negative fails
+#   #       assert:
+#   #         that:
+#   #           - result_stp_cost_negative.failed == true
+#   #           - "'must be within the range' in result_stp_cost_negative.msg or 'must be greater than 0' in result_stp_cost_negative.msg"
+#   #         fail_msg: "Test should fail when stp_interface_cost is negative"
+#   #         success_msg: "Stp_interface_cost negative correctly failed"
+#   #       tags: [negative, stp, cost_negative]
+
+#   #     - name: "TEST 52: Invalid stp_interface_cost - exceeds maximum value"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_stp_interface_cost_max }}"
+#   #       register: result_stp_cost_max
+#   #       ignore_errors: true
+#   #       tags: [negative, stp, cost_max]
+
+#   #     - name: Assert stp_interface_cost maximum fails
+#   #       assert:
+#   #         that:
+#   #           - result_stp_cost_max.failed == true
+#   #           - "'must be within the range' in result_stp_cost_max.msg or 'greater than maximum' in result_stp_cost_max.msg"
+#   #         fail_msg: "Test should fail when stp_interface_cost exceeds maximum"
+#   #         success_msg: "Stp_interface_cost maximum correctly failed"
+#   #       tags: [negative, stp, cost_max]
+
+#   #     - name: "TEST 53: Invalid stp_interface_guard - invalid choice"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_stp_interface_guard_invalid }}"
+#   #       register: result_stp_guard_invalid
+#   #       ignore_errors: true
+#   #       tags: [negative, stp, guard_invalid]
+
+#   #     - name: Assert stp_interface_guard invalid choice fails
+#   #       assert:
+#   #         that:
+#   #           - result_stp_guard_invalid.failed == true
+#   #           - "'must be one of' in result_stp_guard_invalid.msg"
+#   #         fail_msg: "Test should fail when stp_interface_guard has invalid choice"
+#   #         success_msg: "Stp_interface_guard invalid choice correctly failed"
+#   #       tags: [negative, stp, guard_invalid]
+
+#   #     - name: "TEST 54: Invalid stp_interface_priority - string instead of integer"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_stp_interface_priority_string }}"
+#   #       register: result_stp_priority_string
+#   #       ignore_errors: true
+#   #       tags: [negative, stp, priority_string]
+
+#   #     - name: Assert stp_interface_priority string type fails
+#   #       assert:
+#   #         that:
+#   #           - result_stp_priority_string.failed == true
+#   #           - "'must be of type int' in result_stp_priority_string.msg"
+#   #         fail_msg: "Test should fail when stp_interface_priority is a string"
+#   #         success_msg: "Stp_interface_priority string type correctly failed"
+#   #       tags: [negative, stp, priority_string]
+
+#   #     - name: "TEST 55: Invalid stp_interface_priority - negative value"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_stp_interface_priority_negative }}"
+#   #       register: result_stp_priority_negative
+#   #       ignore_errors: true
+#   #       tags: [negative, stp, priority_negative]
+
+#   #     - name: Assert stp_interface_priority negative fails
+#   #       assert:
+#   #         that:
+#   #           - result_stp_priority_negative.failed == true
+#   #           - "'must be within the range' in result_stp_priority_negative.msg or 'must be greater than' in result_stp_priority_negative.msg"
+#   #         fail_msg: "Test should fail when stp_interface_priority is negative"
+#   #         success_msg: "Stp_interface_priority negative correctly failed"
+#   #       tags: [negative, stp, priority_negative]
+
+#   #     - name: "TEST 56: Invalid stp_interface_priority - exceeds maximum value"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_stp_interface_priority_max }}"
+#   #       register: result_stp_priority_max
+#   #       ignore_errors: true
+#   #       tags: [negative, stp, priority_max]
+
+#   #     - name: Assert stp_interface_priority maximum fails
+#   #       assert:
+#   #         that:
+#   #           - result_stp_priority_max.failed == true
+#   #           - "'must be within the range' in result_stp_priority_max.msg or 'must be within the range (0, 240)' in result_stp_priority_max.msg"
+#   #         fail_msg: "Test should fail when stp_interface_priority exceeds maximum"
+#   #         success_msg: "Stp_interface_priority maximum correctly failed"
+#   #       tags: [negative, stp, priority_max]
+
+#   #     - name: "TEST 57: Invalid stp_interface_priority - not multiple of 16"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_stp_interface_priority_not_multiple }}"
+#   #       register: result_stp_priority_multiple
+#   #       ignore_errors: true
+#   #       tags: [negative, stp, priority_multiple]
+
+#   #     - name: Assert stp_interface_priority multiple of 16 fails
+#   #       assert:
+#   #         that:
+#   #           - result_stp_priority_multiple.failed == true
+#   #           - "'multiple of 16' in result_stp_priority_multiple.msg or 'must be divisible by 16' in result_stp_priority_multiple.msg"
+#   #         fail_msg: "Test should fail when stp_interface_priority is not multiple of 16"
+#   #         success_msg: "Stp_interface_priority multiple of 16 correctly failed"
+#   #       tags: [negative, stp, priority_multiple]
+
+#   #     - name: "TEST 58: Invalid stp_interface_per_vlan_cost - string instead of dict"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_stp_interface_per_vlan_cost_invalid_dict }}"
+#   #       register: result_stp_per_vlan_cost_invalid_dict
+#   #       ignore_errors: true
+#   #       tags: [negative, stp, per_vlan_cost_invalid_dict]
+
+#   #     - name: Assert stp_interface_per_vlan_cost invalid dict fails
+#   #       assert:
+#   #         that:
+#   #           - result_stp_per_vlan_cost_invalid_dict.failed == true
+#   #           - "'must be a dictionary' in result_stp_per_vlan_cost_invalid_dict.msg or 'must be of type dict' in result_stp_per_vlan_cost_invalid_dict.msg"
+#   #         fail_msg: "Test should fail when stp_interface_per_vlan_cost is not a dictionary"
+#   #         success_msg: "Stp_interface_per_vlan_cost invalid dict correctly failed"
+#   #       tags: [negative, stp, per_vlan_cost_invalid_dict]
+
+#   #     - name: "TEST 59: Invalid stp_interface_per_vlan_cost priority - string instead of integer"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_stp_interface_per_vlan_cost_priority_string }}"
+#   #       register: result_stp_per_vlan_cost_priority_string
+#   #       ignore_errors: true
+#   #       tags: [negative, stp, per_vlan_cost_priority_string]
+
+#   #     - name: Assert stp_interface_per_vlan_cost priority string fails
+#   #       assert:
+#   #         that:
+#   #           - result_stp_per_vlan_cost_priority_string.failed == true
+#   #           - "'priority must be an integer' in result_stp_per_vlan_cost_priority_string.msg or 'must be of type int' in result_stp_per_vlan_cost_priority_string.msg"
+#   #         fail_msg: "Test should fail when per_vlan_cost priority is a string"
+#   #         success_msg: "Stp_interface_per_vlan_cost priority string correctly failed"
+#   #       tags: [negative, stp, per_vlan_cost_priority_string]
+
+#   #     - name: "TEST 60: Invalid stp_interface_per_vlan_cost vlan_ids - string instead of list"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_stp_interface_per_vlan_cost_vlan_ids_string }}"
+#   #       register: result_stp_per_vlan_cost_vlan_ids_string
+#   #       ignore_errors: true
+#   #       tags: [negative, stp, per_vlan_cost_vlan_ids_string]
+
+#   #     - name: Assert stp_interface_per_vlan_cost vlan_ids string fails
+#   #       assert:
+#   #         that:
+#   #           - result_stp_per_vlan_cost_vlan_ids_string.failed == true
+#   #           - "'must be a list' in result_stp_per_vlan_cost_vlan_ids_string.msg or 'must be of type list' in result_stp_per_vlan_cost_vlan_ids_string.msg"
+#   #         fail_msg: "Test should fail when per_vlan_cost vlan_ids is a string"
+#   #         success_msg: "Stp_interface_per_vlan_cost vlan_ids string correctly failed"
+#   #       tags: [negative, stp, per_vlan_cost_vlan_ids_string]
+
+#   #     - name: "TEST 61: Invalid stp_interface_per_vlan_priority - string instead of dict"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_stp_interface_per_vlan_priority_invalid_dict }}"
+#   #       register: result_stp_per_vlan_priority_invalid_dict
+#   #       ignore_errors: true
+#   #       tags: [negative, stp, per_vlan_priority_invalid_dict]
+
+#   #     - name: Assert stp_interface_per_vlan_priority invalid dict fails
+#   #       assert:
+#   #         that:
+#   #           - result_stp_per_vlan_priority_invalid_dict.failed == true
+#   #           - "'must be a dictionary' in result_stp_per_vlan_priority_invalid_dict.msg or 'must be of type dict' in result_stp_per_vlan_priority_invalid_dict.msg"
+#   #         fail_msg: "Test should fail when stp_interface_per_vlan_priority is not a dictionary"
+#   #         success_msg: "Stp_interface_per_vlan_priority invalid dict correctly failed"
+#   #       tags: [negative, stp, per_vlan_priority_invalid_dict]
+
+# # # ###################################################################################################################
+# # # # NEGATIVE TEST CASES - DHCP SNOOPING INTERFACE CONFIG VALIDATION
+# # # ###################################################################################################################
+
+# #   - name: "NEGATIVE TEST - DHCP Snooping Interface Config Tests"
+# #     block:
+# #       - name: "TEST 62: Invalid dhcp_snooping_interface_config - string instead of dict"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_dhcp_snooping_interface_config_invalid_dict_type }}"
+# #         register: result_dhcp_snooping_invalid_dict
+# #         ignore_errors: true
+# #         tags: [negative, dhcp_snooping, config_invalid_dict]
+
+# #       - name: Assert dhcp_snooping_interface_config invalid dict fails
+# #         assert:
+# #           that:
+# #             - result_dhcp_snooping_invalid_dict.failed == true
+# #             - "' must be a dictionary' in result_dhcp_snooping_invalid_dict.msg or 'must be of type dict' in result_dhcp_snooping_invalid_dict.msg"
+# #           fail_msg: "Test should fail when dhcp_snooping_interface_config is not a dictionary"
+# #           success_msg: "Dhcp_snooping_interface_config invalid dict correctly failed"
+# #         tags: [negative, dhcp_snooping, config_invalid_dict]
+
+# #       - name: "TEST 63: Invalid dhcp_snooping_interface_rate - string instead of integer"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_dhcp_snooping_interface_rate_string }}"
+# #         register: result_dhcp_rate_string
+# #         ignore_errors: true
+# #         tags: [negative, dhcp_snooping, rate_string]
+
+# #       - name: Assert dhcp_snooping_interface_rate string type fails
+# #         assert:
+# #           that:
+# #             - result_dhcp_rate_string.failed == true
+# #             - "' must be an integer' in result_dhcp_rate_string.msg or 'must be of type int' in result_dhcp_rate_string.msg"
+# #           fail_msg: "Test should fail when dhcp_snooping_interface_rate is a string"
+# #           success_msg: "Dhcp_snooping_interface_rate string type correctly failed"
+# #         tags: [negative, dhcp_snooping, rate_string]
+
+# #       - name: "TEST 64: Invalid dhcp_snooping_interface_rate - negative value"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_dhcp_snooping_interface_rate_negative }}"
+# #         register: result_dhcp_rate_negative
+# #         ignore_errors: true
+# #         tags: [negative, dhcp_snooping, rate_negative]
+
+# #       - name: Assert dhcp_snooping_interface_rate negative fails
+# #         assert:
+# #           that:
+# #             - result_dhcp_rate_negative.failed == true
+# #             - "'must be within the range (1, 2048)' in result_dhcp_rate_negative.msg or 'must be greater than 0' in result_dhcp_rate_negative.msg"
+# #           fail_msg: "Test should fail when dhcp_snooping_interface_rate is negative"
+# #           success_msg: "Dhcp_snooping_interface_rate negative correctly failed"
+# #         tags: [negative, dhcp_snooping, rate_negative]
+
+# #       - name: "TEST 65: Invalid dhcp_snooping_interface_rate - exceeds maximum value"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_dhcp_snooping_interface_rate_max }}"
+# #         register: result_dhcp_rate_max
+# #         ignore_errors: true
+# #         tags: [negative, dhcp_snooping, rate_max]
+
+# #       - name: Assert dhcp_snooping_interface_rate max value fails
+# #         assert:
+# #           that:
+# #             - result_dhcp_rate_max.failed == true
+# #             - "'must be within the range (1, 2048)' in result_dhcp_rate_max.msg or 'exceeds maximum' in result_dhcp_rate_max.msg"
+# #           fail_msg: "Test should fail when dhcp_snooping_interface_rate exceeds maximum"
+# #           success_msg: "Dhcp_snooping_interface_rate max value correctly failed"
+# #         tags: [negative, dhcp_snooping, rate_max]
+
+# #       - name: "TEST 66: Invalid dhcp_snooping_interface_trust - string instead of boolean"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_dhcp_snooping_interface_trust_string }}"
+# #         register: result_dhcp_trust_string
+# #         ignore_errors: true
+# #         tags: [negative, dhcp_snooping, trust_string]
+
+# #       - name: Assert dhcp_snooping_interface_trust string type fails
+# #         assert:
+# #           that:
+# #             - result_dhcp_trust_string.failed == true
+# #             - "' must be a boolean' in result_dhcp_trust_string.msg or 'must be of type bool' in result_dhcp_trust_string.msg"
+# #           fail_msg: "Test should fail when dhcp_snooping_interface_trust is a string"
+# #           success_msg: "Dhcp_snooping_interface_trust string type correctly failed"
+# #         tags: [negative, dhcp_snooping, trust_string]
+
+# # # ###################################################################################################################
+# # # # NEGATIVE TEST CASES - CDP INTERFACE CONFIG VALIDATION
+# # # ###################################################################################################################
+
+# #   - name: "NEGATIVE TEST - CDP Interface Config Tests"
+# #     block:
+# #       - name: "TEST 67: Invalid cdp_interface_config - string instead of dict"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_cdp_interface_config_invalid_dict_type }}"
+# #         register: result_cdp_invalid_dict
+# #         ignore_errors: true
+# #         tags: [negative, cdp, config_invalid_dict]
+
+# #       - name: Assert cdp_interface_config invalid dict fails
+# #         assert:
+# #           that:
+# #             - result_cdp_invalid_dict.failed == true
+# #             - "' must be a dictionary' in result_cdp_invalid_dict.msg or 'must be of type dict' in result_cdp_invalid_dict.msg"
+# #           fail_msg: "Test should fail when cdp_interface_config is not a dictionary"
+# #           success_msg: "Cdp_interface_config invalid dict correctly failed"
+# #         tags: [negative, cdp, config_invalid_dict]
+
+# #       - name: "TEST 68: Invalid cdp_interface_admin_status - string instead of boolean"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_cdp_interface_admin_status_string }}"
+# #         register: result_cdp_admin_status_string
+# #         ignore_errors: true
+# #         tags: [negative, cdp, admin_status_string]
+
+# #       - name: Assert cdp_interface_admin_status string type fails
+# #         assert:
+# #           that:
+# #             - result_cdp_admin_status_string.failed == true
+# #             - "' must be a boolean' in result_cdp_admin_status_string.msg or 'must be of type bool' in result_cdp_admin_status_string.msg"
+# #           fail_msg: "Test should fail when cdp_interface_admin_status is a string"
+# #           success_msg: "Cdp_interface_admin_status string type correctly failed"
+# #         tags: [negative, cdp, admin_status_string]
+
+# #       - name: "TEST 69: Invalid cdp_interface_log_duplex_mismatch - string instead of boolean"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_cdp_interface_log_duplex_mismatch_string }}"
+# #         register: result_cdp_log_duplex_string
+# #         ignore_errors: true
+# #         tags: [negative, cdp, log_duplex_string]
+
+# #       - name: Assert cdp_interface_log_duplex_mismatch string type fails
+# #         assert:
+# #           that:
+# #             - result_cdp_log_duplex_string.failed == true
+# #             - "' must be a boolean' in result_cdp_log_duplex_string.msg or 'must be of type bool' in result_cdp_log_duplex_string.msg"
+# #           fail_msg: "Test should fail when cdp_interface_log_duplex_mismatch is a string"
+# #           success_msg: "Cdp_interface_log_duplex_mismatch string type correctly failed"
+# #         tags: [negative, cdp, log_duplex_string]
+
+# # # ###################################################################################################################
+# # # # NEGATIVE TEST CASES - LLDP INTERFACE CONFIG VALIDATION
+# # # ###################################################################################################################
+
+# #   - name: "NEGATIVE TEST - LLDP Interface Config Tests"
+# #     block:
+# #       - name: "TEST 70: Invalid lldp_interface_config - string instead of dict"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_lldp_interface_config_invalid_dict_type }}"
+# #         register: result_lldp_invalid_dict
+# #         ignore_errors: true
+# #         tags: [negative, lldp, config_invalid_dict]
+
+# #       - name: Assert lldp_interface_config invalid dict fails
+# #         assert:
+# #           that:
+# #             - result_lldp_invalid_dict.failed == true
+# #             - "' must be a dictionary' in result_lldp_invalid_dict.msg or 'must be of type dict' in result_lldp_invalid_dict.msg"
+# #           fail_msg: "Test should fail when lldp_interface_config is not a dictionary"
+# #           success_msg: "Lldp_interface_config invalid dict correctly failed"
+# #         tags: [negative, lldp, config_invalid_dict]
+
+# #       - name: "TEST 71: Invalid lldp_interface_receive_transmit - invalid choice"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_lldp_interface_receive_transmit_invalid }}"
+# #         register: result_lldp_receive_transmit_invalid
+# #         ignore_errors: true
+# #         tags: [negative, lldp, receive_transmit_invalid]
+
+# #       - name: Assert lldp_interface_receive_transmit invalid choice fails
+# #         assert:
+# #           that:
+# #             - result_lldp_receive_transmit_invalid.failed == true
+# #             - "'must be one of' in result_lldp_receive_transmit_invalid.msg"
+# #           fail_msg: "Test should fail when lldp_interface_receive_transmit has invalid choice"
+# #           success_msg: "Lldp_interface_receive_transmit invalid choice correctly failed"
+# #         tags: [negative, lldp, receive_transmit_invalid]
+
+# #       - name: "TEST 72: Invalid lldp_interface_receive_transmit - integer instead of string"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_lldp_interface_receive_transmit_integer }}"
+# #         register: result_lldp_receive_transmit_integer
+# #         ignore_errors: true
+# #         tags: [negative, lldp, receive_transmit_integer]
+
+# #       - name: Assert lldp_interface_receive_transmit integer type fails
+# #         assert:
+# #           that:
+# #             - result_lldp_receive_transmit_integer.failed == true
+# #             - "' must be a string' in result_lldp_receive_transmit_integer.msg or 'must be of type str' in result_lldp_receive_transmit_integer.msg"
+# #           fail_msg: "Test should fail when lldp_interface_receive_transmit is an integer"
+# #           success_msg: "Lldp_interface_receive_transmit integer type correctly failed"
+# #         tags: [negative, lldp, receive_transmit_integer]
+
+# # # ###################################################################################################################
+# # # # NEGATIVE TEST CASES - VTP INTERFACE CONFIG VALIDATION
+# # # ###################################################################################################################
+
+# #   - name: "NEGATIVE TEST - VTP Interface Config Tests"
+# #     block:
+# #       - name: "TEST 73: Invalid vtp_interface_config - string instead of dict"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_vtp_interface_config_invalid_dict_type }}"
+# #         register: result_vtp_invalid_dict
+# #         ignore_errors: true
+# #         tags: [negative, vtp, config_invalid_dict]
+
+# #       - name: Assert vtp_interface_config invalid dict fails
+# #         assert:
+# #           that:
+# #             - result_vtp_invalid_dict.failed == true
+# #             - "'vtp_interface_config must be a dictionary' in result_vtp_invalid_dict.msg or 'must be of type dict' in result_vtp_invalid_dict.msg"
+# #           fail_msg: "Test should fail when vtp_interface_config is not a dictionary"
+# #           success_msg: "Vtp_interface_config invalid dict correctly failed"
+# #         tags: [negative, vtp, config_invalid_dict]
+
+# #       - name: "TEST 74: Invalid vtp_interface_admin_status - string instead of boolean"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_vtp_interface_admin_status_string }}"
+# #         register: result_vtp_admin_status_string
+# #         ignore_errors: true
+# #         tags: [negative, vtp, admin_status_string]
+
+# #       - name: Assert vtp_interface_admin_status string type fails
+# #         assert:
+# #           that:
+# #             - result_vtp_admin_status_string.failed == true
+# #             - "'vtp_interface_admin_status must be a boolean' in result_vtp_admin_status_string.msg or 'must be of type bool' in result_vtp_admin_status_string.msg"
+# #           fail_msg: "Test should fail when vtp_interface_admin_status is a string"
+# #           success_msg: "Vtp_interface_admin_status string type correctly failed"
+# #         tags: [negative, vtp, admin_status_string]
+
+# # ###################################################################################################################
+# # # POSITIVE TEST CASES - CREATE OPERATIONS
+# # ###################################################################################################################
+
+#   # - name: "POSITIVE TEST - Port Configuration CREATE Operations"
+#   #   block:
+#       # - name: "CREATE TEST 1: Minimal switchport configuration"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_create_minimal_switchport }}"
+#       #   register: result_create_minimal
+#       #   tags: [positive, create, minimal_switchport]
+
+#       # - name: Assert minimal switchport creation success
+#       #   assert:
+#       #     that:
+#       #       - result_create_minimal.failed == false
+#       #       - result_create_minimal.changed == true
+#       #       - "'Successfully' in result_create_minimal.msg"
+#       #     fail_msg: "Minimal switchport configuration should succeed"
+#       #     success_msg: "Minimal switchport configuration successfully created"
+#       #   tags: [positive, create, minimal_switchport]
+
+#       # - name: "Wait 60 seconds before next test to allow configuration to settle"
+#       #   pause:
+#       #     seconds: 60
+#       #   tags: [positive, create, pause]
+
+#       # - name: "CREATE TEST 2: Comprehensive switchport access configuration"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_create_comprehensive_switchport_access }}"
+#       #   register: result_create_access
+#       #   tags: [positive, create, comprehensive_access]
+
+#       # - name: Assert comprehensive access port creation success
+#       #   assert:
+#       #     that:
+#       #       - result_create_access.failed == false
+#       #       - result_create_access.changed == true
+#       #       - "'Successfully' in result_create_access.msg or 'success' in result_create_access.msg"
+#       #     fail_msg: "Comprehensive access port configuration should succeed"
+#       #     success_msg: "Comprehensive access port configuration successfully created"
+#       #   tags: [positive, create, comprehensive_access]
+
+#       # - name: "CREATE TEST 3: Comprehensive switchport trunk configuration"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_create_comprehensive_switchport_trunk }}"
+#       #   register: result_create_trunk
+#       #   tags: [positive, create, comprehensive_trunk]
+
+#       # - name: Assert comprehensive trunk port creation success
+#       #   assert:
+#       #     that:
+#       #       - result_create_trunk.failed == false
+#       #       - result_create_trunk.changed == true
+#       #       - "'Successfully' in result_create_trunk.msg"
+#       #     fail_msg: "Comprehensive trunk port configuration should succeed"
+#       #     success_msg: "Comprehensive trunk port configuration successfully created"
+#       #   tags: [positive, create, comprehensive_trunk]
+
+#       # - name: "CREATE TEST 4: Switchport with VLAN trunking"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_create_switchport_with_trunking }}"
+#       #   register: result_create_trunking
+#       #   tags: [positive, create, with_trunking]
+
+#       # - name: Assert switchport with trunking creation success
+#       #   assert:
+#       #     that:
+#       #       - result_create_trunking.failed == false
+#       #       - result_create_trunking.changed == true
+#       #       - "'Successfully' in result_create_trunking.msg or 'success' in result_create_trunking.msg"
+#       #     fail_msg: "Switchport with trunking configuration should succeed"
+#       #     success_msg: "Switchport with trunking configuration successfully created"
+#       #   tags: [positive, create, with_trunking]
+
+#       # - name: "CREATE TEST 5: Access port with 802.1X authentication"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_create_access_with_dot1x }}"
+#       #   register: result_create_dot1x
+#       #   tags: [positive, create, access_dot1x]
+
+#       # - name: Assert access port with 802.1X creation success
+#       #   assert:
+#       #     that:
+#       #       - result_create_dot1x.failed == false
+#       #       - result_create_dot1x.changed == true
+#       #       - "'Successfully' in result_create_dot1x.msg or 'success' in result_create_dot1x.msg"
+#       #     fail_msg: "Access port with 802.1X configuration should succeed"
+#       #     success_msg: "Access port with 802.1X configuration successfully created"
+#       #   tags: [positive, create, access_dot1x]
+
+#       # - name: "CREATE TEST 6: Access port with MAB authentication"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_create_access_with_mab }}"
+#       #   register: result_create_mab
+#       #   tags: [positive, create, access_mab]
+
+#       # - name: Assert access port with MAB creation success
+#       #   assert:
+#       #     that:
+#       #       - result_create_mab.failed == false
+#       #       - result_create_mab.changed == true
+#       #       - "'Successfully' in result_create_mab.msg or 'success' in result_create_mab.msg"
+#       #     fail_msg: "Access port with MAB configuration should succeed"
+#       #     success_msg: "Access port with MAB configuration successfully created"
+#       #   tags: [positive, create, access_mab]
+
+#       # - name: "CREATE TEST 7: Access port with STP configuration"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_create_access_with_stp }}"
+#       #   register: result_create_stp
+#       #   tags: [positive, create, access_stp]
+
+#       # - name: Assert access port with STP creation success
+#       #   assert:
+#       #     that:
+#       #       - result_create_stp.failed == false
+#       #       - result_create_stp.changed == true
+#       #       - "'Successfully' in result_create_stp.msg or 'success' in result_create_stp.msg"
+#       #     fail_msg: "Access port with STP configuration should succeed"
+#       #     success_msg: "Access port with STP configuration successfully created"
+#       #   tags: [positive, create, access_stp]
+
+#       # - name: "CREATE TEST 8: Access port with DHCP snooping"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_create_access_with_dhcp_snooping }}"
+#       #   register: result_create_dhcp_snooping
+#       #   tags: [positive, create, access_dhcp_snooping]
+
+#       # - name: Assert access port with DHCP snooping creation success
+#       #   assert:
+#       #     that:
+#       #       - result_create_dhcp_snooping.failed == false
+#       #       - result_create_dhcp_snooping.changed == true
+#       #       - "'Successfully' in result_create_dhcp_snooping.msg or 'success' in result_create_dhcp_snooping.msg"
+#       #     fail_msg: "Access port with DHCP snooping configuration should succeed"
+#       #     success_msg: "Access port with DHCP snooping configuration successfully created"
+#       #   tags: [positive, create, access_dhcp_snooping]
+
+#       # - name: "CREATE TEST 9: Access port with CDP and LLDP"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_create_access_with_cdp_lldp }}"
+#       #   register: result_create_cdp_lldp
+#       #   tags: [positive, create, access_cdp_lldp]
+
+#       # - name: Assert access port with CDP and LLDP creation success
+#       #   assert:
+#       #     that:
+#       #       - result_create_cdp_lldp.failed == false
+#       #       - result_create_cdp_lldp.changed == true
+#       #       - "'Successfully' in result_create_cdp_lldp.msg or 'success' in result_create_cdp_lldp.msg"
+#       #     fail_msg: "Access port with CDP and LLDP configuration should succeed"
+#       #     success_msg: "Access port with CDP and LLDP configuration successfully created"
+#       #   tags: [positive, create, access_cdp_lldp]
+
+#       # - name: "CREATE TEST 10: Comprehensive all features single port"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_create_comprehensive_all_features }}"
+#       #   register: result_create_all_features
+#       #   tags: [positive, create, all_features]
+
+#       # - name: Assert comprehensive all features creation success
+#       #   assert:
+#       #     that:
+#       #       - result_create_all_features.failed == false
+#       #       - result_create_all_features.changed == true
+#       #       - "'Successfully' in result_create_all_features.msg or 'success' in result_create_all_features.msg"
+#       #     fail_msg: "Comprehensive all features configuration should succeed"
+#       #     success_msg: "Comprehensive all features configuration successfully created"
+#       #   tags: [positive, create, all_features]
+
+#       # - name: "CREATE TEST 11: Multiple ports different configurations"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_create_multiple_ports_different }}"
+#       #   register: result_create_multiple_different
+#       #   tags: [positive, create, multiple_different]
+
+#       # - name: Assert multiple ports different configurations success
+#       #   assert:
+#       #     that:
+#       #       - result_create_multiple_different.failed == false
+#       #       - result_create_multiple_different.changed == true
+#       #       - "'Successfully' in result_create_multiple_different.msg or 'success' in result_create_multiple_different.msg"
+#       #     fail_msg: "Multiple ports with different configurations should succeed"
+#       #     success_msg: "Multiple ports with different configurations successfully created"
+#       #   tags: [positive, create, multiple_different]
+
+#       # - name: "CREATE TEST 12: Multiple ports same configuration"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_create_multiple_ports_same }}"
+#       #   register: result_create_multiple_same
+#       #   tags: [positive, create, multiple_same]
+
+#       # - name: Assert multiple ports same configurations success
+#       #   assert:
+#       #     that:
+#       #       - result_create_multiple_same.failed == false
+#       #       - result_create_multiple_same.changed == true
+#       #       - "'Successfully' in result_create_multiple_same.msg or 'success' in result_create_multiple_same.msg"
+#       #     fail_msg: "Multiple ports with same configurations should succeed"
+#       #     success_msg: "Multiple ports with same configurations successfully created"
+#       #   tags: [positive, create, multiple_same]
+
+#       # - name: "CREATE TEST 13: Dynamic mode configurations"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_create_dynamic_modes }}"
+#       #   register: result_create_dynamic_modes
+#       #   tags: [positive, create, dynamic_modes]
+
+#       # - name: Assert dynamic mode configurations success
+#       #   assert:
+#       #     that:
+#       #       - result_create_dynamic_modes.failed == false
+#       #       - result_create_dynamic_modes.changed == true
+#       #       - "'Successfully' in result_create_dynamic_modes.msg or 'success' in result_create_dynamic_modes.msg"
+#       #     fail_msg: "Dynamic mode configurations should succeed"
+#       #     success_msg: "Dynamic mode configurations successfully created"
+#       #   tags: [positive, create, dynamic_modes]
+
+# # ###################################################################################################################
+# # # POSITIVE TEST CASES - UPDATE OPERATIONS
+# # ###################################################################################################################
+
+# #   - name: "POSITIVE TEST - Port Configuration UPDATE Operations"
+# #     block:
+#       # - name: "UPDATE TEST 1: Modify switchport description"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_update_description }}"
+#       #   register: result_update_description
+#       #   tags: [positive, update, description]
+
+#       # - name: Assert description update success
+#       #   assert:
+#       #     that:
+#       #       - result_update_description.failed == false
+#       #       - result_update_description.changed == true
+#       #       - "'Successfully' in result_update_description.msg or 'success' in result_update_description.msg"
+#       #     fail_msg: "Description update should succeed"
+#       #     success_msg: "Description update successfully completed"
+#       #   tags: [positive, update, description]
+
+#       # - name: "UPDATE TEST 2: Change access VLAN"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_update_access_vlan }}"
+#       #   register: result_update_access_vlan
+#       #   tags: [positive, update, access_vlan]
+
+#       # - name: Assert access VLAN update success
+#       #   assert:
+#       #     that:
+#       #       - result_update_access_vlan.failed == false
+#       #       - result_update_access_vlan.changed == true
+#       #       - "'Successfully' in result_update_access_vlan.msg or 'success' in result_update_access_vlan.msg"
+#       #     fail_msg: "Access VLAN update should succeed"
+#       #     success_msg: "Access VLAN update successfully completed"
+#       #   tags: [positive, update, access_vlan]
+
+#       # - name: "UPDATE TEST 3: Change switchport mode from access to trunk"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_update_mode_access_to_trunk }}"
+#       #   register: result_update_mode_trunk
+#       #   tags: [positive, update, mode_trunk]
+
+#       # - name: Assert mode change to trunk success
+#       #   assert:
+#       #     that:
+#       #       - result_update_mode_trunk.failed == false
+#       #       - result_update_mode_trunk.changed == true
+#       #       - "'Successfully' in result_update_mode_trunk.msg or 'success' in result_update_mode_trunk.msg"
+#       #     fail_msg: "Mode change from access to trunk should succeed"
+#       #     success_msg: "Mode change from access to trunk successfully completed"
+#       #   tags: [positive, update, mode_trunk]
+
+#       # - name: "UPDATE TEST 4: Change switchport mode from trunk to access"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_update_mode_trunk_to_access }}"
+#       #   register: result_update_mode_access
+#       #   tags: [positive, update, mode_access]
+
+#       # - name: Assert mode change to access success
+#       #   assert:
+#       #     that:
+#       #       - result_update_mode_access.failed == false
+#       #       - result_update_mode_access.changed == true
+#       #       - "'Successfully' in result_update_mode_access.msg or 'success' in result_update_mode_access.msg"
+#       #     fail_msg: "Mode change from trunk to access should succeed"
+#       #     success_msg: "Mode change from trunk to access successfully completed"
+#       #   tags: [positive, update, mode_access]
+
+#       # - name: "UPDATE TEST 5: Modify trunk allowed VLANs"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_update_trunk_allowed_vlans }}"
+#       #   register: result_update_allowed_vlans
+#       #   tags: [positive, update, allowed_vlans]
+
+#       # - name: Assert trunk allowed VLANs update success
+#       #   assert:
+#       #     that:
+#       #       - result_update_allowed_vlans.failed == false
+#       #       - result_update_allowed_vlans.changed == true
+#       #       - "'Successfully' in result_update_allowed_vlans.msg or 'success' in result_update_allowed_vlans.msg"
+#       #     fail_msg: "Trunk allowed VLANs update should succeed"
+#       #     success_msg: "Trunk allowed VLANs update successfully completed"
+#       #   tags: [positive, update, allowed_vlans]
+
+#       # - name: "UPDATE TEST 6: Add voice VLAN to access port"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_update_add_voice_vlan }}"
+#       #   register: result_update_add_voice_vlan
+#       #   tags: [positive, update, add_voice_vlan]
+
+#       # - name: Assert add voice VLAN success
+#       #   assert:
+#       #     that:
+#       #       - result_update_add_voice_vlan.failed == false
+#       #       - result_update_add_voice_vlan.changed == true
+#       #       - "'Successfully' in result_update_add_voice_vlan.msg or 'success' in result_update_add_voice_vlan.msg"
+#       #     fail_msg: "Add voice VLAN should succeed"
+#       #     success_msg: "Add voice VLAN successfully completed"
+#       #   tags: [positive, update, add_voice_vlan]
+
+#       # - name: "UPDATE TEST 7: Modify admin status"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_update_admin_status }}"
+#       #   register: result_update_admin_status
+#       #   tags: [positive, update, admin_status]
+
+#       # - name: Assert admin status update success
+#       #   assert:
+#       #     that:
+#       #       - result_update_admin_status.failed == false
+#       #       - result_update_admin_status.changed == true
+#       #       - "'Successfully' in result_update_admin_status.msg or 'success' in result_update_admin_status.msg"
+#       #     fail_msg: "Admin status update should succeed"
+#       #     success_msg: "Admin status update successfully completed"
+#       #   tags: [positive, update, admin_status]
+
+#       # - name: "UPDATE TEST 8: Add 802.1X to existing port"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_update_add_dot1x }}"
+#       #   register: result_update_add_dot1x
+#       #   tags: [positive, update, add_dot1x]
+
+#       # - name: Assert add 802.1X success
+#       #   assert:
+#       #     that:
+#       #       - result_update_add_dot1x.failed == false
+#       #       - result_update_add_dot1x.changed == true
+#       #       - "'Successfully' in result_update_add_dot1x.msg or 'success' in result_update_add_dot1x.msg"
+#       #     fail_msg: "Add 802.1X should succeed"
+#       #     success_msg: "Add 802.1X successfully completed"
+#       #   tags: [positive, update, add_dot1x]
+
+#       # - name: "UPDATE TEST 9: Modify STP settings"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_update_stp_settings }}"
+#       #   register: result_update_stp_settings
+#       #   tags: [positive, update, stp_settings]
+
+#       # - name: Assert STP settings update success
+#       #   assert:
+#       #     that:
+#       #       - result_update_stp_settings.failed == false
+#       #       - result_update_stp_settings.changed == true
+#       #       - "'Successfully' in result_update_stp_settings.msg or 'success' in result_update_stp_settings.msg"
+#       #     fail_msg: "STP settings update should succeed"
+#       #     success_msg: "STP settings update successfully completed"
+#       #   tags: [positive, update, stp_settings]
+
+#       # - name: "UPDATE TEST 10: Comprehensive update all features"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_update_comprehensive_all_features }}"
+#       #   register: result_update_comprehensive
+#       #   tags: [positive, update, comprehensive]
+
+#       # - name: Assert comprehensive update success
+#       #   assert:
+#       #     that:
+#       #       - result_update_comprehensive.failed == false
+#       #       - result_update_comprehensive.changed == true
+#       #       - "'Successfully' in result_update_comprehensive.msg or 'success' in result_update_comprehensive.msg"
+#       #     fail_msg: "Comprehensive update of all features should succeed"
+#       #     success_msg: "Comprehensive update of all features successfully completed"
+#       #   tags: [positive, update, comprehensive]
+
+# # ###################################################################################################################
+# # # POSITIVE TEST CASES - BOUNDARY VALUE TESTING
+# # ###################################################################################################################
+
+#   # - name: "POSITIVE TEST - Boundary Value Testing"
+#   #   block:
+#       # - name: "BOUNDARY TEST 1: Minimum VLAN values"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_boundary_min_vlans }}"
+#       #   register: result_boundary_min_vlans
+#       #   tags: [positive, boundary, min_vlans]
+
+#       # - name: "Wait 10 seconds before next test to allow configuration to settle"
+#       #   pause:
+#       #     seconds: 10
+#       #   tags: [positive, create, pause]
+
+#       # - name: Assert minimum VLAN values success
+#       #   assert:
+#       #     that:
+#       #       - result_boundary_min_vlans.failed == false
+#       #       - result_boundary_min_vlans.changed == true
+#       #       - "'Successfully' in result_boundary_min_vlans.msg or 'success' in result_boundary_min_vlans.msg"
+#       #     fail_msg: "Minimum VLAN values should succeed"
+#       #     success_msg: "Minimum VLAN values successfully configured"
+#       #   tags: [positive, boundary, min_vlans]
+
+#       # - name: "BOUNDARY TEST 2: Maximum VLAN values"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_boundary_max_vlans }}"
+#       #   register: result_boundary_max_vlans
+#       #   tags: [positive, boundary, max_vlans]
+
+#       # - name: Assert maximum VLAN values success
+#       #   assert:
+#       #     that:
+#       #       - result_boundary_max_vlans.failed == false
+#       #       - result_boundary_max_vlans.changed == true
+#       #       - "'Successfully' in result_boundary_max_vlans.msg or 'success' in result_boundary_max_vlans.msg"
+#       #     fail_msg: "Maximum VLAN values should succeed"
+#       #     success_msg: "Maximum VLAN values successfully configured"
+#       #   tags: [positive, boundary, max_vlans]
+
+#       # - name: "Wait 10 seconds before next test to allow configuration to settle"
+#       #   pause:
+#       #     seconds: 10
+#       #   tags: [positive, create, pause]
+
+#       # - name: "BOUNDARY TEST 3: Minimum STP cost"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_boundary_min_stp_cost }}"
+#       #   register: result_boundary_min_stp_cost
+#       #   tags: [positive, boundary, min_stp_cost]
+
+#       # - name: Assert minimum STP cost success
+#       #   assert:
+#       #     that:
+#       #       - result_boundary_min_stp_cost.failed == false
+#       #       - result_boundary_min_stp_cost.changed == true
+#       #       - "'Successfully' in result_boundary_min_stp_cost.msg or 'success' in result_boundary_min_stp_cost.msg"
+#       #     fail_msg: "Minimum STP cost should succeed"
+#       #     success_msg: "Minimum STP cost successfully configured"
+#       #   tags: [positive, boundary, min_stp_cost]
+
+#       # - name: "Wait 10 seconds before next test to allow configuration to settle"
+#       #   pause:
+#       #     seconds: 10
+#       #   tags: [positive, create, pause]
+
+#       # - name: "BOUNDARY TEST 4: Maximum STP cost"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_boundary_max_stp_cost }}"
+#       #   register: result_boundary_max_stp_cost
+#       #   tags: [positive, boundary, max_stp_cost]
+
+#       # - name: Assert maximum STP cost success
+#       #   assert:
+#       #     that:
+#       #       - result_boundary_max_stp_cost.failed == false
+#       #       - result_boundary_max_stp_cost.changed == true
+#       #       - "'Successfully' in result_boundary_max_stp_cost.msg or 'success' in result_boundary_max_stp_cost.msg"
+#       #     fail_msg: "Maximum STP cost should succeed"
+#       #     success_msg: "Maximum STP cost successfully configured"
+#       #   tags: [positive, boundary, max_stp_cost]
+
+#       # - name: "Wait 10 seconds before next test to allow configuration to settle"
+#       #   pause:
+#       #     seconds: 10
+#       #   tags: [positive, create, pause]
+  
+#       # - name: "BOUNDARY TEST 5: Maximum description length"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_boundary_max_description_length }}"
+#       #   register: result_boundary_max_description
+#       #   tags: [positive, boundary, max_description]
+
+#       # - name: Assert maximum description length success
+#       #   assert:
+#       #     that:
+#       #       - result_boundary_max_description.failed == false
+#       #       - result_boundary_max_description.changed == true
+#       #       - "'Successfully' in result_boundary_max_description.msg or 'success' in result_boundary_max_description.msg"
+#       #     fail_msg: "Maximum description length should succeed"
+#       #     success_msg: "Maximum description length successfully configured"
+#       #   tags: [positive, boundary, max_description]
+
+#       # - name: "Wait 10 seconds before next test to allow configuration to settle"
+#       #   pause:
+#       #     seconds: 10
+#       #   tags: [positive, create, pause]
+
+#       # - name: "BOUNDARY TEST 6: Maximum allowed VLANs list"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_boundary_max_allowed_vlans }}"
+#       #   register: result_boundary_max_allowed_vlans
+#       #   tags: [positive, boundary, max_allowed_vlans]
+
+#       # - name: Assert maximum allowed VLANs success
+#       #   assert:
+#       #     that:
+#       #       - result_boundary_max_allowed_vlans.failed == false
+#       #       - result_boundary_max_allowed_vlans.changed == true
+#       #       - "'Successfully' in result_boundary_max_allowed_vlans.msg or 'success' in result_boundary_max_allowed_vlans.msg"
+#       #     fail_msg: "Maximum allowed VLANs should succeed"
+#       #     success_msg: "Maximum allowed VLANs successfully configured"
+#       #   tags: [positive, boundary, max_allowed_vlans]
+
+# # ###################################################################################################################
+# # # POSITIVE TEST CASES - SPECIAL CONFIGURATIONS
+# # ###################################################################################################################
+
+#   # - name: "POSITIVE TEST - Special Configuration Testing"
+#   #   block:
+#   #     - name: "SPECIAL TEST 1: All switchport modes"
+#   #       cisco.dnac.wired_campus_automation_workflow_manager:
+#   #         <<: *dnac_login
+#   #         state: merged
+#   #         config:
+#   #           - "{{ port_config_vars_map.test_port_config_special_all_switchport_modes }}"
+#   #       register: result_special_switchport_modes
+#   #       tags: [positive, special, switchport_modes]
+
+#   #     - name: Assert all switchport modes success
+#   #       assert:
+#   #         that:
+#   #           - result_special_switchport_modes.failed == false
+#   #           - result_special_switchport_modes.changed == true
+#   #           - "'Successfully' in result_special_switchport_modes.msg or 'success' in result_special_switchport_modes.msg"
+#   #         fail_msg: "All switchport modes should succeed"
+#   #         success_msg: "All switchport modes successfully configured"
+#   #       tags: [positive, special, switchport_modes]
+
+#   #     - name: "Wait 10 seconds before next test to allow configuration to settle"
+#   #       pause:
+#   #         seconds: 10
+#   #       tags: [positive, create, pause]
+
+#       # - name: "SPECIAL TEST 3: All STP guard modes"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_special_all_stp_guard_modes }}"
+#       #   register: result_special_stp_guard
+#       #   tags: [positive, special, stp_guard]
+
+#       # - name: Assert all STP guard modes success
+#       #   assert:
+#       #     that:
+#       #       - result_special_stp_guard.failed == false
+#       #       - result_special_stp_guard.changed == true
+#       #       - "'Successfully' in result_special_stp_guard.msg or 'success' in result_special_stp_guard.msg"
+#       #     fail_msg: "All STP guard modes should succeed"
+#       #     success_msg: "All STP guard modes successfully configured"
+#       #   tags: [positive, special, stp_guard]
+
+#       # - name: "Wait 10 seconds before next test to allow configuration to settle"
+#       #   pause:
+#       #     seconds: 10
+#       #   tags: [positive, create, pause]
+  
+#       # - name: "SPECIAL TEST 4: All LLDP modes"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_special_all_lldp_modes }}"
+#       #   register: result_special_lldp_modes
+#       #   tags: [positive, special, lldp_modes]
+
+#       # - name: Assert all LLDP modes success
+#       #   assert:
+#       #     that:
+#       #       - result_special_lldp_modes.failed == false
+#       #       - result_special_lldp_modes.changed == true
+#       #       - "'Successfully' in result_special_lldp_modes.msg or 'success' in result_special_lldp_modes.msg"
+#       #     fail_msg: "All LLDP modes should succeed"
+#       #     success_msg: "All LLDP modes successfully configured"
+#       #   tags: [positive, special, lldp_modes]
+
+#       # - name: "Wait 10 seconds before next test to allow configuration to settle"
+#       #   pause:
+#       #     seconds: 10
+#       #   tags: [positive, create, pause]
+
+#       # - name: "SPECIAL TEST 5: All boolean combinations"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_special_all_boolean_combinations }}"
+#       #   register: result_special_boolean_combinations
+#       #   tags: [positive, special, boolean_combinations]
+
+#       # - name: Assert all boolean combinations success
+#       #   assert:
+#       #     that:
+#       #       - result_special_boolean_combinations.failed == false
+#       #       - result_special_boolean_combinations.changed == true
+#       #       - "'Successfully' in result_special_boolean_combinations.msg or 'success' in result_special_boolean_combinations.msg"
+#       #     fail_msg: "All boolean combinations should succeed"
+#       #     success_msg: "All boolean combinations successfully configured"
+#       #   tags: [positive, special, boolean_combinations]
+
+#       # - name: "Wait 10 seconds before next test to allow configuration to settle"
+#       #   pause:
+#       #     seconds: 10
+#       #   tags: [positive, create, pause]
+
+#       # - name: "SPECIAL TEST 6: Comprehensive large scale configuration"
+#       #   cisco.dnac.wired_campus_automation_workflow_manager:
+#       #     <<: *dnac_login
+#       #     state: merged
+#       #     config:
+#       #       - "{{ port_config_vars_map.test_port_config_special_large_scale }}"
+#       #   register: result_special_large_scale
+#       #   tags: [positive, special, large_scale]
+
+#       # - name: Assert comprehensive large scale success
+#       #   assert:
+#       #     that:
+#       #       - result_special_large_scale.failed == false
+#       #       - result_special_large_scale.changed == true
+#       #       - "'Successfully' in result_special_large_scale.msg or 'success' in result_special_large_scale.msg"
+#       #     fail_msg: "Comprehensive large scale should succeed"
+#       #     success_msg: "Comprehensive large scale successfully configured"
+#       #   tags: [positive, special, large_scale]
+
+
+# # ###################################################################################################################
+# # # DELETE/CLEANUP TEST CASES
+# # ###################################################################################################################
+
+# #   - name: "DELETE TEST - Port Configuration Cleanup"
+# #     block:
+# #       - name: "DELETE TEST 1: Remove specific features only"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_port_config_delete_specific_features }}"
+# #         register: result_delete_specific_features
+# #         tags: [positive, delete, specific_features]
+
+# #       - name: Assert delete specific features success
+# #         assert:
+# #           that:
+# #             - result_delete_specific_features.failed == false
+# #             - result_delete_specific_features.changed == true
+# #             - "'Successfully' in result_delete_specific_features.msg or 'success' in result_delete_specific_features.msg"
+# #           fail_msg: "Delete specific features should succeed"
+# #           success_msg: "Delete specific features successfully completed"
+# #         tags: [positive, delete, specific_features]
+
+# #       - name: "DELETE TEST 2: Reset to minimal configuration"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_port_config_delete_reset_to_minimal }}"
+# #         register: result_delete_reset_minimal
+# #         tags: [positive, delete, reset_minimal]
+
+# #       - name: Assert reset to minimal success
+# #         assert:
+# #           that:
+# #             - result_delete_reset_minimal.failed == false
+# #             - result_delete_reset_minimal.changed == true
+# #             - "'Successfully' in result_delete_reset_minimal.msg or 'success' in result_delete_reset_minimal.msg"
+# #           fail_msg: "Reset to minimal configuration should succeed"
+# #           success_msg: "Reset to minimal configuration successfully completed"
+# #         tags: [positive, delete, reset_minimal]
+
+# #       - name: "DELETE TEST 3: Remove all port configurations"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: deleted
+# #           config:
+# #             - "{{ port_config_vars_map.test_port_config_cleanup_all }}"
+# #         register: result_cleanup_all
+# #         tags: [positive, delete, cleanup_all]
+
+# #       - name: Assert cleanup all configurations success
+# #         assert:
+# #           that:
+# #             - result_cleanup_all.failed == false
+# #             - result_cleanup_all.changed == true
+# #             - "'Successfully' in result_cleanup_all.msg or 'success' in result_cleanup_all.msg or 'deleted' in result_cleanup_all.msg"
+# #           fail_msg: "Cleanup all configurations should succeed"
+# #           success_msg: "Cleanup all configurations successfully completed"
+# #         tags: [positive, delete, cleanup_all]
+
+# #       - name: "DELETE TEST 4: Reset to default state"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_port_config_cleanup_reset_defaults }}"
+# #         register: result_reset_defaults
+# #         tags: [positive, delete, reset_defaults]
+
+# #       - name: Assert reset to defaults success
+# #         assert:
+# #           that:
+# #             - result_reset_defaults.failed == false
+# #             - result_reset_defaults.changed == true
+# #             - "'Successfully' in result_reset_defaults.msg or 'success' in result_reset_defaults.msg"
+# #           fail_msg: "Reset to defaults should succeed"
+# #           success_msg: "Reset to defaults successfully completed"
+# #         tags: [positive, delete, reset_defaults]
+
+# # ###################################################################################################################
+# # # IDEMPOTENCY TEST CASES
+# # ###################################################################################################################
+
+# #   - name: "IDEMPOTENCY TEST - Verify No Changes on Repeat Operations"
+# #     block:
+# #       - name: "IDEMPOTENCY TEST 1: Repeat minimal switchport configuration"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_port_config_create_minimal_switchport }}"
+# #         register: result_idempotency_minimal
+# #         tags: [idempotency, minimal_repeat]
+
+# #       - name: Assert idempotency minimal configuration
+# #         assert:
+# #           that:
+# #             - result_idempotency_minimal.failed == false
+# #             - result_idempotency_minimal.changed == false
+# #           fail_msg: "Idempotency test should not show changes when configuration is already applied"
+# #           success_msg: "Idempotency test passed - no changes detected for existing configuration"
+# #         tags: [idempotency, minimal_repeat]
+
+# #       - name: "IDEMPOTENCY TEST 2: Repeat comprehensive configuration"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_port_config_create_comprehensive_all_features }}"
+# #         register: result_idempotency_comprehensive
+# #         tags: [idempotency, comprehensive_repeat]
+
+# #       - name: Assert idempotency comprehensive configuration
+# #         assert:
+# #           that:
+# #             - result_idempotency_comprehensive.failed == false
+# #             - result_idempotency_comprehensive.changed == false
+# #           fail_msg: "Idempotency test should not show changes when comprehensive configuration is already applied"
+# #           success_msg: "Idempotency test passed - no changes detected for existing comprehensive configuration"
+# #         tags: [idempotency, comprehensive_repeat]
+
+# #       - name: "IDEMPOTENCY TEST 3: Repeat multiple ports configuration"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: merged
+# #           config:
+# #             - "{{ port_config_vars_map.test_port_config_create_multiple_ports_different }}"
+# #         register: result_idempotency_multiple
+# #         tags: [idempotency, multiple_repeat]
+
+# #       - name: Assert idempotency multiple ports configuration
+# #         assert:
+# #           that:
+# #             - result_idempotency_multiple.failed == false
+# #             - result_idempotency_multiple.changed == false
+# #           fail_msg: "Idempotency test should not show changes when multiple ports configuration is already applied"
+# #           success_msg: "Idempotency test passed - no changes detected for existing multiple ports configuration"
+# #         tags: [idempotency, multiple_repeat]
+
+# # ...existing code...
+
+# # ###################################################################################################################
+# # # DELETE TEST CASES - PORT CONFIGURATION FEATURE REMOVAL
+# # ###################################################################################################################
+
+#   - name: "DELETE TEST - Port Configuration Feature Removal"
+#     block:
+#       - name: "DELETE TEST 1: Remove single feature (STP only)"
+#         cisco.dnac.wired_campus_automation_workflow_manager:
+#           <<: *dnac_login
+#           state: deleted
+#           config:
+#             - "{{ port_config_vars_map.test_port_config_delete_single_feature_stp }}"
+#         register: result_delete_single_stp
+#         tags: [positive, delete, single_feature_stp]
+
+#       - name: Assert delete single STP feature success
+#         assert:
+#           that:
+#             - result_delete_single_stp.failed == false
+#             - result_delete_single_stp.changed == true
+#             - "'Successfully' in result_delete_single_stp.msg or 'success' in result_delete_single_stp.msg"
+#           fail_msg: "Delete single STP feature should succeed"
+#           success_msg: "Delete single STP feature successfully completed"
+#         tags: [positive, delete, single_feature_stp]
+
+# #       - name: "DELETE TEST 2: Remove single feature (802.1X only)"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: deleted
+# #           config:
+# #             - "{{ port_config_vars_map.test_port_config_delete_single_feature_dot1x }}"
+# #         register: result_delete_single_dot1x
+# #         tags: [positive, delete, single_feature_dot1x]
+
+# #       - name: Assert delete single 802.1X feature success
+# #         assert:
+# #           that:
+# #             - result_delete_single_dot1x.failed == false
+# #             - result_delete_single_dot1x.changed == true
+# #             - "'Successfully' in result_delete_single_dot1x.msg or 'success' in result_delete_single_dot1x.msg"
+# #           fail_msg: "Delete single 802.1X feature should succeed"
+# #           success_msg: "Delete single 802.1X feature successfully completed"
+# #         tags: [positive, delete, single_feature_dot1x]
+
+# #       - name: "DELETE TEST 3: Remove single feature (MAB only)"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: deleted
+# #           config:
+# #             - "{{ port_config_vars_map.test_port_config_delete_single_feature_mab }}"
+# #         register: result_delete_single_mab
+# #         tags: [positive, delete, single_feature_mab]
+
+# #       - name: Assert delete single MAB feature success
+# #         assert:
+# #           that:
+# #             - result_delete_single_mab.failed == false
+# #             - result_delete_single_mab.changed == true
+# #             - "'Successfully' in result_delete_single_mab.msg or 'success' in result_delete_single_mab.msg"
+# #           fail_msg: "Delete single MAB feature should succeed"
+# #           success_msg: "Delete single MAB feature successfully completed"
+# #         tags: [positive, delete, single_feature_mab]
+
+# #       - name: "DELETE TEST 4: Remove single feature (DHCP Snooping only)"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: deleted
+# #           config:
+# #             - "{{ port_config_vars_map.test_port_config_delete_single_feature_dhcp_snooping }}"
+# #         register: result_delete_single_dhcp_snooping
+# #         tags: [positive, delete, single_feature_dhcp_snooping]
+
+# #       - name: Assert delete single DHCP Snooping feature success
+# #         assert:
+# #           that:
+# #             - result_delete_single_dhcp_snooping.failed == false
+# #             - result_delete_single_dhcp_snooping.changed == true
+# #             - "'Successfully' in result_delete_single_dhcp_snooping.msg or 'success' in result_delete_single_dhcp_snooping.msg"
+# #           fail_msg: "Delete single DHCP Snooping feature should succeed"
+# #           success_msg: "Delete single DHCP Snooping feature successfully completed"
+# #         tags: [positive, delete, single_feature_dhcp_snooping]
+
+# #       - name: "DELETE TEST 5: Remove multiple specific features"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: deleted
+# #           config:
+# #             - "{{ port_config_vars_map.test_port_config_delete_multiple_features }}"
+# #         register: result_delete_multiple_features
+# #         tags: [positive, delete, multiple_features]
+
+# #       - name: Assert delete multiple features success
+# #         assert:
+# #           that:
+# #             - result_delete_multiple_features.failed == false
+# #             - result_delete_multiple_features.changed == true
+# #             - "'Successfully' in result_delete_multiple_features.msg or 'success' in result_delete_multiple_features.msg"
+# #           fail_msg: "Delete multiple features should succeed"
+# #           success_msg: "Delete multiple features successfully completed"
+# #         tags: [positive, delete, multiple_features]
+
+# #       - name: "DELETE TEST 6: Remove all features except switchport"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: deleted
+# #           config:
+# #             - "{{ port_config_vars_map.test_port_config_delete_all_features_except_switchport }}"
+# #         register: result_delete_all_except_switchport
+# #         tags: [positive, delete, all_except_switchport]
+
+# #       - name: Assert delete all features except switchport success
+# #         assert:
+# #           that:
+# #             - result_delete_all_except_switchport.failed == false
+# #             - result_delete_all_except_switchport.changed == true
+# #             - "'Successfully' in result_delete_all_except_switchport.msg or 'success' in result_delete_all_except_switchport.msg"
+# #           fail_msg: "Delete all features except switchport should succeed"
+# #           success_msg: "Delete all features except switchport successfully completed"
+# #         tags: [positive, delete, all_except_switchport]
+
+# #       - name: "DELETE TEST 7: Remove CDP and LLDP features"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: medeletedrged
+# #           config:
+# #             - "{{ port_config_vars_map.test_port_config_delete_cdp_lldp_features }}"
+# #         register: result_delete_cdp_lldp
+# #         tags: [positive, delete, cdp_lldp_features]
+
+# #       - name: Assert delete CDP and LLDP features success
+# #         assert:
+# #           that:
+# #             - result_delete_cdp_lldp.failed == false
+# #             - result_delete_cdp_lldp.changed == true
+# #             - "'Successfully' in result_delete_cdp_lldp.msg or 'success' in result_delete_cdp_lldp.msg"
+# #           fail_msg: "Delete CDP and LLDP features should succeed"
+# #           success_msg: "Delete CDP and LLDP features successfully completed"
+# #         tags: [positive, delete, cdp_lldp_features]
+
+# #       - name: "DELETE TEST 8: Remove VLAN trunking feature"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: deleted
+# #           config:
+# #             - "{{ port_config_vars_map.test_port_config_delete_vlan_trunking_feature }}"
+# #         register: result_delete_vlan_trunking
+# #         tags: [positive, delete, vlan_trunking_feature]
+
+# #       - name: Assert delete VLAN trunking feature success
+# #         assert:
+# #           that:
+# #             - result_delete_vlan_trunking.failed == false
+# #             - result_delete_vlan_trunking.changed == true
+# #             - "'Successfully' in result_delete_vlan_trunking.msg or 'success' in result_delete_vlan_trunking.msg"
+# #           fail_msg: "Delete VLAN trunking feature should succeed"
+# #           success_msg: "Delete VLAN trunking feature successfully completed"
+# #         tags: [positive, delete, vlan_trunking_feature]
+
+# #       - name: "DELETE TEST 9: Remove VTP feature"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: deleted
+# #           config:
+# #             - "{{ port_config_vars_map.test_port_config_delete_vtp_feature }}"
+# #         register: result_delete_vtp_feature
+# #         tags: [positive, delete, vtp_feature]
+
+# #       - name: Assert delete VTP feature success
+# #         assert:
+# #           that:
+# #             - result_delete_vtp_feature.failed == false
+# #             - result_delete_vtp_feature.changed == true
+# #             - "'Successfully' in result_delete_vtp_feature.msg or 'success' in result_delete_vtp_feature.msg"
+# #           fail_msg: "Delete VTP feature should succeed"
+# #           success_msg: "Delete VTP feature successfully completed"
+# #         tags: [positive, delete, vtp_feature]
+
+# #       - name: "DELETE TEST 10: Remove features from multiple ports"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: deleted
+# #           config:
+# #             - "{{ port_config_vars_map.test_port_config_delete_features_multiple_ports }}"
+# #         register: result_delete_features_multiple_ports
+# #         tags: [positive, delete, features_multiple_ports]
+
+# #       - name: Assert delete features from multiple ports success
+# #         assert:
+# #           that:
+# #             - result_delete_features_multiple_ports.failed == false
+# #             - result_delete_features_multiple_ports.changed == true
+# #             - "'Successfully' in result_delete_features_multiple_ports.msg or 'success' in result_delete_features_multiple_ports.msg"
+# #           fail_msg: "Delete features from multiple ports should succeed"
+# #           success_msg: "Delete features from multiple ports successfully completed"
+# #         tags: [positive, delete, features_multiple_ports]
+
+# #       - name: "DELETE TEST 11: Remove complete interface configurations"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: deleted
+# #           config:
+# #             - "{{ port_config_vars_map.test_port_config_delete_complete_interfaces }}"
+# #         register: result_delete_complete_interfaces
+# #         tags: [positive, delete, complete_interfaces]
+
+# #       - name: Assert delete complete interface configurations success
+# #         assert:
+# #           that:
+# #             - result_delete_complete_interfaces.failed == false
+# #             - result_delete_complete_interfaces.changed == true
+# #             - "'Successfully' in result_delete_complete_interfaces.msg or 'success' in result_delete_complete_interfaces.msg"
+# #           fail_msg: "Delete complete interface configurations should succeed"
+# #           success_msg: "Delete complete interface configurations successfully completed"
+# #         tags: [positive, delete, complete_interfaces]
+
+# # # ###################################################################################################################
+# # # # CLEANUP TEST CASES - FINAL PORT CONFIGURATION CLEANUP
+# # # ###################################################################################################################
+
+# #   - name: "CLEANUP TEST - Final Port Configuration Cleanup"
+# #     block:
+# #       - name: "CLEANUP TEST 1: Final cleanup for all remaining test interfaces"
+# #         cisco.dnac.wired_campus_automation_workflow_manager:
+# #           <<: *dnac_login
+# #           state: deleted
+# #           config:
+# #             - "{{ port_config_vars_map.test_port_config_final_cleanup_all_interfaces }}"
+# #         register: result_final_cleanup
+# #         tags: [cleanup, final_cleanup_all]
+
+# #       - name: Assert final cleanup success
+# #         assert:
+# #           that:
+# #             - result_final_cleanup.failed == false
+# #             - result_final_cleanup.changed == true
+# #             - "'Successfully' in result_final_cleanup.msg or 'success' in result_final_cleanup.msg or 'deleted' in result_final_cleanup.msg"
+# #           fail_msg: "Final cleanup should succeed"
+# #           success_msg: "Final cleanup successfully completed"
+# #         tags: [cleanup, final_cleanup_all]

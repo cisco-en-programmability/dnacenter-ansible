@@ -1,0 +1,723 @@
+---
+# Common device information
+device_info: &device_info
+  ip_address: "204.1.2.3"
+  device_collection_status_check: false
+
+###################################################################################################################
+# Negative Validation Tests for Logical Ports
+
+#############################################
+#        Logical Ports Global Configuration Tests    #
+#############################################
+
+# Test invalid logical port configuration - string instead of dictionary
+test_logical_ports_invalid_dict_type:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports: "invalid_logical_ports_string" # Invalid: string instead of dictionary
+
+# Test invalid logical port configuration - list instead of dictionary
+test_logical_ports_invalid_list_type:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports: ["invalid", "logical_ports", "list"] # Invalid: list instead of dictionary
+
+# Test invalid port_channel_auto - integer instead of boolean
+test_port_channel_auto_integer:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_auto: 1 # Invalid: integer instead of boolean
+
+# Test invalid port_channel_auto - string instead of boolean
+test_port_channel_auto_string:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_auto: "true" # Invalid: string instead of boolean
+
+# Test invalid port_channel_lacp_system_priority - string instead of integer
+test_port_channel_lacp_system_priority_string:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_lacp_system_priority: "32768" # Invalid: string instead of integer
+
+# Test invalid port_channel_lacp_system_priority - boolean instead of integer
+test_port_channel_lacp_system_priority_boolean:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_lacp_system_priority: true # Invalid: boolean instead of integer
+
+# Test invalid port_channel_lacp_system_priority - negative value
+test_port_channel_lacp_system_priority_negative:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_lacp_system_priority: -1 # Invalid: negative value
+
+# Test invalid port_channel_lacp_system_priority - exceeds maximum value
+test_port_channel_lacp_system_priority_max:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_lacp_system_priority: 65536 # Invalid: exceeds maximum of 65535
+
+# Test invalid port_channel_load_balancing_method - invalid choice
+test_port_channel_load_balancing_method_invalid:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_load_balancing_method: "INVALID_METHOD" # Invalid: not in valid choices
+
+# Test invalid port_channel_load_balancing_method - integer instead of string
+test_port_channel_load_balancing_method_integer:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_load_balancing_method: 1 # Invalid: integer instead of string
+
+# Test invalid port_channels - string instead of list
+test_port_channels_invalid_list_type:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels: "invalid_string" # Invalid: string instead of list
+
+# Test invalid port_channels - dictionary instead of list
+test_port_channels_invalid_dict_type:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels: {"invalid": "dict"} # Invalid: dictionary instead of list
+
+#############################################
+#        Port Channel Configuration Tests  #
+#############################################
+
+# Test invalid port_channel item - string instead of dictionary
+test_port_channel_item_invalid_dict_type:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - "invalid_port_channel_string" # Invalid: string instead of dictionary
+
+# Test missing required port_channel_protocol
+test_port_channel_protocol_missing:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - # port_channel_protocol is missing - should fail
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+
+# Test invalid port_channel_protocol - invalid choice
+test_port_channel_protocol_invalid:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "INVALID_PROTOCOL" # Invalid: only LACP, PAGP, NONE allowed
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+
+# Test invalid port_channel_protocol - integer instead of string
+test_port_channel_protocol_integer:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: 1 # Invalid: integer instead of string
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+
+# Test missing required port_channel_name
+test_port_channel_name_missing:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          # port_channel_name is missing - should fail
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+
+# Test invalid port_channel_name - integer instead of string
+test_port_channel_name_integer:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: 123 # Invalid: integer instead of string
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+
+# Test invalid port_channel_name - too short
+test_port_channel_name_too_short:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "PC1" # Invalid: less than 13 characters
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+
+# Test invalid port_channel_name - too long
+test_port_channel_name_too_long:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel123456789" # Invalid: more than 15 characters
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+
+# Test invalid port_channel_name - empty string
+test_port_channel_name_empty:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "" # Invalid: empty string
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+
+# Test invalid port_channel_min_links - string instead of integer
+test_port_channel_min_links_string:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_min_links: "2" # Invalid: string instead of integer
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+
+# Test invalid port_channel_min_links - negative value
+test_port_channel_min_links_negative:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_min_links: -1 # Invalid: negative value
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+
+# Test invalid port_channel_min_links - zero value
+test_port_channel_min_links_zero:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_min_links: 0 # Invalid: zero value (must be 1-8)
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+
+# Test invalid port_channel_min_links - exceeds maximum value
+test_port_channel_min_links_max:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_min_links: 9 # Invalid: exceeds maximum of 8
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+
+# Test missing required port_channel_members
+test_port_channel_members_missing:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          # port_channel_members is missing - should fail
+
+# Test invalid port_channel_members - string instead of list
+test_port_channel_members_invalid_list_type:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_members: "invalid_string" # Invalid: string instead of list
+
+# Test invalid port_channel_members - dictionary instead of list
+test_port_channel_members_invalid_dict_type:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_members: {"invalid": "dict"} # Invalid: dictionary instead of list
+
+# Test invalid port_channel_members - empty list
+test_port_channel_members_empty_list:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_members: [] # Invalid: empty list
+
+#############################################
+#        Port Channel Member Configuration Tests  #
+#############################################
+
+# Test invalid port_channel_member item - string instead of dictionary
+test_port_channel_member_invalid_dict_type:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - "invalid_member_string" # Invalid: string instead of dictionary
+
+# Test missing required port_channel_interface_name
+test_port_channel_interface_name_missing:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - # port_channel_interface_name is missing - should fail
+              port_channel_mode: "ACTIVE"
+
+# Test invalid port_channel_interface_name - integer instead of string
+test_port_channel_interface_name_integer:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: 123 # Invalid: integer instead of string
+              port_channel_mode: "ACTIVE"
+
+# Test invalid port_channel_mode - invalid choice for LACP
+test_port_channel_mode_invalid_lacp:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+              port_channel_mode: "DESIRABLE" # Invalid: DESIRABLE not valid for LACP
+
+# Test invalid port_channel_mode - invalid choice for PAGP
+test_port_channel_mode_invalid_pagp:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "PAGP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+              port_channel_mode: "ACTIVE" # Invalid: ACTIVE not valid for PAGP
+
+# Test invalid port_channel_mode - invalid choice for NONE
+test_port_channel_mode_invalid_none:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "NONE"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+              port_channel_mode: "ACTIVE" # Invalid: ACTIVE not valid for NONE
+
+# Test invalid port_channel_mode - integer instead of string
+test_port_channel_mode_integer:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+              port_channel_mode: 1 # Invalid: integer instead of string
+
+# Test invalid port_channel_port_priority - string instead of integer
+test_port_channel_port_priority_string:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+              port_channel_port_priority: "100" # Invalid: string instead of integer
+
+# Test invalid port_channel_port_priority - negative value for LACP
+test_port_channel_port_priority_negative_lacp:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+              port_channel_port_priority: -1 # Invalid: negative value for LACP
+
+# Test invalid port_channel_port_priority - exceeds maximum for LACP
+test_port_channel_port_priority_max_lacp:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+              port_channel_port_priority: 65536 # Invalid: exceeds maximum of 65535 for LACP
+
+# Test invalid port_channel_port_priority - exceeds maximum for PAGP
+test_port_channel_port_priority_max_pagp:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "PAGP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+              port_channel_port_priority: 256 # Invalid: exceeds maximum of 255 for PAGP
+
+# Test invalid port_channel_rate - string instead of integer
+test_port_channel_rate_string:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+              port_channel_rate: "fast" # Invalid: string instead of integer
+
+# Test invalid port_channel_rate - invalid choice
+test_port_channel_rate_invalid:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+              port_channel_rate: 10 # Invalid: only 1 and 30 allowed
+
+# Test invalid port_channel_learn_method - invalid choice
+test_port_channel_learn_method_invalid:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "PAGP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+              port_channel_learn_method: "INVALID_METHOD" # Invalid: only AGGREGATION_PORT, PHYSICAL_PORT allowed
+
+# Test invalid port_channel_learn_method - integer instead of string
+test_port_channel_learn_method_integer:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "PAGP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+              port_channel_learn_method: 1 # Invalid: integer instead of string
+
+# Test port_channel_learn_method on non-PAGP protocol
+test_port_channel_learn_method_non_pagp:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+              port_channel_learn_method: "AGGREGATION_PORT" # Invalid: learn_method only applicable for PAGP
+
+# Test duplicate port_channel_names
+test_duplicate_port_channel_names:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+        - port_channel_protocol: "PAGP"
+          port_channel_name: "Port-channel1" # Invalid: duplicate name
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/11"
+
+# Test duplicate member interfaces across port channels
+test_duplicate_member_interfaces:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+              port_channel_mode: "ACTIVE"
+        - port_channel_protocol: "PAGP"
+          port_channel_name: "Port-channel2"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10" # Invalid: duplicate interface
+              port_channel_mode: "AUTO"
+
+# Test duplicate member interfaces within same port channel
+test_duplicate_member_interfaces_same_channel:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+            - port_channel_interface_name: "GigabitEthernet1/0/10" # Invalid: duplicate interface in same channel
+
+###################################################################################################################
+# Positive Test Cases for Logical Ports
+
+#############################################
+#    POSITIVE TEST CASES - CREATE/UPDATE    #
+#############################################
+
+# Test logical ports configuration with global parameters only - auto enabled
+test_logical_ports_create_global_auto_enabled:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_auto: true
+      port_channel_lacp_system_priority: 32768
+      port_channel_load_balancing_method: "SRC_DST_IP"
+
+# Test logical ports configuration with global parameters only - auto disabled
+test_logical_ports_create_global_auto_disabled:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_auto: false
+      port_channel_lacp_system_priority: 16384
+      port_channel_load_balancing_method: "SRC_DST_MAC"
+
+# Test logical ports configuration with single LACP port channel - minimal
+test_logical_ports_create_single_lacp_minimal:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_auto: false
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+              port_channel_mode: "ACTIVE"
+
+# Test logical ports configuration with single LACP port channel - comprehensive
+test_logical_ports_create_single_lacp_comprehensive:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_auto: false
+      port_channel_lacp_system_priority: 4096
+      port_channel_load_balancing_method: "SRC_DST_MIXED_IP_PORT"
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel1"
+          port_channel_min_links: 2
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/10"
+              port_channel_mode: "ACTIVE"
+              port_channel_port_priority: 100
+              port_channel_rate: 1
+            - port_channel_interface_name: "GigabitEthernet1/0/11"
+              port_channel_mode: "PASSIVE"
+              port_channel_port_priority: 200
+              port_channel_rate: 30
+
+# Test logical ports configuration with single PAGP port channel - minimal
+test_logical_ports_create_single_pagp_minimal:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_auto: false
+      port_channels:
+        - port_channel_protocol: "PAGP"
+          port_channel_name: "Port-channel2"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/13"
+              port_channel_mode: "DESIRABLE"  
+
+# Test logical ports configuration with single PAGP port channel - comprehensive
+test_logical_ports_create_single_pagp_comprehensive:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_auto: false
+      port_channel_load_balancing_method: "DST_MAC"
+      port_channels:
+        - port_channel_protocol: "PAGP"
+          port_channel_name: "Port-channel2"
+          port_channel_min_links: 3
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/13"
+              port_channel_mode: "DESIRABLE"
+              port_channel_port_priority: 50
+              port_channel_learn_method: "PHYSICAL_PORT"
+            - port_channel_interface_name: "GigabitEthernet1/0/14"
+              port_channel_mode: "AUTO"
+              port_channel_port_priority: 110
+              port_channel_learn_method: "PHYSICAL_PORT"
+            - port_channel_interface_name: "GigabitEthernet1/0/15"
+              port_channel_mode: "AUTO"
+              port_channel_port_priority: 150
+              port_channel_learn_method: "AGGREGATION_PORT"
+
+# Test logical ports configuration with single static port channel - minimal
+test_logical_ports_create_single_static_minimal:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_auto: false
+      port_channels:
+        - port_channel_protocol: "NONE"
+          port_channel_name: "Port-channel3"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/16"
+
+# Test logical ports configuration with single static port channel - comprehensive
+test_logical_ports_create_single_static_comprehensive:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_auto: false
+      port_channels:
+        - port_channel_protocol: "NONE"
+          port_channel_name: "Port-channel3"
+          port_channel_min_links: 2
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/16"
+              port_channel_mode: "ON"
+            - port_channel_interface_name: "GigabitEthernet1/1/1"
+              port_channel_mode: "ON"
+
+# Test logical ports configuration with multiple port channels - different protocols
+test_logical_ports_create_multiple_different_protocols:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_auto: false
+      port_channel_lacp_system_priority: 8192
+      port_channel_load_balancing_method: "SRC_MAC"
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel4"
+          port_channel_min_links: 2
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/19"
+              port_channel_mode: "ACTIVE"
+              port_channel_rate: 1
+            - port_channel_interface_name: "GigabitEthernet1/0/20"
+              port_channel_mode: "ACTIVE"
+              port_channel_rate: 1
+        - port_channel_protocol: "PAGP"
+          port_channel_name: "Port-channel5"
+          port_channel_min_links: 2
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/21"
+              port_channel_mode: "DESIRABLE"
+              port_channel_learn_method: "AGGREGATION_PORT"
+            - port_channel_interface_name: "GigabitEthernet1/0/22"
+              port_channel_mode: "AUTO"
+              port_channel_learn_method: "PHYSICAL_PORT"
+        - port_channel_protocol: "NONE"
+          port_channel_name: "Port-channel6"
+          port_channel_min_links: 2
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/0/23"
+              port_channel_mode: "ON"
+            - port_channel_interface_name: "GigabitEthernet1/0/24"
+              port_channel_mode: "ON"
+
+# Test logical ports configuration with all LACP modes
+test_logical_ports_create_all_lacp_modes:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_auto: false
+      port_channels:
+        - port_channel_protocol: "LACP"
+          port_channel_name: "Port-channel7"
+          port_channel_members:
+            - port_channel_interface_name: "GigabitEthernet1/1/2"
+              port_channel_mode: "ACTIVE"
+            - port_channel_interface_name: "GigabitEthernet1/1/3"
+              port_channel_mode: "PASSIVE"
+
+# Test logical ports update - global parameters only
+test_logical_ports_update_global_only:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_auto: false # Updated from previous
+      port_channel_lacp_system_priority: 8192 # Updated value
+      port_channel_load_balancing_method: "DST_MAC" # Updated method
+
+# Test logical ports update - change load balancing method only
+test_logical_ports_update_load_balancing_only:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_load_balancing_method: "VLAN_DST_MIXED_IP_PORT" # Updated method only
+
+# Test logical ports update - change LACP system priority only
+test_logical_ports_update_lacp_priority_only:
+  <<: *device_info
+  layer2_configuration:
+    logical_ports:
+      port_channel_lacp_system_priority: 1536 # Updated priority only
