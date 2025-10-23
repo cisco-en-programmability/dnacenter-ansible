@@ -568,7 +568,6 @@ response_unassign_idempotent:
 import time
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
- #   validate_list_of_dicts,
     validate_str,
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
@@ -1181,7 +1180,9 @@ class AccessPointLocation(DnacBase):
                         self.log(f"Comparing access point radio field '{key}': {radio.get(key)} with {exist_radio.get(self.keymap[key])}", "DEBUG")
                         if key == "antenna":
                             for ant_key in ["antenna_name", "azimuth", "elevation"]:
-                                self.log(f"Comparing access point antenna field '{ant_key}': {radio.get('antenna', {}).get(ant_key)} with {exist_radio.get(self.keymap[key], {}).get(self.keymap[ant_key])}", "DEBUG")
+                                self.log(f"Comparing access point antenna field '{ant_key}': " +\
+                                         f"{radio.get('antenna', {}).get(ant_key)} with " +\
+                                         f"{exist_radio.get(self.keymap[key], {}).get(self.keymap[ant_key])}", "DEBUG")
 
                                 if ant_key == "azimuth":
                                     current_azimuth = int(radio.get("antenna", {}).get(ant_key))
@@ -1208,7 +1209,8 @@ class AccessPointLocation(DnacBase):
                                     current_antenna_name = radio.get("antenna", {}).get(ant_key)
                                     existing_antenna_name = exist_radio.get(self.keymap[key], {}).get(self.keymap[ant_key])
                                     if current_antenna_name != existing_antenna_name:
-                                        self.log(f"Access point antenna name does not match: {current_antenna_name}, with existing: {existing_antenna_name}", "INFO")
+                                        self.log(f"Access point antenna name does not match: {current_antenna_name}, " +\
+                                                 f"with existing: {existing_antenna_name}", "INFO")
                                         radio["id"] = exist_radio.get("id")
                                         un_matched_value.append(("antenna", radio.get("antenna"), None))
                                         compare_state = False
@@ -1683,7 +1685,7 @@ class AccessPointLocation(DnacBase):
 
         if self.location_not_created:
             self.msg += f" Unable to process the following Access Point Location(s):" +\
-            f"'{', '.join(map(str, self.location_not_created))}'. They may not have been created or already exist."
+                f"'{', '.join(map(str, self.location_not_created))}'. They may not have been created or already exist."
             self.log(self.msg, "DEBUG")
             self.changed = False
             self.status = "failed"
@@ -1807,13 +1809,13 @@ class AccessPointLocation(DnacBase):
                 self.status = "success"
 
             if self.location_not_deleted:
-                self.msg += f" Unable to delete the following Access Point Location(s): '{self.location_not_deleted}'." 
+                self.msg += f" Unable to delete the following Access Point Location(s): '{self.location_not_deleted}'."
                 self.log(self.msg, "DEBUG")
                 self.changed = False
                 self.status = "failed"
 
             if self.location_already_deleted:
-                self.msg += f" Access Point Location(s) already deleted for '{self.location_already_deleted}'." 
+                self.msg += f" Access Point Location(s) already deleted for '{self.location_already_deleted}'."
                 self.changed = False
                 self.status = "success"
 
