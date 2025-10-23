@@ -27,12 +27,12 @@ options:
         Limit query parameter. Return only this many
         IP Pool to SSID Mapping. Default is 500 if not
         specified. Maximum allowed limit is 500.
-    type: float
+    type: int
   offset:
     description:
       - Offset query parameter. Number of records to
         skip for pagination.
-    type: float
+    type: int
 requirements:
   - dnacentersdk >= 2.10.1
   - python >= 3.5
