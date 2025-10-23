@@ -1,0 +1,954 @@
+# ---
+# # ===================================================================================================
+# # LLDP FEATURE TESTS SUMMARY
+# # ===================================================================================================
+# #
+# # This test suite validates LLDP configuration for Wired Campus Automation.
+# #
+# # TEST CATEGORIES:
+# #
+# # 1. NEGATIVE VALIDATION TESTS (Lines 75-450)
+# #    - LLDP Admin Status validation (string/integer instead of boolean)
+# #    - LLDP Hold Time validation (below min, above max, string, float)
+# #    - LLDP Timer validation (below min, above max, negative, string, float)
+# #    - LLDP Reinitialization Delay validation (below min, above max, negative, string, float)
+# #    - Data type and structure validation (invalid dict/list types)
+# #
+# # 2. POSITIVE VALIDATION TESTS (Lines 450-950)
+# #    a) LLDP Creation Tests
+# #       - Admin status only configuration
+# #       - All parameters configuration
+# #       - Custom timers configuration
+# #       - Disabled LLDP configuration
+# #       - Reinitialization delay only configuration
+# #
+# #    b) LLDP Update Tests (Merged State)
+# #       - Enable/disable LLDP updates
+# #       - Timer modifications
+# #       - Reinitialization delay modifications
+# #       - All parameters updates
+# #
+# #    c) LLDP Deletion Tests (Deleted State)
+# #       - Empty configuration deletion/reset
+# #       - Configuration with parameters deletion
+# #
+# #    d) Boundary Value Tests
+# #       - Minimum valid values (hold_time: 0, timer: 5, reinit_delay: 2)
+# #       - Maximum valid values (hold_time: 65535, timer: 65534, reinit_delay: 10)
+# #       - Recommended values testing
+# #       - Zero hold time (no aging) configuration
+# #
+# #    e) Special Configuration Tests
+# #       - Partial configuration testing
+# #       - Default recommended settings
+# #
+# #    f) Advanced Test Scenarios
+# #       - Idempotency tests (same config applied twice)
+# #       - Cleanup operations
+# #
+# # VALIDATION RANGES:
+# # - LLDP Admin Status: boolean (true/false)
+# # - LLDP Hold Time: integer (0-65535 seconds, 0 = no aging)
+# # - LLDP Timer: integer (5-65534 seconds)
+# # - LLDP Reinitialization Delay: integer (2-10 seconds)
+# #
+# # EXPECTED BEHAVIORS:
+# # - Negative tests should fail with appropriate error messages
+# # - Positive tests should succeed with 'Successfully' in response
+# # - Idempotency: First run changes=true, second run changes=false
+# # - All tests include proper pause times for configuration settlement
+# # - Zero hold time disables aging of LLDP neighbor information
+# #
+# # ===================================================================================================
+
+# - debug: msg="Starting LLDP feature tests for Wired Campus Automation"
+# - debug: msg="Role Path {{ role_path }}"
+
+# - block:
+#     - name: Load LLDP test variables
+#       include_vars:
+#         file: "{{ role_path }}/vars/vars_wca_test_feature_lldp.yml"
+#         name: lldp_vars_map
+#       vars:
+#         dnac_login: &dnac_login
+#           dnac_host: "{{ dnac_host }}"
+#           dnac_username: "{{ dnac_username }}"
+#           dnac_password: "{{ dnac_password }}"
+#           dnac_verify: "{{ dnac_verify }}"
+#           dnac_port: "{{ dnac_port }}"
+#           dnac_version: "{{ dnac_version }}"
+#           dnac_debug: "{{ dnac_debug }}"
+#           dnac_log: true
+#           dnac_log_level: "DEBUG"
+#           config_verify: true
+#           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
+#           dnac_log_append: false
+
+#     # =============================================================================
+#     # Negative Validation Tests for LLDP
+#     # =============================================================================
+
+#     # #############################################
+#     #        LLDP Admin Status Tests
+#     # #############################################
+
+#     - name: Test LLDP admin status validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_admin_status_string }}"
+#       register: result_lldp_admin_status_string
+#       ignore_errors: true
+#       tags: [negative, lldp, admin_status]
+
+#     - name: Assert LLDP admin status string validation failed
+#       assert:
+#         that:
+#           - result_lldp_admin_status_string.failed == true
+#           - "'must be of type boolean' in result_lldp_admin_status_string.msg"
+#         fail_msg: "LLDP admin status string validation should have failed"
+#         success_msg: "LLDP admin status string validation correctly failed"
+#       tags: [negative, lldp, admin_status]
+
+#     - name: Test LLDP admin status validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_admin_status_integer }}"
+#       register: result_lldp_admin_status_integer
+#       ignore_errors: true
+#       tags: [negative, lldp, admin_status]
+
+#     - name: Assert LLDP admin status integer validation failed
+#       assert:
+#         that:
+#           - result_lldp_admin_status_integer.failed == true
+#           - "'must be of type boolean' in result_lldp_admin_status_integer.msg"
+#         fail_msg: "LLDP admin status integer validation should have failed"
+#         success_msg: "LLDP admin status integer validation correctly failed"
+#       tags: [negative, lldp, admin_status]
+
+#     # #############################################
+#     #        LLDP Hold Time Tests
+#     # #############################################
+
+#     - name: Test LLDP hold time validation - below minimum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_hold_time_below_min }}"
+#       register: result_lldp_hold_time_below_min
+#       ignore_errors: true
+#       tags: [negative, lldp, hold_time]
+
+#     - name: Assert LLDP hold time below minimum validation failed
+#       assert:
+#         that:
+#           - result_lldp_hold_time_below_min.failed == true
+#           - "'must be within the range' in result_lldp_hold_time_below_min.msg"
+#         fail_msg: "LLDP hold time below minimum validation should have failed"
+#         success_msg: "LLDP hold time below minimum validation correctly failed"
+#       tags: [negative, lldp, hold_time]
+
+#     - name: Test LLDP hold time validation - above maximum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_hold_time_above_max }}"
+#       register: result_lldp_hold_time_above_max
+#       ignore_errors: true
+#       tags: [negative, lldp, hold_time]
+
+#     - name: Assert LLDP hold time above maximum validation failed
+#       assert:
+#         that:
+#           - result_lldp_hold_time_above_max.failed == true
+#           - "'must be within the range' in result_lldp_hold_time_above_max.msg"
+#         fail_msg: "LLDP hold time above maximum validation should have failed"
+#         success_msg: "LLDP hold time above maximum validation correctly failed"
+#       tags: [negative, lldp, hold_time]
+
+#     - name: Test LLDP hold time validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_hold_time_string }}"
+#       register: result_lldp_hold_time_string
+#       ignore_errors: true
+#       tags: [negative, lldp, hold_time]
+
+#     - name: Assert LLDP hold time string validation failed
+#       assert:
+#         that:
+#           - result_lldp_hold_time_string.failed == true
+#           - "'must be of type integer' in result_lldp_hold_time_string.msg"
+#         fail_msg: "LLDP hold time string validation should have failed"
+#         success_msg: "LLDP hold time string validation correctly failed"
+#       tags: [negative, lldp, hold_time]
+
+#     - name: Test LLDP hold time validation - float value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_hold_time_float }}"
+#       register: result_lldp_hold_time_float
+#       ignore_errors: true
+#       tags: [negative, lldp, hold_time]
+
+#     - name: Assert LLDP hold time float validation failed
+#       assert:
+#         that:
+#           - result_lldp_hold_time_float.failed == true
+#           - "'must be of type integer' in result_lldp_hold_time_float.msg"
+#         fail_msg: "LLDP hold time float validation should have failed"
+#         success_msg: "LLDP hold time float validation correctly failed"
+#       tags: [negative, lldp, hold_time]
+
+#     # #############################################
+#     #        LLDP Timer Tests
+#     # #############################################
+
+#     - name: Test LLDP timer validation - below minimum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_timer_below_min }}"
+#       register: result_lldp_timer_below_min
+#       ignore_errors: true
+#       tags: [negative, lldp, timer]
+
+#     - name: Assert LLDP timer below minimum validation failed
+#       assert:
+#         that:
+#           - result_lldp_timer_below_min.failed == true
+#           - "'must be within the range' in result_lldp_timer_below_min.msg"
+#         fail_msg: "LLDP timer below minimum validation should have failed"
+#         success_msg: "LLDP timer below minimum validation correctly failed"
+#       tags: [negative, lldp, timer]
+
+#     - name: Test LLDP timer validation - above maximum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_timer_above_max }}"
+#       register: result_lldp_timer_above_max
+#       ignore_errors: true
+#       tags: [negative, lldp, timer]
+
+#     - name: Assert LLDP timer above maximum validation failed
+#       assert:
+#         that:
+#           - result_lldp_timer_above_max.failed == true
+#           - "'must be within the range' in result_lldp_timer_above_max.msg"
+#         fail_msg: "LLDP timer above maximum validation should have failed"
+#         success_msg: "LLDP timer above maximum validation correctly failed"
+#       tags: [negative, lldp, timer]
+
+#     - name: Test LLDP timer validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_timer_string }}"
+#       register: result_lldp_timer_string
+#       ignore_errors: true
+#       tags: [negative, lldp, timer]
+
+#     - name: Assert LLDP timer string validation failed
+#       assert:
+#         that:
+#           - result_lldp_timer_string.failed == true
+#           - "'must be of type integer' in result_lldp_timer_string.msg"
+#         fail_msg: "LLDP timer string validation should have failed"
+#         success_msg: "LLDP timer string validation correctly failed"
+#       tags: [negative, lldp, timer]
+
+#     - name: Test LLDP timer validation - float value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_timer_float }}"
+#       register: result_lldp_timer_float
+#       ignore_errors: true
+#       tags: [negative, lldp, timer]
+
+#     - name: Assert LLDP timer float validation failed
+#       assert:
+#         that:
+#           - result_lldp_timer_float.failed == true
+#           - "'must be of type integer' in result_lldp_timer_float.msg"
+#         fail_msg: "LLDP timer float validation should have failed"
+#         success_msg: "LLDP timer float validation correctly failed"
+#       tags: [negative, lldp, timer]
+
+#     - name: Test LLDP timer validation - negative value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_timer_negative }}"
+#       register: result_lldp_timer_negative
+#       ignore_errors: true
+#       tags: [negative, lldp, timer]
+
+#     - name: Assert LLDP timer negative validation failed
+#       assert:
+#         that:
+#           - result_lldp_timer_negative.failed == true
+#           - "'must be within the range' in result_lldp_timer_negative.msg"
+#         fail_msg: "LLDP timer negative validation should have failed"
+#         success_msg: "LLDP timer negative validation correctly failed"
+#       tags: [negative, lldp, timer]
+
+#     # #############################################
+#     #        LLDP Reinitialization Delay Tests
+#     # #############################################
+
+#     - name: Test LLDP reinitialization delay validation - below minimum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_reinit_delay_below_min }}"
+#       register: result_lldp_reinit_delay_below_min
+#       ignore_errors: true
+#       tags: [negative, lldp, reinit_delay]
+
+#     - name: Assert LLDP reinitialization delay below minimum validation failed
+#       assert:
+#         that:
+#           - result_lldp_reinit_delay_below_min.failed == true
+#           - "'must be within the range' in result_lldp_reinit_delay_below_min.msg"
+#         fail_msg: "LLDP reinitialization delay below minimum validation should have failed"
+#         success_msg: "LLDP reinitialization delay below minimum validation correctly failed"
+#       tags: [negative, lldp, reinit_delay]
+
+#     - name: Test LLDP reinitialization delay validation - above maximum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_reinit_delay_above_max }}"
+#       register: result_lldp_reinit_delay_above_max
+#       ignore_errors: true
+#       tags: [negative, lldp, reinit_delay]
+
+#     - name: Assert LLDP reinitialization delay above maximum validation failed
+#       assert:
+#         that:
+#           - result_lldp_reinit_delay_above_max.failed == true
+#           - "'must be within the range' in result_lldp_reinit_delay_above_max.msg"
+#         fail_msg: "LLDP reinitialization delay above maximum validation should have failed"
+#         success_msg: "LLDP reinitialization delay above maximum validation correctly failed"
+#       tags: [negative, lldp, reinit_delay]
+
+#     - name: Test LLDP reinitialization delay validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_reinit_delay_string }}"
+#       register: result_lldp_reinit_delay_string
+#       ignore_errors: true
+#       tags: [negative, lldp, reinit_delay]
+
+#     - name: Assert LLDP reinitialization delay string validation failed
+#       assert:
+#         that:
+#           - result_lldp_reinit_delay_string.failed == true
+#           - "'must be of type integer' in result_lldp_reinit_delay_string.msg"
+#         fail_msg: "LLDP reinitialization delay string validation should have failed"
+#         success_msg: "LLDP reinitialization delay string validation correctly failed"
+#       tags: [negative, lldp, reinit_delay]
+
+#     - name: Test LLDP reinitialization delay validation - float value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_reinit_delay_float }}"
+#       register: result_lldp_reinit_delay_float
+#       ignore_errors: true
+#       tags: [negative, lldp, reinit_delay]
+
+#     - name: Assert LLDP reinitialization delay float validation failed
+#       assert:
+#         that:
+#           - result_lldp_reinit_delay_float.failed == true
+#           - "'must be of type integer' in result_lldp_reinit_delay_float.msg"
+#         fail_msg: "LLDP reinitialization delay float validation should have failed"
+#         success_msg: "LLDP reinitialization delay float validation correctly failed"
+#       tags: [negative, lldp, reinit_delay]
+
+#     - name: Test LLDP reinitialization delay validation - negative value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_reinit_delay_negative }}"
+#       register: result_lldp_reinit_delay_negative
+#       ignore_errors: true
+#       tags: [negative, lldp, reinit_delay]
+
+#     - name: Assert LLDP reinitialization delay negative validation failed
+#       assert:
+#         that:
+#           - result_lldp_reinit_delay_negative.failed == true
+#           - "'must be within the range' in result_lldp_reinit_delay_negative.msg"
+#         fail_msg: "LLDP reinitialization delay negative validation should have failed"
+#         success_msg: "LLDP reinitialization delay negative validation correctly failed"
+#       tags: [negative, lldp, reinit_delay]
+
+#     # #############################################
+#     #        Data Type and Structure Tests
+#     # #############################################
+
+#     - name: Test LLDP structure validation - string instead of dict should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_invalid_dict_type }}"
+#       register: result_lldp_invalid_dict_type
+#       ignore_errors: true
+#       tags: [negative, lldp, structure]
+
+#     - name: Assert LLDP invalid dict type validation failed
+#       assert:
+#         that:
+#           - result_lldp_invalid_dict_type.failed == true
+#           - "'must be of type dictionary' in result_lldp_invalid_dict_type.msg"
+#         fail_msg: "LLDP invalid dict type validation should have failed"
+#         success_msg: "LLDP invalid dict type validation correctly failed"
+#       tags: [negative, lldp, structure]
+
+#     - name: Test LLDP structure validation - list instead of dict should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_invalid_list_type }}"
+#       register: result_lldp_invalid_list_type
+#       ignore_errors: true
+#       tags: [negative, lldp, structure]
+
+#     - name: Assert LLDP invalid list type validation failed
+#       assert:
+#         that:
+#           - result_lldp_invalid_list_type.failed == true
+#           - "'must be of type dictionary' in result_lldp_invalid_list_type.msg"
+#         fail_msg: "LLDP invalid list type validation should have failed"
+#         success_msg: "LLDP invalid list type validation correctly failed"
+#       tags: [negative, lldp, structure]
+
+#     - name: Display negative test summary
+#       debug:
+#         msg: "LLDP negative validation tests completed successfully"
+#       tags: [negative, lldp]
+
+#     # =============================================================================
+#     # POSITIVE TEST CASES - LLDP CREATION (MERGED STATE)
+#     # =============================================================================
+
+#     # #############################################
+#     #        Single LLDP Parameter Tests
+#     # #############################################
+
+#     - name: Test LLDP configuration with admin status only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_create_admin_status_only }}"
+#       register: result_lldp_create_admin_status_only
+#       tags: [positive, lldp, create, admin_status]
+
+#     - name: Assert LLDP admin status only configuration succeeded
+#       assert:
+#         that:
+#           - result_lldp_create_admin_status_only.failed == false
+#           - result_lldp_create_admin_status_only.changed == true
+#           - "'Successfully' in result_lldp_create_admin_status_only.response"
+#         fail_msg: "LLDP admin status only configuration should have succeeded"
+#         success_msg: "LLDP admin status only configuration succeeded"
+#       tags: [positive, lldp, create, admin_status]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, lldp, create]
+
+#     - name: Test LLDP configuration with all parameters
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_create_all_params }}"
+#       register: result_lldp_create_all_params
+#       tags: [positive, lldp, create, all_params]
+
+#     - name: Assert LLDP all parameters configuration succeeded
+#       assert:
+#         that:
+#           - result_lldp_create_all_params.failed == false
+#           - result_lldp_create_all_params.changed == true
+#           - "'Successfully' in result_lldp_create_all_params.response"
+#         fail_msg: "LLDP all parameters configuration should have succeeded"
+#         success_msg: "LLDP all parameters configuration succeeded"
+#       tags: [positive, lldp, create, all_params]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, lldp, create]
+
+#     - name: Test LLDP configuration with custom timers
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_create_custom_timers }}"
+#       register: result_lldp_create_custom_timers
+#       tags: [positive, lldp, create, timers]
+
+#     - name: Assert LLDP custom timers configuration succeeded
+#       assert:
+#         that:
+#           - result_lldp_create_custom_timers.failed == false
+#           - result_lldp_create_custom_timers.changed == true
+#           - "'Successfully' in result_lldp_create_custom_timers.response"
+#         fail_msg: "LLDP custom timers configuration should have succeeded"
+#         success_msg: "LLDP custom timers configuration succeeded"
+#       tags: [positive, lldp, create, timers]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, lldp, create]
+
+#     - name: Test LLDP disabled configuration
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_create_disabled }}"
+#       register: result_lldp_create_disabled
+#       tags: [positive, lldp, create, disabled]
+
+#     - name: Assert LLDP disabled configuration succeeded
+#       assert:
+#         that:
+#           - result_lldp_create_disabled.failed == false
+#           - result_lldp_create_disabled.changed == true
+#           - "'Successfully' in result_lldp_create_disabled.response"
+#         fail_msg: "LLDP disabled configuration should have succeeded"
+#         success_msg: "LLDP disabled configuration succeeded"
+#       tags: [positive, lldp, create, disabled]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, lldp, create]
+
+#     - name: Test LLDP with only reinitialization delay
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_create_reinit_delay_only }}"
+#       register: result_lldp_create_reinit_delay_only
+#       tags: [positive, lldp, create, reinit_delay]
+
+#     - name: Assert LLDP reinitialization delay only configuration succeeded
+#       assert:
+#         that:
+#           - result_lldp_create_reinit_delay_only.failed == false
+#           - result_lldp_create_reinit_delay_only.changed == true
+#           - "'Successfully' in result_lldp_create_reinit_delay_only.response"
+#         fail_msg: "LLDP reinitialization delay only configuration should have succeeded"
+#         success_msg: "LLDP reinitialization delay only configuration succeeded"
+#       tags: [positive, lldp, create, reinit_delay]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, lldp, create]
+
+#     # =============================================================================
+#     # POSITIVE TEST CASES - LLDP UPDATE (MERGED STATE)
+#     # =============================================================================
+
+#     # #############################################
+#     #        Single LLDP Update Tests
+#     # #############################################
+
+#     - name: Test LLDP update - enable LLDP
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_update_enable }}"
+#       register: result_lldp_update_enable
+#       tags: [positive, lldp, update, enable]
+
+#     - name: Assert LLDP enable update succeeded
+#       assert:
+#         that:
+#           - result_lldp_update_enable.failed == false
+#           - result_lldp_update_enable.changed == true
+#           - "'Successfully' in result_lldp_update_enable.response"
+#         fail_msg: "LLDP enable update should have succeeded"
+#         success_msg: "LLDP enable update succeeded"
+#       tags: [positive, lldp, update, enable]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, lldp, update]
+
+#     - name: Test LLDP update - disable LLDP
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_update_disable }}"
+#       register: result_lldp_update_disable
+#       tags: [positive, lldp, update, disable]
+
+#     - name: Assert LLDP disable update succeeded
+#       assert:
+#         that:
+#           - result_lldp_update_disable.failed == false
+#           - result_lldp_update_disable.changed == true
+#           - "'Successfully' in result_lldp_update_disable.response"
+#         fail_msg: "LLDP disable update should have succeeded"
+#         success_msg: "LLDP disable update succeeded"
+#       tags: [positive, lldp, update, disable]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, lldp, update]
+
+#     - name: Test LLDP update - modify timers
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_update_timers }}"
+#       register: result_lldp_update_timers
+#       tags: [positive, lldp, update, timers]
+
+#     - name: Assert LLDP timers update succeeded
+#       assert:
+#         that:
+#           - result_lldp_update_timers.failed == false
+#           - result_lldp_update_timers.changed == true
+#           - "'Successfully' in result_lldp_update_timers.response"
+#         fail_msg: "LLDP timers update should have succeeded"
+#         success_msg: "LLDP timers update succeeded"
+#       tags: [positive, lldp, update, timers]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, lldp, update]
+
+#     - name: Test LLDP update - modify reinitialization delay
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_update_reinit_delay }}"
+#       register: result_lldp_update_reinit_delay
+#       tags: [positive, lldp, update, reinit_delay]
+
+#     - name: Assert LLDP reinitialization delay update succeeded
+#       assert:
+#         that:
+#           - result_lldp_update_reinit_delay.failed == false
+#           - result_lldp_update_reinit_delay.changed == true
+#           - "'Successfully' in result_lldp_update_reinit_delay.response"
+#         fail_msg: "LLDP reinitialization delay update should have succeeded"
+#         success_msg: "LLDP reinitialization delay update succeeded"
+#       tags: [positive, lldp, update, reinit_delay]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, lldp, update]
+
+#     - name: Test LLDP update - all parameters
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_update_all_params }}"
+#       register: result_lldp_update_all_params
+#       tags: [positive, lldp, update, all_params]
+
+#     - name: Assert LLDP all parameters update succeeded
+#       assert:
+#         that:
+#           - result_lldp_update_all_params.failed == false
+#           - result_lldp_update_all_params.changed == true
+#           - "'Successfully' in result_lldp_update_all_params.response"
+#         fail_msg: "LLDP all parameters update should have succeeded"
+#         success_msg: "LLDP all parameters update succeeded"
+#       tags: [positive, lldp, update, all_params]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, lldp, update]
+#     # =============================================================================
+#     # POSITIVE TEST CASES - LLDP DELETION (DELETED STATE)
+#     # =============================================================================
+
+#     # #############################################
+#     #        LLDP Deletion Tests
+#     # #############################################
+
+#     - name: Test LLDP deletion/reset - empty configuration
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_delete_empty }}"
+#       register: result_lldp_delete_empty
+#       tags: [positive, lldp, delete, empty]
+
+#     - name: Assert LLDP empty deletion succeeded
+#       assert:
+#         that:
+#           - result_lldp_delete_empty.failed == false
+#           - result_lldp_delete_empty.changed == true
+#           - "'Successfully' in result_lldp_delete_empty.response"
+#         fail_msg: "LLDP empty deletion should have succeeded"
+#         success_msg: "LLDP empty deletion succeeded"
+#       tags: [positive, lldp, delete, empty]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, lldp, delete]
+
+#     - name: Test LLDP update - all parameters (setup for deletion test)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_update_all_params }}"
+#       register: result_lldp_update_all_params_setup
+#       tags: [positive, lldp, delete]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, lldp, delete]
+
+#     - name: Test LLDP deletion/reset - with existing parameters
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_delete_with_params }}"
+#       register: result_lldp_delete_with_params
+#       tags: [positive, lldp, delete, params]
+
+#     - name: Assert LLDP deletion with params succeeded
+#       assert:
+#         that:
+#           - result_lldp_delete_with_params.failed == false
+#           - result_lldp_delete_with_params.changed == true
+#           - "'Successfully' in result_lldp_delete_with_params.response"
+#         fail_msg: "LLDP deletion with params should have succeeded"
+#         success_msg: "LLDP deletion with params succeeded"
+#       tags: [positive, lldp, delete, params]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, lldp, delete]
+
+#     # =============================================================================
+#     # BOUNDARY VALUE TESTS
+#     # =============================================================================
+
+#     # #############################################
+#     #        Boundary Value Tests
+#     # #############################################
+
+#     - name: Test LLDP with minimum valid values
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_boundary_min_values }}"
+#       register: result_lldp_boundary_min_values
+#       tags: [positive, lldp, boundary, min]
+
+#     - name: Assert LLDP minimum values configuration succeeded
+#       assert:
+#         that:
+#           - result_lldp_boundary_min_values.failed == false
+#           - result_lldp_boundary_min_values.changed == true
+#           - "'Successfully' in result_lldp_boundary_min_values.response"
+#         fail_msg: "LLDP minimum values configuration should have succeeded"
+#         success_msg: "LLDP minimum values configuration succeeded"
+#       tags: [positive, lldp, boundary, min]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, lldp, boundary]
+
+#     - name: Test LLDP with maximum valid values
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_boundary_max_values }}"
+#       register: result_lldp_boundary_max_values
+#       tags: [positive, lldp, boundary, max]
+
+#     - name: Assert LLDP maximum values configuration succeeded
+#       assert:
+#         that:
+#           - result_lldp_boundary_max_values.failed == false
+#           - result_lldp_boundary_max_values.changed == true
+#           - "'Successfully' in result_lldp_boundary_max_values.response"
+#         fail_msg: "LLDP maximum values configuration should have succeeded"
+#         success_msg: "LLDP maximum values configuration succeeded"
+#       tags: [positive, lldp, boundary, max]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, lldp, boundary]
+
+#     - name: Test LLDP with recommended values
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_recommended_values }}"
+#       register: result_lldp_recommended_values
+#       tags: [positive, lldp, boundary, recommended]
+
+#     - name: Assert LLDP recommended values configuration succeeded
+#       assert:
+#         that:
+#           - result_lldp_recommended_values.failed == false
+#           - result_lldp_recommended_values.changed == true
+#           - "'Successfully' in result_lldp_recommended_values.response"
+#         fail_msg: "LLDP recommended values configuration should have succeeded"
+#         success_msg: "LLDP recommended values configuration succeeded"
+#       tags: [positive, lldp, boundary, recommended]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, lldp, boundary]
+
+#     - name: Test LLDP with zero hold time (no aging)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_zero_hold_time }}"
+#       register: result_lldp_zero_hold_time
+#       tags: [positive, lldp, boundary, zero_hold]
+
+#     - name: Assert LLDP zero hold time configuration succeeded
+#       assert:
+#         that:
+#           - result_lldp_zero_hold_time.failed == false
+#           - result_lldp_zero_hold_time.changed == true
+#           - "'Successfully' in result_lldp_zero_hold_time.response"
+#         fail_msg: "LLDP zero hold time configuration should have succeeded"
+#         success_msg: "LLDP zero hold time configuration succeeded"
+#       tags: [positive, lldp, boundary, zero_hold]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, lldp, boundary]
+
+#     # =============================================================================
+#     # ADVANCED POSITIVE TEST SCENARIOS
+#     # =============================================================================
+
+#     # #############################################
+#     #        Idempotency Tests
+#     # #############################################
+
+#     - name: Test LLDP Idempotency - Configure same LLDP settings twice
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_create_all_params }}"
+#       register: result_lldp_idempotency_first
+#       tags: [positive, lldp, idempotency]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 40
+#       tags: [positive, lldp, idempotency]
+
+#     - name: Test LLDP Idempotency - Configure same LLDP settings again (should be idempotent)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ lldp_vars_map.test_lldp_create_all_params }}"
+#       register: result_lldp_idempotency_second
+#       tags: [positive, lldp, idempotency]
+
+#     - name: Assert LLDP Idempotency - Second configuration should not change
+#       assert:
+#         that:
+#           - result_lldp_idempotency_second.failed == false
+#           - result_lldp_idempotency_second.changed == false
+#         fail_msg: "LLDP idempotency test failed"
+#         success_msg: "LLDP idempotency test succeeded"
+#       tags: [positive, lldp, idempotency]
+
+#     # #############################################
+#     #        Cleanup Test Configurations
+#     # #############################################
+
+#     - name: Cleanup - Reset LLDP to default configuration
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - ip_address: "204.1.2.3"
+#             device_collection_status_check: false
+#             layer2_configuration:
+#               lldp: {}
+#       register: result_lldp_cleanup
+#       ignore_errors: true
+#       tags: [cleanup, lldp]
+
+#   always:
+#     - name: Display positive test summary
+#       debug:
+#         msg: "LLDP positive validation tests completed successfully"
+#       tags: [positive, lldp]
+
+#     - name: Display final cleanup status
+#       debug:
+#         var: result_lldp_cleanup
+#       when: result_lldp_cleanup is defined
+#       tags: [cleanup, lldp]

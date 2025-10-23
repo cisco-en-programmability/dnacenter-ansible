@@ -571,24 +571,37 @@ class PnP(DnacBase):
         response = None
 
         try:
-            response = self.get_site(self.want.get("site_name"))
-            if response:
-                self.log(
-                    "Received site details for '{0}': {1}".format(
-                        self.want.get("site_name"), str(response)
-                    ),
-                    "DEBUG",
+            site_name = self.want.get("site_name")
+            response = self.get_site(site_name)
+            self.log("Response from get_site for the site '{0}': {1}".format(
+                site_name, self.pprint(response)), "DEBUG")
+
+            if not response:
+                self.msg = "No site details found for site name: '{0}'.".format(
+                    site_name
                 )
-                site = response.get("response")
-                if len(site) == 1:
-                    site_id = site[0].get("id")
-                    site_exists = True
-                    self.log(
-                        "Site Name: {1}, Site ID: {0}".format(
-                            site_id, self.want.get("site_name")
-                        ),
-                        "INFO",
-                    )
+                self.log(self.msg, "CRITICAL")
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+                return self
+
+            self.log(
+                "Received site details for '{0}': {1}".format(
+                    site_name, str(response)
+                ),
+                "DEBUG",
+            )
+            site = response.get("response")
+            if len(site) == 1:
+                site_id = site[0].get("id")
+                site_exists = True
+                self.log(
+                    "Site Name: {1}, Site ID: {0}".format(
+                        site_id, self.want.get("site_name")
+                    ),
+                    "INFO",
+                )
             return (site_exists, site_id)
 
         except Exception:
@@ -1193,15 +1206,14 @@ class PnP(DnacBase):
                 bool: True if all input config values match the device info, False otherwise.
                 int: The number of keys with mismatched values.
         """
+        self.log("Starting comparison between input config and device info.", "INFO")
+        self.log("Input Config: {0}, Device Info: {1}".format(
+            self.pprint(input_config), self.pprint(device_info)), "INFO")
         unmatch_count = 0
         for key, value in input_config.items():
             device_value = device_info.get(key)
-            if key == "authorize" and value:
-                authorize_value = device_info.get("validActions", {}).get(key)
-                if authorize_value != value:
-                    unmatch_count += 1
 
-            if value != device_value:
+            if value != device_value and key == "hostname":
                 self.log(
                     "Mismatch found for key '{0}': expected '{1}', got '{2}'".format(
                         key, value, device_value
@@ -1269,6 +1281,10 @@ class PnP(DnacBase):
             )
 
             if update_response and isinstance(update_response, dict):
+                self.msg = "Successfully updated device configuration for device ID {0}. ".format(
+                    device_id
+                )
+                self.log(self.msg, "INFO")
                 return update_response
 
             self.log(
@@ -1622,6 +1638,7 @@ class PnP(DnacBase):
         # Check the device already added and claimed for idempotent or import devices
         if self.want.get("pnp_params"):
             devices_exists, devices_not_exist, reset_devices = [], [], []
+            device_updated_list = []
             site = self.want.get("site_name")
             template_name = self.want.get("template_name")
             image_name = self.want.get("image_params", {}).get("image_name")
@@ -1658,9 +1675,9 @@ class PnP(DnacBase):
 
                 if device_response and isinstance(device_response, dict):
                     device_info = device_response.get("deviceInfo", {})
-                    existing_device_info = each_device.get("deviceInfo")
+                    input_device_info = each_device.get("deviceInfo")
                     match_stat, un_match = self.compare_config_with_device_info(
-                        device_info, existing_device_info
+                        input_device_info, device_info
                     )
                     claim_stat = device_info.get("state")
 
@@ -1678,9 +1695,15 @@ class PnP(DnacBase):
                             ),
                             "DEBUG"
                         )
-                        self.update_device_info(
-                            existing_device_info, device_info, device_response.get("id")
+                        device_update_response = self.update_device_info(
+                            input_device_info, device_info, device_response.get("id")
                         )
+                        if device_update_response:
+                            device_updated_list.append(serial_number)
+                            self.log(
+                                "Device '{0}' updated successfully.".format(serial_number),
+                                "INFO",
+                            )
 
                         current_version = self.get_ccc_version()
                         if authorize_flag and self.compare_dnac_versions(current_version, "2.3.7.9") >= 0 \
@@ -1776,6 +1799,11 @@ class PnP(DnacBase):
                     )
                     changed = True
                 self.log(self.msg, "INFO")
+
+                if device_updated_list:
+                    changed = True
+                    self.msg += " and Device information updated successfully."
+
                 self.set_operation_result(
                     "success", changed, self.msg, "INFO", devices_exists
                 ).check_return_status()
@@ -1979,20 +2007,45 @@ class PnP(DnacBase):
             "DEBUG",
         )
 
-        pnp_state = dev_details_response.get("deviceInfo").get("state")
+        pnp_state = dev_details_response.get("deviceInfo", {}).get("state")
         self.log("PnP state of the device: {0}".format(pnp_state), "INFO")
+
+        device_info = self.want.get("pnp_params")[0].get("deviceInfo")
+        match_stat, un_match = self.compare_config_with_device_info(
+            device_info, dev_details_response
+        )
+
+        update_response = {}
+        if not match_stat:
+            self.log(
+                "Updating device info for serial: '{0}' as config doesn't match.".format(
+                    self.want.get("serial_number")
+                ),
+                "DEBUG"
+            )
+            update_response = self.update_device_info(
+                device_info,
+                dev_details_response,
+                self.have["device_id"],
+            )
+            if update_response:
+                self.log(
+                    "Device '{0}' updated successfully.".format(
+                        self.want.get("serial_number")
+                    ),
+                    "INFO",
+                )
 
         if not self.want["site_name"]:
             self.result["response"] = self.have.get("device_found")
             self.result["msg"] = "Device is already added"
             self.log(self.result["msg"], "WARNING")
+            if update_response.get("deviceInfo"):
+                self.result["changed"] = True
+                self.result["msg"] += " and Device '{0}' updated successfully.".format(
+                    serial_number
+                )
             return self
-
-        update_response = self.update_device_info(
-            self.want.get("pnp_params")[0].get("deviceInfo"),
-            dev_details_response,
-            self.have["device_id"],
-        )
 
         if pnp_state == "Error":
             reset_response = self.reset_error_device(self.have["device_id"])
@@ -2000,6 +2053,11 @@ class PnP(DnacBase):
                 self.msg = "Device reset done Successfully"
                 self.log(self.msg, "INFO")
                 self.result["diff"] = self.validated_config
+
+                if update_response.get("deviceInfo"):
+                    self.result["msg"] += " and Device '{0}' updated successfully.".format(
+                        serial_number)
+
                 self.set_operation_result(
                     "success", True, self.msg, "INFO", reset_response
                 ).check_return_status()
@@ -2015,6 +2073,9 @@ class PnP(DnacBase):
             self.log(self.result["msg"], "WARNING")
             if update_response.get("deviceInfo"):
                 self.result["changed"] = True
+                self.result["msg"] += " and Device '{0}' updated successfully.".format(
+                    serial_number
+                )
                 return self
 
         claim_params = self.get_claim_params()
@@ -2036,6 +2097,10 @@ class PnP(DnacBase):
             self.result["response"] = claim_response
             self.result["diff"] = self.validated_config
             self.result["changed"] = True
+            if update_response.get("deviceInfo"):
+                self.result["msg"] += " and Device '{0}' updated successfully.".format(
+                    serial_number
+                )
 
         return self
 
