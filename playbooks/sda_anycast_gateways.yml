@@ -1,41 +1,42 @@
-- name: Get all anycast gateways with pagination
+
+---
+- name: Sda anycast gateways
   hosts: dnac_servers
-  connection: local
   vars_files:
     - credentials.yml
+  gather_facts: false
   tasks:
-    - name: Initialize results
-      set_fact:
-        all_gateways: []
-        current_offset: 0
-        batch_size: 500
-        has_more: true
+    - name: Create sda anycast gateways v1
+      cisco.dnac.sda_anycast_gateways:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        state: present
+        payload:
+          - fabricId: "b6af9074-b1d8-4b40-82f9-776d34adb0fc"
+            virtualNetworkName: "INFRA_VN"
+            vlanId: 100
+            vlanName: "VLAN_100"
+            ipPoolName: "IP_POOL_100"
+            isCriticalPool: true
+            isGroupBasedPolicyEnforcementEnabled: true
+            isIntraSubnetRoutingEnabled: true
+            isIpDirectedBroadcast: true
+            isLayer2FloodingEnabled: true
+            isMultipleIpToMacAddresses: true
+            isSupplicantBasedExtendedNodeOnboarding: true
+            isWirelessPool: true
+            poolType: "EXTENDED_NODE"
+            securityGroupName: "SG_DEFAULT"
+            tcpMssAdjustment: 1400
+            trafficType: "DATA"
+            anchoredSiteId: "7087c88f-ec73-4df1-8f6b-136d7e2ed9e2"
 
-    - name: Get gateways in batches
-      block:
-        - name: Get batch of gateways
-          cisco.dnac.sda_anycast_gateways_info:
-            dnac_host: "{{ dnac_host }}"
-            dnac_username: "{{ dnac_username }}"
-            dnac_password: "{{ dnac_password }}"
-            dnac_verify: "{{ dnac_verify }}"
-            dnac_port: "{{ dnac_port }}"
-            dnac_version: "{{ dnac_version }}"
-            dnac_debug: "{{ dnac_debug }}"
-            offset: "{{ current_offset }}"
-            limit: "{{ batch_size }}"
-          register: gateway_batch
+      register: result
 
-        - name: Append to results
-          set_fact:
-            all_gateways: "{{ all_gateways + gateway_batch.dnac_response.response }}"
-
-        - name: Check if more records exist
-          set_fact:
-            has_more: "{{ gateway_batch.dnac_response.response | length == batch_size }}"
-            current_offset: "{{ current_offset + batch_size }}"
-
-      # when: has_more | bool
-      # loop: "{{ range(0, 100) }}"  # Max 100 iterations (50,000 records)
-      # loop_control:
-      #   loop_var: iteration
+    - name: Show result
+      ansible.builtin.debug:
+        var: result
