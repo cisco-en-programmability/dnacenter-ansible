@@ -1685,8 +1685,7 @@ class AccessPointLocation(DnacBase):
 
         if self.location_not_created:
             not_created_msg = ', '.join(map(str, self.location_not_created))
-            self.msg += f" Unable to process the following Access Point Location(s):" +\
-                f"'{not_created_msg}'. They may not have been created or already exist."
+            self.msg += f" Unable to process the following Access Point Location(s): '{not_created_msg}'. They may not have been created or already exist."
             self.log(self.msg, "DEBUG")
             self.changed = False
             self.status = "failed"
