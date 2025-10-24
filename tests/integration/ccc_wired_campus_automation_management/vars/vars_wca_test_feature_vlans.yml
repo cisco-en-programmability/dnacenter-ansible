@@ -1,0 +1,463 @@
+---
+# Common device information
+device_info: &device_info
+  ip_address: "204.1.2.3"
+  device_collection_status_check: false
+
+###################################################################################################################
+# Negative Validation Tests for VLANs
+
+#############################################
+#           VLAN ID Validation Tests
+#############################################
+
+# Test VLAN ID below minimum (0)
+test_vlan_id_below_min:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 0  # Invalid: below minimum of 1
+        vlan_name: "Invalid_VLAN_Below_Min"
+        vlan_admin_status: true
+
+# Test VLAN ID above maximum (4095)
+test_vlan_id_above_max:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 4095  # Invalid: above maximum of 4094
+        vlan_name: "Invalid_VLAN_Above_Max"
+        vlan_admin_status: true
+
+# Test VLAN ID way above maximum
+test_vlan_id_zero:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 0  # Invalid: zero
+        vlan_name: "Invalid_VLAN_Zero"
+
+# Test negative VLAN ID
+test_vlan_id_negative:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: -1  # Invalid: negative
+        vlan_name: "Invalid_VLAN_Negative"
+        vlan_admin_status: false
+
+# Test missing required VLAN ID
+test_vlan_id_missing:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - # vlan_id is missing - should fail
+        vlan_name: "Missing_VLAN_ID"
+        vlan_admin_status: true
+
+#############################################
+#           VLAN Name Validation Tests
+#############################################
+
+# Test VLAN name too long (129 characters - exceeds 128 limit)
+test_vlan_name_too_long:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 100
+        vlan_name: "ThisVLANNameIsTooLongAndExceedsTheMaximumAllowedLengthOfOneHundredAndTwentyEightCharactersWhichWillCauseValidationFailureX"  # 129 chars
+        vlan_admin_status: true
+
+# Test VLAN name exactly 128 characters (should be valid)
+test_vlan_name_max_length:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 101
+        vlan_name: "ThisVLANNameIsExactlyOneHundredAndTwentyEightCharactersLongWhichIsTheMaximumAllowedLengthAndShouldPassValidationTest"  # Exactly 128 chars
+        vlan_admin_status: true
+
+# Test empty VLAN name (should be allowed as it's not required)
+test_vlan_name_empty:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 102
+        vlan_name: ""  # Empty string - should be allowed
+        vlan_admin_status: true
+
+#############################################
+#        VLAN Admin Status Tests
+#############################################
+
+# Test invalid admin status - string instead of boolean
+test_vlan_admin_status_string:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 103
+        vlan_name: "Invalid_Admin_Status_String"
+        vlan_admin_status: "true"  # Invalid: string instead of boolean
+
+# Test invalid admin status - integer instead of boolean
+test_vlan_admin_status_integer:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 104
+        vlan_name: "Invalid_Admin_Status_Integer"
+        vlan_admin_status: 1  # Invalid: integer instead of boolean
+
+#############################################
+#        Data Type and Structure Tests
+#############################################
+
+# Test invalid VLAN item - string instead of dictionary
+test_vlan_invalid_dict_type:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - "invalid_vlan_string"  # Invalid: string instead of dictionary
+
+# Test invalid VLAN structure - not a list
+test_vlan_not_list:
+  <<: *device_info
+  layer2_configuration:
+    vlans: "not_a_list"  # Invalid: string instead of list
+
+# Positive test case for VLANs
+# # Test empty VLAN list (should be allowed)
+# test_vlan_empty_list:
+#   <<: *device_info
+#   layer2_configuration:
+#     vlans: []  # Empty list - should be allowed
+
+#############################################
+#        Edge Case and Boundary Tests
+#############################################
+
+# Test minimum valid VLAN ID (1)
+test_vlan_id_min_valid:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 1  # Valid: minimum allowed
+        vlan_name: "Valid_VLAN_Min"
+        vlan_admin_status: true
+
+# positive test case for VLANs
+# # Test maximum valid VLAN ID (4094)
+# test_vlan_id_max_valid:
+#   <<: *device_info
+#   layer2_configuration:
+#     vlans:
+#       - vlan_id: 4094  # Valid: maximum allowed
+#         vlan_name: "Valid_VLAN_Max"
+#         vlan_admin_status: false
+
+# Test multiple VLANs with one invalid (should fail on first invalid)
+test_vlan_multiple_one_invalid:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 200  # Valid
+        vlan_name: "Valid_VLAN_1"
+        vlan_admin_status: true
+      - vlan_id: 5000  # Invalid: above maximum
+        vlan_name: "Invalid_VLAN_2"
+        vlan_admin_status: true
+      - vlan_id: 300  # This shouldn't be reached due to validation failure
+        vlan_name: "Valid_VLAN_3"
+        vlan_admin_status: false
+
+#############################################
+#        Valid Configuration Tests
+#############################################
+
+# Test valid VLAN with all parameters
+test_vlan_all_params_valid:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 500
+        vlan_name: "Complete_Valid_VLAN"
+        vlan_admin_status: true
+
+# Test valid VLAN with minimal parameters (only required)
+test_vlan_minimal_params:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 501  # Only required parameter
+
+#############################################
+#        Advanced Edge Cases
+#############################################
+
+# Test VLAN with special characters in name (should be allowed)
+test_vlan_name_special_chars:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 502
+        vlan_name: "VLAN_With-Special.Chars_123"
+        vlan_admin_status: true
+
+# Test VLAN with numeric name (should be allowed)
+test_vlan_name_numeric:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 503
+        vlan_name: "123456789"
+        vlan_admin_status: false
+
+# Test VLAN with space in name (should be allowed)
+test_vlan_name_with_spaces:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 504
+        vlan_name: "VLAN With Spaces"
+        vlan_admin_status: true
+
+# Test reserved VLAN IDs (should be allowed by validation but may fail at device level)
+test_vlan_reserved_ids:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 1  # Default VLAN
+        vlan_name: "Default_VLAN"
+        vlan_admin_status: true
+
+# Test VLAN with null/None values
+test_vlan_with_nulls:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 505
+        vlan_name: null  # Should be allowed (treated as not provided)
+        vlan_admin_status: null  # Should be allowed (treated as not provided)
+
+# Test single VLAN creation with admin disabled
+test_vlan_create_single_disabled_1:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 4003
+        vlan_name: "Disabled_VLAN"
+        vlan_admin_status: false  # is allowed for vlans between 2-1001
+  
+###################################################################################################################
+# Positive Validation Tests for VLANs
+
+#############################################
+#        POSITIVE TEST CASES - CREATE
+#############################################
+
+# Test single VLAN creation with minimal parameters
+test_vlan_create_single_minimal:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 4001  # Only required parameter
+
+# Test single VLAN creation with all parameters
+test_vlan_create_single_all_params:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 4002
+        vlan_name: "Complete_VLAN_Creation"
+        vlan_admin_status: true
+
+test_vlan_create_single_disabled_2:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 503
+        vlan_name: "Disabled_VLAN"
+        vlan_admin_status: false  # is allowed for vlans between 2-1001
+
+# Test multiple VLANs creation - mixed configurations
+test_vlan_create_multiple_mixed:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 4004
+        vlan_name: "Multi_VLAN_1"
+        vlan_admin_status: true
+      - vlan_id: 4005  # Minimal config
+      - vlan_id: 4006
+        vlan_name: "Multi_VLAN_3"
+        vlan_admin_status: true
+
+# Test boundary VLAN IDs - minimum valid
+test_vlan_create_boundary_min:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 2  # Minimum practical VLAN (1 is default)
+        vlan_name: "Boundary_Min_VLAN"
+        vlan_admin_status: true
+
+# Test boundary VLAN IDs - maximum valid
+test_vlan_create_boundary_max:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 4094  # Maximum allowed VLAN
+        vlan_name: "Boundary_Max_VLAN"
+        vlan_admin_status: true
+
+# Test VLAN creation with special characters in name
+test_vlan_create_special_chars:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 4007
+        vlan_name: "VLAN_With-Special.Chars_123"
+        vlan_admin_status: true
+
+# Test VLAN creation with numeric name
+test_vlan_create_numeric_name:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 4009
+        vlan_name: "123456789"
+        vlan_admin_status: true
+
+#############################################
+#        POSITIVE TEST CASES - UPDATE
+#############################################
+
+# Test single VLAN update - change name only
+test_vlan_update_name_only:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 4001  # Existing VLAN from create test
+        vlan_name: "Updated_VLAN_Name"
+        vlan_admin_status: true
+
+# Test single VLAN update - change both name and status
+test_vlan_update_both_params:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 503  # Existing VLAN from create test
+        vlan_name: "Fully_Updated_VLAN"  # Changed name
+        vlan_admin_status: true  # Changed status from false to true
+
+# Test multiple VLANs update
+test_vlan_update_multiple:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 4004
+        vlan_name: "Updated_Multi_VLAN_1"
+        vlan_admin_status: true
+      - vlan_id: 4005
+        vlan_name: "Updated_Multi_VLAN_2"
+        vlan_admin_status: true
+      - vlan_id: 4006
+        vlan_name: "Updated_Multi_VLAN_3"
+        vlan_admin_status: true
+
+# Test VLAN update to enable disabled VLAN
+test_vlan_update_enable_disabled:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 2  # Was boundary min in creation
+        vlan_name: "Now_Enabled_VLAN"
+        vlan_admin_status: true
+
+# Test VLAN update with minimal params (should preserve existing name)
+test_vlan_update_minimal:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 4094  # Only specify ID and new status
+        vlan_name: "Now_Updated_Enabled_VLAN"
+
+# Test VLAN update with special characters
+test_vlan_update_special_chars:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 4007
+        vlan_name: "Updated_VLAN_With-Special.Chars_456"
+        vlan_admin_status: true
+
+# Test VLAN update with numeric name
+test_vlan_update_numeric_name:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 4009
+        vlan_name: "987654321"
+        vlan_admin_status: true
+
+#############################################
+#        POSITIVE TEST CASES - DELETE
+#############################################
+
+# Test single VLAN deletion
+test_vlan_delete_single:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 4001
+
+# Test multiple VLANs deletion
+test_vlan_delete_multiple:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 4002
+        vlan_name: "Complete_VLAN_Creation"  # Full config should be accepted during deletion
+        vlan_admin_status: true
+      - vlan_id: 503
+      - vlan_id: 4004
+
+# Test deletion of specific VLANs while keeping others
+test_vlan_delete_selective:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 4005
+      - vlan_id: 4006
+
+# Test deletion of boundary VLANs
+test_vlan_delete_boundary:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 2      # Minimum practical
+      - vlan_id: 4094   # Maximum allowed
+
+# Test deletion of VLANs with special characteristics
+test_vlan_delete_special_chars:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 4007  # VLAN with special chars
+      - vlan_id: 4009  # VLAN with numeric name
+
+test_vlan_delete_all:
+  <<: *device_info
+  layer2_configuration:
+    vlans:
+      - vlan_id: 4003
+      - vlan_id: 4001
+      - vlan_id: 4002
+      - vlan_id: 4004
+      - vlan_id: 4005
+      - vlan_id: 4006
+      - vlan_id: 2
+      - vlan_id: 4094
+      - vlan_id: 4007
+      - vlan_id: 4009
+      - vlan_id: 503
