@@ -568,6 +568,7 @@ response_unassign_idempotent:
 import time
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
+#    validate_list_of_dicts,
     validate_str,
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
@@ -636,7 +637,7 @@ class AccessPointLocation(DnacBase):
                            "choices": ["assign_planned", "delete_position"]},
                 "mac_address": {"type": "str"},
                 "serial_number": {"type": "str"},
-                "accesspoint_model": {"type": "str", "required": True},
+                "accesspoint_model": {"type": "str", "required": False},
                 "position": {
                     "type": "dict",
                     "x_position": {"type": "int", "required": True},
@@ -1595,7 +1596,6 @@ class AccessPointLocation(DnacBase):
                     "DEBUG",
                 )
 
-                self.get_task_status_from_task_by_id(task_id)
                 resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
                 resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
                 while resync_retry_count > 0:
