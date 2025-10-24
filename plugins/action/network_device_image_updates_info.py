@@ -40,8 +40,8 @@ argument_spec.update(
         endTime=dict(type="float"),
         sortBy=dict(type="str"),
         order=dict(type="str"),
-        offset=dict(type="float"),
-        limit=dict(type="float"),
+        offset=dict(type="int"),
+        limit=dict(type="int"),
         headers=dict(type="dict"),
     )
 )

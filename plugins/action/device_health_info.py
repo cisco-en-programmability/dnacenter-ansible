@@ -34,8 +34,8 @@ argument_spec.update(
         health=dict(type="str"),
         startTime=dict(type="float"),
         endTime=dict(type="float"),
-        limit=dict(type="float"),
-        offset=dict(type="float"),
+        limit=dict(type="int"),
+        offset=dict(type="int"),
         headers=dict(type="dict"),
     )
 )
