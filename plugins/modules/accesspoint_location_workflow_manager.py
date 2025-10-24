@@ -568,7 +568,6 @@ response_unassign_idempotent:
 import time
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-#    validate_list_of_dicts,
     validate_str,
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
