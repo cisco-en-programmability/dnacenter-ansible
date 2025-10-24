@@ -30,8 +30,8 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(
     dict(
         fabricId=dict(type="str"),
-        limit=dict(type="float"),
-        offset=dict(type="float"),
+        limit=dict(type="int"),
+        offset=dict(type="int"),
         headers=dict(type="dict"),
     )
 )

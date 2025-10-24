@@ -31,8 +31,8 @@ argument_spec.update(
     dict(
         deployActivityId=dict(type="str"),
         networkDeviceIds=dict(type="str"),
-        offset=dict(type="float"),
-        limit=dict(type="float"),
+        offset=dict(type="int"),
+        limit=dict(type="int"),
         sortBy=dict(type="str"),
         order=dict(type="str"),
         headers=dict(type="dict"),

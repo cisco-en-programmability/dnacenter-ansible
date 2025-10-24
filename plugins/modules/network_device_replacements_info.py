@@ -85,13 +85,13 @@ options:
       - Offset query parameter. The first record to
         show for this page; the first record is numbered
         1.
-    type: float
+    type: int
   limit:
     description:
       - Limit query parameter. The number of records
         to show for this page. Maximum value can be
         500.
-    type: float
+    type: int
   sortBy:
     description:
       - >
