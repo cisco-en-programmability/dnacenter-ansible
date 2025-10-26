@@ -1747,7 +1747,7 @@ releases:
     changes:
       release_summary: Enhancements in workflow manager modules
       minor_changes:
-        - Changed limit and offset from float to int in all info modules
+        - Changes limit and offset from float to int in all info modules
         - Changes in network_settings_workflow_manager module
         - Changes in path_trace_workflow_manager module
         - Changes in sda_fabric_virtual_networks_workflow_manager module
