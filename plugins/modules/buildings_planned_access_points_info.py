@@ -31,7 +31,7 @@ options:
       - Limit query parameter. The number of records
         to show for this page;The minimum is 1, and
         the maximum is 500.
-    type: float
+    type: int
   offset:
     description:
       - >
@@ -39,7 +39,7 @@ options:
         the response. E.g. If limit=100, offset=0 will
         return first 100 records, offset=1 will return
         next 100 records, etc.
-    type: float
+    type: int
   radios:
     description:
       - Radios query parameter. Whether to include the

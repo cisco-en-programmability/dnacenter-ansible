@@ -31,7 +31,7 @@ argument_spec.update(
     dict(
         startTime=dict(type="float"),
         endTime=dict(type="float"),
-        limit=dict(type="float"),
+        limit=dict(type="int"),
         cursor=dict(type="str"),
         sortBy=dict(type="str"),
         order=dict(type="str"),

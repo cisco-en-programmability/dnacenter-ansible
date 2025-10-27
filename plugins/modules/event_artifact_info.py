@@ -31,11 +31,11 @@ options:
   offset:
     description:
       - Offset query parameter. Record start offset.
-    type: float
+    type: int
   limit:
     description:
       - Limit query parameter. # of records to return in result set.
-    type: float
+    type: int
   sortBy:
     description:
       - SortBy query parameter. Sort by field.
