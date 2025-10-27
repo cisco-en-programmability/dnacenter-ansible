@@ -100,7 +100,7 @@ EXAMPLES = r"""
     vlanName: string
     vlanId: 0
     offset: 1      # Must be >= 1
-    limit: 0
+    limit: 25     # Must be >= 1
   register: result
 """
 RETURN = r"""
