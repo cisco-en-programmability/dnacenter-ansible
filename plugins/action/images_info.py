@@ -39,8 +39,8 @@ argument_spec.update(
         integrity=dict(type="str"),
         hasAddonImages=dict(type="bool"),
         isAddonImages=dict(type="bool"),
-        offset=dict(type="float"),
-        limit=dict(type="float"),
+        offset=dict(type="int"),
+        limit=dict(type="int"),
         headers=dict(type="dict"),
     )
 )

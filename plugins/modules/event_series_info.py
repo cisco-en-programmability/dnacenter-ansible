@@ -59,11 +59,11 @@ options:
   offset:
     description:
       - Offset query parameter. Start Offset.
-    type: float
+    type: int
   limit:
     description:
       - Limit query parameter. # of records.
-    type: float
+    type: int
   sortBy:
     description:
       - SortBy query parameter. Sort By column.
