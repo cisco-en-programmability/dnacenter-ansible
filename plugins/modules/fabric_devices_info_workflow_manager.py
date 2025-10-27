@@ -2444,14 +2444,21 @@ class FabricDevicesInfo(DnacBase):
                         "DEBUG"
                     )
 
-                    if fabric_data:
+                    filtered_fabric_data = [
+                        device for device in fabric_data
+                        if device.get("networkDeviceId") == device_uuid
+                    ]
+
+                    if filtered_fabric_data:
                         devices_with_fabric_info += 1
                         self.log("Fabric details found for device_ip: {0}.".format(ip), "INFO")
                         fabric_info_list.append({
                             "device_ip": ip,
-                            "fabric_details": fabric_data
+                            "fabric_details": filtered_fabric_data
                         })
                         self.log("Successfully retrieved fabric configuration for device {0}".format(ip), "DEBUG")
+                    else:
+                        self.log("No fabric details found for device_ip: {0}".format(ip), "WARNING")
 
                 except Exception as api_err:
                     devices_with_errors += 1
@@ -2603,6 +2610,34 @@ class FabricDevicesInfo(DnacBase):
 
             return result
 
+    def get_transit_name_by_id(self, transit_id):
+        """
+        Retrieve the transit network name for a given transit ID.
+        Returns the transit name if found, otherwise 'Unknown'.
+        """
+        if not transit_id:
+            return None
+
+        try:
+            response = self.dnac._exec(
+                family="sda",
+                function="get_transit_networks",
+                params={"id": transit_id}
+            )
+            transit_info = response.get("response", [])
+            self.log("Received API response for 'get_transit_networks' with transit_id {0}: {1}".format(transit_id, response), "DEBUG")
+
+            if transit_info:
+                return transit_info[0].get("name", None)
+            else:
+                self.log("No transit info found for transit_id {0}".format(transit_id), "DEBUG")
+
+        except Exception as e:
+            self.log("Failed to retrieve transit name for transit_id {0}: {1}".format(transit_id, str(e)), "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return None
+
     def get_handoff_layer3_sda_info(self, filtered_fabric_devices):
         """
         Retrieve Layer 3 SDA (Software-Defined Access) handoff configurations for fabric inter-site connectivity.
@@ -2681,18 +2716,21 @@ class FabricDevicesInfo(DnacBase):
                         "DEBUG"
                     )
                     if layer3_sda_handoff_data:
-                        devices_with_handoffs += 1
-                        self.log(
-                            "Layer 3 SDA handoff configuration found for fabric device {0} - "
-                            "retrieved {1} handoff records".format(
-                                ip, len(layer3_sda_handoff_data)
-                            ),
-                            "INFO"
-                        )
-                        all_handoff_layer3_sda_list.append({
-                            "device_ip": ip,
-                            "handoff_layer3_sda_transit_info": layer3_sda_handoff_data
-                        })
+                        for handoff in layer3_sda_handoff_data:
+                            transit_id = handoff.get("transitNetworkId")
+                            handoff["transitName"] = self.get_transit_name_by_id(transit_id)
+                            devices_with_handoffs += 1
+                            self.log(
+                                "Layer 3 SDA handoff configuration found for fabric device {0} - "
+                                "retrieved {1} handoff records".format(
+                                    ip, len(layer3_sda_handoff_data)
+                                ),
+                                "INFO"
+                            )
+                            all_handoff_layer3_sda_list.append({
+                                "device_ip": ip,
+                                "handoff_layer3_sda_transit_info": layer3_sda_handoff_data
+                            })
 
                     else:
                         devices_without_handoffs += 1
@@ -2815,18 +2853,21 @@ class FabricDevicesInfo(DnacBase):
                         "DEBUG"
                     )
                     if layer3_ip_handoff_data:
-                        devices_with_handoffs += 1
-                        self.log(
-                            "Layer 3 IP handoff configuration found for fabric device {0} - "
-                            "retrieved {1} handoff records".format(
-                                ip, len(layer3_ip_handoff_data)
-                            ),
-                            "INFO"
-                        )
-                        all_handoff_layer3_ip_info_list.append({
-                            "device_ip": ip,
-                            "handoff_layer3_ip_transit_info": layer3_ip_handoff_data
-                        })
+                        for handoff in layer3_ip_handoff_data:
+                            transit_id = handoff.get("transitNetworkId")
+                            handoff["transitName"] = self.get_transit_name_by_id(transit_id)
+                            devices_with_handoffs += 1
+                            self.log(
+                                "Layer 3 IP handoff configuration found for fabric device {0} - "
+                                "retrieved {1} handoff records".format(
+                                    ip, len(layer3_ip_handoff_data)
+                                ),
+                                "INFO"
+                            )
+                            all_handoff_layer3_ip_info_list.append({
+                                "device_ip": ip,
+                                "handoff_layer3_ip_transit_info": layer3_ip_handoff_data
+                            })
                     else:
                         devices_without_handoffs += 1
                         self.log(
@@ -2949,18 +2990,21 @@ class FabricDevicesInfo(DnacBase):
                         "DEBUG"
                     )
                     if layer2_handoff_data:
-                        devices_with_handoffs += 1
-                        self.log(
-                            "Layer 2 handoff configuration found for fabric device {0} - "
-                            "retrieved {1} handoff records".format(
-                                ip, len(layer2_handoff_data)
-                            ),
-                            "INFO"
-                        )
-                        all_handoff_layer2_info_list.append({
-                            "device_ip": ip,
-                            "handoff_layer2_info": layer2_handoff_data
-                        })
+                        for handoff in layer2_handoff_data:
+                            transit_id = handoff.get("transitNetworkId")
+                            handoff["transitName"] = self.get_transit_name_by_id(transit_id)
+                            devices_with_handoffs += 1
+                            self.log(
+                                "Layer 2 handoff configuration found for fabric device {0} - "
+                                "retrieved {1} handoff records".format(
+                                    ip, len(layer2_handoff_data)
+                                ),
+                                "INFO"
+                            )
+                            all_handoff_layer2_info_list.append({
+                                "device_ip": ip,
+                                "handoff_layer2_info": layer2_handoff_data
+                            })
 
                     else:
                         devices_without_handoffs += 1
