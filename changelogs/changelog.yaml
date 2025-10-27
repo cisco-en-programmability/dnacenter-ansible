@@ -1741,3 +1741,16 @@ releases:
         - Removed attribute 'slot' in assurance_icap_settings_workflow_manager module
         - Added attribute 'transit_site_hierarchy' in sda_fabric_transits_workflow_manager module
         - Added attributes 'wireless_flooding_enable', 'resource_guard_enable', 'flooding_address_assignment', 'flooding_address' in sda_fabric_transits_workflow_manager module
+
+  6.41.0:
+    release_date: "2025-10-26"
+    changes:
+      release_summary: Enhancements in workflow manager modules
+      minor_changes:
+        - Changes limit and offset from float to int in all info modules
+        - Changes in network_settings_workflow_manager module
+        - Changes in path_trace_workflow_manager module
+        - Changes in sda_fabric_virtual_networks_workflow_manager module
+        - Changes in sda_host_port_onboarding_workflow_manager module
+        - Changes in template_workflow_manager module
+        - Added attribute native_vlan_id and allowed_vlan_ranges in sda_host_port_onboarding_workflow_manager module
