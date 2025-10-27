@@ -453,21 +453,21 @@ notes:
     fail (Port Channel requires ≥2 links)."
 
   - SDK Method used are
-    ccc_lan_automation.lanautomation.lan_automation_start_v2
-    ccc_lan_automation.lanautomation.lan_automation_stop
-    ccc_lan_automation.lanautomation.lan_automation_device_update
-    ccc_lan_automation.lanautomation.lan_automation_active_sessions
-    ccc_lan_automation.lanautomation.lan_automation_status
-    ccc_lan_automation.lanautomation.lan_automation_log
-    ccc_lan_automation.devices.get_interface_details
-    ccc_lan_automation.deviceonboardingpnp.authorize_device
-    ccc_lan_automation.deviceonboardingpnp.get_device_list
+    lan_automation.LanAutomation.lan_automation_start_v2
+    lan_automation.LanAutomation.lan_automation_stop
+    lan_automation.LanAutomation.lan_automation_device_update
+    lan_automation.LanAutomation.lan_automation_active_sessions
+    lan_automation.LanAutomation.lan_automation_status
+    lan_automation.LanAutomation.lan_automation_log
     lan_automation.LanAutomation.get_port_channels
     lan_automation.LanAutomation.create_a_new_port_channel_between_devices
     lan_automation.LanAutomation.add_a_lan_automated_link_to_a_port_channel
     lan_automation.LanAutomation.delete_port_channel
     lan_automation.LanAutomation.remove_a_link_from_port_channel
+    devices.Devices.get_interface_details
     devices.Devices.get_device_list
+    device_onboarding_pnp.DeviceOnboardingPnp.authorize_device
+    device_onboarding_pnp.DeviceOnboardingPnp.get_device_list
 """
 
 EXAMPLES = r"""
