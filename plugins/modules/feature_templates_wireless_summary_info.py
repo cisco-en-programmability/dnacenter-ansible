@@ -43,13 +43,13 @@ options:
         Limit query parameter. The number of records
         to show for this page. Default is 25 if not
         specified. Maximum allowed limit is 25.
-    type: float
+    type: int
   offset:
     description:
       - Offset query parameter. The first record to
         show for this page. The first record is numbered
         1.
-    type: float
+    type: int
   systemTemplate:
     description:
       - >

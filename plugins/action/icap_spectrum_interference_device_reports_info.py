@@ -32,8 +32,8 @@ argument_spec.update(
         startTime=dict(type="float"),
         endTime=dict(type="float"),
         apMac=dict(type="str"),
-        limit=dict(type="float"),
-        offset=dict(type="float"),
+        limit=dict(type="int"),
+        offset=dict(type="int"),
         timeSortOrder=dict(type="str"),
         headers=dict(type="dict"),
     )

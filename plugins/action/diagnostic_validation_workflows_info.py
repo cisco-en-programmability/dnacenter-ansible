@@ -32,8 +32,8 @@ argument_spec.update(
         startTime=dict(type="float"),
         endTime=dict(type="float"),
         runStatus=dict(type="str"),
-        offset=dict(type="float"),
-        limit=dict(type="float"),
+        offset=dict(type="int"),
+        limit=dict(type="int"),
         id=dict(type="str"),
         headers=dict(type="dict"),
     )

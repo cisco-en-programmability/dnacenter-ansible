@@ -34,8 +34,8 @@ argument_spec.update(
         portChannelName=dict(type="str"),
         connectedDeviceType=dict(type="str"),
         nativeVlanId=dict(type="float"),
-        offset=dict(type="float"),
-        limit=dict(type="float"),
+        offset=dict(type="int"),
+        limit=dict(type="int"),
         headers=dict(type="dict"),
     )
 )

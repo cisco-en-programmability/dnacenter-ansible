@@ -30,8 +30,8 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(
     dict(
         globalIpAddressPoolId=dict(type="str"),
-        offset=dict(type="float"),
-        limit=dict(type="float"),
+        offset=dict(type="int"),
+        limit=dict(type="int"),
         headers=dict(type="dict"),
     )
 )
