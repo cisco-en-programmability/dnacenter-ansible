@@ -35,8 +35,8 @@ argument_spec.update(
         vlanId=dict(type="float"),
         trafficType=dict(type="str"),
         associatedLayer3VirtualNetworkName=dict(type="str"),
-        offset=dict(type="float"),
-        limit=dict(type="float"),
+        offset=dict(type="int"),
+        limit=dict(type="int"),
         headers=dict(type="dict"),
     )
 )

@@ -31,8 +31,8 @@ argument_spec.update(
     dict(
         startTime=dict(type="float"),
         endTime=dict(type="float"),
-        limit=dict(type="float"),
-        offset=dict(type="float"),
+        limit=dict(type="int"),
+        offset=dict(type="int"),
         sortBy=dict(type="str"),
         order=dict(type="str"),
         siteHierarchy=dict(type="str"),
