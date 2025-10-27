@@ -57,7 +57,7 @@ options:
   offset:
     description:
       - Offset query parameter. Starting record for
-        pagination.
+        pagination. The value must be greater than or equal to 1.
     type: int
   limit:
     description:
@@ -99,8 +99,8 @@ EXAMPLES = r"""
     ipPoolName: string
     vlanName: string
     vlanId: 0
-    offset: 0
-    limit: 0
+    offset: 1      # Must be >= 1
+    limit: 25     # Must be >= 1
   register: result
 """
 RETURN = r"""
