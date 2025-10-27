@@ -1366,16 +1366,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-anyc
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-limit"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-anycast-gateways-info-module-parameter-limit"><strong>limit</strong></p>
-<a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">float</span></p>
+<a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a single request is 500.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-offset"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-anycast-gateways-info-module-parameter-offset"><strong>offset</strong></p>
-<a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">float</span></p>
+<a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Offset query parameter. Starting record for pagination.</p>
+<td><div class="ansible-option-cell"><p>Offset query parameter. Starting record for pagination. The value must be greater than or equal to 1.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1456,8 +1456,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-anyc
 <span class="w">    </span><span class="nt">ipPoolName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">    </span><span class="nt">vlanName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">    </span><span class="nt">vlanId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-<span class="w">    </span><span class="nt">offset</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-<span class="w">    </span><span class="nt">limit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">    </span><span class="nt">offset</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w">      </span><span class="c1"># Must be &gt;= 1</span>
+<span class="w">    </span><span class="nt">limit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25</span><span class="w">     </span><span class="c1"># Must be &gt;= 1</span>
 <span class="w">  </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result</span>
 </pre></div>
 </div>

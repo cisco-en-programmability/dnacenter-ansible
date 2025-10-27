@@ -789,7 +789,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A security feature control for anycast gateways that enables or disables Resource Guard functionality. Resource Guard is a security mechanism that provides protection against unauthorized access to network resources by implementing additional security controls and access restrictions at the VLAN level within the fabric network. When enabled, it enhances the security posture of the anycast gateway by enforcing stricter access policies and monitoring capabilities. If the anycast gateway is not associated with a layer 3 virtual network, this field must be set to false as the security controls require L3VN integration for proper functionality. This field is not applicable to INFRA\_VN.
+      A security feature control for anycast gateways that enables or disables Resource Guard functionality. Resource Guard is a security mechanism that provides protection against unauthorized access to network resources by implementing additional security controls and access restrictions at the VLAN level within the fabric network. When enabled, it enhances the security posture of the anycast gateway by enforcing stricter access policies and monitoring capabilities. This field is not applicable to INFRA\_VN.
 
 
       .. rst-class:: ansible-option-line
@@ -1409,7 +1409,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A security feature control for fabric VLANs that enables or disables Resource Guard functionality. Resource Guard is a security mechanism that provides protection against unauthorized access to network resources by implementing additional security controls and access restrictions at the VLAN level within the fabric network. When enabled, it enhances the security posture of the fabric VLAN by enforcing stricter access policies and monitoring capabilities. If the VLAN is not associated with a layer 3 virtual network, this field must be set to false as the security controls require L3VN integration for proper functionality.
+      A security feature control for fabric VLANs that enables or disables Resource Guard functionality. Resource Guard is a security mechanism that provides protection against unauthorized access to network resources by implementing additional security controls and access restrictions at the VLAN level within the fabric network. When enabled, it enhances the security posture of the fabric VLAN by enforcing stricter access policies and monitoring capabilities.
 
 
       .. rst-class:: ansible-option-line

@@ -1315,11 +1315,26 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-path-tra
 <div class="ansibleOptionAnchor" id="parameter-config/flow_analysis_id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-config-flow-analysis-id"><strong>flow_analysis_id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/flow_analysis_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>The Flow Analysis ID for the path trace, used to delete an existing path trace</dt><dd><p>when in the 'deleted' state. If not provided, the module will search and delete
-based on the following search parameters.
-When create a path trace, it returns a flow_analysis_id (the &quot;id&quot; from the &quot;request&quot;
-section), which should be shown in a register</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl>
+<dt>The Flow Analysis ID uniquely identifies a specific path trace operation in</dt><dd><p>Cisco Catalyst Center. This UUID-format identifier serves multiple purposes
+across different operational states.</p>
+<p>**Creation Context:**
+When creating a new path trace, the API returns a flow_analysis_id in the
+response's &quot;request.id&quot; field. This identifier should be captured using
+Ansible's register functionality for subsequent operations.</p>
+<p>**Retrieval Operations:**
+- If provided, retrieves the specific path trace associated with this ID
+- If omitted, the module searches based on source_ip and dest_ip parameters
+- Provides precise identification when multiple traces exist between the same endpoints</p>
+<p>**Deletion Operations:**
+- When state is 'deleted', this ID enables targeted removal of specific traces
+- If not provided, the module searches for matching traces using source_ip/dest_ip
+- Essential for scenarios where multiple path traces exist with identical endpoints</p>
+<p>**Best Practices:**
+- Always capture flow_analysis_id when creating path traces using register
+- Use flow_analysis_id for precise trace management in automation workflows
+- Preferred over source_ip/dest_ip combination for unique trace identification</p>
+<p>**Format:** UUID string (For example, &quot;99e067de-8776-40d2-9f6a-1e6ab2ef083c&quot;)</p>
 </dd>
 </dl>
 </div></td>
