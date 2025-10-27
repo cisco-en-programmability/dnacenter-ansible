@@ -1236,6 +1236,7 @@ EXAMPLES = r'''
     config:
       - generate_report:
           - name: "monthly_client_report"
+            new_report: false
             view_group_name: "Client"
             tags: ["monthly", "clients"]
             deliveries:
