@@ -533,7 +533,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -568,7 +568,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -578,7 +578,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter. Starting record for pagination.
+      Offset query parameter. Starting record for pagination. The value must be greater than or equal to 1.
 
 
       .. raw:: html
@@ -781,8 +781,8 @@ Examples
         ipPoolName: string
         vlanName: string
         vlanId: 0
-        offset: 0
-        limit: 0
+        offset: 1      # Must be >= 1
+        limit: 25     # Must be >= 1
       register: result
 
 
