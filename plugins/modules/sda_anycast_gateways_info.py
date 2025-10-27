@@ -57,15 +57,15 @@ options:
   offset:
     description:
       - Offset query parameter. Starting record for
-        pagination.
-    type: float
+        pagination. The value must be greater than or equal to 1.
+    type: int
   limit:
     description:
       - >
         Limit query parameter. Maximum number of records
         to return. The maximum number of objects supported
         in a single request is 500.
-    type: float
+    type: int
 requirements:
   - dnacentersdk >= 2.10.1
   - python >= 3.5
@@ -99,8 +99,8 @@ EXAMPLES = r"""
     ipPoolName: string
     vlanName: string
     vlanId: 0
-    offset: 0
-    limit: 0
+    offset: 1      # Must be >= 1
+    limit: 25     # Must be >= 1
   register: result
 """
 RETURN = r"""

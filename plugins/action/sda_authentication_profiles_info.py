@@ -32,8 +32,8 @@ argument_spec.update(
         fabricId=dict(type="str"),
         authenticationProfileName=dict(type="str"),
         isGlobalAuthenticationProfile=dict(type="bool"),
-        offset=dict(type="float"),
-        limit=dict(type="float"),
+        offset=dict(type="int"),
+        limit=dict(type="int"),
         headers=dict(type="dict"),
     )
 )
