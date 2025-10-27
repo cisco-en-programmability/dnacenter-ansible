@@ -2419,9 +2419,12 @@ class NetworkSettings(DnacBase):
         offset = 1
         global_pool_details = None
         response = None
+        current_version = self.get_ccc_version()
+        is_old_version = self.compare_dnac_versions(current_version, "2.3.7.6") <= 0
+        page_limit = 25 if is_old_version else 500
         while True:
             try:
-                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+                if is_old_version:
                     response = self.dnac._exec(
                         family="network_settings",
                         function="get_global_pool",
@@ -2461,7 +2464,7 @@ class NetworkSettings(DnacBase):
             if name == "":
                 global_pool_details = all_global_pool_details
             else:
-                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+                if is_old_version:
                     global_pool_details = get_dict_result(all_global_pool_details, "ipPoolName", name)
                 else:
                     global_pool_details = get_dict_result(all_global_pool_details, "name", name)
@@ -2498,7 +2501,7 @@ class NetworkSettings(DnacBase):
                     }
                     all_global_pool.append(global_del_pool)
 
-            if len(all_global_pool_details) < 25:
+            if len(all_global_pool_details) < page_limit:
                 self.log(
                     "Found {0} record(s), No more record available for the next offset".format(
                         str(len(all_global_pool_details))
@@ -2515,7 +2518,7 @@ class NetworkSettings(DnacBase):
                     return all_global_pool
                 break
 
-            offset += 25
+            offset += page_limit
 
         self.log("Formatted global pool details: {0}".format(global_pool), "DEBUG")
         return global_pool
@@ -3028,8 +3031,11 @@ class NetworkSettings(DnacBase):
         """
         self.log(f"Starting retrieval of global pool. CIDR: {global_pool_cidr}, Name: {global_pool_name}", "INFO")
         current_version = self.get_ccc_version()
+        is_old_version = self.compare_dnac_versions(current_version, "2.3.7.6") <= 0
+        page_limit = 25 if is_old_version else 500
 
-        if global_pool_cidr and self.compare_dnac_versions(current_version, "2.3.7.6") <= 0:
+        # Direct return for older versions when CIDR is provided
+        if global_pool_cidr and is_old_version:
             self.log(f"Using provided CIDR '{global_pool_cidr}' directly for older platform versions.", "INFO")
             return global_pool_cidr
 
@@ -3042,7 +3048,7 @@ class NetworkSettings(DnacBase):
         while True:
             self.log(f"Querying global pool details with offset {offset}.", "DEBUG")
             try:
-                if self.compare_dnac_versions(current_version, "2.3.7.6") <= 0:
+                if is_old_version:
                     response = self.dnac._exec(
                         family="network_settings",
                         function="get_global_pool",
@@ -3062,12 +3068,9 @@ class NetworkSettings(DnacBase):
                 self.status = "failed"
                 return self
 
-            if self.compare_dnac_versions(current_version, "2.3.7.6") <= 0:
-                self.log(f"Global pool details retrieved successfully with offset {offset}.", "DEBUG")
-                offset += 25
-            else:
-                self.log(f"Global pool details retrieved successfully with offset {offset}.", "DEBUG")
-                offset += 500
+            self.log(f"Global pool details retrieved successfully with offset {offset}.", "DEBUG")
+
+            # Validate response type
             if not isinstance(response, dict):
                 self.msg = "Failed to retrieve the global pool details - Response is not a dictionary"
                 self.log(self.msg, "CRITICAL")
@@ -3076,14 +3079,14 @@ class NetworkSettings(DnacBase):
 
             all_global_pool_details = response.get("response")
             if not all_global_pool_details:
-                self.log("Invalid global_pool_name '{0}' under reserve_pool_details".format(global_pool_name), "ERROR")
-                self.msg = "No information found for the global pool named '{0}'".format(global_pool_name)
+                self.log(f"No global pool details returned for offset {offset}.", "WARNING")
+                self.msg = f"No information found for the global pool named '{global_pool_name}'"
                 self.status = "failed"
                 return self.check_return_status()
 
-            # Process results for older platform versions
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
-                self.log(f"Looking for global pool with name '{global_pool_name}' in older versions.", "DEBUG")
+            # Old Version (<= 2.3.7.6)
+            if is_old_version:
+                self.log(f"Looking for global pool '{global_pool_name}' in older version format.", "DEBUG")
                 global_pool_details = get_dict_result(all_global_pool_details, "ipPoolName", global_pool_name)
                 if global_pool_details:
                     global_pool_cidr = global_pool_details.get("ipPoolCidr")
@@ -3091,7 +3094,18 @@ class NetworkSettings(DnacBase):
                     self.log(f"Global Pool '{global_pool_name}' CIDR: {global_pool_cidr}", "INFO")
                     return global_pool_cidr
 
-                self.log(f"No global pool found with name '{global_pool_name}'.", "WARNING")
+                # Pagination end detection
+                if len(all_global_pool_details) < page_limit:
+                    self.log(
+                        f"Reached last page with {len(all_global_pool_details)} record(s). "
+                        f"Global pool '{global_pool_name}' not found.",
+                        "ERROR",
+                    )
+                    self.msg = f"No information found for the global pool named '{global_pool_name}'"
+                    self.status = "failed"
+                    return self.check_return_status()
+
+                offset += page_limit
                 continue
 
             # Process results for newer platform versions
@@ -3124,15 +3138,12 @@ class NetworkSettings(DnacBase):
                         continue
 
                     address_space = item.get("addressSpace")
-                    if not isinstance(address_space, dict):
-                        self.log(f"Skipping item with invalid 'addressSpace': {item}", "DEBUG")
-                        continue
-
-                    match = get_dict_result([address_space], "subnet", subnet)
-                    if match:
-                        global_pool_details = item
-                        self.log(f"Global pool matched by subnet '{subnet}': {global_pool_details}", "INFO")
-                        break
+                    if isinstance(address_space, dict):
+                        match = get_dict_result([address_space], "subnet", subnet)
+                        if match:
+                            global_pool_details = item
+                            self.log(f"Global pool matched by subnet '{subnet}': {global_pool_details}", "INFO")
+                            break
 
             if global_pool_details:
                 global_pool_id = global_pool_details.get("id")
@@ -3140,11 +3151,17 @@ class NetworkSettings(DnacBase):
                 self.log(f"Global Pool ID: {global_pool_id}", "INFO")
                 return global_pool_id
 
-            self.log("No matching global pool found in the current batch of results. Continuing to next batch.", "WARNING")
+            # Pagination end detection for newer versions
+            if len(all_global_pool_details) < page_limit:
+                self.log(
+                    f"Reached last page with {len(all_global_pool_details)} record(s). "
+                    f"Global pool '{global_pool_name}' not found.",
+                    "ERROR",
+                )
+                self.msg = f"No information found for the global pool named '{global_pool_name}'"
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            self.log("Failed to find the global pool after exhausting all results.", "ERROR")
-            self.msg = "Invalid global_pool_name '{0}' under reserve_pool_details".format(global_pool_name)
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            offset += page_limit
 
     def get_want_global_pool_v1(self, global_ippool):
         """
@@ -4110,9 +4127,6 @@ class NetworkSettings(DnacBase):
                     )
                 else:
                     del want_network_settings["dhcpServer"]
-
-                # if item.get("dhcp_server") == {}:
-                #     self.want.update({"settings": {"dhcpServer": {}}})
 
                 ntp_servers = item.get("ntp_server")
 
