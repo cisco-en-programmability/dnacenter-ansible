@@ -940,165 +940,149 @@ class LanAutomation(DnacBase):
                 "type": "dict",
                 "required": False,
                 "elements": "dict",
-                "options": {
-                    "discovered_device_site_name_hierarchy": {
+                "discovered_device_site_name_hierarchy": {
+                    "type": "str",
+                    "required": True,
+                },
+                "primary_device_management_ip_address": {
+                    "type": "str",
+                    "required": True,
+                },
+                "primary_device_interface_names": {
+                    "type": "list",
+                    "required": True,
+                    "elements": "str",
+                },
+                "peer_device_management_ip_address": {
+                    "type": "str",
+                    "required": False,
+                },
+                "ip_pools": {
+                    "type": "list",
+                    "required": True,
+                    "elements": "dict",
+                    "ip_pool_name": {"type": "str", "required": True},
+                    "ip_pool_role": {
                         "type": "str",
                         "required": True,
+                        "choices": ["MAIN_POOL", "PHYSICAL_LINK_POOL"],
                     },
-                    "primary_device_management_ip_address": {
+                },
+                "multicast_enabled": {
+                    "type": "bool",
+                    "required": False,
+                    "default": False,
+                },
+                "host_name_prefix": {"type": "str", "required": False},
+                "redistribute_isis_to_bgp": {
+                    "type": "bool",
+                    "required": False,
+                    "default": False,
+                },
+                "isis_domain_pwd": {"type": "str", "required": False},
+                "discovery_level": {
+                    "type": "int",
+                    "required": False,
+                    "default": 2,
+                },
+                "discovery_timeout": {"type": "int", "required": False},
+                "discovery_devices": {
+                    "type": "list",
+                    "required": False,
+                    "elements": "dict",
+                    "device_serial_number": {"type": "str", "required": True},
+                    "device_host_name": {"type": "str", "required": False},
+                    "device_site_name_hierarchy": {
                         "type": "str",
-                        "required": True,
+                        "required": False,
                     },
-                    "primary_device_interface_names": {
-                        "type": "list",
-                        "required": True,
-                        "elements": "str",
-                    },
-                    "peer_device_management_ip_address": {
+                    "device_management_ip_address": {
                         "type": "str",
                         "required": False,
                     },
-                    "ip_pools": {
-                        "type": "list",
-                        "required": True,
-                        "elements": "dict",
-                        "options": {
-                            "ip_pool_name": {"type": "str", "required": True},
-                            "ip_pool_role": {
-                                "type": "str",
-                                "required": True,
-                                "choices": ["MAIN_POOL", "PHYSICAL_LINK_POOL"],
-                            },
-                        },
-                    },
-                    "multicast_enabled": {
-                        "type": "bool",
-                        "required": False,
-                        "default": False,
-                    },
-                    "host_name_prefix": {"type": "str", "required": False},
-                    "redistribute_isis_to_bgp": {
-                        "type": "bool",
-                        "required": False,
-                        "default": False,
-                    },
-                    "isis_domain_pwd": {"type": "str", "required": False},
-                    "discovery_level": {
-                        "type": "integer",
-                        "required": False,
-                        "default": 2,
-                    },
-                    "discovery_timeout": {"type": "integer", "required": False},
-                    "discovery_devices": {
-                        "type": "list",
-                        "required": False,
-                        "elements": "dict",
-                        "options": {
-                            "device_serial_number": {"type": "str", "required": True},
-                            "device_host_name": {"type": "str", "required": False},
-                            "device_site_name_hierarchy": {
-                                "type": "str",
-                                "required": False,
-                            },
-                            "device_management_ip_address": {
-                                "type": "str",
-                                "required": False,
-                            },
-                        },
-                    },
-                    "launch_and_wait": {
-                        "type": "bool",
-                        "required": False,
-                        "default": False,
-                    },
-                    "pnp_authorization": {
-                        "type": "bool",
-                        "required": False,
-                        "default": False,
-                    },
-                    "device_serial_number_authorization": {
-                        "type": "list",
-                        "required": False,
-                        "elements": "str",
-                    },
+                },
+                "launch_and_wait": {
+                    "type": "bool",
+                    "required": False,
+                    "default": False,
+                },
+                "pnp_authorization": {
+                    "type": "bool",
+                    "required": False,
+                    "default": False,
+                },
+                "device_serial_number_authorization": {
+                    "type": "list",
+                    "required": False,
+                    "elements": "str",
                 },
             },
             "lan_automated_device_update": {
                 "type": "dict",
                 "required": False,
                 "elements": "dict",
-                "options": {
-                    "loopback_update_device_list": {
-                        "type": "list",
-                        "required": False,
-                        "elements": "dict",
-                        "options": {
-                            "device_management_ip_address": {
-                                "type": "str",
-                                "required": True,
-                            },
-                            "new_loopback0_ip_address": {
-                                "type": "str",
-                                "required": True,
-                            },
-                        },
+                "loopback_update_device_list": {
+                    "type": "list",
+                    "required": False,
+                    "elements": "dict",
+                    "device_management_ip_address": {
+                        "type": "str",
+                        "required": True,
                     },
-                    "hostname_update_devices": {
-                        "type": "list",
-                        "required": False,
-                        "elements": "dict",
-                        "options": {
-                            "device_management_ip_address": {
-                                "type": "str",
-                                "required": True,
-                            },
-                            "new_host_name": {"type": "str", "required": True},
-                        },
+                    "new_loopback0_ip_address": {
+                        "type": "str",
+                        "required": True,
                     },
-                    "link_add": {
-                        "type": "dict",
-                        "required": False,
-                        "options": {
-                            "source_device_management_ip_address": {
-                                "type": "str",
-                                "required": True,
-                            },
-                            "source_device_interface_name": {
-                                "type": "str",
-                                "required": True,
-                            },
-                            "destination_device_management_ip_address": {
-                                "type": "str",
-                                "required": True,
-                            },
-                            "destination_device_interface_name": {
-                                "type": "str",
-                                "required": True,
-                            },
-                            "ip_pool_name": {"type": "str", "required": True},
-                        },
+                },
+                "hostname_update_devices": {
+                    "type": "list",
+                    "required": False,
+                    "elements": "dict",
+                    "device_management_ip_address": {
+                        "type": "str",
+                        "required": True,
                     },
-                    "link_delete": {
-                        "type": "dict",
-                        "required": False,
-                        "options": {
-                            "source_device_management_ip_address": {
-                                "type": "str",
-                                "required": True,
-                            },
-                            "source_device_interface_name": {
-                                "type": "str",
-                                "required": True,
-                            },
-                            "destination_device_management_ip_address": {
-                                "type": "str",
-                                "required": True,
-                            },
-                            "destination_device_interface_name": {
-                                "type": "str",
-                                "required": True,
-                            },
-                        },
+                    "new_host_name": {"type": "str", "required": True},
+                },
+                "link_add": {
+                    "type": "dict",
+                    "required": False,
+                    "source_device_management_ip_address": {
+                        "type": "str",
+                        "required": True,
+                    },
+                    "source_device_interface_name": {
+                        "type": "str",
+                        "required": True,
+                    },
+                    "destination_device_management_ip_address": {
+                        "type": "str",
+                        "required": True,
+                    },
+                    "destination_device_interface_name": {
+                        "type": "str",
+                        "required": True,
+                    },
+                    "ip_pool_name": {"type": "str", "required": True},
+                },
+                "link_delete": {
+                    "type": "dict",
+                    "required": False,
+                    "source_device_management_ip_address": {
+                        "type": "str",
+                        "required": True,
+                    },
+                    "source_device_interface_name": {
+                        "type": "str",
+                        "required": True,
+                    },
+                    "destination_device_management_ip_address": {
+                        "type": "str",
+                        "required": True,
+                    },
+                    "destination_device_interface_name": {
+                        "type": "str",
+                        "required": True,
                     },
                 },
             },
