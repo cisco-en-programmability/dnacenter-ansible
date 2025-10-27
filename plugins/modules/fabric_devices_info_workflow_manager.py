@@ -2612,8 +2612,22 @@ class FabricDevicesInfo(DnacBase):
 
     def get_transit_name_by_id(self, transit_id):
         """
-        Retrieve the transit network name for a given transit ID.
-        Returns the transit name if found, otherwise 'Unknown'.
+        Retrieve the human-readable transit network name for a given transit network identifier.
+
+        This method queries the Cisco Catalyst Center SDA API to resolve transit network IDs
+        into their corresponding descriptive names for enhanced readability and reporting.
+        Transit networks are used in fabric handoff configurations to enable inter-fabric
+        and external connectivity in SDA deployments.
+
+        Args:
+            transit_id (str): The unique identifier (UUID) of the transit network.
+                Must be a valid transit network ID that exists in the Catalyst Center SDA configuration.
+
+        Returns:
+            str or None: The descriptive name of the transit network if found, otherwise None.
+                - Success: Returns the transit network name (e.g., "MPLS_WAN_Transit", "Internet_Transit")
+                - Not Found: Returns None when the transit ID doesn't exist or has no name configured
+                - Error: Returns None when API call fails or encounters exceptions
         """
         if not transit_id:
             return None
