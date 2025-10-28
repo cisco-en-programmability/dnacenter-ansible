@@ -3243,8 +3243,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         removable_data = copy.deepcopy(each_have_profile.get("profile_info", {}))
         have_profile_id = each_have_profile.get("profile_info", {}).get("id")
         have_profile_name = each_have_profile.get("profile_info", {}).get(
-                "wirelessProfileName"
-            )
+            "wirelessProfileName"
+        )
         unassign_sites = []
         unassign_templates = []
         remove_required = {
@@ -3457,7 +3457,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             self.fail_and_exit(self.msg)
 
         if all(not each_profile.get(key) for key in [
-            "site_names", "ssid_details", "day_n_templates", 
+            "site_names", "ssid_details", "day_n_templates",
             "additional_interfaces", "ap_zones", "feature_template_designs"
         ]):
             self.log(f"Proceeding to delete the entire profile: {have_profile_name}", "INFO")
