@@ -67,14 +67,14 @@ options:
         Offset query parameter. The first record to
         show for this page; the first record is numbered
         1. The minimum value is 1.
-    type: float
+    type: int
   limit:
     description:
       - >
         Limit query parameter. The number of records
         to show for this page. The minimum and maximum
         values are 1 and 500, respectively.
-    type: float
+    type: int
 requirements:
   - dnacentersdk >= 2.10.1
   - python >= 3.5

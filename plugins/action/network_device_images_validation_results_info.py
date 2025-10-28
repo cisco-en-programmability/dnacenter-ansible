@@ -36,8 +36,8 @@ argument_spec.update(
         type=dict(type="str"),
         sortBy=dict(type="str"),
         order=dict(type="str"),
-        limit=dict(type="float"),
-        offset=dict(type="float"),
+        limit=dict(type="int"),
+        offset=dict(type="int"),
         headers=dict(type="dict"),
     )
 )
