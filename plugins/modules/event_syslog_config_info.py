@@ -39,13 +39,13 @@ options:
       - Offset query parameter. The number of syslog
         configuration's to offset in the resultset whose
         default value 0.
-    type: float
+    type: int
   limit:
     description:
       - Limit query parameter. The number of syslog
         configuration's to limit in the resultset whose
         default value 10.
-    type: float
+    type: int
   sortBy:
     description:
       - SortBy query parameter. SortBy field name.

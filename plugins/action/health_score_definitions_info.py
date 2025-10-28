@@ -33,8 +33,8 @@ argument_spec.update(
         id=dict(type="str"),
         includeForOverallHealth=dict(type="bool"),
         attribute=dict(type="str"),
-        offset=dict(type="float"),
-        limit=dict(type="float"),
+        offset=dict(type="int"),
+        limit=dict(type="int"),
         headers=dict(type="dict"),
     )
 )
