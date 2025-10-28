@@ -1,0 +1,10 @@
+10-28-2025 11:29:06 WARNING  Provision: validate_input: 589: Detected 'application_telemetry' in the configuration 
+
+10-28-2025 11:29:06 WARNING  Provision: get_device_type: 2026: Skipping device with missing management IP address. 
+
+10-28-2025 11:29:06 WARNING  Provision: validate_input: 589: Detected 'application_telemetry' in the configuration 
+
+10-28-2025 11:29:15 WARNING  Swim: get_diff_import: 2303: Error: Details required for importing SWIM image. Please provide the necessary information. 
+
+10-28-2025 11:29:15 ERROR  Swim: get_device_family_identifier: 1974: Device Family: None not found 
+
