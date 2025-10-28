@@ -1059,27 +1059,27 @@
                 "isCustomNasIdOptions": false
             },
             {
-                "id": "mda5vgHH-BL9t-u0Le-vdbO-mweYBJnFnfm1uZzjn0q4vdLOmtbH",
-                "profileName": "Than_SSID_profile",
-                "ssid": "Than_SSID",
+                "id": "mda0t1bf-tK8W-udff-mK4Z-tZrqnuu2tJDpofa5rteWtJeXtZeY",
+                "profileName": "OPEN_profile",
+                "ssid": "OPEN",
                 "wlanType": "Enterprise",
-                "authType": "WPA2_WPA3_PERSONAL",
+                "authType": "OPEN",
                 "l3AuthType": "open",
-                "passphrase": "NO!$DATA!$",
+                "passphrase": "",
                 "externalAuthIpAddress": "",
                 "fastTransition": "DISABLE",
                 "authServer": "auth_external",
-                "authServers": [],
-                "acctServers": [],
+                "authServers": null,
+                "acctServers": null,
                 "ghz24Policy": "dot11-bg-only",
                 "ghz6PolicyClientSteering": false,
                 "wlanBandSelectEnable": false,
                 "webPassthrough": false,
                 "sleepingClientEnable": false,
                 "sleepingClientTimeout": 720,
-                "nasOptions": [],
+                "nasOptions": null,
                 "sessionTimeOutEnable": true,
-                "sessionTimeOut": 28800,
+                "sessionTimeOut": 1800,
                 "clientExclusionEnable": true,
                 "clientExclusionTimeout": 180,
                 "basicServiceSetMaxIdleEnable": true,
@@ -1088,26 +1088,26 @@
                 "neighborListEnable": true,
                 "managementFrameProtectionClientprotection": "OPTIONAL",
                 "fastTransitionOverTheDistributedSystemEnable": false,
-                "policyProfileName": "Than_SSID_profile",
+                "policyProfileName": "OPEN_profile",
                 "openSsid": "",
                 "aclName": "",
                 "rsnCipherSuiteCcmp256": false,
                 "rsnCipherSuiteGcmp128": false,
                 "rsnCipherSuiteGcmp256": false,
-                "rsnCipherSuiteCcmp128": true,
-                "egressQos": "PLATINUM",
-                "ingressQos": "PLATINUM-UP",
+                "rsnCipherSuiteCcmp128": false,
+                "egressQos": "",
+                "ingressQos": "",
                 "cckmTsfTolerance": 0,
                 "aaaOverride": false,
-                "coverageHoleDetectionEnable": true,
+                "coverageHoleDetectionEnable": false,
                 "protectedManagementFrame": "OPTIONAL",
-                "multiPSKSettings": [],
+                "multiPSKSettings": null,
                 "clientRateLimit": 0,
                 "inheritedSiteUUID": null,
                 "inheritedSiteName": "",
                 "inheritedSiteNameHierarchy": null,
                 "randomMacFilterEnabled": false,
-                "isFastLaneEnabled": false,
+                "isFastLaneEnabled": true,
                 "isMacFilteringEnabled": false,
                 "isEnabled": true,
                 "isHex": false,
@@ -1117,9 +1117,9 @@
                 "isAuthKey8021x": false,
                 "isAuthKey8021xPlusFT": false,
                 "isAuthKey8021x_SHA256": false,
-                "isAuthKeySae": true,
+                "isAuthKeySae": false,
                 "isAuthKeySaePlusFT": false,
-                "isAuthKeyPSK": true,
+                "isAuthKeyPSK": false,
                 "isAuthKeyPSKPlusFT": false,
                 "isAuthKeyOWE": false,
                 "isAuthKeyEasyPSK": false,
@@ -3203,22 +3203,16 @@
         ]
     },
     {
-        "name": "Ans Switch Onb 2",
-        "projectName": "Onboarding Configuration",
-        "projectId": "404fc836-7549-4c11-a91b-dc7089041a9a",
-        "templateId": "e6fb4448-f199-49c4-8c1d-20699e0df00a",
+        "name": "Ans Wireless DayN 1",
+        "projectName": "Cloud DayN Templates",
+        "projectId": "d5a01b46-075d-4366-8cb5-fd68ed3d7534",
+        "templateId": "b7494025-20f0-4902-aa72-e76d3e2394c9",
         "versionsInfo": [
             {
-                "id": "fff29c0f-bf39-4cdc-917d-3cbb0394a8d4",
-                "author": "thievo",
+                "id": "d99cbbc4-b997-408f-a7c0-e6546cc0e321",
+                "author": "admin",
                 "version": "1",
-                "versionTime": 1752660383971
-            },
-            {
-                "id": "e3cae7b7-3dc5-4d66-bd57-4ec10f6d4197",
-                "author": "thievo",
-                "version": "2",
-                "versionTime": 1752660540933
+                "versionTime": 1761200924634
             }
         ],
         "composite": false,
@@ -3226,7 +3220,7 @@
         "softwareType": "IOS-XE",
         "deviceTypes": [
             {
-                "productFamily": "Switches and Hubs"
+                "productFamily": "Wireless Controller"
             }
         ]
     },
@@ -8827,104 +8821,170 @@
     ],
     "version": "1.0"
 },
-"get_interfaces2":{
-  "response": [
-    {
-      "id": "mda5vKXb-tJaX-mdaX-vJbm-mueYtJmWnde1mdyWnZe4vJLmmtbb",
-      "interfaceName": "VLAN01001",
-      "vlanId": 20
-    }
-  ],
-  "version": "1.0"
-},
-"get_feature_template_summary111":{
-  "response": [
-    {
-      "type": "FLEX_CONFIGURATION",
-      "count": 1,
-      "instances": [
-        {
-          "designName": "Default Flex Configuration",
-          "id": "d57bc185-9616-46cd-965f-f24b5e86be99",
-          "systemTemplate": true
-        }
-      ]
-    }
-  ],
-  "version": "1.0"
-},
-"retrieve_cli_templates_attached_to_a_network_profile":{
-  "response": [
-    {
-      "id": "fac6594b-2666-41a7-b691-89764b8fcd3d",
-      "name": "wireless_template"
-    }
-  ],
-  "version": "1.0"
-},
-"retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to":{
+
+    "get_interfaces2":{
     "response": [
         {
-            "id": "44e4706f-5244-46f4-a20b-6f402675271d"
+        "id": "mda5vKXb-tJaX-mdaX-vJbm-mueYtJmWnde1mdyWnZe4vJLmmtbb",
+        "interfaceName": "VLAN01001",
+        "vlanId": 20
         }
     ],
     "version": "1.0"
-},
-"get80211be_profiles1":{
+    },
+    "get_feature_template_summary111":{
     "response": [
         {
-            "id": "8b1a9953-c461-3296-a827-abf8c47804d7",
-            "profileName": "Hello",
-            "muMimoDownLink": false,
-            "muMimoUpLink": false,
-            "ofdmaDownLink": true,
-            "ofdmaUpLink": true,
-            "ofdmaMultiRu": false,
-            "default": true
+        "type": "FLEX_CONFIGURATION",
+        "count": 1,
+        "instances": [
+            {
+            "designName": "Default Flex Configuration",
+            "id": "d57bc185-9616-46cd-965f-f24b5e86be99",
+            "systemTemplate": true
+            }
+        ]
         }
     ],
     "version": "1.0"
-},
-"playbook_new_feature_template":[
-                {
-                    "additional_interfaces": [
-                        {
-                            "interface_name": "VLAN01001",
-                            "vlan_id": 20
-                        }
-                    ],
-                    "ap_zones": [
-                        {
-                            "ap_zone_name": "AP_Zone_North",
-                            "rf_profile_name": "HIGH",
-                            "ssids": [
-                                "posture"
-                            ]
-                        }
-                    ],
-                    "day_n_templates": [
-                        "wireless_template"
-                    ],
-                    "feature_template_designs": [
-                        {
-                            "design_type": "FLEX_CONFIGURATION",
-                            "feature_templates": [
-                                "Default Flex Configuration"
-                            ]
-                        }
-                    ],
-                    "profile_name": "Campus_Wireless_Profile_2",
-                    "site_names": [
-                        "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1"
-                    ],
-                    "ssid_details": [
-                        {
-                            "dot11be_profile_name": "Hello",
-                            "enable_fabric": false,
-                            "ssid_name": "posture",
-                            "vlan_group_name": "Ans_NP_WL_INT_group_1"
-                        }
-                    ]
-                }
-            ]
+    },
+    "retrieve_cli_templates_attached_to_a_network_profile":{
+    "response": [
+        {
+        "id": "fac6594b-2666-41a7-b691-89764b8fcd3d",
+        "name": "wireless_template"
+        }
+    ],
+    "version": "1.0"
+    },
+    "retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to":{
+        "response": [
+            {
+                "id": "44e4706f-5244-46f4-a20b-6f402675271d"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get80211be_profiles1":{
+        "response": [
+            {
+                "id": "8b1a9953-c461-3296-a827-abf8c47804d7",
+                "profileName": "Hello",
+                "muMimoDownLink": false,
+                "muMimoUpLink": false,
+                "ofdmaDownLink": true,
+                "ofdmaUpLink": true,
+                "ofdmaMultiRu": false,
+                "default": true
+            }
+        ],
+        "version": "1.0"
+    },
+    "playbook_new_feature_template":[
+            {
+                "additional_interfaces": [
+                    {
+                        "interface_name": "VLAN01001",
+                        "vlan_id": 20
+                    }
+                ],
+                "ap_zones": [
+                    {
+                        "ap_zone_name": "AP_Zone_North",
+                        "rf_profile_name": "HIGH",
+                        "ssids": [
+                            "posture"
+                        ]
+                    }
+                ],
+                "day_n_templates": [
+                    "wireless_template"
+                ],
+                "feature_template_designs": [
+                    {
+                        "design_type": "FLEX_CONFIGURATION",
+                        "feature_templates": [
+                            "Default Flex Configuration"
+                        ]
+                    }
+                ],
+                "profile_name": "Campus_Wireless_Profile_2",
+                "site_names": [
+                    "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1"
+                ],
+                "ssid_details": [
+                    {
+                        "dot11be_profile_name": "Hello",
+                        "enable_fabric": false,
+                        "ssid_name": "posture",
+                        "vlan_group_name": "Ans_NP_WL_INT_group_1"
+                    }
+                ]
+            }
+        ],
+
+    "basic_profile_creation_config":[{
+        "profile_name": "Campus_Wireless_Profile",
+        "site_names": [
+            "Global/India/Bangalore/bld1"
+        ],
+        "ssid_details": [
+            {
+                "ssid_name": "OPEN",
+                "enable_fabric": false,
+                "dot11be_profile_name": "Ans NP WL BE 1",
+                "interface_name": "temp_1",
+                "local_to_vlan": 2001
+            }
+        ],
+        "ap_zones": [
+            {
+                "ap_zone_name": "AP_Zone_North",
+                "rf_profile_name": "HIGH",
+                "ssids": [
+                    "OPEN"
+                ]
+            }
+        ],
+        "onboarding_templates": null,
+        "day_n_templates": [
+            "Ans Wireless DayN 1"
+        ],
+        "additional_interfaces": [
+            {
+                "interface_name": "temp_20",
+                "vlan_id": 20
+            }
+        ],
+        "feature_template_designs": [
+            {
+                "design_type": "AAA_RADIUS_ATTRIBUTES_CONFIGURATION",
+                "feature_templates": [
+                    "Default AAA_Radius_Attributes_Configuration"
+                ]
+            }
+        ]
+    }],
+
+    "get_sites4": {
+        "response": [
+            {
+            "id": "54f02572-5338-417e-bed1-738d5541609e",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/ff16454c-7171-4faa-b5b2-d93e7a217f98/fec0b8f2-dcbe-40d3-aee6-95dcd7a77178/54f02572-5338-417e-bed1-738d5541609e",
+            "parentId": "fec0b8f2-dcbe-40d3-aee6-95dcd7a77178",
+            "name": "bld1",
+            "nameHierarchy": "Global/India/Bangalore/bld1",
+            "type": "building",
+            "latitude": 46.2,
+            "longitude": -121.1,
+            "address": "Bureau of Indian Affairs Road 207, White Swan, Washington 98952, United States",
+            "country": "India"
+            }
+        ]
+    },
+
+    "get_sites4_empty": {
+        "response": [],
+        "version": "1.0
+    }
 }
