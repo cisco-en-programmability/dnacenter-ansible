@@ -8966,7 +8966,7 @@
         ]
     }],
 
-    "get_sites4": {
+    "get_sites_basic": {
         "response": [
             {
             "id": "54f02572-5338-417e-bed1-738d5541609e",
@@ -8981,10 +8981,5 @@
             "country": "India"
             }
         ]
-    },
-
-    "get_sites4_empty": {
-        "response": [],
-        "version": "1.0
     }
 }

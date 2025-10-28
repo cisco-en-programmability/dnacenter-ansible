@@ -159,8 +159,8 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("wireless_profile_list"),
                 self.test_data.get("gets_the_templates_available"),
+                self.test_data.get("get_sites_basic"),
                 self.test_data.get("get_sites4"),
-                self.test_data.get("get_sites4_empty"),
                 self.test_data.get("get_sites2"),
                 self.test_data.get("get_enterprise_ssid"),
 
