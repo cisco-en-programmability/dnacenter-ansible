@@ -35,8 +35,8 @@ argument_spec.update(
         ipPoolName=dict(type="str"),
         vlanName=dict(type="str"),
         vlanId=dict(type="float"),
-        offset=dict(type="float"),
-        limit=dict(type="float"),
+        offset=dict(type="int"),
+        limit=dict(type="int"),
         headers=dict(type="dict"),
     )
 )

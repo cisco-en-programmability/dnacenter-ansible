@@ -113,14 +113,14 @@ options:
     description:
       - Offset query parameter. Position of a particular
         Audit Log record in the data.
-    type: float
+    type: int
   limit:
     description:
       - >
         Limit query parameter. Number of Audit Log records
         to be returned per page. Default is 25 if not
         specified. Maximum allowed limit is 25.
-    type: float
+    type: int
   startTime:
     description:
       - >

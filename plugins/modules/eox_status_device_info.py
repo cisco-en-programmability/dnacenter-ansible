@@ -28,13 +28,13 @@ options:
         Limit query parameter. The number of records
         to show for this page. Default is 500 if not
         specified. Maximum allowed limit is 500.
-    type: float
+    type: int
   offset:
     description:
       - Offset query parameter. The first record to
         show for this page, the first record is numbered
         1.
-    type: float
+    type: int
   deviceId:
     description:
       - DeviceId path parameter. Device instance UUID.
