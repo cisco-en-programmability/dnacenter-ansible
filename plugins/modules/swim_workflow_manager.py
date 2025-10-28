@@ -466,6 +466,9 @@ options:
             description: Device serial number where
               the image needs to be distributed
             type: str
+          device_tag:
+            description: Device tag for filtering the target device(s)
+            type: str
           device_ip_address:
             description: Device IP address where the
               image needs to be distributed
@@ -600,6 +603,9 @@ options:
           device_serial_number:
             description: Device serial number where
               the image needs to be activated
+            type: str
+          device_tag:
+            description: Device tag for filtering the target device(s)
             type: str
           device_ip_address:
             description: Device IP address where the
@@ -894,6 +900,50 @@ EXAMPLES = r"""
           device_family_name: Switches and Hubs
           device_series_name: Cisco Catalyst 9300 Series
             Switches
+
+- name: Distribute the given image on devices associated with device tag
+    to that site with specified role.
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: true
+    config:
+      - image_distribution_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          site_name: Global/a_swim/swim_test1
+          device_role: ALL
+          device_family_name: Switches and Hubs
+          device_tag: AUTO_INV_EVENT_SYNC_DISABLED
+
+- name: Activate the given image on devices associated with device tag
+    to that site with specified role.
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: true
+    config:
+      - image_activation_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          site_name: Global/USA/San Francisco/BGL_18
+          device_role: ALL
+          device_family_name: Switches and Hubs
+          device_series_name: Cisco Catalyst 9300 Series Switches
+          device_tag: AUTO_INV_EVENT_SYNC_DISABLED
+          schedule_validate: false
+          activate_lower_image_version: true
+          distribute_if_needed: true
 
 - name: Activate the given image on devices associated
     to that site with specified role.
@@ -3095,6 +3145,72 @@ class Swim(DnacBase):
 
         return device_ips_list, device_count
 
+    def filter_device_uuids_by_tag(self, device_uuid_list, device_tag):
+        """
+        Filter device UUIDs based on a specified device tag.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device_uuid_list (list): A list of device UUIDs to be filtered.
+            device_tag (str): The tag used to filter the devices.
+        Returns:
+            list: A list of device UUIDs that match the specified device tag.
+        Description:
+            This function filters the provided list of device UUIDs based on the specified device tag.
+            It retrieves the tags associated with each device UUID and checks if the specified tag is present.
+            If the tag is found, the device UUID is added to the filtered list. The function returns the list of filtered device UUIDs.
+        """
+
+        filtered_device_uuids = []
+
+        for device_uuid in device_uuid_list:
+            self.log("Fetching tags for device UUID: {0}".format(device_uuid), "DEBUG")
+
+            try:
+                response = self.dnac_apply["exec"](
+                    family="devices",
+                    function="get_device_detail",
+                    params={"search_by": device_uuid, "identifier": "uuid"},
+                )
+
+                self.log(
+                    "Response collected from API 'get_device_detail': {0}".format(response),
+                    "DEBUG",
+                )
+
+                device_response = response.get("response", {})
+                device_tags = device_response.get("tagIdList", [])
+
+                if not device_tags:
+                    self.log("No tags found for device UUID {0}.".format(device_uuid), "DEBUG")
+                    continue
+
+                self.log(
+                    "Retrieved tags for device UUID {0}: {1}".format(device_uuid, device_tags),
+                    "DEBUG",
+                )
+
+                if device_tag in device_tags:
+                    self.log(
+                        "Device UUID {0} matches the specified tag '{1}'.".format(
+                            device_uuid, device_tag
+                        ),
+                        "DEBUG",
+                    )
+                    filtered_device_uuids.append(device_uuid)
+
+            except Exception as e:
+                self.msg = "Failed to process device UUID {0} due to: {1}".format(device_uuid, e)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        self.log(
+            "Filtered device UUIDs based on tag '{0}': {1}".format(
+                device_tag, filtered_device_uuids
+            ),
+            "DEBUG",
+        )
+
+        return filtered_device_uuids
+
     def get_diff_distribution(self):
         """
         Get image distribution parameters from the playbook and trigger image distribution.
@@ -3119,6 +3235,7 @@ class Swim(DnacBase):
 
         site_name = distribution_details.get("site_name")
         device_family = distribution_details.get("device_family_name")
+        device_tag = distribution_details.get("device_tag")
         device_role = distribution_details.get("device_role", "ALL")
         device_series_name = distribution_details.get("device_series_name")
         self.max_timeout = distribution_details.get("image_distribution_timeout", 1800)
@@ -3132,6 +3249,22 @@ class Swim(DnacBase):
         device_uuid_list = self.get_device_uuids(
             site_name, device_family, device_role, device_series_name
         )
+
+        self.log(
+            "Initial device UUIDs retrieved for distribution: {0}".format(
+                device_uuid_list
+            ),
+            "DEBUG",
+        )
+        if device_tag:
+            device_uuid_list = self.filter_device_uuids_by_tag(
+                device_uuid_list, device_tag
+            )
+            self.log(
+                "Retrieved device UUIDs for distribution: {0}".format(device_uuid_list),
+                "DEBUG",
+            )
+
         image_id = self.have.get("distribution_image_id")
         distribution_device_id = self.have.get("distribution_device_id")
         device_ip = self.get_device_ip_from_id(distribution_device_id)
@@ -3682,6 +3815,7 @@ class Swim(DnacBase):
         device_family = activation_details.get("device_family_name")
         device_role = activation_details.get("device_role", "ALL")
         device_series_name = activation_details.get("device_series_name")
+        device_tag = activation_details.get("device_tag")
         self.max_timeout = activation_details.get("image_activation_timeout", 1800)
 
         self.log(
@@ -3694,6 +3828,22 @@ class Swim(DnacBase):
         device_uuid_list = self.get_device_uuids(
             site_name, device_family, device_role, device_series_name
         )
+
+        self.log(
+            "Initial device UUIDs retrieved for distribution: {0}".format(
+                device_uuid_list
+            ),
+            "DEBUG",
+        )
+        if device_tag:
+            device_uuid_list = self.filter_device_uuids_by_tag(
+                device_uuid_list, device_tag
+            )
+            self.log(
+                "Retrieved device UUIDs for distribution: {0}".format(device_uuid_list),
+                "DEBUG",
+            )
+
         image_id = self.have.get("activation_image_id")
         activation_device_id = self.have.get("activation_device_id")
         device_ip = self.get_device_ip_from_id(activation_device_id)
