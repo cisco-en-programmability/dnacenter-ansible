@@ -652,6 +652,11 @@
                 "id": "d37ee2f8-655e-43da-89c4-08bdca7f4759",
                 "name": "rafeek_wireless_2",
                 "type": "Wireless"
+            },
+            {
+                "id": "7231ea09-daa9-4e99-92c1-abbcb0a7366c",
+                "name": "Campus_Wireless_Profile",
+                "type": "Wireless"
             }
         ],
         "version": "1.0"
@@ -3117,24 +3122,20 @@
     ],
     "version": "1.0"
 },
-"gets_the_templates_available":[
+"gets_the_templates_available": [
     {
-        "name": "Ans Switch DayN 1",
-        "projectName": "Cloud DayN Templates",
-        "projectId": "31ea119f-8466-4114-ae26-dc17c3a3445f",
-        "templateId": "487f2302-9a45-4b86-a748-d0b03f8595a7",
+        "name": "WLC Template",
+        "projectName": "ODC Provisioning",
+        "projectId": "fa18dd05-d41c-441c-af44-8e2644781823",
+        "templateId": "5935fbdb-3d4c-4d6c-be5f-c61401be6b93",
         "versionsInfo": [
             {
-                "id": "05adbf55-06d5-45b3-af96-7e335ae23c19",
-                "author": "thievo",
-                "version": "2",
-                "versionTime": 1752660544122
-            },
-            {
-                "id": "026a9243-0ad7-4e52-9e27-b90e37a9cb9b",
-                "author": "thievo",
-                "version": "1",
-                "versionTime": 1752660387225
+                "id": "38a74df1-779c-441e-97ce-9b4670cd1fd0",
+                "description": "",
+                "author": "admin",
+                "version": "3",
+                "versionComment": "",
+                "versionTime": 1740777392227
             }
         ],
         "composite": false,
@@ -3142,63 +3143,7 @@
         "softwareType": "IOS-XE",
         "deviceTypes": [
             {
-                "productFamily": "Switches and Hubs"
-            }
-        ]
-    },
-    {
-        "name": "Ans Switch DayN 2",
-        "projectName": "Cloud DayN Templates",
-        "projectId": "31ea119f-8466-4114-ae26-dc17c3a3445f",
-        "templateId": "809bf7fd-ab67-41c4-abb0-1e8fed74fd2e",
-        "versionsInfo": [
-            {
-                "id": "5524a655-7f0e-456a-992d-a3e00fc00612",
-                "author": "thievo",
-                "version": "2",
-                "versionTime": 1752660547080
-            },
-            {
-                "id": "83a9fb54-7f4b-44b4-9568-d18a54c49547",
-                "author": "thievo",
-                "version": "1",
-                "versionTime": 1752660390223
-            }
-        ],
-        "composite": false,
-        "tags": [],
-        "softwareType": "IOS-XE",
-        "deviceTypes": [
-            {
-                "productFamily": "Switches and Hubs"
-            }
-        ]
-    },
-    {
-        "name": "Ans Switch Onb 1",
-        "projectName": "Onboarding Configuration",
-        "projectId": "404fc836-7549-4c11-a91b-dc7089041a9a",
-        "templateId": "08e2992f-1e46-421d-9814-3f325767cebd",
-        "versionsInfo": [
-            {
-                "id": "1a204038-bada-409d-b7a2-6c58eef51e4d",
-                "author": "thievo",
-                "version": "1",
-                "versionTime": 1752660380977
-            },
-            {
-                "id": "df7c2be2-c92d-48f7-a3d1-8f82fe7da662",
-                "author": "thievo",
-                "version": "2",
-                "versionTime": 1752660537959
-            }
-        ],
-        "composite": false,
-        "tags": [],
-        "softwareType": "IOS-XE",
-        "deviceTypes": [
-            {
-                "productFamily": "Switches and Hubs"
+                "productFamily": "Wireless Controller"
             }
         ]
     },
@@ -3221,521 +3166,6 @@
         "deviceTypes": [
             {
                 "productFamily": "Wireless Controller"
-            }
-        ]
-    },
-    {
-        "name": "PnP-Devices-SW",
-        "projectName": "Onboarding Configuration",
-        "projectId": "404fc836-7549-4c11-a91b-dc7089041a9a",
-        "templateId": "b4044e02-f893-48a2-9eeb-cea2fbd52970",
-        "versionsInfo": [
-            {
-                "id": "4d4f8389-c2e2-4916-acc2-b112b3200594",
-                "description": "",
-                "author": "admin",
-                "version": "1",
-                "versionComment": "",
-                "versionTime": 1753955154980
-            }
-        ],
-        "composite": false,
-        "tags": [],
-        "softwareType": "IOS-XE",
-        "deviceTypes": [
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 2960-CX Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco 550X Series Stackable Managed Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco 350X Series Stackable Managed Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco 9350 Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 2960 Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco 350 Series Managed Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 2960-X/XR Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 2960-L Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 3560-C Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 4500 Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 3560-X Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 4900 Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 3750 Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 2960-Plus Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco 9610 Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 3650 Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 3560-CX Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 3550 Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 4500-X Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 2975 Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 3560-E Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 3850 Series Ethernet Stackable Switch"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 2960-C Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 3560 Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 2950 Series Switches"
-            }
-        ]
-    },
-    {
-        "name": "PnP-Devices_SF-EWLC_No-Vars",
-        "projectName": "Onboarding Configuration",
-        "projectId": "404fc836-7549-4c11-a91b-dc7089041a9a",
-        "templateId": "38ba1e13-4109-4378-ac9d-346f3f597f4b",
-        "versionsInfo": [
-            {
-                "id": "1674c47b-afba-4751-9d14-a0e8148d5f2f",
-                "author": "admin",
-                "version": "1",
-                "versionTime": 1750777018996
-            }
-        ],
-        "composite": false,
-        "tags": [],
-        "softwareType": "IOS-XE",
-        "deviceTypes": [
-            {
-                "productFamily": "Wireless Controller",
-                "productSeries": "Cisco Catalyst 9800 Series Wireless Controllers"
-            }
-        ]
-    },
-    {
-        "name": "PnP-Devices_SJ-EWLC",
-        "projectName": "Onboarding Configuration",
-        "projectId": "404fc836-7549-4c11-a91b-dc7089041a9a",
-        "templateId": "23e15911-06a8-410c-9dd2-f072a1bfc06c",
-        "versionsInfo": [
-            {
-                "id": "aeb2b631-36fc-4185-8549-14791efb57b4",
-                "author": "admin",
-                "version": "1",
-                "versionTime": 1750776888396
-            }
-        ],
-        "composite": false,
-        "tags": [],
-        "softwareType": "IOS-XE",
-        "deviceTypes": [
-            {
-                "productFamily": "Wireless Controller",
-                "productSeries": "Cisco Catalyst 9800 Series Wireless Controllers"
-            }
-        ]
-    },
-    {
-        "name": "PnP-Upstream-SW",
-        "projectName": "Onboarding Configuration",
-        "projectId": "404fc836-7549-4c11-a91b-dc7089041a9a",
-        "templateId": "7bcd1efe-8169-4982-9b36-b8bd2090ed86",
-        "versionsInfo": [
-            {
-                "id": "b4960dfd-4274-43df-906a-312c6dae57fb",
-                "description": "ABAAAA",
-                "author": "thievo",
-                "version": "6",
-                "versionTime": 1753342011415
-            },
-            {
-                "id": "f266fef7-150d-4b68-98a3-cbcfcecc1fa5",
-                "description": "ABAAAA",
-                "author": "thievo",
-                "version": "5",
-                "versionComment": "",
-                "versionTime": 1753341821153
-            },
-            {
-                "id": "69e437be-15c5-4bfd-8c79-bdef2f866d91",
-                "description": "ABAAAA",
-                "author": "thievo",
-                "version": "4",
-                "versionTime": 1753341553810
-            },
-            {
-                "id": "7660267a-8158-43fc-a48a-31fbac53a49c",
-                "description": "ABAAAA",
-                "author": "thievo",
-                "version": "3",
-                "versionTime": 1753340671783
-            },
-            {
-                "id": "02f0f0e9-5be5-4499-8d97-1166c311deae",
-                "description": "\u00e1dasdasd",
-                "author": "thievo",
-                "version": "2",
-                "versionTime": 1753339687516
-            },
-            {
-                "id": "79148f6f-a9af-41f5-863f-001b4207852f",
-                "author": "thievo",
-                "version": "1",
-                "versionTime": 1753169301471
-            },
-            {
-                "id": "284c64c7-3da1-4409-884a-90c78471c2fa",
-                "description": "ABAAAA",
-                "author": "thievo",
-                "version": "7",
-                "versionComment": "",
-                "versionTime": 1753342130406
-            }
-        ],
-        "composite": false,
-        "tags": [],
-        "softwareType": "IOS-XE",
-        "deviceTypes": [
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 9500 Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 9300 Series Switches"
-            }
-        ]
-    },
-    {
-        "name": "PnP-Upstream-SW",
-        "projectName": "access_van_template_9300_switches",
-        "projectId": "8a803f05-cec4-4b0c-a2e5-b03825a3d751",
-        "templateId": "410c17e8-2de1-461c-a03c-533f35f8d234",
-        "versionsInfo": [
-            {
-                "id": "7281d4d6-b743-4184-891b-41ed935f3468",
-                "description": "Template to configure Access Vlan n Access Interfaces",
-                "author": "datcpham",
-                "version": "4",
-                "versionTime": 1754299417469
-            },
-            {
-                "id": "51ffd943-9150-4336-baf5-11e04e4ddcf8",
-                "description": "Template to configure Access Vlan n Access Interfaces",
-                "author": "datcpham",
-                "version": "3",
-                "versionTime": 1754297578550
-            },
-            {
-                "id": "eeab1b0a-7f13-470a-8e39-37b7a915bdc3",
-                "description": "Template to configure Access Vlan n Access Interfaces",
-                "author": "datcpham",
-                "version": "2",
-                "versionTime": 1754297158497
-            },
-            {
-                "id": "f32369a3-0ba3-4942-889e-57765f1aea6d",
-                "description": "Template to configure Access Vlan n Access Interfaces",
-                "author": "datcpham",
-                "version": "1",
-                "versionTime": 1754295990305
-            }
-        ],
-        "composite": false,
-        "tags": [],
-        "softwareType": "IOS-XE",
-        "deviceTypes": [
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 9300 Series Switches"
-            }
-        ]
-    },
-    {
-        "name": "PnP-Upstream-SW1",
-        "projectName": "Onboarding Configuration",
-        "projectId": "404fc836-7549-4c11-a91b-dc7089041a9a",
-        "templateId": "32b46c36-eed3-4a4e-bc12-97d7185d8b89",
-        "versionsInfo": [
-            {
-                "id": "807fa8cf-9056-40e8-9daa-cdac1907fbd4",
-                "author": "datcpham",
-                "version": "3",
-                "versionTime": 1754297581401
-            },
-            {
-                "id": "e8515fa1-ccd0-44ce-8ef1-2e3570c2f014",
-                "author": "datcpham",
-                "version": "2",
-                "versionTime": 1754297161322
-            },
-            {
-                "id": "22e07ea0-d542-4eb8-9d87-edbafcd4b060",
-                "author": "datcpham",
-                "version": "1",
-                "versionTime": 1754295991389
-            }
-        ],
-        "composite": false,
-        "tags": [],
-        "softwareType": "IOS-XE",
-        "deviceTypes": [
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 9500 Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 9300 Series Switches"
-            }
-        ]
-    },
-    {
-        "name": "PnP_Upstream_SF_EWLC_No-Vars",
-        "projectName": "Onboarding Configuration",
-        "projectId": "404fc836-7549-4c11-a91b-dc7089041a9a",
-        "templateId": "52f531f0-746e-4611-a566-f03751bc95dc",
-        "versionsInfo": [
-            {
-                "id": "25ff2938-aee3-41aa-ac7d-2bb9dbfb1b69",
-                "author": "admin",
-                "version": "1",
-                "versionTime": 1750776953915
-            }
-        ],
-        "composite": false,
-        "tags": [],
-        "softwareType": "IOS-XE",
-        "deviceTypes": [
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 9500 Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 9300 Series Switches"
-            }
-        ]
-    },
-    {
-        "name": "PnP_Upstream_SJ_EWLC_No-Vars",
-        "projectName": "Onboarding Configuration",
-        "projectId": "404fc836-7549-4c11-a91b-dc7089041a9a",
-        "templateId": "f1771358-215b-4312-a981-0b2b307fd626",
-        "versionsInfo": [
-            {
-                "id": "fc94f050-87cb-41aa-950e-90cb48ab714d",
-                "author": "admin",
-                "version": "1",
-                "versionTime": 1750776821729
-            }
-        ],
-        "composite": false,
-        "tags": [],
-        "softwareType": "IOS-XE",
-        "deviceTypes": [
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 9500 Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 9300 Series Switches"
-            }
-        ]
-    },
-    {
-        "name": "Template-Router-for-Deploy",
-        "projectName": "Onboarding Configuration",
-        "projectId": "404fc836-7549-4c11-a91b-dc7089041a9a",
-        "templateId": "64680b71-bc08-4e6a-a7c7-d79d88b44420",
-        "versionsInfo": [
-            {
-                "id": "f3b23da4-053a-4acf-b3e3-024eb9743554",
-                "author": "thievo",
-                "version": "1",
-                "versionTime": 1752657935004
-            }
-        ],
-        "composite": false,
-        "tags": [],
-        "softwareType": "IOS-XE",
-        "deviceTypes": [
-            {
-                "productFamily": "Routers",
-                "productSeries": "Cisco ASR 1000 Series Aggregation Services Routers"
-            }
-        ]
-    },
-    {
-        "name": "Template-Switch-for-Deploy",
-        "projectName": "Onboarding Configuration",
-        "projectId": "404fc836-7549-4c11-a91b-dc7089041a9a",
-        "templateId": "2b1f4ba0-e430-49f8-baa9-fefc503df5cd",
-        "versionsInfo": [
-            {
-                "id": "a4a37475-5873-4baf-9acf-2b44133dc93e",
-                "author": "thievo",
-                "version": "1",
-                "versionTime": 1751439334649
-            },
-            {
-                "id": "3b795383-bd69-4769-848a-b51124bc3797",
-                "author": "thievo",
-                "version": "4",
-                "versionComment": "",
-                "versionTime": 1752657490522
-            },
-            {
-                "id": "13fb5530-5a80-4c0f-a04a-983e9e3a850b",
-                "author": "thievo",
-                "version": "3",
-                "versionComment": "",
-                "versionTime": 1752657415463
-            },
-            {
-                "id": "cb945c56-d3ec-419f-bb6d-8caa9a1f4665",
-                "author": "thievo",
-                "version": "2",
-                "versionTime": 1752656622884
-            }
-        ],
-        "composite": false,
-        "tags": [],
-        "softwareType": "IOS-XE",
-        "deviceTypes": [
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 9500 Series Switches"
-            },
-            {
-                "productFamily": "Switches and Hubs",
-                "productSeries": "Cisco Catalyst 9300 Series Switches"
-            }
-        ]
-    },
-    {
-        "name": "wireless_template",
-        "projectName": "Onboarding Configuration",
-        "projectId": "404fc836-7549-4c11-a91b-dc7089041a9a",
-        "templateId": "fac6594b-2666-41a7-b691-89764b8fcd3d",
-        "versionsInfo": [
-            {
-                "id": "5d63d72c-a887-4d47-8690-cc36b7264530",
-                "description": "",
-                "author": "mohmshai",
-                "version": "1",
-                "versionComment": "",
-                "versionTime": 1757524578592
-            }
-        ],
-        "composite": false,
-        "tags": [],
-        "softwareType": "IOS-XE",
-        "deviceTypes": [
-            {
-                "productFamily": "Wireless Controller",
-                "productSeries": "Cisco 3500 Series Wireless LAN Controller"
-            },
-            {
-                "productFamily": "Wireless Controller",
-                "productSeries": "Cisco 2500 Series Wireless LAN Controller"
-            },
-            {
-                "productFamily": "Wireless Controller",
-                "productSeries": "Cisco VIRTUAL Series Wireless LAN Controller"
-            },
-            {
-                "productFamily": "Wireless Controller",
-                "productSeries": "Cisco Catalyst 9800 Series Wireless Controllers"
-            },
-            {
-                "productFamily": "Wireless Controller",
-                "productSeries": "Cisco Mobility Express"
-            },
-            {
-                "productFamily": "Wireless Controller",
-                "productSeries": "Cisco Embedded Wireless Controller on Catalyst Access Points"
-            },
-            {
-                "productFamily": "Wireless Controller",
-                "productSeries": "Cisco 8500 Series Wireless LAN Controller"
-            },
-            {
-                "productFamily": "Wireless Controller",
-                "productSeries": "Cisco Access Point Modules"
-            },
-            {
-                "productFamily": "Wireless Controller",
-                "productSeries": "Cisco Catalyst 9800 Wireless Controllers for Cloud"
-            },
-            {
-                "productFamily": "Wireless Controller",
-                "productSeries": "Cisco Flex 7500 Series Wireless LAN Controller"
-            },
-            {
-                "productFamily": "Wireless Controller",
-                "productSeries": "Cisco 5760 Series Wireless LAN Controller"
-            },
-            {
-                "productFamily": "Wireless Controller",
-                "productSeries": "Cisco 5500 Series Wireless LAN Controllers"
             }
         ]
     }
@@ -8981,5 +8411,121 @@
             "country": "India"
             }
         ]
-    }
+    },
+
+    "get_interfaces_basic":{
+        "response": [
+            {
+            "id": "mda3DgvT-Cf8Y-mhqW-ztfT-mNaZxZqYnta2DdDLog05CdeWxZeX",
+            "interfaceName": "temp_20",
+            "vlanId": 20
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_feature_template_summary_basic":{
+        "response": [
+            {
+            "type": "AAA_RADIUS_ATTRIBUTES_CONFIGURATION",
+            "count": 1,
+            "instances": [
+                {
+                "designName": "Default AAA_Radius_Attributes_Configuration",
+                "id": "3e2f3f3c-5f4b-4f2e-8f4a-5e6d7c8b9a0b",
+                "systemTemplate": true
+                }
+            ]
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get80211be_profiles_basic":{
+        "response": [
+            {
+            "id": "8b1a9953-c461-3296-a827-abf8c47804d7",
+            "profileName": "Hello",
+            "muMimoDownLink": false,
+            "muMimoUpLink": false,
+            "ofdmaDownLink": true,
+            "ofdmaUpLink": true,
+            "ofdmaMultiRu": false,
+            "default": true
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "verify_profile_details_basic": {
+        "response": [
+            {
+                "id": "7231ea09-daa9-4e99-92c1-abbcb0a7366c",
+                "wirelessProfileName": "Campus_Wireless_Profile",
+                "ssidDetails": [
+                    {
+                        "ssidName": "OPEN",
+                        "enableFabric": false,
+                        "flexConnect": {
+                            "enableFlexConnect": true,
+                            "localToVlan": 2001
+                        },
+                        "interfaceName": "temp_1",
+                        "wlanProfileName": "OPEN_profile",
+                        "policyProfileName": "OPEN_profile",
+                        "dot11beProfileId": "c69f975a-5a16-39c9-9b85-643ac0a06cdb"
+                    }
+                ],
+                "additionalInterfaces": [
+                    "temp_20"
+                ],
+                "apZones": [
+                    {
+                        "apZoneName": "AP_Zone_North",
+                        "rfProfileName": "HIGH",
+                        "ssids": [
+                            "OPEN"
+                        ]
+                    }
+                ],
+                "featureTemplates": [
+                    {
+                        "designName": "Default AAA_Radius_Attributes_Configuration",
+                        "id": "8864fe4d-b305-4fd2-b8f9-2d9bc54b6347",
+                        "ssids": []
+                    }
+                ]
+            }
+        ],
+        "version": "1.2"
+    },
+
+    "get_cli_template_for_profile_basic": {
+        "response": [
+            {
+                "id": "b7494025-20f0-4902-aa72-e76d3e2394c9",
+                "name": "Ans Wireless DayN 1"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_site_list_for_profile_basic": {
+        "response": [
+            {
+                "id": "54f02572-5338-417e-bed1-738d5541609e"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "profile_deletion":[{
+        "profile_name": "Campus_Wireless_Profile",
+        "site_names": null,
+        "ssid_details": null,
+        "onboarding_templates": null,
+        "day_n_templates": null,
+        "additional_interfaces": null,
+        "feature_template_designs": null
+    }]
 }
