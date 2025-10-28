@@ -170,7 +170,6 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
                 self.test_data.get("get80211be_profiles")
             ]
 
-
     def test_network_profile_workflow_manager_profile_creation_fail(self):
         """
         Test case for wireless profile workfollow manager provision and update device.
