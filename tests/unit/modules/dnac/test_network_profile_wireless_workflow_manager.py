@@ -31,6 +31,7 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
     profile_creation_config = test_data.get("profile_creation_config")
     profile_creation_config_feature_template = test_data.get("profile_creation_config_feature_template")
     playbook_new_feature_template = test_data.get("playbook_new_feature_template")
+    basic_profile_creation_config = test_data.get("basic_profile_creation_config")
 
     def setUp(self):
         super(TestDnacNetworkWirelessProfileWorkflow, self).setUp()
@@ -90,8 +91,7 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
                 self.test_data.get("get_site_list_for_profile"),
                 self.test_data.get("get_dot11be_profile")
             ]
-
-        if "profile_creation_feature_template" in self._testMethodName:
+        elif "profile_creation_feature_template" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_network_profile_sites"),
                 self.test_data.get("get_Sites"),
@@ -115,8 +115,7 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
                 self.test_data.get("get_site_lists_for_profile"),
                 self.test_data.get("get80211be_profiles")
             ]
-
-        if "profile_creation_fail_feature_template" in self._testMethodName:
+        elif "profile_creation_fail_feature_template" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_network_profile_sites"),
                 self.test_data.get("get_Sites"),
@@ -126,8 +125,7 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
                 self.test_data.get("get_feature_template_summary"),
                 self.test_data.get("get_feature_template_summary1")
             ]
-
-        if "profile_creation_feature_template_new" in self._testMethodName:
+        elif "profile_creation_feature_template_new" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("retrieves_the_list_of_network_profiles_for_sites"),
                 self.test_data.get("get_wireless_profiles_v1"),
@@ -156,9 +154,22 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
                 self.test_data.get("retrieve_cli_templates_attached_to_a_network_profile"),
                 self.test_data.get("retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to"),
                 self.test_data.get("get80211be_profiles1")
-
-
             ]
+        elif "basic_profile_creation" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("wireless_profile_list"),
+                self.test_data.get("gets_the_templates_available"),
+                self.test_data.get("get_sites4"),
+                self.test_data.get("get_sites4_empty"),
+                self.test_data.get("get_sites2"),
+                self.test_data.get("get_enterprise_ssid"),
+
+                self.test_data.get("get_feature_template_summary"),
+                self.test_data.get("get_feature_template_summary1"),
+                self.test_data.get("get_site_lists_for_profile"),
+                self.test_data.get("get80211be_profiles")
+            ]
+
 
     def test_network_profile_workflow_manager_profile_creation_fail(self):
         """

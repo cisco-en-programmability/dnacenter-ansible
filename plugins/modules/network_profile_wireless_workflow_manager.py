@@ -622,6 +622,7 @@ response_verification_failed:
 """
 
 import re
+import copy
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     validate_list_of_dicts,
@@ -639,6 +640,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         super().__init__(module)
         self.supported_states = ["merged", "deleted"]
         self.created, self.deleted, self.not_processed = [], [], []
+        self.remove_profile_data, self.already_removed = [], []
 
         self.keymap = dict(
             profile_name="wirelessProfileName",
@@ -2187,7 +2189,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 for each_interface in additional_interfaces:
                     interface_name = each_interface.get("interface_name")
                     if interface_name not in have_additional_interfaces:
-                        unmatched_keys.append(unmatched_values)
+                        unmatched_keys.append(interface_name)
                         self.log(
                             "Additional interface '{0}' not found in existing config.".format(
                                 interface_name
@@ -2710,9 +2712,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
                 elif ssid_key in [
                     "wlan_profile_name",
-                    "interface_name",
-                    "enable_fabric",
-                    "anchor_group_name",
                     "policy_profile_name",
                 ]:
                     if input_data[ssid_key] != have_data.get(self.keymap[ssid_key]):
@@ -2727,10 +2726,43 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                             "DEBUG",
                         )
 
-                elif ssid_key == "local_to_vlan":
-                    input_vlan = int(input_data[ssid_key])
+                elif ssid_key == "enable_fabric":
+                    if input_data[ssid_key] != have_data.get(self.keymap[ssid_key]):
+                        un_match_data[ssid_key] = input_data[ssid_key]
+                        self.log(
+                            "{0} mismatch for SSID '{1}'. Expected: {2}, Found: {3}".format(
+                                ssid_key,
+                                input_data.get("ssid_name"),
+                                input_data[ssid_key],
+                                have_data.get(self.keymap[ssid_key]),
+                            ),
+                            "DEBUG",
+                        )
+
+                    if input_data[ssid_key]:
+                        continue
+
+                elif ssid_key in [
+                    "interface_name",
+                    "anchor_group_name",
+                ] and not input_data.get("enable_fabric"):
+                    self.log(f"Comparing the '{ssid_key}' while 'Enable Fabric' is False", "DEBUG")
+                    if input_data[ssid_key] != have_data.get(self.keymap[ssid_key]):
+                        un_match_data[ssid_key] = input_data[ssid_key]
+                        self.log(
+                            "{0} mismatch for SSID '{1}'. Expected: {2}, Found: {3}".format(
+                                ssid_key,
+                                input_data.get("ssid_name"),
+                                input_data[ssid_key],
+                                have_data.get(self.keymap[ssid_key]),
+                            ),
+                            "DEBUG",
+                        )
+
+                elif ssid_key == "local_to_vlan" and not input_data.get("enable_fabric"):
+                    input_vlan = int(input_data.get(ssid_key, 0))
                     have_vlan = int(
-                        have_data.get("flexConnect", {}).get(self.keymap[ssid_key])
+                        have_data.get("flexConnect", {}).get(self.keymap[ssid_key], 0)
                     )
                     if input_vlan != have_vlan:
                         un_match_data[ssid_key] = input_data[ssid_key]
@@ -3190,6 +3222,199 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         return self
 
+    def remove_network_profile_data(self, each_profile, each_have_profile):
+        """
+        Remove the network profile data from Cisco Catalyst Center based on the playbook details.
+
+        Parameters:
+            each_profile (dict): The profile details to be deleted from Cisco Catalyst Center.
+            each_have_profile (dict): Contain existing details of the profile
+
+        Returns:
+            dict: A dictionary containing the status of the removable data from profile or None.
+        """
+        self.log(
+            "Removing network profile data for profile: {0}".format(
+                each_profile.get("profile_name")
+            ),
+            "INFO",
+        )
+
+        removable_data = copy.deepcopy(each_have_profile.get("profile_info", {}))
+        have_profile_id = each_have_profile.get("profile_info", {}).get("id")
+        have_profile_name = each_have_profile.get("profile_info", {}).get(
+                "wirelessProfileName"
+            )
+        unassign_sites = []
+        unassign_templates = []
+        remove_required = {
+            "ssid_status": False,
+            "additional_interfaces_status": False,
+            "ap_zones_status": False,
+            "feature_template_designs_status": False,
+            "day_n_templates_status": False,
+            "site_remove_status": False,
+        }
+
+        if each_profile.get("ssid_details"):
+            for ssid in each_profile["ssid_details"]:
+                ssid_name = ssid.get("ssid_name")
+                if self.value_exists(
+                    removable_data.get("ssidDetails", []),
+                    "ssidName",
+                    ssid_name,
+                ):
+                    self.log(
+                        "Removing SSID '{0}' from profile '{1}' before deletion.".format(
+                            ssid_name, have_profile_name
+                        ),
+                        "INFO",
+                    )
+                    removable_data["ssidDetails"] = [
+                        have_ssid
+                        for have_ssid in removable_data.get("ssidDetails", [])
+                        if have_ssid.get("ssidName") != ssid_name
+                    ]
+                    remove_required["ssid_status"] = True
+
+        if each_profile.get("additional_interfaces"):
+            for interface in each_profile["additional_interfaces"]:
+                interface_name = interface.get("interface_name")
+                if interface_name in removable_data.get("additionalInterfaces", []):
+                    self.log(
+                        "Removing Additional Interface '{0}' from profile '{1}' before deletion.".format(
+                            interface_name, have_profile_name
+                        ),
+                        "INFO",
+                    )
+                    removable_data["additionalInterfaces"].remove(interface_name)
+                    remove_required["additional_interfaces_status"] = True
+
+        if each_profile.get("ap_zones"):
+            for ap_zone in each_profile["ap_zones"]:
+                ap_zone_name = ap_zone.get("ap_zone_name")
+                if self.value_exists(
+                    removable_data.get("apZones", []),
+                    "apZoneName",
+                    ap_zone_name,
+                ):
+                    self.log(
+                        "Removing AP Zone '{0}' from profile '{1}' before deletion.".format(
+                            ap_zone_name, have_profile_name
+                        ),
+                        "INFO",
+                    )
+                    removable_data["apZones"] = [
+                        have_apzone
+                        for have_apzone in removable_data.get("apZones", [])
+                        if have_apzone.get("apZoneName") != ap_zone_name
+                    ]
+                    remove_required["ap_zones_status"] = True
+
+        if each_profile.get("feature_template_designs"):
+            for feature_template in each_profile["feature_template_designs"]:
+                feature_template_names = feature_template.get("feature_templates")
+                if not feature_template_names:
+                    continue
+
+                for each_feature_template in feature_template_names:
+                    if self.value_exists(
+                        removable_data.get("featureTemplates", []),
+                        "designName",
+                        each_feature_template,
+                    ):
+                        self.log(
+                            "Removing Feature Template '{0}' from profile '{1}' before deletion.".format(
+                                each_feature_template, have_profile_name
+                            ),
+                            "INFO",
+                        )
+                        removable_data["featureTemplates"] = [
+                            have_feature_template
+                            for have_feature_template in removable_data.get(
+                                "featureTemplates", []
+                            )
+                            if have_feature_template.get("designName") != each_feature_template
+                        ]
+                        remove_required["feature_template_designs_status"] = True
+
+        if each_profile.get("day_n_templates"):
+            for day_n_template in each_profile["day_n_templates"]:
+                if not self.value_exists(
+                    each_have_profile.get("day_n_templates", {}),
+                    "template_name",
+                    day_n_template,
+                ):
+                    continue
+
+                for have_day_n_template in each_have_profile.get("day_n_templates", {}):
+                    template_name = have_day_n_template.get("template_name")
+                    template_id = have_day_n_template.get("template_id")
+                    profile_name = each_profile.get("profile_name")
+                    if template_name == day_n_template:
+                        self.log("Unassigning template '{0}' (ID: {1}) from profile '{2}'.".format(
+                            template_name, template_id, profile_name), "INFO")
+                        result = self.detach_networkprofile_cli_template(
+                            profile_name, have_profile_id, template_name, template_id)
+                        unassign_templates.append(result)
+                        self.log("Successfully unassigned template '{0}' from profile '{1}'.".format(
+                            template_name, profile_name), "INFO")
+            if unassign_templates:
+                remove_required["day_n_templates_status"] = True
+
+        if each_profile.get("site_names"):
+            for site_name in each_profile["site_names"]:
+                if not self.value_exists(
+                    each_have_profile.get("site_response", {}),
+                    "site_names",
+                    site_name,
+                ):
+                    continue
+
+                for have_site in each_have_profile.get("site_response", {}):
+                    have_site_name = have_site.get("site_names")
+                    have_site_id = have_site.get("site_id")
+                    if have_site_name == site_name:
+                        self.log("Unassigning site '{0}' from profile '{1}'.".format(
+                            site_name, have_profile_name), "INFO")
+                        unassign_response = self.unassign_site_to_network_profile(
+                            have_profile_name,
+                            have_profile_id,
+                            have_site_name,
+                            have_site_id
+                        )
+                        unassign_sites.append(unassign_response)
+                        self.log("Successfully unassigned site '{0}' from profile '{1}'.".format(
+                            have_site_name, have_profile_name), "INFO")
+            if unassign_sites:
+                remove_required["site_remove_status"] = True
+
+        if (
+            remove_required["ssid_status"] or
+            remove_required["additional_interfaces_status"] or
+            remove_required["ap_zones_status"] or
+            remove_required["feature_template_designs_status"]
+        ):
+            self.log("Final removable data for profile: {have_profile_name} : {removable_data}", "INFO")
+            update_response = self.create_update_wireless_profile(
+                removable_data, have_profile_id
+            )
+            if update_response:
+                self.log(
+                    "Successfully removed specified SSIDs from profile '{0}'.".format(
+                        have_profile_name
+                    ),
+                    "INFO",
+                )
+                return remove_required
+            else:
+                self.msg = "Failed to remove SSIDs from profile: '{0}'.".format(
+                    each_profile["profile_name"]
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+        return None
+
     def get_diff_deleted(self, each_profile):
         """
         Delete Network profile based on the given profile ID
@@ -3231,49 +3456,124 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
-        have_profile_id = each_have.get("profile_info", {}).get("id")
-        sites = each_have.get("previous_sites")
+        if all(not each_profile.get(key) for key in [
+            "site_names", "ssid_details", "day_n_templates", 
+            "additional_interfaces", "ap_zones", "feature_template_designs"
+        ]):
+            self.log(f"Proceeding to delete the entire profile: {have_profile_name}", "INFO")
+            have_profile_id = each_have.get("profile_info", {}).get("id")
+            sites = each_have.get("previous_sites")
 
-        if sites:
-            unassign_site = []
-            for each_site in sites:
-                unassign_response = self.unassign_site_to_network_profile(
-                    each_profile["profile_name"],
-                    have_profile_id,
-                    each_site.get("id"),
-                    each_site.get("id"),
+            if sites:
+                unassign_site = []
+                for each_site in sites:
+                    unassign_response = self.unassign_site_to_network_profile(
+                        have_profile_name,
+                        have_profile_id,
+                        each_site.get("id"),
+                        each_site.get("id"),
+                    )
+                    unassign_site.append(unassign_response)
+
+                if len(unassign_site) == len(sites):
+                    self.log("Sites unassigned successfully {0}".format(sites), "INFO")
+
+            task_details = None
+            if have_profile_id:
+                task_details = self.delete_network_profiles(
+                    each_profile.get("profile_name"), have_profile_id
                 )
-                unassign_site.append(unassign_response)
 
-            if len(unassign_site) == len(sites):
-                self.log("Sites unassigned successfully {0}".format(sites), "INFO")
+            if not task_details:
+                self.not_processed.append(each_profile)
+                self.msg = "Unable to delete profile: '{0}'.".format(
+                    str(self.not_processed)
+                )
+                self.log(self.msg, "INFO")
+                self.fail_and_exit(self.msg)
 
-        task_details = None
-        if have_profile_id:
-            task_details = self.delete_network_profiles(
-                each_profile.get("profile_name"), have_profile_id
+            profile_response = dict(
+                profile_name=have_profile_name, status=task_details["progress"]
+            )
+            self.deleted.append(profile_response)
+            self.msg = "Wireless Profile deleted successfully for '{0}'.".format(
+                str(self.deleted)
             )
 
-        if not task_details:
-            self.not_processed.append(each_profile)
-            self.msg = "Unable to delete profile: '{0}'.".format(
-                str(self.not_processed)
-            )
             self.log(self.msg, "INFO")
-            self.fail_and_exit(self.msg)
+            self.set_operation_result(
+                "success", True, self.msg, "INFO", each_profile
+            ).check_return_status()
+        else:
+            remove_status = self.remove_network_profile_data(each_profile, each_have) or {}
+            self.log(f"Profile data remove status: {remove_status}", "DEBUG")
+            if not remove_status and not all(remove_status.get(key) for key in [
+                "site_remove_status", "day_n_template_status", "ssid_status", "ap_zones_status",
+                "feature_template_designs_status", "additional_interfaces_status"
+            ]):
+                self.msg = f"Profile data already removed or not exist to remove data from profile: '{have_profile_name}'."
+                self.log(self.msg, "DEBUG")
+                self.already_removed.append(have_profile_name)
+                self.set_operation_result(
+                    "success", False, self.msg, "INFO", have_profile_name
+                ).check_return_status()
+                return self
 
-        profile_response = dict(
-            profile_name=each_profile["profile_name"], status=task_details["progress"]
-        )
-        self.deleted.append(profile_response)
-        self.msg = "Wireless Profile deleted successfully for '{0}'.".format(
-            str(self.deleted)
-        )
+            self.msg = "Wireless Profile data removed successfully for '{0}'.".format(each_profile.get("profile_name"))
+            response_status = {}
+            if remove_status.get("site_remove_status"):
+                sites = each_profile.get("site_names")
+                self.msg += f" Sites '{', '.join(sites)}' unassigned successfully."
+                response_status["site_remove_status"] = f"Sites '{', '.join(sites)}' unassigned successfully."
 
-        self.log(self.msg, "INFO")
-        self.set_operation_result(
-            "success", True, self.msg, "INFO", each_profile
-        ).check_return_status()
+            if remove_status.get("day_n_template_status"):
+                templates = each_profile.get("day_n_templates")
+                self.msg += f" Day N templates '{', '.join(templates)}' unassigned successfully."
+                response_status["day_n_template_status"] = f"Day N templates '{', '.join(templates)}' unassigned successfully."
+
+            if remove_status.get("ssid_status"):
+                ssids = each_profile.get("ssid_details", [])
+                ssid_names = []
+                for ssid in ssids:
+                    ssid_names.append(ssid.get("ssid_name"))
+
+                self.msg += f" SSIDs '{', '.join(ssid_names)}' removed successfully."
+                response_status["ssid_status"] = f"SSIDs '{', '.join(ssid_names)}' removed successfully."
+
+            if remove_status.get("additional_interfaces_status"):
+                additional_interfaces = each_profile.get("additional_interfaces", [])
+                additional_interface_names = []
+                for interface in additional_interfaces:
+                    additional_interface_names.append(interface.get("interface_name"))
+
+                self.msg += f" Additional Interfaces '{', '.join(additional_interface_names)}' removed successfully."
+                response_status["additional_interfaces_status"] = \
+                    f"Additional Interfaces '{', '.join(additional_interface_names)}' removed successfully."
+
+            if remove_status.get("ap_zones_status"):
+                ap_zones = each_profile.get("ap_zones", [])
+                ap_zone_names = []
+                for zone in ap_zones:
+                    ap_zone_names.append(zone.get("ap_zone_name"))
+
+                self.msg += f" AP Zones '{', '.join(ap_zone_names)}' removed successfully."
+                response_status["ap_zones_status"] = f"AP Zones '{', '.join(ap_zone_names)}' removed successfully."
+
+            if remove_status.get("feature_template_designs_status"):
+                feature_template_designs = each_profile.get("feature_template_designs", [])
+                feature_template_design_names = []
+                for design in feature_template_designs:
+                    feature_template_design_names.extend(design.get("feature_templates", []))
+
+                self.msg += f" Feature Template Designs '{', '.join(feature_template_design_names)}' removed successfully."
+                response_status["feature_template_designs_status"] = \
+                    f"Feature Template Designs '{', '.join(feature_template_design_names)}' removed successfully."
+
+            self.remove_profile_data.append({each_profile.get("profile_name"): response_status})
+            self.log(self.msg, "INFO")
+            self.set_operation_result(
+                "success", True, self.msg, "INFO", remove_status
+            ).check_return_status()
         return self
 
     def verify_diff_deleted(self, config):
@@ -3290,6 +3590,23 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             This method checks the deletion status of a configuration in Cisco Catalyst Center.
             It validates whether the specified profile exists in the Cisco Catalyst Center.
         """
+        if self.remove_profile_data:
+            msg = "Wireless profile data removed successfully for: {0}".format(
+                self.remove_profile_data
+            )
+            self.log(msg, "INFO")
+            self.set_operation_result(
+                "success", True, msg, "INFO", self.remove_profile_data
+            ).check_return_status()
+            return self
+
+        if self.already_removed:
+            self.log(self.msg, "INFO")
+            self.set_operation_result(
+                "success", False, self.msg, "INFO", self.already_removed
+            ).check_return_status()
+            return self
+
         if self.get_wireless_profile(config.get("profile_name")):
             msg = "Unable to delete below wireless profile '{0}'.".format(
                 config.get("profile_name")
@@ -3374,6 +3691,20 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR", self.not_processed
                 ).check_return_status()
+            elif self.remove_profile_data:
+                self.msg = "Wireless profile data removed successfully for: {0}".format(
+                    self.remove_profile_data
+                )
+                self.log(self.msg, "INFO")
+                self.set_operation_result(
+                    "success", True, self.msg, "INFO", self.remove_profile_data
+                ).check_return_status()
+            elif self.already_removed:
+                self.log(self.msg, "INFO")
+                self.set_operation_result(
+                    "success", False, self.msg, "INFO", self.already_removed
+                ).check_return_status()
+                return self
             else:
                 self.msg = "Wireless profile(s) already deleted for: {0}".format(
                     self.config
