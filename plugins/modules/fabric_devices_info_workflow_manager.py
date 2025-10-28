@@ -2629,10 +2629,14 @@ class FabricDevicesInfo(DnacBase):
                 - Not Found: Returns None when the transit ID doesn't exist or has no name configured
                 - Error: Returns None when API call fails or encounters exceptions
         """
-        if not transit_id:
+        self.log("Starting transit network name retrieval for transit_id: {0}".format(transit_id), "DEBUG")
+
+        if not isinstance(transit_id, str) or len(transit_id.strip()) == 0:
+            self.log("Invalid transit_id format provided: {0} - returning None".format(transit_id), "WARNING")
             return None
 
         try:
+            self.log("Querying Catalyst Center for transit network details with ID: {0}".format(transit_id), "DEBUG")
             response = self.dnac._exec(
                 family="sda",
                 function="get_transit_networks",
@@ -2641,10 +2645,18 @@ class FabricDevicesInfo(DnacBase):
             transit_info = response.get("response", [])
             self.log("Received API response for 'get_transit_networks' with transit_id {0}: {1}".format(transit_id, response), "DEBUG")
 
-            if transit_info:
-                return transit_info[0].get("name", None)
-            else:
-                self.log("No transit info found for transit_id {0}".format(transit_id), "DEBUG")
+            if not transit_info:
+                self.log("No transit network information found for transit_id: {0}".format(transit_id), "DEBUG")
+                return None
+
+            transit_name = transit_info[0].get("name", None)
+
+            if not transit_name:
+                self.log("Transit network found but no name configured for transit_id: {0}".format(transit_id), "WARNING")
+                return None
+
+            self.log("Successfully retrieved transit network name: '{0}' for ID: {1}".format(transit_name, transit_id), "INFO")
+            return transit_name
 
         except Exception as e:
             self.log("Failed to retrieve transit name for transit_id {0}: {1}".format(transit_id, str(e)), "ERROR")
