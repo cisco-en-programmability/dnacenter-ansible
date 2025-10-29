@@ -2713,6 +2713,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 elif ssid_key in [
                     "wlan_profile_name",
                     "policy_profile_name",
+                    "enable_fabric",
                 ]:
                     if input_data[ssid_key] != have_data.get(self.keymap[ssid_key]):
                         un_match_data[ssid_key] = input_data[ssid_key]
@@ -2725,22 +2726,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                             ),
                             "DEBUG",
                         )
-
-                elif ssid_key == "enable_fabric":
-                    if input_data[ssid_key] != have_data.get(self.keymap[ssid_key]):
-                        un_match_data[ssid_key] = input_data[ssid_key]
-                        self.log(
-                            "{0} mismatch for SSID '{1}'. Expected: {2}, Found: {3}".format(
-                                ssid_key,
-                                input_data.get("ssid_name"),
-                                input_data[ssid_key],
-                                have_data.get(self.keymap[ssid_key]),
-                            ),
-                            "DEBUG",
-                        )
-
-                    if input_data[ssid_key]:
-                        continue
 
                 elif ssid_key in [
                     "interface_name",
