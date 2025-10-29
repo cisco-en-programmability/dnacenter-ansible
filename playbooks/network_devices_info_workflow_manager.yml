@@ -19,22 +19,23 @@
         config_verify: false
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        state: queried
+        state: merged
         config:
           - network_devices:
-              - management_ip_address: ["91.1.1.6"]
-                mac_address: ["cc:70:ed:e1:c3:00"]
-                hostname: ["SJ-Border2-9500.cisco.com"]
-                serial_number: ["FCW2243F199"]
-                os_type: ["IOS-XE"]
-                software_version: ["17.15.2"]
-                role: ["BORDER ROUTER"]
-                device_type: ["Cisco Catalyst 9500 Switch"]
-                family: ["Switches and Hubs"]
-                site_hierarchy: ["Global/USA/SAN JOSE/BLD23"]
-                timeout: 10
-                retries: 1
-                interval: 1
+              - site_hierarchy: Global/USA/SAN JOSE
+                device_type: "Cisco Catalyst 9300 Switch"
+                device_role: "ACCESS"
+                device_family: "Switches and Hubs"
+                software_version: "17.12.1"
+                os_type: "IOS-XE"
+                device_identifier:
+                  - ip_address: ["204.1.2.1"]
+                  - serial_number: ["FCW2137L0SB"]
+                  - hostname: ["SJ-BN-9300.cisco.local"]
+                  - mac_address: ["90:88:55:90:26:00"]
+                timeout: 60
+                retries: 3
+                interval: 10
                 requested_info:
                   - device_info
                   - interface_info
@@ -51,7 +52,7 @@
                   - device_stack_info
                   - device_link_mismatch_info
                 output_file_info:
-                  file_path: /Users/karthick/Downloads/testing
+                  file_path: /Users/priyadharshini/Downloads/info
                   file_format: json
-                  file_mode: a
+                  file_mode: w
                   timestamp: true
