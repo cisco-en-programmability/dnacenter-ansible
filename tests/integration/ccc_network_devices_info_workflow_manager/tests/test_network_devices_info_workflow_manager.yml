@@ -9,13 +9,13 @@
       name: vars_map
     vars:
       dnac_login: &dnac_login
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
+        dnac_host: "10.22.40.214"
+        dnac_username: "admin"
+        dnac_password: "M@glev123"
+        dnac_verify: false
+        dnac_port: 443
         dnac_version: "3.1.3.0"
-        dnac_debug: "{{ dnac_debug }}"
+        dnac_debug: false
         dnac_log: true
         dnac_log_level: DEBUG
 
@@ -33,7 +33,7 @@
   - name: Get Network Devices Info
     cisco.dnac.network_devices_info_workflow_manager:
       <<: *dnac_login
-      state: queried
+      state: merged
       config:
           - "{{ item }}"
     loop: "{{ vars_map.get_devices_info }}"
@@ -49,6 +49,6 @@
     assert:
       that:
         - item.changed == false
-        - "'The network devices found' in item.response[0]"
+        - "'The network devices filtered' in item.response[0]"
     loop: "{{ result_get_devices_info.results }}"
     when: result_get_devices_info is defined
