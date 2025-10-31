@@ -36,6 +36,7 @@ class TestDnacNetworkSettings(TestDnacModule):
     playbook_config_global_pool_deletion = test_data.get("playbook_config_global_pool_deletion")
     playbook_config_device_controlability = test_data.get("playbook_config_device_controlability")
     playbook_reset_network = test_data.get("playbook_reset_network")
+    playbook_reserve_pool_creation = test_data.get("playbook_reserve_pool_creation")
 
     def setUp(self):
         super(TestDnacNetworkSettings, self).setUp()
@@ -454,6 +455,21 @@ class TestDnacNetworkSettings(TestDnacModule):
                 self.test_data.get("task"),
                 self.test_data.get("update"),
                 self.test_data.get("task"),
+            ]
+
+        if "reserve_subpool_create" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("reserve_pool_site_USA"),
+                self.test_data.get("reserve_pool_exists"),
+                self.test_data.get("reserve_pool_exists"),
+                self.test_data.get("reserve_pool_exists"),
+                self.test_data.get("reserve_pool_site_USA"),
+                self.test_data.get("reserve_pool_site_USA"),
+                self.test_data.get("Global_TEST"),
+                self.test_data.get("Global_TEST_IPv6"),
+                self.test_data.get("reserve_pool_site_USA"),
+                self.test_data.get("reserve_create_subpool"),
+                self.test_data.get("created_subpool_task_details"),
             ]
 
     def test_Network_settings_workflow_manager_network_network_not_need_update(self):
@@ -1081,4 +1097,29 @@ class TestDnacNetworkSettings(TestDnacModule):
         self.assertEqual(
             {'Global/Testing/test': 'Network Updated successfully'},
             result["response"][2]["network"]["msg"]
+        )
+
+    def test_Network_settings_workflow_manager_reserve_subpool_create(self):
+        """
+        Test case for network settings workflow manager when creating a reserve subpool.
+
+        This test case checks the behavior of the network settings workflow manager when creating a new reserve subpool in the specified DNAC.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                dnac_version="2.3.7.9",
+                config=self.playbook_reserve_pool_creation
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result["response"][1]["reservePool"]["msg"])
+
+        self.assertEqual(
+            result["response"][1]["reservePool"]["msg"],
+            {'4G10_KPKT_BMDF': 'Ip Subpool Reservation Created Successfully'}
         )
