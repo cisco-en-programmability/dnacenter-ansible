@@ -271,6 +271,7 @@ options:
                     - Whether the report should be attached in the notification email.
                     type: bool
                     required: false
+                    default: false
                   notify:
                     description:
                     - List of report execution statuses that will trigger
@@ -1578,27 +1579,27 @@ class Reports(DnacBase):
                         "elements": "dict",
                         "required": False,
                         "email_addresses": {"type": "list", "elements": "str", "required": False},
-                        "email_attach": {"type": "bool", "required": False, "default": False},
-                        "notify": {
-                            "type": "list",
-                            "elements": "str",
-                            "required": False,
-                            "choices": [["IN_QUEUE"],
-                                        ["IN_PROGRESS"],
-                                        ["COMPLETED"],
-                                        ["IN_QUEUE", "IN_PROGRESS"],
-                                        ["IN_PROGRESS", "IN_QUEUE"],
-                                        ["IN_QUEUE", "COMPLETED"],
-                                        ["COMPLETED", "IN_QUEUE"],
-                                        ["IN_PROGRESS", "COMPLETED"],
-                                        ["COMPLETED", "IN_PROGRESS"],
-                                        ["IN_QUEUE", "IN_PROGRESS", "COMPLETED"],
-                                        ["IN_QUEUE", "COMPLETED", "IN_PROGRESS"],
-                                        ["IN_PROGRESS", "IN_QUEUE", "COMPLETED"],
-                                        ["IN_PROGRESS", "COMPLETED", "IN_QUEUE"],
-                                        ["COMPLETED", "IN_QUEUE", "IN_PROGRESS"],
-                                        ["COMPLETED", "IN_PROGRESS", "IN_QUEUE"]],
-                        },
+                    },
+                    "email_attach": {"type": "bool", "required": False, "default": False},
+                    "notify": {
+                        "type": "list",
+                        "elements": "str",
+                        "required": False,
+                        "choices": [["IN_QUEUE"],
+                                    ["IN_PROGRESS"],
+                                    ["COMPLETED"],
+                                    ["IN_QUEUE", "IN_PROGRESS"],
+                                    ["IN_PROGRESS", "IN_QUEUE"],
+                                    ["IN_QUEUE", "COMPLETED"],
+                                    ["COMPLETED", "IN_QUEUE"],
+                                    ["IN_PROGRESS", "COMPLETED"],
+                                    ["COMPLETED", "IN_PROGRESS"],
+                                    ["IN_QUEUE", "IN_PROGRESS", "COMPLETED"],
+                                    ["IN_QUEUE", "COMPLETED", "IN_PROGRESS"],
+                                    ["IN_PROGRESS", "IN_QUEUE", "COMPLETED"],
+                                    ["IN_PROGRESS", "COMPLETED", "IN_QUEUE"],
+                                    ["COMPLETED", "IN_QUEUE", "IN_PROGRESS"],
+                                    ["COMPLETED", "IN_PROGRESS", "IN_QUEUE"]],
                     },
                     "webhook_name": {"type": "str", "required": False},
                 },
