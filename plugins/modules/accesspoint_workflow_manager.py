@@ -119,8 +119,10 @@ options:
         type: str
         required: false
       led_status:
-        description: State of the AP's LED. Accepts "Enabled" or "Disabled". For example,
-          "Enabled".
+        description:
+          Specifies led status for the access point accepts "Enabled" or "Disabled".
+          When a led brightness level is provided, the led status defaults to "Enabled".
+          For example: "Enabled".
         type: str
         required: false
       led_brightness_level:
@@ -256,7 +258,7 @@ options:
           antenna_gain:
             description: |
               Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface, valid values range
-              from 0 to 40. For example, 10.
+              from 0 to 20. For example, 10.
             type: int
             required: false
           radio_role_assignment:
@@ -271,7 +273,7 @@ options:
             required: false
           cable_loss:
             description: |
-              Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 40.
+              Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 20.
               This value must be less than the antenna gain. For example, 2.
             type: int
             required: false
@@ -281,23 +283,33 @@ options:
             type: str
             required: false
           channel_assignment_mode:
-            description: Mode of channel assignment for the 2.4GHz radio interface.
-              Accepts "Global" or "Custom". For example, "Custom".
+            description: >
+              Specifies the channel assignment for the 2.4GHz radio interface.
+              If the channel assignment is set to "Global", the channel_number is not required.
+              When a channel_number is provided, the channel assignment defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
             type: str
             required: false
           channel_number:
-            description: Custom channel number configured for the 2.4GHz radio interface.
-              For example, 6.
+            description: >
+              Defines the custom channel number for the 2.4GHz radio interface.
+              When a channel number is provided, the channel assignment defaults to "Custom".
+              Valid values range from 1 to 14. For example: 3.
             type: int
             required: false
           power_assignment_mode:
-            description: Mode of power assignment for the 2.4GHz radio interface.
-              Accepts "Global" or "Custom". For example, "Custom".
+            description: >
+              Specifies the power assignment mode for the 2.4GHz radio interface.
+              If the power assignment mode is set to "Global", the power level is not required.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
             type: str
             required: false
           power_level:
-            description: Custom power level configured for the 2.4GHz radio interface.
-              For example, 3.
+            description: >
+              Defines the custom power level for the 2.4GHz radio interface.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Valid values range from 1 to 8. For example: 3.
             type: int
             required: false
       5ghz_radio:
@@ -318,7 +330,7 @@ options:
           antenna_gain:
             description: |
               Antenna gain value in decibels (dB) for the 5GHz radio interface, valid values range
-              from 0 to 40. For example, 5.
+              from 0 to 20. For example, 5.
             type: int
             required: false
           radio_role_assignment:
@@ -333,7 +345,7 @@ options:
             required: false
           cable_loss:
             description: |
-              Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 40.
+              Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 20.
               This value must be less than the antenna gain. For example, 3.
             type: int
             required: false
@@ -343,29 +355,41 @@ options:
             type: str
             required: false
           channel_assignment_mode:
-            description: Mode of channel assignment for the 5GHz radio interface.
-              Accepts "Global" or "Custom". For example, "Custom".
+            description: >
+              Specifies the channel assignment for the 5GHz radio interface.
+              If the channel assignment is set to "Global", the channel_number is not required.
+              When a channel_number is provided, the channel assignment defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
             type: str
             required: false
           channel_number:
-            description: Custom channel number configured for the 5GHz radio interface.
-              For example, 36.
+            description: >
+              Defines the custom channel number for the 5GHz radio interface.
+              When a channel number is provided, the channel assignment defaults to "Custom".
+              Valid values range from 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120,
+              124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173.
+              For example: 36.
             type: int
             required: false
           channel_width:
             description: |
-              Width of the channel configured for the XOR radio interface. Accepts values
+              Width of the channel configured for the 5GHz radio interface. Accepts values
               "20 MHz", "40 MHz", "80 MHz" or "160 MHz". For example, 20 MHz.
             type: str
             required: false
           power_assignment_mode:
-            description: Mode of power assignment for the 5GHz radio interface. Accepts
-              "Global" or "Custom". For example, "Custom".
+            description: >
+              Specifies the power assignment mode for the 5 GHz radio interface.
+              If the power assignment mode is set to "Global", the power level is not required.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
             type: str
             required: false
           power_level:
-            description: Custom power level configured for the 5GHz radio interface.
-              For example, 3.
+            description: >
+              Defines the custom power level for the 5 GHz radio interface.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Valid values range from 1 to 8. For example: 3.
             type: int
             required: false
       6ghz_radio:
@@ -386,7 +410,7 @@ options:
           antenna_gain:
             description: |
               Antenna gain value in decibels (dB) for the 6GHz radio interface, valid values range
-              from 0 to 40. For example, 30.
+              from 0 to 40. For example, 10.
             type: int
             required: false
           radio_role_assignment:
@@ -411,29 +435,43 @@ options:
             type: str
             required: false
           channel_assignment_mode:
-            description: Mode of channel assignment for the 6GHz radio interface.
-              Accepts "Global" or "Custom". For example, "Custom".
+            description: >
+              Specifies the channel assignment for the 6GHz radio interface.
+              If the channel assignment is set to "Global", the channel_number is not required.
+              When a channel_number is provided, the channel assignment defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
             type: str
             required: false
           channel_number:
-            description: Custom channel number configured for the 6GHz radio interface.
-              For example, 6.
+            description: >
+              Defines the custom channel number for the 6GHz radio interface.
+              When a channel number is provided, the channel assignment defaults to "Custom".
+              Valid values range from 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53,
+              57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121,
+              125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181,
+              185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233.
+              For example: 53.
             type: int
             required: false
           channel_width:
             description: |
-              Width of the channel configured for the XOR radio interface. Accepts values
+              Width of the channel configured for the 6GHz radio interface. Accepts values
               "20 MHz", "40 MHz", "80 MHz", "160 MHz" or "320 MHz". For example, 20 MHz.
             type: str
             required: false
           power_assignment_mode:
-            description: Mode of power assignment for the 6GHz radio interface. Accepts
-              "Global" or "Custom". For example, "Custom".
+            description: >
+              Specifies the power assignment mode for the 6GHz radio interface.
+              If the power assignment mode is set to "Global", the power level is not required.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
             type: str
             required: false
           power_level:
-            description: Custom power level configured for the 6GHz radio interface.
-              For example, 3.
+            description: >
+              Defines the custom power level for the 6GHz radio interface.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Valid values range from 1 to 8. For example: 3.
             type: int
             required: false
       xor_radio:
@@ -489,7 +527,9 @@ options:
             required: false
           channel_assignment_mode:
             description: |
-              Mode of channel assignment for the XOR radio interface. Accepts "Global" or "Custom".
+              If the channel assignment mode is set to "Global", the channel number is not required.
+              When a channel number is provided, the channel assignment mode defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
               - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14.
               - For "Custom" mode and a radio band of "5 GHz", valid values are
                 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
@@ -507,6 +547,18 @@ options:
             required: false
           channel_number:
             description: Custom channel number configured for the XOR radio interface.
+              - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14.
+              - For "Custom" mode and a radio band of "5 GHz", valid values are
+                36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
+                112, 116, 120, 124, 128, 132, 136, 140, 144,
+                149, 153, 157, 161, 165, 169, 173.
+              - For "Custom" mode and a radio band of "6 GHz", valid values are
+                1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49,
+                53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97,
+                101, 105, 109, 113, 117, 121, 125, 129, 133, 137,
+                141, 145, 149, 153, 157, 161, 165, 169, 173, 177,
+                181, 185, 189, 193, 197, 201, 205, 209, 213, 217,
+                221, 225, 229, 233.
               For example, 6.
             type: int
             required: false
@@ -517,14 +569,18 @@ options:
             type: str
             required: false
           power_assignment_mode:
-            description: |
-              Mode of power assignment for the XOR radio interface. Accepts "Global" or "Custom."
-              In "Custom" mode, valid values range from 1 to 8.
+            description: >
+              Specifies the power assignment mode for the XOR radio interface.
+              If the power assignment mode is set to "Global", the power level is not required.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
             type: str
             required: false
           power_level:
-            description: Custom power level configured for the XOR radio interface.
-              For example, 3.
+            description: >
+              Defines the custom power level for the XOR radio interface.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Valid values range from 1 to 8. For example: 3.
             type: int
             required: false
       tri_radio:
@@ -571,14 +627,19 @@ options:
             required: false
           channel_assignment_mode:
             description: |
-              Mode of channel assignment for the TRI radio interface. Accepts "Global" or "Custom".
+              Specifies the channel assignment mode for the TRI radio interface.
+              If the channel assignment mode is set to "Global", the channel number is not required.
+              When a channel number is provided, the channel assignment mode automatically defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
               For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
               132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
             type: str
             required: false
           channel_number:
             description: Custom channel number configured for the TRI radio interface.
-              For example, 6.
+              For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
+              132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
+              For example, 36.
             type: int
             required: false
           channel_width:
@@ -588,14 +649,18 @@ options:
             type: str
             required: false
           power_assignment_mode:
-            description: |
-              Mode of power assignment for the TRI radio interface. Accepts "Global" or "Custom".
-              In Custom, it accepts values 1 to 8.
+            description: >
+              Specifies the power assignment mode for the TRI radio interface.
+              If the power assignment mode is set to "Global", the power level is not required.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
             type: str
             required: false
           power_level:
-            description: Custom power level configured for the TRI radio interface.
-              For example, 3.
+            description: >
+              Defines the custom power level for the TRI radio interface.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Valid values range from 1 to 8. For example: 3.
             type: int
             required: false
           dual_radio_mode:
@@ -735,8 +800,10 @@ options:
                 type: str
                 required: false
               led_status:
-                description: State of the AP's LED. Accepts "Enabled" or "Disabled".
-                  For example, "Enabled".
+                description:
+                  Specifies led status for the access point accepts "Enabled" or "Disabled".
+                  When a led brightness level is provided, the led status defaults to "Enabled".
+                  For example: "Enabled".
                 type: str
                 required: false
               led_brightness_level:
@@ -858,7 +925,7 @@ options:
                   antenna_gain:
                     description: |
                       Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface, valid values range
-                      from 0 to 40. For example, 10.
+                      from 0 to 20. For example, 10.
                     type: int
                     required: false
                   radio_role_assignment:
@@ -873,7 +940,7 @@ options:
                     required: false
                   cable_loss:
                     description: |
-                      Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 40.
+                      Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 20.
                       This value must be less than the antenna gain. For example, 2.
                     type: int
                     required: false
@@ -883,23 +950,33 @@ options:
                     type: str
                     required: false
                   channel_assignment_mode:
-                    description: Mode of channel assignment for the 2.4GHz radio interface.
-                      Accepts "Global" or "Custom". For example, "Custom".
+                    description: >
+                      Specifies the channel assignment for the 2.4GHz radio interface.
+                      If the channel assignment is set to "Global", the channel_number is not required.
+                      When a channel_number is provided, the channel assignment defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                     type: str
                     required: false
                   channel_number:
-                    description: Custom channel number configured for the 2.4GHz radio
-                      interface. For example, 6.
+                    description: >
+                      Defines the custom channel number for the 2.4GHz radio interface.
+                      When a channel number is provided, the channel assignment defaults to "Custom".
+                      Valid values range from 1 to 14. For example: 3.
                     type: int
                     required: false
                   power_assignment_mode:
-                    description: Mode of power assignment for the 2.4GHz radio interface.
-                      Accepts "Global" or "Custom". For example, "Custom".
+                    description: >
+                      Specifies the power assignment mode for the 2.4GHz radio interface.
+                      If the power assignment mode is set to "Global", the power level is not required.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                     type: str
                     required: false
                   power_level:
-                    description: Custom power level configured for the 2.4GHz radio
-                      interface. For example, 3.
+                    description: >
+                      Defines the custom power level for the 2.4GHz radio interface.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Valid values range from 1 to 8. For example: 3.
                     type: int
                     required: false
               5ghz_radio:
@@ -920,7 +997,7 @@ options:
                   antenna_gain:
                     description: |
                       Antenna gain value in decibels (dB) for the 5GHz radio interface, valid values range
-                      from 0 to 40. For example, 5.
+                      from 0 to 20. For example, 5.
                     type: int
                     required: false
                   radio_role_assignment:
@@ -936,7 +1013,7 @@ options:
                     required: false
                   cable_loss:
                     description: |
-                      Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 40.
+                      Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 20.
                       This value must be less than the antenna gain. For example, 3.
                     type: int
                     required: false
@@ -946,23 +1023,35 @@ options:
                     type: str
                     required: false
                   channel_assignment_mode:
-                    description: Mode of channel assignment for the 5GHz radio interface.
-                      Accepts "Global" or "Custom". For example, "Custom".
+                    description: >
+                      Specifies the channel assignment for the 5GHz radio interface.
+                      If the channel assignment is set to "Global", the channel_number is not required.
+                      When a channel_number is provided, the channel assignment defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                     type: str
                     required: false
                   channel_number:
-                    description: Custom channel number configured for the 5GHz radio
-                      interface. For example, 36.
+                    description: >
+                      Defines the custom channel number for the 5GHz radio interface.
+                      When a channel number is provided, the channel assignment defaults to "Custom".
+                      Valid values range from 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120,
+                      124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173.
+                      For example: 36.
                     type: int
                     required: false
                   power_assignment_mode:
-                    description: Mode of power assignment for the 5GHz radio interface.
-                      Accepts "Global" or "Custom". For example, "Custom".
+                    description: >
+                      Specifies the power assignment mode for the 5GHz radio interface.
+                      If the power assignment mode is set to "Global", the power level is not required.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                     type: str
                     required: false
                   power_level:
-                    description: Custom power level configured for the 5GHz radio
-                      interface. For example, 3.
+                    description: >
+                      Defines the custom power level for the 5GHz radio interface.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Valid values range from 1 to 8. For example: 3.
                     type: int
                     required: false
               6ghz_radio:
@@ -983,7 +1072,7 @@ options:
                   antenna_gain:
                     description: |
                       Antenna gain value in decibels (dB) for the 6GHz radio interface, valid values range
-                      from 0 to 40. For example, 30.
+                      from 0 to 40. For example, 10.
                     type: int
                     required: false
                   radio_role_assignment:
@@ -1008,23 +1097,37 @@ options:
                     type: str
                     required: false
                   channel_assignment_mode:
-                    description: Mode of channel assignment for the 6GHz radio interface.
-                      Accepts "Global" or "Custom". For example, "Custom".
+                    description: >
+                      Specifies the channel assignment for the 6GHz radio interface.
+                      If the channel assignment is set to "Global", the channel_number is not required.
+                      When a channel_number is provided, the channel assignment defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                     type: str
                     required: false
                   channel_number:
-                    description: Custom channel number configured for the 6GHz radio
-                      interface. For example, 6.
+                    description: >
+                      Defines the custom channel number for the 6GHz radio interface.
+                      When a channel number is provided, the channel assignment defaults to "Custom".
+                      Valid values range from 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53,
+                      57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121,
+                      125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181,
+                      185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233.
+                      For example: 53.
                     type: int
                     required: false
                   power_assignment_mode:
-                    description: Mode of power assignment for the 6GHz radio interface.
-                      Accepts "Global" or "Custom". For example, "Custom".
+                    description: >
+                      Specifies the power assignment mode for the 6GHz radio interface.
+                      If the power assignment mode is set to "Global", the power level is not required.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                     type: str
                     required: false
                   power_level:
-                    description: Custom power level configured for the 6GHz radio
-                      interface. For example, 3.
+                    description: >
+                      Defines the custom power level for the 6GHz radio interface.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Valid values range from 1 to 8. For example: 3.
                     type: int
                     required: false
               xor_radio:
@@ -1080,7 +1183,9 @@ options:
                     required: false
                   channel_assignment_mode:
                     description: |
-                      Mode of channel assignment for the XOR radio interface. Accepts "Global" or "Custom".
+                      If the channel assignment mode is set to "Global", the channel number is not required.
+                      When a channel number is provided, the channel assignment mode defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                       - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14.
                       - For "Custom" mode and a radio band of "5 GHz", valid values are
                         36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
@@ -1097,8 +1202,20 @@ options:
                     type: str
                     required: false
                   channel_number:
-                    description: Custom channel number configured for the XOR radio
-                      interface. For example, 6.
+                    description: Custom channel number configured for the XOR radio interface.
+                      - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14.
+                      - For "Custom" mode and a radio band of "5 GHz", valid values are
+                        36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
+                        112, 116, 120, 124, 128, 132, 136, 140, 144,
+                        149, 153, 157, 161, 165, 169, 173.
+                      - For "Custom" mode and a radio band of "6 GHz", valid values are
+                        1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49,
+                        53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97,
+                        101, 105, 109, 113, 117, 121, 125, 129, 133, 137,
+                        141, 145, 149, 153, 157, 161, 165, 169, 173, 177,
+                        181, 185, 189, 193, 197, 201, 205, 209, 213, 217,
+                        221, 225, 229, 233.
+                      For example, 6.
                     type: int
                     required: false
                   channel_width:
@@ -1108,14 +1225,18 @@ options:
                     type: str
                     required: false
                   power_assignment_mode:
-                    description: |
-                      Mode of power assignment for the XOR radio interface. Accepts "Global" or "Custom."
-                      In "Custom" mode, valid values range from 1 to 8.
+                    description: >
+                      Specifies the power assignment mode for the XOR radio interface.
+                      If the power assignment mode is set to "Global", the power level is not required.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                     type: str
                     required: false
                   power_level:
-                    description: Custom power level configured for the XOR radio interface.
-                      For example, 3.
+                    description: >
+                      Defines the custom power level for the XOR radio interface.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Valid values range from 1 to 8. For example: 3.
                     type: int
                     required: false
               tri_radio:
@@ -1162,14 +1283,19 @@ options:
                     required: false
                   channel_assignment_mode:
                     description: |
-                      Mode of channel assignment for the TRI radio interface. Accepts "Global" or "Custom".
+                      Specifies the channel assignment mode for the TRI radio interface.
+                      If the channel assignment mode is set to "Global", the channel number is not required.
+                      When a channel number is provided, the channel assignment mode automatically defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                       For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
                       132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
                     type: str
                     required: false
                   channel_number:
-                    description: Custom channel number configured for the TRI radio
-                      interface. For example, 6.
+                    description: Custom channel number configured for the TRI radio interface.
+                      For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
+                      132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
+                      For example, 36.
                     type: int
                     required: false
                   channel_width:
@@ -1179,14 +1305,18 @@ options:
                     type: str
                     required: false
                   power_assignment_mode:
-                    description: |
-                      Mode of power assignment for the TRI radio interface. Accepts "Global" or "Custom".
-                      In Custom, it accepts values 1 to 8.
+                    description: >
+                      Specifies the power assignment mode for the TRI radio interface.
+                      If the power assignment mode is set to "Global", the power level is not required.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                     type: str
                     required: false
                   power_level:
-                    description: Custom power level configured for the TRI radio interface.
-                      For example, 3.
+                    description: >
+                      Defines the custom power level for the TRI radio interface.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Valid values range from 1 to 8. For example: 3.
                     type: int
                     required: false
                   dual_radio_mode:
@@ -2607,13 +2737,19 @@ class Accesspoint(DnacBase):
             validate_str(antenna_name, param_spec, "antenna_name", errormsg)
 
         antenna_gain = radio_config.get("antenna_gain")
-        if antenna_gain and antenna_gain not in range(0, 41):
-            errormsg.append("antenna_gain: Invalid '{0}' in playbook, allowed range of min: 0 and max: 40"
-                            .format(antenna_gain))
+        if antenna_gain:
+            if antenna_gain not in range(0, 21) and radio_series in ["2.4ghz_radio", "5ghz_radio"]:
+                errormsg.append("antenna_gain: Invalid '{0}' in playbook, allowed range of min: 0 and max: 20"
+                                .format(antenna_gain))
+            elif antenna_gain not in range(0, 41) and radio_series in ["6ghz_radio", "xor_radio", "tri_radio"]:
+                errormsg.append("antenna_gain: Invalid '{0}' in playbook, allowed range of min: 0 and max: 40"
+                                .format(antenna_gain))
 
         cable_loss = radio_config.get("cable_loss")
         if cable_loss:
-            if not 0 <= cable_loss <= 40:
+            if radio_series in ["2.4ghz_radio", "5ghz_radio"] and not 0 <= cable_loss <= 20:
+                errormsg.append("cable_loss: Invalid '{0}' in playbook. Must be between 0 and 20.".format(cable_loss))
+            elif radio_series in ["6ghz_radio", "xor_radio", "tri_radio"] and not 0 <= cable_loss <= 40:
                 errormsg.append("cable_loss: Invalid '{0}' in playbook. Must be between 0 and 40.".format(cable_loss))
             elif antenna_gain and cable_loss >= antenna_gain:
                 errormsg.append("cable_loss: Invalid '{0}' in playbook. Must be less than antenna_gain: {1}."
