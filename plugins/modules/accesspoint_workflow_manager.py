@@ -119,7 +119,7 @@ options:
         type: str
         required: false
       led_status:
-        description:
+        description: >
           Specifies led status for the access point accepts "Enabled" or "Disabled".
           When a led brightness level is provided, the led status defaults to "Enabled".
           For example: "Enabled".
