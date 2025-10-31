@@ -257,8 +257,9 @@ options:
             required: false
           antenna_gain:
             description: |
-              Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface, valid values range
-              from 0 to 20. For example, 10.
+              Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface,
+              and antenna gain must be greater than cable loss.
+              Valid values range from 0 to 20. For example, 10.
             type: int
             required: false
           radio_role_assignment:
@@ -329,8 +330,9 @@ options:
             required: false
           antenna_gain:
             description: |
-              Antenna gain value in decibels (dB) for the 5GHz radio interface, valid values range
-              from 0 to 20. For example, 5.
+              Antenna gain value in decibels (dB) for the 5GHz radio interface,
+              and antenna gain must be greater than cable loss.
+              Valid values range from 0 to 20. For example, 5.
             type: int
             required: false
           radio_role_assignment:
@@ -409,7 +411,8 @@ options:
             required: false
           antenna_gain:
             description: |
-              Antenna gain value in decibels (dB) for the 6GHz radio interface, valid values range
+              Antenna gain value in decibels (dB) for the 6GHz radio interface,
+              and antenna gain must be greater than cable loss. Valid values range
               from 0 to 40. For example, 10.
             type: int
             required: false
@@ -491,7 +494,8 @@ options:
             required: false
           antenna_gain:
             description: |
-              Antenna gain value in decibels (dB) for the XOR radio interface, valid values range
+              Antenna gain value in decibels (dB) for the XOR radio interface,
+              and antenna gain must be greater than cable loss. Valid values range
               from 0 to 40. For example, 14.
             type: int
             required: false
@@ -600,7 +604,8 @@ options:
             required: false
           antenna_gain:
             description: |
-              Antenna gain value in decibels (dB) for the TRI radio interface, valid values range
+              Antenna gain value in decibels (dB) for the TRI radio interface,
+              and antenna gain must be greater than cable loss. Valid values range
               from 0 to 40. For example, 16.
             type: int
             required: false
@@ -924,7 +929,8 @@ options:
                     required: false
                   antenna_gain:
                     description: |
-                      Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface, valid values range
+                      Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface,
+                      and antenna gain must be greater than cable loss. Valid values range
                       from 0 to 20. For example, 10.
                     type: int
                     required: false
@@ -996,7 +1002,8 @@ options:
                     required: false
                   antenna_gain:
                     description: |
-                      Antenna gain value in decibels (dB) for the 5GHz radio interface, valid values range
+                      Antenna gain value in decibels (dB) for the 5GHz radio interface,
+                      and antenna gain must be greater than cable loss. Valid values range
                       from 0 to 20. For example, 5.
                     type: int
                     required: false
@@ -1071,7 +1078,8 @@ options:
                     required: false
                   antenna_gain:
                     description: |
-                      Antenna gain value in decibels (dB) for the 6GHz radio interface, valid values range
+                      Antenna gain value in decibels (dB) for the 6GHz radio interface,
+                      and antenna gain must be greater than cable loss. Valid values range
                       from 0 to 40. For example, 10.
                     type: int
                     required: false
@@ -1147,7 +1155,8 @@ options:
                     required: false
                   antenna_gain:
                     description: |
-                      Antenna gain value in decibels (dB) for the XOR radio interface, valid values range
+                      Antenna gain value in decibels (dB) for the XOR radio interface,
+                      and antenna gain must be greater than cable loss. Valid values range
                       from 0 to 40. For example, 14.
                     type: int
                     required: false
@@ -1256,7 +1265,8 @@ options:
                     required: false
                   antenna_gain:
                     description: |
-                      Antenna gain value in decibels (dB) for the TRI radio interface, valid values range
+                      Antenna gain value in decibels (dB) for the TRI radio interface,
+                      and antenna gain must be greater than cable loss. Valid values range
                       from 0 to 40. For example, 16.
                     type: int
                     required: false
