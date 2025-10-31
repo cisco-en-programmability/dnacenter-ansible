@@ -472,7 +472,6 @@ class TestDnacNetworkSettings(TestDnacModule):
                 self.test_data.get("created_subpool_task_details"),
             ]
 
-
     def test_Network_settings_workflow_manager_network_network_not_need_update(self):
         """
         Test case for site workflow manager when creating a site.
@@ -1112,7 +1111,6 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                # dnac_log_level="DEBUG",
                 state="merged",
                 dnac_version="2.3.7.9",
                 config=self.playbook_reserve_pool_creation
