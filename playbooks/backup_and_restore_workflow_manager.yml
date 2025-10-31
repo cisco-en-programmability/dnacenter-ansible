@@ -20,6 +20,8 @@
       dnac_log: true
       dnac_log_level: "DEBUG"
       config_verify: true
+      dnac_api_task_timeout: 4000
+      dnac_task_poll_interval: 1
 
   tasks:
     - name: Configure NFS server for secure backup storage connectivity
