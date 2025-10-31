@@ -86,8 +86,8 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     siteId: string
-    offset: 0
-    limit: 0
+    offset: 1      # Must be >= 1
+    limit: 25     # Must be >= 1
     ignoreInheritedGroups: true
     poolUsage: string
     groupName: string
