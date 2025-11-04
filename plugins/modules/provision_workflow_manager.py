@@ -3429,7 +3429,6 @@ class Provision(DnacBase):
                 rolling_upgrade_config = {}
                 rolling_upgrade_data = prov_params["rolling_ap_upgrade"]
 
-                # Validate and process 'ap_reboot_percentage'
                 if "ap_reboot_percentage" in rolling_upgrade_data:
                     reboot_percentage_value = rolling_upgrade_data["ap_reboot_percentage"]
 
@@ -3448,7 +3447,6 @@ class Provision(DnacBase):
                         )
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-                    # valid -> add to payload
                     rolling_upgrade_config["ap_reboot_percentage"] = reboot_percentage_value
                     self.log(
                         "Processed 'ap_reboot_percentage': {0}".format(reboot_percentage_value),
@@ -3458,6 +3456,7 @@ class Provision(DnacBase):
                 # Process remaining keys in 'rolling_ap¿_upgrade'
                 for key, value in rolling_upgrade_data.items():
                     if key == "ap_reboot_percentage":
+                        self.log("Skipping already processed key 'ap_reboot_percentage'", "DEBUG")
                         continue
 
                     if value is not None:
