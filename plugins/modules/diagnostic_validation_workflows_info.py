@@ -51,14 +51,14 @@ options:
       - Offset query parameter. The first record to
         show for this page; the first record is numbered
         1.
-    type: float
+    type: int
   limit:
     description:
       - >
         Limit query parameter. Specifies the maximum
         number of workflows to return per page. Must
         be an integer between 1 and 500, inclusive.
-    type: float
+    type: int
   id:
     description:
       - Id path parameter. Workflow id.
