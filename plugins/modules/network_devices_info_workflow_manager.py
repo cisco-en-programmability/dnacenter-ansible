@@ -3533,7 +3533,7 @@ def main():
     state = ccc_device_info.params.get("state")
 
     current_version = ccc_device_info.get_ccc_version()
-    min_supported_version = "2.3.7.6"
+    min_supported_version = "2.3.7.9"
 
     if ccc_device_info.compare_dnac_versions(current_version, min_supported_version) < 0:
         ccc_device_info.status = "failed"
