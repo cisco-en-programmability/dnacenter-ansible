@@ -3139,11 +3139,14 @@ class Reports(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
+        created_entries = []    # list of tuples: (report_entry, report_id)
+        pending_downloads = []  # same shape for both newly created and existing entries that require download
+
         try:
             for report_index, report_entry in enumerate(generate_report):
                 report_name = report_entry.get("name", "unnamed")
                 self.log(
-                    "Processing report {0}/{1}: '{2}'".format(
+                    "Processing report {0}/{1}: '{2}' (phase 1 - trigger)".format(
                         report_index + 1, len(generate_report), report_name
                     ),
                     "DEBUG"
@@ -3153,14 +3156,61 @@ class Reports(DnacBase):
                 if not self._validate_report_entry_fields(report_entry):
                     return self
 
-                # Handle existing reports
+                # Handle existing reports (do NOT trigger download here)
                 if report_entry.get("exists") and report_entry.get("new_report") is False:
-                    if not self._handle_existing_report(report_entry):
-                        return self
+                    # Build same result structure as _handle_existing_report but DO NOT download yet
+                    report_id = report_entry.get("report_id")
+                    result = {
+                        "response": {
+                            "report_id": report_id,
+                            "view_group_id": report_entry.get("view_group_id"),
+                            "view_id": report_entry.get("view", {}).get("view_id"),
+                        },
+                        "msg": "Report '{0}' already exists.".format(report_name),
+                    }
+                    self.result["response"].append({"create_report": result})
+                    self.log("Existing report noted: '{0}' with ID: {1}".format(report_name, report_id), "DEBUG")
+
+                    # If download requested and immediate, schedule download in phase 2
+                    if self._is_download_requested(report_entry) and self._should_download_immediately(report_entry):
+                        pending_downloads.append((report_entry, report_id))
                     continue
 
-                # Create new report
-                if not self._create_new_report(report_entry):
+                # Create new report (this will call _process_creation_response and return a report_id or False)
+                report_id = self._create_new_report(report_entry)
+                if not report_id:
+                    # _create_new_report already set error msg and status
+                    return self
+
+                # Collect for potential download in phase 2
+                created_entries.append((report_entry, report_id))
+
+            self.log(
+                "Phase 1 complete: triggered {0} reports. Proceeding to phase 2 downloads if requested.".format(
+                    len(created_entries)
+                ),
+                "INFO"
+            )
+
+            # Phase 2: perform downloads only for those needing immediate download
+            # Combine created entries and pending existing reports
+            for (entry, r_id) in (created_entries + pending_downloads):
+                try:
+                    if self._should_download_immediately(entry):
+                        self.log(
+                            "Phase 2: Download requested for report '{0}' (report_id={1}) - starting download".format(
+                                entry.get("name"), r_id
+                            ),
+                            "DEBUG"
+                        )
+                        success = self._download_report_if_needed(entry, r_id)
+                        if not success:
+                            # _download_report_if_needed sets error and result already
+                            return self
+                except Exception as e:
+                    self.msg = "Exception during post-create download handling for report '{0}': {1}".format(entry.get("name"), str(e))
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    self.log("Exception during phase 2 downloads: {0}".format(str(e)), "ERROR")
                     return self
 
             self.log(
@@ -3177,6 +3227,7 @@ class Reports(DnacBase):
                 "Exception during report creation workflow: {0}".format(str(e)),
                 "ERROR"
             )
+            return self
 
         return self
 
@@ -3350,12 +3401,8 @@ class Reports(DnacBase):
         """
         Process successful report creation response.
 
-        Parameters:
-            report_entry (dict): The original report entry.
-            response (dict): The API response from report creation.
-
-        Returns:
-            bool: True if processing succeeds, False if processing fails.
+        Now: store the create result and return the report_id to caller.
+        It no longer triggers the download — download is deferred to create_n_schedule_reports phase 2.
         """
         report_name = report_entry.get("name")
         report_id = response.get("reportId")
@@ -3369,24 +3416,17 @@ class Reports(DnacBase):
             "msg": "Successfully created or scheduled report '{0}'.".format(report_name)
         }
 
+        # Append to overall result list
         self.result["response"].append({"create_report": result})
         self.log("Successfully created report '{0}' with ID: {1}".format(
             report_name, report_id), "INFO")
 
+        # mark success/change
         self.status = "success"
         self.result["changed"] = True
 
-        # Handle download for immediate execution reports
-        if self._should_download_immediately(report_entry):
-            self.log(
-                "Download requested for new report '{0}' - proceeding to download".format(
-                    report_name
-                ),
-                "DEBUG"
-            )
-            return self._download_report_if_needed(report_entry, report_id)
-
-        return True
+        # Note: do NOT trigger download here. Return report_id so caller can decide to download later.
+        return report_id
 
     def _is_download_requested(self, report_entry):
         """Check if download is requested for the report."""
