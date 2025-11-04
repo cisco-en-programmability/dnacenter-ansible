@@ -3401,8 +3401,11 @@ class Reports(DnacBase):
         """
         Process successful report creation response.
 
-        Now: store the create result and return the report_id to caller.
-        It no longer triggers the download — download is deferred to create_n_schedule_reports phase 2.
+        Parameters:
+            report_entry (dict): The original report entry.
+            response (dict): The API response from report creation.
+        Returns:
+            report_id (str): The ID of the created report.
         """
         report_name = report_entry.get("name")
         report_id = response.get("reportId")
