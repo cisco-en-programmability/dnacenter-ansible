@@ -40,6 +40,87 @@
 } 
 ],
 
+"playbook_parallel_report_creation": [
+      {
+        "generate_report": [
+               {
+                "name": "Port_Reclaim_Email_CSV_27100_first",
+                "new_report": true,
+                "view_group_name": "Inventory",
+                "tags": [],
+                "view_group_version": "2.0.0",
+                "schedule": {
+                    "schedule_type": "SCHEDULE_NOW",
+                    "date_time": null,
+                    "time_zone": "Asia/Calcutta",
+                    "recurrence": null,
+                    "time": null,
+                    "start_date": null
+                },
+                "deliveries": [
+                    {
+                        "delivery_type": "NOTIFICATION",
+                        "file_path": null,
+                        "notification_endpoints": [
+                            {
+                                "email_addresses": [
+                                    "pbalaku2@cisco.com"
+                                ]
+                            }
+                        ],
+                        "email_attach": true,
+                        "notify": null,
+                        "webhook_name": null
+                    }
+                ],
+                "view": {
+                    "view_name": "Port Reclaim View",
+                    "field_groups": null,
+                    "format": null,
+                    "filters": null
+                }
+            },
+            {
+                "name": "Port_Reclaim_Email_CSV_27100_second",
+                "new_report": true,
+                "view_group_name": "Inventory",
+                "tags": [],
+                "view_group_version": "2.0.0",
+                "schedule": {
+                    "schedule_type": "SCHEDULE_NOW",
+                    "date_time": null,
+                    "time_zone": "Asia/Calcutta",
+                    "recurrence": null,
+                    "time": null,
+                    "start_date": null
+                },
+                "deliveries": [
+                    {
+                        "delivery_type": "NOTIFICATION",
+                        "file_path": null,
+                        "notification_endpoints": [
+                            {
+                                "email_addresses": [
+                                    "pbalaku2@cisco.com"
+                                ]
+                            }
+                        ],
+                        "email_attach": true,
+                        "notify": null,
+                        "webhook_name": null
+                    }
+                ],
+                "view": {
+                    "view_name": "Port Reclaim View",
+                    "field_groups": null,
+                    "format": null,
+                    "filters": null
+                }
+            }
+        ]
+} 
+],
+
 "playbook_config_missing_schedule_type": [
     {
         "generate_report": [
@@ -2415,5 +2496,242 @@
         "viewGroupVersion": "2.0.0",
         "reportWasExecuted": true
     }
-] 
+],
+
+"create_first_report_response":
+{
+    "name": "Port_Reclaim_Email_CSV_27100_first",
+    "dataCategory": "Inventory",
+    "viewGroupId": "d1f59396-bfd7-4de6-829f-0b3abcc7bd17",
+    "viewGroupName": null,
+    "schedule": {
+        "type": "SCHEDULE_NOW",
+        "scheduledServiceId": "9e20060d-6b86-403b-8a63-a6a89fb91c78",
+        "dateTime": 1762097751777
+    },
+    "deliveries": [
+        {
+            "type": "NOTIFICATION",
+            "subscriptionId": null,
+            "notificationEndpoints": [
+                {
+                    "type": "EMAIL",
+                    "emailAddresses": [
+                        "pbalaku2@cisco.com"
+                    ],
+                    "emailSubscriptionEndpointId": null,
+                    "emailSubscriptionEndpointInstanceId": null
+                }
+            ],
+            "emailAttach": true,
+            "tenantId": null,
+            "default": false
+        }
+    ],
+    "view": {
+        "name": "Port Reclaim View",
+        "description": "List of all network devices discovered by Cisco Catalyst Center",
+        "fieldGroups": [
+            {
+                "fieldGroupName": "PortReclaimFieldGroup",
+                "fieldGroupDisplayName": "Port Reclaim Fields",
+                "fields": [
+                    {
+                        "name": "rownum",
+                        "displayName": "Sl.No"
+                    },
+                    {
+                        "name": "hostname",
+                        "displayName": "Device Name"
+                    },
+                    {
+                        "name": "family",
+                        "displayName": "Device Family"
+                    },
+                    {
+                        "name": "type",
+                        "displayName": "Device Type"
+                    },
+                    {
+                        "name": "managementIpAddress",
+                        "displayName": "IP Address"
+                    },
+                    {
+                        "name": "portname",
+                        "displayName": "Port Name"
+                    },
+                    {
+                        "name": "description",
+                        "displayName": "Description"
+                    },
+                    {
+                        "name": "macAddress",
+                        "displayName": "MAC Address"
+                    },
+                    {
+                        "name": "adminStatus",
+                        "displayName": "Admin Status"
+                    },
+                    {
+                        "name": "status",
+                        "displayName": "Operational Status"
+                    },
+                    {
+                        "name": "lastInput",
+                        "displayName": "Last Input"
+                    },
+                    {
+                        "name": "lastOutput",
+                        "displayName": "Last Output"
+                    }
+                ]
+            }
+        ],
+        "format": {
+            "name": "CSV",
+            "formatType": "CSV",
+            "template": {
+                "jsTemplateId": "BJYghfA3z"
+            },
+            "default": true
+        },
+        "viewId": "75e3b322-7fef-11ec-a8a3-0242ac120002"
+    },
+    "executionCount": 0,
+    "clientId": "default0",
+    "userName": "admin",
+    "resourceDomain": {
+        "name": "SUPER-ADMIN_GLOBAL",
+        "resourceGroups": [
+            {
+                "srcResourceId": "*",
+                "type": "site",
+                "name": "Global"
+            }
+        ],
+        "_id": "bf968342bb086d285e9c18508bb5af7a67e329be"
+    },
+    "reportId": "ff74bf35-5311-46b5-a7c9-9bb3720d3832",
+    "viewGroupVersion": "2.0.0",
+    "reportWasExecuted": false
+},
+
+"create_second_report_response":
+{
+    "name": "Port_Reclaim_Email_CSV_27100_first",
+    "dataCategory": "Inventory",
+    "viewGroupId": "d1f59396-bfd7-4de6-829f-0b3abcc7bd17",
+    "viewGroupName": null,
+    "schedule": {
+        "type": "SCHEDULE_NOW",
+        "scheduledServiceId": "9e20060d-6b86-403b-8a63-a6a89fb91c78",
+        "dateTime": 1762097751777
+    },
+    "deliveries": [
+        {
+            "type": "NOTIFICATION",
+            "subscriptionId": null,
+            "notificationEndpoints": [
+                {
+                    "type": "EMAIL",
+                    "emailAddresses": [
+                        "pbalaku2@cisco.com"
+                    ],
+                    "emailSubscriptionEndpointId": null,
+                    "emailSubscriptionEndpointInstanceId": null
+                }
+            ],
+            "emailAttach": true,
+            "tenantId": null,
+            "default": false
+        }
+    ],
+    "view": {
+        "name": "Port Reclaim View",
+        "description": "List of all network devices discovered by Cisco Catalyst Center",
+        "fieldGroups": [
+            {
+                "fieldGroupName": "PortReclaimFieldGroup",
+                "fieldGroupDisplayName": "Port Reclaim Fields",
+                "fields": [
+                    {
+                        "name": "rownum",
+                        "displayName": "Sl.No"
+                    },
+                    {
+                        "name": "hostname",
+                        "displayName": "Device Name"
+                    },
+                    {
+                        "name": "family",
+                        "displayName": "Device Family"
+                    },
+                    {
+                        "name": "type",
+                        "displayName": "Device Type"
+                    },
+                    {
+                        "name": "managementIpAddress",
+                        "displayName": "IP Address"
+                    },
+                    {
+                        "name": "portname",
+                        "displayName": "Port Name"
+                    },
+                    {
+                        "name": "description",
+                        "displayName": "Description"
+                    },
+                    {
+                        "name": "macAddress",
+                        "displayName": "MAC Address"
+                    },
+                    {
+                        "name": "adminStatus",
+                        "displayName": "Admin Status"
+                    },
+                    {
+                        "name": "status",
+                        "displayName": "Operational Status"
+                    },
+                    {
+                        "name": "lastInput",
+                        "displayName": "Last Input"
+                    },
+                    {
+                        "name": "lastOutput",
+                        "displayName": "Last Output"
+                    }
+                ]
+            }
+        ],
+        "format": {
+            "name": "CSV",
+            "formatType": "CSV",
+            "template": {
+                "jsTemplateId": "BJYghfA3z"
+            },
+            "default": true
+        },
+        "viewId": "75e3b322-7fef-11ec-a8a3-0242ac120002"
+    },
+    "executionCount": 0,
+    "clientId": "default0",
+    "userName": "admin",
+    "resourceDomain": {
+        "name": "SUPER-ADMIN_GLOBAL",
+        "resourceGroups": [
+            {
+                "srcResourceId": "*",
+                "type": "site",
+                "name": "Global"
+            }
+        ],
+        "_id": "bf968342bb086d285e9c18508bb5af7a67e329be"
+    },
+    "reportId": "ff74bf35-5311-46b5-a7c9-9bb3720d3832",
+    "viewGroupVersion": "2.0.0",
+    "reportWasExecuted": false
+} 
+
 }
