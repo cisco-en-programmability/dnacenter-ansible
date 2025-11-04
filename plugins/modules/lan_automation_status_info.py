@@ -29,13 +29,13 @@ options:
     description:
       - Offset query parameter. Starting index of the
         LAN Automation session. Minimum value is 1.
-    type: float
+    type: int
   limit:
     description:
       - Limit query parameter. Number of LAN Automation
         sessions to be retrieved. Limit value can range
         between 1 to 10.
-    type: float
+    type: int
   id:
     description:
       - Id path parameter. LAN Automation session identifier.

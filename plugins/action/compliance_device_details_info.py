@@ -32,8 +32,8 @@ argument_spec.update(
         complianceType=dict(type="str"),
         complianceStatus=dict(type="str"),
         deviceUuid=dict(type="str"),
-        offset=dict(type="float"),
-        limit=dict(type="float"),
+        offset=dict(type="int"),
+        limit=dict(type="int"),
         headers=dict(type="dict"),
     )
 )

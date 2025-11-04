@@ -35,8 +35,8 @@ argument_spec.update(
         startTime=dict(type="float"),
         endTime=dict(type="float"),
         applicationHealth=dict(type="str"),
-        offset=dict(type="float"),
-        limit=dict(type="float"),
+        offset=dict(type="int"),
+        limit=dict(type="int"),
         applicationName=dict(type="str"),
         headers=dict(type="dict"),
     )

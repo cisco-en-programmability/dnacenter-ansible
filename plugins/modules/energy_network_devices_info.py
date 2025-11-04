@@ -48,7 +48,7 @@ options:
     description:
       - Limit query parameter. Maximum number of records
         to return.
-    type: float
+    type: int
   cursor:
     description:
       - >
