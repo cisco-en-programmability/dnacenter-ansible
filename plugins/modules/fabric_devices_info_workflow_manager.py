@@ -179,7 +179,7 @@ options:
             choices:
               - fabric_info             # Fabric configuration details, device roles, and fabric site associations
               - handoff_info            # Layer 2/3 handoff configurations for border and control plane nodes
-              - onboarding_info         # Device provisioning status, port assignments, and SSID details for wireless devices
+              - onboarding_info         # Device provisioning status, port assignments, port channels and SSID details for wireless devices
               - connected_devices_info  # Neighbor device information via CDP/LLDP discovery protocols
               - device_health_info      # Health metrics including CPU, memory, temperature, and performance data
               - device_issues_info      # Active alerts, issues, and problems detected on fabric devices
@@ -1882,11 +1882,17 @@ class FabricDevicesInfo(DnacBase):
                 combined_fabric_data["device_health_info"] = device_health_result
 
             if onboarding_info:
-                self.log("Retrieving device onboarding status and provisioning details for {0} fabric devices".format(len(fabric_devices)), "DEBUG")
-                self.log("Retrieving device onboarding and provisioning status information", "DEBUG")
+                self.log("Retrieving device onboarding status and port assignment details for {0} fabric devices".format(len(fabric_devices)), "DEBUG")
+                self.log("Retrieving device onboarding and port assignment information", "DEBUG")
                 onboarding_info_result = self.get_port_details(filtered_fabric_devices)
                 self.total_response.append(onboarding_info_result)
                 combined_fabric_data["onboarding_info"] = onboarding_info_result
+
+                self.log("Retrieving device onboarding status and port channel details for {0} fabric devices".format(len(fabric_devices)), "DEBUG")
+                self.log("Retrieving device onboarding and port channel information", "DEBUG")
+                port_channel_info_result = self.get_port_channels(filtered_fabric_devices)
+                self.total_response.append(port_channel_info_result)
+                combined_fabric_data["port_channel_info"] = port_channel_info_result
 
                 self.log("Retrieving SSID configuration details for wireless fabric devices", "DEBUG")
                 ssid_info_result = self.get_ssid_details(filtered_fabric_devices)
@@ -2882,18 +2888,18 @@ class FabricDevicesInfo(DnacBase):
                         for handoff in layer3_ip_handoff_data:
                             transit_id = handoff.get("transitNetworkId")
                             handoff["transitName"] = self.get_transit_name_by_id(transit_id)
-                            devices_with_handoffs += 1
-                            self.log(
-                                "Layer 3 IP handoff configuration found for fabric device {0} - "
-                                "retrieved {1} handoff records".format(
-                                    ip, len(layer3_ip_handoff_data)
-                                ),
-                                "INFO"
-                            )
-                            all_handoff_layer3_ip_info_list.append({
-                                "device_ip": ip,
-                                "handoff_layer3_ip_transit_info": layer3_ip_handoff_data
-                            })
+                        devices_with_handoffs += 1
+                        self.log(
+                            "Layer 3 IP handoff configuration found for fabric device {0} - "
+                            "retrieved {1} handoff records".format(
+                                ip, len(layer3_ip_handoff_data)
+                            ),
+                            "INFO"
+                        )
+                        all_handoff_layer3_ip_info_list.append({
+                            "device_ip": ip,
+                            "handoff_layer3_ip_transit_info": layer3_ip_handoff_data
+                        })
                     else:
                         devices_without_handoffs += 1
                         self.log(
@@ -3885,14 +3891,14 @@ class FabricDevicesInfo(DnacBase):
                         self.log("Onboarding data found for device IP: {0}".format(ip), "INFO")
                         all_onboarding_info_list.append({
                             "device_ip": ip,
-                            "port_details": onboarding_data
+                            "port_assignment_details": onboarding_data
                         })
                     else:
                         devices_without_onboarding_data += 1
                         self.log("No onboarding data found for device IP: {0}".format(ip), "DEBUG")
                         all_onboarding_info_list.append({
                             "device_ip": ip,
-                            "port_details": []
+                            "port_assignment_details": []
                         })
                         continue
 
@@ -3901,10 +3907,10 @@ class FabricDevicesInfo(DnacBase):
                     self.msg = "Exception occurred while getting port assignment details for device {0}: {1}".format(ip, api_err)
                     all_onboarding_info_list.append({
                         "device_ip": ip,
-                        "port_details": "Error: {0}".format(api_err)
+                        "port_assignment_details": "Error: {0}".format(api_err)
                     })
 
-            result = [{"device_onboarding_info": all_onboarding_info_list}]
+            result = [{"port_assignment_info": all_onboarding_info_list}]
 
             total_fabric_devices = len(filtered_fabric_devices)
             self.log(
@@ -3921,6 +3927,123 @@ class FabricDevicesInfo(DnacBase):
 
             if devices_without_onboarding_data > 0:
                 self.log("Fabric devices without onboarding data indicating potential onboarding issues: {0}".format(devices_without_onboarding_data), "INFO")
+
+            if devices_with_errors > 0:
+                self.log("Warning: {0} devices encountered errors during onboarding information retrieval".format(devices_with_errors), "WARNING")
+
+            self.log("Completed onboarding info retrieval. Total devices processed: {0}".format(len(all_onboarding_info_list)), "INFO")
+            self.log("Aggregated device-onboarding info: {0}".format(result), "DEBUG")
+
+            return result
+
+    def get_port_channels(self, filtered_fabric_devices):
+        """
+        Retrieve SDA port channel configurations for fabric device interface aggregation and redundancy analysis.
+
+        This method queries the Catalyst Center SDA API to collect port channel details for fabric
+        devices, providing insights into interface aggregation configurations, VLAN assignments, and
+        connected device information essential for fabric network redundancy and bandwidth management.
+
+        Args:
+            filtered_fabric_devices (dict): Mapping of device management IP addresses to their fabric IDs.
+                Contains only devices that have been confirmed as members of the specified fabric site.
+
+        Returns:
+            list: A list with a single dictionary containing port channel information:
+                [
+                    {
+                        "device_onboarding_info": [
+                            {
+                                "device_ip": "192.168.1.1",
+                                "port_channel_details": [port_channel_records] or [] or "Error: <error_message>"
+                           }
+                       ]
+                    }
+                ]
+
+        """
+        self.log("Retrieving fabric device onboarding information for lifecycle management and troubleshooting", "INFO")
+        self.log("Processing port channel details for {0} fabric devices across fabric sites".format(len(filtered_fabric_devices)), "DEBUG")
+
+        device_identifier = self.want["fabric_devices"][0].get("device_identifier")
+
+        all_onboarding_info_list = []
+        devices_processed = 0
+        devices_with_port_channels_data = 0
+        devices_without_port_channels_data = 0
+        devices_with_errors = 0
+
+        for index, (ip, fabric_id) in enumerate(filtered_fabric_devices.items()):
+            ip_device_uuid_map = self.get_device_ids_from_device_ips([ip])
+            for ip, device_uuid in ip_device_uuid_map.items():
+                devices_processed += 1
+                self.log(
+                    "Processing onboarding device detail for device {0}/{1}: "
+                    "IP: {2}".format(index + 1, len(filtered_fabric_devices), ip),
+                    "DEBUG"
+                )
+                try:
+                    params = {"fabric_id": fabric_id}
+
+                    if device_identifier or fabric_id:
+                        params["network_device_id"] = device_uuid
+                        self.log(
+                            "Added 'network_device_id' parameter for device {0}: {1}".format(ip, device_uuid),
+                            "DEBUG"
+                        )
+                    response = self.dnac._exec(
+                        family="sda",
+                        function="get_port_channels",
+                        params=params
+                    )
+                    onboarding_data = response.get("response", [])
+                    self.log(
+                        "Received API response from 'get_port_channels' for device {0}: {1}".format(
+                            ip, response
+                        ),
+                        "DEBUG"
+                    )
+                    if onboarding_data:
+                        devices_with_port_channels_data += 1
+                        self.log("Port channel data found for device IP: {0}".format(ip), "INFO")
+                        all_onboarding_info_list.append({
+                            "device_ip": ip,
+                            "port_channel_details": onboarding_data
+                        })
+                    else:
+                        devices_without_port_channels_data += 1
+                        self.log("No port channel data found for device IP: {0}".format(ip), "DEBUG")
+                        all_onboarding_info_list.append({
+                            "device_ip": ip,
+                            "port_channel_details": []
+                        })
+                        continue
+
+                except Exception as api_err:
+                    devices_with_errors += 1
+                    self.msg = "Exception occurred while getting port assignment details for device {0}: {1}".format(ip, api_err)
+                    all_onboarding_info_list.append({
+                        "device_ip": ip,
+                        "port_channel_details": "Error: {0}".format(api_err)
+                    })
+
+            result = [{"port_channel_info": all_onboarding_info_list}]
+
+            total_fabric_devices = len(filtered_fabric_devices)
+            self.log(
+                "Fabric device onboarding information retrieval completed - "
+                "processed {0}/{1} fabric devices successfully".format(
+                    devices_processed,
+                    total_fabric_devices
+                ),
+                "INFO"
+            )
+
+            if devices_with_port_channels_data > 0:
+                self.log("Fabric devices with port channel data indicating successful fabric integration: {0}".format(devices_with_port_channels_data), "INFO")
+
+            if devices_without_port_channels_data > 0:
+                self.log("Fabric devices without port channel data indicating onboarding issues: {0}".format(devices_without_port_channels_data), "INFO")
 
             if devices_with_errors > 0:
                 self.log("Warning: {0} devices encountered errors during onboarding information retrieval".format(devices_with_errors), "WARNING")

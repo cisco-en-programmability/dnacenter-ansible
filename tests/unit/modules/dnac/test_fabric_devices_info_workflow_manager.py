@@ -124,6 +124,8 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 self.test_data.get("get_fabric_devices11"),
                 self.test_data.get("192.168.200.69_10"),
                 self.test_data.get("get_port_assignments"),
+                self.test_data.get("192.168.200.69_4"),
+                self.test_data.get("get_port_channels"),
                 self.test_data.get("get_network_device_by_ip"),
                 self.test_data.get("get_provisioned_wired_device")
             ]
@@ -423,10 +425,10 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 "The fabric devices filtered from the network devices are: ['192.168.200.69']",
                 [
                     {
-                        "device_onboarding_info": [
+                        "port_assignment_info": [
                             {
                                 "device_ip": "192.168.200.69",
-                                "port_details": [
+                                "port_assignment_details": [
                                     {
                                         "authenticateTemplateName": "No Authentication",
                                         "connectedDeviceType": "ACCESS_POINT",
@@ -458,6 +460,16 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                                         "networkDeviceId": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee"
                                     }
                                 ]
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "port_channel_info": [
+                            {
+                                "device_ip": "192.168.200.69",
+                                "port_channel_details": []
                             }
                         ]
                     }
