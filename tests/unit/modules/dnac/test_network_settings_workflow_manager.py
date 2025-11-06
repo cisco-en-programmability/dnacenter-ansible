@@ -37,6 +37,7 @@ class TestDnacNetworkSettings(TestDnacModule):
     playbook_config_device_controlability = test_data.get("playbook_config_device_controlability")
     playbook_reset_network = test_data.get("playbook_reset_network")
     playbook_reserve_pool_creation = test_data.get("playbook_reserve_pool_creation")
+    playbook_reset_aaa = test_data.get("playbook_reset_aaa")
 
     def setUp(self):
         super(TestDnacNetworkSettings, self).setUp()
@@ -472,6 +473,32 @@ class TestDnacNetworkSettings(TestDnacModule):
                 self.test_data.get("created_subpool_task_details"),
             ]
 
+        if "reset_aaa_configuration" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_sites_resetting_server_configuration"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
+                self.test_data.get("get_AAA"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+            ]
+
     def test_Network_settings_workflow_manager_network_network_not_need_update(self):
         """
         Test case for site workflow manager when creating a site.
@@ -537,6 +564,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
+                dnac_log_level="DEBUG",
                 config=self.playbook_update_network
             )
         )
@@ -1088,6 +1116,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=False,
+                dnac_log_level="DEBUG",
                 dnac_version="2.3.7.9",
                 config=self.playbook_reset_network
             )
@@ -1122,4 +1151,30 @@ class TestDnacNetworkSettings(TestDnacModule):
         self.assertEqual(
             result["response"][1]["reservePool"]["msg"],
             {'4G10_KPKT_BMDF': 'Ip Subpool Reservation Created Successfully'}
+        )
+
+    def test_Network_settings_workflow_manager_reset_aaa_configuration(self):
+        """
+        Test case for network settings workflow manager when resetting AAA configuration.
+
+        This test case checks the behavior of the network settings workflow manager when resetting AAA configuration.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=False,
+                dnac_log_level="DEBUG",
+                dnac_version="2.3.7.9",
+                config=self.playbook_reset_aaa
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result["response"][2]["network"]["msg"])
+        self.assertEqual(
+            {'Global/Testing/test': 'Network Updated successfully'},
+            result["response"][2]["network"]["msg"]
         )
