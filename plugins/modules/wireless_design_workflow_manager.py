@@ -4014,14 +4014,14 @@ EXAMPLES = r"""
     state: merged
     config:
       - feature_template_config:
-              - dot11be_configuration:
-                  - design_name: "dot11be_24ghz_design"
-                    feature_attributes:
-                      dot11be_status: true
-                      radio_band: "2_4GHZ"
-                    unlocked_attributes:
-                      - "dot11be_status"
-                      - "radio_band"
+          - dot11be_configuration:
+              - design_name: "dot11be_24ghz_design"
+                feature_attributes:
+                  dot11be_status: true
+                  radio_band: "2_4GHZ"
+                unlocked_attributes:
+                  - "dot11be_status"
+                  - "radio_band"
 - name: Update dot11be profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4036,14 +4036,14 @@ EXAMPLES = r"""
     state: merged
     config:
       - feature_template_config:
-              - dot11be_configuration:
-                  - design_name: "dot11be_24ghz_design"
-                    feature_attributes:
-                      dot11be_status: false
-                      radio_band: "2_4GHZ"
-                    unlocked_attributes:
-                      - "dot11be_status"
-                      - "radio_band"
+          - dot11be_configuration:
+              - design_name: "dot11be_24ghz_design"
+                feature_attributes:
+                  dot11be_status: false
+                  radio_band: "2_4GHZ"
+                unlocked_attributes:
+                  - "dot11be_status"
+                  - "radio_band"
 - name: Delete dot11be profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4058,14 +4058,14 @@ EXAMPLES = r"""
     state: deleted
     config:
       - feature_template_config:
-              - dot11be_configuration:
-                  - design_name: "dot11be_24ghz_design"
-                    feature_attributes:
-                      dot11be_status: false
-                      radio_band: "2_4GHZ"
-                    unlocked_attributes:
-                      - "dot11be_status"
-                      - "radio_band"
+          - dot11be_configuration:
+              - design_name: "dot11be_24ghz_design"
+                feature_attributes:
+                  dot11be_status: false
+                  radio_band: "2_4GHZ"
+                unlocked_attributes:
+                  - "dot11be_status"
+                  - "radio_band"
 - name: Add dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4079,23 +4079,23 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - feature_template_config:
-        - dot11ax_configuration:
-            - design_name: "dot11ax_24ghz_design"
-              feature_attributes:
-                radio_band: "2_4GHZ"
-                bss_color: true
-                target_waketime_broadcast: true
-                non_srg_obss_pd_max_threshold: -78
-                target_wake_up_time_11ax: true
-                obss_pd: true
-              unlocked_attributes:
-                - "radio_band"
-                - "bss_color"
-                - "target_waketime_broadcast"
-                - "non_srg_obss_pd_max_threshold"
-                - "target_wake_up_time_11ax"
-                - "obss_pd"
+      - feature_template_config:
+          - dot11ax_configuration:
+              - design_name: "dot11ax_24ghz_design"
+                feature_attributes:
+                  radio_band: "2_4GHZ"
+                  bss_color: true
+                  target_waketime_broadcast: true
+                  non_srg_obss_pd_max_threshold: -78
+                  target_wake_up_time_11ax: true
+                  obss_pd: true
+                unlocked_attributes:
+                  - "radio_band"
+                  - "bss_color"
+                  - "target_waketime_broadcast"
+                  - "non_srg_obss_pd_max_threshold"
+                  - "target_wake_up_time_11ax"
+                  - "obss_pd"
 - name: Update dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4109,23 +4109,23 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - feature_template_config:
-        - dot11ax_configuration:
-            - design_name: "dot11ax_24ghz_design"
-              feature_attributes:
-                radio_band: "2_4GHZ"
-                bss_color: true
-                target_waketime_broadcast: true
-                non_srg_obss_pd_max_threshold: -78
-                target_wake_up_time_11ax: false
-                obss_pd: true
-              unlocked_attributes:
-                - "radio_band"
-                - "bss_color"
-                - "target_waketime_broadcast"
-                - "non_srg_obss_pd_max_threshold"
-                - "target_wake_up_time_11ax"
-                - "obss_pd"
+      - feature_template_config:
+          - dot11ax_configuration:
+              - design_name: "dot11ax_24ghz_design"
+                feature_attributes:
+                  radio_band: "2_4GHZ"
+                  bss_color: true
+                  target_waketime_broadcast: true
+                  non_srg_obss_pd_max_threshold: -78
+                  target_wake_up_time_11ax: false
+                  obss_pd: true
+                unlocked_attributes:
+                  - "radio_band"
+                  - "bss_color"
+                  - "target_waketime_broadcast"
+                  - "non_srg_obss_pd_max_threshold"
+                  - "target_wake_up_time_11ax"
+                  - "obss_pd"
 - name: Delete dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4139,23 +4139,23 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
     config:
-        - feature_template_config:
-        - dot11ax_configuration:
-            - design_name: "dot11ax_24ghz_design"
-              feature_attributes:
-                radio_band: "2_4GHZ"
-                bss_color: true
-                target_waketime_broadcast: true
-                non_srg_obss_pd_max_threshold: -78
-                target_wake_up_time_11ax: false
-                obss_pd: true
-              unlocked_attributes:
-                - "radio_band"
-                - "bss_color"
-                - "target_waketime_broadcast"
-                - "non_srg_obss_pd_max_threshold"
-                - "target_wake_up_time_11ax"
-                - "obss_pd"
+      - feature_template_config:
+          - dot11ax_configuration:
+              - design_name: "dot11ax_24ghz_design"
+                feature_attributes:
+                  radio_band: "2_4GHZ"
+                  bss_color: true
+                  target_waketime_broadcast: true
+                  non_srg_obss_pd_max_threshold: -78
+                  target_wake_up_time_11ax: false
+                  obss_pd: true
+                unlocked_attributes:
+                  - "radio_band"
+                  - "bss_color"
+                  - "target_waketime_broadcast"
+                  - "non_srg_obss_pd_max_threshold"
+                  - "target_wake_up_time_11ax"
+                  - "obss_pd"
 - name: Add dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4169,23 +4169,23 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - feature_template_config:
-        - dot11ax_configuration:
-            - design_name: "dot11ax_5ghz_design"
-              feature_attributes:
-                radio_band: "5GHZ"
-                bss_color: true
-                target_waketime_broadcast: true
-                non_srg_obss_pd_max_threshold: -75
-                target_wake_up_time_11ax: true
-                obss_pd: true
-              unlocked_attributes:
-                - "radio_band"
-                - "bss_color"
-                - "target_waketime_broadcast"
-                - "non_srg_obss_pd_max_threshold"
-                - "target_wake_up_time_11ax"
-                - "obss_pd"
+      - feature_template_config:
+          - dot11ax_configuration:
+              - design_name: "dot11ax_5ghz_design"
+                feature_attributes:
+                  radio_band: "5GHZ"
+                  bss_color: true
+                  target_waketime_broadcast: true
+                  non_srg_obss_pd_max_threshold: -75
+                  target_wake_up_time_11ax: true
+                  obss_pd: true
+                unlocked_attributes:
+                  - "radio_band"
+                  - "bss_color"
+                  - "target_waketime_broadcast"
+                  - "non_srg_obss_pd_max_threshold"
+                  - "target_wake_up_time_11ax"
+                  - "obss_pd"
 - name: Update dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4199,23 +4199,23 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - feature_template_config:
-        - dot11ax_configuration:
-            - design_name: "dot11ax_5ghz_design"
-              feature_attributes:
-                radio_band: "5GHZ"
-                bss_color: false
-                target_waketime_broadcast: false
-                non_srg_obss_pd_max_threshold: -75
-                target_wake_up_time_11ax: true
-                obss_pd: true
-              unlocked_attributes:
-                - "radio_band"
-                - "bss_color"
-                - "target_waketime_broadcast"
-                - "non_srg_obss_pd_max_threshold"
-                - "target_wake_up_time_11ax"
-                - "obss_pd"
+      - feature_template_config:
+          - dot11ax_configuration:
+              - design_name: "dot11ax_5ghz_design"
+                feature_attributes:
+                  radio_band: "5GHZ"
+                  bss_color: false
+                  target_waketime_broadcast: false
+                  non_srg_obss_pd_max_threshold: -75
+                  target_wake_up_time_11ax: true
+                  obss_pd: true
+                unlocked_attributes:
+                  - "radio_band"
+                  - "bss_color"
+                  - "target_waketime_broadcast"
+                  - "non_srg_obss_pd_max_threshold"
+                  - "target_wake_up_time_11ax"
+                  - "obss_pd"
 - name: Delete dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4229,23 +4229,23 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
     config:
-        - feature_template_config:
-        - dot11ax_configuration:
-            - design_name: "dot11ax_5ghz_design"
-              feature_attributes:
-                radio_band: "5GHZ"
-                bss_color: false
-                target_waketime_broadcast: false
-                non_srg_obss_pd_max_threshold: -75
-                target_wake_up_time_11ax: true
-                obss_pd: true
-              unlocked_attributes:
-                - "radio_band"
-                - "bss_color"
-                - "target_waketime_broadcast"
-                - "non_srg_obss_pd_max_threshold"
-                - "target_wake_up_time_11ax"
-                - "obss_pd"
+      - feature_template_config:
+          - dot11ax_configuration:
+              - design_name: "dot11ax_5ghz_design"
+                feature_attributes:
+                  radio_band: "5GHZ"
+                  bss_color: false
+                  target_waketime_broadcast: false
+                  non_srg_obss_pd_max_threshold: -75
+                  target_wake_up_time_11ax: true
+                  obss_pd: true
+                unlocked_attributes:
+                  - "radio_band"
+                  - "bss_color"
+                  - "target_waketime_broadcast"
+                  - "non_srg_obss_pd_max_threshold"
+                  - "target_wake_up_time_11ax"
+                  - "obss_pd"
 - name: Add dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4259,21 +4259,21 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - feature_template_config:
-        - dot11ax_configuration:
-            - design_name: "dot11ax_6ghz_design"
-              feature_attributes:
-                radio_band: "6GHZ"
-                bss_color: true
-                target_waketime_broadcast: true
-                multiple_bssid: true
-                target_wake_up_time_11ax: true
-              unlocked_attributes:
-                - "radio_band"
-                - "bss_color"
-                - "target_waketime_broadcast"
-                - "multiple_bssid"
-                - "target_wake_up_time_11ax"
+      - feature_template_config:
+          - dot11ax_configuration:
+              - design_name: "dot11ax_6ghz_design"
+                feature_attributes:
+                  radio_band: "6GHZ"
+                  bss_color: true
+                  target_waketime_broadcast: true
+                  multiple_bssid: true
+                  target_wake_up_time_11ax: true
+                unlocked_attributes:
+                  - "radio_band"
+                  - "bss_color"
+                  - "target_waketime_broadcast"
+                  - "multiple_bssid"
+                  - "target_wake_up_time_11ax"
 - name: Update dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4287,21 +4287,21 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - feature_template_config:
-        - dot11ax_configuration:
-            - design_name: "dot11ax_6ghz_design"
-              feature_attributes:
-                radio_band: "6GHZ"
-                bss_color: true
-                target_waketime_broadcast: false
-                multiple_bssid: true
-                target_wake_up_time_11ax: true
-              unlocked_attributes:
-                - "radio_band"
-                - "bss_color"
-                - "target_waketime_broadcast"
-                - "multiple_bssid"
-                - "target_wake_up_time_11ax"
+      - feature_template_config:
+          - dot11ax_configuration:
+              - design_name: "dot11ax_6ghz_design"
+                feature_attributes:
+                  radio_band: "6GHZ"
+                  bss_color: true
+                  target_waketime_broadcast: false
+                  multiple_bssid: true
+                  target_wake_up_time_11ax: true
+                unlocked_attributes:
+                  - "radio_band"
+                  - "bss_color"
+                  - "target_waketime_broadcast"
+                  - "multiple_bssid"
+                  - "target_wake_up_time_11ax"
 - name: Delete dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4315,21 +4315,21 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
     config:
-        - feature_template_config:
-        - dot11ax_configuration:
-            - design_name: "dot11ax_6ghz_design"
-              feature_attributes:
-                radio_band: "6GHZ"
-                bss_color: true
-                target_waketime_broadcast: false
-                multiple_bssid: true
-                target_wake_up_time_11ax: true
-              unlocked_attributes:
-                - "radio_band"
-                - "bss_color"
-                - "target_waketime_broadcast"
-                - "multiple_bssid"
-                - "target_wake_up_time_11ax"
+      - feature_template_config:
+          - dot11ax_configuration:
+              - design_name: "dot11ax_6ghz_design"
+                feature_attributes:
+                  radio_band: "6GHZ"
+                  bss_color: true
+                  target_waketime_broadcast: false
+                  multiple_bssid: true
+                  target_wake_up_time_11ax: true
+                unlocked_attributes:
+                  - "radio_band"
+                  - "bss_color"
+                  - "target_waketime_broadcast"
+                  - "multiple_bssid"
+                  - "target_wake_up_time_11ax"
 - name: Add cleanair profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4343,36 +4343,37 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-      - clean_air_configuration:
-          - design_name: "sample_cleanair_design_24ghz"
-            feature_attributes:
-              radio_band: 2_4GHZ   # enum: 2_4GHZ, 5GHZ, 6GHZ
-              clean_air: true
-              clean_air_device_reporting: true
-              persistent_device_propagation: false
-              description: "CleanAir profile for 2.4GHz office deployment"
-              # Interferers Features (map)
-              interferers_features:
-                ble_beacon: true                     # Only applicable for 2_4GHZ
-                bluetooth_paging_inquiry: false     # Only applicable for 2_4GHZ
-                bluetooth_sco_acl: false            # Only applicable for 2_4GHZ
-                continuous_transmitter: true       # Applicable for 2_4GHZ, 5GHZ, 6GHZ
-                generic_dect: false                 # 2_4GHZ and 5GHZ
-                generic_tdd: false                  # Only 2_4GHZ
-                jammer: false                       # 2_4GHZ and 5GHZ
-                microwave_oven: true                # Only 2_4GHZ
-                motorola_canopy: false              # 2_4GHZ and 5GHZ
-                si_fhss: false                      # 2_4GHZ and 5GHZ
-                spectrum80211_fh: false             # 2_4GHZ only
-                spectrum80211_non_standard_channel: false  # 2_4GHZ and 5GHZ
-                spectrum802154: false               # 2_4GHZ only
-                spectrum_inverted: false            # 2_4GHZ and 5GHZ
-                super_ag: false                     # 2_4GHZ and 5GHZ
-                video_camera: false                 # 2_4GHZ and 5GHZ
-                wimax_fixed: false                  # 2_4GHZ and 5GHZ
-                wimax_mobile: false                 # 2_4GHZ and 5GHZ
-                xbox: false                         # 2_4GHZ only
-            unlocked_attributes:
+      - feature_template_config:
+          - clean_air_configuration:
+              - design_name: "sample_cleanair_design_24ghz"
+                feature_attributes:
+                  radio_band: 2_4GHZ   # enum: 2_4GHZ, 5GHZ, 6GHZ
+                  clean_air: true
+                  clean_air_device_reporting: true
+                  persistent_device_propagation: false
+                  description: "CleanAir profile for 2.4GHz office deployment"
+                  # Interferers Features (map)
+                  interferers_features:
+                    ble_beacon: true                     # Only applicable for 2_4GHZ
+                    bluetooth_paging_inquiry: false     # Only applicable for 2_4GHZ
+                    bluetooth_sco_acl: false            # Only applicable for 2_4GHZ
+                    continuous_transmitter: true       # Applicable for 2_4GHZ, 5GHZ, 6GHZ
+                    generic_dect: false                 # 2_4GHZ and 5GHZ
+                    generic_tdd: false                  # Only 2_4GHZ
+                    jammer: false                       # 2_4GHZ and 5GHZ
+                    microwave_oven: true                # Only 2_4GHZ
+                    motorola_canopy: false              # 2_4GHZ and 5GHZ
+                    si_fhss: false                      # 2_4GHZ and 5GHZ
+                    spectrum80211_fh: false             # 2_4GHZ only
+                    spectrum80211_non_standard_channel: false  # 2_4GHZ and 5GHZ
+                    spectrum802154: false               # 2_4GHZ only
+                    spectrum_inverted: false            # 2_4GHZ and 5GHZ
+                    super_ag: false                     # 2_4GHZ and 5GHZ
+                    video_camera: false                 # 2_4GHZ and 5GHZ
+                    wimax_fixed: false                  # 2_4GHZ and 5GHZ
+                    wimax_mobile: false                 # 2_4GHZ and 5GHZ
+                    xbox: false                         # 2_4GHZ only
+                unlocked_attributes:
                   - "clean_air"
                   - "clean_air_device_reporting"
                   - "persistent_device_propagation"
@@ -4422,12 +4423,12 @@ EXAMPLES = r"""
                 wimax_mobile: false                 # 2_4GHZ and 5GHZ
                 xbox: false                         # 2_4GHZ only
             unlocked_attributes:
-                  - "clean_air"
-                  - "clean_air_device_reporting"
-                  - "persistent_device_propagation"
-                  - "description"
-                  - "interferers_features.ble_beacon"
-                  - "interferers_features.continuous_transmitter"
+              - "clean_air"
+              - "clean_air_device_reporting"
+              - "persistent_device_propagation"
+              - "description"
+              - "interferers_features.ble_beacon"
+              - "interferers_features.continuous_transmitter"
 - name: Delete cleanair profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4471,12 +4472,12 @@ EXAMPLES = r"""
                 wimax_mobile: false                 # 2_4GHZ and 5GHZ
                 xbox: false                         # 2_4GHZ only
             unlocked_attributes:
-                  - "clean_air"
-                  - "clean_air_device_reporting"
-                  - "persistent_device_propagation"
-                  - "description"
-                  - "interferers_features.ble_beacon"
-                  - "interferers_features.continuous_transmitter"
+              - "clean_air"
+              - "clean_air_device_reporting"
+              - "persistent_device_propagation"
+              - "description"
+              - "interferers_features.ble_beacon"
+              - "interferers_features.continuous_transmitter"
 - name: Add event driven rrm profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4491,17 +4492,17 @@ EXAMPLES = r"""
     state: merged
     config:
       - feature_template_config:
-            - event_driven_rrm_configuration:
-                - design_name: "edrrm_2_4ghz_design"
-                  feature_attributes:
-                    radio_band: "2_4GHZ" # 2_4GHZ, 5GHZ
-                    event_driven_rrm_enable: true
-                    event_driven_rrm_threshold_level: "HIGH"   # LOW, MEDIUM, HIGH, CUSTOM
-                    # event_driven_rrm_custom_threshold_val: 50   # must be between 1–99
-                  unlocked_attributes:
-                    - "event_driven_rrm_enable"
-                    - "event_driven_rrm_threshold_level"
-                    - "event_driven_rrm_custom_threshold_val"
+          - event_driven_rrm_configuration:
+              - design_name: "edrrm_2_4ghz_design"
+                feature_attributes:
+                  radio_band: "2_4GHZ"  # 2_4GHZ, 5GHZ
+                  event_driven_rrm_enable: true
+                  event_driven_rrm_threshold_level: "HIGH"   # LOW, MEDIUM, HIGH, CUSTOM
+                  # event_driven_rrm_custom_threshold_val: 50   # must be between 1–99
+                unlocked_attributes:
+                  - "event_driven_rrm_enable"
+                  - "event_driven_rrm_threshold_level"
+                  - "event_driven_rrm_custom_threshold_val"
 - name: Update event driven rrm profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4516,17 +4517,17 @@ EXAMPLES = r"""
     state: merged
     config:
       - feature_template_config:
-            - event_driven_rrm_configuration:
-                - design_name: "edrrm_2_4ghz_design"
-                  feature_attributes:
-                    radio_band: "2_4GHZ" # 2_4GHZ, 5GHZ
-                    event_driven_rrm_enable: false
-                    event_driven_rrm_threshold_level: "HIGH"   # LOW, MEDIUM, HIGH, CUSTOM
-                    # event_driven_rrm_custom_threshold_val: 50   # must be between 1–99
-                  unlocked_attributes:
-                    - "event_driven_rrm_enable"
-                    - "event_driven_rrm_threshold_level"
-                    - "event_driven_rrm_custom_threshold_val"
+          - event_driven_rrm_configuration:
+              - design_name: "edrrm_2_4ghz_design"
+                feature_attributes:
+                  radio_band: "2_4GHZ"  # 2_4GHZ, 5GHZ
+                  event_driven_rrm_enable: false
+                  event_driven_rrm_threshold_level: "HIGH"   # LOW, MEDIUM, HIGH, CUSTOM
+                  # event_driven_rrm_custom_threshold_val: 50   # must be between 1–99
+                unlocked_attributes:
+                  - "event_driven_rrm_enable"
+                  - "event_driven_rrm_threshold_level"
+                  - "event_driven_rrm_custom_threshold_val"
 - name: Delete event driven rrm profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4541,17 +4542,17 @@ EXAMPLES = r"""
     state: deleted
     config:
       - feature_template_config:
-            - event_driven_rrm_configuration:
-                - design_name: "edrrm_2_4ghz_design"
-                  feature_attributes:
-                    radio_band: "2_4GHZ" # 2_4GHZ, 5GHZ
-                    event_driven_rrm_enable: false
-                    event_driven_rrm_threshold_level: "HIGH"   # LOW, MEDIUM, HIGH, CUSTOM
-                    # event_driven_rrm_custom_threshold_val: 50   # must be between 1–99
-                  unlocked_attributes:
-                    - "event_driven_rrm_enable"
-                    - "event_driven_rrm_threshold_level"
-                    - "event_driven_rrm_custom_threshold_val"
+          - event_driven_rrm_configuration:
+              - design_name: "edrrm_2_4ghz_design"
+                feature_attributes:
+                  radio_band: "2_4GHZ"  # 2_4GHZ, 5GHZ
+                  event_driven_rrm_enable: false
+                  event_driven_rrm_threshold_level: "HIGH"   # LOW, MEDIUM, HIGH, CUSTOM
+                  # event_driven_rrm_custom_threshold_val: 50   # must be between 1–99
+                unlocked_attributes:
+                  - "event_driven_rrm_enable"
+                  - "event_driven_rrm_threshold_level"
+                  - "event_driven_rrm_custom_threshold_val"
 - name: Add multicast profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4566,20 +4567,20 @@ EXAMPLES = r"""
     state: merged
     config:
       - feature_template_config:
-              - multicast_configuration:
-                  - design_name: "multicast_office_profile_1"
-                    feature_attributes:
-                      global_multicast_enabled: true
-                      multicast_ipv4_mode: "MULTICAST"     # UNICAST or MULTICAST
-                      multicast_ipv4_address: "239.1.1.25" # must be in 224.0.0.0 - 239.255.255.255 if mode=MULTICAST
-                      multicast_ipv6_mode: "MULTICAST"    # UNICAST or MULTICAST
-                      multicast_ipv6_address: "FF05::1"   # must follow FF[0/1][1-5,8,E] rule if mode=MULTICAST
-                    unlocked_attributes:
-                      - "global_multicast_enabled"
-                      - "multicast_ipv4_mode"
-                      - "multicast_ipv4_address"
-                      - "multicast_ipv6_mode"
-                      - "multicast_ipv6_address"
+          - multicast_configuration:
+              - design_name: "multicast_office_profile_1"
+                feature_attributes:
+                  global_multicast_enabled: true
+                  multicast_ipv4_mode: "MULTICAST"     # UNICAST or MULTICAST
+                  multicast_ipv4_address: "239.1.1.25"  # must be in 224.0.0.0 - 239.255.255.255 if mode=MULTICAST
+                  multicast_ipv6_mode: "MULTICAST"    # UNICAST or MULTICAST
+                  multicast_ipv6_address: "FF05::1"   # must follow FF[0/1][1-5,8,E] rule if mode=MULTICAST
+                unlocked_attributes:
+                  - "global_multicast_enabled"
+                  - "multicast_ipv4_mode"
+                  - "multicast_ipv4_address"
+                  - "multicast_ipv6_mode"
+                  - "multicast_ipv6_address"
 - name: Update multicast profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4594,20 +4595,20 @@ EXAMPLES = r"""
     state: merged
     config:
       - feature_template_config:
-              - multicast_configuration:
-                  - design_name: "multicast_office_profile_1"
-                    feature_attributes:
-                      global_multicast_enabled: false
-                      multicast_ipv4_mode: "MULTICAST"     # UNICAST or MULTICAST
-                      multicast_ipv4_address: "239.1.1.25" # must be in 224.0.0.0 - 239.255.255.255 if mode=MULTICAST
-                      multicast_ipv6_mode: "MULTICAST"    # UNICAST or MULTICAST
-                      multicast_ipv6_address: "FF05::1"   # must follow FF[0/1][1-5,8,E] rule if mode=MULTICAST
-                    unlocked_attributes:
-                      - "global_multicast_enabled"
-                      - "multicast_ipv4_mode"
-                      - "multicast_ipv4_address"
-                      - "multicast_ipv6_mode"
-                      - "multicast_ipv6_address"
+          - multicast_configuration:
+              - design_name: "multicast_office_profile_1"
+                feature_attributes:
+                  global_multicast_enabled: false
+                  multicast_ipv4_mode: "MULTICAST"     # UNICAST or MULTICAST
+                  multicast_ipv4_address: "239.1.1.25"   # must be in 224.0.0.0 - 239.255.255.255 if mode=MULTICAST
+                  multicast_ipv6_mode: "MULTICAST"    # UNICAST or MULTICAST
+                  multicast_ipv6_address: "FF05::1"   # must follow FF[0/1][1-5,8,E] rule if mode=MULTICAST
+                unlocked_attributes:
+                  - "global_multicast_enabled"
+                  - "multicast_ipv4_mode"
+                  - "multicast_ipv4_address"
+                  - "multicast_ipv6_mode"
+                  - "multicast_ipv6_address"
 - name: Delete multicast profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4622,20 +4623,20 @@ EXAMPLES = r"""
     state: deleted
     config:
       - feature_template_config:
-              - multicast_configuration:
-                  - design_name: "multicast_office_profile_1"
-                    feature_attributes:
-                      global_multicast_enabled: false
-                      multicast_ipv4_mode: "MULTICAST"     # UNICAST or MULTICAST
-                      multicast_ipv4_address: "239.1.1.25" # must be in 224.0.0.0 - 239.255.255.255 if mode=MULTICAST
-                      multicast_ipv6_mode: "MULTICAST"    # UNICAST or MULTICAST
-                      multicast_ipv6_address: "FF05::1"   # must follow FF[0/1][1-5,8,E] rule if mode=MULTICAST
-                    unlocked_attributes:
-                      - "global_multicast_enabled"
-                      - "multicast_ipv4_mode"
-                      - "multicast_ipv4_address"
-                      - "multicast_ipv6_mode"
-                      - "multicast_ipv6_address"
+          - multicast_configuration:
+              - design_name: "multicast_office_profile_1"
+                feature_attributes:
+                  global_multicast_enabled: false
+                  multicast_ipv4_mode: "MULTICAST"     # UNICAST or MULTICAST
+                  multicast_ipv4_address: "239.1.1.25"  # must be in 224.0.0.0 - 239.255.255.255 if mode=MULTICAST
+                  multicast_ipv6_mode: "MULTICAST"    # UNICAST or MULTICAST
+                  multicast_ipv6_address: "FF05::1"   # must follow FF[0/1][1-5,8,E] rule if mode=MULTICAST
+                unlocked_attributes:
+                  - "global_multicast_enabled"
+                  - "multicast_ipv4_mode"
+                  - "multicast_ipv4_address"
+                  - "multicast_ipv6_mode"
+                  - "multicast_ipv6_address"
 - name: Add rrm fra profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4650,19 +4651,19 @@ EXAMPLES = r"""
     state: merged
     config:
       - feature_template_config:
-        - rrm_fra_configuration:
-            - design_name: "fra_design_1"
-              feature_attributes:
-                radio_band: "2_4GHZ_5GHZ"
-                fra_freeze: false
-                fra_status: false
-                fra_interval: 12
-                fra_sensitivity: "HIGH"
-              unlocked_attributes:
-                - fra_freeze
-                - fra_status
-                - fra_interval
-                - fra_sensitivity
+          - rrm_fra_configuration:
+              - design_name: "fra_design_1"
+                feature_attributes:
+                  radio_band: "2_4GHZ_5GHZ"
+                  fra_freeze: false
+                  fra_status: false
+                  fra_interval: 12
+                  fra_sensitivity: "HIGH"
+                unlocked_attributes:
+                  - fra_freeze
+                  - fra_status
+                  - fra_interval
+                  - fra_sensitivity
 - name: Update rrm fra profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4677,19 +4678,19 @@ EXAMPLES = r"""
     state: merged
     config:
       - feature_template_config:
-        - rrm_fra_configuration:
-            - design_name: "fra_design_1"
-              feature_attributes:
-                radio_band: "2_4GHZ_5GHZ"
-                fra_freeze: true
-                fra_status: false
-                fra_interval: 12
-                fra_sensitivity: "HIGH"
-              unlocked_attributes:
-                - fra_freeze
-                - fra_status
-                - fra_interval
-                - fra_sensitivity
+          - rrm_fra_configuration:
+              - design_name: "fra_design_1"
+                feature_attributes:
+                  radio_band: "2_4GHZ_5GHZ"
+                  fra_freeze: true
+                  fra_status: false
+                  fra_interval: 12
+                  fra_sensitivity: "HIGH"
+                unlocked_attributes:
+                  - fra_freeze
+                  - fra_status
+                  - fra_interval
+                  - fra_sensitivity
 - name: Delete rrm fra profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4704,19 +4705,19 @@ EXAMPLES = r"""
     state: deleted
     config:
       - feature_template_config:
-        - rrm_fra_configuration:
-            - design_name: "fra_design_1"
-              feature_attributes:
-                radio_band: "2_4GHZ_5GHZ"
-                fra_freeze: true
-                fra_status: false
-                fra_interval: 12
-                fra_sensitivity: "HIGH"
-              unlocked_attributes:
-                - fra_freeze
-                - fra_status
-                - fra_interval
-                - fra_sensitivity
+          - rrm_fra_configuration:
+              - design_name: "fra_design_1"
+                feature_attributes:
+                  radio_band: "2_4GHZ_5GHZ"
+                  fra_freeze: true
+                  fra_status: false
+                  fra_interval: 12
+                  fra_sensitivity: "HIGH"
+                unlocked_attributes:
+                  - fra_freeze
+                  - fra_status
+                  - fra_interval
+                  - fra_sensitivity
 - name: Add rrm general profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4731,17 +4732,17 @@ EXAMPLES = r"""
     state: merged
     config:
       - feature_template_config:
-        - rrm_general_configuration:
-          - design_name: "rrm_general_24ghz_country_scope"
-            feature_attributes:
-              radio_band: "2_4GHZ"                          # supported only on IOS-XE >= 17.9.1
-              monitoring_channels: "MONITORING_CHANNELS_COUNTRY"
-              neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"
-              throughput_threshold: 150000
-              coverage_hole_detection: true
-            unlocked_attributes:
-              - "monitoring_channels"
-              - "coverage_hole_detection"
+          - rrm_general_configuration:
+              - design_name: "rrm_general_24ghz_country_scope"
+                feature_attributes:
+                  radio_band: "2_4GHZ"                          # supported only on IOS-XE >= 17.9.1
+                  monitoring_channels: "MONITORING_CHANNELS_COUNTRY"
+                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"
+                  throughput_threshold: 150000
+                  coverage_hole_detection: true
+                unlocked_attributes:
+                  - "monitoring_channels"
+                  - "coverage_hole_detection"
 - name: Update rrm general profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4756,17 +4757,17 @@ EXAMPLES = r"""
     state: merged
     config:
       - feature_template_config:
-        - rrm_general_configuration:
-          - design_name: "rrm_general_24ghz_country_scope"
-            feature_attributes:
-              radio_band: "2_4GHZ"                          # supported only on IOS-XE >= 17.9.1
-              monitoring_channels: "MONITORING_CHANNELS_COUNTRY"
-              neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"
-              throughput_threshold: 150000
-              coverage_hole_detection: false
-            unlocked_attributes:
-              - "monitoring_channels"
-              - "coverage_hole_detection"
+          - rrm_general_configuration:
+              - design_name: "rrm_general_24ghz_country_scope"
+                feature_attributes:
+                  radio_band: "2_4GHZ"                          # supported only on IOS-XE >= 17.9.1
+                  monitoring_channels: "MONITORING_CHANNELS_COUNTRY"
+                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"
+                  throughput_threshold: 150000
+                  coverage_hole_detection: false
+                unlocked_attributes:
+                  - "monitoring_channels"
+                  - "coverage_hole_detection"
 - name: Delete rrm general profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4781,17 +4782,17 @@ EXAMPLES = r"""
     state: deleted
     config:
       - feature_template_config:
-        - rrm_general_configuration:
-          - design_name: "rrm_general_24ghz_country_scope"
-            feature_attributes:
-              radio_band: "2_4GHZ"                          # supported only on IOS-XE >= 17.9.1
-              monitoring_channels: "MONITORING_CHANNELS_COUNTRY"
-              neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"
-              throughput_threshold: 150000
-              coverage_hole_detection: false
-            unlocked_attributes:
-              - "monitoring_channels"
-              - "coverage_hole_detection"
+          - rrm_general_configuration:
+              - design_name: "rrm_general_24ghz_country_scope"
+                feature_attributes:
+                  radio_band: "2_4GHZ"                          # supported only on IOS-XE >= 17.9.1
+                  monitoring_channels: "MONITORING_CHANNELS_COUNTRY"
+                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"
+                  throughput_threshold: 150000
+                  coverage_hole_detection: false
+                unlocked_attributes:
+                  - "monitoring_channels"
+                  - "coverage_hole_detection"
 - name: Add rrm general profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4806,19 +4807,19 @@ EXAMPLES = r"""
     state: merged
     config:
       - feature_template_config:
-        - rrm_general_configuration:
-          - design_name: "rrm_general_5ghz_default"
-            feature_attributes:
-              radio_band: "5GHZ"                           # enum: 2_4GHZ, 5GHZ, 6GHZ
-              monitoring_channels: "MONITORING_CHANNELS_DCA"   # enum: MONITORING_CHANNELS_ALL, MONITORING_CHANNELS_COUNTRY, MONITORING_CHANNELS_DCA
-              neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"  # enum: NEIGHBOR_DISCOVER_TYPE_TRANSPARENT, NEIGHBOR_DISCOVER_TYPE_PROTECTED
-              throughput_threshold: 500000                  # 1000..10000000
-              coverage_hole_detection: true
-            unlocked_attributes:
-              - "monitoring_channels"
-              - "neighbor_discover_type"
-              - "throughput_threshold"
-              - "coverage_hole_detection"
+          - rrm_general_configuration:
+              - design_name: "rrm_general_5ghz_default"
+                feature_attributes:
+                  radio_band: "5GHZ"                           # enum: 2_4GHZ, 5GHZ, 6GHZ
+                  monitoring_channels: "MONITORING_CHANNELS_DCA"   # enum: MONITORING_CHANNELS_ALL, MONITORING_CHANNELS_COUNTRY, MONITORING_CHANNELS_DCA
+                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"  # enum: NEIGHBOR_DISCOVER_TYPE_TRANSPARENT, NEIGHBOR_DISCOVER_TYPE_PROTECTED
+                  throughput_threshold: 500000                  # 1000..10000000
+                  coverage_hole_detection: true
+                unlocked_attributes:
+                  - "monitoring_channels"
+                  - "neighbor_discover_type"
+                  - "throughput_threshold"
+                  - "coverage_hole_detection"
 - name: Update rrm general profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4833,19 +4834,19 @@ EXAMPLES = r"""
     state: merged
     config:
       - feature_template_config:
-        - rrm_general_configuration:
-          - design_name: "rrm_general_5ghz_default"
-            feature_attributes:
-              radio_band: "5GHZ"                           # enum: 2_4GHZ, 5GHZ, 6GHZ
-              monitoring_channels: "MONITORING_CHANNELS_DCA"   # enum: MONITORING_CHANNELS_ALL, MONITORING_CHANNELS_COUNTRY, MONITORING_CHANNELS_DCA
-              neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"  # enum: NEIGHBOR_DISCOVER_TYPE_TRANSPARENT, NEIGHBOR_DISCOVER_TYPE_PROTECTED
-              throughput_threshold: 500000                  # 1000..10000000
-              coverage_hole_detection: false
-            unlocked_attributes:
-              - "monitoring_channels"
-              - "neighbor_discover_type"
-              - "throughput_threshold"
-              - "coverage_hole_detection"
+          - rrm_general_configuration:
+              - design_name: "rrm_general_5ghz_default"
+                feature_attributes:
+                  radio_band: "5GHZ"                           # enum: 2_4GHZ, 5GHZ, 6GHZ
+                  monitoring_channels: "MONITORING_CHANNELS_DCA"   # enum: MONITORING_CHANNELS_ALL, MONITORING_CHANNELS_COUNTRY, MONITORING_CHANNELS_DCA
+                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"  # enum: NEIGHBOR_DISCOVER_TYPE_TRANSPARENT, NEIGHBOR_DISCOVER_TYPE_PROTECTED
+                  throughput_threshold: 500000                  # 1000..10000000
+                  coverage_hole_detection: false
+                unlocked_attributes:
+                  - "monitoring_channels"
+                  - "neighbor_discover_type"
+                  - "throughput_threshold"
+                  - "coverage_hole_detection"
 - name: Delete rrm general profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4860,19 +4861,19 @@ EXAMPLES = r"""
     state: deleted
     config:
       - feature_template_config:
-        - rrm_general_configuration:
-          - design_name: "rrm_general_5ghz_default"
-            feature_attributes:
-              radio_band: "5GHZ"                           # enum: 2_4GHZ, 5GHZ, 6GHZ
-              monitoring_channels: "MONITORING_CHANNELS_DCA"   # enum: MONITORING_CHANNELS_ALL, MONITORING_CHANNELS_COUNTRY, MONITORING_CHANNELS_DCA
-              neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"  # enum: NEIGHBOR_DISCOVER_TYPE_TRANSPARENT, NEIGHBOR_DISCOVER_TYPE_PROTECTED
-              throughput_threshold: 500000                  # 1000..10000000
-              coverage_hole_detection: false
-            unlocked_attributes:
-              - "monitoring_channels"
-              - "neighbor_discover_type"
-              - "throughput_threshold"
-              - "coverage_hole_detection"
+          - rrm_general_configuration:
+              - design_name: "rrm_general_5ghz_default"
+                feature_attributes:
+                  radio_band: "5GHZ"                           # enum: 2_4GHZ, 5GHZ, 6GHZ
+                  monitoring_channels: "MONITORING_CHANNELS_DCA"   # enum: MONITORING_CHANNELS_ALL, MONITORING_CHANNELS_COUNTRY, MONITORING_CHANNELS_DCA
+                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"  # enum: NEIGHBOR_DISCOVER_TYPE_TRANSPARENT, NEIGHBOR_DISCOVER_TYPE_PROTECTED
+                  throughput_threshold: 500000                  # 1000..10000000
+                  coverage_hole_detection: false
+                unlocked_attributes:
+                  - "monitoring_channels"
+                  - "neighbor_discover_type"
+                  - "throughput_threshold"
+                  - "coverage_hole_detection"
 - name: Add rrm general profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4887,16 +4888,16 @@ EXAMPLES = r"""
     state: merged
     config:
       - feature_template_config:
-        - rrm_general_configuration:
-          - design_name: "rrm_general_6ghz_high_thr"
-            feature_attributes:
-              radio_band: "6GHZ"
-              monitoring_channels: "MONITORING_CHANNELS_ALL"
-              neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_PROTECTED"
-              throughput_threshold: 2500000
-              coverage_hole_detection: false
-            unlocked_attributes:
-              - "throughput_threshold"
+          - rrm_general_configuration:
+              - design_name: "rrm_general_6ghz_high_thr"
+                feature_attributes:
+                  radio_band: "6GHZ"
+                  monitoring_channels: "MONITORING_CHANNELS_ALL"
+                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_PROTECTED"
+                  throughput_threshold: 2500000
+                  coverage_hole_detection: false
+                unlocked_attributes:
+                  - "throughput_threshold"
 - name: Update rrm general profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4911,16 +4912,16 @@ EXAMPLES = r"""
     state: merged
     config:
       - feature_template_config:
-        - rrm_general_configuration:
-          - design_name: "rrm_general_6ghz_high_thr"
-            feature_attributes:
-              radio_band: "6GHZ"
-              monitoring_channels: "MONITORING_CHANNELS_ALL"
-              neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_PROTECTED"
-              throughput_threshold: 2500000
-              coverage_hole_detection: true
-            unlocked_attributes:
-              - "throughput_threshold"
+          - rrm_general_configuration:
+              - design_name: "rrm_general_6ghz_high_thr"
+                feature_attributes:
+                  radio_band: "6GHZ"
+                  monitoring_channels: "MONITORING_CHANNELS_ALL"
+                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_PROTECTED"
+                  throughput_threshold: 2500000
+                  coverage_hole_detection: true
+                unlocked_attributes:
+                  - "throughput_threshold"
 - name: Delete rrm general profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4935,16 +4936,16 @@ EXAMPLES = r"""
     state: deleted
     config:
       - feature_template_config:
-        - rrm_general_configuration:
-          - design_name: "rrm_general_6ghz_high_thr"
-            feature_attributes:
-              radio_band: "6GHZ"
-              monitoring_channels: "MONITORING_CHANNELS_ALL"
-              neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_PROTECTED"
-              throughput_threshold: 2500000
-              coverage_hole_detection: true
-            unlocked_attributes:
-              - "throughput_threshold"
+          - rrm_general_configuration:
+              - design_name: "rrm_general_6ghz_high_thr"
+                feature_attributes:
+                  radio_band: "6GHZ"
+                  monitoring_channels: "MONITORING_CHANNELS_ALL"
+                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_PROTECTED"
+                  throughput_threshold: 2500000
+                  coverage_hole_detection: true
+                unlocked_attributes:
+                  - "throughput_threshold"
 - name: Add flexconnect profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4959,12 +4960,12 @@ EXAMPLES = r"""
     state: merged
     config:
       - feature_template_config:
-        - flexconnect_configuration:
-            - design_name: "flexconnect_branch_office"
-              feature_attributes:
-                overlap_ip_enable: true
-              unlocked_attributes:
-                - "overlap_ip_enable"
+          - flexconnect_configuration:
+              - design_name: "flexconnect_branch_office"
+                feature_attributes:
+                  overlap_ip_enable: true
+                unlocked_attributes:
+                  - "overlap_ip_enable"
 - name: Update flexconnect profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4979,12 +4980,12 @@ EXAMPLES = r"""
     state: merged
     config:
       - feature_template_config:
-        - flexconnect_configuration:
-            - design_name: "flexconnect_branch_office"
-              feature_attributes:
-                overlap_ip_enable: false
-              unlocked_attributes:
-                - "overlap_ip_enable"
+          - flexconnect_configuration:
+              - design_name: "flexconnect_branch_office"
+                feature_attributes:
+                  overlap_ip_enable: false
+                unlocked_attributes:
+                  - "overlap_ip_enable"
 - name: Delete flexconnect profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4999,12 +5000,12 @@ EXAMPLES = r"""
     state: deleted
     config:
       - feature_template_config:
-        - flexconnect_configuration:
-            - design_name: "flexconnect_branch_office"
-              feature_attributes:
-                overlap_ip_enable: false
-              unlocked_attributes:
-                - "overlap_ip_enable"
+          - flexconnect_configuration:
+              - design_name: "flexconnect_branch_office"
+                feature_attributes:
+                  overlap_ip_enable: false
+                unlocked_attributes:
+                  - "overlap_ip_enable"
 - name: Add aaa radius profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
