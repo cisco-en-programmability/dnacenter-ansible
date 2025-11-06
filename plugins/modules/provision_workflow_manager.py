@@ -3421,26 +3421,57 @@ class Provision(DnacBase):
                 self.log("'skip_ap_provision'  is not specified", "DEBUG")
 
             self.log("Processing rolling AP upgrade settings", "INFO")
+            allowed_ap_reboot_percentages = {5, 10, 25}
+
             if "rolling_ap_upgrade" in prov_params:
-                self.log(
-                    "Found 'rolling_ap_upgrade' in provisioning parameters", "DEBUG"
-                )
-                rolling_ap_upgrade = {}
-                for k, v in prov_params["rolling_ap_upgrade"].items():
-                    if v is not None:
-                        rolling_ap_upgrade[k] = v
+                self.log("Found 'rolling_ap_upgrade' in provisioning parameters", "DEBUG")
+
+                rolling_upgrade_config = {}
+                rolling_upgrade_data = prov_params["rolling_ap_upgrade"]
+
+                if "ap_reboot_percentage" in rolling_upgrade_data:
+                    reboot_percentage_value = rolling_upgrade_data["ap_reboot_percentage"]
+
+                    if reboot_percentage_value is None or not str(reboot_percentage_value).isdigit():
+                        self.msg = (
+                            "Error: Invalid percentage value '{0}'. Must be an integer. "
+                            "Supported values are 5, 10, and 25.".format(reboot_percentage_value)
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                    reboot_percentage_value = int(reboot_percentage_value)
+                    if reboot_percentage_value not in allowed_ap_reboot_percentages:
+                        self.msg = (
+                            "Error: Invalid percentage value '{0}'. "
+                            "Supported values are 5, 10, and 25.".format(reboot_percentage_value)
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                    rolling_upgrade_config["ap_reboot_percentage"] = reboot_percentage_value
+                    self.log(
+                        "Processed 'ap_reboot_percentage': {0}".format(reboot_percentage_value),
+                        "DEBUG",
+                    )
+
+                # Process remaining keys in 'rolling_ap¿_upgrade'
+                for key, value in rolling_upgrade_data.items():
+                    if key == "ap_reboot_percentage":
+                        self.log("Skipping already processed key 'ap_reboot_percentage'", "DEBUG")
+                        continue
+
+                    if value is not None:
+                        rolling_upgrade_config[key] = value
                         self.log(
-                            "Processed 'rolling_ap_upgrade': {0}".format(
-                                rolling_ap_upgrade
-                            ),
+                            "Processed 'rolling_ap_upgrade' key '{0}': {1}".format(key, value),
                             "DEBUG",
                         )
                     else:
                         self.log(
-                            "No 'rolling_ap_upgrade' found in provisioning parameters",
+                            "No '{0}' found in rolling_ap_upgrade, skipping".format(key),
                             "DEBUG",
                         )
-                payload["rollingApUpgrade"] = rolling_ap_upgrade
+
+                payload["rollingApUpgrade"] = rolling_upgrade_config
 
             # Process AP authorization list configuration if provided
             if "ap_authorization_list_name" in prov_params:
