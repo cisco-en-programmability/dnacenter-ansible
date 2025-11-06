@@ -6696,14 +6696,14 @@ class NetworkSettings(DnacBase):
                     return self
 
                 want_network_aaa = self.want.get("wantNetwork")[network_management_index].get("settings", {}).get("network_aaa", {})
-                have_aaa_primary_ip = self.have.get("network")[network_management_index].get("net_details").get("settings", {}).get("network_aaa", {}).get("primaryServerIp", "")
+                have_net_details = self.have.get("network")[network_management_index].get("net_details")
+                have_aaa_primary_ip = have_net_details.get("settings", {}).get("network_aaa", {}).get("primaryServerIp", "")
 
-                # RESET CASE (both empty) 
+                # RESET CASE (both empty)
                 if want_network_aaa == {} and have_aaa_primary_ip not in ("", None):
                     self.msg = "Network AAA Primary IP update not applied on Cisco Catalyst Center"
                     self.status = "failed"
                     return self
-
 
                 self.log(
                     "Successfully validated the network functions '{0}'.".format(
