@@ -353,11 +353,10 @@ options:
             required: false
           port_channel_number:
             description: >
-              - Unique identifier for the Port Channel, assigned automatically by
-                Catalyst Center when the Port Channel is created.
-              - Cannot be specified during creation.
-              - Can only be used for update or delete operations to target a specific
-                Port Channel without specifying existing links.
+              - This value is system-assigned during creation and user provided value will be ignored.
+                Catalyst Center will automatically provide a unique number upon creation.
+              - Specify this value to target a specific Port Channel for update or delete without needing
+                to provide existing link information.
             type: int
             required: false
           links:
