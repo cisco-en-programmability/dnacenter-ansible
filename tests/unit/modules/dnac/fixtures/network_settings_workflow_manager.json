@@ -143,6 +143,19 @@
       }
       ],
 
+  "playbook_reset_aaa":[{
+        "network_management_details": [
+          {
+            "site_name": "Global/Testing/test",
+            "settings": {
+              "network_aaa": {},
+              "client_and_endpoint_aaa": {}
+            }
+          }
+        ]
+      }
+      ],
+
     "get_sites_resetting_server_configuration": {
     "response": [
       {

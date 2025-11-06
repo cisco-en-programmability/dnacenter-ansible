@@ -3829,7 +3829,7 @@ class NetworkSettings(DnacBase):
             want_network_settings = want_network.get("settings")
             self.log("Current state (have): {0}".format(self.have), "DEBUG")
             have_network_details = self.have.get("network")[network_management_index].get("net_details").get("settings")
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
                 if item.get("dhcp_server") is not None:
                     want_network_settings.update({
                         "dhcpServer": item.get("dhcp_server")
@@ -5833,7 +5833,7 @@ class NetworkSettings(DnacBase):
             param = {"id": site_id, "aaaClient": client_and_endpoint_aaa}
 
         if network_aaa == {} and client_and_endpoint_aaa == {}:
-            payload = {"settings": {"aaaNetwork": {}, "aaaClient": {}}}
+            payload = {"aaaNetwork": {}, "aaaClient": {}}
             param = {"id": site_id, "payload": payload}
 
         try:
@@ -5889,8 +5889,8 @@ class NetworkSettings(DnacBase):
             # Check update is required or not
             skip_update = False
 
-            # Only apply extra checks for versions > 2.3.7.6
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+            # Only apply extra checks for versions > 2.3.7.9
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
                 empty_settings = [
                     network_aaa,
                     client_and_endpoint_aaa,
@@ -5961,7 +5961,7 @@ class NetworkSettings(DnacBase):
                 "Network parameters for 'update_network_v2': {0}".format(net_params),
                 "DEBUG",
             )
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
                 if "client_and_endpoint_aaa" in net_params["settings"]:
                     net_params["settings"]["clientAndEndpoint_aaa"] = net_params[
                         "settings"
@@ -6694,6 +6694,16 @@ class NetworkSettings(DnacBase):
                     self.msg = "Network Functions Config is not applied to the Cisco Catalyst Center"
                     self.status = "failed"
                     return self
+
+                want_network_aaa = self.want.get("wantNetwork")[network_management_index].get("settings", {}).get("network_aaa", {})
+                have_aaa_primary_ip = self.have.get("network")[network_management_index].get("net_details").get("settings", {}).get("network_aaa", {}).get("primaryServerIp", "")
+
+                # RESET CASE (both empty) 
+                if want_network_aaa == {} and have_aaa_primary_ip not in ("", None):
+                    self.msg = "Network AAA Primary IP update not applied on Cisco Catalyst Center"
+                    self.status = "failed"
+                    return self
+
 
                 self.log(
                     "Successfully validated the network functions '{0}'.".format(
