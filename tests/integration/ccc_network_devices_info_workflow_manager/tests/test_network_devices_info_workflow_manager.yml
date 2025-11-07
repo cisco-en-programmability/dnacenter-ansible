@@ -33,7 +33,7 @@
   - name: Get Network Devices Info
     cisco.dnac.network_devices_info_workflow_manager:
       <<: *dnac_login
-      state: merged
+      state: gathered
       config:
           - "{{ item }}"
     loop: "{{ vars_map.get_devices_info }}"
