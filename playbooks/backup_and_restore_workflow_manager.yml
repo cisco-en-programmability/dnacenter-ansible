@@ -62,6 +62,7 @@
           - backup:
               - name: BACKUP29_09
                 scope: CISCO_DNA_DATA_WITHOUT_ASSURANCE
+                backup_task_timeout: 1100
       tags: backup_creation
 
     - name: Restore backup
@@ -72,6 +73,7 @@
           - restore_operations:
               - name: "BACKUP29_09"
                 encryption_passphrase: "{{ restore_operations.encryption_passphrase }}"
+                restore_task_timeout: 3800
       tags: restore_backup
 
     - name: Delete NFS configuration from backup infrastructure
