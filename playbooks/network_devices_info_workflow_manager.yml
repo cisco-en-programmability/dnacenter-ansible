@@ -19,7 +19,7 @@
         config_verify: false
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        state: merged
+        state: gathered
         config:
           - network_devices:
               - site_hierarchy: Global/USA/SAN JOSE

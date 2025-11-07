@@ -44,8 +44,8 @@ options:
   state:
     description: The desired state of the configuration after module execution.
     type: str
-    choices: ["merged"]
-    default: merged
+    choices: ["gathered"]
+    default: gathered
   config:
     description:
       - List of dictionaries specifying network device query parameters.
@@ -905,7 +905,7 @@ class NetworkDevicesInfo(DnacBase):
     """Class containing member attributes for network_devices_info_workflow_manager module"""
     def __init__(self, module):
         super().__init__(module)
-        self.supported_states = ['merged']
+        self.supported_states = ['gathered']
         self.total_response = []
 
     def validate_input(self):
@@ -1242,7 +1242,7 @@ class NetworkDevicesInfo(DnacBase):
         self.log("Network devices information workflow desired state extraction completed successfully", "DEBUG")
         return self
 
-    def get_diff_merged(self, config):
+    def get_diff_gathered(self, config):
         """
         Processes the device configuration and retrieves requested information for each network device.
 
@@ -1574,13 +1574,8 @@ class NetworkDevicesInfo(DnacBase):
                             )
                             devices = response.get("response", [])
                             self.log("Received API response for {0}={1}: {2}".format(key, ip_or_value, response), "DEBUG")
-                            managed_devices = [
-                                device for device in devices
-                                if device.get("collectionStatus") == "Managed"
-                                or device.get("reachabilityStatus") == "Reachable"
-                            ]
-                            if managed_devices:
-                                matched_devices.extend(managed_devices)
+                            if devices:
+                                matched_devices.extend(devices)
                                 device_found = True
                                 break
                         except Exception as e:
@@ -1592,11 +1587,11 @@ class NetworkDevicesInfo(DnacBase):
                         missing_ips.append(ip_or_value)
 
                 if missing_ips:
-                    display_value = "IP(s) not found: {}".format(", ".join(missing_ips))
+                    display_value = ", ".join(missing_ips)
                     self.msg = (
-                        "No managed devices found for the following identifiers: {0}. "
-                        "Device(s) may be unreachable, unmanaged, or not present in Catalyst Center inventory."
-                    ).format(display_value)
+                        "No managed devices found for the following identifiers {0}: {1}. "
+                        "Device(s) may not be present in Catalyst Center inventory."
+                    ).format(key, display_value)
                     self.set_operation_result("success", False, self.msg, "INFO")
                     if self.msg not in self.total_response:
                         self.total_response.append(self.msg)
@@ -1674,13 +1669,8 @@ class NetworkDevicesInfo(DnacBase):
                                 )
                                 devices = response.get("response", [])
                                 self.log("Received API response for {0}={1}: {2}".format(key, ip_or_value, response), "DEBUG")
-                                managed_devices = [
-                                    device for device in devices
-                                    if device.get("managementState") == "Managed"
-                                    or device.get("reachabilityStatus") == "Reachable"
-                                ]
-                                if managed_devices:
-                                    for device in managed_devices:
+                                if devices:
+                                    for device in devices:
                                         uuid = device.get("instanceUuid")
                                         ip = device.get("managementIpAddress")
                                         if uuid and ip:
@@ -1699,7 +1689,7 @@ class NetworkDevicesInfo(DnacBase):
                         display_value = ", ".join(missing_ips)
                         self.msg = (
                             "No managed devices found for the following {0}(s): {1}. "
-                            "Device(s) may be unreachable, unmanaged, or not present in Catalyst Center inventory."
+                            "Device(s) may not be present in Catalyst Center inventory."
                         ).format(key, display_value)
                         self.set_operation_result("success", False, self.msg, "INFO")
                         if self.msg not in self.total_response:
@@ -1997,11 +1987,8 @@ class NetworkDevicesInfo(DnacBase):
                         devices = response.get("response", [])
 
                         if devices:
-                            management_status = devices[0].get("managementState")
-                            self.log("Device management state: {0}".format(management_status), "DEBUG")
-                            if management_status == "Managed":
-                                all_devices.extend(devices)
-                                device_id = devices[0].get("instanceUuid")
+                            all_devices.extend(devices)
+                            device_id = devices[0].get("instanceUuid")
 
                         if len(devices) < limit:
                             self.log("No more network devices returned (less than limit {0}).".format(limit), "DEBUG")
@@ -3525,7 +3512,7 @@ def main():
                     'dnac_api_task_timeout': {'type': 'int', "default": 1200},
                     'dnac_task_poll_interval': {'type': 'int', "default": 2},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
-                    'state': {'default': 'merged', 'choices': ['merged']}
+                    'state': {'default': 'gathered', 'choices': ['gathered']}
                     }
 
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)

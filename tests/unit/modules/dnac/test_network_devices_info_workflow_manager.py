@@ -54,7 +54,6 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
     playbook_negative_scenario8 = test_data.get("playbook_negative_scenario8")
     playbook_negative_scenario9 = test_data.get("playbook_negative_scenario9")
     playbook_no_network_device = test_data.get("playbook_no_network_device")
-    playbook_negative_scenario10 = test_data.get("playbook_negative_scenario10")
     playbook_no_device = test_data.get("playbook_no_device")
     playbook_negative_scenario11 = test_data.get("playbook_negative_scenario11")
 
@@ -234,13 +233,6 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 self.test_data.get("ip_address_15"),
             ]
 
-        elif "playbook_negative_scenario10" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_network_devices17"),
-                self.test_data.get("get_sites11"),
-                self.test_data.get("get_sites12"),
-            ]
-
         elif "playbook_no_device" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites14"),
@@ -268,7 +260,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_device_info
             )
@@ -364,7 +356,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_linecard_info
             )
@@ -399,7 +391,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_supervisor_card_info
             )
@@ -434,7 +426,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_poe_details
             )
@@ -475,7 +467,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_module_count_info
             )
@@ -512,7 +504,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_device_interfaces_by_range_info
             )
@@ -5106,7 +5098,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_device_summary_info
             )
@@ -5145,7 +5137,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_get_polling_interval
             )
@@ -5180,7 +5172,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_get_stack_info
             )
@@ -5259,7 +5251,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_devicelink_mismatch
             )
@@ -5355,7 +5347,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_interface_info
             )
@@ -10150,7 +10142,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_config_info
             )
@@ -11022,7 +11014,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_connected_device_info
             )
@@ -11139,7 +11131,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_interface_vlan_info
             )
@@ -11363,7 +11355,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario1
             )
@@ -11386,7 +11378,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario2
             )
@@ -11414,7 +11406,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario3
             )
@@ -11441,7 +11433,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario4
             )
@@ -11464,7 +11456,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario5
             )
@@ -11494,7 +11486,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario6
             )
@@ -11517,7 +11509,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario7
             )
@@ -11540,7 +11532,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario8
             )
@@ -11563,7 +11555,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario9
             )
@@ -11590,7 +11582,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_no_network_device
             )
@@ -11600,8 +11592,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             [
-                "No managed devices found for the following identifiers: IP(s) not found: 204.1.2.10. "
-                "Device(s) may be unreachable, unmanaged, or not present in Catalyst Center inventory.",
+                "No managed devices found for the following identifiers ip_address: 204.1.2.10. Device(s) may not be present in Catalyst Center inventory.",
                 "No managed devices found matching all specified identifiers (['ip_address', 'serial_number', 'hostname', 'mac_address']).",
                 "No network devices found for the given filters."
             ]
@@ -11618,7 +11609,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.9",
                 config=self.playbook_no_device
             )
@@ -11664,7 +11655,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 dnac_version="2.3.7.6",
                 config=self.playbook_negative_scenario11
             )
