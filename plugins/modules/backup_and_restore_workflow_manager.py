@@ -40,15 +40,6 @@ author:
   - Madhan Sankaranarayanan (@madhansansel)
 
 options:
-  dnac_api_task_timeout:
-    description:
-      - Time in seconds to wait for API tasks to complete before timing out.
-      - For backup operations (creation/deletion), default timeout of 1200 seconds is typically sufficient.
-      - For restore operations, use a significantly higher value (minimum 3600 seconds or above)
-        as restore processes can take substantially longer depending on backup size and system load.
-      - If timeout is reached, the operation may still be running on Catalyst Center backend.
-    type: int
-    default: 1200
   config_verify:
     description:
       - Set to True to verify the Cisco Catalyst Center after applying changes.
@@ -222,6 +213,14 @@ options:
               - Determines what data types are included in backup operations.
             type: str
             choices: ["CISCO_DNA_DATA_WITH_ASSURANCE", "CISCO_DNA_DATA_WITHOUT_ASSURANCE"]
+          backup_task_timeout:
+            description:
+              - Maximum time in seconds to wait for backup creation task to complete.
+              - Controls timeout duration for monitoring backup operation progress and completion.
+              - If timeout is exceeded, the operation may still continue on Catalyst Center backend.
+              - Recommended values are 1200-3600 seconds depending on backup scope and data size.
+            type: int
+            default: 1200
           delete_all_backup:
             description:
               - Set to C(true) to delete all existing backups from Cisco Catalyst Center.
@@ -261,6 +260,15 @@ options:
               - Passphrase for decrypting backup data during restore operations.
               - Must match the passphrase used during backup creation.
             type: str
+          restore_task_timeout:
+            description:
+              - Maximum time in seconds to wait for restore operation task to complete.
+              - Controls timeout duration for monitoring backup restoration progress and completion.
+              - Restore operations typically require more time than backup creation due to data validation and system recovery processes.
+              - If timeout is exceeded, the operation may still continue on Catalyst Center backend.
+              - Recommended values are 3600-7200 seconds (1-2 hours) depending on backup size and system performance.
+            type: int
+            default: 3600
 
 requirements:
 - dnacentersdk >= 2.9.3
@@ -851,7 +859,6 @@ class BackupRestore(DnacBase):
         super().__init__(module)
         self.supported_states = ["merged", "deleted"]
         self.total_response = []
-        self.max_timeout = self.params.get('dnac_api_task_timeout')
         self.created_nfs_config = []
         self.already_exists_nfs_config = []
         self.deleted_nfs_config = []
@@ -1000,6 +1007,10 @@ class BackupRestore(DnacBase):
                         "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
                     ]
                 },
+                "backup_task_timeout": {
+                    "type": "int",
+                    "default": 1200
+                },
                 "generate_new_backup": {
                     "type": "bool",
                     "default": False
@@ -1018,6 +1029,10 @@ class BackupRestore(DnacBase):
                 "name": {
                     "type": "str",
                     "required": True
+                },
+                "restore_task_timeout": {
+                    "type": "int",
+                    "default": 3600
                 },
                 "encryption_passphrase": {
                     "type": "str",
@@ -1866,7 +1881,6 @@ class BackupRestore(DnacBase):
             name = backup_details.get("name")
             scope = backup_details.get("scope")
             generate_new_backup = backup_details.get("generate_new_backup", False)
-            self.log(generate_new_backup)
 
             if not name or not scope:
                 self.msg = (
@@ -1935,7 +1949,6 @@ class BackupRestore(DnacBase):
             self.log("No restore operations specified - skipping restoration processing", "DEBUG")
             return self
 
-        # Process each restore request for validation and execution
         for restore_index, restore_detail in enumerate(expected_restore_details):
             backup_name = restore_detail.get("name")
             encryption_passphrase = restore_detail.get("encryption_passphrase")
@@ -2276,6 +2289,13 @@ class BackupRestore(DnacBase):
             self.log("Received API response from 'create_backup': {0}".format(response), "DEBUG")
 
             task_id = self.get_backup_task_id_from_response(response, "create_backup")
+
+            backup_ops = self.want.get("backup", [])
+            self.log("Backup operations from input: {0}".format(backup_ops), "DEBUG")
+            if backup_ops:
+                self.max_timeout = backup_ops[0].get("backup_task_timeout", 1200)
+                self.log("Backup task timeout set to: {0} seconds".format(self.max_timeout), "DEBUG")
+
             status = self.get_backup_status_by_task_id(task_id)
 
             if status not in ["FAILED", "CANCELLED", "IN_PROGRESS"]:
@@ -2371,6 +2391,11 @@ class BackupRestore(DnacBase):
                 self.restored_backup.append(name)
 
                 task_id = self.get_backup_task_id_from_response(response, "restore_backup")
+
+                if restore_operations:
+                    self.max_timeout = restore_operations[0].get("restore_task_timeout", 3600)
+                    self.log("Restore task timeout set to: {0} seconds".format(self.max_timeout), "DEBUG")
+
                 status = self.get_backup_status_by_task_id(task_id)
 
                 if status not in ["FAILED", "CANCELLED", "IN_PROGRESS"]:
@@ -2448,6 +2473,8 @@ class BackupRestore(DnacBase):
             return "UNKNOWN"
 
         start_time = time.time()
+
+        self.log("Task timeout set to: {0} seconds".format(self.max_timeout), "DEBUG")
 
         while True:
             elapsed_time = time.time() - start_time
