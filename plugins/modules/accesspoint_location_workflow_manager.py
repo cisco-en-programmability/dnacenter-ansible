@@ -1686,7 +1686,7 @@ class AccessPointLocation(DnacBase):
         if self.location_not_created:
             not_created_msg = ', '.join(map(str, self.location_not_created))
             self.msg += f" Unable to process the following Planned Access Point position(s): '{not_created_msg}'."
-            self.msg += f" They may not have been created or already exist."
+            self.msg += " They may not have been created or already exist."
             self.log(self.msg, "DEBUG")
             self.changed = False
             self.status = "failed"
@@ -1845,7 +1845,7 @@ class AccessPointLocation(DnacBase):
             self.status = "failed"
 
         if len(self.location_already_deleted) == len(config.get("access_points", [])):
-            self.msg = f"No Changes required, planned/real Access Point position(s) already deleted and verified successfully "
+            self.msg = "No Changes required, planned/real Access Point position(s) already deleted and verified successfully "
             self.msg += f"for '{self.location_already_deleted}'."
             self.changed = False
             self.status = "success"
