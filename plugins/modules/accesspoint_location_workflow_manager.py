@@ -548,7 +548,7 @@ response_create_assign_idempotent:
     }
 
 # Case 8: Unassign the access point from existing access points real position.
-response_unassign_idempotent:
+response_unassign_real_position:
   description: >
     A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK
     when a access point real position is successfully unassigned. The response confirms
