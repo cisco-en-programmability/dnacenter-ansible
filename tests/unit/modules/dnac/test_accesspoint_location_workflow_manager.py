@@ -122,7 +122,7 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "Access Point Location created successfully",
+            "Planned Access Point position(s) created successfully",
             result.get('msg')
         )
 
@@ -160,7 +160,7 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "Access Point planned/assigned Location(s) deleted and verified successfully for '['IAC-TB4-SJ-AP1']'.",
+            "Planned Access Point position(s) deleted and verified successfully for '['IAC-TB4-SJ-AP1']'.",
             result.get('msg')
         )
 
@@ -179,6 +179,6 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "Access Point Location created successfully",
+            "Planned Access Point position(s) created successfully",
             result.get('msg')
         )
