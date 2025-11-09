@@ -67,12 +67,12 @@ options:
         point within all records returned by the API.
         It's one based offset. The starting value is
         1.
-    type: float
+    type: int
   limit:
     description:
       - Limit query parameter. Maximum number of records
         to return.
-    type: float
+    type: int
 requirements:
   - dnacentersdk >= 2.10.1
   - python >= 3.5

@@ -23,12 +23,12 @@ options:
     description:
       - Offset query parameter. The offset of the first
         application to be returned.
-    type: float
+    type: int
   limit:
     description:
       - Limit query parameter. The maximum number of
         applications to be returned.
-    type: float
+    type: int
   name:
     description:
       - Name query parameter. Application's name.

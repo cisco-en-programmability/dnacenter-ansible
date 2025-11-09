@@ -49,13 +49,13 @@ options:
       - Limit query parameter. Max number of device
         entries in the response (default to 50. Max
         at 500).
-    type: float
+    type: int
   offset:
     description:
       - Offset query parameter. The offset of the first
         device in the returned data (Mutiple of 'limit'
         + 1).
-    type: float
+    type: int
 requirements:
   - dnacentersdk >= 2.10.1
   - python >= 3.5
