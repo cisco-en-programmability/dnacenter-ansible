@@ -40,6 +40,15 @@ author:
   - Madhan Sankaranarayanan (@madhansansel)
 
 options:
+  dnac_api_task_timeout:
+    description:
+      - Time in seconds to wait for API tasks to complete before timing out.
+      - For backup operations (creation/deletion), default timeout of 1200 seconds is typically sufficient.
+      - For restore operations, use a significantly higher value (minimum 3600 seconds or above)
+        as restore processes can take substantially longer depending on backup size and system load.
+      - If timeout is reached, the operation may still be running on Catalyst Center backend.
+    type: int
+    default: 1200
   config_verify:
     description:
       - Set to True to verify the Cisco Catalyst Center after applying changes.
@@ -2345,7 +2354,7 @@ class BackupRestore(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             payload = {
-                "encryption_passphrase": encryption_passphrase
+                "encryptionPassphrase": encryption_passphrase
             }
 
             self.log("Payload for restore operation: {0}".format(json.dumps(payload, indent=4)), "DEBUG")
