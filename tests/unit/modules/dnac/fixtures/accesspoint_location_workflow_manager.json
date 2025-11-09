@@ -301,7 +301,7 @@
         "access_points": [
             {
             "accesspoint_name": "IAC-TB4-SJ-AP1",
-            "action": "assign_planned",
+            "action": "assign_planned_ap",
             "mac_address": "54:8a:ba:22:eb:c0",
             "accesspoint_model": "CW9172H",
             "position": {"x_position": 30, "y_position": 20, "z_position": 8},
