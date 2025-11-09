@@ -51,14 +51,14 @@ options:
         Offset query parameter. The first record to
         show for this page; the first record is numbered
         1. Default value is 1.
-    type: float
+    type: int
   limit:
     description:
       - >
         Limit query parameter. The number of records
         to show for this page. Minimum value is 1. Maximum
         value is 500. Default value is 500.
-    type: float
+    type: int
   sortBy:
     description:
       - SortBy query parameter. A property within the
