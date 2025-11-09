@@ -13,12 +13,12 @@ __author__ = ["A Mohamed Rafeek, Madhan Sankaranarayanan"]
 DOCUMENTATION = r"""
 ---
 module: accesspoint_location_workflow_manager
-short_description: Resource module for managing Access Point planned locations and assigned positions in Cisco Catalyst Center
+short_description: Resource module for managing Access Point planned positions and real positions in Cisco Catalyst Center
 description: >
-  This module facilitates the creation, update, assignment and deletion of Access Point planned locations
+  This module facilitates the creation, update, assignment and deletion of planned and real Access Point positions
   in Cisco Catalyst Center.
-  - Supports creating, assigning and deleting Access Point planned locations.
-  - Enables assignment of the access point to floor plans.
+  - Supports creating, assigning and deleting planned and real Access Point positions.
+  - Enables assignment of the access point to the planned positions.
 version_added: "6.40.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -42,39 +42,40 @@ options:
     default: merged
   config:
     description: >
-      A list containing the details required for creating or updating the Access Point planned location.
+      A list containing the details required for creating, updating or removing
+      the Access Point planned and real positions.
     type: list
     elements: dict
     required: true
     suboptions:
       floor_site_hierarchy:
         description: >
-          Complete floor site hierarchy for the access point location.
+          Complete floor site hierarchy for the access point position.
         type: str
         required: true
       access_points:
         description: >
-          List of access points to be configured at the specified location.
+          List of access points to be configured at the specified position.
         type: list
         elements: dict
         required: true
         suboptions:
           accesspoint_name:
             description: >
-              Name of the access point to be assigned to the location.
+              Name of the access point to be assigned to the position.
             type: str
             required: true
           action:
             description: >
               The action to be performed on the access point.
-              Determines how the access point will be managed within the specified location.
-              This field is only required when assigning or deleting the access point to/from an existing planned location.
-              It is not required when creating, updating, or deleting a planned access point location itself.
+              Determines how the access point will be managed within the specified position.
+              This field is only required when assigning or deleting the access point to/from an existing planned position.
+              It is not required when creating, updating, or deleting a planned access point position itself.
             type: str
             required: true
             choices:
-              - C(assign_planned)
-              - C(delete_position)
+              - C(assign_planned_ap)
+              - C(manage_real_ap)
           mac_address:
             description: |
               The MAC address used to identify the access point.
@@ -207,7 +208,7 @@ EXAMPLES = r"""
   gather_facts: false
   connection: local
   tasks:
-    - name: Create planned access point location for the access points
+    - name: Create planned access point positions for the access points
       cisco.dnac.accesspoint_location_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -248,7 +249,7 @@ EXAMPLES = r"""
                       azimuth: 1  # support upto 360
                       elevation: 30  # support -90 upto 90
 
-    - name: Create planned access point floor location and assign the access points
+    - name: Create planned access point position and assign the real access points
       cisco.dnac.accesspoint_location_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -267,7 +268,7 @@ EXAMPLES = r"""
           - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
             access_points:
               - accesspoint_name: IAC-TB4-SJ-AP1
-                action: assign_planned  # Assign the planned location to the access point
+                action: assign_planned_ap  # Assign the planned position to the access point
                 mac_address: 54:8a:ba:22:eb:c0  # Optional
                 accesspoint_model: CW9172H
                 position:
@@ -290,7 +291,7 @@ EXAMPLES = r"""
                       azimuth: 1  # support upto 360
                       elevation: 30  # support -90 upto 90
 
-    - name: Update planned access point location for the access points
+    - name: Update planned access point position to the access points
       cisco.dnac.accesspoint_location_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -331,8 +332,8 @@ EXAMPLES = r"""
                       azimuth: 10  # support upto 360
                       elevation: 30  # support -90 upto 90
 
-    # Delete planned access point location for the access points
-    - name: Delete planned access point location for the access points
+    # Delete planned access point position for the planned access points
+    - name: Delete planned access point position for the planned access points
       cisco.dnac.accesspoint_location_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -352,8 +353,8 @@ EXAMPLES = r"""
             access_points:
               - accesspoint_name: IAC-TB4-SJ-AP1
 
-    # Assign the access point to existing access points planned location.
-    - name: Assign the access point to existing access points planned location.
+    # Assign the real access point to existing planned accesspoint position.
+    - name: Assign the access point to existing access points planned position.
       cisco.dnac.accesspoint_location_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -372,7 +373,7 @@ EXAMPLES = r"""
           - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
             access_points:
               - accesspoint_name: IAC-TB4-SJ-AP1
-                action: assign_planned  # Assign the planned location to the access point
+                action: assign_planned_ap  # Assign the planned position to the real access point
                 mac_address: 54:8a:ba:22:eb:c0  # Optional
                 accesspoint_model: CW9172H
                 position:
@@ -395,8 +396,8 @@ EXAMPLES = r"""
                       azimuth: 1  # support upto 360
                       elevation: 30  # support -90 upto 90
 
-    # Delete assigned access point from the floor location
-    - name: Unassign the access point from the floor location
+    # Delete assigned access point from the real floor position
+    - name: Unassign the access point from the real floor position
       cisco.dnac.accesspoint_location_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -415,22 +416,22 @@ EXAMPLES = r"""
           - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
             access_points:
               - accesspoint_name: IAC-TB4-SJ-AP1
-                action: delete_position  # Delete the access point from the floor location
+                action: manage_real_ap  # Delete the access point from the real position
 """
 
 RETURN = r"""
-# Case 1: Create planned access point location for the access points
+# Case 1: Create planned access point position for the access points
 response_create:
   description: >
     A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK
-    when a access point planned location is successfully created. The response confirms the successful
-    creation of the planned location and provides details about the status, including its access point name
+    when a access point planned position is successfully created. The response confirms the successful
+    creation of the planned position and provides details about the status, including its access point name
     and status.
   returned: always
   type: dict
   sample: >
     {
-        "msg": "Access Point Location created successfully for 'Global/USA/California/SAN JOSE/BLD24/Floor3'.",
+        "msg": "Planned Access Point Position created successfully for 'Global/USA/California/SAN JOSE/BLD24/Floor3'.",
         "response": [
             [
                 "IAC-TB4-SJ-AP1"
@@ -439,19 +440,19 @@ response_create:
         "status": "success"
     }
 
-# Case 2: Create planned access point floor location and assign the access points
+# Case 2: Create planned access point floor position and assign the access points
 response_create_assign:
   description: >
     A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK
-    when a access point planned location is successfully created and assigned. The response confirms
-    the successful creation of the planned location and provides details about the status,
+    when a access point planned position is successfully created and assigned. The response confirms
+    the successful creation of the planned position and provides details about the status,
     including its access point name and status.
   returned: always
   type: dict
   sample: >
     {
-        "msg": "Access Point Location created successfully for 'Global/USA/California/SAN JOSE/BLD24/Floor3'.
-                Following Access Point(s) assigned to planned location(s): '['IAC-TB4-SJ-AP1']'.",
+        "msg": "Planned Access Point Position created successfully for 'Global/USA/California/SAN JOSE/BLD24/Floor3'.
+                Following real Access Point(s) assigned to planned location(s): '['IAC-TB4-SJ-AP1']'.",
         "response": [
             [
                 "IAC-TB4-SJ-AP1"
@@ -460,32 +461,32 @@ response_create_assign:
         "status": "success"
     }
 
-# Case 3: Idempotent Create planned access point location for the accesspoint
+# Case 3: Idempotent Create planned access point position for the accesspoint
 response_create_idempotent:
   description: >
     A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
-    This response is provided when attempting to create planned access point locations in an idempotent manner.
-    If the locations are already created, the response indicates that no changes were required.
+    This response is provided when attempting to create planned access point positions in an idempotent manner.
+    If the positions are already created, the response indicates that no changes were required.
   returned: always
   type: dict
   sample: >
     {
-        "msg": "No Changes required, Access Point Location(s) already exist. Following Access Point Location(s): 'IAC-TB4-SJ-AP1' already exist.",
+        "msg": "No Changes required, planned Access Point position(s) already exist. Following planned Access Point Position(s): 'IAC-TB4-SJ-AP1' already exist.",
         "response": [],
         "status": "success"
     }
 
-# Case 4: Update planned access point location for the access points
-response_update_location:
+# Case 4: Update planned access point position for the access points
+response_update_position:
   description: >
     A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK
-    when a planned access point location is successfully updated. The response confirms the
-    update and provides details about the updated location.
+    when a planned access point position is successfully updated. The response confirms the
+    update and provides details about the updated position.
   returned: always
   type: dict
   sample: >
     {
-        "msg": "Access Point Location updated successfully for 'Global/USA/California/SAN JOSE/BLD24/Floor3'.",
+        "msg": "Access Point position updated successfully for 'Global/USA/California/SAN JOSE/BLD24/Floor3'.",
         "response": [
             [
                 "IAC-TB4-SJ-AP1"
@@ -494,69 +495,69 @@ response_update_location:
         "status": "success"
     }
 
-# Case 5: Successfully deleted the planned access point location
-response_delete_planned_location:
+# Case 5: Successfully deleted the planned access point position
+response_delete_planned_position:
   description: >
     A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK
-    when a planned access point location is successfully deleted. The response confirms the
-    deletion and provides details about the location and access point(s) affected.
+    when a planned access point position is successfully deleted. The response confirms the
+    deletion and provides details about the position and access point(s) affected.
   returned: always
   type: dict
   sample: >
     {
-        "msg": "Access Point planned Location(s) deleted and verified successfully for '['IAC-TB4-SJ-AP1']'.",
+        "msg": "Planned Access Point position(s) deleted and verified successfully for '['IAC-TB4-SJ-AP1']'.",
         "response": [
             "IAC-TB4-SJ-AP1"
         ],
         "status": "success"
     }
 
-# Case 6: Idempotent delete the planned access point location
-response_unassign_template:
+# Case 6: Idempotent delete the planned access point position
+response_unassign_idempotent:
   description: >
     A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK
-    when a template is successfully unassigned from a switch profile. The response confirms the
-    unassignment and provides details about the profile and the template(s) affected.
+    when a planned access point position is successfully unassigned. The response confirms the
+    unassignment and provides details about the position and the access point(s) affected.
   returned: always
   type: dict
   sample: >
     {
-        "msg": "No Changes required, Access Point Location(s) already deleted
+        "msg": "No Changes required, planned Access Point position(s) already deleted
                 and verified successfully for '['IAC-TB4-SJ-AP1']'.",
         "response": [],
         "status": "success"
     }
 
-# Case 7: Assign the access point to existing access points planned location.
+# Case 7: Assign the access point to existing access points planned position.
 response_create_assign_idempotent:
   description: >
     A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK
-    when a access point planned location is successfully created and assigned. The response confirms
-    the successful creation of the planned location and provides details about the status,
+    when a access point planned position is successfully created and assigned. The response confirms
+    the successful creation of the planned position and provides details about the status,
     including its access point name and status.
   returned: always
   type: dict
   sample: >
     {
-        "msg": "No Changes required, Access Point Location(s) already exist.
-                Following Access Point(s) assigned to planned location(s): '['IAC-TB4-SJ-AP1']'.
-                Following Access Point Location(s): 'None' already exist.",
+        "msg": "No Changes required, planned Access Point position(s) already exist.
+                Following real Access Point(s) assigned to planned position(s): '['IAC-TB4-SJ-AP1']'.
+                Following Access Point position(s): 'None' already exist.",
         "response": [],
         "status": "success"
     }
 
-# Case 8: Unassign the access point from existing access points planned location.
+# Case 8: Unassign the access point from existing access points real position.
 response_unassign_idempotent:
   description: >
     A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK
-    when a access point planned location is successfully unassigned. The response confirms
-    the successful unassignment of the planned location and provides details about the status,
+    when a access point real position is successfully unassigned. The response confirms
+    the successful unassignment of the real position and provides details about the status,
     including its access point name and status.
   returned: always
   type: dict
   sample: >
     {
-        "msg": "Access Point planned/assigned Location(s) deleted and verified successfully for '['IAC-TB4-SJ-AP1']'.",
+        "msg": "Real Access Point position(s) deleted and verified successfully for '['IAC-TB4-SJ-AP1']'.",
         "response": [
             "IAC-TB4-SJ-AP1"
         ],
@@ -577,7 +578,7 @@ from ansible.module_utils.basic import AnsibleModule
 
 
 class AccessPointLocation(DnacBase):
-    """Class containing member attributes for network profile workflow manager module"""
+    """Class containing member attributes for access point position workflow manager module"""
 
     def __init__(self, module):
         super().__init__(module)
@@ -633,7 +634,7 @@ class AccessPointLocation(DnacBase):
                 "elements": "dict",
                 "accesspoint_name": {"type": "str", "required": True},
                 "action": {"type": "str", "required": False,
-                           "choices": ["assign_planned", "delete_position"]},
+                           "choices": ["assign_planned_ap", "manage_real_ap"]},
                 "mac_address": {"type": "str"},
                 "serial_number": {"type": "str"},
                 "accesspoint_model": {"type": "str", "required": False},
@@ -681,18 +682,18 @@ class AccessPointLocation(DnacBase):
 
     def input_data_validation(self, config):
         """
-        Additional validation to check if the provided input switch profile is correct
+        Additional validation to check if the provided input Access Point position is correct
         and as per the UI Cisco Catalyst Center.
 
         Parameters:
             self (object): An instance of a class for interacting with Cisco Catalyst Center.
-            config (dict): Dictionary containing the Access point planned location details.
+            config (dict): Dictionary containing the Access point planned position details.
 
         Returns:
-            list: List of invalid access point location data with details.
+            list: List of invalid access point position data with details.
 
         Description:
-            Iterates through available access point location details and Returns the list of invalid
+            Iterates through available access point position details and Returns the list of invalid
             data for further action or validation.
         """
         self.log(
@@ -794,10 +795,10 @@ class AccessPointLocation(DnacBase):
             errormsg (list): A list to collect error messages.
 
         Returns:
-            list: List of invalid access point location radios data with details.
+            list: List of invalid access point position radios data with details.
 
         Description:
-            Iterates through available access point location radios details and Returns the list of invalid
+            Iterates through available access point position radios details and Returns the list of invalid
             data for further action or validation.
 
         """
@@ -874,18 +875,17 @@ class AccessPointLocation(DnacBase):
 
     def get_want(self, config):
         """
-        Retrieve access point planned location playbook config
+        Retrieve access point planned position playbook config
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            config (dict): The configuration dictionary containing access point location details.
-
+            config (dict): The configuration dictionary containing access point position details.
         Returns:
             self: The current instance of the class with updated 'want' attributes.
 
         Description:
             This function parses the playbook configuration to extract information related
-            to access point location profile. It stores these details in the 'want' dictionary
+            to access point position details. It stores these details in the 'want' dictionary
             for later use in the Ansible module.
         """
         self.log(f"Validating input data and update to want for: {config}", "INFO")
@@ -902,18 +902,18 @@ class AccessPointLocation(DnacBase):
 
     def get_have(self, config):
         """
-        Get required details for the given access point location config from Cisco Catalyst Center
+        Get required details for the given access point position config from Cisco Catalyst Center
 
         Parameters:
-            config (dict) - Playbook details containing access point location
+            config (dict) - Playbook details containing access point position
 
         Returns:
-            self - The current object with site details and access point location
+            self - The current object with site details and access point position
             information collection for create and update.
         """
 
         self.log(
-            f"Collecting access point location related information for: {config}",
+            f"Collecting access point position related information for: {config}",
             "INFO",
         )
 
@@ -1012,10 +1012,10 @@ class AccessPointLocation(DnacBase):
                     delete_accesspoint.append(ap_details[0])
                     continue
 
-                ap_status, ap_update = self.compare_accesspoint_location_details(
+                ap_status, ap_update = self.compare_accesspoint_position_details(
                     ap_details[0], access_point)
                 if ap_status:
-                    self.log(f"Access point planned location already exist: {access_point.get('accesspoint_name')}", "INFO")
+                    self.log(f"Access point planned position already exist: {access_point.get('accesspoint_name')}", "INFO")
                     accesspoint_exists.append(access_point)
                 else:
                     update_accesspoint.append(access_point)
@@ -1092,7 +1092,7 @@ class AccessPointLocation(DnacBase):
 
         function_name = None
         if (
-            ap_details.get("action") in ["delete_position"]
+            ap_details.get("action") in ["manage_real_ap"]
             or recheck
         ):
             function_name = "get_access_points_positions"
@@ -1119,7 +1119,7 @@ class AccessPointLocation(DnacBase):
             self.log(self.msg + str(e), "ERROR")
             return None
 
-    def compare_accesspoint_location_details(self, ap_details, access_point):
+    def compare_accesspoint_position_details(self, ap_details, access_point):
         """
         Compare the planned access point details with the actual access point details.
 
@@ -1224,7 +1224,7 @@ class AccessPointLocation(DnacBase):
             access_point["planned_id"] = ap_details.get("id")
             self.log(f"Unmatched access point details found: {un_matched_value}", "WARNING")
 
-        self.log(f"Access point details match for: {access_point}", "INFO")
+        self.log(f"Access point position details match for: {access_point}", "INFO")
         return compare_state, un_matched_value
 
     def get_accesspoint_details(self, accesspoint_name):
@@ -1264,15 +1264,15 @@ class AccessPointLocation(DnacBase):
 
     def parse_planned_accesspoint(self, accesspoint):
         """
-        Parse the access point details to match the API payload format.
+        Parse the planned access point position details to match the API payload format.
 
         Parameters:
             accesspoint (dict) - Access point details from the playbook config.
 
         Returns:
-            dict - Parsed access point details in API payload format.
+            dict - Parsed planned access point position details in API payload format.
         """
-        self.log(f"Parsing access point details: {self.pprint(accesspoint)}", "INFO")
+        self.log(f"Parsing planned access point position details: {self.pprint(accesspoint)}", "INFO")
 
         parsed_params = {}
         if accesspoint.get("planned_id"):
@@ -1314,22 +1314,22 @@ class AccessPointLocation(DnacBase):
         self.log(f"Parsed Access Point Payload: {self.pprint(parsed_params)}", "DEBUG")
         return parsed_params
 
-    def process_location_creation_updation_assign(self, function_name, floor_id, payloads, state):
+    def process_ap_position_creation_updation_assign(self, function_name, floor_id, payloads, state):
         """
-        Process the creation or updation of access point location based on the desired state.
+        Process the creation or updation of access point position based on the desired state.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             function_name (str): The name of the function to call for processing.
             floor_id (str): The ID of the floor where the access point is located.
             payloads (list): The list of payloads to process.
-            state (str): The desired state of create/update/assign for the access point location.
+            state (str): The desired state of create/update/assign for the access point position.
 
         Returns:
             self - The current object with message and response information.
         """
         self.log(
-            f"Processing access point location creation/updation for: {self.have.get('site_name')}",
+            f"Processing access point position creation/updation for: {self.have.get('site_name')}",
             "INFO",
         )
 
@@ -1386,9 +1386,9 @@ class AccessPointLocation(DnacBase):
             self.log(self.msg + str(e), "ERROR")
             return None
 
-    def accesspoint_location_creation_updation(self):
+    def accesspoint_position_creation_updation(self):
         """
-        Create or update access point location in Cisco Catalyst Center based on the
+        Create or update planned access point position in Cisco Catalyst Center based on the
         playbook details.
 
         Parameters:
@@ -1398,7 +1398,7 @@ class AccessPointLocation(DnacBase):
             self - The current object with message and response information.
         """
         self.log(
-            f"Starting to create/update access point location for: {self.have.get('site_name')}",
+            f"Starting to create/update planned access point position for: {self.have.get('site_name')}",
             "INFO",
         )
 
@@ -1412,68 +1412,68 @@ class AccessPointLocation(DnacBase):
                 parsed_ap_details = self.parse_planned_accesspoint(access_point)
 
                 create_payload.append(parsed_ap_details)
-                self.log(f"Parsed Access Point Payload: {self.pprint(parsed_ap_details)}", "DEBUG")
+                self.log(f"Parsed planned Access Point Payload: {self.pprint(parsed_ap_details)}", "DEBUG")
                 collect_ap_list.append(access_point.get("accesspoint_name"))
 
             self.log(
-                f"Creating Access Point Location with payload: {self.pprint(create_payload)}",
+                f"Creating planned Access Point position with payload: {self.pprint(create_payload)}",
                 "DEBUG",
             )
 
-            process_response = self.process_location_creation_updation_assign(
+            process_response = self.process_ap_position_creation_updation_assign(
                 "add_planned_access_points_positions", floor_id, create_payload, "create"
             )
             if process_response == "SUCCESS":
-                self.msg = f"Access Point Location created successfully for: {self.have.get('site_name')}"
+                self.msg = f"Planned Access Point Position created successfully for: {self.have.get('site_name')}"
                 self.log(self.msg , "INFO")
                 self.location_created.append(collect_ap_list)
             elif process_response == "FAILURE":
-                self.msg = f"Failed to create Access Point Location for: {self.have.get('site_name')}"
+                self.msg = f"Failed to create Planned Access Point position for: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_created.append(collect_ap_list)
             else:
-                self.msg = f"Unable to process Access Point Location creation for: {self.have.get('site_name')}"
+                self.msg = f"Unable to process planned Access Point position creation for: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_created.append(collect_ap_list)
 
         if self.have.get("update_accesspoint"):
-            self.log(f"Updating Access Point Location with payload: {self.pprint(self.have.get('update_accesspoint'))}", "DEBUG")
+            self.log(f"Updating planned Access Point position with payload: {self.pprint(self.have.get('update_accesspoint'))}", "DEBUG")
 
             for access_point in self.have.get("update_accesspoint"):
-                self.log(f"Processing update access point: {self.pprint(access_point)}", "INFO")
+                self.log(f"Processing update planned access point: {self.pprint(access_point)}", "INFO")
                 parsed_ap_details = self.parse_planned_accesspoint(access_point)
                 update_payload.append(parsed_ap_details)
-                self.log(f"Parsed Access Point Payload: {self.pprint(parsed_ap_details)}", "DEBUG")
+                self.log(f"Parsed Planned Access Point Payload: {self.pprint(parsed_ap_details)}", "DEBUG")
                 collect_ap_list.append(access_point.get("accesspoint_name"))
 
             self.log(
-                f"Updating Access Point Location with payload: {self.pprint(update_payload)}",
+                f"Updating planned Access Point position with payload: {self.pprint(update_payload)}",
                 "DEBUG",
             )
 
-            process_response = self.process_location_creation_updation_assign(
+            process_response = self.process_ap_position_creation_updation_assign(
                 "edit_planned_access_points_positions", floor_id, update_payload, "update"
             )
             if process_response == "SUCCESS":
-                self.msg = f"Access Point Location updated successfully for: {self.have.get('site_name')}"
+                self.msg = f"Planned Access Point position updated successfully for: {self.have.get('site_name')}"
                 self.log(self.msg , "INFO")
                 self.location_updated.append(collect_ap_list)
 
                 self.log(".", "INFO")
             elif process_response == "FAILURE":
-                self.msg = f"Failed to update Access Point Location for: {self.have.get('site_name')}"
+                self.msg = f"Failed to update planned Access Point position for: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_updated.append(collect_ap_list)
             else:
-                self.msg = f"Unable to process Access Point Location Updation for: {self.have.get('site_name')}"
+                self.msg = f"Unable to process planned Access Point position updation for: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_updated.append(collect_ap_list)
 
         return self
 
-    def assign_accesspoint_to_location(self):
+    def assign_accesspoint_to_position(self):
         """
-        Assign an access point to a specific planned location.
+        Assign an access point to a specific planned position.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
@@ -1481,7 +1481,7 @@ class AccessPointLocation(DnacBase):
         Returns:
             self - The current object with message and response information.
         """
-        self.log(f"Assigning access point to location for: {self.have.get('site_name')}", "INFO")
+        self.log(f"Assigning access point to planned position for: {self.have.get('site_name')}", "INFO")
 
         if (self.have.get("new_accesspoint") or self.have.get("update_accesspoint")
            or self.have.get("existing_accesspoint")):
@@ -1491,10 +1491,10 @@ class AccessPointLocation(DnacBase):
             for access_point in (self.have.get("new_accesspoint", []) +
                                  self.have.get("update_accesspoint", []) +
                                  self.have.get("existing_accesspoint", [])):
-                if access_point.get("action") != "assign_planned":
+                if access_point.get("action") != "assign_planned_ap":
                     continue
 
-                self.log(f"Processing assign access point to planned location: {self.pprint(access_point)}",
+                self.log(f"Processing assign access point to planned position: {self.pprint(access_point)}",
                          "INFO")
                 ap_device = self.find_dict_by_key_value(
                     access_point_devices, "hostname",
@@ -1519,33 +1519,33 @@ class AccessPointLocation(DnacBase):
                 self.log("No valid access points found for assignment.", "DEBUG")
                 return self
 
-            self.log(f"Assign Access Point to Location Payload: {self.pprint(assign_payload)}", "DEBUG")
+            self.log(f"Assign planned Access Point to position payload: {self.pprint(assign_payload)}", "DEBUG")
 
             floor_id = self.have.get("site_id")
-            process_response = self.process_location_creation_updation_assign(
-                "assign_planned_access_points_to_operations_ones", floor_id, assign_payload, "assign_planned"
+            process_response = self.process_ap_position_creation_updation_assign(
+                "assign_planned_access_points_to_operations_ones", floor_id, assign_payload, "assign_planned_ap"
             )
-            self.log(f"Assign Access Point to Location process response: {self.pprint(process_response)}", "DEBUG")
+            self.log(f"Assign planned Access Point to position process response: {self.pprint(process_response)}", "DEBUG")
 
             if process_response == "SUCCESS":
-                self.msg = f"Access Point Location assigned successfully for: {self.have.get('site_name')}"
+                self.msg = f"Planned Access Point position assigned successfully for: {self.have.get('site_name')}"
                 self.log(self.msg , "INFO")
                 self.location_assigned.append(collect_ap_list)
 
             elif process_response == "FAILURE":
-                self.log(f"Failed to assign Access Point Location for: {self.have.get('site_name')}", "ERROR")
+                self.log(f"Failed to assign Planned Access Point position for: {self.have.get('site_name')}", "ERROR")
 
             if process_response == "SUCCESS":
-                self.msg = f"Access Point Location assigned successfully for: {self.have.get('site_name')}"
+                self.msg = f"Planned Access Point position assigned successfully for: {self.have.get('site_name')}"
                 self.log(self.msg , "INFO")
                 self.location_assigned.append(collect_ap_list)
 
             elif process_response == "FAILURE":
-                self.msg = f"Failed to assign Access Point Location for: {self.have.get('site_name')}"
+                self.msg = f"Failed to assign Planned Access Point position for: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_assigned.append(collect_ap_list)
             else:
-                self.msg = f"Unable to process Access Point Location assignment for: {self.have.get('site_name')}"
+                self.msg = f"Unable to process Planned Access Point position assignment for: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_assigned.append(collect_ap_list)
 
@@ -1570,7 +1570,7 @@ class AccessPointLocation(DnacBase):
             family_name = "site_design"
             function_name = "delete_planned_access_points_position"
 
-            if access_point.get("action") == "delete_position":
+            if access_point.get("action") == "manage_real_ap":
                 delete_payload["deviceIds"] = [access_point.get("id")]
                 function_name = "unassign_network_devices_from_sites"
             else:
@@ -1637,16 +1637,16 @@ class AccessPointLocation(DnacBase):
 
     def get_diff_merged(self, config):
         """
-        Create/Update access points planned location and assign access points to the planned location
+        Create/Update planned access points position and assign access points to the planned position
 
         Parameters:
-            config (list of dict) - Playbook details containing access point location information.
+            config (list of dict) - Playbook details containing planned access point position information.
 
         Returns:
             self - The current object with message and created/updated/assigned response information.
         """
         self.log(
-            f"Starting to create/update access point location for: {config}", "INFO"
+            f"Starting to create/update planned or real access point position for: {config}", "INFO"
         )
 
         self.changed = False
@@ -1655,36 +1655,36 @@ class AccessPointLocation(DnacBase):
         if self.have.get("existing_accesspoint"):
             for access_point in self.have.get("existing_accesspoint", []):
                 self.location_exist.append(access_point.get("name"))
-            self.msg = "No Changes required, Access Point Location(s) already exist."
+            self.msg = "No Changes required, Planned Access Point position(s) already exist."
             self.changed = False
             self.status = "success"
 
         if self.have.get("already_assigned_accesspoint"):
             for access_point in self.have.get("already_assigned_accesspoint", []):
                 self.location_exist.append(access_point.get("name"))
-            self.msg = "No Changes required, Access Point Location(s) already assigned."
+            self.msg = "No Changes required, Planned Access Point position(s) already assigned."
             self.changed = False
             self.status = "success"
 
         if self.have.get("new_accesspoint") or self.have.get("update_accesspoint"):
-            responses = self.accesspoint_location_creation_updation()
+            responses = self.accesspoint_position_creation_updation()
 
             if not responses:
-                self.msg = "No response received from Access Point Location creation/updation."
+                self.msg = "No response received from Planned Access Point position creation/updation."
                 self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
         if self.location_created or self.location_updated or self.location_exist:
-            assign_response = self.assign_accesspoint_to_location()
+            assign_response = self.assign_accesspoint_to_position()
             all_status_msg = str(self.location_created + self.location_updated + self.location_exist)
-            self.msg = f"Access Point Location assigned successfully for '{all_status_msg}'."
+            self.msg = f"Planned Access Point position assigned successfully for '{all_status_msg}'."
             self.log(self.msg, "INFO")
             self.changed = True
             self.status = "success"
 
         if self.location_not_created:
             not_created_msg = ', '.join(map(str, self.location_not_created))
-            self.msg += f" Unable to process the following Access Point Location(s): '{not_created_msg}'. They may not have been created or already exist."
+            self.msg += f" Unable to process the following Planned Access Point position(s): '{not_created_msg}'. They may not have been created or already exist."
             self.log(self.msg, "DEBUG")
             self.changed = False
             self.status = "failed"
@@ -1717,50 +1717,50 @@ class AccessPointLocation(DnacBase):
         self.changed = False
         if (self.location_created
            and len(self.location_created) == len(config.get("access_points", []))):
-            self.msg = f"Access Point Location created successfully for '{config.get('floor_site_hierarchy')}'."
+            self.msg = f"Planned Access Point position created successfully for '{config.get('floor_site_hierarchy')}'."
             self.log(self.msg, "INFO")
             self.changed = True
             self.status = "success"
 
         if (self.location_exist and not self.location_created and not self.location_updated
            and len(self.location_exist) == len(config.get("access_points", []))):
-            self.msg = "No Changes required, Access Point Location(s) already exist."
+            self.msg = "No Changes required, Planned Access Point position(s) already exist."
             self.changed = False
             self.status = "success"
 
         if (self.location_updated
            and len(self.location_updated) == len(config.get("access_points", []))):
-            self.msg = f"Access Point Location updated successfully for '{config.get('floor_site_hierarchy')}'."
+            self.msg = f"Planned Access Point position updated successfully for '{config.get('floor_site_hierarchy')}'."
             self.log(self.msg, "INFO")
             self.changed = True
             self.status = "success"
 
         if (self.location_created and self.location_updated
            and len(self.location_created) + len(self.location_updated) == len(config.get("access_points", []))):
-            self.msg = f"Access Point Location created/updated successfully for '{str(self.location_created + self.location_updated)}'."
+            self.msg = f"Planned Access Point position created/updated successfully for '{str(self.location_created + self.location_updated)}'."
             self.log(self.msg, "INFO")
             self.changed = True
             self.status = "success"
 
         if self.location_assigned:
             status_msg = ", ".join(map(str, self.location_assigned))
-            self.msg += f" Following Access Point(s) assigned to planned location(s): '{status_msg}'."
+            self.msg += f" Following real Access Point(s) assigned to planned position(s): '{status_msg}'."
             self.changed = True
             self.log(self.msg, "DEBUG")
 
         if self.location_not_assigned:
             status_msg = ", ".join(map(str, self.location_not_assigned))
-            self.msg += f" Following Access Point(s) not assigned to planned location(s): '{status_msg}'."
+            self.msg += f" Following real Access Point(s) not assigned to planned position(s): '{status_msg}'."
             self.log(self.msg, "DEBUG")
 
         if self.location_not_updated:
             status_msg = ", ".join(map(str, self.location_not_updated))
-            self.msg += f" Unable to update the following Access Point Location(s): '{status_msg}'."
+            self.msg += f" Unable to update the following planned Access Point position(s): '{status_msg}'."
             self.status = "failed"
 
         if self.location_not_created:
             status_msg = ", ".join(map(str, self.location_not_created))
-            self.msg += f" Unable to create the following Access Point Location(s): '{status_msg}'."
+            self.msg += f" Unable to create the following planned Access Point position(s): '{status_msg}'."
             self.status = "failed"
 
         self.log(self.msg, "INFO")
@@ -1773,21 +1773,21 @@ class AccessPointLocation(DnacBase):
 
     def get_diff_deleted(self, config):
         """
-        Delete Access Point planned Location(s) from the Cisco Catalyst Center
+        Delete planned Access Point position(s) from the Cisco Catalyst Center
         based on playbook details.
 
         Parameters:
             config (list of dict) - Playbook configuration details
 
         Returns:
-            self - The current object with access point location deletion message and response information.
+            self - The current object with planned Access Point position deletion message and response information.
         """
-        self.log(f"Starting to delete Access Point Planned Location(s) for: {config}", "INFO")
+        self.log(f"Starting to delete planned Access Point position(s) for: {config}", "INFO")
 
         if self.have.get("new_accesspoint") and not self.have.get("delete_accesspoint"):
             for access_point in self.have.get("new_accesspoint", []):
                 self.location_already_deleted.append(access_point.get("accesspoint_name"))
-            self.msg = "No Changes required, Access Point Planned Location(s) do not exist to delete."
+            self.msg = "No Changes required, Planned Access Point position(s) do not exist to delete."
             self.changed = False
             self.status = "success"
             self.log(self.msg, "INFO")
@@ -1797,24 +1797,24 @@ class AccessPointLocation(DnacBase):
             self.changed = False
             self.status = "failed"
             if not responses:
-                self.msg = "No response received from Access Point Location deletion."
+                self.msg = "No response received from planned Access Point position deletion."
                 self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
             if self.location_deleted:
-                self.msg = f"Access Point Location deleted successfully for '{self.location_deleted}'."
+                self.msg = f"Planned Access Point position deleted successfully for '{self.location_deleted}'."
                 self.log(self.msg, "INFO")
                 self.changed = True
                 self.status = "success"
 
             if self.location_not_deleted:
-                self.msg += f" Unable to delete the following Access Point Location(s): '{self.location_not_deleted}'."
+                self.msg += f" Unable to delete the following planned Access Point position(s): '{self.location_not_deleted}'."
                 self.log(self.msg, "DEBUG")
                 self.changed = False
                 self.status = "failed"
 
             if self.location_already_deleted:
-                self.msg += f" Access Point Location(s) already deleted for '{self.location_already_deleted}'."
+                self.msg += f" Planned Access Point position(s) already deleted for '{self.location_already_deleted}'."
                 self.changed = False
                 self.status = "success"
 
@@ -1823,32 +1823,32 @@ class AccessPointLocation(DnacBase):
 
     def verify_diff_deleted(self, config):
         """
-        Validates that the Access Point Location(s) in Cisco Catalyst Center have been deleted
+        Validates that the planned or real Access Point position(s) in Cisco Catalyst Center have been deleted
         based on the playbook details.
 
         Parameters:
-            config (dict) - Playbook details containing Network profile switch information.
+            config (dict) - Playbook details containing Access Point position information.
 
         Returns:
             self - The current object with message and response.
         """
         self.log(
-            f"Starting to verify the deleted Access Point Location(s) for: {config}",
+            f"Starting to verify the deleted planned or real Access Point position(s) for: {config}",
             "INFO",
         )
 
         if len(self.location_not_deleted) > 0:
-            self.msg += f" Unable to delete below Access Point Location(s) '{self.location_not_deleted}'."
+            self.msg += f" Unable to delete below planned/real Access Point position(s) '{self.location_not_deleted}'."
             self.changed = False
             self.status = "failed"
 
         if len(self.location_already_deleted) == len(config.get("access_points", [])):
-            self.msg = f"No Changes required, Access Point Location(s) already deleted and verified successfully for '{self.location_already_deleted}'."
+            self.msg = f"No Changes required, planned/real Access Point position(s) already deleted and verified successfully for '{self.location_already_deleted}'."
             self.changed = False
             self.status = "success"
 
         if len(self.location_deleted) == len(config.get("access_points", [])):
-            self.msg = f"Access Point planned/assigned Location(s) deleted and verified successfully for '{self.location_deleted}'."
+            self.msg = f"Planned/Real Access Point position(s) deleted and verified successfully for '{self.location_deleted}'."
             self.changed = True
             self.status = "success"
 
@@ -1896,7 +1896,7 @@ def main():
     ):
         ccc_ap_location.status = "failed"
         ccc_ap_location.msg = (
-            f"The specified version '{ccc_ap_location.get_ccc_version()}' does not support the network profile workflow feature."
+            f"The specified version '{ccc_ap_location.get_ccc_version()}' does not support Accesspoint location workflow feature."
             f"Supported version(s) start from '3.1.3.0' onwards."
         )
         ccc_ap_location.log(ccc_ap_location.msg, "ERROR")
