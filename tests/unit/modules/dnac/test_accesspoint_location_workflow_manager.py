@@ -179,6 +179,6 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "Planned Access Point position(s) created successfully",
+            "Planned Access Point position created successfully",
             result.get('msg')
         )
