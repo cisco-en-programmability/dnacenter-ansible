@@ -1,6 +1,0 @@
-11-05-2025 22:21:00 WARNING  FabricDevicesInfo: validate_input: 1559: [{'fabric_devices': [{'device_identifier': [{'ip_address': ['204.1.2.70']}], 'fabric_site_hierarchy': 'Global/USA/SAN JOSE', 'interval': 10, 'output_file_info': {'file_format': 'yaml', 'file_mode': 'a', 'file_path': '/Users/priyadharshini/Downloads/fabric_device_info', 'timestamp': False}, 'requested_info': ['connected_devices_info'], 'retries': 1, 'timeout': 10}]}] 
-
-11-05-2025 22:21:00 WARNING  FabricDevicesInfo: get_want: 1679: ip_address 
-
-11-05-2025 22:21:00 WARNING  FabricDevicesInfo: get_want: 1682: {'ip_address'} 
-
