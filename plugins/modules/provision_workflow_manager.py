@@ -631,6 +631,7 @@ class Provision(DnacBase):
         self.re_provision_wireless_device = []
         self.enable_application_telemetry = []
         self.disable_application_telemetry = []
+        self.assigned_device_to_site = []
 
     def validate_input(self, state=None):
         """
@@ -2464,6 +2465,7 @@ class Provision(DnacBase):
                             device_ip, site_name
                         )
                     )
+                    self.assigned_device_to_site.append(device_ip)
 
                 continue
 
@@ -3707,22 +3709,16 @@ class Provision(DnacBase):
                 self.log(error_message, "ERROR")
                 raise
 
-        additional_identifiers_payload = self._process_additional_identifiers(
-            normalized_params["additional_identifiers"], feature_template_id)
-
-        # Perform template metadata validation (non-blocking)
-        self._validate_template_metadata_requirements(
-            feature_template_id, additional_identifiers_payload)
-
-        # Build final template entry
         template_entry = {
             "featureTemplateId": feature_template_id,
             "attributes": normalized_params["attributes"] if normalized_params["attributes"] else {}
         }
 
-        if additional_identifiers_payload:
-            template_entry["additionalIdentifiers"] = additional_identifiers_payload
+        # Only include additionalIdentifiers if user actually provided something
+        if normalized_params["additional_identifiers"]:
+            template_entry["additionalIdentifiers"] = normalized_params["additional_identifiers"]
 
+        # Include excludedAttributes if provided
         if normalized_params["excluded_attributes"]:
             template_entry["excludedAttributes"] = normalized_params["excluded_attributes"]
 
@@ -4217,6 +4213,12 @@ class Provision(DnacBase):
         if self.re_provision_wireless_device:
             msg = "Wireless device(s) '{0}' re-provisioned successfully.".format(
                 "', '".join(self.re_provision_wireless_device)
+            )
+            result_msg_list_changed.append(msg)
+
+        if self.assigned_device_to_site:
+            msg = "Device(s) '{0}' assigned to site successfully.".format(
+                "', '".join(self.assigned_device_to_site)
             )
             result_msg_list_changed.append(msg)
 
