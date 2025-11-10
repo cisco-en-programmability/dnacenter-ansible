@@ -3300,41 +3300,6 @@ class Reports(DnacBase):
 
                         continue
 
-                    if self._should_download_immediately(entry):
-                        self.log(
-                            "Phase 2: Immediate download required for report '{0}' - initiating download".format(
-                                report_name
-                            ),
-                            "DEBUG"
-                        )
-                        success = self._download_report_if_needed(entry, report_id)
-                        if not success:
-                            # _download_report_if_needed sets error and result already
-                            self.log(
-                                "Phase 2: Download failed for report '{0}' - error already logged by download method".format(
-                                    report_name
-                                ),
-                                "ERROR"
-                            )
-                            self.log(
-                                "Phase 2: Terminating workflow due to download failure",
-                                "ERROR"
-                            )
-                            return self
-                        download_count += 1
-                        self.log(
-                            "Phase 2: Download completed successfully for report '{0}'".format(
-                                report_name
-                            ),
-                            "INFO"
-                        )
-                    else:
-                        self.log(
-                            "Phase 2: No immediate download required for report '{0}' - skipping".format(
-                                report_name
-                            ),
-                            "DEBUG"
-                        )
                 except Exception as e:
                     self.msg = "Exception during post-create download handling for report '{0}': {1}".format(entry.get("name"), str(e))
                     self.set_operation_result("failed", False, self.msg, "ERROR")
