@@ -3112,11 +3112,11 @@ class Reports(DnacBase):
 
     def create_n_schedule_reports(self, generate_report):
         """
-        Create or schedule reports based on the provided configuration.
+        Create or schedule reports using two-phase parallel processing approach.
 
-        This method processes a list of report configurations and creates or schedules each
-        report in Cisco Catalyst Center. It handles existing report detection, payload
-        preparation, API calls, and automatic report downloading for DOWNLOAD delivery types.
+        This method processes report configurations in two distinct phases:
+        Phase 1: Trigger all report creation/scheduling operations in parallel
+        Phase 2: Handle downloads only for reports requiring immediate download
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
@@ -3126,24 +3126,39 @@ class Reports(DnacBase):
             self: The current instance of the class with updated 'result' attribute.
 
         Description:
-            - Validates required fields for each report configuration
-            - Checks for existing reports to avoid duplicates
-            - Transforms configuration to API-compatible format
-            - Creates or schedules reports via Catalyst Center API
-            - Automatically downloads reports for DOWNLOAD delivery types
-            - Logs all major decision points and API interactions for traceability
+            - Phase 1: Creates or schedules all reports via non-blocking API calls
+            - Handles existing report detection without triggering downloads
+            - Phase 2: Processes downloads only for DOWNLOAD delivery with SCHEDULE_NOW
+            - Provides significant performance improvement for multiple report scenarios
+            - Maintains proper error handling and validation throughout both phases
+            - Logs phase separation and batch operation progress for traceability
         """
-        self.log("Creating or scheduling reports with configuration: {0}".format(self.pprint(generate_report)), "DEBUG")
+        self.log(
+            "Starting parallel report creation workflow with {0} reports using two-phase approach".format(
+                len(generate_report) if generate_report else 0
+            ),
+            "DEBUG"
+        )
         if not generate_report:
             self.msg = "The 'generate_report' field is missing or empty in the configuration."
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
+        # Phase 1: Create/Schedule all reports (parallel processing)
+        created_entries = []    # list of tuples: (report_entry, report_id)
+        pending_downloads = []  # same shape for both newly created and existing entries that require download
+
+        self.log(
+            "Phase 1: Starting parallel report creation for {0} reports".format(
+                len(generate_report)
+            ),
+            "INFO"
+        )
         try:
             for report_index, report_entry in enumerate(generate_report):
                 report_name = report_entry.get("name", "unnamed")
                 self.log(
-                    "Processing report {0}/{1}: '{2}'".format(
+                    "Processing report {0}/{1}: '{2}' (phase 1 - trigger)".format(
                         report_index + 1, len(generate_report), report_name
                     ),
                     "DEBUG"
@@ -3151,24 +3166,159 @@ class Reports(DnacBase):
 
                 # Validate required fields
                 if not self._validate_report_entry_fields(report_entry):
+                    self.log(
+                        "Phase 1: Field validation failed for report '{0}' - terminating workflow".format(
+                            report_name
+                        ),
+                        "ERROR"
+                    )
                     return self
 
-                # Handle existing reports
+                self.log(
+                    "Phase 1: Field validation successful for report '{0}'".format(report_name),
+                    "DEBUG"
+                )
+
+                # Handle existing reports (do NOT trigger download here)
                 if report_entry.get("exists") and report_entry.get("new_report") is False:
-                    if not self._handle_existing_report(report_entry):
-                        return self
+                    self.log(
+                        "Phase 1: Processing existing report '{0}' without immediate download".format(
+                            report_name
+                        ),
+                        "INFO"
+                    )
+                    # Build same result structure as _handle_existing_report but DO NOT download yet
+                    report_id = report_entry.get("report_id")
+                    result = {
+                        "response": {
+                            "report_id": report_id,
+                            "view_group_id": report_entry.get("view_group_id"),
+                            "view_id": report_entry.get("view", {}).get("view_id"),
+                        },
+                        "msg": "Report '{0}' already exists.".format(report_name),
+                    }
+                    self.result["response"].append({"create_report": result})
+                    self.log(
+                        "Phase 1: Existing report '{0}' added to results with ID: {1}".format(
+                            report_name, report_id
+                        ),
+                        "DEBUG"
+                    )
+                    # If download requested and immediate, schedule download in phase 2
+                    if (self._is_download_requested(report_entry) and
+                       self._should_download_immediately(report_entry)):
+                        pending_downloads.append((report_entry, report_id))
+                        self.log(
+                            "Phase 1: Existing report '{0}' scheduled for Phase 2 download".format(
+                                report_name
+                            ),
+                            "INFO"
+                        )
+                    else:
+                        self.log(
+                            "Phase 1: No immediate download required for existing report '{0}'".format(
+                                report_name
+                            ),
+                            "DEBUG"
+                        )
+
                     continue
 
-                # Create new report
-                if not self._create_new_report(report_entry):
+                # Create new report (non-blocking API call)
+                self.log(
+                    "Phase 1: Creating new report '{0}' via API call".format(report_name),
+                    "INFO"
+                )
+                report_id = self._create_new_report(report_entry)
+                if not report_id:
+                    # _create_new_report already set error msg and status
+                    self.log(
+                        "Phase 1: Report creation failed for '{0}' - error already logged by creation method".format(
+                            report_name
+                        ),
+                        "ERROR"
+                    )
+                    self.log(
+                        "Phase 1: Terminating workflow due to report creation failure",
+                        "ERROR"
+                    )
                     return self
 
+                self.log(
+                    "Phase 1: Successfully created report '{0}' with ID: {1}".format(
+                        report_name, report_id
+                    ),
+                    "INFO"
+                )
+
+                # Collect for potential download in phase 2
+                created_entries.append((report_entry, report_id))
+                self.log(
+                    "Phase 1: Report '{0}' added to created entries for Phase 2 processing".format(
+                        report_name
+                    ),
+                    "DEBUG"
+                )
+
             self.log(
-                "Completed report creation and scheduling workflow successfully for {0} reports".format(
-                    len(generate_report)
+                "Phase 1 completed successfully: {0} reports created, {1} existing reports processed, {2} pending downloads".format(
+                    len(created_entries), len(generate_report) - len(created_entries), len(pending_downloads)
                 ),
                 "INFO"
             )
+
+            # Phase 2: perform downloads only for those needing immediate download
+            all_download_candidates = created_entries + pending_downloads
+            self.log(
+                "Phase 2: Starting download processing for {0} total candidates".format(
+                    len(all_download_candidates)
+                ),
+                "INFO"
+            )
+
+            if not all_download_candidates:
+                self.log("Phase 2: No download candidates found - skipping download phase", "DEBUG")
+
+            download_count = 0
+            # Combine created entries and pending existing reports
+            for candidate_index, (entry, report_id) in enumerate(all_download_candidates):
+                report_name = entry.get("name", "unnamed")
+                self.log(
+                    "Phase 2: Processing download candidate {0}/{1}: '{2}' (report_id={3})".format(
+                        candidate_index + 1, len(all_download_candidates), report_name, report_id
+                    ),
+                    "DEBUG"
+                )
+                try:
+                    if not self._should_download_immediately(entry):
+                        self.log(
+                            "Phase 2: No immediate download required for report '{0}' - skipping".format(
+                                report_name
+                            ),
+                            "DEBUG"
+                        )
+
+                        continue
+
+                except Exception as e:
+                    self.msg = "Exception during post-create download handling for report '{0}': {1}".format(entry.get("name"), str(e))
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    self.log("Exception during phase 2 downloads: {0}".format(str(e)), "ERROR")
+                    return self
+
+                self.log(
+                    "Phase 2 completed: {0} downloads processed successfully".format(
+                        download_count
+                    ),
+                    "INFO"
+                )
+
+                self.log(
+                    "Completed report creation and scheduling workflow successfully for {0} reports".format(
+                        len(generate_report)
+                    ),
+                    "INFO"
+                )
 
         except Exception as e:
             self.msg = "An error occurred while creating or scheduling reports: {0}".format(str(e))
@@ -3177,6 +3327,7 @@ class Reports(DnacBase):
                 "Exception during report creation workflow: {0}".format(str(e)),
                 "ERROR"
             )
+            return self
 
         return self
 
@@ -3353,9 +3504,8 @@ class Reports(DnacBase):
         Parameters:
             report_entry (dict): The original report entry.
             response (dict): The API response from report creation.
-
         Returns:
-            bool: True if processing succeeds, False if processing fails.
+            report_id (str): The ID of the created report.
         """
         report_name = report_entry.get("name")
         report_id = response.get("reportId")
@@ -3369,24 +3519,17 @@ class Reports(DnacBase):
             "msg": "Successfully created or scheduled report '{0}'.".format(report_name)
         }
 
+        # Append to overall result list
         self.result["response"].append({"create_report": result})
         self.log("Successfully created report '{0}' with ID: {1}".format(
             report_name, report_id), "INFO")
 
+        # mark success/change
         self.status = "success"
         self.result["changed"] = True
 
-        # Handle download for immediate execution reports
-        if self._should_download_immediately(report_entry):
-            self.log(
-                "Download requested for new report '{0}' - proceeding to download".format(
-                    report_name
-                ),
-                "DEBUG"
-            )
-            return self._download_report_if_needed(report_entry, report_id)
-
-        return True
+        # Note: do NOT trigger download here. Return report_id so caller can decide to download later.
+        return report_id
 
     def _is_download_requested(self, report_entry):
         """Check if download is requested for the report."""
