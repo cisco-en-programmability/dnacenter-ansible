@@ -1667,10 +1667,8 @@ class AccessPointLocation(DnacBase):
             self.changed = False
             self.status = "success"
 
-        if (
-            self.have.get("new_accesspoint") or self.have.get("update_accesspoint")
-            or self.have.get("update_real_accesspoint")
-            ):
+        if (self.have.get("new_accesspoint") or self.have.get("update_accesspoint")
+           or self.have.get("update_real_accesspoint")):
             responses = self.accesspoint_position_creation_updation()
 
             if not responses:
