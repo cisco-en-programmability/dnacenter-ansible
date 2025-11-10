@@ -25,7 +25,7 @@
           - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
             access_points:
               - accesspoint_name: IAC-TB4-SJ-AP1
-                action: assign_planned  # Optional assign_planned, delete_position
+                action: assign_planned_ap  # Optional assign_planned_ap, manage_real_ap
                 mac_address: 54:8a:ba:22:eb:c0  # Optional
                 accesspoint_model: CW9172H
                 position:

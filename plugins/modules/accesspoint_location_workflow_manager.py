@@ -69,7 +69,7 @@ options:
             description: >
               The action to be performed on the access point.
               Determines how the access point will be managed within the specified position.
-              This field is only required when assigning or deleting the access point to/from an existing planned position.
+              This field is only required when assigning or deleting real access point to/from an existing planned position.
               It is not required when creating, updating, or deleting a planned access point position itself.
             type: str
             required: true
@@ -979,6 +979,7 @@ class AccessPointLocation(DnacBase):
         assigned_accesspoint = []
         access_point_devices = []
         delete_accesspoint = []
+        update_real_accesspoint = []
         for access_point in config.get("access_points", []):
 
             self.log(f"Retrieving accesspoint details for {access_point.get('accesspoint_name')}", "INFO")
@@ -989,11 +990,13 @@ class AccessPointLocation(DnacBase):
                 self.fail_and_exit(msg)
             access_point_devices.append(ap_device_details)
 
-            ap_details = self.get_planned_ap_position(
+            # Check if access point exist in the planned position
+            ap_details = self.get_accesspoint_position(
                 have["site_id"], have["site_name"], access_point
             )
             if not ap_details:
-                ap_details = self.get_planned_ap_position(
+                # Check if access point exist in the real position
+                ap_details = self.get_accesspoint_position(
                     have["site_id"], have["site_name"], access_point, True
                 )
                 if ap_details:
@@ -1019,7 +1022,13 @@ class AccessPointLocation(DnacBase):
                     self.log(f"Access point planned position already exist: {access_point.get('accesspoint_name')}", "INFO")
                     accesspoint_exists.append(access_point)
                 else:
-                    update_accesspoint.append(access_point)
+                    if access_point.get("action") == "manage_real_ap":
+                        self.log(f"Update real Accesspoint : {access_point}", "INFO")
+                        update_real_accesspoint.append(access_point)
+                        continue
+                    else:
+                        self.log(f"Access point planned position needs update: {access_point.get('accesspoint_name')}", "INFO")
+                        update_accesspoint.append(access_point)
             else:
                 new_accesspoint.append(access_point)
 
@@ -1027,6 +1036,7 @@ class AccessPointLocation(DnacBase):
             "accesspoint_devices": access_point_devices,
             "new_accesspoint": new_accesspoint,
             "update_accesspoint": update_accesspoint,
+            "update_real_accesspoint": update_real_accesspoint,
             "existing_accesspoint": accesspoint_exists,
             "delete_accesspoint": delete_accesspoint,
             "already_assigned_accesspoint": assigned_accesspoint,
@@ -1066,7 +1076,7 @@ class AccessPointLocation(DnacBase):
             self.log(self.msg + str(e), "ERROR")
             self.fail_and_exit(self.msg)
 
-    def get_planned_ap_position(self, floor_id, floor_name, ap_details, recheck=False):
+    def get_accesspoint_position(self, floor_id, floor_name, ap_details, recheck=False):
         """
         Get the planned access point position from the playbook config.
 
@@ -1352,35 +1362,13 @@ class AccessPointLocation(DnacBase):
                     self.location_not_created.append(self.have.get("site_name"))
 
             self.log(f"{state} planned Access Point location API Response: {task_id}", "DEBUG")
-
-            resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
-            resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
-            while resync_retry_count > 0:
-                task_details_response = self.get_tasks_by_id(task_id)
-
-                if not task_details_response:  # Ensure the response is valid
-                    self.log(f"Failed to retrieve task details for task ID: {task_id}", "ERROR")
-                    return None
-
-                task_status = task_details_response.get("status")
-                self.log(f"Task ID: {task_id}, Status: {task_status}, Attempts remaining: {resync_retry_count}", "INFO")
-
-                if task_details_response.get("endTime") is not None:
-                    if task_status == "SUCCESS":
-                        task_progress = self.get_task_details_by_id(task_id)
-                        self.log(f"Task '{task_id}' completed successfully. {task_progress}", "INFO")
-                        return task_status
-                    elif task_status == "FAILURE":
-                        task_progress = self.get_task_details_by_id(task_id)
-                        self.log(f"Task '{task_id}' failed. {task_progress}", "ERROR")
-                        return task_status
-
-                self.log(f"Pauses execution for {resync_retry_interval} seconds.", "INFO")
-                time.sleep(resync_retry_interval)
-                resync_retry_count -= 1
-
-            self.log(f"Task {task_id} did not complete within the timeout.", "ERROR")
-            return None
+            self.get_task_status_from_tasks_by_id(task_id, function_name, "SUCCESS")
+            if self.msg == "SUCCESS":
+                self.log(f"Task '{task_id}' completed successfully.", "INFO")
+                return self.msg
+            else:
+                self.log(f"Task '{task_id}' failed.", "ERROR")
+                return "FAILURE"
 
         except Exception as e:
             self.msg = 'An error occurred during get task details. '
@@ -1404,7 +1392,7 @@ class AccessPointLocation(DnacBase):
         )
 
         floor_id = self.have.get("site_id")
-        create_payload, update_payload = [], []
+        create_payload, update_payload, update_real_payload = [], [], []
         collect_ap_list = []
 
         if self.have.get("new_accesspoint"):
@@ -1470,6 +1458,39 @@ class AccessPointLocation(DnacBase):
                 self.log(self.msg, "ERROR")
                 self.location_not_updated.append(collect_ap_list)
 
+        if self.have.get("update_real_accesspoint"):
+            self.log(f"Updating real Access Point position with payload: {self.pprint(self.have.get('update_real_accesspoint'))}", "DEBUG")
+
+            for access_point in self.have.get("update_real_accesspoint"):
+                self.log(f"Processing update real access point: {self.pprint(access_point)}", "INFO")
+                parsed_ap_details = self.parse_planned_accesspoint(access_point)
+                update_real_payload.append(parsed_ap_details)
+                self.log(f"Parsed Real Access Point Payload: {self.pprint(parsed_ap_details)}", "DEBUG")
+                collect_ap_list.append(access_point.get("accesspoint_name"))
+
+            self.log(
+                f"Updating real Access Point position with payload: {self.pprint(update_real_payload)}",
+                "DEBUG",
+            )
+
+            process_response = self.process_ap_position_creation_updation_assign(
+                "edit_the_access_points_positions", floor_id, update_real_payload, "update"
+            )
+            if process_response == "SUCCESS":
+                self.msg = f"Real Access Point position updated successfully for: {self.have.get('site_name')}"
+                self.log(self.msg , "INFO")
+                self.location_updated.append(collect_ap_list)
+
+                self.log(".", "INFO")
+            elif process_response == "FAILURE":
+                self.msg = f"Failed to update real Access Point position for: {self.have.get('site_name')}"
+                self.log(self.msg, "ERROR")
+                self.location_not_updated.append(collect_ap_list)
+            else:
+                self.msg = f"Unable to process real Access Point position updation for: {self.have.get('site_name')}"
+                self.log(self.msg, "ERROR")
+                self.location_not_updated.append(collect_ap_list)
+
         return self
 
     def assign_accesspoint_to_position(self):
@@ -1506,9 +1527,20 @@ class AccessPointLocation(DnacBase):
                     self.log(msg, "WARNING")
                     self.fail_and_exit(msg)
 
-                ap_details = self.get_planned_ap_position(
+                ap_details = self.get_accesspoint_position(
                     self.have["site_id"], self.have["site_name"], access_point
                 )
+                if not ap_details:
+                    msg = f"Check the assignment exist in real position: {access_point.get('accesspoint_name')}"
+                    self.log(msg, "WARNING")
+                    ap_details = self.get_accesspoint_position(
+                        self.have["site_id"], self.have["site_name"], access_point, True)
+                    if ap_details:
+                        self.log(f"Access point planned position found for assignment: {access_point.get('accesspoint_name')}", "INFO")
+                        collect_ap_list.append(access_point.get("accesspoint_name"))
+                        self.location_assigned.append(collect_ap_list)
+                        return self
+
                 ap_payload = {
                     "accessPointId": ap_device.get("id"),
                     "plannedAccessPointId": ap_details[0].get("id")
@@ -1527,14 +1559,6 @@ class AccessPointLocation(DnacBase):
                 "assign_planned_access_points_to_operations_ones", floor_id, assign_payload, "assign_planned_ap"
             )
             self.log(f"Assign planned Access Point to position process response: {self.pprint(process_response)}", "DEBUG")
-
-            if process_response == "SUCCESS":
-                self.msg = f"Planned Access Point position assigned successfully for: {self.have.get('site_name')}"
-                self.log(self.msg , "INFO")
-                self.location_assigned.append(collect_ap_list)
-
-            elif process_response == "FAILURE":
-                self.log(f"Failed to assign Planned Access Point position for: {self.have.get('site_name')}", "ERROR")
 
             if process_response == "SUCCESS":
                 self.msg = f"Planned Access Point position assigned successfully for: {self.have.get('site_name')}"
@@ -1596,37 +1620,13 @@ class AccessPointLocation(DnacBase):
                     "DEBUG",
                 )
 
-                resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
-                resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
-                while resync_retry_count > 0:
-                    task_details_response = self.get_tasks_by_id(task_id)
-
-                    if not task_details_response:  # Ensure the response is valid
-                        self.log(f"Failed to retrieve task details for task ID: {task_id}", "ERROR")
-                        self.location_not_deleted.append(access_point.get("name"))
-                        break
-
-                    task_status = task_details_response.get("status")
-                    self.log(f"Task ID: {task_id}, Status: {task_status}, Attempts remaining: {resync_retry_count}",
-                             "INFO")
-
-                    if task_details_response.get("endTime") is not None:
-                        if task_status == "SUCCESS":
-                            task_progress = self.get_task_details_by_id(task_id)
-                            self.log(f"Task '{task_id}' completed successfully. {task_progress}", "INFO")
-                            self.location_deleted.append(access_point.get("name"))
-                            break
-                        elif task_status == "FAILURE":
-                            task_progress = self.get_task_details_by_id(task_id)
-                            self.log(f"Task '{task_id}' failed. {task_progress}", "ERROR")
-                            self.location_not_deleted.append(access_point.get("name"))
-                            break
-
-                    self.log(f"Pauses execution for {resync_retry_interval} seconds.", "INFO")
-                    time.sleep(resync_retry_interval)
-                    resync_retry_count = resync_retry_count - 1
-
-                continue
+                self.get_task_status_from_tasks_by_id(task_id, function_name, "SUCCESS")
+                if self.msg == "SUCCESS":
+                    self.log(f"Task '{task_id}' completed successfully.", "INFO")
+                    self.location_deleted.append(access_point.get("name"))
+                else:
+                    self.log(f"Task '{task_id}' failed.", "ERROR")
+                    self.location_not_deleted.append(access_point.get("name"))
 
             except Exception as e:
                 self.msg = 'An error occurred during get task details. '
@@ -1667,7 +1667,10 @@ class AccessPointLocation(DnacBase):
             self.changed = False
             self.status = "success"
 
-        if self.have.get("new_accesspoint") or self.have.get("update_accesspoint"):
+        if (
+            self.have.get("new_accesspoint") or self.have.get("update_accesspoint")
+            or self.have.get("update_real_accesspoint")
+            ):
             responses = self.accesspoint_position_creation_updation()
 
             if not responses:
@@ -1726,13 +1729,13 @@ class AccessPointLocation(DnacBase):
 
         if (self.location_exist and not self.location_created and not self.location_updated
            and len(self.location_exist) == len(config.get("access_points", []))):
-            self.msg = "No Changes required, Planned Access Point position(s) already exist."
+            self.msg = "No Changes required, Planned/Real Access Point position(s) already exist."
             self.changed = False
             self.status = "success"
 
         if (self.location_updated
            and len(self.location_updated) == len(config.get("access_points", []))):
-            self.msg = f"Planned Access Point position updated successfully for '{config.get('floor_site_hierarchy')}'."
+            self.msg = f"Planned/Real Access Point position updated successfully for '{config.get('floor_site_hierarchy')}'."
             self.log(self.msg, "INFO")
             self.changed = True
             self.status = "success"
