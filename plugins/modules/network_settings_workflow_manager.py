@@ -3564,7 +3564,7 @@ class NetworkSettings(DnacBase):
 
         # Calculate host bits (add 2 for network + broadcast in IPv4)
         adjustment = 2 if ip_version == "IPv4" else 0
-        host_bits = math.ceil(math.log2(total_hosts + adjustment))
+        host_bits = math.ceil(math.log2(total_hosts))
         prefix_length = max_bits - host_bits
 
         self.log(
