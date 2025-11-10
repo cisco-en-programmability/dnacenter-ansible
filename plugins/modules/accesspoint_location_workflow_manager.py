@@ -567,7 +567,6 @@ response_unassign_real_position:
 """
 
 
-import time
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_str,
