@@ -126,6 +126,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 self.test_data.get("get_port_assignments"),
                 self.test_data.get("192.168.200.69_4"),
                 self.test_data.get("get_port_channels"),
+                self.test_data.get("192.168.200.69_5"),
                 self.test_data.get("get_network_device_by_ip"),
                 self.test_data.get("get_provisioned_wired_device")
             ]
