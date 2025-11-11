@@ -3159,11 +3159,65 @@ class Swim(DnacBase):
             It retrieves the tags associated with each device UUID and checks if the specified tag is present.
             If the tag is found, the device UUID is added to the filtered list. The function returns the list of filtered device UUIDs.
         """
+        # Validate input parameters
+
+        self.log(
+            "Starting device UUID filtering based on tag criteria for SWIM operations",
+            "INFO"
+        )
+
+        self.log(
+            "Processing tag-based device filtering with parameters - "
+            "device_uuid_list: {0} devices, device_tag: '{1}'".format(
+                len(device_uuid_list), device_tag
+            ),
+            "DEBUG"
+        )
+
+        if not device_uuid_list:
+            self.log("Empty device UUID list provided for tag filtering", "DEBUG")
+            return []
+
+        if not device_tag or not isinstance(device_tag, str):
+            self.log("Invalid device tag provided: {0}".format(device_tag), "WARNING")
+            return []
 
         filtered_device_uuids = []
 
-        for device_uuid in device_uuid_list:
-            self.log("Fetching tags for device UUID: {0}".format(device_uuid), "DEBUG")
+        # Statistics tracking
+        statistics = {
+            'devices_processed': 0,
+            'devices_with_matching_tags': 0,
+            'devices_without_tags': 0,
+            'devices_with_api_errors': 0,
+            'invalid_uuids': 0
+        }
+
+        for device_index, device_uuid in enumerate(device_uuid_list, start=1):
+            statistics['devices_processed'] += 1
+
+            self.log(
+                "Processing device {0}/{1} - UUID: {2}".format(
+                    device_index, len(device_uuid_list), device_uuid
+                ),
+                "DEBUG"
+            )
+
+            # Validate device UUID format
+            if not device_uuid or not isinstance(device_uuid, str):
+                self.log(
+                    "Skipping invalid device UUID at index {0}: {1}".format(
+                        device_index, device_uuid
+                    ),
+                    "WARNING"
+                )
+                statistics['invalid_uuids'] += 1
+                continue
+
+            self.log(
+                "Retrieving device tags for UUID: {0}".format(device_uuid),
+                "DEBUG"
+            )
 
             try:
                 response = self.dnac_apply["exec"](
@@ -3173,37 +3227,132 @@ class Swim(DnacBase):
                 )
 
                 self.log(
-                    "Response collected from API 'get_device_detail': {0}".format(response),
+                    "Response collected from API 'get_device_detail' for UUID {0}: {1}".format(
+                        device_uuid, response
+                    ),
                     "DEBUG",
                 )
 
+                # Validate API response structure
+                if not response or not isinstance(response, dict):
+                    self.log(
+                        "Invalid API response structure for device UUID {0} - "
+                        "expected dict, got: {1}".format(
+                            device_uuid, type(response).__name__
+                        ),
+                        "WARNING"
+                    )
+                    statistics['devices_with_api_errors'] += 1
+                    continue
+
                 device_response = response.get("response", {})
+
+                if not device_response:
+                    self.log(
+                        "Empty device response for UUID {0} - device may not exist".format(
+                            device_uuid
+                        ),
+                        "WARNING"
+                    )
+                    statistics['devices_with_api_errors'] += 1
+                    continue
+
                 device_tags = device_response.get("tagIdList", [])
 
                 if not device_tags:
-                    self.log("No tags found for device UUID {0}.".format(device_uuid), "DEBUG")
+                    self.log(
+                        "No tags found for device UUID {0} - excluding from filtered results".format(
+                            device_uuid
+                        ),
+                        "DEBUG"
+                    )
+                    statistics['devices_without_tags'] += 1
                     continue
 
                 self.log(
-                    "Retrieved tags for device UUID {0}: {1}".format(device_uuid, device_tags),
+                    "Retrieved {0} tags for device UUID {1}: {2}".format(
+                        len(device_tags), device_uuid, device_tags
+                    ),
                     "DEBUG",
                 )
 
+                # Check if specified tag exists in device tags
                 if device_tag in device_tags:
                     self.log(
-                        "Device UUID {0} matches the specified tag '{1}'.".format(
-                            device_uuid, device_tag
-                        ),
+                        "Device UUID {0} matches the specified tag '{1}' - "
+                        "adding to filtered results".format(device_uuid, device_tag),
                         "DEBUG",
                     )
                     filtered_device_uuids.append(device_uuid)
+                    statistics['devices_with_matching_tags'] += 1
+                else:
+                    self.log(
+                        "Device UUID {0} does not contain the specified tag '{1}' - "
+                        "excluding from filtered results. Available tags: {2}".format(
+                            device_uuid, device_tag, device_tags
+                        ),
+                        "DEBUG"
+                    )
 
             except Exception as e:
-                self.msg = "Failed to process device UUID {0} due to: {1}".format(device_uuid, e)
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.log(
+                    "Failed to process device UUID {0} due to API error: {1}".format(
+                        device_uuid, str(e)
+                    ),
+                    "ERROR"
+                )
+                statistics['devices_with_api_errors'] += 1
+                continue
+
+        # Log comprehensive filtering statistics
+        self.log(
+            "Device tag filtering completed - "
+            "processed: {0}, matching tags: {1}, without tags: {2}, API errors: {3}, invalid UUIDs: {4}".format(
+                statistics['devices_processed'],
+                statistics['devices_with_matching_tags'],
+                statistics['devices_without_tags'],
+                statistics['devices_with_api_errors'],
+                statistics['invalid_uuids']
+            ),
+            "INFO"
+        )
 
         self.log(
-            "Filtered device UUIDs based on tag '{0}': {1}".format(
+            "Tag-based device filtering results for tag '{0}': {1} devices matched "
+            "out of {2} total devices processed".format(
+                device_tag, len(filtered_device_uuids), len(device_uuid_list)
+            ),
+            "INFO",
+        )
+
+        # Log warnings for problematic scenarios
+        if statistics['devices_with_api_errors'] > 0:
+            self.log(
+                "Warning: {0} devices encountered API errors during tag filtering process".format(
+                    statistics['devices_with_api_errors']
+                ),
+                "WARNING"
+            )
+
+        if statistics['invalid_uuids'] > 0:
+            self.log(
+                "Warning: {0} invalid device UUIDs were skipped during filtering".format(
+                    statistics['invalid_uuids']
+                ),
+                "WARNING"
+            )
+
+        if len(filtered_device_uuids) == 0:
+            self.log(
+                "No devices found matching the specified tag '{0}'. "
+                "Consider checking if the tag exists or if devices are properly tagged.".format(
+                    device_tag
+                ),
+                "WARNING"
+            )
+
+        self.log(
+            "Final filtered device UUIDs based on tag '{0}': {1}".format(
                 device_tag, filtered_device_uuids
             ),
             "DEBUG",
