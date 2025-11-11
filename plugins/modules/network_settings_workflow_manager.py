@@ -1259,7 +1259,7 @@ class NetworkSettings(DnacBase):
         current_version = self.get_ccc_version()
         self.log("Current Cisco Catalyst Center Version: {}".format(current_version), "DEBUG")
 
-        if self.compare_dnac_versions(current_version, "2.3.7.6") <= 0:
+        if self.compare_dnac_versions(current_version, "2.3.7.9") < 0:
             self.log("Using get_global_pool_params_v1 based on version check", "DEBUG")
             return self.get_global_pool_params_v1(pool_info)
 
@@ -1269,7 +1269,7 @@ class NetworkSettings(DnacBase):
     def get_global_pool_params_v1(self, pool_info):
         """
         Process Global Pool parameters from playbook data for Global Pool configuration
-        in Cisco Catalyst Center version <= 2.3.7.6.
+        in Cisco Catalyst Center version < 2.3.7.9.
 
         Parameters:
             pool_info (dict) - Playbook data containing information about the global pool
@@ -1310,7 +1310,7 @@ class NetworkSettings(DnacBase):
     def get_global_pool_params_v2(self, pool_info):
         """
         Process Global Pool parameters from playbook data for Global Pool configuration in
-        Cisco Catalyst Center version > 2.3.7.6.
+        Cisco Catalyst Center version <= 2.3.7.9.
 
         Parameters:
             pool_info (dict) - Playbook data containing information about the global pool
@@ -1840,7 +1840,7 @@ class NetworkSettings(DnacBase):
         Returns:
             network_details: Processed Network data in a format suitable for configuration according to cisco catalyst center version.
         """
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
             self.log(
                 "Using get_network_params_v1 based on version check",
                 "DEBUG",
@@ -1851,7 +1851,7 @@ class NetworkSettings(DnacBase):
 
     def get_network_params_v1(self, site_name, site_id):
         """
-        Process Network parameters for Cisco Catalyst Center version <= 2.3.5.3.
+        Process Network parameters for Cisco Catalyst Center version < 2.3.7.9.
 
         Parameters:
             site_name (str) - The Site name
@@ -2150,7 +2150,7 @@ class NetworkSettings(DnacBase):
 
     def get_network_params_v2(self, site_name, site_id):
         """
-        Process Network parameters for Cisco Catalyst Center version >= 2.3.7.6.
+        Process Network parameters for Cisco Catalyst Center version >= 2.3.7.9.
 
         Parameters:
             site_name (str) - The Site name
@@ -2332,7 +2332,7 @@ class NetworkSettings(DnacBase):
         start_time = time.time()
         while True:
             try:
-                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
                     response = self.dnac._exec(
                         family="network_settings",
                         function="get_reserve_ip_subpool",
@@ -2420,7 +2420,7 @@ class NetworkSettings(DnacBase):
         global_pool_details = None
         response = None
         current_version = self.get_ccc_version()
-        is_old_version = self.compare_dnac_versions(current_version, "2.3.7.6") <= 0
+        is_old_version = self.compare_dnac_versions(current_version, "2.3.7.9") < 0
         page_limit = 25 if is_old_version else 500
         while True:
             try:
@@ -2568,7 +2568,7 @@ class NetworkSettings(DnacBase):
         if name == "":
             reserve_pool_details = self.all_reserved_pool_details.get(site_id)
         else:
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
                 reserve_pool_details = get_dict_result(
                     self.all_reserved_pool_details.get(site_id), "groupName", name)
             else:
@@ -3026,12 +3026,12 @@ class NetworkSettings(DnacBase):
             global_pool_name (str): Name of the global pool to search for in Catalyst Center.
 
         Returns:
-            str: The global pool CIDR (for versions <= 2.3.7.6) or the global pool ID (for later versions).
+            str: The global pool CIDR (for versions < 2.3.7.9) or the global pool ID (for later versions).
                 In case of error, the method sets internal status/message and returns from `check_return_status()`.
         """
         self.log(f"Starting retrieval of global pool. CIDR: {global_pool_cidr}, Name: {global_pool_name}", "INFO")
         current_version = self.get_ccc_version()
-        is_old_version = self.compare_dnac_versions(current_version, "2.3.7.6") <= 0
+        is_old_version = self.compare_dnac_versions(current_version, "2.3.7.9") < 0
         page_limit = 25 if is_old_version else 500
 
         # Direct return for older versions when CIDR is provided
@@ -3084,7 +3084,7 @@ class NetworkSettings(DnacBase):
                 self.status = "failed"
                 return self.check_return_status()
 
-            # Old Version (<= 2.3.7.6)
+            # Old Version (< 2.3.7.9)
             if is_old_version:
                 self.log(f"Looking for global pool '{global_pool_name}' in older version format.", "DEBUG")
                 global_pool_details = get_dict_result(all_global_pool_details, "ipPoolName", global_pool_name)
@@ -3165,7 +3165,7 @@ class NetworkSettings(DnacBase):
 
     def get_want_global_pool_v1(self, global_ippool):
         """
-        Get all the Global Pool information from playbook for Catalyst Center version <= 2.3.7.6.
+        Get all the Global Pool information from playbook for Catalyst Center version < 2.3.7.9.
         Set the status and the msg before returning from the API
         Check the return value of the API with check_return_status()
 
@@ -3255,7 +3255,7 @@ class NetworkSettings(DnacBase):
 
     def get_want_global_pool_v2(self, global_ippool):
         """
-        Get all the Global Pool information from playbook for Catalyst Center version > 2.3.7.6.
+        Get all the Global Pool information from playbook for Catalyst Center version >= 2.3.7.9.
         Set the status and the msg before returning from the API
         Check the return value of the API with check_return_status()
 
@@ -3361,7 +3361,7 @@ class NetworkSettings(DnacBase):
 
     def get_want_reserve_pool_v1(self, reserve_pool):
         """
-        Get all the Reserved Pool information from playbook for Catalyst Center version <= 2.3.7.6.
+        Get all the Reserved Pool information from playbook for Catalyst Center version < 2.3.7.9.
         Set the status and the msg before returning from the API
         Check the return value of the API with check_return_status()
 
@@ -3564,7 +3564,7 @@ class NetworkSettings(DnacBase):
 
         # Calculate host bits (add 2 for network + broadcast in IPv4)
         adjustment = 2 if ip_version == "IPv4" else 0
-        host_bits = math.ceil(math.log2(total_hosts + adjustment))
+        host_bits = math.ceil(math.log2(total_hosts))
         prefix_length = max_bits - host_bits
 
         self.log(
@@ -3575,7 +3575,7 @@ class NetworkSettings(DnacBase):
 
     def get_want_reserve_pool_v2(self, reserve_pool):
         """
-        Get all the Reserved Pool information from playbook for Catalyst Center version > 2.3.7.6.
+        Get all the Reserved Pool information from playbook for Catalyst Center version >= 2.3.7.9.
         Set the status and the msg before returning from the API
         Check the return value of the API with check_return_status()
 
@@ -3829,7 +3829,7 @@ class NetworkSettings(DnacBase):
             want_network_settings = want_network.get("settings")
             self.log("Current state (have): {0}".format(self.have), "DEBUG")
             have_network_details = self.have.get("network")[network_management_index].get("net_details").get("settings")
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
                 if item.get("dhcp_server") is not None:
                     want_network_settings.update({
                         "dhcpServer": item.get("dhcp_server")
@@ -4828,11 +4828,11 @@ class NetworkSettings(DnacBase):
             self.log("Processing global pool details from the playbook.", "INFO")
             global_ippool = config.get("global_pool_details", {}).get("settings", {}).get("ip_pool")
             if global_ippool:
-                if self.compare_dnac_versions(ccc_version, "2.3.7.6") <= 0:
-                    self.log("Using Global Pool handling method: V1 (legacy) for Catalyst Center version <= 2.3.7.6.", "DEBUG")
+                if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+                    self.log("Using Global Pool handling method: V1 (legacy) for Catalyst Center version < 2.3.7.9.", "DEBUG")
                     self.get_want_global_pool_v1(global_ippool).check_return_status()
                 else:
-                    self.log("Using Global Pool handling method: V2 (latest) for Catalyst Center version > 2.3.7.6.", "DEBUG")
+                    self.log("Using Global Pool handling method: V2 (latest) for Catalyst Center version >= 2.3.7.9.", "DEBUG")
                     self.get_want_global_pool_v2(global_ippool).check_return_status()
             else:
                 self.log("No valid global pool details found in the playbook.", "WARNING")
@@ -4840,12 +4840,12 @@ class NetworkSettings(DnacBase):
         if config.get("reserve_pool_details"):
             self.log("Processing reserve pool details from the playbook.", "INFO")
             reserve_pool = config.get("reserve_pool_details")
-            if self.compare_dnac_versions(ccc_version, "2.3.7.6") <= 0:
-                self.log("Detected Catalyst Center version <= 2.3.7.6: {}".format(ccc_version), "DEBUG")
+            if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+                self.log("Detected Catalyst Center version < 2.3.7.9: {}".format(ccc_version), "DEBUG")
                 self.log("Using Reserve Pool handling method: V1 (legacy)", "DEBUG")
                 self.get_want_reserve_pool_v1(reserve_pool).check_return_status()
             else:
-                self.log("Detected Catalyst Center version > 2.3.7.6: {}".format(ccc_version), "DEBUG")
+                self.log("Detected Catalyst Center version >= 2.3.7.9: {}".format(ccc_version), "DEBUG")
                 self.log("Using Reserve Pool handling method: V2 (latest)", "DEBUG")
                 self.get_want_reserve_pool_v2(reserve_pool).check_return_status()
         else:
@@ -4891,7 +4891,7 @@ class NetworkSettings(DnacBase):
 
     def update_global_pool_v1(self, global_pool):
         """
-        Update/Create Global Pool in Cisco Catalyst Center with fields provided in playbook for Catalyst Center version <= 2.3.7.6.
+        Update/Create Global Pool in Cisco Catalyst Center with fields provided in playbook for Catalyst Center version < 2.3.7.9.
 
         Parameters:
             global_pool (list of dict) - Global Pool playbook details
@@ -5088,7 +5088,7 @@ class NetworkSettings(DnacBase):
 
     def update_global_pool_v2(self, global_pool):
         """
-        Update/Create Global Pool in Cisco Catalyst Center with fields provided in playbook for Catalyst Center version > 2.3.7.6.
+        Update/Create Global Pool in Cisco Catalyst Center with fields provided in playbook for Catalyst Center version >= 2.3.7.9.
 
         Parameters:
             global_pool (list of dict) - Global Pool playbook details
@@ -5096,7 +5096,7 @@ class NetworkSettings(DnacBase):
         Returns:
             self: The current object after completing the global pool operations.
         """
-        self.log("Starting global pool update/create process for Catalyst Center version > 2.3.7.6.", "INFO")
+        self.log("Starting global pool update/create process for Catalyst Center version >= 2.3.7.9.", "INFO")
 
         create_global_pool = []
         update_global_pool = []
@@ -5236,14 +5236,14 @@ class NetworkSettings(DnacBase):
         Dispatcher function that routes to the appropriate reserve pool update method
         based on Catalyst Center version (v1 or v2).
         """
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
             return self.update_reserve_pool_v1(reserve_pool)
         else:
             return self.update_reserve_pool_v2(reserve_pool)
 
     def update_reserve_pool_v1(self, reserve_pool):
         """
-        Update or Create a Reserve Pool in Cisco Catalyst Center based on the provided configuration for Catalyst Center version <= 2.3.7.6.
+        Update or Create a Reserve Pool in Cisco Catalyst Center based on the provided configuration for Catalyst Center version < 2.3.7.9.
         This method checks if a reserve pool with the specified name exists in Cisco Catalyst Center.
         If it exists and requires an update, it updates the pool. If not, it creates a new pool.
 
@@ -5394,7 +5394,7 @@ class NetworkSettings(DnacBase):
 
     def update_reserve_pool_v2(self, reserve_pool):
         """
-        Update or Create a Reserve Pool in Cisco Catalyst Center based on the provided configuration for Catalyst Center version > 2.3.7.6.
+        Update or Create a Reserve Pool in Cisco Catalyst Center based on the provided configuration for Catalyst Center version >= 2.3.7.9.
         This method checks if a reserve pool with the specified name exists in Cisco Catalyst Center.
         If it exists and requires an update, it updates the pool. If not, it creates a new pool.
 
@@ -5404,7 +5404,7 @@ class NetworkSettings(DnacBase):
         Returns:
             self - The current object with Global Pool, Reserved Pool, Network Servers information.
         """
-        self.log("Starting the reserved pool update/create process for Catalyst Cebter version > 2.3.7.6.", "INFO")
+        self.log("Starting the reserved pool update/create process for Catalyst Center version >= 2.3.7.9.", "INFO")
 
         reserve_pool_index = -1
         for item in reserve_pool:
@@ -5833,7 +5833,7 @@ class NetworkSettings(DnacBase):
             param = {"id": site_id, "aaaClient": client_and_endpoint_aaa}
 
         if network_aaa == {} and client_and_endpoint_aaa == {}:
-            payload = {"settings": {"aaaNetwork": {}, "aaaClient": {}}}
+            payload = {"aaaNetwork": {}, "aaaClient": {}}
             param = {"id": site_id, "payload": payload}
 
         try:
@@ -5889,8 +5889,8 @@ class NetworkSettings(DnacBase):
             # Check update is required or not
             skip_update = False
 
-            # Only apply extra checks for versions > 2.3.7.6
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") > 0:
+            # Only apply extra checks for versions > 2.3.7.9
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
                 empty_settings = [
                     network_aaa,
                     client_and_endpoint_aaa,
@@ -5961,7 +5961,7 @@ class NetworkSettings(DnacBase):
                 "Network parameters for 'update_network_v2': {0}".format(net_params),
                 "DEBUG",
             )
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
                 if "client_and_endpoint_aaa" in net_params["settings"]:
                     net_params["settings"]["clientAndEndpoint_aaa"] = net_params[
                         "settings"
@@ -6692,6 +6692,16 @@ class NetworkSettings(DnacBase):
                     self.network_obj_params,
                 ):
                     self.msg = "Network Functions Config is not applied to the Cisco Catalyst Center"
+                    self.status = "failed"
+                    return self
+
+                want_network_aaa = self.want.get("wantNetwork")[network_management_index].get("settings", {}).get("network_aaa", {})
+                have_net_details = self.have.get("network")[network_management_index].get("net_details")
+                have_aaa_primary_ip = have_net_details.get("settings", {}).get("network_aaa", {}).get("primaryServerIp", "")
+
+                # RESET CASE (both empty)
+                if want_network_aaa == {} and have_aaa_primary_ip not in ("", None):
+                    self.msg = "Network AAA Primary IP update not applied on Cisco Catalyst Center"
                     self.status = "failed"
                     return self
 
