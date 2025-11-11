@@ -277,8 +277,9 @@ class TestDnacLanAutomationWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get("msg"),
-            "The following required parameters are missing or invalid: None of 'source_device_management_ip_address', "
-            "'source_device_management_mac_address' or 'source_device_management_serial_number' are provided. Atleast one of them is required.",
+            "The following required parameters are missing or invalid: Configuration 1: Missing source device identifiers "
+            "- at least one of 'source_device_management_ip_address', 'source_device_management_mac_address' or "
+            "'source_device_management_serial_number' is required",
         )
 
     def test_delete_second_port_channel_playbook_case_5(self):
@@ -365,6 +366,6 @@ class TestDnacLanAutomationWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
-            "The following required parameters are missing or invalid: links",
+            "Missing links parameter for merged state - at least one link must be specified",
             result.get("msg"),
         )
