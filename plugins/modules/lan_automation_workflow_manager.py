@@ -310,71 +310,97 @@ options:
                 required: true
       port_channel:
         description: >
-          Configuration to create, update, or delete a Port Channel between two LAN
-          Automated devices.
+          Configuration to create, update, or delete Port Channels between two LAN
+          Automated devices in Cisco Catalyst Center. Port Channels aggregate
+          multiple physical links between devices to provide increased bandwidth
+          and redundancy.
         type: list
         elements: dict
         suboptions:
           source_device_management_ip_address:
             description: >
-              - Management IP address of the source device.
-              - The device must be LAN Automated, in Reachable and Managed state in Cisco Catalyst Center inventory.
+              Management IP address of the source device. At least one device
+              identifier (IP address, MAC address, or serial number) must be
+              provided for the source device. The device must be LAN Automated
+              and in Reachable and Managed state in Cisco Catalyst Center inventory.
             type: str
             required: false
           source_device_mac_address:
             description: >
-              - MAC address of the source device.
-              - The device must be LAN Automated, in Reachable and Managed state in Cisco Catalyst Center inventory.
+              MAC address of the source device. Alternative to management IP
+              address or serial number for device identification. The device
+              must be LAN Automated and in Reachable and Managed state in
+              Cisco Catalyst Center inventory.
             type: str
             required: false
           source_device_serial_number:
             description: >
-              - Serial number of the source device.
-              - The device must be LAN Automated, in Reachable and Managed state in Cisco Catalyst Center inventory.
+              Serial number of the source device. Alternative to management IP
+              address or MAC address for device identification. The device must
+              be LAN Automated and in Reachable and Managed state in Cisco
+              Catalyst Center inventory.
             type: str
             required: false
           destination_device_management_ip_address:
             description: >
-              - Management IP address of the destination device.
-              - The device must be LAN Automated, in Reachable and Managed state in Cisco Catalyst Center inventory.
+              Management IP address of the destination device. At least one device
+              identifier (IP address, MAC address, or serial number) must be
+              provided for the destination device. The device must be LAN Automated
+              and in Reachable and Managed state in Cisco Catalyst Center inventory.
             type: str
             required: false
           destination_device_mac_address:
             description: >
-              - MAC address of the destination device.
-              - The device must be LAN Automated, in Reachable and Managed state in Cisco Catalyst Center inventory.
+              MAC address of the destination device. Alternative to management IP
+              address or serial number for device identification. The device must
+              be LAN Automated and in Reachable and Managed state in Cisco
+              Catalyst Center inventory.
             type: str
             required: false
           destination_device_serial_number:
             description: >
-              - Serial number of the destination device.
-              - The device must be LAN Automated, in Reachable and Managed state in Cisco Catalyst Center inventory.
+              Serial number of the destination device. Alternative to management
+              IP address or MAC address for device identification. The device must
+              be LAN Automated and in Reachable and Managed state in Cisco
+              Catalyst Center inventory.
             type: str
             required: false
           port_channel_number:
             description: >
               - This value is system-assigned during creation and user provided value will be ignored.
                 Catalyst Center will automatically provide a unique number upon creation.
-              - Specify this value to target a specific Port Channel for update or delete without needing
-                to provide existing link information.
+              - Can be used for update operations to target a specific existing
+                Port Channel for modification (adding/removing interfaces).
+              - Can be used for delete operations to identify the specific
+                Port Channel to remove from the device pair.
+              - When used for update/delete operations, eliminates the need to
+                specify existing interface links for Port Channel identification.
             type: int
             required: false
           links:
             description: >
-              - List of LAN Automated links to add, update, or remove from the Port
-                Channel.
-              - Mandatory for create and update operations.
+              - List of physical interface links to include in the Port Channel.
+              - Required for create operations - at least one link must be specified.
+              - Optional for update operations - adds/removes links from existing
+                Port Channel.
+              - All links must be between the same source and destination devices.
+              - Interface names must match exact device interface nomenclature.
             type: list
             elements: dict
             suboptions:
               source_port:
                 description: >
-                  - Interface name on the source device.
+                  Interface name on the source device (e.g., 'GigabitEthernet1/0/1',
+                  'TenGigabitEthernet1/0/1'). Must be a valid, available interface
+                  on the source device that is not already part of another Port Channel.
                 type: str
                 required: true
               destination_port:
                 description:
-                  - Interface name on the destination device.
+                  Interface name on the destination device (e.g., 'GigabitEthernet1/0/1',
+                  'TenGigabitEthernet1/0/1'). Must be a valid, available interface
+                  on the destination device that is not already part of another
+                  Port Channel.
                 type: str
                 required: true
 requirements:
@@ -407,49 +433,50 @@ notes:
     the playbook will keep running
     until the state of the device is active or reached
     the timeout value.
-  - Both source and destination devices must be LAN Automated
-    devices in the Reachable and Managed state in Cisco
-    Catalyst Center inventory.
-  - For the source device, at least one of
-    'source_device_management_ip_address', 'source_device_mac_address',
-    or 'source_device_serial_number' is required.
-  - For the destination device, at least one of
-    'destination_device_management_ip_address',
-    'destination_device_mac_address', or
-    'destination_device_serial_number' must be provided when performing
+  - Port Channel operations require both source and destination devices
+    to be LAN Automated devices in Reachable and Managed state within
+    Cisco Catalyst Center inventory.
+  - For the source device, at least one of identifier must be provided from management
+    IP address, MAC address, or serial number.
+  - For the destination device, at least one of identifier must be provided from management
+    IP address, MAC address, or serial number when performing
     create or update operations, and is recommended when targeting a
     specific Port Channel for deletion.
-  - If more than one identifier is provided for either source or
-    destination, the order of precedence is -
-    '*_serial_number' > '*_management_ip_address' > '*_mac_address'.
-  - A Port Channel must have between 2 and 8 links.
-    Creation or update operations will fail if the resulting Port Channel
-    would have fewer than 2 or more than 8 links.
-  - When updating a Port Channel, at least one existing link must
-    be provided to identify the Port Channel between the same
-    endpoints (unless port_channel_number is specified).
-  - port_channel_number is optional and can be used to update or delete
-    a specific Port Channel without specifying existing links.
-    If both links and port_channel_number are provided,
-    the port_channel_number will be used to identify the Port Channel.
-  - Links from different Port Channels cannot be mixed during an update.
-    A link can belong to only one Port Channel.
-  - The terms "source" and "destination" are for input consistency only.
-    Both devices are equal peers in the Port Channel.
-
-  - 'Deletion rules (When deleting a Port Channel, links are not provided) - '
-  - "* If port_channel_number is provided, only that specific Port Channel
-    will be deleted."
-  - "* If both endpoints are provided, only the Port Channels between them
-    will be deleted."
-  - "* If only one endpoint is provided (the source device), all Port
-    Channels from that source device will be deleted."
-
-  - 'Deletion rules (When deleting links) - '
-  - "* Removing all links from a Port Channel will delete the Port Channel
-    itself."
-  - "* If fewer than two links remain after deletion, the workflow will
-    fail (Port Channel requires ≥2 links)."
+  - When multiple device identifiers are provided for the same device,
+    precedence order is serial_number > management_ip_address > mac_address.
+  - Port Channel link constraints - each Port Channel must maintain
+    between 2 and 8 physical links. Operations creating Port Channels
+    with fewer than 2 or more than 8 links will fail validation.
+  - Port Channel identification for updates can use either existing
+    link specifications or port_channel_number parameter. When both
+    are provided, port_channel_number takes precedence for identification.
+  - Link isolation requirement - physical links cannot be shared between
+    multiple Port Channels. Each link belongs exclusively to one
+    Port Channel configuration.
+  - Source and destination terminology is used for configuration
+    consistency only. Both devices function as equal peers in the
+    resulting Port Channel aggregation.
+  - Port Channel deletion behavior varies based on provided parameters.
+    When deleting Port Channels without specifying individual links,
+    if port_channel_number is provided, only that specific Port Channel
+    will be deleted. If both endpoints are provided without
+    port_channel_number, all Port Channels between those devices will
+    be deleted. If only source endpoint is provided, all Port Channels
+    from that source device will be deleted.
+  - Port Channel deletion behavior when deleting individual links -
+    removing links that would result in fewer than 2 remaining links
+    will automatically delete the entire Port Channel. Operations that
+    would leave exactly 1 link will fail validation as Port Channels
+    require minimum 2 links for proper operation.
+  - Port Channel operations integrate with existing LAN Automation
+    device lifecycle management and appear in standard Catalyst Center
+    interface topology views.
+  - When updating Port Channels, at least one existing link must be
+    provided to identify the Port Channel between the same endpoints
+    unless port_channel_number is specified for direct identification.
+  - Links from different Port Channels cannot be mixed during update
+    operations. Each physical link can belong to only one Port Channel
+    at any given time.
 
   - SDK Method used are
     lan_automation.LanAutomation.lan_automation_start_v2
@@ -691,7 +718,7 @@ EXAMPLES = r"""
             - device_management_ip_address: "204.1.1.5"
               new_host_name: "SR-LAN-9500-SJ"
 
-- name: Create a new Port Channel between two devices
+- name: Create a new Port Channel using Management IP address device identification
   cisco.dnac.lan_automation_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -713,8 +740,50 @@ EXAMPLES = r"""
               - source_port: GigabitEthernet1/0/2
                 destination_port: GigabitEthernet2/0/2
 
+- name: Create Port Channel using MAC address device identification
+  cisco.dnac.lan_automation_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    config_verify: false
+    state: merged
+    config:
+      - port_channel:
+          - source_device_mac_address: aa:bb:cc:dd:ee:01
+            destination_device_mac_address: aa:bb:cc:dd:ee:02
+            links:
+              - source_port: TenGigabitEthernet1/0/1
+                destination_port: TenGigabitEthernet1/0/1
+              - source_port: TenGigabitEthernet1/0/2
+                destination_port: TenGigabitEthernet1/0/2
+
+- name: Create Port Channel using serial number device identification
+  cisco.dnac.lan_automation_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    config_verify: false
+    state: merged
+    config:
+      - port_channel:
+          - source_device_serial_number: FCW2140L056
+            destination_device_serial_number: FCW2140L057
+            links:
+              - source_port: FortyGigabitEthernet1/0/1
+                destination_port: FortyGigabitEthernet1/0/1
+
 # Provide at least one existing link to identify the Port Channel.
-- name: Update an existing Port Channel when Port Channels already exist (Provide at least one existing link)
+- name: Update existing Port Channel by providing at least one existing link
   cisco.dnac.lan_automation_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -855,6 +924,37 @@ EXAMPLES = r"""
       - port_channel:
           - source_device_management_ip_address: 10.1.1.1
           # Deletes every Port Channel from source device 10.1.1.1, regardless of destination.
+
+- name: Complex Port Channel operations with multiple configurations
+  cisco.dnac.lan_automation_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    config_verify: false
+    state: merged
+    config:
+      - port_channel:
+          # First Port Channel between devices A and B
+          - source_device_management_ip_address: "10.1.1.1"
+            destination_device_management_ip_address: "20.1.1.1"
+            links:
+              - source_port: "GigabitEthernet1/0/1"
+                destination_port: "GigabitEthernet2/0/1"
+              - source_port: "GigabitEthernet1/0/2"
+                destination_port: "GigabitEthernet2/0/2"
+          # Second Port Channel between devices A and C
+          - source_device_management_ip_address: "10.1.1.1"
+            destination_device_management_ip_address: "30.1.1.1"
+            links:
+              - source_port: "GigabitEthernet1/0/3"
+                destination_port: "GigabitEthernet3/0/1"
+              - source_port: "GigabitEthernet1/0/4"
+                destination_port: "GigabitEthernet3/0/2"
 """
 RETURN = r"""
 dnac_response:
@@ -1261,6 +1361,13 @@ class LanAutomation(DnacBase):
             )
             return None
 
+        if not self.is_valid_ipv4(source_device_management_ip_address):
+            self.msg = (
+                f"Invalid source device IP address format: {source_device_management_ip_address}",
+                "ERROR",
+            )
+            self.fail_and_exit(self.msg)
+
         payload = {
             "device1_management_ipaddress": source_device_management_ip_address,
             "device2_management_ipaddress": destination_device_management_ip_address,
@@ -1273,6 +1380,14 @@ class LanAutomation(DnacBase):
                 f"Destination device '{destination_device_management_ip_address}'",
                 "DEBUG",
             )
+            if not self.is_valid_ipv4(destination_device_management_ip_address):
+                self.msg = (
+                    f"Invalid destination device IP address format: {destination_device_management_ip_address}".format(
+                        destination_device_management_ip_address
+                    ),
+                    "ERROR",
+                )
+                self.fail_and_exit(self.msg)
         else:
             self.log(
                 f"Processing Port Channel configuration: All Port Channels from source device '{source_device_management_ip_address}'",
@@ -1332,30 +1447,31 @@ class LanAutomation(DnacBase):
                     "INFO",
                 )
                 return port_channel_info
-            else:
-                self.log(
-                    f"port_channel_number is provided. Filtering results based on port_channel_number: '{port_channel_number}'.",
-                    "INFO",
-                )
-                filtered_info = [
-                    info
-                    for info in port_channel_info
-                    if info.get("device1PortChannelNumber") == port_channel_number
-                ]
 
-                if not filtered_info:
-                    self.msg = (
-                        f"No Port Channel configurations found for Source IP: '{source_device_management_ip_address}', "
-                        f"Destination IP: '{destination_device_management_ip_address}', Port Channel Number: '{port_channel_number}'."
-                    )
-                    self.log(self.msg, "DEBUG")
-                    return None
+            self.log(
+                f"Successfully retrieved {len(port_channel_info)} Port Channel configuration(s) for "
+                f"source device: {source_device_management_ip_address}",
+                "INFO",
+            )
+            filtered_info = [
+                info
+                for info in port_channel_info
+                if info.get("device1PortChannelNumber") == port_channel_number
+            ]
 
-                self.log(
-                    f"Filtered Port Channel configurations: {self.pprint(filtered_info)}",
-                    "DEBUG",
+            if not filtered_info:
+                self.msg = (
+                    f"No Port Channel configurations found for Source IP: '{source_device_management_ip_address}', "
+                    f"Destination IP: '{destination_device_management_ip_address}', Port Channel Number: '{port_channel_number}'."
                 )
-                return filtered_info
+                self.log(self.msg, "DEBUG")
+                return None
+
+            self.log(
+                f"Filtered Port Channel configurations: {self.pprint(filtered_info)}",
+                "DEBUG",
+            )
+            return filtered_info
 
         except Exception as e:
             self.msg = (
@@ -1520,101 +1636,103 @@ class LanAutomation(DnacBase):
             )
 
             if not fetched_port_channel_configs:
-                self.log(f"[Config {idx}] No configs found in Catalyst Center.", "INFO")
-                have_port_channel_config = None
-            else:
                 self.log(
-                    f"[Config {idx}] Retrieved {len(fetched_port_channel_configs)} raw configs.",
-                    "DEBUG",
+                    f"No matching port channel configurations found in Catalyst Center for [Config {idx}].",
+                    "INFO",
                 )
-                formatted_port_channel_config_list = (
-                    self.format_port_channels_have_configs(fetched_port_channel_configs)
+                have_port_channel_configs.append(None)
+                continue
+
+            self.log(
+                f"[Config {idx}] Retrieved {len(fetched_port_channel_configs)} raw configs.",
+                "DEBUG",
+            )
+            self.log(
+                f"Retrieved {len(fetched_port_channel_configs)} raw port channel configurations from Catalyst Center for [Config {idx}]",
+                "DEBUG",
+            )
+            formatted_port_channel_config_list = self.format_port_channels_have_configs(
+                fetched_port_channel_configs
+            )
+            want_links = port_channel_config.get("links")
+
+            if want_links:
+                self.log(
+                    f"[Config {idx}] Links provided in playbook: {self.pprint(want_links)}",
+                    "INFO",
                 )
-                want_links = port_channel_config.get("links")
-
-                if want_links:
+                if port_channel_number:
                     self.log(
-                        f"[Config {idx}] Links provided in playbook: {self.pprint(want_links)}",
-                        "INFO",
-                    )
-                    if port_channel_number:
-                        self.log(
-                            f"[Config {idx}] port_channel_number provided, keeping all fetched configs.",
-                            "INFO",
-                        )
-                        have_port_channel_config = formatted_port_channel_config_list
-                        # if formatted_port_channel_config_list is not empty and port_channel_number is provided, there should be only one config in the list.
-                        self.log(
-                            f"[Config {idx}] Matching configs: {self.pprint(have_port_channel_config)}",
-                            "DEBUG",
-                        )
-                    else:
-                        self.log(
-                            f"[Config {idx}] port_channel_number not provided, attempting to find the relevant port channel with the provided links.",
-                            "INFO",
-                        )
-                        link_matched_port_channel_config_index_set = set()
-                        for want_link in want_links:
-                            for i, have_port_channel_config in enumerate(
-                                formatted_port_channel_config_list
-                            ):
-                                for have_link in have_port_channel_config.get(
-                                    "links", []
-                                ):
-                                    if want_link.get("sourcePort") == have_link.get(
-                                        "sourcePort"
-                                    ) and want_link.get(
-                                        "destinationPort"
-                                    ) == have_link.get(
-                                        "destinationPort"
-                                    ):
-                                        link_matched_port_channel_config_index_set.add(
-                                            i
-                                        )
-                                        self.log(
-                                            f"[Config {idx}] Link {want_link} matches with existing config index {i}: "
-                                            f"{self.pprint(have_port_channel_config)}",
-                                            "DEBUG",
-                                        )
-
-                        if not link_matched_port_channel_config_index_set:
-                            self.log(
-                                f"[Config {idx}] No existing Port Channel config found by matching links provided in config.",
-                                "DEBUG",
-                            )
-                            have_port_channel_config = None
-
-                        elif len(link_matched_port_channel_config_index_set) > 1:
-                            matched_config_indices = ", ".join(
-                                map(
-                                    str,
-                                    sorted(link_matched_port_channel_config_index_set),
-                                )
-                            )
-                            self.msg = (
-                                f"[Config {idx}] Links provided in playbooks belongs to multiple existing Port "
-                                f"Channel configurations: {self.pprint(formatted_port_channel_config_list)}."
-                                f"Matching indices: {matched_config_indices}"
-                            )
-                            self.fail_and_exit(self.msg)
-                        else:
-                            matched_config_index = (
-                                link_matched_port_channel_config_index_set.pop()
-                            )
-                            self.log(
-                                f"[Config {idx}] Link matched Port Channel config at index: '{matched_config_index}' "
-                                f"Matched Config: {self.pprint(formatted_port_channel_config_list[matched_config_index])}",
-                                "DEBUG",
-                            )
-                            have_port_channel_config = [
-                                formatted_port_channel_config_list[matched_config_index]
-                            ]
-                else:
-                    self.log(
-                        f"[Config {idx}] No links provided in the playbook configuration, keeping all {len(formatted_port_channel_config_list)} configs.",
+                        f"[Config {idx}] port_channel_number provided, keeping all fetched configs.",
                         "INFO",
                     )
                     have_port_channel_config = formatted_port_channel_config_list
+                    # if formatted_port_channel_config_list is not empty and port_channel_number is provided, there should be only one config in the list.
+                    self.log(
+                        f"[Config {idx}] Matching configs: {self.pprint(have_port_channel_config)}",
+                        "DEBUG",
+                    )
+                else:
+                    self.log(
+                        f"[Config {idx}] port_channel_number not provided, attempting to find the relevant port channel with the provided links.",
+                        "INFO",
+                    )
+                    link_matched_port_channel_config_index_set = set()
+                    for want_link in want_links:
+                        for i, have_port_channel_config in enumerate(
+                            formatted_port_channel_config_list
+                        ):
+                            for have_link in have_port_channel_config.get("links", []):
+                                if want_link.get("sourcePort") == have_link.get(
+                                    "sourcePort"
+                                ) and want_link.get("destinationPort") == have_link.get(
+                                    "destinationPort"
+                                ):
+                                    link_matched_port_channel_config_index_set.add(i)
+                                    self.log(
+                                        f"[Config {idx}] Link {want_link} matches with existing config index {i}: "
+                                        f"{self.pprint(have_port_channel_config)}",
+                                        "DEBUG",
+                                    )
+
+                    if not link_matched_port_channel_config_index_set:
+                        self.log(
+                            f"[Config {idx}] No existing Port Channel config found by matching links provided in config.",
+                            "DEBUG",
+                        )
+                        have_port_channel_config = None
+
+                    elif len(link_matched_port_channel_config_index_set) > 1:
+                        matched_config_indices = ", ".join(
+                            map(
+                                str,
+                                sorted(link_matched_port_channel_config_index_set),
+                            )
+                        )
+                        self.msg = (
+                            f"[Config {idx}] Links provided in playbooks belongs to multiple existing Port "
+                            f"Channel configurations: {self.pprint(formatted_port_channel_config_list)}."
+                            f"Matching indices: {matched_config_indices}"
+                        )
+                        self.fail_and_exit(self.msg)
+                    else:
+                        matched_config_index = (
+                            link_matched_port_channel_config_index_set.pop()
+                        )
+                        self.log(
+                            f"[Config {idx}] Link matched Port Channel config at index: '{matched_config_index}' "
+                            f"Matched Config: {self.pprint(formatted_port_channel_config_list[matched_config_index])}",
+                            "DEBUG",
+                        )
+                        have_port_channel_config = [
+                            formatted_port_channel_config_list[matched_config_index]
+                        ]
+            else:
+                self.log(
+                    f"[Config {idx}] No links provided in the playbook configuration, keeping all {len(formatted_port_channel_config_list)} configs.",
+                    "INFO",
+                )
+                have_port_channel_config = formatted_port_channel_config_list
 
             have_port_channel_configs.append(have_port_channel_config)
             self.log(
@@ -1644,6 +1762,11 @@ class LanAutomation(DnacBase):
             - dict: A dictionary mapping session IDs to their corresponding primary seed device IP address.
                     If no primary IP address is found for a session ID, its value is set to `None`.
         """
+
+        self.log(
+            f"Initiating session ID to primary IP mapping for {len(lan_automation_sessions or [])} sessions and {len(lan_automation_session_ids or [])} IDs",
+            "DEBUG",
+        )
 
         session_id_to_primary_ip = {}
 
@@ -1935,7 +2058,7 @@ class LanAutomation(DnacBase):
 
         Description:
             This method maps the given identifier type to the corresponding API field,
-            queries the Cisco DNA Center for the device using the 'get_device_list' API,
+            queries the Cisco Catalyst Center for the device using the 'get_device_list' API,
             and retrieves the management IP address. Detailed DEBUG logs are generated
             for the payload, API response, and any errors encountered. If the API call
             fails or no device is found, the method either logs the issue or exits the
@@ -1946,6 +2069,27 @@ class LanAutomation(DnacBase):
             f"Retrieving device IP for device with {device_identifier}: '{device_identifier_value}'.",
             "DEBUG",
         )
+        if not device_identifier:
+            self.log(
+                "Device identifier type is required for device IP retrieval", "ERROR"
+            )
+            return None
+
+        if not device_identifier_value:
+            self.log(
+                "Device identifier value is required for device IP retrieval", "ERROR"
+            )
+            return None
+
+        valid_identifiers = ["ip_address", "mac_address", "serial_number"]
+        if device_identifier not in valid_identifiers:
+            self.log(
+                "Invalid device identifier type: {0}. Valid types are: {1}".format(
+                    device_identifier, ", ".join(valid_identifiers)
+                ),
+                "ERROR",
+            )
+            return None
 
         device_identifier_api_name_dict = {
             "ip_address": "managementIpAddress",
@@ -1969,10 +2113,26 @@ class LanAutomation(DnacBase):
                 "DEBUG",
             )
 
+            if not response:
+                self.log(
+                    f"No response received from 'get_device_list' API for {device_identifier}: {device_identifier_value}",
+                    "WARNING",
+                )
+                return None
+
             response_data = response.get("response")
             if not response_data:
                 self.msg = f"No device found with {device_identifier}: '{device_identifier_value}'."
                 self.log(self.msg, "DEBUG")
+                return None
+
+            if not isinstance(response_data, list) or len(response_data) == 0:
+                self.log(
+                    "Empty or invalid device list returned for {0}: {1}".format(
+                        device_identifier, device_identifier_value
+                    ),
+                    "INFO",
+                )
                 return None
 
             device_data = response_data[0]
@@ -2019,7 +2179,26 @@ class LanAutomation(DnacBase):
             - If a device cannot be found using the provided identifier, the method calls `fail_and_exit`.
             - Internally, it uses `get_device_ip_by_device_identifier` to query Cisco DNA Center.
         """
-        self.log(f"Resolving {device_type} device management IP address...", "DEBUG")
+        self.log(
+            f"Starting device IP resolution for {device_type} device using available identifiers",
+            "DEBUG",
+        )
+
+        self.log(
+            "Resolution parameters - Serial: {0}, IP: {1}, MAC: {2}".format(
+                serial_number or "None", ip_address or "None", mac_address or "None"
+            ),
+            "DEBUG",
+        )
+
+        if not device_type:
+            self.log(
+                "Device type parameter is required for device IP resolution", "ERROR"
+            )
+            self.msg = "Device type cannot be empty for IP resolution"
+            self.fail_and_exit(self.msg)
+
+        resolved_ip_address = None
 
         if serial_number:
             self.log(
@@ -2031,13 +2210,20 @@ class LanAutomation(DnacBase):
                 "serial_number", serial_number
             )
             if not ip_address:
-                self.msg = f"Failed to retrieve device details using serial number: {serial_number}. Please check if serial number is correct."
-                self.fail_and_exit(self.msg)
-            else:
                 self.log(
-                    f"Successfully retrieved IP address using serial number: {serial_number}: {ip_address}",
-                    "DEBUG",
+                    f"Failed to resolve IP address using serial number: {serial_number}",
+                    "ERROR",
                 )
+                self.msg = (
+                    f"Failed to retrieve device details using serial number: {serial_number}. "
+                    "Please check if serial number is correct."
+                )
+                self.fail_and_exit(self.msg)
+
+            self.log(
+                f"Successfully resolved IP address using serial number {serial_number}: {ip_address}",
+                "INFO",
+            )
 
         elif ip_address:
             self.log(
@@ -2050,7 +2236,14 @@ class LanAutomation(DnacBase):
                 "ip_address", ip_address
             )
             if not ip_address:
-                self.msg = f"Failed to retrieve device details using IP address: {original_ip_address}. Please check if IP address is correct."
+                self.log(
+                    f"Failed to resolve IP address using IP address: {original_ip_address}",
+                    "ERROR",
+                )
+                self.msg = (
+                    f"Failed to retrieve device details using IP address: {original_ip_address}. "
+                    "Please check if IP address is correct."
+                )
                 self.fail_and_exit(self.msg)
             else:
                 self.log(
@@ -2067,13 +2260,20 @@ class LanAutomation(DnacBase):
                 "mac_address", mac_address
             )
             if not ip_address:
-                self.msg = f"Failed to retrieve device details using MAC address: {mac_address}. Please check if MAC address is correct."
-                self.fail_and_exit(self.msg)
-            else:
                 self.log(
-                    f"Successfully retrieved IP address using MAC address: {mac_address}: {ip_address}",
-                    "DEBUG",
+                    f"Failed to resolve IP address using MAC address: {mac_address}",
+                    "ERROR",
                 )
+                self.msg = (
+                    f"Failed to retrieve device details using MAC address: {mac_address}. "
+                    "Please check if MAC address is correct."
+                )
+                self.fail_and_exit(self.msg)
+
+            self.log(
+                f"Successfully resolved IP address using MAC address {mac_address}: {ip_address}",
+                "INFO",
+            )
         else:
             self.msg = (
                 f"None of 'management_ip_address', 'mac_address' or 'serial_number' "
@@ -2082,6 +2282,257 @@ class LanAutomation(DnacBase):
             self.fail_and_exit(self.msg)
 
         return ip_address
+
+    def validate_port_channel_number(self, port_channel_config, idx, state):
+        """
+        Validate port channel number parameter based on state.
+        Args:
+            port_channel_config (dict): Port channel configuration
+            idx (int): Configuration index for logging
+            state (str): Current operation state
+        Returns:
+            int or None: Validated port channel number
+        """
+        self.log(
+            f"Validating port channel number for configuration {idx} in state '{state}'",
+            "DEBUG",
+        )
+        port_channel_number = port_channel_config.get("port_channel_number")
+
+        if state == "merged":
+            if not port_channel_number:
+                self.log(
+                    "Configuration {0}: No port_channel_number provided - new Port Channel will be "
+                    "created if none exists between endpoints".format(idx),
+                    "INFO",
+                )
+                return None
+
+            self.log(
+                "Configuration {0}: port_channel_number provided: {1} - will be used for "
+                "updating existing Port Channel".format(idx, port_channel_number),
+                "INFO",
+            )
+            return port_channel_number
+
+        elif state == "deleted":
+            if not port_channel_number:
+                self.log(
+                    "Configuration {0}: No port_channel_number provided - all Port Channels "
+                    "between specified endpoints will be deleted".format(idx),
+                    "INFO",
+                )
+                return None
+
+            self.log(
+                "Configuration {0}: port_channel_number provided: {1} - only specified "
+                "Port Channel will be deleted".format(idx, port_channel_number),
+                "INFO",
+            )
+            return port_channel_number
+
+        return None
+
+    def validate_port_channel_links(
+        self, port_channel_config, idx, state, missing_params
+    ):
+        """
+        Validate port channel links parameter based on state.
+        Args:
+            port_channel_config (dict): Port channel configuration
+            idx (int): Configuration index for logging
+            state (str): Current operation state
+            missing_params (list): List to collect missing parameters
+        Returns:
+            list or None: Validated links configuration
+        """
+
+        self.log(
+            f"Validating port channel links for configuration {idx} in state '{state}'",
+            "DEBUG",
+        )
+
+        links = port_channel_config.get("links")
+
+        if state == "merged":
+            if not links:
+                error_msg = (
+                    "Configuration {0}: Missing links parameter for merged state - "
+                    "at least one link must be specified".format(idx)
+                )
+                self.log(error_msg, "ERROR")
+                missing_params.append(error_msg)
+                return None
+            else:
+                self.log(
+                    "Configuration {0}: Links provided for validation: {1}".format(
+                        idx, len(links) if isinstance(links, list) else "invalid"
+                    ),
+                    "INFO",
+                )
+
+                # Validate links structure
+                self.validate_links(links)
+                return links
+
+        elif state == "deleted":
+            if not links:
+                self.log(
+                    "Configuration {0}: No links provided for deleted state - "
+                    "all links will be targeted".format(idx),
+                    "INFO",
+                )
+                return None
+            else:
+                self.log(
+                    "Configuration {0}: Links provided for deletion: {1}".format(
+                        idx, len(links) if isinstance(links, list) else "invalid"
+                    ),
+                    "INFO",
+                )
+
+                # Validate links structure
+                self.validate_links(links)
+                return links
+
+        return None
+
+    def _validate_and_resolve_source_device(
+        self, port_channel_config, idx, missing_params
+    ):
+        """
+        Validate and resolve source device IP address.
+        Args:
+            port_channel_config (dict): Port channel configuration
+            idx (int): Configuration index for logging
+            missing_params (list): List to collect missing parameters
+        Returns:
+            str or None: Resolved source device IP address
+        """
+        source_ip = port_channel_config.get("source_device_management_ip_address")
+        source_mac = port_channel_config.get("source_device_management_mac_address")
+        source_serial = port_channel_config.get(
+            "source_device_management_serial_number"
+        )
+
+        if any([source_ip, source_mac, source_serial]):
+            self.log(
+                f"Configuration {idx}: Source device identifiers provided - resolving IP address",
+                "DEBUG",
+            )
+
+            resolved_ip = self.resolve_device_ip(
+                "source", source_serial, source_ip, source_mac
+            )
+
+            if resolved_ip:
+                self.log(
+                    f"Configuration {idx}: Successfully resolved source device IP: {resolved_ip}",
+                    "INFO",
+                )
+                return resolved_ip
+            else:
+                error_msg = f"Configuration {idx}: Failed to resolve source device IP"
+                self.log(error_msg, "ERROR")
+                missing_params.append(error_msg)
+                return None
+        else:
+            error_msg = (
+                f"Configuration {idx}: Missing source device identifiers - at least one of "
+                "'source_device_management_ip_address', 'source_device_management_mac_address' "
+                "or 'source_device_management_serial_number' is required"
+            )
+            self.log(error_msg, "ERROR")
+            missing_params.append(error_msg)
+            return None
+
+    def _validate_and_resolve_destination_device(
+        self, port_channel_config, idx, state, missing_params
+    ):
+        """
+        Validate and resolve destination device IP address based on state.
+        Args:
+            port_channel_config (dict): Port channel configuration
+            idx (int): Configuration index for logging
+            state (str): Current operation state
+            missing_params (list): List to collect missing parameters
+        Returns:
+            str or None: Resolved destination device IP address
+        """
+        dest_ip = port_channel_config.get("destination_device_management_ip_address")
+        dest_mac = port_channel_config.get("destination_device_mac_address")
+        dest_serial = port_channel_config.get("destination_device_serial_number")
+
+        has_destination_identifiers = any([dest_ip, dest_mac, dest_serial])
+
+        if state == "merged":
+            if has_destination_identifiers:
+                self.log(
+                    f"Configuration {idx}: Destination device identifiers provided - resolving IP address",
+                    "DEBUG",
+                )
+
+                resolved_ip = self.resolve_device_ip(
+                    "destination", dest_serial, dest_ip, dest_mac
+                )
+
+                if resolved_ip:
+                    self.log(
+                        f"Configuration {idx}: Successfully resolved destination device IP: {resolved_ip}",
+                        "INFO",
+                    )
+                    return resolved_ip
+                else:
+                    error_msg = (
+                        f"Configuration {idx}: Failed to resolve destination device IP"
+                    )
+                    self.log(error_msg, "ERROR")
+                    missing_params.append(error_msg)
+                    return None
+            else:
+                error_msg = (
+                    f"Configuration {idx}: Missing destination device identifiers for merged state - "
+                    f"at least one of 'destination_device_management_ip_address', "
+                    f"'destination_device_mac_address' or 'destination_device_serial_number' "
+                    f"is required"
+                )
+                self.log(error_msg, "ERROR")
+                missing_params.append(error_msg)
+                return None
+
+        elif state == "deleted":
+            if not has_destination_identifiers:
+                self.log(
+                    f"Configuration {idx}: No destination device identifiers provided for deleted state - "
+                    f"all port channels from source device will be targeted",
+                    "INFO",
+                )
+                return None
+            else:
+                self.log(
+                    f"Configuration {idx}: Destination device identifiers provided - resolving IP address",
+                    "DEBUG",
+                )
+
+                resolved_ip = self.resolve_device_ip(
+                    "destination", dest_serial, dest_ip, dest_mac
+                )
+
+                if resolved_ip:
+                    self.log(
+                        f"Configuration {idx}: Successfully resolved destination device IP: {resolved_ip}",
+                        "INFO",
+                    )
+                    return resolved_ip
+                else:
+                    error_msg = (
+                        f"Configuration {idx}: Failed to resolve destination device IP"
+                    )
+                    self.log(error_msg, "ERROR")
+                    missing_params.append(error_msg)
+                    return None
+
+        return None
 
     def validate_and_extract_port_channel_config_from_playbook(self, config):
         """
@@ -2131,9 +2582,23 @@ class LanAutomation(DnacBase):
             self.log("No port channel configuration provided in the playbook.", "INFO")
             return [], []
 
+        if not isinstance(port_channel_configs, list):
+            self.log(
+                f"Invalid port_channel format - expected list, got: {type(port_channel_configs).__name__}",
+                "ERROR",
+            )
+            return [], ["Invalid port_channel format - expected list"]
+
+        self.log(
+            f"Found {len(port_channel_configs)} port channel configurations to process",
+            "INFO",
+        )
+
         missing_params = []
         want_port_channel_configs = []
         state = self.params.get("state")
+
+        self.log(f"Processing port channel configurations for state: {state}", "DEBUG")
 
         # Validate and collect port channel parameters
         for idx, port_channel_config in enumerate(port_channel_configs, start=1):
@@ -2141,199 +2606,41 @@ class LanAutomation(DnacBase):
                 f"[PortChannel {idx}] Processing playbook config: {self.pprint(port_channel_config)}",
                 "DEBUG",
             )
+            if not isinstance(port_channel_config, dict):
+                error_msg = (
+                    "Invalid port channel config at index {0} - expected dict".format(
+                        idx
+                    )
+                )
+                self.log(error_msg, "ERROR")
+                missing_params.append(error_msg)
+                continue
+
             want_port_channel_config = {}
 
             # Source end point validation, one of the device identifiers is required
-            source_device_management_ip_address = port_channel_config.get(
-                "source_device_management_ip_address"
+            want_port_channel_config["source_device_management_ip_address"] = (
+                self._validate_and_resolve_source_device(
+                    port_channel_config, idx, missing_params
+                )
             )
-            source_device_management_mac_address = port_channel_config.get(
-                "source_device_management_mac_address"
-            )
-            source_device_management_serial_number = port_channel_config.get(
-                "source_device_management_serial_number"
-            )
-
-            if any(
-                [
-                    source_device_management_ip_address,
-                    source_device_management_mac_address,
-                    source_device_management_serial_number,
-                ]
-            ):
-                self.log(
-                    f"[PortChannel {idx}] Source device details provided. Resolving IP...",
-                    "DEBUG",
-                )
-                want_port_channel_config["source_device_management_ip_address"] = (
-                    self.resolve_device_ip(
-                        "source",
-                        source_device_management_serial_number,
-                        source_device_management_ip_address,
-                        source_device_management_mac_address,
-                    )
-                )
-                self.log(
-                    f"[PortChannel {idx}] Resolved source IP: {want_port_channel_config['source_device_management_ip_address']}",
-                    "INFO",
-                )
-            else:
-                missing_params.append(
-                    "None of 'source_device_management_ip_address', 'source_device_management_mac_address' or 'source_device_management_serial_number' "
-                    "are provided. Atleast one of them is required."
-                )
-                self.log(
-                    f"[PortChannel {idx}] Missing source device identifiers!", "ERROR"
-                )
 
             # Destination end point validation, based on state as destination end points details are conditionally optional
-            destination_device_management_ip_address = port_channel_config.get(
-                "destination_device_management_ip_address"
+            want_port_channel_config["destination_device_management_ip_address"] = (
+                self._validate_and_resolve_destination_device(
+                    port_channel_config, idx, state, missing_params
+                )
             )
-            destination_device_mac_address = port_channel_config.get(
-                "destination_device_mac_address"
-            )
-            destination_device_serial_number = port_channel_config.get(
-                "destination_device_serial_number"
-            )
-
-            if state == "merged":
-                if any(
-                    [
-                        destination_device_management_ip_address,
-                        destination_device_mac_address,
-                        destination_device_serial_number,
-                    ]
-                ):
-                    self.log(
-                        f"[PortChannel {idx}] Destination device details provided. Resolving IP...",
-                        "DEBUG",
-                    )
-                    want_port_channel_config[
-                        "destination_device_management_ip_address"
-                    ] = self.resolve_device_ip(
-                        "destination",
-                        destination_device_serial_number,
-                        destination_device_management_ip_address,
-                        destination_device_mac_address,
-                    )
-                    self.log(
-                        f"[PortChannel {idx}] Resolved destination IP: {want_port_channel_config['destination_device_management_ip_address']}",
-                        "INFO",
-                    )
-                else:
-                    missing_params.append(
-                        "None of 'destination_device_management_ip_address', 'destination_device_mac_address' or 'destination_device_serial_number' "
-                        "are provided. Atleast one of them is required."
-                    )
-                    self.log(
-                        f"[PortChannel {idx}] Missing destination device identifiers!",
-                        "ERROR",
-                    )
-
-            elif state == "deleted":
-                if not any(
-                    [
-                        destination_device_management_ip_address,
-                        destination_device_mac_address,
-                        destination_device_serial_number,
-                    ]
-                ):
-                    self.log(
-                        f"[PortChannel {idx}] Any of destination_device_management_ip_address, "
-                        "destination_device_mac_address or destination_device_serial_number are "
-                        "not provided, all port channels from source device will be deleted",
-                        "INFO",
-                    )
-                    want_port_channel_config[
-                        "destination_device_management_ip_address"
-                    ] = None
-                else:
-                    self.log(
-                        "Destination device management details are provided.", "DEBUG"
-                    )
-                    want_port_channel_config[
-                        "destination_device_management_ip_address"
-                    ] = self.resolve_device_ip(
-                        "destination",
-                        destination_device_serial_number,
-                        destination_device_management_ip_address,
-                        destination_device_mac_address,
-                    )
-                    self.log(
-                        f"[PortChannel {idx}] Resolved destination IP: {want_port_channel_config['destination_device_management_ip_address']}",
-                        "INFO",
-                    )
-            else:
-                self.msg = f"Invalid state: {state}. Supported states are 'merged' and 'deleted'."
-                self.fail_and_exit(self.msg)
 
             #  optional parameter, validating according to state
-            port_channel_number = port_channel_config.get("port_channel_number")
-            if state == "merged":
-                if not port_channel_number:
-                    want_port_channel_config["port_channel_number"] = None
-                    self.log(
-                        f"[PortChannel {idx}] port_channel_number is not provided. A new Port Channel will be created if none exists between these endpoints. "
-                        "If you intend to update an existing Port Channel, please specify at least one existing link or provide port_channel_number.",
-                        "INFO",
-                    )
-                else:
-                    self.log(
-                        f"[PortChannel {idx}] port_channel_number provided: '{port_channel_number}'. "
-                        "If no Port Channel exists between these endpoints, this value will be ignored. "
-                        "Specify port_channel_number only when updating or deleting an existing Port Channel.",
-                        "INFO",
-                    )
-                    want_port_channel_config["port_channel_number"] = (
-                        port_channel_number
-                    )
-            elif state == "deleted":
-                if not port_channel_number:
-                    want_port_channel_config["port_channel_number"] = None
-                    self.log(
-                        f"[PortChannel {idx}] port_channel_number is not provided. All Port Channels between the specified endpoints will be deleted.",
-                        "INFO",
-                    )
-                else:
-                    self.log(
-                        f"[PortChannel {idx}] port_channel_number provided: '{port_channel_number}'. Only the specified Port Channel will be deleted.",
-                        "INFO",
-                    )
-                    want_port_channel_config["port_channel_number"] = (
-                        port_channel_number
-                    )
+            want_port_channel_config["port_channel_number"] = (
+                self.validate_port_channel_number(port_channel_config, idx, state)
+            )
 
             #  optional parameter, validating according to state
-            links = port_channel_config.get("links")
-            if state == "merged":
-                if not links:
-                    self.log(
-                        f"[PortChannel {idx}] links not provided. At least one link must be specified when state is: '{state}'.",
-                        "ERROR",
-                    )
-                    missing_params.append("links")
-                else:
-                    self.log(
-                        f"[PortChannel {idx}] links provided: {self.pprint(links)}. Validating...",
-                        "INFO",
-                    )
-                    self.validate_links(links)
-                    want_port_channel_config["links"] = links
-            elif state == "deleted":
-                if not links:
-                    self.log(
-                        f"[PortChannel {idx}] links not provided. All links will be deleted.",
-                        "INFO",
-                    )
-                    want_port_channel_config["links"] = None
-                else:
-                    self.log(
-                        f"[PortChannel {idx}] links provided: {self.pprint(links)}. Validating...",
-                        "INFO",
-                    )
-                    self.validate_links(links)
-                    want_port_channel_config["links"] = links
+            want_port_channel_config["links"] = self.validate_port_channel_links(
+                port_channel_config, idx, state, missing_params
+            )
 
             want_port_channel_configs.append(want_port_channel_config)
             self.log(
@@ -4157,10 +4464,18 @@ class LanAutomation(DnacBase):
         want_links = want_port_channel_config.get("links")
         want_source_to_destination_port_mapping = {}
         want_destination_to_source_port_mapping = {}
-        for want_link in want_links:
-            for want_src, want_dst in want_link.items():
-                want_source_to_destination_port_mapping[want_src] = want_dst
-                want_destination_to_source_port_mapping[want_dst] = want_src
+        for link_idx, want_link in enumerate(want_links, start=1):
+            for want_source_port, want_destination_port in want_link.items():
+                want_source_to_destination_port_mapping[want_source_port] = (
+                    want_destination_port
+                )
+                want_destination_to_source_port_mapping[want_destination_port] = (
+                    want_source_port
+                )
+                self.log(
+                    f"Mapped desired link {link_idx}: {want_source_port} -> {want_destination_port}",
+                    "DEBUG",
+                )
 
         self.log(
             "Starting duplicate port validation against existing port channel configuration.",
@@ -4213,23 +4528,36 @@ class LanAutomation(DnacBase):
             "Checking if updated links exceed 8 (max) or fall below 2 (min) allowed links per port channel.",
             "DEBUG",
         )
-        if state == "merged" and (len(updated_required_links) + len(have_links) > 8):
-            self.msg = (
-                f"Port channel configuration update would result in more than 8 links. "
-                f"Maximum allowed links per port channel is 8. Current links: {len(have_links)}, "
-                f"Links to be added: {len(updated_required_links)}, Total would be: {len(have_links) + len(updated_required_links)}"
+
+        if state == "merged":
+            total_links_after_merge = len(updated_required_links) + len(have_links)
+            if total_links_after_merge > 8:
+                self.log(
+                    "Link count validation failed - would exceed maximum of 8 links",
+                    "ERROR",
+                )
+                self.msg = (
+                    f"Port channel configuration update would result in more than 8 links. "
+                    f"Maximum allowed links per port channel is 8. Current links: {len(have_links)}, "
+                    f"Links to be added: {len(updated_required_links)}, Total would be: {total_links_after_merge}"
+                )
+                self.fail_and_exit(self.msg)
+
+        elif state == "deleted":
+            remaining_links_after_deletion = len(have_links) - len(
+                updated_required_links
             )
-            self.fail_and_exit(self.msg)
-        elif state == "deleted" and (
-            len(have_links) - len(updated_required_links) == 1
-        ):
-            # When No link remains, the port channel is deleted instead of updating with 0 links.
-            self.msg = (
-                f"Port channel configuration update would result in less than 2 links. "
-                f"Minimum required links per port channel is 2. Current links: {len(have_links)}, "
-                f"Links to be removed: {len(updated_required_links)}, Total would be: {len(have_links) - len(updated_required_links)}"
-            )
-            self.fail_and_exit(self.msg)
+            if remaining_links_after_deletion == 1:
+                self.log(
+                    "Link count validation failed - would result in less than 2 links",
+                    "ERROR",
+                )
+                self.msg = (
+                    f"Port channel configuration update would result in less than 2 links. "
+                    f"Minimum required links per port channel is 2. Current links: {len(have_links)}, "
+                    f"Links to be removed: {len(updated_required_links)}, Total would be: {remaining_links_after_deletion}"
+                )
+                self.fail_and_exit(self.msg)
 
         self.log("Port channel link count validation passed.", "DEBUG")
 
@@ -4243,6 +4571,10 @@ class LanAutomation(DnacBase):
             "links": updated_required_links,
             "id": have_port_channel_config.get("id"),
         }
+        self.log(
+            f"Port channel configuration comparison completed - update required with {len(updated_required_links)} links",
+            "DEBUG",
+        )
         self.log(
             f"Updated port channel configuration: {self.pprint(updated_port_channel_config)}",
             "DEBUG",
@@ -4357,6 +4689,34 @@ class LanAutomation(DnacBase):
             f"destination device: '{destination_device_management_ip}' with config: {self.pprint(port_channel_config)}",
             "INFO",
         )
+
+        if not source_device_management_ip:
+            self.log(
+                "Source device management IP address is required for link addition",
+                "ERROR",
+            )
+            self.msg = (
+                "Source device management IP address is missing from configuration"
+            )
+            self.fail_and_exit(self.msg)
+
+        if not destination_device_management_ip:
+            self.log(
+                "Destination device management IP address is required for link addition",
+                "ERROR",
+            )
+            self.msg = (
+                "Destination device management IP address is missing from configuration"
+            )
+            self.fail_and_exit(self.msg)
+
+        links = port_channel_config.get("links", [])
+        if not links or not isinstance(links, list):
+            self.log(
+                "Valid links list is required for port channel link addition", "ERROR"
+            )
+            self.msg = "Links configuration is missing or invalid"
+            self.fail_and_exit(self.msg)
 
         update_port_channel_payload = {
             "id": port_channel_config.get("id"),
@@ -5587,6 +5947,18 @@ class LanAutomation(DnacBase):
             - Updates `link_not_removed_from_port_channel` list if no changes are required.
         """
 
+        self.log(
+            "Starting port channel link deletion processing for specified configuration",
+            "DEBUG",
+        )
+        self.log(
+            f"Desired port channel configuration for link deletion: {self.pprint(want_port_channel_config)}",
+            "DEBUG",
+        )
+        self.log(
+            f"Existing port channel configuration for link deletion: {self.pprint(have_port_channel_config)}",
+            "DEBUG",
+        )
         want_links = want_port_channel_config.get("links", [])
         self.log(
             f"Links are provided in the configuration for deletion. Checking if updates are required. Links to be deleted: {self.pprint(want_links)}",
@@ -5653,6 +6025,10 @@ class LanAutomation(DnacBase):
             - Calls `delete_lan_automated_port_channel` to delete the port channel.
             - Logs both the initiation and confirmation of the deletion process.
         """
+        self.log(
+            "Starting complete port channel deletion process for specified configuration",
+            "DEBUG",
+        )
 
         destination_device_management_ip = have_port_channel_config.get(
             "destinationDeviceManagementIPAddress"
@@ -5672,6 +6048,15 @@ class LanAutomation(DnacBase):
             "sourceDeviceManagementIPAddress": source_device_management_ip,
             "links": have_port_channel_config.get("links", []),
         }
+
+        self.log(
+            f"Constructed port channel deletion configuration: {self.pprint(updated_port_channel_config)}",
+            "DEBUG",
+        )
+        self.log(
+            f"Executing port channel deletion API call for port channel ID: {updated_port_channel_config.get('id')}",
+            "DEBUG",
+        )
         self.delete_lan_automated_port_channel(updated_port_channel_config)
 
     def delete_lan_automated_port_channel(self, port_channel_config):
