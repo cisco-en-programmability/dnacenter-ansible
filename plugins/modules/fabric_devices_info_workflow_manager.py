@@ -45,8 +45,8 @@ options:
   state:
     description: The desired state of the configuration after module execution.
     type: str
-    choices: ["merged"]
-    default: merged
+    choices: ["gathered"]
+    default: gathered
   config:
     description: List of dictionaries specifying fabric device query parameters.
     type: list
@@ -302,7 +302,7 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        state: merged
+        state: gathered
         config:
           - fabric_devices:
               - fabric_site_hierarchy: "Global/rishipat_area/Fabric-area-1"  # Mandatory parameter
@@ -340,7 +340,7 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        state: merged
+        state: gathered
         config:
           - fabric_devices:
               - fabric_site_hierarchy: "Global/rishipat_area/Fabric-area-1"  # Mandatory parameter
@@ -385,7 +385,7 @@ EXAMPLES = r"""
         dnac_log_level: DEBUG
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        state: merged
+        state: gathered
         config:
           - fabric_devices:
               - fabric_site_hierarchy: "Global/rishipat_area/Fabric-area-1"  # Mandatory parameter
@@ -1424,7 +1424,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
 class FabricDevicesInfo(DnacBase):
     def __init__(self, module):
         super().__init__(module)
-        self.supported_states = ['merged']
+        self.supported_states = ['gathered']
         self.total_response = []
 
     def validate_input(self):
@@ -1750,7 +1750,7 @@ class FabricDevicesInfo(DnacBase):
         self.log(want, "DEBUG")
         self.log("Fabric devices information workflow desired state extraction completed successfully", "DEBUG")
 
-    def get_diff_merged(self, config):
+    def get_diff_gathered(self, config):
         """
         Processes the device configuration and retrieves requested information for each fabric device.
 
@@ -4326,7 +4326,7 @@ def main():
                     'dnac_api_task_timeout': {'type': 'int', "default": 1200},
                     'dnac_task_poll_interval': {'type': 'int', "default": 2},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
-                    'state': {'default': 'merged', 'choices': ['merged']}
+                    'state': {'default': 'gathered', 'choices': ['gathered']}
                     }
 
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
