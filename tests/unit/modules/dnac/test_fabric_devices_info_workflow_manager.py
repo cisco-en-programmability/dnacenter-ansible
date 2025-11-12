@@ -305,7 +305,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_fabric_info
@@ -353,7 +353,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_handoff_info
@@ -412,7 +412,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_onboarding_info
@@ -517,7 +517,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_health_info
@@ -590,7 +590,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_issues_info
@@ -629,7 +629,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_connected_devices_info
@@ -1008,7 +1008,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_1
@@ -1035,7 +1035,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_2
@@ -1065,7 +1065,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_3
@@ -1092,7 +1092,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_4
@@ -1121,7 +1121,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_5
@@ -1148,7 +1148,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_6
@@ -1175,7 +1175,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_7
@@ -1207,7 +1207,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_8
@@ -1234,7 +1234,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_9
@@ -1261,7 +1261,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_10
@@ -1288,7 +1288,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_11
@@ -1319,7 +1319,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_12
@@ -1346,7 +1346,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_ip_range_OR_logic_exception
@@ -1379,7 +1379,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_ip_range_AND_logic_exception
