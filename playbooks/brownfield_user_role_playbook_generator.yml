@@ -22,5 +22,11 @@
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - file_path: "/Users/priyadharshini/ansible/dnac/work/collections/ansible_collections/cisco/dnac/playbooks"
+          - file_path: "/Users/priyadharshini/Downloads/specific_userrole_details_info"
+            component_specific_filters:
+              components_list: ["role_details","user_details"]
+              user_details:
+                - username: "admin"
+              role_details:
+                - role_name: "TestRole"
 

@@ -807,9 +807,14 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             )
             self.set_operation_result("ok", False, self.msg, "INFO")
             return self
+        
+        final_config = []
+        for component, data in config_dict.items():
+            # Create separate list item for each component
+            component_item = {component: data}
+            final_config.append(component_item)
 
-        # Create final structure with proper nesting
-        final_dict = {"config": [config_dict]}
+        final_dict = {"config": final_config}
         self.log("Final dictionary created: {0}".format(final_dict), "DEBUG")
 
         if self.write_dict_to_yaml(final_dict, file_path):
