@@ -1,0 +1,26 @@
+---
+- name: Configure reports on Cisco Catalyst Center
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Generate YAML Configuration using explicit components list
+      cisco.dnac.brownfield_network_settings_playbook_generator:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        state: merged
+        config:
+          # - file_path: "/tmp/network_settings_automation_config.yml"
+            # global_filters:
+            #   ip_address_list: ["192.168.1.10", "192.168.1.11"]
+          - component_specific_filters:
+              components_list: ["global_pool_details"]
