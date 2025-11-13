@@ -560,7 +560,7 @@ License Usage Upload Details                      N/A                           
 License Historical Usage                          N/A                                  License Type, Time Range, Usage Type
 Endpoint Profiling                                Location                             Location, Device Type, Profile Name, Time Range
 Audit Log                                         N/A                                  Time Range
-Configuration Archive                             Device, Time Range                   Device Name, Location, Archive Status, Time Range
+Configuration Archive                             Device, Time Range                   DeviceName, Location, Archive Status, Time Range
 Client                                            Location                              Location, Client MAC, Device Type
 Client Summary                                    Location                              Location, Device Type, Connection Status
 Top N Summary                                     Location                              Location, Metric Type, Time Range
@@ -1039,6 +1039,58 @@ Note: The available format types are retrieved through the following API endpoin
 '''
 
 EXAMPLES = r'''
+- name: Create/Schedule a Sample Inventory Report and Download It
+  cisco.dnac.reports_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: DEBUG
+    dnac_log: true
+    state: merged
+    config_verify: true
+    config:
+      - generate_report:
+          - name: "Sample Inventory report"
+            data_category: "Inventory"
+            view_group_version: "2.0.0"
+            view:
+              view_name: "All Data"
+              format:
+                format_type: "CSV"
+              field_groups:
+                - field_group_name: "inventoryAllData"
+                  field_group_display_name: "All Data"
+                  fields:
+                    - name: "type"
+                      display_name: "Device Type"
+                    - name: "hostname"
+                      display_name: "Device Name"
+                    - name: "ipAddress"
+                      display_name: "IP Address"
+              filters:
+                - name: "Location"
+                  filter_type: "MULTI_SELECT_TREE"
+                  value: []
+                - name: "DeviceFamily"
+                  filter_type: "MULTI_SELECT"
+                  value: []
+                - name: "DeviceType"
+                  filter_type: "MULTI_SELECT"
+                  value: []
+                - name: "SoftwareVersion"
+                  filter_type: "MULTI_SELECT"
+                  value: []
+            schedule:
+              schedule_type: "SCHEDULE_NOW"
+              time_zone: "Asia/Calcutta"
+            deliveries:
+              - delivery_type: "DOWNLOAD"
+                file_path: "/Users/xyz/Desktop"
+
 - name: Create/Schedule a compliance report with immediate execution
   cisco.dnac.reports_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -1065,7 +1117,11 @@ EXAMPLES = r'''
             view:
               view_name: "Network Device Compliance"
               field_groups:
-                - name: "inventoryAllData"
+                - field_group_name: "Compliance"
+                  field_group_display_name: "Compliance"
+                  fields:
+                    - name: "deviceName"
+                      display_name: "Device Name"
               format:
                 format_type: "CSV"
               filters: []
@@ -1172,10 +1228,10 @@ EXAMPLES = r'''
             view:
               view_name: "Network Device Availability"
               field_groups:
-                - name: "deviceInfo"
+                - field_group_name: "deviceInfo"
                   fields:
                     - name: "hostname"
-                    - name: "ipAddress"
+                      display_name: "host name"
               format:
                 format_type: "CSV"
               filters:
@@ -1612,12 +1668,14 @@ class Reports(DnacBase):
                         "type": "list",
                         "elements": "dict",
                         "required": False,
-                        "name": {"type": "str", "required": True},
+                        "field_group_name": {"type": "str", "required": False},
+                        "field_group_display_name": {"type": "str", "required": False},
                         "fields": {
                             "type": "list",
                             "elements": "dict",
                             "required": False,
                             "name": {"type": "str", "required": False},
+                            "display_name": {"type": "str", "required": False},
                         },
                     },
                     "format": {
@@ -3299,6 +3357,34 @@ class Reports(DnacBase):
                         )
 
                         continue
+
+                    self.log(
+                        "Phase 2: Immediate download required for report '{0}' - initiating download".format(
+                            report_name
+                        ),
+                        "DEBUG"
+                    )
+                    success = self._download_report_if_needed(entry, report_id)
+                    if not success:
+                        # _download_report_if_needed sets error and result already
+                        self.log(
+                            "Phase 2: Download failed for report '{0}' - error already logged by download method".format(
+                                report_name
+                            ),
+                            "ERROR"
+                        )
+                        self.log(
+                            "Phase 2: Terminating workflow due to download failure",
+                            "ERROR"
+                        )
+                        return self
+                    download_count += 1
+                    self.log(
+                        "Phase 2: Download completed successfully for report '{0}'".format(
+                            report_name
+                        ),
+                        "INFO"
+                    )
 
                 except Exception as e:
                     self.msg = "Exception during post-create download handling for report '{0}': {1}".format(entry.get("name"), str(e))
