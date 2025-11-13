@@ -11592,8 +11592,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             [
-                "No managed devices found for the following identifiers ip_address: 204.1.2.10. Device(s) may not be present in Catalyst Center inventory.",
-                "No managed devices found matching all specified identifiers (['ip_address', 'serial_number', 'hostname', 'mac_address']).",
+                "No devices found for the following identifiers ip_address: 204.1.2.10. Device(s) may not be present in Catalyst Center inventory.",
                 "No network devices found for the given filters."
             ]
         )
