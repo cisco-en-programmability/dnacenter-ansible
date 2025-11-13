@@ -390,19 +390,6 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
     def provision_workflow_manager_mapping(self):
         """
         Constructs and returns a structured mapping for managing provision workflow elements.
-        This mapping includes associated filters, temporary specification functions, API details,
-        and fetch function references used in the provision workflow orchestration process.
-
-        Returns:
-            dict: A dictionary with the following structure:
-                - "network_elements": A nested dictionary where each key represents a component
-                (e.g., 'provisioned_devices', 'non_provisioned_devices') and maps to:
-                    - "filters": List of filter keys relevant to the component.
-                    - "temp_spec_function": Reference to the function that generates temp specs for the component.
-                    - "api_function": Name of the API to be called for the component.
-                    - "api_family": API family name (e.g., 'sda', 'devices').
-                    - "get_function_name": Reference to the internal function used to retrieve the component data.
-                - "global_filters": An empty list reserved for global filters applicable across all elements.
         """
         tempspec = {
             "network_elements": {
@@ -416,7 +403,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "non_provisioned_devices": {
                     "filters": ["management_ip_address", "site_name_hierarchy", "device_family"],
                     "temp_spec_function": self.non_provisioned_devices_temp_spec,
-                    "api_function": "get_network_device_list",
+                    "api_function": "get_device_list",  # FIXED: Correct API function name
                     "api_family": "devices",
                     "get_function_name": self.get_non_provisioned_devices,
                 },
@@ -778,15 +765,15 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_non_provisioned_devices(self, network_element, component_specific_filters=None):
         """
-        Retrieves non-provisioned devices with enhanced debugging.
+        Retrieves devices that are assigned to sites but not yet provisioned.
         """
         self.log("=== STARTING NON-PROVISIONED DEVICE RETRIEVAL ===", "INFO")
         
         try:
-            # STEP 1: Get ALL devices
+            # STEP 1: Get ALL devices from Catalyst Center
             response = self.dnac._exec(
                 family="devices",
-                function="get_network_device_list",
+                function="get_device_list",
                 op_modifies=False,
             )
             all_devices = response.get("response", [])
@@ -796,7 +783,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log("ERROR: No devices found in Catalyst Center!", "ERROR")
                 return []
 
-            # STEP 2: Get provisioned devices
+            # STEP 2: Get all provisioned devices to exclude them
             try:
                 provisioned_response = self.dnac._exec(
                     family="sda",
@@ -805,100 +792,145 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
                 provisioned_devices = provisioned_response.get("response", [])
                 provisioned_device_ids = {device.get("networkDeviceId") for device in provisioned_devices}
-                self.log("STEP 2: Found {0} SDA provisioned devices: {1}".format(
-                    len(provisioned_device_ids), list(provisioned_device_ids)), "INFO")
+                self.log("STEP 2: Found {0} SDA provisioned devices to exclude".format(len(provisioned_device_ids)), "INFO")
             except Exception as e:
-                self.log("STEP 2 ERROR: Could not get provisioned devices: {0}".format(str(e)), "ERROR")
+                self.log("STEP 2 WARNING: Could not get provisioned devices: {0}".format(str(e)), "WARNING")
                 provisioned_device_ids = set()
 
-            # STEP 3: Check each device for site assignment and provisioning status
-            site_assigned_devices = []
-            non_provisioned_devices = []
+            # STEP 3: Filter devices - find those assigned to sites but not provisioned
+            site_assigned_non_provisioned = []
             
-            for i, device in enumerate(all_devices):
+            for i, device in enumerate(all_devices, 1):
                 device_id = device.get("id")
                 management_ip = device.get("managementIpAddress")
                 hostname = device.get("hostname", "Unknown")
+                site_id = device.get("siteId")
                 
-                self.log("STEP 3.{0}: Processing device {1} - ID: {2}, IP: {3}, Hostname: {4}".format(
-                    i+1, i+1, device_id, management_ip, hostname), "DEBUG")
+                self.log("STEP 3.{0}: Processing device - ID: {1}, IP: {2}, Hostname: {3}, SiteId: {4}".format(
+                    i, device_id, management_ip, hostname, site_id), "DEBUG")
                 
                 # Skip devices without basic info
                 if not device_id or not management_ip:
-                    self.log("  -> SKIPPED: Missing ID or IP", "DEBUG")
+                    self.log("  -> SKIPPED: Missing device ID or management IP", "DEBUG")
                     continue
-                    
-                # Check site assignment
-                try:
-                    is_assigned = self.is_device_assigned_to_site(device_id)
-                    self.log("  -> Site assigned: {0}".format(is_assigned), "DEBUG")
-                    
-                    if not is_assigned:
-                        self.log("  -> SKIPPED: Not assigned to any site", "DEBUG")
-                        continue
-                        
-                    site_assigned_devices.append(device)
-                    
-                    # Check if provisioned
-                    if device_id in provisioned_device_ids:
-                        self.log("  -> STATUS: PROVISIONED (SDA)", "INFO")
-                    else:
-                        self.log("  -> STATUS: NOT PROVISIONED - ADDING TO LIST", "INFO")
-                        non_provisioned_devices.append(device)
-                        
-                except Exception as device_error:
-                    self.log("  -> ERROR checking device: {0}".format(str(device_error)), "ERROR")
+                
+                # Skip if device is already provisioned
+                if device_id in provisioned_device_ids:
+                    self.log("  -> SKIPPED: Device is already provisioned", "DEBUG")
                     continue
+                
+                # Check if device is assigned to a site
+                is_site_assigned = False
+                
+                # Method 1: Check siteId directly from device response
+                if site_id:
+                    site_name = self.site_id_name_dict.get(site_id)
+                    if site_name:
+                        is_site_assigned = True
+                        self.log("  -> SITE ASSIGNED via siteId: {0} -> {1}".format(site_id, site_name), "DEBUG")
+                
+                # Method 2: If no siteId, check via device detail API
+                if not is_site_assigned:
+                    try:
+                        device_detail_response = self.dnac._exec(
+                            family="devices",
+                            function="get_device_detail",
+                            op_modifies=False,
+                            params={"search_by": device_id, "identifier": "uuid"},
+                        )
+                        
+                        device_detail = device_detail_response.get("response", {})
+                        location = device_detail.get("location")
+                        
+                        if location and location != "":
+                            is_site_assigned = True
+                            # Update the device with location info if siteId was missing
+                            if not site_id:
+                                # Try to find the site ID from location hierarchy
+                                for sid, site_name in self.site_id_name_dict.items():
+                                    if site_name == location:
+                                        device["siteId"] = sid
+                                        break
+                            self.log("  -> SITE ASSIGNED via location: {0}".format(location), "DEBUG")
+                        
+                    except Exception as detail_error:
+                        self.log("  -> ERROR getting device details: {0}".format(str(detail_error)), "ERROR")
+                
+                # Add device if it's assigned to a site but not provisioned
+                if is_site_assigned:
+                    self.log("  -> ADDING: Device is site-assigned but not provisioned", "INFO")
+                    site_assigned_non_provisioned.append(device)
+                else:
+                    self.log("  -> SKIPPED: Device is not assigned to any site", "DEBUG")
 
             self.log("STEP 3 SUMMARY:", "INFO")
-            self.log("  - Total devices: {0}".format(len(all_devices)), "INFO")
-            self.log("  - Site assigned devices: {0}".format(len(site_assigned_devices)), "INFO")
-            self.log("  - Non-provisioned devices: {0}".format(len(non_provisioned_devices)), "INFO")
+            self.log("  - Total devices processed: {0}".format(len(all_devices)), "INFO")
+            self.log("  - Provisioned devices excluded: {0}".format(len(provisioned_device_ids)), "INFO")
+            self.log("  - Non-provisioned site-assigned devices found: {0}".format(len(site_assigned_non_provisioned)), "INFO")
 
-            if not non_provisioned_devices:
-                self.log("RESULT: No non-provisioned devices found. All site-assigned devices are already provisioned.", "INFO")
+            if not site_assigned_non_provisioned:
+                self.log("RESULT: No non-provisioned site-assigned devices found.", "INFO")
                 return []
 
-            # STEP 4: Transform and return results
-            self.log("STEP 4: Transforming {0} non-provisioned devices".format(len(non_provisioned_devices)), "INFO")
-            
-            # Apply filters if needed
+            # STEP 4: Apply component-specific filters if provided
+            filtered_devices = site_assigned_non_provisioned
             if component_specific_filters:
-                # Apply filtering logic here if needed
-                pass
+                self.log("STEP 4: Applying component-specific filters: {0}".format(component_specific_filters), "DEBUG")
+                filtered_devices = []
                 
-            # Transform using temp_spec
-            non_provisioned_devices_temp_spec = self.non_provisioned_devices_temp_spec()
-            device_details = self.modify_parameters(non_provisioned_devices_temp_spec, non_provisioned_devices)
-            
-            # Clean and format
-            valid_devices = []
-            for i, device in enumerate(device_details):
-                original_device = non_provisioned_devices[i] if i < len(non_provisioned_devices) else {}
+                for filter_param in component_specific_filters:
+                    for device in site_assigned_non_provisioned:
+                        match = True
+                        
+                        for key, value in filter_param.items():
+                            if key == "management_ip_address":
+                                if device.get("managementIpAddress") != value:
+                                    match = False
+                                    break
+                            elif key == "site_name_hierarchy":
+                                site_id = device.get("siteId")
+                                site_hierarchy = self.site_id_name_dict.get(site_id) if site_id else None
+                                if site_hierarchy != value:
+                                    match = False
+                                    break
+                        
+                        if match and device not in filtered_devices:
+                            filtered_devices.append(device)
                 
-                # Set required fields
-                if not device.get("management_ip_address"):
-                    device["management_ip_address"] = original_device.get("managementIpAddress")
-                    
-                if not device.get("site_name_hierarchy"):
-                    site_id = original_device.get("siteId")
-                    device["site_name_hierarchy"] = self.site_id_name_dict.get(site_id)
-                
-                # Ensure provisioning is False
-                device["provisioning"] = False
-                device["force_provisioning"] = False
-                
-                # Clean up fields
-                device.pop("managed_ap_locations", None)
-                
-                if device.get("management_ip_address") and device.get("site_name_hierarchy"):
-                    valid_devices.append(device)
-                    self.log("  -> Added: {0} at {1}".format(
-                        device.get("management_ip_address"), 
-                        device.get("site_name_hierarchy")), "INFO")
+                self.log("STEP 4: After filtering, {0} devices remain".format(len(filtered_devices)), "INFO")
 
-            self.log("FINAL RESULT: {0} valid non-provisioned devices".format(len(valid_devices)), "INFO")
-            return valid_devices
+            # STEP 5: Transform devices for YAML output
+            self.log("STEP 5: Transforming {0} devices for YAML output".format(len(filtered_devices)), "INFO")
+            
+            final_devices = []
+            for device in filtered_devices:
+                management_ip = device.get("managementIpAddress")
+                site_id = device.get("siteId")
+                site_hierarchy = self.site_id_name_dict.get(site_id) if site_id else None
+                
+                # Skip devices without required fields
+                if not management_ip or not site_hierarchy:
+                    self.log("  -> SKIPPED device: missing IP ({0}) or site hierarchy ({1})".format(
+                        management_ip, site_hierarchy), "WARNING")
+                    continue
+                
+                device_config = {
+                    "management_ip_address": management_ip,
+                    "site_name_hierarchy": site_hierarchy,
+                    "provisioning": False,  # These devices need to be provisioned
+                    "force_provisioning": False
+                }
+                
+                # Add wireless-specific config if it's a wireless controller
+                device_family = device.get("family")
+                if device_family == "Wireless Controller":
+                    device_config["managed_ap_locations"] = []  # User needs to specify these
+                
+                final_devices.append(device_config)
+                self.log("  -> ADDED: {0} at {1}".format(management_ip, site_hierarchy), "INFO")
+
+            self.log("FINAL RESULT: {0} non-provisioned site-assigned devices ready for YAML".format(len(final_devices)), "INFO")
+            return final_devices
             
         except Exception as e:
             self.log("CRITICAL ERROR in get_non_provisioned_devices: {0}".format(str(e)), "ERROR")
@@ -1104,12 +1136,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def is_device_assigned_to_site(self, uuid):
         """
-        Checks if a device, specified by its UUID, is assigned to any site.
-
-        Parameters:
-          - uuid (str): The UUID of the device to check for site assignment.
-        Returns:
-          - boolean: True if the device is assigned to a site, False otherwise.
+        Checks if a device is assigned to any site by checking multiple fields.
         """
         self.log("Checking site assignment for device with UUID: {0}".format(uuid), "DEBUG")
         
@@ -1122,11 +1149,23 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
             
             self.log("Response collected from the API 'get_device_detail' {0}".format(site_response), "DEBUG")
-            site_response = site_response.get("response")
+            device_info = site_response.get("response", {})
             
-            if site_response.get("location"):
+            # Check for site assignment using multiple possible fields
+            site_id = device_info.get("siteId")
+            location_name = device_info.get("locationName") 
+            location = device_info.get("location")
+            site_hierarchy_graph_id = device_info.get("siteHierarchyGraphId")
+            
+            self.log("Device site info - siteId: {0}, locationName: {1}, location: {2}, siteHierarchyGraphId: {3}".format(
+                site_id, location_name, location, site_hierarchy_graph_id), "DEBUG")
+            
+            # Device is assigned to site if any of these conditions are met
+            if site_id or location_name or location or site_hierarchy_graph_id:
+                self.log("Device {0} IS assigned to a site".format(uuid), "DEBUG")
                 return True
             else:
+                self.log("Device {0} is NOT assigned to any site".format(uuid), "DEBUG")
                 return False
                 
         except Exception as e:

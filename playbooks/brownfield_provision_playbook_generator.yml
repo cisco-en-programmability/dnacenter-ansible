@@ -25,3 +25,5 @@
           - file_path: "/Users/syedkahm/ansible/dnac/work/collections/ansible_collections/cisco/dnac/playbooks/all_devices.yml"
             component_specific_filters:
               components_list: ["provisioned_devices", "non_provisioned_devices"]
+              # provisioned_devices:
+              #   - management_ip_address: 204.1.2.5
