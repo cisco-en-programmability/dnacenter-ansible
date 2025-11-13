@@ -1499,7 +1499,37 @@ class NetworkDevicesInfo(DnacBase):
         """
         self.log("Starting device UUID mapping retrieval from 'device_identifier' entries", "INFO")
 
+        self.log(
+            "Processing filtered configuration with parameters: {0}".format(
+                self.pprint(filtered_config)
+            ),
+            "DEBUG"
+        )
+
+        if not isinstance(filtered_config, dict):
+            self.log(
+                "Invalid filtered_config parameter - expected dict, got: {0}".format(
+                    type(filtered_config).__name__
+                ),
+                "ERROR"
+            )
+            self.msg = "filtered_config parameter must be a valid dictionary"
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return None
+
         device_identifiers = filtered_config.get("device_identifier", [])
+
+        if not isinstance(device_identifiers, list):
+            self.log(
+                "Invalid device_identifiers format - expected list, got: {0}".format(
+                    type(device_identifiers).__name__
+                ),
+                "ERROR"
+            )
+            self.msg = "device_identifier must be a list of identification criteria"
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return None
+
         if not device_identifiers:
             self.msg = "No 'device_identifier' section found in configuration. Skipping device ID retrieval."
             self.log(self.msg, "WARNING")
@@ -1517,79 +1547,104 @@ class NetworkDevicesInfo(DnacBase):
         retries = filtered_config.get("retries", 3)
         interval = filtered_config.get("interval", 10)
 
-        is_and_logic = len(device_identifiers) == 1 and len(device_identifiers[0].keys()) > 1
+        self.log(
+            "Using retry configuration - timeout: {0}s, retries: {1}, interval: {2}s".format(
+                timeout, retries, interval
+            ),
+            "DEBUG"
+        )
+
+        is_and_logic = (
+            len(device_identifiers) == 1 and
+            len(device_identifiers[0].keys()) > 1
+        )
         logic_type = "AND" if is_and_logic else "OR"
-        self.log("Detected device_identifier logic type: {0}".format(logic_type), "DEBUG")
+        self.log("Detected device_identifier logic type: {0} for {1} identifier groups".format(
+            logic_type, len(device_identifiers)), "DEBUG")
 
         if is_and_logic:
             identifier = device_identifiers[0]
             self.log("Processing AND logic for identifiers: {0}".format(identifier), "DEBUG")
 
             combined_devices = None
-            for key, values in identifier.items():
+            for key_index, (key, values) in enumerate(identifier.items(), start=1):
+                self.log(
+                    "Processing AND criteria {0}/{1} - key: {2}, values: {3}".format(
+                        key_index, len(identifier), key, values
+                    ),
+                    "DEBUG"
+                )
                 if not values:
+                    self.log(
+                        "Skipping empty values for key: {0}".format(key),
+                        "DEBUG"
+                    )
                     continue
                 if not isinstance(values, list):
                     values = [values]
+                    self.log(
+                        "Converted single value to list for key {0}: {1}".format(key, values),
+                        "DEBUG"
+                    )
 
                 expanded_values = []
 
                 for value in values:
                     if key == "ip_address_range":
+                        self.log(
+                            "Expanding IP address range: {0}".format(value),
+                            "DEBUG"
+                        )
                         try:
                             start_ip, end_ip = value.split("-")
                             start = ipaddress.IPv4Address(start_ip.strip())
                             end = ipaddress.IPv4Address(end_ip.strip())
-                            expanded_values.extend([
+                            range_ips = [
                                 str(ipaddress.IPv4Address(i))
                                 for i in range(int(start), int(end) + 1)
-                            ])
+                            ]
+                            expanded_values.extend(range_ips)
                             self.log(
-                                "Expanded IP range '{0}' into {1} IPs".format(value, len(expanded_values)),
+                                "Expanded IP range '{0}' into {1} individual IP addresses".format(
+                                    value, len(range_ips)
+                                ),
                                 "DEBUG"
                             )
                         except Exception as e:
-                            self.log("Invalid IP range '{0}': {1}".format(value, str(e)), "ERROR")
+                            self.log(
+                                "Failed to expand IP range '{0}': {1}".format(value, str(e)),
+                                "ERROR"
+                            )
+                            continue
                     else:
                         expanded_values.append(value)
+                        self.log("Added individual value '{0}' to expanded list (not an IP range)".format(value), "DEBUG")
 
                 param_key = param_key_map.get(key)
                 matched_devices = []
 
                 missing_ips = []
 
-                for ip_or_value in expanded_values:
+                for value_index, ip_or_value in enumerate(expanded_values, start=1):
+                    self.log(
+                        "Processing OR value {0}/{1} for key '{2}': {3}".format(
+                            value_index, len(expanded_values), key, ip_or_value
+                        ),
+                        "DEBUG"
+                    )
                     params = {param_key_map.get(key, "managementIpAddress"): ip_or_value}
-                    attempt = 0
-                    start_time = time.time()
-                    device_found = False
+                    devices = self.execute_device_lookup_with_retry(params, key, ip_or_value, timeout, retries, interval)
 
-                    while attempt < retries or (time.time() - start_time) < timeout:
-                        self.log("Attempt {0} - Calling API with params: {1}".format(attempt + 1, params), "DEBUG")
-                        try:
-                            response = self.dnac._exec(
-                                family="devices",
-                                function="get_device_list",
-                                params=params
-                            )
-                            devices = response.get("response", [])
-                            self.log("Received API response for {0}={1}: {2}".format(key, ip_or_value, response), "DEBUG")
-                            if devices:
-                                matched_devices.extend(devices)
-                                device_found = True
-                                break
-                        except Exception as e:
-                            self.log("API call failed for {0}={1}: {2}".format(key, value, str(e)), "WARNING")
-                        attempt += 1
-                        time.sleep(interval)
-
-                    if not device_found:
+                    if devices:
+                        matched_devices.extend(devices)
+                    else:
                         missing_ips.append(ip_or_value)
+                        self.log("Device not found in inventory for identifier '{0}' - adding to missing list".format(ip_or_value), "DEBUG")
 
                 if missing_ips:
                     display_value = ", ".join(missing_ips)
                     self.msg = (
-                        "No managed devices found for the following identifiers {0}: {1}. "
+                        "No devices found for the following identifiers {0}: {1}. "
                         "Device(s) may not be present in Catalyst Center inventory."
                     ).format(key, display_value)
                     self.set_operation_result("success", False, self.msg, "INFO")
@@ -1598,97 +1653,143 @@ class NetworkDevicesInfo(DnacBase):
 
                 if combined_devices is None:
                     combined_devices = matched_devices
-                else:
-                    combined_devices = [
-                        device for device in combined_devices if any(
-                            device.get("instanceUuid") == managed_device.get("instanceUuid") for managed_device in matched_devices
-                        )
-                    ]
-
-            for device in combined_devices or []:
-                uuid = device.get("instanceUuid")
-                ip = device.get("managementIpAddress")
-                if uuid and ip:
-                    ip_uuid_map[ip] = uuid
-
-            if not combined_devices:
-                self.msg = (
-                    "No managed devices found matching all specified identifiers "
-                    "({0}).".format(list(identifier.keys()))
+                    self.log(
+                        "Initialized combined devices with {0} devices from first key: {1}".format(
+                            len(matched_devices), key
+                        ),
+                        "DEBUG"
+                    )
+                previous_count = len(combined_devices)
+                combined_devices = [
+                    device for device in combined_devices
+                    if any(
+                        device.get("instanceUuid") == matched_device.get("instanceUuid")
+                        for matched_device in matched_devices
+                    )
+                ]
+                self.log(
+                    "Applied AND logic intersection - reduced from {0} to {1} devices".format(
+                        previous_count, len(combined_devices)
+                    ),
+                    "DEBUG"
                 )
-                self.set_operation_result("success", False, self.msg, "INFO")
-                self.total_response.append(self.msg)
+
+            # Process final results for AND logic
+            if combined_devices:
+                self.log(
+                    "AND logic completed successfully - found {0} devices matching all criteria".format(
+                        len(combined_devices)
+                    ),
+                    "INFO"
+                )
+
+                for device in combined_devices:
+                    uuid = device.get("instanceUuid")
+                    ip = device.get("managementIpAddress")
+                    if uuid and ip:
+                        ip_uuid_map[ip] = uuid
+                        self.log(
+                            "Mapped AND logic device - IP: {0}, UUID: {1}".format(ip, uuid),
+                            "DEBUG"
+                        )
+            else:
+                self.msg = (
+                    "No devices found matching all specified identifiers: {0}".format(
+                        list(identifier.keys())
+                    )
+                )
+                self.log(
+                    "AND logic completed - no devices matched all criteria",
+                    "WARNING"
+                )
 
         else:
+            # OR Logic: Multiple entries or single entry with one key
+            self.log(
+                "Processing OR logic for {0} identifier groups".format(len(device_identifiers)),
+                "INFO"
+            )
             for idx, identifier in enumerate(device_identifiers, start=1):
-                self.log("Processing OR logic entry #{0}: {1}".format(idx, identifier), "DEBUG")
+                self.log(
+                    "Processing OR logic group {0}/{1}: {2}".format(
+                        idx, len(device_identifiers), identifier
+                    ),
+                    "DEBUG"
+                )
 
                 for key, values in identifier.items():
                     if not values:
+                        self.log(
+                            "Skipping empty values for key: {0}".format(key),
+                            "DEBUG"
+                        )
                         continue
                     if not isinstance(values, list):
                         values = [values]
+                        self.log(
+                            "Converted single value to list for key {0}: {1}".format(key, values),
+                            "DEBUG"
+                        )
 
                     expanded_values = []
 
                     for value in values:
                         if key == "ip_address_range":
+                            self.log(
+                                "Expanding IP address range: {0}".format(value),
+                                "DEBUG"
+                            )
                             try:
                                 start_ip, end_ip = value.split("-")
                                 start = ipaddress.IPv4Address(start_ip.strip())
                                 end = ipaddress.IPv4Address(end_ip.strip())
-                                expanded_values.extend([
+                                range_ips = [
                                     str(ipaddress.IPv4Address(i))
                                     for i in range(int(start), int(end) + 1)
-                                ])
+                                ]
+                                expanded_values.extend(range_ips)
                                 self.log(
-                                    "Expanded IP range '{0}' into {1} IPs".format(value, len(expanded_values)),
+                                    "Expanded IP range '{0}' into {1} individual IP addresses".format(
+                                        value, len(range_ips)
+                                    ),
                                     "DEBUG"
                                 )
                             except Exception as e:
-                                self.log("Invalid IP range '{0}': {1}".format(value, str(e)), "ERROR")
+                                self.log(
+                                    "Failed to expand IP range '{0}': {1}".format(value, str(e)),
+                                    "ERROR"
+                                )
+                                continue
                         else:
                             expanded_values.append(value)
+                            self.log("Added individual value '{0}' to expanded list (not an IP range)".format(value), "DEBUG")
 
                     missing_ips = []
 
-                    for ip_or_value in expanded_values:
+                    for value_index, ip_or_value in enumerate(expanded_values, start=1):
+                        self.log(
+                            "Processing OR value {0}/{1} for key '{2}': {3}".format(
+                                value_index, len(expanded_values), key, ip_or_value
+                            ),
+                            "DEBUG"
+                        )
                         params = {param_key_map.get(key, "managementIpAddress"): ip_or_value}
-                        attempt = 0
-                        attempt = 0
-                        start_time = time.time()
-                        device_found = False
+                        devices = self.execute_device_lookup_with_retry(params, key, ip_or_value, timeout, retries, interval)
 
-                        while attempt < retries or (time.time() - start_time) < timeout:
-                            self.log("Attempt {0} - Calling API with params: {1}".format(attempt + 1, params), "DEBUG")
-                            try:
-                                response = self.dnac._exec(
-                                    family="devices",
-                                    function="get_device_list",
-                                    params=params
-                                )
-                                devices = response.get("response", [])
-                                self.log("Received API response for {0}={1}: {2}".format(key, ip_or_value, response), "DEBUG")
-                                if devices:
-                                    for device in devices:
-                                        uuid = device.get("instanceUuid")
-                                        ip = device.get("managementIpAddress")
-                                        if uuid and ip:
-                                            ip_uuid_map[ip] = uuid
-                                    device_found = True
-                                    break
-                            except Exception as e:
-                                self.log("API call failed for {0}={1}: {2}".format(key, value, str(e)), "WARNING")
-                            attempt += 1
-                            time.sleep(interval)
-
-                        if not device_found:
+                        if devices:
+                            for device in devices:
+                                uuid = device.get("instanceUuid")
+                                ip = device.get("managementIpAddress")
+                                if uuid and ip:
+                                    ip_uuid_map[ip] = uuid
+                        else:
                             missing_ips.append(ip_or_value)
+                            self.log("Device not found in inventory for identifier '{0}' - adding to missing list".format(ip_or_value), "DEBUG")
 
                     if missing_ips:
                         display_value = ", ".join(missing_ips)
                         self.msg = (
-                            "No managed devices found for the following {0}(s): {1}. "
+                            "No devices found for the following {0}(s): {1}. "
                             "Device(s) may not be present in Catalyst Center inventory."
                         ).format(key, display_value)
                         self.set_operation_result("success", False, self.msg, "INFO")
@@ -1696,9 +1797,141 @@ class NetworkDevicesInfo(DnacBase):
                             self.total_response.append(self.msg)
 
         total_devices = len(ip_uuid_map)
+        self.log(
+            "Device UUID mapping completed successfully using {0} logic - mapped {1} unique devices".format(
+                logic_type, total_devices
+            ),
+            "INFO"
+        )
+
+        if total_devices > 0:
+            self.log(
+                "Successfully mapped devices: {0}".format(list(ip_uuid_map.keys())),
+                "DEBUG"
+            )
+        else:
+            self.log(
+                "No devices found matching the specified criteria",
+                "WARNING"
+            )
         self.log("Device UUID mapping completed — mapped {0} managed devices.".format(total_devices), "INFO")
 
         return ip_uuid_map
+
+    def execute_device_lookup_with_retry(self, params, key, value, timeout, retries, interval):
+        """
+        Execute device lookup API call with comprehensive retry mechanism and timeout handling.
+
+        Parameters:
+            params (dict): API parameters for device lookup
+            key (str): Filter key being processed
+            value (str): Filter value being processed
+            timeout (int): Maximum timeout in seconds
+            retries (int): Maximum number of retry attempts
+            interval (int): Wait interval between retries
+
+        Returns:
+            list: List of found devices, empty list if no devices found
+        """
+        attempt = 0
+        start_time = time.time()
+
+        self.log(
+            "Starting device lookup with retry mechanism - key: {0}, value: {1}".format(
+                key, value
+            ),
+            "DEBUG"
+        )
+
+        while attempt < retries and (time.time() - start_time) < timeout:
+            elapsed_time = time.time() - start_time
+            self.log(
+                "Attempt {0}/{1} for {2}={3} - elapsed time: {4:.1f}s".format(
+                    attempt + 1, retries, key, value, elapsed_time
+                ),
+                "DEBUG"
+            )
+
+            try:
+                self.log(
+                    "Executing API call with parameters: {0}".format(params),
+                    "DEBUG"
+                )
+
+                response = self.dnac._exec(
+                    family="devices",
+                    function="get_device_list",
+                    params=params
+                )
+
+                self.log(
+                    "Received API response for {0}={1}: {2}".format(
+                        key, value, response
+                    ),
+                    "DEBUG"
+                )
+
+                devices = response.get("response", [])
+
+                if devices:
+                    self.log(
+                        "Found {0} devices for {1}={2} on attempt {3}".format(
+                            len(devices), key, value, attempt + 1
+                        ),
+                        "DEBUG"
+                    )
+                    return devices
+                else:
+                    self.log(
+                        "No devices found for {0}={1} on attempt {2}".format(
+                            key, value, attempt + 1
+                        ),
+                        "DEBUG"
+                    )
+
+            except Exception as e:
+                self.log(
+                    "API call failed for {0}={1} on attempt {2}: {3}".format(
+                        key, value, attempt + 1, str(e)
+                    ),
+                    "WARNING"
+                )
+
+            # Prepare for next attempt
+            attempt += 1
+
+            if attempt < retries and (time.time() - start_time) < timeout:
+                self.log(
+                    "Waiting {0}s before next attempt for {1}={2}".format(
+                        interval, key, value
+                    ),
+                    "DEBUG"
+                )
+                time.sleep(interval)
+            elif attempt >= retries:
+                self.log(
+                    "Maximum retry attempts ({0}) reached for {1}={2}".format(
+                        retries, key, value
+                    ),
+                    "WARNING"
+                )
+                break
+            elif (time.time() - start_time) >= timeout:
+                self.log(
+                    "Timeout ({0}s) reached for {1}={2}".format(timeout, key, value),
+                    "WARNING"
+                )
+                break
+
+        total_elapsed = time.time() - start_time
+        self.log(
+            "Device lookup completed for {0}={1} - no devices found, attempts: {2}, elapsed: {3:.1f}s".format(
+                key, value, attempt, total_elapsed
+            ),
+            "DEBUG"
+        )
+
+        return []
 
     def get_devices_from_site(self, site_name):
         """
@@ -1716,179 +1949,287 @@ class NetworkDevicesInfo(DnacBase):
                     - "Global" (retrieves devices from entire hierarchy)
                     - "Global/USA/NewYork" (retrieves devices from NewYork area and sub-sites)
                     - "Global/USA/NewYork/Building1/Floor1" (retrieves devices from specific floor)
+                    - "Global/Campus/Building-A" (retrieves building + floor devices)
 
         Returns:
             list: A list of device UUIDs for all devices assigned to the specified site hierarchy.
                 Returns empty list if no devices found or site doesn't exist.
         """
+
         self.log("Starting device retrieval from site: {0}".format(site_name), "INFO")
+
+        if not site_name:
+            return []
+
+        # Determine site type
+        site_type = self.get_sites_type(site_name)
+        if not site_type:
+            self.log(
+                "Unable to determine site type for: '{0}'".format(site_name),
+                "WARNING"
+            )
+            return []
+
+        self.log(
+            "Site type determined - site: '{0}', type: '{1}'".format(site_name, site_type),
+            "DEBUG"
+        )
+
+        if site_type == "building":
+            site_info = self.process_building_site(site_name)
+
+        elif site_type in ["area", "global"]:
+            site_info = self.process_area_site(site_name)
+
+        elif site_type == "floor":
+            site_info = self.process_floor_site(site_name)
+
+        else:
+            self.log(
+                "Unknown site type '{0}' for site '{1}'".format(site_type, site_name),
+                "ERROR"
+            )
+            return []
+        return self.fetch_devices_for_sites(site_info)
+
+    def process_building_site(self, site_name):
+        """
+       Process building site hierarchy including parent site and child floors.
+
+        Args:
+            site_name (str): Building site name to process
+
+        Returns:
+            dict: Dictionary mapping site hierarchy names to site IDs
+        """
+        self.log(
+            "Processing building hierarchy for site: '{0}'".format(site_name),
+            "DEBUG"
+        )
+
+        site_info = {}
+
+        # Get parent building site data
+        self.log(
+            "Fetching parent building site data for: '{0}'".format(site_name),
+            "DEBUG"
+        )
+
+        parent_site_data = self.get_site(site_name)
+
+        if parent_site_data and parent_site_data.get("response"):
+            self.log(
+                "Parent building site data found - processing {0} items".format(
+                    len(parent_site_data.get('response', []))
+                ),
+                "DEBUG"
+            )
+
+            for item in parent_site_data["response"]:
+                if self._validate_site_item(item):
+                    site_info[item["nameHierarchy"]] = item["id"]
+                    self.log(
+                        "Added parent site '{0}' with ID '{1}' to hierarchy".format(
+                            item['nameHierarchy'], item['id']
+                        ),
+                        "DEBUG"
+                    )
+        else:
+            self.log(
+                "No parent site data found for building: '{0}'".format(site_name),
+                "WARNING"
+            )
+
+        wildcard_site = site_name + "/.*"
+        self.log(
+            "Fetching child floor sites using wildcard pattern: '{0}'".format(
+                wildcard_site
+            ),
+            "DEBUG"
+        )
+        child_site_data = self.get_site(wildcard_site)
+
+        if child_site_data and child_site_data.get("response"):
+            for item in child_site_data["response"]:
+                if "nameHierarchy" in item and "id" in item:
+                    site_info[item["nameHierarchy"]] = item["id"]
+                    self.log(
+                        "Added child floor site '{0}' with ID '{1}' to hierarchy".format(
+                            item['nameHierarchy'], item['id']
+                        ),
+                        "DEBUG"
+                    )
+        else:
+            self.log(
+                "No child floor sites found under building: '{0}'".format(site_name),
+                "DEBUG"
+            )
+
+        return site_info
+
+    def process_area_site(self, site_name):
+        """
+        Process area or global site hierarchy including all child sites.
+
+        Args:
+            site_name (str): Area or global site name to process
+
+        Returns:
+            dict: Dictionary mapping site hierarchy names to site IDs
+        """
+        self.log(
+            "Processing area/global hierarchy for site: '{0}'".format(site_name),
+            "DEBUG"
+        )
+
+        site_info = {}
+
+        wildcard_site = site_name + "/.*"
+        child_data = self.get_site(wildcard_site)
+
+        site_names = wildcard_site if child_data and child_data.get("response") else site_name
+
+        site_data = self.get_site(site_names)
+
+        for item in site_data.get("response", []):
+            if "nameHierarchy" in item and "id" in item:
+                site_info[item["nameHierarchy"]] = item["id"]
+                self.log(
+                    "Added child site '{0}' with ID '{1}' to hierarchy".format(
+                        item['nameHierarchy'], item['id']
+                    ),
+                    "DEBUG"
+                )
+            else:
+                self.log(
+                    "No child sites found under area/global: '{0}' - using original site".format(
+                        site_name
+                    ),
+                    "DEBUG"
+                )
+
+        return site_info
+
+    def process_floor_site(self, site_name):
+        """
+        Process floor site hierarchy (single site).
+
+        Args:
+            site_name (str): Floor site name to process
+
+        Returns:
+            dict: Dictionary mapping site hierarchy names to site IDs
+        """
+        self.log(
+            "Processing floor hierarchy for site: '{0}'".format(site_name),
+            "DEBUG"
+        )
+
+        site_info = {}
+
+        site_data = self.get_site(site_name)
+
+        if site_data and site_data.get("response"):
+            self.log(
+                "Floor site data found - processing {0} items".format(
+                    len(site_data.get('response', []))
+                ),
+                "DEBUG"
+            )
+
+            for item in site_data["response"]:
+                if "nameHierarchy" in item and "id" in item:
+                    site_info[item["nameHierarchy"]] = item["id"]
+                    self.log(
+                        "Added floor site '{0}' with ID '{1}' to hierarchy".format(
+                            item['nameHierarchy'], item['id']
+                        ),
+                        "DEBUG"
+                    )
+        else:
+            self.log(
+                "No site data found for floor: '{0}'".format(site_name),
+                "WARNING"
+            )
+
+        return site_info
+
+    def fetch_devices_for_sites(self, site_info):
+        """
+        Retrieve all devices from a specific site ID using pagination.
+
+        Args:
+            site_info (dict): Dictionary mapping site hierarchy names to site IDs
+
+        Returns:
+            list: List of device IDs from the site
+        """
+        self.log(
+            "Starting device retrieval from site '{0}'".format(
+                site_info
+            ),
+            "DEBUG"
+        )
 
         device_id_list = []
 
-        if site_name:
+        for hierarchy, site_id in site_info.items():
+            offset = 1
+            limit = self.get_device_details_limit()
+
             self.log(
-                "Fetching devices for site '{0}'".format(site_name), "DEBUG"
+                "Using pagination - limit: {0} devices per request".format(limit),
+                "DEBUG"
             )
-            site_type = self.get_sites_type(site_name)
-            self.log("Determined site type: {0}".format(site_type), "DEBUG")
-            site_info = {}
 
-            self.log("Starting site hierarchy processing for: '{0}' (Type: {1})".format(site_name, site_type), "INFO")
-            if site_type == "building":
-                self.log(
-                    "Processing site as a building: {site_name}".format(site_name=site_name),
-                    "DEBUG",
-                )
-                site_info = {}
-
-                self.log("Fetching parent site data for building: {0}".format(site_name), "DEBUG")
-                parent_site_data = self.get_site(site_name)
-
-                if parent_site_data.get("response"):
+            while True:
+                try:
                     self.log(
-                        "Parent site data found for building: '{0}'. Processing {1} items.".format(
-                            site_name,
-                            len(parent_site_data.get('response') or [])
+                        "Fetching devices from site '{0}' - offset: {1}, limit: {2}".format(
+                            site_info, offset, limit
                         ),
                         "DEBUG"
                     )
-                    for item in parent_site_data["response"]:
-                        if "nameHierarchy" in item and "id" in item:
-                            site_info[item["nameHierarchy"]] = item["id"]
-                            self.log("Added parent site '{0}' with ID '{1}' to site_info.".format(item['nameHierarchy'], item['id']), "DEBUG")
-                        else:
-                            self.log(
-                                "Missing 'nameHierarchy' or 'id' in parent site item: {0}".format(str(item)),
-                                "WARNING"
-                            )
-                    self.log("Parent site data: {0}".format(str(parent_site_data)), "DEBUG")
-                else:
-                    self.log("No data found for parent site: {0}".format(site_name), "WARNING")
-
-                self.log("Current site_info after parent processing: {0}".format(site_info), "DEBUG")
-                wildcard_site_name = site_name + "/.*"
-                self.log("Attempting to fetch child sites for building with wildcard: {0}".format(wildcard_site_name), "DEBUG")
-                child_site_data = self.get_site(wildcard_site_name)
-
-                if child_site_data and child_site_data.get("response"):
-                    self.log(
-                        "Child site data found for building: '{0}'. Processing {1} items.".format(
-                            wildcard_site_name,
-                            len(child_site_data.get('response') or [])
-                        ),
-                        "DEBUG"
+                    response = self.dnac._exec(
+                        family="site_design",
+                        function="get_site_assigned_network_devices",
+                        params={"site_id": site_id, "offset": offset, "limit": limit},
                     )
-                    for item in child_site_data["response"]:
-                        if "nameHierarchy" in item and "id" in item:
-                            site_info[item["nameHierarchy"]] = item["id"]
-                            self.log("Added child site '{0}' with ID '{1}' to site_info.".format(item['nameHierarchy'], item['id']), "DEBUG")
-                        else:
-                            self.log(
-                                "Missing 'nameHierarchy' or 'id' in child site item: {0}".format(str(item)),
-                                "WARNING"
-                            )
-                    self.log("Child site data found and logged for: {0}".format(wildcard_site_name), "DEBUG")
-                    site_names = wildcard_site_name
-                else:
-                    self.log("No child site data found under: {0}".format(wildcard_site_name), "DEBUG")
-                    site_names = site_name
 
-            elif site_type in ["area", "global"]:
-                self.log(
-                    "Processing site as an area: {site_name}".format(site_name=site_name),
-                    "DEBUG",
-                )
-
-                wildcard_site_name = site_name + "/.*"
-                self.log("Attempting to fetch child sites for area using wildcard:: {0}".format(wildcard_site_name), "DEBUG")
-                child_site_data = self.get_site(wildcard_site_name)
-                self.log("Child site data: {0}".format(str(child_site_data)), "DEBUG")
-
-                if child_site_data and child_site_data.get("response"):
-                    self.log("Child sites found for area: '{0}'. Setting site_names to wildcard.".format(wildcard_site_name), "DEBUG")
-                    site_names = wildcard_site_name
-                else:
-                    self.log("No child sites found under area: '{0}'. Using original site name: '{1}'.".format(wildcard_site_name, site_name), "DEBUG")
-                    site_names = site_name
-
-            elif site_type == "floor":
-                self.log(
-                    "Processing site as a floor: {site_name}".format(
-                        site_name=site_name
-                    ),
-                    "DEBUG",
-                )
-                site_names = site_name
-
-            else:
-                self.log(
-                    "Unknown site type '{site_type}' for site '{site_name}'.".format(
-                        site_type=site_type, site_name=site_name
-                    ),
-                    "ERROR",
-                )
-
-            if site_type in ["area", "floor", "global"]:
-                self.log("Fetching site names for pattern: {0}".format(site_names), "DEBUG")
-                get_site_names = self.get_site(site_names)
-                self.log("Fetched site names: {0}".format(str(get_site_names)), "DEBUG")
-
-                for item in get_site_names.get('response', []):
-                    if 'nameHierarchy' in item and 'id' in item:
-                        site_info[item['nameHierarchy']] = item['id']
-                    else:
+                    devices = response.get("response", [])
+                    if not devices:
                         self.log(
-                            "Missing 'nameHierarchy' or 'id' in site item: {0}".format(str(item)),
-                            "WARNING"
-                        )
-            self.log("Site information retrieved: {0}".format(str(site_info)), "DEBUG")
-
-            for site_name, site_id in site_info.items():
-                offset = 1
-                limit = self.get_device_details_limit()
-
-                while True:
-                    try:
-                        response = self.dnac._exec(
-                            family="site_design",
-                            function="get_site_assigned_network_devices",
-                            params={
-                                "site_id": site_id,
-                                "offset": offset,
-                                "limit": limit,
-                            },
-                        )
-                        self.log(
-                            "Received API response from 'get_site_assigned_network_devices' for site '{0}': {1}".format(
-                                site_name, response
+                            "No more devices found for site '{0}' at offset {1}".format(
+                                hierarchy, offset
                             ),
                             "DEBUG",
                         )
+                        break
 
-                        devices = response.get("response", [])
-                        if not devices:
-                            self.log(
-                                "No more devices found for site '{0}'.".format(
-                                    site_name
-                                ),
-                                "INFO",
-                            )
-                            break
-
-                        for device in devices:
-                            device_id_list.append(device.get("deviceId"))
-
-                        offset += limit
-
-                    except Exception as e:
+                    for device in devices:
+                        device_id = device.get("deviceId")
+                        device_id_list.append(device_id)
                         self.log(
-                            "Unable to fetch devices for site '{0}' due to '{1}'".format(
-                                site_name, e
-                            ),
-                            "ERROR"
+                            "Retrieved device ID '{0}' from site '{1}'".format(device_id, hierarchy),
+                            "DEBUG"
                         )
-                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-                        return None
+
+                    offset += limit
+
+                except Exception as e:
+                    self.log(
+                        "Exception during device retrieval from site '{0}' (ID: {1}): {2}".format(
+                            hierarchy, site_id, str(e)
+                        ),
+                        "ERROR"
+                    )
+                    return None
+        self.log(
+            "Device retrieval completed for site '{0}' - total devices: {1}".format(
+                hierarchy, len(device_id_list)
+            ),
+            "DEBUG"
+        )
 
         return device_id_list
 
@@ -1924,12 +2265,33 @@ class NetworkDevicesInfo(DnacBase):
         retries = filtered_config.get("retries", 3)
         interval = filtered_config.get("interval", 10)
 
+        self.log(
+            "Using filter configuration - timeout: {0}s, retries: {1}, interval: {2}s".format(
+                timeout, retries, interval
+            ),
+            "DEBUG"
+        )
+
+        self.log(
+            "Filter criteria - site_hierarchy: {0}, device_type: {1}, role: {2}, family: {3}".format(
+                site_hierarchy, device_type, device_role, device_family
+            ),
+            "DEBUG"
+        )
+
         filtered_devices = {}
         start_time = time.time()
         attempt = 0
+        elapsed_time = time.time() - start_time
 
-        while attempt < retries and (time.time() - start_time) < timeout:
+        while attempt < retries and (elapsed_time < timeout):
             try:
+                self.log(
+                    "Starting device discovery phase - retrieving network devices with offset {0} and limit {1}".format(
+                        offset, limit
+                    ),
+                    "DEBUG"
+                )
                 self.log("Attempt {0} - Retrieving network devices with offset {1} and limit {2}".format(
                     attempt + 1, offset, limit
                 ), "DEBUG")
@@ -1937,25 +2299,88 @@ class NetworkDevicesInfo(DnacBase):
                 all_devices = []
 
                 device_ids_in_site = []
+
+                # Phase 1: Site-based device discovery
                 if site_hierarchy:
+                    self.log(
+                        "Processing site hierarchy filter: {0}".format(site_hierarchy),
+                        "INFO"
+                    )
                     device_ids_in_site = self.get_devices_from_site(site_hierarchy)
-                    self.log("Device IDs in site '{0}': {1}".format(site_hierarchy, device_ids_in_site), "DEBUG")
-                    self.log("Found {0} device IDs for site '{1}'".format(len(device_ids_in_site), site_hierarchy), "DEBUG")
+                    self.log(
+                        "Site-based device discovery completed - found {0} devices for site '{1}'".format(
+                            len(device_ids_in_site), site_hierarchy
+                        ),
+                        "INFO"
+                    )
+                    self.log(
+                        "Device IDs from site '{0}': {1}".format(site_hierarchy, device_ids_in_site),
+                        "DEBUG"
+                    )
 
+                # Phase 2: Device identifier-based discovery
                 if device_identifier:
+                    self.log(
+                        "Processing device identifier filter: {0}".format(device_identifier),
+                        "INFO"
+                    )
                     ip_uuid_map = self.get_device_id(filtered_config)
-                    device_ids_from_identifiers = list(ip_uuid_map.values())
+                    if ip_uuid_map:
+                        device_ids_from_identifiers = list(ip_uuid_map.values())
+                        self.log(
+                            "Identifier-based device discovery completed - found {0} devices".format(
+                                len(device_ids_from_identifiers)
+                            ),
+                            "INFO"
+                        )
 
-                    if site_hierarchy:
-                        device_ids = list(set(device_ids_from_identifiers) & set(device_ids_in_site))
+                        # Combine site and identifier filters if both are specified
+                        if site_hierarchy:
+                            device_ids = list(set(device_ids_from_identifiers) & set(device_ids_in_site))
+                            self.log(
+                                "Applied intersection of site and identifier filters - result: {0} devices".format(
+                                    len(device_ids)
+                                ),
+                                "DEBUG"
+                            )
+                        else:
+                            device_ids = device_ids_from_identifiers
+                            self.log(
+                                "Using identifier-based filter results: {0} devices".format(
+                                    len(device_ids)
+                                ),
+                                "DEBUG"
+                            )
                     else:
-                        device_ids = device_ids_from_identifiers
+                        self.log(
+                            "No devices found matching device identifier criteria",
+                            "WARNING"
+                        )
+                        device_ids = []
                 else:
                     device_ids = device_ids_in_site if site_hierarchy else [None]
+                    self.log(
+                        "Using site-based filter results or all devices: {0}".format(
+                            len(device_ids) if device_ids != [None] else "all"
+                        ),
+                        "DEBUG"
+                    )
 
-                self.log("Device IDs to filter: {0}".format(device_ids), "DEBUG")
+                self.log(
+                    "Device discovery completed - processing {0} device IDs for attribute filtering".format(
+                        len(device_ids) if device_ids != [None] else "all devices"
+                    ),
+                    "INFO"
+                )
 
-                for device_id in device_ids:
+                # Phase 3: Apply attribute-based filters
+                for device_index, device_id in enumerate(device_ids):
+                    self.log(
+                        "Processing device {0}/{1} for attribute filtering - device_id: {2}".format(
+                            device_index + 1, len(device_ids), device_id
+                        ),
+                        "DEBUG"
+                    )
                     params = {"offset": offset, "limit": limit}
                     if device_id:
                         params["id"] = device_id
@@ -1968,14 +2393,41 @@ class NetworkDevicesInfo(DnacBase):
                         "software_type": os_type
                     }
 
+                    applied_filters = []
                     for key, value in filters.items():
                         if value:
                             params[key] = value
-                            self.log("Applying {0}-based filtering for {0}: '{1}' in API request".format(key, value), "DEBUG")
+                            applied_filters.append("{0}='{1}'".format(key, value))
+                            self.log(
+                                "Applied {0} filter with value: '{1}'".format(key, value),
+                                "DEBUG"
+                            )
 
-                    self.log("Querying network device with params: {0}".format(params), "DEBUG")
+                    if applied_filters:
+                        self.log(
+                            "Executing device query with filters: {0}".format(
+                                ", ".join(applied_filters)
+                            ),
+                            "DEBUG"
+                        )
+                    else:
+                        self.log(
+                            "Executing device query without attribute filters",
+                            "DEBUG"
+                        )
+
+                    self.log(
+                        "API parameters for device query: {0}".format(params),
+                        "DEBUG"
+                    )
 
                     while True:
+                        self.log(
+                            "Executing API call - offset: {0}, limit: {1}".format(
+                                params.get("offset"), params.get("limit")
+                            ),
+                            "DEBUG"
+                        )
                         response = self.dnac._exec(
                             family="devices",
                             function="get_device_list",
@@ -1987,33 +2439,83 @@ class NetworkDevicesInfo(DnacBase):
                         devices = response.get("response", [])
 
                         if devices:
+                            self.log(
+                                "Found {0} devices in current page".format(len(devices)),
+                                "DEBUG"
+                            )
                             all_devices.extend(devices)
                             device_id = devices[0].get("instanceUuid")
+                            self.log(
+                                "Sample device from response - UUID: {0}".format(device_id),
+                                "DEBUG"
+                            )
 
                         if len(devices) < limit:
-                            self.log("No more network devices returned (less than limit {0}).".format(limit), "DEBUG")
+                            self.log(
+                                "Reached end of results - received {0} devices (less than limit {1})".format(
+                                    len(devices), limit
+                                ),
+                                "DEBUG"
+                            )
                             break
 
                         offset += limit
+                        self.log(
+                            "Continuing pagination - new offset: {0}".format(offset),
+                            "DEBUG"
+                        )
                         params["offset"] = offset
 
                 self.log("Total network devices retrieved: {0}".format(len(all_devices)), "INFO")
 
+                # Phase 4: Build final filtered device mapping
+                devices_processed = 0
                 for device in all_devices:
                     ip = device.get("managementIpAddress")
                     device_id = device.get("instanceUuid")
-                    if ip:
+                    if ip and device_id:
                         filtered_devices[ip] = device_id
-                        self.log("Device {0} included after matching all criteria.".format(ip), "DEBUG")
+                        devices_processed += 1
+                        self.log(
+                            "Device {0} included in final results - IP: {1}, UUID: {2}".format(
+                                devices_processed, ip, device_id
+                            ),
+                            "DEBUG"
+                        )
+                    else:
+                        self.log(
+                            "Skipping device with missing IP or UUID - IP: {0}, UUID: {1}".format(
+                                ip, device_id
+                            ),
+                            "WARNING"
+                        )
 
                 if filtered_devices:
-                    self.log("Successfully filtered network devices matching all criteria on attempt {0}".format(attempt + 1), "INFO")
+                    self.log(
+                        "Device filtering completed successfully on attempt {0} - found {1} matching devices".format(
+                            attempt + 1, len(filtered_devices)
+                        ),
+                        "INFO"
+                    )
                     break
                 else:
                     if attempt < retries and (time.time() - start_time) < timeout:
-                        self.log("No devices matched all criteria in attempt {0}. Retrying in {1} seconds...".format(attempt + 1, interval), "WARNING")
+                        self.log(
+                            "No devices matched criteria on attempt {0}/{1} - retrying in {2} seconds".format(
+                                attempt + 1, retries, interval
+                            ),
+                            "WARNING"
+                        )
                         time.sleep(interval)
                         attempt += 1
+                    else:
+                        self.log(
+                            "No devices matched filtering criteria after {0} attempts".format(
+                                attempt + 1
+                            ),
+                            "WARNING"
+                        )
+                        break
 
             except Exception as e:
                 self.msg = "Error occurred while retrieving/filtering network devices: {0}".format(str(e))
@@ -2021,9 +2523,32 @@ class NetworkDevicesInfo(DnacBase):
                 return None
 
         if not filtered_devices:
-            self.msg = "No network devices matched all the provided filter criteria."
-            self.set_operation_result("Success", False, self.msg, "ERROR").check_return_status()
+            self.msg = (
+                "No network devices matched the provided filter criteria after {0} attempts "
+                "and {1:.1f} seconds".format(attempt + 1, time.time() - start_time)
+            )
+            self.set_operation_result("success", False, self.msg, "INFO")
+            self.log(
+                "Device filtering completed with no matching devices",
+                "WARNING"
+            )
             return None
+
+        total_elapsed = time.time() - start_time
+        self.log(
+            "Network device filtering completed successfully - "
+            "found {0} devices in {1:.1f} seconds across {2} attempts".format(
+                len(filtered_devices), total_elapsed, attempt + 1
+            ),
+            "INFO"
+        )
+
+        self.log(
+            "Final filtered device mapping: {0}".format(
+                dict(list(filtered_devices.items())[:5])
+            ) + ("... and {0} more".format(len(filtered_devices) - 5) if len(filtered_devices) > 5 else ""),
+            "DEBUG"
+        )
 
         return filtered_devices
 
@@ -2537,13 +3062,48 @@ class NetworkDevicesInfo(DnacBase):
                 ]
         """
 
-        self.log("Fetching module count data for {0} devices: {1}".format(len(ip_uuid_map), list(ip_uuid_map.keys())), "INFO")
+        self.log(
+            "Processing module count data for {0} devices with IP-UUID mapping: {1}".format(
+                len(ip_uuid_map) if ip_uuid_map else 0,
+                list(ip_uuid_map.keys()) if ip_uuid_map else []
+            ),
+            "DEBUG"
+        )
 
         module_counts_info_list = []
+        successful_retrievals = 0
+        failed_retrievals = 0
 
-        for device_ip, device_id in ip_uuid_map.items():
-            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+        for device_index, (device_ip, device_id) in enumerate(ip_uuid_map.items(), start=1):
+            self.log(
+                "Processing device {0}/{1} - IP: {2}, UUID: {3}".format(
+                    device_index, len(ip_uuid_map), device_ip, device_id
+                ),
+                "DEBUG"
+            )
             self.log("Fetching module count info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
+
+            # Validate device IP and ID
+            if not device_ip or not device_id:
+                self.log(
+                    "Skipping device with missing IP or UUID - IP: {0}, UUID: {1}".format(
+                        device_ip, device_id
+                    ),
+                    "WARNING"
+                )
+                module_counts_info_list.append({
+                    "device_ip": device_ip or "unknown",
+                    "module_count_details": "Error: Missing device IP or UUID"
+                })
+                failed_retrievals += 1
+                continue
+
+            self.log(
+                "Executing module count API call for device IP: {0}, UUID: {1}".format(
+                    device_ip, device_id
+                ),
+                "DEBUG"
+            )
 
             try:
                 response = self.dnac._exec(
@@ -2558,12 +3118,14 @@ class NetworkDevicesInfo(DnacBase):
                 module_count_data = response.get("response", [])
 
                 if module_count_data:
+                    successful_retrievals += 1
                     self.log("Found {0} module count records for device IP: {1}".format(module_count_data, device_ip), "DEBUG")
                     module_counts_info_list.append({
                         "device_ip": device_ip,
                         "module_count_details": module_count_data
                     })
                 else:
+                    successful_retrievals += 1
                     self.log("No module count details found for device IP: {0}".format(device_ip), "DEBUG")
                     module_counts_info_list.append({
                         "device_ip": device_ip,
@@ -2571,6 +3133,7 @@ class NetworkDevicesInfo(DnacBase):
                     })
 
             except Exception as e:
+                failed_retrievals += 1
                 self.msg = "Exception occurred while getting module count info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
                 module_counts_info_list.append({
                     "device_ip": device_ip,
@@ -2580,8 +3143,20 @@ class NetworkDevicesInfo(DnacBase):
 
         result = [{"module_count_info": module_counts_info_list}]
 
-        self.log("Completed Device Module Count info retrieval. Total devices processed: {0}".format(len(module_counts_info_list)), "INFO")
-        self.log("Device Module Count info result: {0}".format(result), "DEBUG")
+        self.log(
+            "Module count information retrieval completed - "
+            "total devices: {0}, successful: {1}, failed: {2}".format(
+                len(ip_uuid_map), successful_retrievals, failed_retrievals
+            ),
+            "INFO"
+        )
+
+        self.log(
+            "Module count retrieval result summary: {0}".format(
+                {"total_devices": len(module_counts_info_list), "result_structure": "module_count_info"}
+            ),
+            "DEBUG"
+        )
         return result
 
     def get_interface_ids_per_device(self, ip_uuid_map):
@@ -2612,17 +3187,36 @@ class NetworkDevicesInfo(DnacBase):
         )
 
         device_interfaces_map = {}
-        device_interfaces_map = {}
-        devices_processed = 0
-        devices_with_interfaces = 0
-        devices_without_interfaces = 0
-        interfaces_without_ids = 0
-        devices_with_errors = 0
-        total_interfaces_discovered = 0
+
+        # Statistics tracking
+        statistics = {
+            'devices_processed': 0,
+            'devices_with_interfaces': 0,
+            'devices_without_interfaces': 0,
+            'devices_with_errors': 0,
+            'interfaces_without_ids': 0,
+            'total_interfaces_discovered': 0
+        }
 
         for index, (ip, device_id) in enumerate(ip_uuid_map.items()):
-            devices_processed += 1
-            self.log("Retrieving interface information for network device {0}".format(ip), "DEBUG")
+            statistics['devices_processed'] += 1
+            self.log(
+                "Processing device {0}/{1} - IP: {2}, UUID: {3}".format(
+                    statistics['devices_processed'], len(ip_uuid_map), ip, device_id
+                ),
+                "DEBUG"
+            )
+
+            # Validate device IP and UUID
+            if not ip or not device_id:
+                self.log(
+                    "Skipping device with missing IP or UUID - IP: {0}, UUID: {1}".format(
+                        ip, device_id
+                    ),
+                    "WARNING"
+                )
+                statistics['devices_with_errors'] += 1
+                continue
 
             try:
                 self.log("Fetching interfaces for device: {0}".format(ip), "DEBUG")
@@ -2644,6 +3238,8 @@ class NetworkDevicesInfo(DnacBase):
                 self.log("Received API response for 'get_interface_info_by_id' for device {0}: {1}".format(ip, response), "DEBUG")
 
                 interface_ids = set()
+                interfaces_missing_ids = 0
+
                 for interface in interface_response_data:
                     interface_id = interface.get("id")
                     if interface_id:
@@ -2657,10 +3253,11 @@ class NetworkDevicesInfo(DnacBase):
                             "WARNING"
                         )
                 device_interfaces_map[ip] = interface_ids
-                total_interfaces_discovered += len(interface_ids)
+                statistics['interfaces_without_ids'] += interfaces_missing_ids
+                statistics['total_interfaces_discovered'] += len(interface_ids)
 
                 if interface_ids:
-                    devices_with_interfaces += 1
+                    statistics['devices_with_interfaces'] += 1
                     self.log(
                         "Successfully mapped {0} interface identifiers for device {1}".format(
                             len(interface_ids),
@@ -2669,7 +3266,7 @@ class NetworkDevicesInfo(DnacBase):
                         "DEBUG"
                     )
                 else:
-                    devices_without_interfaces += 1
+                    statistics['devices_without_interfaces'] += 1
                     self.log(
                         "No interface identifiers found for device {0} - "
                         "device may have no configured interfaces".format(ip),
@@ -2686,7 +3283,7 @@ class NetworkDevicesInfo(DnacBase):
                     )
 
             except Exception as e:
-                devices_with_errors += 1
+                statistics['devices_with_errors'] += 1
                 self.msg = "Failed to retrieve interface information for device {0}: {1}".format(ip, str(e))
                 self.log(self.msg, "ERROR")
 
@@ -2694,24 +3291,40 @@ class NetworkDevicesInfo(DnacBase):
         successful_devices = len(device_interfaces_map)
 
         self.log(
-            "Interface identifier retrieval completed - "
-            "processed {0}/{1} network devices successfully".format(
-                successful_devices,
-                total_network_devices
+            "Interface discovery statistics - "
+            "devices with interfaces: {0}, "
+            "devices without interfaces: {1}, "
+            "devices with errors: {2}".format(
+                statistics['devices_with_interfaces'],
+                statistics['devices_without_interfaces'],
+                statistics['devices_with_errors']
             ),
             "INFO"
         )
 
-        if devices_with_interfaces > 0:
-            self.log("Network devices with interface identifiers: {0}".format(devices_with_interfaces), "INFO")
+        if statistics['interfaces_without_ids'] > 0:
+            self.log(
+                "Warning: {0} interface records across all devices were missing "
+                "UUID identifiers".format(statistics['interfaces_without_ids']),
+                "WARNING"
+            )
 
-        if devices_without_interfaces > 0:
-            self.log("Network devices without interface identifiers: {0}".format(devices_without_interfaces), "INFO")
+        self.log(
+            "Total interface identifiers discovered: {0} across {1} devices".format(
+                statistics['total_interfaces_discovered'], successful_devices
+            ),
+            "INFO"
+        )
+        if statistics['devices_with_interfaces'] > 0:
+            self.log("Network devices with interface identifiers: {0}".format(statistics['devices_with_interfaces']), "INFO")
 
-        if devices_with_errors > 0:
-            self.log("Warning: {0} devices encountered errors during interface retrieval".format(devices_with_errors), "WARNING")
+        if statistics['devices_without_interfaces'] > 0:
+            self.log("Network devices without interface identifiers: {0}".format(statistics['devices_without_interfaces']), "INFO")
 
-        self.log("Total interface identifiers discovered across all network devices: {0}".format(total_interfaces_discovered), "INFO")
+        if statistics['devices_with_errors'] > 0:
+            self.log("Warning: {0} devices encountered errors during interface retrieval".format(statistics['devices_with_errors']), "WARNING")
+
+        self.log("Total interface identifiers discovered across all network devices: {0}".format(statistics['total_interfaces_discovered']), "INFO")
 
         return device_interfaces_map
 
@@ -2749,89 +3362,204 @@ class NetworkDevicesInfo(DnacBase):
         self.log("Processing connected device discovery for {0} network devices".format(len(ip_uuid_map)), "DEBUG")
 
         connected_info_list = []
-        devices_with_connections = 0
-        devices_without_connections = 0
-        devices_with_errors = 0
 
-        self.log("Retrieving interface inventories for network devices to enable connected device discovery", "DEBUG")
+        statistics = {
+            'devices_processed': 0,
+            'devices_with_connections': 0,
+            'devices_without_connections': 0,
+            'devices_with_errors': 0,
+            'interfaces_processed': 0,
+            'interfaces_with_connections': 0,
+            'total_connections_discovered': 0
+        }
+
+        self.log(
+            "Phase 1: Retrieving interface inventories for network devices to enable discovery",
+            "INFO"
+        )
         device_interfaces_map = self.get_interface_ids_per_device(ip_uuid_map)
 
         if not device_interfaces_map:
-            self.log("No interface mappings available for network devices - unable to perform connected device discovery", "WARNING")
+            self.log(
+                "No interface mappings available for network devices - "
+                "unable to perform connected device discovery",
+                "WARNING"
+            )
             return [{"connected_device_info": []}]
 
-        self.log("Processing connected device discovery across {0} network devices with interface inventories".format(len(device_interfaces_map)), "DEBUG")
+        self.log(
+            "Phase 1 completed: Retrieved interface mappings for {0} network devices".format(
+                len(device_interfaces_map)
+            ),
+            "INFO"
+        )
 
-        for index, (ip_address, interface_ids) in enumerate(device_interfaces_map.items()):
-            ip_device_uuid_map = self.get_device_ids_from_device_ips([ip_address])
-            interface_count = len(interface_ids)
-            device_id = ip_device_uuid_map[ip_address]
+        self.log(
+            "Phase 2: Processing connected device discovery across device interfaces",
+            "INFO"
+        )
+
+        for index, (device_ip, interface_ids) in enumerate(device_interfaces_map.items()):
+            statistics['devices_processed'] += 1
+            ip_device_uuid_map = self.get_device_ids_from_device_ips([device_ip])
+            device_uuid = ip_device_uuid_map[device_ip]
             interfaces_with_connections = 0
-            connected_device_details = []
 
-            for interface_id in interface_ids:
-                self.log("Querying connected devices for interface {0} on device {1}".format(interface_id, ip_address), "DEBUG")
+            self.log(
+                "Processing device {0}/{1} - IP: {2}, UUID: {3}, interfaces: {4}".format(
+                    statistics['devices_processed'], len(device_interfaces_map),
+                    device_ip, device_uuid, len(interface_ids)
+                ),
+                "DEBUG"
+            )
+
+            # Validate device mapping
+            if not device_uuid:
+                self.log(
+                    "Skipping device {0} - missing UUID in ip_uuid_map".format(device_ip),
+                    "WARNING"
+                )
+                statistics['devices_with_errors'] += 1
+                connected_info_list.append({
+                    "device_ip": device_ip,
+                    "connected_device_details": "Error: Missing device UUID in mapping"
+                })
+                continue
+
+            if not interface_ids:
+                self.log(
+                    "Device {0} has no interfaces available for connected device discovery".format(
+                        device_ip
+                    ),
+                    "WARNING"
+                )
+                statistics['devices_without_connections'] += 1
+                connected_info_list.append({
+                    "device_ip": device_ip,
+                    "connected_device_details": []
+                })
+                continue
+
+            for interface_index, interface_id in enumerate(interface_ids, start=1):
+                statistics['interfaces_processed'] += 1
+
+                self.log(
+                    "Processing interface {0}/{1} for device {2} - interface_id: {3}".format(
+                        interface_index, len(interface_ids), device_ip, interface_id
+                    ),
+                    "DEBUG"
+                )
                 try:
+                    self.log(
+                        "Executing connected device query for interface {0} on device {1}".format(
+                            interface_id, device_ip
+                        ),
+                        "DEBUG"
+                    )
                     response = self.dnac._exec(
                         family="devices",
                         function="get_connected_device_detail",
                         params={
-                            "device_uuid": device_id,
+                            "device_uuid": device_uuid,
                             "interface_uuid": interface_id
                         }
                     )
+                    self.log(
+                        "Received connected device API response for device {0}, interface {1}: {2}".format(
+                            device_ip, interface_id, response
+                        ),
+                        "DEBUG"
+                    )
                     interface_connected_data = response.get("response", {})
-                    self.log("Received API response for IP {0}, interface {1}: {2}".format(ip_address, interface_id, response), "DEBUG")
 
                     if interface_connected_data:
                         interfaces_with_connections += 1
-                        self.log("Connected device details found for {0}:{1}".format(ip_address, interface_id), "INFO")
+                        statistics['interfaces_with_connections'] += 1
+                        statistics['total_connections_discovered'] += 1
+                        statistics['devices_with_connections'] += 1
+                        self.log(
+                            "Connected device found for device {0}, interface {1}: {2}".format(
+                                device_ip, interface_id, interface_connected_data
+                            ),
+                            "DEBUG"
+                        )
                         connected_info_list.append({
-                            "device_ip": ip_address,
+                            "device_ip": device_ip,
                             "connected_device_details": [interface_connected_data]
                         })
                     else:
-                        self.log("No connected device found for {0}:{1}".format(ip_address, interface_id), "DEBUG")
+                        statistics['devices_without_connections'] += 1
+                        self.log(
+                            "No connected device found for device {0}, interface {1}".format(
+                                device_ip, interface_id
+                            ),
+                            "DEBUG"
+                        )
                         connected_info_list.append({
-                            "device_ip": ip_address,
+                            "device_ip": device_ip,
                             "connected_device_details": []
                         })
 
                 except Exception as e:
-                    devices_with_errors += 1
-                    self.log("Failed to fetch connected device info for {0}: due to {1}".format(ip_address, str(e)), "ERROR")
+                    statistics['devices_with_errors'] += 1
+                    self.log(
+                        "Exception during connected device query for device {0}, interface {1}: {2}".format(
+                            device_ip, interface_id, str(e)
+                        ),
+                        "ERROR"
+                    )
                     connected_info_list.append({
-                        "device_ip": ip_address,
+                        "device_ip": device_ip,
                         "connected_device_details": "Error: {0}".format(e)
                     })
 
         result = [{"connected_device_info": connected_info_list}]
 
-        total_network_devices = len(ip_uuid_map)
-        successful_devices = len(connected_info_list)
-
         self.log(
-            "Connected device topology discovery completed - "
-            "processed {0}/{1} network devices with {2} total interfaces".format(
-                successful_devices,
-                total_network_devices,
-                interface_count
+            "Phase 2 completed: Connected device topology discovery finished successfully",
+            "INFO"
+        )
+
+        # Final statistics and comprehensive logging
+        self.log(
+            "Discovery statistics - devices processed: {0}, "
+            "devices with connections: {1}, devices without connections: {2}, "
+            "devices with errors: {3}".format(
+                statistics['devices_processed'],
+                statistics['devices_with_connections'],
+                statistics['devices_without_connections'],
+                statistics['devices_with_errors']
             ),
             "INFO"
         )
-        if devices_with_connections > 0:
-            self.log("Network devices with connected device discoveries: {0}".format(devices_with_connections), "INFO")
+        self.log(
+            "Interface processing statistics - total interfaces: {0}, "
+            "interfaces with connections: {1}, total connections discovered: {2}".format(
+                statistics['interfaces_processed'],
+                statistics['interfaces_with_connections'],
+                statistics['total_connections_discovered']
+            ),
+            "INFO"
+        )
 
-        if devices_without_connections > 0:
-            self.log("Network devices with no connected devices: {0}".format(devices_without_connections), "INFO")
+        if statistics['devices_with_errors'] > 0:
+            self.log(
+                "Warning: {0} devices encountered errors during connected device discovery".format(
+                    statistics['devices_with_errors']
+                ),
+                "WARNING"
+            )
 
-        if devices_with_errors > 0:
-            self.log("Warning: {0} devices encountered errors during connected device discovery".format(devices_with_errors), "WARNING")
-
-        self.log("Total connected devices discovered across network topology: {0}".format(connected_info_list), "INFO")
-
-        self.log("Completed connected device info retrieval. Total devices processed: {0}".format(len(connected_info_list)), "INFO")
-        self.log("Final aggregated connected device info: {0}".format(result), "DEBUG")
+        self.log(
+            "Connected device topology discovery completed successfully - "
+            "processed {0} devices with {1} total interfaces, "
+            "discovered {2} total connections".format(
+                statistics['devices_processed'],
+                statistics['interfaces_processed'],
+                statistics['total_connections_discovered']
+            ),
+            "INFO"
+        )
 
         return result
 
@@ -2884,20 +3612,68 @@ class NetworkDevicesInfo(DnacBase):
                     }
                 ]
         """
-
-        self.log("Fetching range interface data for {0} devices: {1}".format(len(ip_uuid_map), list(ip_uuid_map.keys())), "INFO")
+        self.log(
+            "Processing interface range retrieval for {0} network devices: {1}".format(
+                len(ip_uuid_map) if ip_uuid_map else 0,
+                list(ip_uuid_map.keys()) if ip_uuid_map else []
+            ),
+            "DEBUG"
+        )
 
         interface_by_range_info_list = []
+        statistics = {
+            'devices_processed': 0,
+            'devices_with_interfaces': 0,
+            'devices_without_interfaces': 0,
+            'devices_with_errors': 0,
+            'total_interfaces_retrieved': 0,
+            'total_api_calls': 0
+        }
 
         for device_ip, device_id in ip_uuid_map.items():
+            statistics['devices_processed'] += 1
+            self.log(
+                "Processing device {0}/{1} - IP: {2}, UUID: {3}".format(
+                    statistics['devices_processed'], len(ip_uuid_map), device_ip, device_id
+                ),
+                "DEBUG"
+            )
+
+            if not device_ip or not device_id:
+                self.log(
+                    "Skipping device with missing IP or UUID - IP: {0}, UUID: {1}".format(
+                        device_ip, device_id
+                    ),
+                    "WARNING"
+                )
+                statistics['devices_with_errors'] += 1
+                interface_by_range_info_list.append({
+                    "device_ip": device_ip or "unknown",
+                    "interface_info": "Error: Missing device IP or UUID"
+                })
+                continue
             start_index = 1
             records_to_return = 500
             interface_data = []
 
+            self.log(
+                "Starting paginated interface retrieval for device {0} with "
+                "initial parameters - start_index: {1}, records_to_return: {2}".format(
+                    device_ip, start_index, records_to_return
+                ),
+                "DEBUG"
+            )
+
             while True:
-                self.log("Fetching interfaces for device {0} - starting at index {1} (requesting {2} records)".format(
-                    device_id, start_index, records_to_return), "DEBUG")
+                self.log(
+                    "Executing interface range API call for device {0} - "
+                    "requesting {1} records starting at index {2}".format(
+                        device_ip, records_to_return, start_index
+                    ),
+                    "DEBUG"
+                )
                 try:
+                    statistics['total_api_calls'] += 1
                     response = self.dnac._exec(
                         family="devices",
                         function="get_device_interfaces_by_specified_range",
@@ -2908,45 +3684,129 @@ class NetworkDevicesInfo(DnacBase):
                         }
                     )
 
-                    self.log("Received API response from 'get_device_interfaces_by_specified_range': {0}".format(
-                        response), "DEBUG"
+                    self.log("Received API response from 'get_device_interfaces_by_specified_range' for device {0}: {1}".format(
+                        device_ip, response), "DEBUG"
                     )
 
                     if not response or 'response' not in response:
-                        self.log("Empty or invalid response received for device_id: {0}".format(device_id), "WARNING")
+                        self.log(
+                            "Invalid or empty API response received for device {0}".format(device_ip),
+                            "WARNING"
+                        )
                         break
 
                     data_chunk = response['response']
                     if data_chunk:
-                        self.log("Found {0} interface records for device IP: {1}".format(len(data_chunk), device_ip), "DEBUG")
+                        chunk_size = len(data_chunk)
+                        self.log(
+                            "Retrieved {0} interface records for device {1} at index {2}".format(
+                                chunk_size, device_ip, start_index
+                            ),
+                            "DEBUG"
+                        )
                         interface_data.extend(data_chunk)
+                        statistics['total_interfaces_retrieved'] += chunk_size
+
+                        # Check if we've reached the end of available data
+                        if chunk_size < records_to_return:
+                            self.log(
+                                "Reached end of interface data for device {0} - "
+                                "received {1} records (less than requested {2})".format(
+                                    device_ip, chunk_size, records_to_return
+                                ),
+                                "DEBUG"
+                            )
+                            break
+
+                        # Update pagination parameters for next iteration
+                        start_index += records_to_return
+                        self.log(
+                            "Continuing pagination for device {0} - next start_index: {1}".format(
+                                device_ip, start_index
+                            ),
+                            "DEBUG"
+                        )
                     else:
-                        self.log("No interface details found for device IP: {0}".format(device_ip), "DEBUG")
+                        self.log(
+                            "No interface data returned for device {0} at index {1}".format(
+                                device_ip, start_index
+                            ),
+                            "DEBUG"
+                        )
                         break
-
-                    if len(data_chunk) < records_to_return:
-                        self.log("Reached end of data - received {0} records (less than requested {1})".format(
-                            len(data_chunk), records_to_return), "DEBUG")
-                        break
-
-                    start_index += records_to_return
 
                 except Exception as api_err:
-                    self.log("Exception while calling get_device_interfaces_by_specified_range for device_id {0} due to {1}".format(device_id, api_err)
-                             , "ERROR")
-                    interface_data = ["Error: {0}".format(api_err)]
-                    break
+                    self.log(
+                        "Exception during interface range API call for device {0}: {1}".format(
+                            device_ip, str(api_err)
+                        ),
+                        "ERROR"
+                    )
+                    interface_data = "Error: {0}".format(str(api_err))
+                    statistics['devices_with_errors'] += 1
+                    continue
 
-            self.log("No interface info found for device ip: {0}".format(device_ip), "INFO")
-            interface_by_range_info_list.append({
-                "device_ip": device_ip,
-                "interface_info": interface_data if interface_data else []
-            })
+            if interface_data:
+                statistics['devices_with_interfaces'] += 1
+                self.log(
+                    "Successfully retrieved {0} total interfaces for device {1}".format(
+                        len(interface_data), device_ip
+                    ),
+                    "INFO"
+                )
+                interface_by_range_info_list.append({
+                    "device_ip": device_ip,
+                    "interface_info": interface_data
+                })
+            else:
+                statistics['devices_without_interfaces'] += 1
+                self.log(
+                    "No interfaces found for device {0}".format(device_ip),
+                    "INFO"
+                )
+                interface_by_range_info_list.append({
+                    "device_ip": device_ip,
+                    "interface_info": []
+                })
 
         result = [{"device_interfaces_by_range_info": interface_by_range_info_list}]
 
-        self.log("Completed Device Interface by Range info retrieval. Total devices processed: {0}".format(len(interface_by_range_info_list)), "INFO")
-        self.log("Device Interface by Range info result: {0}".format(result), "DEBUG")
+        # Comprehensive logging of operation results
+        self.log(
+            "Interface range retrieval completed successfully - "
+            "devices processed: {0}, devices with interfaces: {1}, "
+            "devices without interfaces: {2}, devices with errors: {3}".format(
+                statistics['devices_processed'],
+                statistics['devices_with_interfaces'],
+                statistics['devices_without_interfaces'],
+                statistics['devices_with_errors']
+            ),
+            "INFO"
+        )
+
+        self.log(
+            "Interface retrieval statistics - "
+            "total API calls: {0}, total interfaces retrieved: {1}".format(
+                statistics['total_api_calls'],
+                statistics['total_interfaces_retrieved']
+            ),
+            "INFO"
+        )
+
+        if statistics['devices_with_errors'] > 0:
+            self.log(
+                "Warning: {0} devices encountered errors during interface range retrieval".format(
+                    statistics['devices_with_errors']
+                ),
+                "WARNING"
+            )
+
+        self.log(
+            "Interface range data retrieval operation completed with {0} total devices processed".format(
+                len(interface_by_range_info_list)
+            ),
+            "INFO"
+        )
 
         return result
 

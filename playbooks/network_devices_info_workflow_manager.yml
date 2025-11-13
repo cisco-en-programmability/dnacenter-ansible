@@ -23,7 +23,7 @@
         config:
           - network_devices:
               - site_hierarchy: Global/USA/SAN JOSE
-              - device_type: "Cisco Catalyst 9300 Switch"
+                device_type: "Cisco Catalyst 9300 Switch"
                 device_role: "ACCESS"
                 device_family: "Switches and Hubs"
                 software_version: "17.12.1"
