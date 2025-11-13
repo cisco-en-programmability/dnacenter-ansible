@@ -560,7 +560,7 @@ License Usage Upload Details                      N/A                           
 License Historical Usage                          N/A                                  License Type, Time Range, Usage Type
 Endpoint Profiling                                Location                             Location, Device Type, Profile Name, Time Range
 Audit Log                                         N/A                                  Time Range
-Configuration Archive                             Device, Time Range                   DeviceName, Location, Archive Status, Time Range
+Configuration Archive                             Device, Time Range                   Device Name, Location, Archive Status, Time Range
 Client                                            Location                              Location, Client MAC, Device Type
 Client Summary                                    Location                              Location, Device Type, Connection Status
 Top N Summary                                     Location                              Location, Metric Type, Time Range
@@ -1229,6 +1229,7 @@ EXAMPLES = r'''
               view_name: "Network Device Availability"
               field_groups:
                 - field_group_name: "deviceInfo"
+                  field_group_display_name: "Device Information"
                   fields:
                     - name: "hostname"
                       display_name: "host name"
