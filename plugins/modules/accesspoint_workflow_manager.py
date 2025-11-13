@@ -3120,9 +3120,9 @@ class Accesspoint(DnacBase):
 
                 if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
                     if current_eth_configuration.get("provisioning_status"):
-                      self.payload["ap_provision_status"] = "Provisioned"
+                        self.payload["ap_provision_status"] = "Provisioned"
                     else:
-                      self.payload["ap_provision_status"] = None
+                        self.payload["ap_provision_status"] = None
                     self.log("AP provision status: {0}".format(self.payload["ap_provision_status"]), "INFO")
 
         self.log("Completed retrieving current configuration. Access point exists: {0}, Current configuration: {1}"
