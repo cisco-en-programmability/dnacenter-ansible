@@ -748,9 +748,8 @@ class FabricSitesZones(DnacBase):
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
                 self.msg = (
-                    "The site '{0}' does not exist in the Catalyst Center. A site must be created first before it can be converted into a Fabric Site.".format(
-                        site_name
-                    )
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "A site must be created first before it can be converted into a Fabric Site."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
@@ -881,9 +880,8 @@ class FabricSitesZones(DnacBase):
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
                 self.msg = (
-                    "The site '{0}' does not exist in the Catalyst Center. A site must be created first before it can be converted into a Fabric Site.".format(
-                        site_name
-                    )
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "A site must be created first before it can be converted into a Fabric Site."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
@@ -1054,9 +1052,8 @@ class FabricSitesZones(DnacBase):
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
                 self.msg = (
-                    "The site '{0}' does not exist in the Catalyst Center. A site must be created first before it can be converted into a Fabric Site.".format(
-                        site_name
-                    )
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "A site must be created first before it can be converted into a Fabric Site."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
@@ -2346,9 +2343,8 @@ class FabricSitesZones(DnacBase):
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
                 self.msg = (
-                    "The site '{0}' does not exist in the Catalyst Center. A site must be created first before it can be converted into a Fabric Site.".format(
-                        site_name
-                    )
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "A site must be created first before it can be converted into a Fabric Site."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
@@ -2669,9 +2665,8 @@ class FabricSitesZones(DnacBase):
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
                 self.msg = (
-                    "The site '{0}' does not exist in the Catalyst Center. A site must be created first before it can be converted into a Fabric Site.".format(
-                        site_name
-                    )
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "A site must be created first before it can be converted into a Fabric Site."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
@@ -2754,9 +2749,9 @@ class FabricSitesZones(DnacBase):
                 site_exists, site_id = self.get_site_id(site_name)
                 if not site_exists:
                     self.msg = (
-                        "The site '{0}' does not exist in the Catalyst Center. "
+                        f"The site '{site_name}' does not exist in the Catalyst Center. "
                         "A site must be created first before it can be converted into a Fabric Site."
-                    ).format(site_name)
+                    )
                     self.set_operation_result(
                         "failed", False, self.msg, "ERROR"
                     ).check_return_status()
@@ -2847,9 +2842,8 @@ class FabricSitesZones(DnacBase):
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
                 self.msg = (
-                    "The site '{0}' does not exist in the Catalyst Center. A site must be created first before it can be converted into a Fabric Site.".format(
-                        site_name
-                    )
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "A site must be created first before it can be converted into a Fabric Site."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
