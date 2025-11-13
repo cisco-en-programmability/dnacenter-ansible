@@ -2146,6 +2146,7 @@ class Accesspoint(DnacBase):
             have["ip_address"] = self.payload["access_point_details"]["management_ip_address"]
             have["device_id"] = self.payload["access_point_details"]["id"]
             have["wlc_provision_status"] = self.payload.get("wlc_provision_status")
+            have["ap_provision_status"] = self.payload.get("ap_provision_status")
             have["associated_wlc_ip"] = self.payload["access_point_details"]["associated_wlc_ip"]
             have["hostname"] = self.payload["access_point_details"]["hostname"]
             have["ap_type"] = self.payload["access_point_details"]["family"]
@@ -2198,7 +2199,8 @@ class Accesspoint(DnacBase):
 
         if site:
             if site_required_changes:
-                if self.have.get("wlc_provision_status") == "success":
+                if self.have.get("wlc_provision_status") == "success" or \
+                   self.have.get("ap_provision_status") == "success":
                     provision_status, provision_details = self.provision_device()
                     if provision_status == "SUCCESS":
                         self.result["changed"] = True
@@ -3085,10 +3087,16 @@ class Accesspoint(DnacBase):
                                                          current_configuration["mac_address"],
                                                          site_exists, current_site, current_configuration)
                 })
-                provision_status, wlc_details = self.verify_ap_provision(
-                    current_configuration["associated_wlc_ip"])
-                self.payload["wlc_provision_status"] = provision_status
-                self.log("WLC provision status: {0}".format(provision_status), "INFO")
+                if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+                    provision_status, ap_details = self.verify_ap_provision(
+                        current_configuration["id"])
+                    self.payload["ap_provision_status"] = provision_status
+                    self.log("AP provision status: {0}".format(provision_status), "INFO")
+                else:
+                  provision_status, wlc_details = self.verify_wlc_provision(
+                      current_configuration["associated_wlc_ip"])
+                  self.payload["wlc_provision_status"] = provision_status
+                  self.log("WLC provision status: {0}".format(provision_status), "INFO")
 
         if accesspoint_exists:
             self.payload["access_point_details"] = current_configuration
@@ -3268,9 +3276,9 @@ class Accesspoint(DnacBase):
                       Error: {1}".format(site_id, str(e)), "ERROR")
             return False
 
-    def verify_ap_provision(self, wlc_ip_address):
+    def verify_wlc_provision(self, wlc_ip_address):
         """
-        Verifies if the AP (device) is provisioned.
+        Verifies if the WLC (device) is provisioned.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
@@ -3306,6 +3314,55 @@ class Accesspoint(DnacBase):
 
         except Exception as e:
             msg = "Wireles controller is not provisioned:"
+            self.log(msg + str(e), "ERROR")
+            provision_details = str(e)
+            self.status = "failed"
+            self.set_operation_result("failed", False, msg, "ERROR",
+                                      provision_details).check_return_status()
+
+        return provision_status, provision_details
+
+    def verify_ap_provision(self, device_id):
+        """
+        Verifies if the AP (device) is provisioned.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device_id (str): The ID of the Access Point (AP) to verify.
+
+        Returns:
+            tuple: A tuple containing the provisioning status ("success" or "failed") and
+            the provisioning details or error message.
+
+        Description:
+            Checks if the AP specified by the device ID is provisioned.
+            Returns "success" and details if provisioned, otherwise logs an error
+            and returns "failed" with error details.
+        """
+        self.log(f"Check the Access Point provisioning status for the device id: {device_id}", "INFO")
+        self.log("CHECK: {0}".format(self.pprint(self.payload)),
+                     "INFO")
+        provision_status = "failed"
+        provision_details = None
+
+        try:
+            response = self.dnac._exec(
+                family="sda",
+                function="get_provisioned_devices",
+                op_modifies=True,
+                params={"id": device_id}
+            )
+            self.log("Response from get provisioned devices: {0}".format(self.pprint(response)),
+                     "INFO")
+            if response and response.get("response")[0].get("id") == device_id:
+                self.log("Response from get provisioned devices: {0}".format(self.pprint(response)),
+                         "INFO")
+                self.log("AP already provisioned.", "INFO")
+                provision_status = "success"
+                provision_details = self.pprint(response)
+
+        except Exception as e:
+            msg = "Access Point is not provisioned:"
             self.log(msg + str(e), "ERROR")
             provision_details = str(e)
             self.status = "failed"
@@ -3697,17 +3754,18 @@ class Accesspoint(DnacBase):
                 for ctrl_name in ["primary_controller_name", "secondary_controller_name", "tertiary_controller_name"]:
                     if ctrl_name == "primary_controller_name" and self.want.get(ctrl_name):
                         if self.want.get(ctrl_name) == "Inherit from site / Clear":
-                            update_config[self.keymap[ctrl_name]] = self.want.get(ctrl_name)
+                            #update_config[self.keymap[ctrl_name]] = self.want.get(ctrl_name)
+                            update_config["primaryControllerName"] = self.want.get(ctrl_name)
                             update_config[self.keymap["primary_ip_address"]] = {}
                             update_config[self.keymap["primary_ip_address"]]["address"] = "0.0.0.0"
-                            update_config[self.keymap["secondary_controller_name"]] = self.want.get(ctrl_name)
+                            update_config["secondaryControllerName"] = self.want.get(ctrl_name)
                             update_config[self.keymap["secondary_ip_address"]] = {}
                             update_config[self.keymap["secondary_ip_address"]]["address"] = "0.0.0.0"
-                            update_config[self.keymap["tertiary_controller_name"]] = self.want.get(ctrl_name)
+                            update_config["tertiaryControllerName"] = self.want.get(ctrl_name)
                             update_config[self.keymap["tertiary_ip_address"]] = {}
                             update_config[self.keymap["tertiary_ip_address"]]["address"] = "0.0.0.0"
                         else:
-                            update_config[self.keymap[ctrl_name]] = self.want[ctrl_name]
+                            update_config["primaryControllerName"] = self.want[ctrl_name]
                             update_config[self.keymap["primary_ip_address"]] = {}
                             if self.want.get("primary_ip_address", {}).get("address"):
                                 update_config[self.keymap["primary_ip_address"]]["address"] = \
@@ -3716,14 +3774,14 @@ class Accesspoint(DnacBase):
                                 update_config[self.keymap["primary_ip_address"]]["address"] = "0.0.0.0"
                     elif ctrl_name == "secondary_controller_name" and self.want.get(ctrl_name):
                         if self.want.get(ctrl_name) == "Inherit from site / Clear":
-                            update_config[self.keymap[ctrl_name]] = self.want.get(ctrl_name)
+                            update_config["secondaryControllerName"] = self.want.get(ctrl_name)
                             update_config[self.keymap["secondary_ip_address"]] = {}
                             update_config[self.keymap["secondary_ip_address"]]["address"] = "0.0.0.0"
-                            update_config[self.keymap["tertiary_controller_name"]] = self.want.get(ctrl_name)
+                            update_config["tertiaryControllerName"] = self.want.get(ctrl_name)
                             update_config[self.keymap["tertiary_ip_address"]] = {}
                             update_config[self.keymap["tertiary_ip_address"]]["address"] = "0.0.0.0"
                         else:
-                            update_config[self.keymap[ctrl_name]] = self.want[ctrl_name]
+                            update_config["secondaryControllerName"] = self.want[ctrl_name]
                             update_config[self.keymap["secondary_ip_address"]] = {}
                             if self.want.get("secondary_ip_address", {}).get("address"):
                                 update_config[self.keymap["secondary_ip_address"]]["address"] = \
@@ -3732,11 +3790,11 @@ class Accesspoint(DnacBase):
                                 update_config[self.keymap["secondary_ip_address"]]["address"] = "0.0.0.0"
                     elif ctrl_name == "tertiary_controller_name" and self.want.get(ctrl_name):
                         if self.want.get(ctrl_name) == "Inherit from site / Clear":
-                            update_config[self.keymap[ctrl_name]] = self.want.get(ctrl_name)
+                            update_config["tertiaryControllerName"] = self.want.get(ctrl_name)
                             update_config[self.keymap["tertiary_ip_address"]] = {}
                             update_config[self.keymap["tertiary_ip_address"]]["address"] = "0.0.0.0"
                         else:
-                            update_config[self.keymap[ctrl_name]] = self.want[ctrl_name]
+                            update_config["tertiaryControllerName"] = self.want[ctrl_name]
                             update_config[self.keymap["tertiary_ip_address"]] = {}
                             if self.want.get("tertiary_ip_address", {}).get("address"):
                                 update_config[self.keymap["tertiary_ip_address"]]["address"] = \
