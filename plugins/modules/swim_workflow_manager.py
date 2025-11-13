@@ -466,6 +466,9 @@ options:
             description: Device serial number where
               the image needs to be distributed
             type: str
+          device_tag:
+            description: Device tag for filtering the target device(s)
+            type: str
           device_ip_address:
             description: Device IP address where the
               image needs to be distributed
@@ -600,6 +603,9 @@ options:
           device_serial_number:
             description: Device serial number where
               the image needs to be activated
+            type: str
+          device_tag:
+            description: Device tag for filtering the target device(s)
             type: str
           device_ip_address:
             description: Device IP address where the
@@ -894,6 +900,50 @@ EXAMPLES = r"""
           device_family_name: Switches and Hubs
           device_series_name: Cisco Catalyst 9300 Series
             Switches
+
+- name: Distribute the given image on devices associated with device tag
+    to that site with specified role.
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: true
+    config:
+      - image_distribution_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          site_name: Global/a_swim/swim_test1
+          device_role: ALL
+          device_family_name: Switches and Hubs
+          device_tag: AUTO_INV_EVENT_SYNC_DISABLED
+
+- name: Activate the given image on devices associated with device tag
+    to that site with specified role.
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: true
+    config:
+      - image_activation_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          site_name: Global/USA/San Francisco/BGL_18
+          device_role: ALL
+          device_family_name: Switches and Hubs
+          device_series_name: Cisco Catalyst 9300 Series Switches
+          device_tag: AUTO_INV_EVENT_SYNC_DISABLED
+          schedule_validate: false
+          activate_lower_image_version: true
+          distribute_if_needed: true
 
 - name: Activate the given image on devices associated
     to that site with specified role.
@@ -3095,6 +3145,221 @@ class Swim(DnacBase):
 
         return device_ips_list, device_count
 
+    def filter_device_uuids_by_tag(self, device_uuid_list, device_tag):
+        """
+        Filter device UUIDs based on a specified device tag.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device_uuid_list (list): A list of device UUIDs to be filtered.
+            device_tag (str): The tag used to filter the devices.
+        Returns:
+            list: A list of device UUIDs that match the specified device tag.
+        Description:
+            This function filters the provided list of device UUIDs based on the specified device tag.
+            It retrieves the tags associated with each device UUID and checks if the specified tag is present.
+            If the tag is found, the device UUID is added to the filtered list. The function returns the list of filtered device UUIDs.
+        """
+        # Validate input parameters
+
+        self.log(
+            "Starting device UUID filtering based on tag criteria for SWIM operations",
+            "INFO"
+        )
+
+        self.log(
+            "Processing tag-based device filtering with parameters - "
+            "device_uuid_list: {0} devices, device_tag: '{1}'".format(
+                len(device_uuid_list), device_tag
+            ),
+            "DEBUG"
+        )
+
+        if not device_uuid_list:
+            self.log("Empty device UUID list provided for tag filtering", "DEBUG")
+            return []
+
+        if not device_tag or not isinstance(device_tag, str):
+            self.log("Invalid device tag provided: {0}".format(device_tag), "WARNING")
+            return []
+
+        filtered_device_uuids = []
+
+        # Statistics tracking
+        statistics = {
+            'devices_processed': 0,
+            'devices_with_matching_tags': 0,
+            'devices_without_tags': 0,
+            'devices_with_api_errors': 0,
+            'invalid_uuids': 0
+        }
+
+        for device_index, device_uuid in enumerate(device_uuid_list, start=1):
+            statistics['devices_processed'] += 1
+
+            self.log(
+                "Processing device {0}/{1} - UUID: {2}".format(
+                    device_index, len(device_uuid_list), device_uuid
+                ),
+                "DEBUG"
+            )
+
+            # Validate device UUID format
+            if not device_uuid or not isinstance(device_uuid, str):
+                self.log(
+                    "Skipping invalid device UUID at index {0}: {1}".format(
+                        device_index, device_uuid
+                    ),
+                    "WARNING"
+                )
+                statistics['invalid_uuids'] += 1
+                continue
+
+            self.log(
+                "Retrieving device tags for UUID: {0}".format(device_uuid),
+                "DEBUG"
+            )
+
+            try:
+                response = self.dnac_apply["exec"](
+                    family="devices",
+                    function="get_device_detail",
+                    params={"search_by": device_uuid, "identifier": "uuid"},
+                )
+
+                self.log(
+                    "Response collected from API 'get_device_detail' for UUID {0}: {1}".format(
+                        device_uuid, response
+                    ),
+                    "DEBUG",
+                )
+
+                # Validate API response structure
+                if not response or not isinstance(response, dict):
+                    self.log(
+                        "Invalid API response structure for device UUID {0} - "
+                        "expected dict, got: {1}".format(
+                            device_uuid, type(response).__name__
+                        ),
+                        "WARNING"
+                    )
+                    statistics['devices_with_api_errors'] += 1
+                    continue
+
+                device_response = response.get("response", {})
+
+                if not device_response:
+                    self.log(
+                        "Empty device response for UUID {0} - device may not exist".format(
+                            device_uuid
+                        ),
+                        "WARNING"
+                    )
+                    statistics['devices_with_api_errors'] += 1
+                    continue
+
+                device_tags = device_response.get("tagIdList", [])
+
+                if not device_tags:
+                    self.log(
+                        "No tags found for device UUID {0} - excluding from filtered results".format(
+                            device_uuid
+                        ),
+                        "DEBUG"
+                    )
+                    statistics['devices_without_tags'] += 1
+                    continue
+
+                self.log(
+                    "Retrieved {0} tags for device UUID {1}: {2}".format(
+                        len(device_tags), device_uuid, device_tags
+                    ),
+                    "DEBUG",
+                )
+
+                # Check if specified tag exists in device tags
+                if device_tag in device_tags:
+                    self.log(
+                        "Device UUID {0} matches the specified tag '{1}' - "
+                        "adding to filtered results".format(device_uuid, device_tag),
+                        "DEBUG",
+                    )
+                    filtered_device_uuids.append(device_uuid)
+                    statistics['devices_with_matching_tags'] += 1
+                else:
+                    self.log(
+                        "Device UUID {0} does not contain the specified tag '{1}' - "
+                        "excluding from filtered results. Available tags: {2}".format(
+                            device_uuid, device_tag, device_tags
+                        ),
+                        "DEBUG"
+                    )
+
+            except Exception as e:
+                self.log(
+                    "Failed to process device UUID {0} due to API error: {1}".format(
+                        device_uuid, str(e)
+                    ),
+                    "ERROR"
+                )
+                statistics['devices_with_api_errors'] += 1
+                continue
+
+        # Log comprehensive filtering statistics
+        self.log(
+            "Device tag filtering completed - "
+            "processed: {0}, matching tags: {1}, without tags: {2}, API errors: {3}, invalid UUIDs: {4}".format(
+                statistics['devices_processed'],
+                statistics['devices_with_matching_tags'],
+                statistics['devices_without_tags'],
+                statistics['devices_with_api_errors'],
+                statistics['invalid_uuids']
+            ),
+            "INFO"
+        )
+
+        self.log(
+            "Tag-based device filtering results for tag '{0}': {1} devices matched "
+            "out of {2} total devices processed".format(
+                device_tag, len(filtered_device_uuids), len(device_uuid_list)
+            ),
+            "INFO",
+        )
+
+        # Log warnings for problematic scenarios
+        if statistics['devices_with_api_errors'] > 0:
+            self.log(
+                "Warning: {0} devices encountered API errors during tag filtering process".format(
+                    statistics['devices_with_api_errors']
+                ),
+                "WARNING"
+            )
+
+        if statistics['invalid_uuids'] > 0:
+            self.log(
+                "Warning: {0} invalid device UUIDs were skipped during filtering".format(
+                    statistics['invalid_uuids']
+                ),
+                "WARNING"
+            )
+
+        if len(filtered_device_uuids) == 0:
+            self.log(
+                "No devices found matching the specified tag '{0}'. "
+                "Consider checking if the tag exists or if devices are properly tagged.".format(
+                    device_tag
+                ),
+                "WARNING"
+            )
+
+        self.log(
+            "Final filtered device UUIDs based on tag '{0}': {1}".format(
+                device_tag, filtered_device_uuids
+            ),
+            "DEBUG",
+        )
+
+        return filtered_device_uuids
+
     def get_diff_distribution(self):
         """
         Get image distribution parameters from the playbook and trigger image distribution.
@@ -3119,6 +3384,7 @@ class Swim(DnacBase):
 
         site_name = distribution_details.get("site_name")
         device_family = distribution_details.get("device_family_name")
+        device_tag = distribution_details.get("device_tag")
         device_role = distribution_details.get("device_role", "ALL")
         device_series_name = distribution_details.get("device_series_name")
         self.max_timeout = distribution_details.get("image_distribution_timeout", 1800)
@@ -3132,6 +3398,22 @@ class Swim(DnacBase):
         device_uuid_list = self.get_device_uuids(
             site_name, device_family, device_role, device_series_name
         )
+
+        self.log(
+            "Initial device UUIDs retrieved for distribution: {0}".format(
+                device_uuid_list
+            ),
+            "DEBUG",
+        )
+        if device_tag:
+            device_uuid_list = self.filter_device_uuids_by_tag(
+                device_uuid_list, device_tag
+            )
+            self.log(
+                "Retrieved device UUIDs for distribution: {0}".format(device_uuid_list),
+                "DEBUG",
+            )
+
         image_id = self.have.get("distribution_image_id")
         distribution_device_id = self.have.get("distribution_device_id")
         device_ip = self.get_device_ip_from_id(distribution_device_id)
@@ -3682,6 +3964,7 @@ class Swim(DnacBase):
         device_family = activation_details.get("device_family_name")
         device_role = activation_details.get("device_role", "ALL")
         device_series_name = activation_details.get("device_series_name")
+        device_tag = activation_details.get("device_tag")
         self.max_timeout = activation_details.get("image_activation_timeout", 1800)
 
         self.log(
@@ -3694,6 +3977,22 @@ class Swim(DnacBase):
         device_uuid_list = self.get_device_uuids(
             site_name, device_family, device_role, device_series_name
         )
+
+        self.log(
+            "Initial device UUIDs retrieved for distribution: {0}".format(
+                device_uuid_list
+            ),
+            "DEBUG",
+        )
+        if device_tag:
+            device_uuid_list = self.filter_device_uuids_by_tag(
+                device_uuid_list, device_tag
+            )
+            self.log(
+                "Retrieved device UUIDs for distribution: {0}".format(device_uuid_list),
+                "DEBUG",
+            )
+
         image_id = self.have.get("activation_image_id")
         activation_device_id = self.have.get("activation_device_id")
         device_ip = self.get_device_ip_from_id(activation_device_id)
