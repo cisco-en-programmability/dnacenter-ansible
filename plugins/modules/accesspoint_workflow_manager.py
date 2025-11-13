@@ -30,8 +30,10 @@ author:
   - Abhishek Maheshwari (@abmahesh)
 options:
   config_verify:
-    description: Set to true to verify the Cisco Catalyst Center configuration after
-      applying the playbook config.
+    description: >
+      Indicates whether configuration verification is enabled.
+      This flag is always set to false. As a result, some field changes
+      may not exhibit idempotent behavior due to Access Point reboots.
     type: bool
     default: false
   state:
@@ -2199,8 +2201,13 @@ class Accesspoint(DnacBase):
 
         if site:
             if site_required_changes:
-                if self.have.get("wlc_provision_status") == "success" or \
-                   self.have.get("ap_provision_status") == "success":
+                if self.have.get("wlc_provision_status") != "success":
+                    self.msg = "Wireless Controller {0} not provisioned at the site {1}.".format(
+                        self.have.get("associated_wlc_ip"), self.have.get("site_name_hierarchy"))
+                    self.log(self.msg, "INFO")
+                    self.result["changed"] = False
+                    responses["accesspoints_updates"].update({"provision_message": self.msg})
+                else:
                     provision_status, provision_details = self.provision_device()
                     if provision_status == "SUCCESS":
                         self.result["changed"] = True
@@ -2209,6 +2216,12 @@ class Accesspoint(DnacBase):
                         responses["accesspoints_updates"].update({
                             "provision_message": self.msg
                         })
+                    else:
+                        self.msg = "Unable to provision the AP {0} for the site {1}.".format(
+                            self.have.get("hostname"), self.have.get("site_name_hierarchy"))
+                        self.log(self.msg, "INFO")
+                        self.result["changed"] = False
+                        responses["accesspoints_updates"].update({"provision_message": self.msg})
             else:
                 self.msg = "AP {0} already provisioned at site {1}.".format(
                     self.have["hostname"], self.have.get("site_name_hierarchy"))
@@ -3075,6 +3088,19 @@ class Accesspoint(DnacBase):
         self.log("Access point exists: {0}, Current configuration: {1}"
                  .format(accesspoint_exists, current_configuration), "INFO")
 
+        current_eth_configuration = {}
+        if accesspoint_exists:
+            self.payload["access_point_details"] = current_configuration
+            ap_ethernet_mac_address = current_configuration["ap_ethernet_mac_address"]
+            ap_config_exists, current_eth_configuration = self.get_accesspoint_config(
+                ap_ethernet_mac_address)
+            self.log("Access point configuration exists: {0}, Current configuration: {1}"
+                     .format(ap_config_exists, str(current_eth_configuration)), "INFO")
+
+            if ap_config_exists:
+                self.payload["access_point_config"] = current_eth_configuration
+                self.log("Updated payload with access point configuration: {0}".format(str(self.payload)), "INFO")
+
         if input_config.get("site"):
             site_exists, current_site = self.site_exists(input_config)
             self.log("Site exists: {0}, Current site: {1}".format(site_exists, current_site), "INFO")
@@ -3087,32 +3113,21 @@ class Accesspoint(DnacBase):
                                                          current_configuration["mac_address"],
                                                          site_exists, current_site, current_configuration)
                 })
+                provision_status, wlc_details = self.verify_wlc_provision(
+                    current_configuration["associated_wlc_ip"])
+                self.payload["wlc_provision_status"] = provision_status
+                self.log("WLC provision status: {0}".format(provision_status), "INFO")
+
                 if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
-                    provision_status, ap_details = self.verify_ap_provision(
-                        current_configuration["id"])
-                    self.payload["ap_provision_status"] = provision_status
-                    self.log("AP provision status: {0}".format(provision_status), "INFO")
-                else:
-                    provision_status, wlc_details = self.verify_wlc_provision(
-                        current_configuration["associated_wlc_ip"])
-                    self.payload["wlc_provision_status"] = provision_status
-                    self.log("WLC provision status: {0}".format(provision_status), "INFO")
-
-        if accesspoint_exists:
-            self.payload["access_point_details"] = current_configuration
-            ap_ethernet_mac_address = current_configuration["ap_ethernet_mac_address"]
-            ap_config_exists, current_configuration = self.get_accesspoint_config(
-                ap_ethernet_mac_address)
-            self.log("Access point configuration exists: {0}, Current configuration: {1}"
-                     .format(ap_config_exists, str(current_configuration)), "INFO")
-
-            if ap_config_exists:
-                self.payload["access_point_config"] = current_configuration
-                self.log("Updated payload with access point configuration: {0}".format(str(self.payload)), "INFO")
+                    if current_eth_configuration.get("provisioning_status"):
+                      self.payload["ap_provision_status"] = "Provisioned"
+                    else:
+                      self.payload["ap_provision_status"] = None
+                    self.log("AP provision status: {0}".format(self.payload["ap_provision_status"]), "INFO")
 
         self.log("Completed retrieving current configuration. Access point exists: {0}, Current configuration: {1}"
-                 .format(accesspoint_exists, current_configuration), "INFO")
-        return (accesspoint_exists, current_configuration)
+                 .format(accesspoint_exists, current_eth_configuration), "INFO")
+        return (accesspoint_exists, current_eth_configuration)
 
     def get_accesspoint_config(self, ap_ethernet_mac_address):
         """
@@ -3314,53 +3329,6 @@ class Accesspoint(DnacBase):
 
         except Exception as e:
             msg = "Wireles controller is not provisioned:"
-            self.log(msg + str(e), "ERROR")
-            provision_details = str(e)
-            self.status = "failed"
-            self.set_operation_result("failed", False, msg, "ERROR",
-                                      provision_details).check_return_status()
-
-        return provision_status, provision_details
-
-    def verify_ap_provision(self, device_id):
-        """
-        Verifies if the AP (device) is provisioned.
-
-        Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            device_id (str): The ID of the Access Point (AP) to verify.
-
-        Returns:
-            tuple: A tuple containing the provisioning status ("success" or "failed") and
-            the provisioning details or error message.
-
-        Description:
-            Checks if the AP specified by the device ID is provisioned.
-            Returns "success" and details if provisioned, otherwise logs an error
-            and returns "failed" with error details.
-        """
-        self.log(f"Check the Access Point provisioning status for the device id: {device_id}", "INFO")
-        provision_status = "failed"
-        provision_details = None
-
-        try:
-            response = self.dnac._exec(
-                family="sda",
-                function="get_provisioned_devices",
-                op_modifies=True,
-                params={"id": device_id}
-            )
-            self.log("Response from get provisioned devices: {0}".format(self.pprint(response)),
-                     "INFO")
-            if response and response.get("response")[0].get("id") == device_id:
-                self.log("Response from get provisioned devices: {0}".format(self.pprint(response)),
-                         "INFO")
-                self.log("AP already provisioned.", "INFO")
-                provision_status = "success"
-                provision_details = self.pprint(response)
-
-        except Exception as e:
-            msg = "Access Point is not provisioned:"
             self.log(msg + str(e), "ERROR")
             provision_details = str(e)
             self.status = "failed"
