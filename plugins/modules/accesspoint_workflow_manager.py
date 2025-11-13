@@ -3093,10 +3093,10 @@ class Accesspoint(DnacBase):
                     self.payload["ap_provision_status"] = provision_status
                     self.log("AP provision status: {0}".format(provision_status), "INFO")
                 else:
-                  provision_status, wlc_details = self.verify_wlc_provision(
-                      current_configuration["associated_wlc_ip"])
-                  self.payload["wlc_provision_status"] = provision_status
-                  self.log("WLC provision status: {0}".format(provision_status), "INFO")
+                    provision_status, wlc_details = self.verify_wlc_provision(
+                        current_configuration["associated_wlc_ip"])
+                    self.payload["wlc_provision_status"] = provision_status
+                    self.log("WLC provision status: {0}".format(provision_status), "INFO")
 
         if accesspoint_exists:
             self.payload["access_point_details"] = current_configuration
@@ -3340,8 +3340,6 @@ class Accesspoint(DnacBase):
             and returns "failed" with error details.
         """
         self.log(f"Check the Access Point provisioning status for the device id: {device_id}", "INFO")
-        self.log("CHECK: {0}".format(self.pprint(self.payload)),
-                     "INFO")
         provision_status = "failed"
         provision_details = None
 
@@ -3754,7 +3752,6 @@ class Accesspoint(DnacBase):
                 for ctrl_name in ["primary_controller_name", "secondary_controller_name", "tertiary_controller_name"]:
                     if ctrl_name == "primary_controller_name" and self.want.get(ctrl_name):
                         if self.want.get(ctrl_name) == "Inherit from site / Clear":
-                            #update_config[self.keymap[ctrl_name]] = self.want.get(ctrl_name)
                             update_config["primaryControllerName"] = self.want.get(ctrl_name)
                             update_config[self.keymap["primary_ip_address"]] = {}
                             update_config[self.keymap["primary_ip_address"]]["address"] = "0.0.0.0"
