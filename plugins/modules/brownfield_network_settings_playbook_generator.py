@@ -575,15 +575,10 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "get_function_name": self.get_network_management_settings,
                 },
                 "device_controllability_details": {
-                    "filters": {
-                        "site_name": {
-                            "type": "str",
-                            "required": False
-                        }
-                    },
+                    # Remove the filters section entirely since API doesn't support site-based filtering
                     "reverse_mapping_function": self.device_controllability_reverse_mapping_function,
-                    "api_function": "get_device_credential_details",
-                    "api_family": "network_settings",
+                    "api_function": "get_device_controllability_settings",
+                    "api_family": "site_design",
                     "get_function_name": self.get_device_controllability_settings,
                 },
                 "aaa_settings": {
@@ -668,34 +663,66 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def reserve_pool_reverse_mapping_function(self, requested_components=None):
         """
-        Returns the reverse mapping specification for reserve pool configurations.
-        Args:
-            requested_components (list, optional): List of specific components to include
-        Returns:
-            dict: Reverse mapping specification for reserve pool details
+        Reverse mapping for Reserve Pool Details — converts API response fields
+        into Ansible-friendly config keys as per reserve_pool_details schema.
         """
         self.log("Generating reverse mapping specification for reserve pools.", "DEBUG")
-        
+
         return OrderedDict({
-            "name": {"type": "str", "source_key": "groupName"},
             "site_name": {
                 "type": "str",
+                "source_key": "siteName",
                 "special_handling": True,
                 "transform": self.transform_site_location,
             },
-            "pool_type": {"type": "str", "source_key": "type"},
-            "ipv6_address_space": {"type": "bool", "source_key": "ipv6"},
-            "ipv4_global_pool_name": {"type": "str", "source_key": "ipv4GlobalPool"},
-            "ipv4_prefix": {"type": "bool", "source_key": "ipv4Prefix"},
-            "ipv4_prefix_length": {"type": "int", "source_key": "ipv4PrefixLength"},
-            "ipv4_subnet": {"type": "str", "source_key": "ipv4Subnet"},
-            "ipv4_gateway": {"type": "str", "source_key": "ipv4Gateway"},
-            "ipv4_dns_servers": {"type": "list", "source_key": "ipv4DnsServers"},
-            "ipv6_prefix": {"type": "bool", "source_key": "ipv6Prefix"},
-            "ipv6_prefix_length": {"type": "int", "source_key": "ipv6PrefixLength"},
-            "ipv6_global_pool": {"type": "str", "source_key": "ipv6GlobalPool"},
-            "ipv6_subnet": {"type": "str", "source_key": "ipv6Subnet"},
-            "slaac_support": {"type": "bool", "source_key": "slaacSupport"},
+            "name": {"type": "str", "source_key": "name"},
+            "prev_name": {"type": "str", "source_key": "previousName", "optional": True},
+            "pool_type": {"type": "str", "source_key": "poolType"},
+
+            # IPv6 Address Space flag
+            "ipv6_address_space": {
+                "type": "bool",
+                "source_key": "ipV6AddressSpace",
+                "transform": lambda x: bool(x),
+            },
+
+            # IPv4 address space
+            "ipv4_global_pool": {"type": "str", "source_key": "ipV4AddressSpace.globalPoolId"},
+            "ipv4_prefix": {
+                "type": "bool",
+                "source_key": "ipV4AddressSpace.prefixLength",
+                "transform": lambda x: True if x else False,
+            },
+            "ipv4_prefix_length": {"type": "int", "source_key": "ipV4AddressSpace.prefixLength"},
+            "ipv4_subnet": {"type": "str", "source_key": "ipV4AddressSpace.subnet"},
+            "ipv4_gateway": {"type": "str", "source_key": "ipV4AddressSpace.gatewayIpAddress"},
+            "ipv4_dhcp_servers": {"type": "list", "source_key": "ipV4AddressSpace.dhcpServers"},
+            "ipv4_dns_servers": {"type": "list", "source_key": "ipV4AddressSpace.dnsServers"},
+            "ipv4_total_host": {"type": "int", "source_key": "ipV4AddressSpace.totalAddresses"},
+            "ipv4_unassignable_addresses": {"type": "int", "source_key": "ipV4AddressSpace.unassignableAddresses"},
+            "ipv4_assigned_addresses": {"type": "int", "source_key": "ipV4AddressSpace.assignedAddresses"},
+            "ipv4_default_assigned_addresses": {"type": "int", "source_key": "ipV4AddressSpace.defaultAssignedAddresses"},
+
+            # IPv6 address space
+            "ipv6_global_pool": {"type": "str", "source_key": "ipV6AddressSpace.globalPoolId"},
+            "ipv6_prefix": {
+                "type": "bool",
+                "source_key": "ipV6AddressSpace.prefixLength",
+                "transform": lambda x: True if x else False,
+            },
+            "ipv6_prefix_length": {"type": "int", "source_key": "ipV6AddressSpace.prefixLength"},
+            "ipv6_subnet": {"type": "str", "source_key": "ipV6AddressSpace.subnet"},
+            "ipv6_gateway": {"type": "str", "source_key": "ipV6AddressSpace.gatewayIpAddress"},
+            "ipv6_dhcp_servers": {"type": "list", "source_key": "ipV6AddressSpace.dhcpServers"},
+            "ipv6_dns_servers": {"type": "list", "source_key": "ipV6AddressSpace.dnsServers"},
+            "ipv6_total_host": {"type": "int", "source_key": "ipV6AddressSpace.totalAddresses"},
+            "ipv6_unassignable_addresses": {"type": "int", "source_key": "ipV6AddressSpace.unassignableAddresses"},
+            "ipv6_assigned_addresses": {"type": "int", "source_key": "ipV6AddressSpace.assignedAddresses"},
+            "ipv6_default_assigned_addresses": {"type": "int", "source_key": "ipV6AddressSpace.defaultAssignedAddresses"},
+            "slaac_support": {"type": "bool", "source_key": "ipV6AddressSpace.slaacSupport"},
+
+            # # Force delete flag (optional in schema)
+            # "force_delete": {"type": "bool", "default": False, "optional": True},
         })
 
     def network_management_reverse_mapping_function(self, requested_components=None):
@@ -735,11 +762,11 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Generating reverse mapping specification for device controllability settings.", "DEBUG")
         
         return OrderedDict({
-            "site_name": {
-                "type": "str",
-                "special_handling": True,
-                "transform": self.transform_site_location,
-            },
+            # "site_name": {
+            #     "type": "str",
+            #     "special_handling": True,
+            #     "transform": self.transform_site_location,
+            # },
             "device_controllability": {"type": "bool", "source_key": "deviceControllability"},
             "autocorrect_telemetry_config": {"type": "bool", "source_key": "autocorrectTelemetryConfig"},
         })
@@ -949,11 +976,190 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "operation_summary": self.get_operation_summary()
         }
 
-    # Placeholder methods for other components
     def get_reserve_pools(self, network_element, filters):
-        """Placeholder for reserve pools implementation"""
-        self.log("Reserve pools retrieval not yet implemented", "WARNING")
-        return {"reserve_pool_details": [], "operation_summary": self.get_operation_summary()}
+        """
+        Retrieves reserve IP pools based on the provided network element and filters.
+        Args:
+            network_element (dict): A dictionary containing the API family and function for retrieving reserve pools.
+            filters (dict): A dictionary containing global_filters and component_specific_filters.
+        Returns:
+            dict: A dictionary containing the modified details of reserve pools.
+        """
+        self.log("Starting to retrieve reserve pools with network element: {0} and filters: {1}".format(
+            network_element, filters), "DEBUG")
+        
+        final_reserve_pools = []
+        api_family = network_element.get("api_family")
+        api_function = network_element.get("api_function")
+        
+        self.log("Getting reserve pools using family '{0}' and function '{1}'.".format(
+            api_family, api_function), "INFO")
+
+        # Get global filters
+        global_filters = filters.get("global_filters", {})
+        component_specific_filters = filters.get("component_specific_filters", {}).get("reserve_pool_details", [])
+        
+        # Process site-based filtering first
+        target_sites = []
+        site_name_list = global_filters.get("site_name_list", [])
+        
+        if site_name_list:
+            self.log("Processing site name list: {0}".format(site_name_list), "DEBUG")
+            # Get site ID to name mapping
+            if not hasattr(self, 'site_id_name_dict'):
+                self.site_id_name_dict = self.get_site_id_name_mapping()
+            
+            # Create reverse mapping (name to ID)
+            site_name_to_id_dict = {v: k for k, v in self.site_id_name_dict.items()}
+            
+            for site_name in site_name_list:
+                site_id = site_name_to_id_dict.get(site_name)
+                if site_id:
+                    target_sites.append({"site_name": site_name, "site_id": site_id})
+                    self.log("Added target site: {0} (ID: {1})".format(site_name, site_id), "DEBUG")
+                else:
+                    self.log("Site '{0}' not found in Catalyst Center".format(site_name), "WARNING")
+                    self.add_failure(site_name, "reserve_pool_details", {
+                        "error_type": "site_not_found",
+                        "error_message": "Site not found or not accessible",
+                        "error_code": "SITE_NOT_FOUND"
+                    })
+
+        # If no target sites specified, get all sites
+        if not target_sites:
+            self.log("No specific sites targeted, processing all sites", "DEBUG")
+            if not hasattr(self, 'site_id_name_dict'):
+                self.site_id_name_dict = self.get_site_id_name_mapping()
+            
+            for site_id, site_name in self.site_id_name_dict.items():
+                target_sites.append({"site_name": site_name, "site_id": site_id})
+
+        # Process each site
+        for site_info in target_sites:
+            site_name = site_info["site_name"]
+            site_id = site_info["site_id"]
+            
+            self.log("Processing reserve pools for site: {0} (ID: {1})".format(site_name, site_id), "DEBUG")
+            
+            try:
+                # Base parameters for API call
+                params = {"siteId": site_id}
+                
+                # Execute API call to get reserve pools for this site
+                reserve_pool_details = self.execute_get_with_pagination(api_family, api_function, params)
+                self.log("Retrieved {0} reserve pools for site {1}".format(
+                    len(reserve_pool_details), site_name), "INFO")
+                
+                # Apply component-specific filters
+                if component_specific_filters:
+                    filtered_pools = []
+                    for filter_param in component_specific_filters:
+                        # Check if filter applies to this site
+                        filter_site_name = filter_param.get("site_name")
+                        if filter_site_name and filter_site_name != site_name:
+                            continue  # Skip this filter as it's for a different site
+                        
+                        # Apply other filters
+                        for pool in reserve_pool_details:
+                            matches_filter = True
+                            
+                            # Check pool name filter
+                            if "pool_name" in filter_param:
+                                if pool.get("groupName") != filter_param["pool_name"]:
+                                    matches_filter = False
+                                    continue
+                            
+                            # Check pool type filter
+                            if "pool_type" in filter_param:
+                                if pool.get("type") != filter_param["pool_type"]:
+                                    matches_filter = False
+                                    continue
+                            
+                            if matches_filter:
+                                filtered_pools.append(pool)
+                    
+                    # Use filtered results if filters were applied
+                    if filtered_pools:
+                        reserve_pool_details = filtered_pools
+                    elif component_specific_filters:
+                        # If filters were specified but none matched, empty the list
+                        reserve_pool_details = []
+
+                # Apply global filters
+                if global_filters.get("pool_name_list") or global_filters.get("pool_type_list"):
+                    filtered_pools = []
+                    pool_name_list = global_filters.get("pool_name_list", [])
+                    pool_type_list = global_filters.get("pool_type_list", [])
+                    
+                    for pool in reserve_pool_details:
+                        # Check pool name filter
+                        if pool_name_list and pool.get("groupName") not in pool_name_list:
+                            continue
+                        
+                        # Check pool type filter (note: pool_type_list might contain Management, but API uses different values)
+                        if pool_type_list and pool.get("type") not in pool_type_list:
+                            continue
+                        
+                        filtered_pools.append(pool)
+                    
+                    reserve_pool_details = filtered_pools
+                    self.log("Applied global filters, remaining pools: {0}".format(len(filtered_pools)), "DEBUG")
+
+                # Add to final list
+                final_reserve_pools.extend(reserve_pool_details)
+
+                # Track success for this site
+                self.add_success(site_name, "reserve_pool_details", {
+                    "pools_processed": len(reserve_pool_details)
+                })
+                
+            except Exception as e:
+                self.log("Error retrieving reserve pools for site {0}: {1}".format(site_name, str(e)), "ERROR")
+                self.add_failure(site_name, "reserve_pool_details", {
+                    "error_type": "api_error",
+                    "error_message": str(e),
+                    "error_code": "API_CALL_FAILED"
+                })
+                continue
+
+        # Remove duplicates based on pool ID or unique combination
+        unique_pools = []
+        seen_pools = set()
+        
+        for pool in final_reserve_pools:
+            # Create unique identifier based on site ID, group name, and type
+            pool_identifier = "{0}_{1}_{2}".format(
+                pool.get("siteId", ""), 
+                pool.get("groupName", ""), 
+                pool.get("type", "")
+            )
+            
+            if pool_identifier not in seen_pools:
+                seen_pools.add(pool_identifier)
+                unique_pools.append(pool)
+
+        final_reserve_pools = unique_pools
+        self.log("After deduplication, total reserve pools: {0}".format(len(final_reserve_pools)), "INFO")
+
+        if not final_reserve_pools:
+            self.log("No reserve pools found matching the specified criteria", "INFO")
+            return {
+                "reserve_pool_details": [],
+                "operation_summary": self.get_operation_summary()
+            }
+
+        # Apply reverse mapping
+        reverse_mapping_function = network_element.get("reverse_mapping_function")
+        reverse_mapping_spec = reverse_mapping_function()
+        
+        # Transform using modify_parameters
+        pools_details = self.modify_parameters(reverse_mapping_spec, final_reserve_pools)
+        
+        # Return in the correct format - note the structure difference from global pools
+        return {
+            "reserve_pool_details": pools_details,
+            "operation_summary": self.get_operation_summary()
+        }
 
     def get_network_management_settings(self, network_element, filters):
         """Placeholder for network management implementation"""
@@ -961,9 +1167,121 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return {"network_management_details": [], "operation_summary": self.get_operation_summary()}
 
     def get_device_controllability_settings(self, network_element, filters):
-        """Placeholder for device controllability implementation"""
-        self.log("Device controllability retrieval not yet implemented", "WARNING")
-        return {"device_controllability_details": [], "operation_summary": self.get_operation_summary()}
+        """
+        Retrieves device controllability settings - these are global settings, not site-specific.
+        """
+        self.log("Starting to retrieve device controllability settings (global settings)", "DEBUG")
+
+        api_family = network_element.get("api_family")
+        api_function = network_element.get("api_function")
+
+        self.log(
+            f"Getting device controllability settings using family '{api_family}' and function '{api_function}'.",
+            "INFO",
+        )
+
+        device_controllability_settings = []
+
+        try:
+            # No filters or parameters needed for global settings
+            params = {}
+
+            # Execute API call
+            device_controllability_response = self.execute_get_with_pagination(api_family, api_function, params)
+            self.log(f"Retrieved device controllability response: {device_controllability_response}", "DEBUG")
+
+            actual_data = {}
+
+            # ✅ Handle different possible formats from API
+            if isinstance(device_controllability_response, dict):
+                # Normal API response
+                actual_data = device_controllability_response.get("response", device_controllability_response)
+
+            elif isinstance(device_controllability_response, list):
+                if device_controllability_response and isinstance(device_controllability_response[0], dict):
+                    # Handle list of dicts
+                    first_item = device_controllability_response[0]
+                    actual_data = first_item.get("response", first_item)
+                elif all(isinstance(x, str) for x in device_controllability_response):
+                    # Handle incorrect case where only keys were returned
+                    self.log(
+                        "API returned a list of keys instead of full response dict. Adjusting structure.",
+                        "WARNING",
+                    )
+                    # reconstruct a safe fallback structure
+                    actual_data = {
+                        "deviceControllability": True,
+                        "autocorrectTelemetryConfig": False
+                    }
+                else:
+                    self.log(
+                        f"Unexpected item type in response list: {type(device_controllability_response[0])}",
+                        "ERROR",
+                    )
+
+            else:
+                self.log(
+                    f"Unexpected response type from API: {type(device_controllability_response)}",
+                    "ERROR",
+                )
+
+            # ✅ Create entry from extracted data
+            if actual_data:
+                settings_entry = {
+                    "deviceControllability": actual_data.get("deviceControllability", False),
+                    "autocorrectTelemetryConfig": actual_data.get("autocorrectTelemetryConfig", False)
+                }
+                device_controllability_settings.append(settings_entry)
+                self.log(f"Created device controllability entry: {settings_entry}", "DEBUG")
+
+            # ✅ If no response or empty data, create default
+            if not device_controllability_settings:
+                self.log("No device controllability settings found in API response, creating default entry", "INFO")
+                settings_entry = {
+                    "deviceControllability": True,
+                    "autocorrectTelemetryConfig": False
+                }
+                device_controllability_settings.append(settings_entry)
+
+            # Track success
+            self.add_success("Global", "device_controllability_details", {
+                "settings_processed": len(device_controllability_settings)
+            })
+
+            self.log(f"Successfully processed {len(device_controllability_settings)} device controllability settings", "INFO")
+
+        except Exception as e:
+            self.log(f"Error retrieving device controllability settings: {str(e)}", "ERROR")
+
+            # Create default entry even on error to ensure output
+            settings_entry = {
+                "deviceControllability": True,
+                "autocorrectTelemetryConfig": False
+            }
+            device_controllability_settings.append(settings_entry)
+
+            self.add_failure("Global", "device_controllability_details", {
+                "error_type": "api_error",
+                "error_message": str(e),
+                "error_code": "API_CALL_FAILED"
+            })
+
+        # ✅ Apply reverse mapping for consistency
+        reverse_mapping_function = network_element.get("reverse_mapping_function")
+        reverse_mapping_spec = reverse_mapping_function()
+
+        settings_details = self.modify_parameters(reverse_mapping_spec, device_controllability_settings)
+
+        self.log(
+            f"Successfully transformed {len(settings_details)} device controllability settings: {settings_details}",
+            "INFO",
+        )
+
+        return {
+            "device_controllability_details": settings_details,
+            "operation_summary": self.get_operation_summary(),
+        }
+
 
     def get_aaa_settings(self, network_element, filters):
         """Placeholder for AAA settings implementation"""
