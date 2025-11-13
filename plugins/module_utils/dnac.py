@@ -908,7 +908,10 @@ class DnacBase():
 
             # Check if the response is empty
             if response is None:
-                self.msg = "The site '{0}' does not exist in the Catalyst Center. Please create the site using the Site Workflow Manager.".format(site_name)
+                self.msg = (
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "Please create the site using the 'cisco.dnac.site_workflow_manager' module."
+                )
                 self.fail_and_exit(self.msg)
 
             self.log("Site details retrieved for site '{0}'': {1}".format(site_name, str(response)), "DEBUG")
