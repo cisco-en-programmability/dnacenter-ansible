@@ -2026,7 +2026,7 @@ class NetworkDevicesInfo(DnacBase):
             )
 
             for item in parent_site_data["response"]:
-                if self._validate_site_item(item):
+                if "nameHierarchy" in item and "id" in item:
                     site_info[item["nameHierarchy"]] = item["id"]
                     self.log(
                         "Added parent site '{0}' with ID '{1}' to hierarchy".format(
