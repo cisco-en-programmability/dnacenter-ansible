@@ -391,13 +391,18 @@ options:
                 elements: dict
                 required: true
                 suboptions:
-                  name:
+                  field_group_name:
                     description:
-                      - Name of the field group as defined in the view metadata.
-                      - Must match exactly with available field groups for the
-                        selected view.
+                        - The internal name of the field group as defined in the view metadata.
+                        - Must match exactly with the available field_groups for the selected view.
                     type: str
                     required: true
+                  field_group_display_name:
+                    description:
+                        - The display name shown in the UI for the field group.
+                        - Optional but recommended for readability.
+                    type: str
+                    required: false
                   fields:
                     description:
                       - List of specific fields to include within the field group.
@@ -413,6 +418,12 @@ options:
                           - Must match exactly with available fields in the group.
                         type: str
                         required: true
+                      display_name:
+                        description:
+                            - Optional UI-friendly display label for the field.
+                            - Used only for readability; API uses `name`.
+                        type: str
+                        required: false
               format:
                 description:
                   - Specifies the output format of the report.
@@ -450,6 +461,11 @@ options:
                       - Common filters include Location, Time Range, Device Type, etc.
                     type: str
                     required: true
+                  display_name:
+                    description:
+                        - Human-readable name of the filter shown in the UI.
+                    type: str
+                    required: false
                   filter_type:
                     description:
                       - Type of the filter determining how values are selected.
@@ -475,6 +491,18 @@ options:
                     type: list
                     elements: dict
                     required: true
+                    suboptions:
+                        value:
+                            description:
+                                - API-compatible internal value (e.g., DeviceFamily = SWITCHES)
+                            type: str
+                            required: true
+                        display_value:
+                            description:
+                                - Human-readable value (e.g., "Switches" or "Global/India")
+                            type: str
+                            required: true
+
 requirements:
   - dnacentersdk >= 2.8.6
   - python >= 3.9
@@ -1039,6 +1067,58 @@ Note: The available format types are retrieved through the following API endpoin
 '''
 
 EXAMPLES = r'''
+- name: Create/Schedule a Sample Inventory Report and Download It
+  cisco.dnac.reports_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: DEBUG
+    dnac_log: true
+    state: merged
+    config_verify: true
+    config:
+      - generate_report:
+          - name: "Sample Inventory report"
+            data_category: "Inventory"
+            view_group_version: "2.0.0"
+            view:
+              view_name: "All Data"
+              format:
+                format_type: "CSV"
+              field_groups:
+                - field_group_name: "inventoryAllData"
+                  field_group_display_name: "All Data"
+                  fields:
+                    - name: "type"
+                      display_name: "Device Type"
+                    - name: "hostname"
+                      display_name: "Device Name"
+                    - name: "ipAddress"
+                      display_name: "IP Address"
+              filters:
+                - name: "Location"
+                  filter_type: "MULTI_SELECT_TREE"
+                  value: []
+                - name: "DeviceFamily"
+                  filter_type: "MULTI_SELECT"
+                  value: []
+                - name: "DeviceType"
+                  filter_type: "MULTI_SELECT"
+                  value: []
+                - name: "SoftwareVersion"
+                  filter_type: "MULTI_SELECT"
+                  value: []
+            schedule:
+              schedule_type: "SCHEDULE_NOW"
+              time_zone: "Asia/Calcutta"
+            deliveries:
+              - delivery_type: "DOWNLOAD"
+                file_path: "/Users/xyz/Desktop"
+
 - name: Create/Schedule a compliance report with immediate execution
   cisco.dnac.reports_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -1065,7 +1145,11 @@ EXAMPLES = r'''
             view:
               view_name: "Network Device Compliance"
               field_groups:
-                - name: "inventoryAllData"
+                - field_group_name: "Compliance"
+                  field_group_display_name: "Compliance"
+                  fields:
+                    - name: "deviceName"
+                      display_name: "Device Name"
               format:
                 format_type: "CSV"
               filters: []
@@ -1101,9 +1185,11 @@ EXAMPLES = r'''
                 format_type: "JSON"
               filters:
                 - name: "Location"
+                  display_name: "Location"
                   filter_type: "MULTI_SELECT_TREE"
                   value:
                     - value: "Global/India"
+                      display_value: "Routers"
 
 - name: Schedule a report for later execution
   cisco.dnac.reports_workflow_manager:
@@ -1172,10 +1258,11 @@ EXAMPLES = r'''
             view:
               view_name: "Network Device Availability"
               field_groups:
-                - name: "deviceInfo"
+                - field_group_name: "deviceInfo"
+                  field_group_display_name: "Device Information"
                   fields:
                     - name: "hostname"
-                    - name: "ipAddress"
+                      display_name: "host name"
               format:
                 format_type: "CSV"
               filters:
@@ -1612,12 +1699,14 @@ class Reports(DnacBase):
                         "type": "list",
                         "elements": "dict",
                         "required": False,
-                        "name": {"type": "str", "required": True},
+                        "field_group_name": {"type": "str", "required": False},
+                        "field_group_display_name": {"type": "str", "required": False},
                         "fields": {
                             "type": "list",
                             "elements": "dict",
                             "required": False,
                             "name": {"type": "str", "required": False},
+                            "display_name": {"type": "str", "required": False},
                         },
                     },
                     "format": {
@@ -1633,23 +1722,14 @@ class Reports(DnacBase):
                         "type": "list",
                         "elements": "dict",
                         "name": {"type": "str", "required": False},
+                        "display_name": {"type": "str", "required": False},
                         "filter_type": {
                             "type": "str",
                             "required": False,
                             "choices": ["MULTI_SELECT", "MULTI_SELECT_TREE", "SINGLE_SELECT_ARRAY", "TIME_RANGE"],
                         },
                         "value": {
-                            "type": "list",
-                            "elements": "dict",
-                            "value": {"type": "str", "required": False},
-                            "start_date_time": {"type": "str", "required": False},
-                            "end_date_time": {"type": "str", "required": False},
-                            "time_zone": {"type": "str", "required": False},
-                            "time_range_option": {
-                                "type": "str",
-                                "required": False,
-                                "choices": ["CUSTOM", "LAST_7_DAYS", "LAST_24_HOURS", "LAST_3_HOURS"]
-                            },
+                            "type": "raw",
                             "required": False
                         },
                     },
@@ -3300,6 +3380,34 @@ class Reports(DnacBase):
 
                         continue
 
+                    self.log(
+                        "Phase 2: Immediate download required for report '{0}' - initiating download".format(
+                            report_name
+                        ),
+                        "DEBUG"
+                    )
+                    success = self._download_report_if_needed(entry, report_id)
+                    if not success:
+                        # _download_report_if_needed sets error and result already
+                        self.log(
+                            "Phase 2: Download failed for report '{0}' - error already logged by download method".format(
+                                report_name
+                            ),
+                            "ERROR"
+                        )
+                        self.log(
+                            "Phase 2: Terminating workflow due to download failure",
+                            "ERROR"
+                        )
+                        return self
+                    download_count += 1
+                    self.log(
+                        "Phase 2: Download completed successfully for report '{0}'".format(
+                            report_name
+                        ),
+                        "INFO"
+                    )
+
                 except Exception as e:
                     self.msg = "Exception during post-create download handling for report '{0}': {1}".format(entry.get("name"), str(e))
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -3483,6 +3591,40 @@ class Reports(DnacBase):
                 view_data = report_payload["view"]
                 if "viewName" in view_data:
                     view_data["name"] = view_data.pop("viewName")
+
+            if "view" in report_payload and "filters" in report_payload["view"]:
+                fixed_filters = []
+                for flt in report_payload["view"]["filters"]:
+
+                    # ensure camelCase fields exist
+                    flt["displayName"] = flt.get("displayName", flt.get("name"))
+                    flt["type"] = flt.get("type", flt.get("filterType"))
+
+                    # Normalize value entries
+                    new_values = []
+                    raw_values = flt.get("value", [])
+
+                    # TIME_RANGE uses dict, not list → keep as is
+                    if isinstance(raw_values, dict):
+                        new_values = raw_values
+                    else:
+                        for v in raw_values:
+                            if isinstance(v, dict):
+                                new_values.append({
+                                    "value": v.get("value"),
+                                    "displayValue": v.get("displayValue", v.get("value"))
+                                })
+                            else:
+                                # simple value like "Global"
+                                new_values.append({
+                                    "value": v,
+                                    "displayValue": v
+                                })
+
+                    flt["value"] = new_values
+
+                    fixed_filters.append(flt)
+            report_payload["view"]["filters"] = fixed_filters
 
             self.log(
                 "Prepared API payload for report '{0}'".format(report_entry.get("name")),
