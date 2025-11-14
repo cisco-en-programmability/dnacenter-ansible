@@ -268,6 +268,7 @@ def validate_dict(item, param_spec, param_name, invalid_params, module=None):
                     "bool": validate_bool,
                     "list": validate_list,
                     "dict": validate_dict,
+                    "raw": lambda item, *_: item,
                 }
 
                 validator = switch.get(data_type)
@@ -345,6 +346,7 @@ def validate_list_of_dicts(param_list, spec, module=None):
                 "bool": validate_bool,
                 "list": validate_list,
                 "dict": validate_dict,
+                "raw": lambda item, *_: item,
             }
 
             validator = switch.get(data_type)
