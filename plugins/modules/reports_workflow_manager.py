@@ -1729,18 +1729,7 @@ class Reports(DnacBase):
                             "choices": ["MULTI_SELECT", "MULTI_SELECT_TREE", "SINGLE_SELECT_ARRAY", "TIME_RANGE"],
                         },
                         "value": {
-                            "type": "list",
-                            "elements": "dict",
-                            "value": {"type": "str", "required": False},
-                            "display_value": {"type": "str", "required": False},
-                            "start_date_time": {"type": "str", "required": False},
-                            "end_date_time": {"type": "str", "required": False},
-                            "time_zone": {"type": "str", "required": False},
-                            "time_range_option": {
-                                "type": "str",
-                                "required": False,
-                                "choices": ["CUSTOM", "LAST_7_DAYS", "LAST_24_HOURS", "LAST_3_HOURS"]
-                            },
+                            "type": "raw",
                             "required": False
                         },
                     },
@@ -3602,6 +3591,40 @@ class Reports(DnacBase):
                 view_data = report_payload["view"]
                 if "viewName" in view_data:
                     view_data["name"] = view_data.pop("viewName")
+
+            if "view" in report_payload and "filters" in report_payload["view"]:
+                fixed_filters = []
+                for flt in report_payload["view"]["filters"]:
+
+                    # ensure camelCase fields exist
+                    flt["displayName"] = flt.get("displayName", flt.get("name"))
+                    flt["type"] = flt.get("type", flt.get("filterType"))
+
+                    # Normalize value entries
+                    new_values = []
+                    raw_values = flt.get("value", [])
+
+                    # TIME_RANGE uses dict, not list → keep as is
+                    if isinstance(raw_values, dict):
+                        new_values = raw_values
+                    else:
+                        for v in raw_values:
+                            if isinstance(v, dict):
+                                new_values.append({
+                                    "value": v.get("value"),
+                                    "displayValue": v.get("displayValue", v.get("value"))
+                                })
+                            else:
+                                # simple value like "Global"
+                                new_values.append({
+                                    "value": v,
+                                    "displayValue": v
+                                })
+
+                    flt["value"] = new_values
+
+                    fixed_filters.append(flt)
+            report_payload["view"]["filters"] = fixed_filters
 
             self.log(
                 "Prepared API payload for report '{0}'".format(report_entry.get("name")),
