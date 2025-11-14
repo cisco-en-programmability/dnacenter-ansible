@@ -391,13 +391,18 @@ options:
                 elements: dict
                 required: true
                 suboptions:
-                  name:
+                  field_group_name:
                     description:
-                      - Name of the field group as defined in the view metadata.
-                      - Must match exactly with available field groups for the
-                        selected view.
+                        - The internal name of the field group as defined in the view metadata.
+                        - Must match exactly with the available field_groups for the selected view.
                     type: str
                     required: true
+                  field_group_display_name:
+                    description:
+                        - The display name shown in the UI for the field group.
+                        - Optional but recommended for readability.
+                    type: str
+                    required: false
                   fields:
                     description:
                       - List of specific fields to include within the field group.
@@ -413,6 +418,12 @@ options:
                           - Must match exactly with available fields in the group.
                         type: str
                         required: true
+                      display_name:
+                        description:
+                            - Optional UI-friendly display label for the field.
+                            - Used only for readability; API uses `name`.
+                        type: str
+                        required: false
               format:
                 description:
                   - Specifies the output format of the report.
@@ -450,6 +461,11 @@ options:
                       - Common filters include Location, Time Range, Device Type, etc.
                     type: str
                     required: true
+                  display_name:
+                    description:
+                        - Human-readable name of the filter shown in the UI.
+                    type: str
+                    required: false
                   filter_type:
                     description:
                       - Type of the filter determining how values are selected.
@@ -475,6 +491,18 @@ options:
                     type: list
                     elements: dict
                     required: true
+                    suboptions:
+                        value:
+                            description:
+                                - API-compatible internal value (e.g., DeviceFamily = SWITCHES)
+                            type: str
+                            required: true
+                        display_value:
+                            description:
+                                - Human-readable value (e.g., "Switches" or "Global/India")
+                            type: str
+                            required: true
+
 requirements:
   - dnacentersdk >= 2.8.6
   - python >= 3.9
@@ -1157,9 +1185,11 @@ EXAMPLES = r'''
                 format_type: "JSON"
               filters:
                 - name: "Location"
+                  display_name: "Location"
                   filter_type: "MULTI_SELECT_TREE"
                   value:
                     - value: "Global/India"
+                      display_value: "Routers"
 
 - name: Schedule a report for later execution
   cisco.dnac.reports_workflow_manager:
@@ -1692,6 +1722,7 @@ class Reports(DnacBase):
                         "type": "list",
                         "elements": "dict",
                         "name": {"type": "str", "required": False},
+                        "display_name": {"type": "str", "required": False},
                         "filter_type": {
                             "type": "str",
                             "required": False,
@@ -1701,6 +1732,7 @@ class Reports(DnacBase):
                             "type": "list",
                             "elements": "dict",
                             "value": {"type": "str", "required": False},
+                            "display_value": {"type": "str", "required": False},
                             "start_date_time": {"type": "str", "required": False},
                             "end_date_time": {"type": "str", "required": False},
                             "time_zone": {"type": "str", "required": False},
