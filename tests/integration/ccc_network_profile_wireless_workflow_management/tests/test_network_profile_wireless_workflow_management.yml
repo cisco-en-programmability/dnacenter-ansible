@@ -41,7 +41,7 @@
     # register: result_delete_wireless_profile
 
 ###########################################
- #       CREATE SWITCH PROFILE           #
+ #       CREATE WIRELESS PROFILE          #
 ###########################################
 
   - name: Create network wireless profile
@@ -63,13 +63,13 @@
     assert:
       that:
         - item.changed == true
-        - "'Profile created/updated are verified successfully for '['test_wireless_1']'.' in item.msg"
+        - "'Profile created/updated are verified successfully for '['Corporate_Wireless_Profile']'.' in item.msg"
     loop: "{{ result_create_wireless_profile.results }}"
     when: result_create_wireless_profile is defined
 
 
 #############################################
-#            UPDATE SWITCH PROFILE      #
+#            UPDATE WIRELESS PROFILE        #
 #############################################
 
   - name: Update network wireless profile
@@ -91,13 +91,13 @@
     assert:
       that:
         - item.changed == true
-        - "'Profile created/updated are verified successfully for '['test_wireless_1']'.' in item.msg"
+        - "'Profile created/updated are verified successfully for '['Corporate_Wireless_Profile']'.' in item.msg"
     loop: "{{ result_update_wireless_profile.results }}"
     when: result_update_wireless_profile is defined
 
-  
-  #############################################
-#            DELETE SWITCH PROFILE      #
+
+#############################################
+#            DELETE WIRELESS PROFILE        #
 #############################################
 
   - name: Delete network wireless profile
