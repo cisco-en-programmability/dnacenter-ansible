@@ -42,7 +42,7 @@ cisco.dnac.lan_automation_workflow_manager module -- Automate network discovery,
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.40.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.42.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1554,6 +1554,401 @@ Parameters
         </div>
 
 
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/port_channel"></div>
+
+      .. _ansible_collections.cisco.dnac.lan_automation_workflow_manager_module__parameter-config/port_channel:
+
+      .. rst-class:: ansible-option-title
+
+      **port_channel**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/port_channel" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration to create, update, or delete Port Channels between two LAN Automated devices in Cisco Catalyst Center. Port Channels aggregate multiple physical links between devices to provide increased bandwidth and redundancy.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/port_channel/destination_device_mac_address"></div>
+
+      .. _ansible_collections.cisco.dnac.lan_automation_workflow_manager_module__parameter-config/port_channel/destination_device_mac_address:
+
+      .. rst-class:: ansible-option-title
+
+      **destination_device_mac_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/port_channel/destination_device_mac_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      MAC address of the destination device. Alternative to management IP address or serial number for device identification. The device must be LAN Automated and in Reachable and Managed state in Cisco Catalyst Center inventory.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/port_channel/destination_device_management_ip_address"></div>
+
+      .. _ansible_collections.cisco.dnac.lan_automation_workflow_manager_module__parameter-config/port_channel/destination_device_management_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **destination_device_management_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/port_channel/destination_device_management_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Management IP address of the destination device. At least one device identifier (IP address, MAC address, or serial number) must be provided for the destination device. The device must be LAN Automated and in Reachable and Managed state in Cisco Catalyst Center inventory.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/port_channel/destination_device_serial_number"></div>
+
+      .. _ansible_collections.cisco.dnac.lan_automation_workflow_manager_module__parameter-config/port_channel/destination_device_serial_number:
+
+      .. rst-class:: ansible-option-title
+
+      **destination_device_serial_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/port_channel/destination_device_serial_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Serial number of the destination device. Alternative to management IP address or MAC address for device identification. The device must be LAN Automated and in Reachable and Managed state in Cisco Catalyst Center inventory.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/port_channel/links"></div>
+
+      .. _ansible_collections.cisco.dnac.lan_automation_workflow_manager_module__parameter-config/port_channel/links:
+
+      .. rst-class:: ansible-option-title
+
+      **links**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/port_channel/links" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - List of physical interface links to include in the Port Channel. - Required for create operations - at least one link must be specified. - Optional for update operations - adds/removes links from existing
+            Port Channel.
+          - All links must be between the same source and destination devices. - Interface names must match exact device interface nomenclature.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/port_channel/links/destination_port"></div>
+
+      .. _ansible_collections.cisco.dnac.lan_automation_workflow_manager_module__parameter-config/port_channel/links/destination_port:
+
+      .. rst-class:: ansible-option-title
+
+      **destination_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/port_channel/links/destination_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Interface name on the destination device (e.g., 'GigabitEthernet1/0/1', 'TenGigabitEthernet1/0/1'). Must be a valid, available interface on the destination device that is not already part of another Port Channel.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/port_channel/links/source_port"></div>
+
+      .. _ansible_collections.cisco.dnac.lan_automation_workflow_manager_module__parameter-config/port_channel/links/source_port:
+
+      .. rst-class:: ansible-option-title
+
+      **source_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/port_channel/links/source_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Interface name on the source device (e.g., 'GigabitEthernet1/0/1', 'TenGigabitEthernet1/0/1'). Must be a valid, available interface on the source device that is not already part of another Port Channel.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/port_channel/port_channel_number"></div>
+
+      .. _ansible_collections.cisco.dnac.lan_automation_workflow_manager_module__parameter-config/port_channel/port_channel_number:
+
+      .. rst-class:: ansible-option-title
+
+      **port_channel_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/port_channel/port_channel_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - This value is system-assigned during creation and user provided value will be ignored.
+            Catalyst Center will automatically provide a unique number upon creation.
+          - Can be used for update operations to target a specific existing
+            Port Channel for modification (adding/removing interfaces).
+          - Can be used for delete operations to identify the specific
+            Port Channel to remove from the device pair.
+          - When used for update/delete operations, eliminates the need to
+            specify existing interface links for Port Channel identification.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/port_channel/source_device_mac_address"></div>
+
+      .. _ansible_collections.cisco.dnac.lan_automation_workflow_manager_module__parameter-config/port_channel/source_device_mac_address:
+
+      .. rst-class:: ansible-option-title
+
+      **source_device_mac_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/port_channel/source_device_mac_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      MAC address of the source device. Alternative to management IP address or serial number for device identification. The device must be LAN Automated and in Reachable and Managed state in Cisco Catalyst Center inventory.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/port_channel/source_device_management_ip_address"></div>
+
+      .. _ansible_collections.cisco.dnac.lan_automation_workflow_manager_module__parameter-config/port_channel/source_device_management_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **source_device_management_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/port_channel/source_device_management_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Management IP address of the source device. At least one device identifier (IP address, MAC address, or serial number) must be provided for the source device. The device must be LAN Automated and in Reachable and Managed state in Cisco Catalyst Center inventory.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/port_channel/source_device_serial_number"></div>
+
+      .. _ansible_collections.cisco.dnac.lan_automation_workflow_manager_module__parameter-config/port_channel/source_device_serial_number:
+
+      .. rst-class:: ansible-option-title
+
+      **source_device_serial_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/port_channel/source_device_serial_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Serial number of the source device. Alternative to management IP address or MAC address for device identification. The device must be LAN Automated and in Reachable and Managed state in Cisco Catalyst Center inventory.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
 
   * - .. raw:: html
 
@@ -2226,7 +2621,20 @@ Notes
    - When waiting for the LAN automation session to complete, the timeout and the list of devices to be discovered will initially be considered. If neither a timeout nor a device list is provided, LAN automation will continue running until stopped.
    - To stop a LAN automation session, execute the same details in the 'deleted' state. Only the seed device IP is required to terminate the session.
    - PnP authorization will be performed if device authorization has been selected in Catalyst Center. LAN automation will continue running until the provided serial numbers are authorized, continuously checking the status of the devices. If PnP authorization is enabled without a list of devices for either authorization or discovery, the module will not wait for the LAN automation task to complete. However, if a device is in an Error state or authorization is not checked on Catalyst Center, the playbook will keep running until the state of the device is active or reached the timeout value.
-   - SDK Method used are ccc\_lan\_automation.lanautomation.lan\_automation\_start\_v2 ccc\_lan\_automation.lanautomation.lan\_automation\_stop ccc\_lan\_automation.lanautomation.lan\_automation\_device\_update ccc\_lan\_automation.lanautomation.lan\_automation\_active\_sessions ccc\_lan\_automation.lanautomation.lan\_automation\_status ccc\_lan\_automation.lanautomation.lan\_automation\_log ccc\_lan\_automation.devices.get\_device\_list ccc\_lan\_automation.devices.get\_interface\_details ccc\_lan\_automation.deviceonboardingpnp.authorize\_device ccc\_lan\_automation.deviceonboardingpnp.get\_device\_list
+   - Port Channel operations require both source and destination devices to be LAN Automated devices in Reachable and Managed state within Cisco Catalyst Center inventory.
+   - For the source device, at least one of identifier must be provided from management IP address, MAC address, or serial number.
+   - For the destination device, at least one of identifier must be provided from management IP address, MAC address, or serial number when performing create or update operations, and is recommended when targeting a specific Port Channel for deletion.
+   - When multiple device identifiers are provided for the same device, precedence order is serial\_number \> management\_ip\_address \> mac\_address.
+   - Port Channel link constraints - each Port Channel must maintain between 2 and 8 physical links. Operations creating Port Channels with fewer than 2 or more than 8 links will fail validation.
+   - Port Channel identification for updates can use either existing link specifications or port\_channel\_number parameter. When both are provided, port\_channel\_number takes precedence for identification.
+   - Link isolation requirement - physical links cannot be shared between multiple Port Channels. Each link belongs exclusively to one Port Channel configuration.
+   - Source and destination terminology is used for configuration consistency only. Both devices function as equal peers in the resulting Port Channel aggregation.
+   - Port Channel deletion behavior varies based on provided parameters. When deleting Port Channels without specifying individual links, if port\_channel\_number is provided, only that specific Port Channel will be deleted. If both endpoints are provided without port\_channel\_number, all Port Channels between those devices will be deleted. If only source endpoint is provided, all Port Channels from that source device will be deleted.
+   - Port Channel deletion behavior when deleting individual links - removing links that would result in fewer than 2 remaining links will automatically delete the entire Port Channel. Operations that would leave exactly 1 link will fail validation as Port Channels require minimum 2 links for proper operation.
+   - Port Channel operations integrate with existing LAN Automation device lifecycle management and appear in standard Catalyst Center interface topology views.
+   - When updating Port Channels, at least one existing link must be provided to identify the Port Channel between the same endpoints unless port\_channel\_number is specified for direct identification.
+   - Links from different Port Channels cannot be mixed during update operations. Each physical link can belong to only one Port Channel at any given time.
+   - SDK Method used are lan\_automation.LanAutomation.lan\_automation\_start\_v2 lan\_automation.LanAutomation.lan\_automation\_stop lan\_automation.LanAutomation.lan\_automation\_device\_update lan\_automation.LanAutomation.lan\_automation\_active\_sessions lan\_automation.LanAutomation.lan\_automation\_status lan\_automation.LanAutomation.lan\_automation\_log lan\_automation.LanAutomation.get\_port\_channels lan\_automation.LanAutomation.create\_a\_new\_port\_channel\_between\_devices lan\_automation.LanAutomation.add\_a\_lan\_automated\_link\_to\_a\_port\_channel lan\_automation.LanAutomation.delete\_port\_channel lan\_automation.LanAutomation.remove\_a\_link\_from\_port\_channel devices.Devices.get\_interface\_details devices.Devices.get\_device\_list device\_onboarding\_pnp.DeviceOnboardingPnp.authorize\_device device\_onboarding\_pnp.DeviceOnboardingPnp.get\_device\_list
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -2289,6 +2697,7 @@ Examples
                   device_management_ip_address: "204.1.1.11"
               launch_and_wait: false
               pnp_authorization: false
+
     - name: Start a LAN Automation session with device authorization
         and waiting for the task to complete
       cisco.dnac.lan_automation_workflow_manager:
@@ -2338,6 +2747,7 @@ Examples
               device_serial_number_authorization:
                 - "FJC27172JDW"
                 - "FJC2721261A"
+
     - name: Stop a LAN Automation session
       cisco.dnac.lan_automation_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2355,6 +2765,7 @@ Examples
               discovered_device_site_name_hierarchy: "Global/USA/SAN
                 JOSE"
               primary_device_management_ip_address: "204.1.1.1"
+
     - name: Update loopback for LAN Automated devices
       cisco.dnac.lan_automation_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2374,6 +2785,7 @@ Examples
                   new_loopback0_ip_address: "91.1.2.6"
                 - device_management_ip_address: "204.1.2.163"
                   new_loopback0_ip_address: "91.1.2.5"
+
     - name: Update hostname for LAN Automated devices
       cisco.dnac.lan_automation_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2393,6 +2805,7 @@ Examples
                   new_host_name: "SR-LAN-9300-im1"
                 - device_management_ip_address: "91.1.1.6"
                   new_host_name: "Test"
+
     - name: Add link for LAN Automated devices
       cisco.dnac.lan_automation_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2413,6 +2826,7 @@ Examples
                 destination_device_management_ip_address: "204.1.1.4"
                 destination_device_interface_name: "HundredGigE1/0/5"
                 ip_pool_name: "underlay_sj"
+
     - name: Delete link between LAN Automated devices
       cisco.dnac.lan_automation_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2432,6 +2846,7 @@ Examples
                 source_device_interface_name: "HundredGigE1/0/2"
                 destination_device_management_ip_address: "204.1.1.4"
                 destination_device_interface_name: "HundredGigE1/0/5"
+
     - name: Apply loopback and hostname updates for LAN
         Automated devices
       cisco.dnac.lan_automation_workflow_manager:
@@ -2455,6 +2870,244 @@ Examples
                   new_host_name: "SR-LAN-9300-SJ"
                 - device_management_ip_address: "204.1.1.5"
                   new_host_name: "SR-LAN-9500-SJ"
+
+    - name: Create a new Port Channel using Management IP address device identification
+      cisco.dnac.lan_automation_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        config_verify: false
+        state: merged
+        config:
+          - port_channel:
+              - source_device_management_ip_address: 10.1.1.1
+                destination_device_management_ip_address: 20.1.1.1
+                links:
+                  - source_port: GigabitEthernet1/0/1
+                    destination_port: GigabitEthernet2/0/1
+                  - source_port: GigabitEthernet1/0/2
+                    destination_port: GigabitEthernet2/0/2
+
+    - name: Create Port Channel using MAC address device identification
+      cisco.dnac.lan_automation_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        config_verify: false
+        state: merged
+        config:
+          - port_channel:
+              - source_device_mac_address: aa:bb:cc:dd:ee:01
+                destination_device_mac_address: aa:bb:cc:dd:ee:02
+                links:
+                  - source_port: TenGigabitEthernet1/0/1
+                    destination_port: TenGigabitEthernet1/0/1
+                  - source_port: TenGigabitEthernet1/0/2
+                    destination_port: TenGigabitEthernet1/0/2
+
+    - name: Create Port Channel using serial number device identification
+      cisco.dnac.lan_automation_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        config_verify: false
+        state: merged
+        config:
+          - port_channel:
+              - source_device_serial_number: FCW2140L056
+                destination_device_serial_number: FCW2140L057
+                links:
+                  - source_port: FortyGigabitEthernet1/0/1
+                    destination_port: FortyGigabitEthernet1/0/1
+
+    # Provide at least one existing link to identify the Port Channel.
+    - name: Update existing Port Channel by providing at least one existing link
+      cisco.dnac.lan_automation_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        config_verify: false
+        state: merged
+        config:
+          - port_channel:
+              - source_device_management_ip_address: 10.1.1.1
+                destination_device_management_ip_address: 20.1.1.1
+                links:
+                  # Existing link already part of the Port Channel
+                  - source_port: GigabitEthernet1/0/1
+                    destination_port: GigabitEthernet2/0/1
+                  # New link to be added
+                  - source_port: GigabitEthernet1/0/10
+                    destination_port: GigabitEthernet2/0/10
+
+    - name: Update a Port Channel using port_channel_number
+      # No need to specify existing links when port_channel_number is provided.
+      cisco.dnac.lan_automation_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        config_verify: false
+        state: merged
+        config:
+          - port_channel:
+              - source_device_management_ip_address: 10.1.1.1
+                destination_device_management_ip_address: 20.1.1.1
+                port_channel_number: 1
+                links:
+                  - source_port: GigabitEthernet1/0/10
+                    destination_port: GigabitEthernet2/0/10
+
+    - name: Delete all Port Channels between two devices
+      cisco.dnac.lan_automation_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        config_verify: false
+        state: deleted
+        config:
+          - port_channel:
+              - source_device_management_ip_address: 10.1.1.1
+                destination_device_management_ip_address: 20.1.1.1
+
+    - name: Delete a specific link from a Port Channel
+      cisco.dnac.lan_automation_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        config_verify: false
+        state: deleted
+        config:
+          - port_channel:
+              - source_device_management_ip_address: 10.1.1.1
+                destination_device_management_ip_address: 20.1.1.1
+                links:
+                  - source_port: GigabitEthernet1/0/1
+                    destination_port: GigabitEthernet2/0/1            # This link will be removed from its associated Port Channel.
+
+    - name: Delete an entire Port Channel between two devices by specifying all the links
+      cisco.dnac.lan_automation_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        config_verify: false
+        state: deleted
+        config:
+          - port_channel:
+              - source_device_management_ip_address: 10.1.1.1
+                destination_device_management_ip_address: 20.1.1.1
+                links:
+                  - source_port: GigabitEthernet1/0/1
+                    destination_port: GigabitEthernet2/0/1
+                  - source_port: GigabitEthernet1/0/2
+                    destination_port: GigabitEthernet2/0/2
+                  - source_port: GigabitEthernet1/0/3
+                    destination_port: GigabitEthernet2/0/3
+
+    - name: Delete an entire Port Channel between two devices by specifying the port_channel_number
+      cisco.dnac.lan_automation_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        config_verify: false
+        state: deleted
+        config:
+          - port_channel:
+              - source_device_management_ip_address: 10.1.1.1
+                destination_device_management_ip_address: 20.1.1.1
+                port_channel_number: 1
+
+    - name: Delete all Port Channels originating from a source device
+      cisco.dnac.lan_automation_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        config_verify: false
+        state: deleted
+        config:
+          - port_channel:
+              - source_device_management_ip_address: 10.1.1.1
+              # Deletes every Port Channel from source device 10.1.1.1, regardless of destination.
+
+    - name: Complex Port Channel operations with multiple configurations
+      cisco.dnac.lan_automation_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        config_verify: false
+        state: merged
+        config:
+          - port_channel:
+              # First Port Channel between devices A and B
+              - source_device_management_ip_address: "10.1.1.1"
+                destination_device_management_ip_address: "20.1.1.1"
+                links:
+                  - source_port: "GigabitEthernet1/0/1"
+                    destination_port: "GigabitEthernet2/0/1"
+                  - source_port: "GigabitEthernet1/0/2"
+                    destination_port: "GigabitEthernet2/0/2"
+              # Second Port Channel between devices A and C
+              - source_device_management_ip_address: "10.1.1.1"
+                destination_device_management_ip_address: "30.1.1.1"
+                links:
+                  - source_port: "GigabitEthernet1/0/3"
+                    destination_port: "GigabitEthernet3/0/1"
+                  - source_port: "GigabitEthernet1/0/4"
+                    destination_port: "GigabitEthernet3/0/2"
 
 
 
@@ -2534,6 +3187,7 @@ Authors
 
 - Luna Aliaj (@majlona)
 - Madhan Sankaranarayanan (@madhansansel)
+- Archit Soni (@koderchit)
 
 
 

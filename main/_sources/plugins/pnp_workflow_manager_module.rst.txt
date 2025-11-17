@@ -42,7 +42,7 @@ cisco.dnac.pnp_workflow_manager module -- Resource module for Site and PnP relat
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.40.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.42.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -185,6 +185,56 @@ Parameters
 
         </div>
     
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/device_info/authorize"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_manager_module__parameter-config/device_info/authorize:
+
+      .. rst-class:: ansible-option-title
+
+      **authorize**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/device_info/authorize" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - Set the authorization flag for PnP devices to enable provisioning after claiming.
+          - When set to true, devices in "Pending Authorization" state will be automatically authorized.
+          - This flag moves devices from "Pending Authorization" to "Authorized" state, allowing them to proceed with the provisioning workflow.
+          - Authorization is performed after successful device import (bulk operations) or device addition (single device operations).
+          - If not specified, devices will remain in their current authorization state and may require manual authorization.
+          - This parameter only applies to devices that support the authorization workflow in their PnP process.
+          - Authorization is skipped for devices that are not in "Pending Authorization" state.
+          - Supported from Cisco Catalyst Center release version 2.3.7.9 onwards.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1538,7 +1588,7 @@ Notes
 
 .. note::
    - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.add\_device, device\_onboarding\_pnp.DeviceOnboardingPnp.get\_device\_list, device\_onboarding\_pnp.DeviceOnboardingPnp.claim\_a\_device\_to\_a\_site, device\_onboarding\_pnp.DeviceOnboardingPnp.delete\_device\_by\_id\_from\_pnp, device\_onboarding\_pnp.DeviceOnboardingPnp.get\_device\_count, device\_onboarding\_pnp.DeviceOnboardingPnp.get\_device\_by\_id, device\_onboarding\_pnp.DeviceOnboardingPnp.update\_device, sites.Sites.get\_site, software\_image\_management\_swim.SoftwareImageManagementSwim.get\_software\_image\_details, configuration\_templates.ConfigurationTemplates.gets\_the\_templates\_available
-   - Paths used are post /dna/intent/api/v1/onboarding/pnp-device post /dna/intent/api/v1/onboarding/pnp-device/site-claim post /dna/intent/api/v1/onboarding/pnp-device/{id} get /dna/intent/api/v1/onboarding/pnp-device/count get /dna/intent/api/v1/onboarding/pnp-device put /onboarding/pnp-device/${id} get /dna/intent/api/v1/site get /dna/intent/api/v1/image/importation get /dna/intent/api/v1/template-programmer/template
+   - Paths used are post /dna/intent/api/v1/onboarding/pnp-device post /dna/intent/api/v1/onboarding/pnp-device/site-claim post /dna/intent/api/v1/onboarding/pnp-device/{id} get /dna/intent/api/v1/onboarding/pnp-device/count get /dna/intent/api/v1/onboarding/pnp-device put /onboarding/pnp-device/${id} get /dna/intent/api/v1/site get /dna/intent/api/v1/image/importation get /dna/intent/api/v1/template-programmer/template post /api/v1/onboarding/pnp-device/authorize
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -1600,6 +1650,7 @@ Examples
                 hostname: New_WLC
                 state: Unclaimed
                 pid: C9800-CL-K9
+                authorize: true
             site_name: Global/USA/San Francisco/BGL_18
             template_name: Ansible_PNP_WLC
             template_params:

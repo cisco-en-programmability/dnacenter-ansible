@@ -42,7 +42,7 @@ cisco.dnac.swim_workflow_manager module -- Module to manage SWIM (Software Image
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.40.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.42.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -74,6 +74,8 @@ Synopsis
 - Provides an API to fetch a software image from Cisco Connection Online (CCO) and upload it to Catalyst Center. Refer to https://software.cisco.com/download/home for suggested images in Cisco Catalyst Center. CCO functionality is available starting from Cisco Catalyst version 2.3.7.6.
 - Provides an API to tag or untag an image as golden for a given family of devices.
 - Provides an API to distribute a software image to a device. The software image must be imported into Catalyst Center before it can be distributed.
+- Provides an API to delete software images from Catalyst Center.
+- A golden tag is mandatory for a site, and the workflow cannot proceed without it
 
 
 .. Aliases
@@ -228,6 +230,111 @@ Parameters
       .. raw:: html
 
         </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/compatible_features"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/image_activation_details/compatible_features:
+
+      .. rst-class:: ansible-option-title
+
+      **compatible_features**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/compatible_features" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of compatible feature key-value pairs.
+
+      Applicable for v3.1.3.0 and later.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/compatible_features/key"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/image_activation_details/compatible_features/key:
+
+      .. rst-class:: ansible-option-title
+
+      **key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/compatible_features/key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Feature name. (e.g., "ISSU", "Rommon update")
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/compatible_features/value"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/image_activation_details/compatible_features/value:
+
+      .. rst-class:: ansible-option-title
+
+      **value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/compatible_features/value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Feature status (e.g., Enable or Disable)
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
@@ -473,6 +580,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_tag"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/image_activation_details/device_tag:
+
+      .. rst-class:: ansible-option-title
+
+      **device_tag**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_tag" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device tag for filtering the target device(s)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_upgrade_mode"></div>
 
       .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/image_activation_details/device_upgrade_mode:
@@ -540,6 +681,70 @@ Parameters
 
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/image_activation_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/image_activation_details/image_activation_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **image_activation_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/image_activation_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Timeout duration in seconds for image activation API operations.
+          Controls how long the system waits for image activation processes to complete
+          before timing out, including device reboot and startup verification.
+          
+          Operation phases covered by this timeout:
+          - Image validation and preparation for activation
+          - Device upgrade mode processing (install/bundle/currentlyExists)
+          - Device reboot and startup sequence (if required)
+          - Post-activation connectivity and status verification
+          - Golden image validation (if applicable)
+          
+          Default of 1800 seconds (30 minutes) accommodates:
+          - Device boot time variations (switches: 5-15 min, routers: 10-20 min)
+          - Image installation and verification processes
+          - Network convergence and connectivity restoration
+          - Multiple devices in concurrent activation scenarios
+          
+          Recommended timeout values by device type:
+          - Access switches: 1200-1800 seconds (20-30 minutes)
+          - Distribution/Core switches: 1800-2700 seconds (30-45 minutes)
+          - Routers and complex devices: 2700-3600 seconds (45-60 minutes)
+          
+          Warning: Setting timeout too low may cause premature failure reporting
+          for successful but slow activation processes.
+          
+          Note: This timeout is independent of the global 'dnac\_api\_task\_timeout' parameter
+          
+          type: int
+          default: 1800
+          version\_added: 3.1.3.0
+          
 
 
       .. raw:: html
@@ -978,6 +1183,101 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_tag"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/image_distribution_details/device_tag:
+
+      .. rst-class:: ansible-option-title
+
+      **device_tag**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_tag" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device tag for filtering the target device(s)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/image_distribution_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/image_distribution_details/image_distribution_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **image_distribution_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/image_distribution_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Timeout duration in seconds for image distribution API operations.
+          Controls how long the system waits for image distribution tasks to complete,
+          including image transfer to target devices, network propagation, and distribution validation.
+          
+          Operation phases covered by this timeout:
+          - Image preparation and validation on Catalyst Center
+          - Network transfer to target devices
+          - Installation verification on target devices
+          - Distribution status confirmation
+          
+          Default of 1800 seconds (30 minutes) accounts for:
+          - Large image files (up to several GB)
+          - Multiple target devices in site-based operations
+          - Network latency and bandwidth constraints
+          - Device processing and storage capabilities
+          
+          Recommended timeout values:
+          - Small networks (1-10 devices): 900-1800 seconds
+          - Medium networks (10-50 devices): 1800-3600 seconds
+          - Large networks (50+ devices): 3600-7200 seconds
+          
+          Note: This timeout is independent of the global 'dnac\_api\_task\_timeout' parameter
+          and specifically applies to distribution operations only.
+          
+          default: 1800
+          type: int
+          version\_added: 3.1.3.0
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/image_name"></div>
 
       .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/image_distribution_details/image_name:
@@ -1077,6 +1377,44 @@ Parameters
 
         </div>
 
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_name"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/image_name:
+
+      .. rst-class:: ansible-option-title
+
+      **image_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of image names to be deleted.
+
+      This parameter is mandatory and exclusively used when the state is 'deleted'.
+
+      Applicable for v3.1.3.0 and later.
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -1788,6 +2126,50 @@ Parameters
         </div>
 
 
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/sync_cco"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/sync_cco:
+
+      .. rst-class:: ansible-option-title
+
+      **sync_cco**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/sync_cco" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set to True to synchronize the image with Cisco Connection Online (CCO).
+
+      Applicable for v3.1.3.0 and later.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -2629,6 +3011,7 @@ Parameters
       :ansible-option-choices:`Choices:`
 
       - :ansible-option-choices-entry-default:`"merged"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"deleted"`
 
 
       .. raw:: html
@@ -2687,8 +3070,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.import\_software\_image\_via\_url, software\_image\_management\_swim.SoftwareImageManagementSwim.tag\_as\_golden\_image, software\_image\_management\_swim.SoftwareImageManagementSwim.trigger\_software\_image\_distribution, software\_image\_management\_swim.SoftwareImageManagementSwim.trigger\_software\_image\_activation,
-   - Paths used are post /dna/intent/api/v1/image/importation/source/url, post /dna/intent/api/v1/image/importation/golden, post /dna/intent/api/v1/image/distribution, post /dna/intent/api/v1/image/activation/device, - Added the parameter 'dnac\_api\_task\_timeout', 'dnac\_task\_poll\_interval' options in v6.13.2.
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.import\_software\_image\_via\_url, software\_image\_management\_swim.SoftwareImageManagementSwim.tag\_as\_golden\_image, software\_image\_management\_swim.SoftwareImageManagementSwim.trigger\_software\_image\_distribution, software\_image\_management\_swim.SoftwareImageManagementSwim.trigger\_software\_image\_activation, software\_image\_management\_swim.SoftwareImageManagementSwim.delete\_image\_v1,
+   - Paths used are post /dna/intent/api/v1/image/importation/source/url, post /dna/intent/api/v1/image/importation/golden, post /dna/intent/api/v1/image/distribution, post /dna/intent/api/v1/image/activation/device, delete /dna/intent/api/v1/images/{id},
+   - Added the parameter 'dnac\_api\_task\_timeout', 'dnac\_task\_poll\_interval' options in v6.13.2.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -2944,6 +3328,51 @@ Examples
               device_family_name: Switches and Hubs
               device_series_name: Cisco Catalyst 9300 Series
                 Switches
+
+    - name: Distribute the given image on devices associated with device tag
+        to that site with specified role.
+      cisco.dnac.swim_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
+        config:
+          - image_distribution_details:
+              image_name: cat9k_iosxe.17.12.01.SPA.bin
+              site_name: Global/a_swim/swim_test1
+              device_role: ALL
+              device_family_name: Switches and Hubs
+              device_tag: AUTO_INV_EVENT_SYNC_DISABLED
+
+    - name: Activate the given image on devices associated with device tag
+        to that site with specified role.
+      cisco.dnac.swim_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
+        config:
+          - image_activation_details:
+              image_name: cat9k_iosxe.17.12.01.SPA.bin
+              site_name: Global/USA/San Francisco/BGL_18
+              device_role: ALL
+              device_family_name: Switches and Hubs
+              device_series_name: Cisco Catalyst 9300 Series Switches
+              device_tag: AUTO_INV_EVENT_SYNC_DISABLED
+              schedule_validate: false
+              activate_lower_image_version: true
+              distribute_if_needed: true
+
     - name: Activate the given image on devices associated
         to that site with specified role.
       cisco.dnac.swim_workflow_manager:
@@ -2962,11 +3391,109 @@ Examples
               site_name: Global/USA/San Francisco/BGL_18
               device_role: ALL
               device_family_name: Switches and Hubs
-              device_series_name: Cisco Catalyst 9300 Series
-                Switches
-              scehdule_validate: false
+              device_series_name: Cisco Catalyst 9300 Series Switches
+              schedule_validate: false
               activate_lower_image_version: true
               distribute_if_needed: true
+
+    - name: Activate the golden image on devices associated
+        to that site with specified role.
+      cisco.dnac.swim_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
+        config:
+          - image_activation_details:
+              site_name: Global/USA/San Francisco/BGL_18
+              device_role: ALL
+              device_family_name: Switches and Hubs
+              device_series_name: Cisco Catalyst 9300 Series Switches
+              schedule_validate: false
+              activate_lower_image_version: true
+              distribute_if_needed: true
+
+    - name: distribute the golden image on devices associated
+        to that site with specified role with custom api timeout.
+      cisco.dnac.swim_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
+        config:
+          - image_activation_details:
+              site_name: Global/USA/San Francisco/BGL_18
+              image_activation_timeout: 2500
+              device_role: ALL
+              device_family_name: Switches and Hubs
+              device_series_name: Cisco Catalyst 9300 Series Switches
+              schedule_validate: false
+              activate_lower_image_version: true
+              distribute_if_needed: true
+
+    - name: Activate the given image on devices associated
+        to that site for v3.1.3.0.
+      cisco.dnac.swim_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
+        config:
+          - image_activation_details:
+              image_name: cat9k_iosxe.17.12.01.SPA.bin
+              site_name: Global/USA/San Francisco/BGL_18
+              compatible_features:
+                - key: "ISSU"
+                  value: Enable
+                - key: "Rommon update"
+                  value: Disable
+
+    - name: Sync cco images to Cisco Catalyst Center for v3.1.3.0.
+      cisco.dnac.swim_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
+        config:
+          - sync_cco: true
+
+    - name: Delete image from Cisco Catalyst Center for v3.1.3.0.
+      cisco.dnac.swim_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: deleted
+        config:
+          - image_name: [C9800-SW-iosxe-wlc.17.07.01.SPA.bin]
 
 
 
