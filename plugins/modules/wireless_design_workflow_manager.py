@@ -3125,26 +3125,31 @@ options:
                       - Enable passive client detection for better roaming experience.
                       - Helps identify clients that don't actively probe for networks.
                     type: bool
+                    default: false
                   prediction_optimization:
                     description:
                       - Enable predictive optimization for client connectivity.
                       - Improves roaming decisions based on client behavior patterns.
                     type: bool
+                    default: false
                   dual_band_neighbor_list:
                     description:
                       - Enable dual-band neighbor list for 802.11k support.
                       - Helps clients make better roaming decisions across bands.
                     type: bool
+                    default: false
                   radius_nac_state:
                     description:
                       - Enable RADIUS Network Access Control (NAC) state tracking.
                       - Provides enhanced security and compliance monitoring.
                     type: bool
+                    default: false
                   dhcp_required:
                     description:
                       - Require DHCP for client IP address assignment.
                       - Prevents clients from using static IP addresses.
                     type: bool
+                    default: false
                   dhcp_server:
                     description:
                       - IP address of the DHCP server for client assignments.
@@ -3155,46 +3160,55 @@ options:
                       - Enable local authentication for FlexConnect deployments.
                       - Allows authentication when WAN connectivity is unavailable.
                     type: bool
+                    default: false
                   target_wakeup_time:
                     description:
                       - Enable Target Wake Time (TWT) for power management.
                       - Reduces power consumption for Wi-Fi 6 capable devices.
                     type: bool
+                    default: false
                   downlink_ofdma:
                     description:
                       - Enable downlink Orthogonal Frequency Division Multiple Access.
                       - Improves efficiency in dense client environments (Wi-Fi 6).
                     type: bool
+                    default: false
                   uplink_ofdma:
                     description:
                       - Enable uplink OFDMA for improved upload performance.
                       - Reduces latency and improves spectral efficiency (Wi-Fi 6).
                     type: bool
+                    default: false
                   downlink_mu_mimo:
                     description:
                       - Enable downlink Multi-User Multiple-Input Multiple-Output.
                       - Allows simultaneous transmission to multiple clients.
                     type: bool
+                    default: false
                   uplink_mu_mimo:
                     description:
                       - Enable uplink MU-MIMO for improved upload capacity.
                       - Multiple clients can transmit simultaneously.
                     type: bool
+                    default: false
                   dot11ax:
                     description:
                       - Enable 802.11ax (Wi-Fi 6) features and optimizations.
                       - Activates Wi-Fi 6 specific enhancements.
                     type: bool
+                    default: false
                   aironet_ie_support:
                     description:
                       - Enable Cisco Aironet Information Element support.
                       - Provides enhanced Cisco-specific wireless features.
                     type: bool
+                    default: false
                   load_balancing:
                     description:
                       - Enable client load balancing across access points.
                       - Distributes clients evenly for optimal performance.
                     type: bool
+                    default: false
                   dtim_period_5ghz:
                     description:
                       - Delivery Traffic Indication Message period for 5GHz band.
@@ -3239,6 +3253,7 @@ options:
                       - Enable multicast frame buffering for power-save clients.
                       - Improves delivery of multicast traffic to sleeping clients.
                     type: bool
+                    default: false
                   multicast_buffer_value:
                     description:
                       - Size of multicast buffer in number of frames.
@@ -3249,76 +3264,91 @@ options:
                       - Enable direct multicast delivery for media streams.
                       - Optimizes video and audio multicast performance.
                     type: bool
+                    default: false
                   mu_mimo_11ac:
                     description:
                       - Enable MU-MIMO support for 802.11ac clients.
                       - Allows multiple 11ac clients to be served simultaneously.
                     type: bool
+                    default: false
                   wifi_to_cellular_steering:
                     description:
                       - Enable steering between Wi-Fi and cellular networks.
                       - Helps optimize connectivity based on network conditions.
                     type: bool
+                    default: false
                   wifi_alliance_agile_multiband:
                     description:
                       - Enable Wi-Fi Alliance Agile Multiband features.
                       - Improves band steering and roaming performance.
                     type: bool
+                    default: false
                   fastlane_asr:
                     description:
                       - Enable FastLane Automatic Speech Recognition optimization.
                       - Prioritizes voice traffic for better call quality.
                     type: bool
+                    default: false
                   dot11v_bss_max_idle_protected:
                     description:
                       - Enable 802.11v BSS Max Idle Period protection.
                       - Prevents premature client disconnection during idle periods.
                     type: bool
+                    default: false
                   universal_ap_admin:
                     description:
                       - Enable Universal AP Admin access capabilities.
                       - Provides enhanced management access to access points.
                     type: bool
+                    default: false
                   opportunistic_key_caching:
                     description:
                       - Enable Opportunistic Key Caching for faster roaming.
                       - Reduces authentication time during client roaming.
                     type: bool
+                    default: false
                   ip_source_guard:
                     description:
                       - Enable IP Source Guard to prevent IP spoofing.
                       - Validates source IP addresses against DHCP bindings.
                     type: bool
+                    default: false
                   dhcp_opt82_remote_id_sub_option:
                     description:
                       - Enable DHCP Option 82 Remote ID sub-option.
                       - Provides location information in DHCP requests.
                     type: bool
+                    default: false
                   vlan_central_switching:
                     description:
                       - Enable VLAN-based central switching mode.
                       - Routes traffic through the wireless controller.
                     type: bool
+                    default: false
                   call_snooping:
                     description:
                       - Enable call snooping for voice optimization.
                       - Monitors voice calls for quality improvements.
                     type: bool
+                    default: false
                   send_disassociate:
                     description:
                       - Send disassociate messages for call management.
                       - Helps manage client connections during voice calls.
                     type: bool
+                    default: false
                   sent_486_busy:
                     description:
                       - Send SIP 486 Busy response for call control.
                       - Manages voice call admission control.
                     type: bool
+                    default: false
                   ip_mac_binding:
                     description:
                       - Enable IP-MAC address binding for security.
                       - Prevents MAC address spoofing attacks.
                     type: bool
+                    default: false
                   idle_threshold:
                     description:
                       - Idle timeout threshold in seconds for client management.
@@ -3329,59 +3359,72 @@ options:
                       - Enable traffic deferral for priority 0 (background) traffic.
                       - Delays low-priority traffic during congestion.
                     type: bool
+                    default: false
                   defer_priority_1:
                     description:
                       - Enable traffic deferral for priority 1 (best effort) traffic.
                     type: bool
+                    default: false
                   defer_priority_2:
                     description:
                       - Enable traffic deferral for priority 2 (excellent effort) traffic.
                     type: bool
+                    default: false
                   defer_priority_3:
                     description:
                       - Enable traffic deferral for priority 3 (critical applications) traffic.
                     type: bool
+                    default: false
                   defer_priority_4:
                     description:
                       - Enable traffic deferral for priority 4 (video) traffic.
                     type: bool
+                    default: false
                   defer_priority_5:
                     description:
                       - Enable traffic deferral for priority 5 (video) traffic.
                     type: bool
+                    default: false
                   defer_priority_6:
                     description:
                       - Enable traffic deferral for priority 6 (voice) traffic.
                     type: bool
+                    default: false
                   defer_priority_7:
                     description:
                       - Enable traffic deferral for priority 7 (network control) traffic.
                     type: bool
+                    default: false
                   share_data_with_client:
                     description:
                       - Enable sharing of network analytics data with clients.
                       - Provides performance insights to client applications.
                     type: bool
+                    default: false
                   advertise_support:
                     description:
                       - Advertise support for advanced wireless features.
                       - Informs clients about available capabilities.
                     type: bool
+                    default: false
                   advertise_pc_analytics_support:
                     description:
                       - Advertise support for PC analytics capabilities.
                       - Enables enhanced analytics for computer clients.
                     type: bool
+                    default: false
                   send_beacon_on_association:
                     description:
                       - Send beacon frames immediately upon client association.
                       - Improves initial connectivity experience.
                     type: bool
+                    default: false
                   send_beacon_on_roam:
                     description:
                       - Send beacon frames when clients roam between APs.
                       - Facilitates faster roaming completion.
                     type: bool
+                    default: false
                   fast_transition_reassociation_timeout:
                     description:
                       - Timeout in milliseconds for fast transition reassociation.
@@ -3439,16 +3482,19 @@ options:
                       - Enable CleanAir spectrum intelligence functionality.
                       - Activates automatic interference detection and reporting.
                     type: bool
+                    default: False
                   clean_air_device_reporting:
                     description:
                       - Enable reporting of detected interference devices.
                       - Provides detailed information about interference sources.
                     type: bool
+                    default: False
                   persistent_device_propagation:
                     description:
                       - Enable propagation of persistent interference device information.
                       - Shares interference data across the wireless infrastructure.
                     type: bool
+                    default: False
                   description:
                     description:
                       - Optional description for the CleanAir configuration.
@@ -3465,78 +3511,97 @@ options:
                         description:
                           - Enable detection of Bluetooth Low Energy beacon interference.
                         type: bool
+                        default: False
                       bluetooth_paging_inquiry:
                         description:
                           - Enable detection of Bluetooth paging and inquiry interference.
                         type: bool
+                        default: False
                       bluetooth_sco_acl:
                         description:
                           - Enable detection of Bluetooth SCO/ACL traffic interference.
                         type: bool
+                        default: False
                       continuous_transmitter:
                         description:
                           - Enable detection of continuous transmitter interference.
                         type: bool
+                        default: False
                       generic_dect:
                         description:
                           - Enable detection of generic DECT phone interference.
                         type: bool
+                        default: False
                       generic_tdd:
                         description:
                           - Enable detection of generic Time Division Duplex interference.
                         type: bool
+                        default: False
                       jammer:
                         description:
                           - Enable detection of intentional jamming devices.
                         type: bool
+                        default: False
                       microwave_oven:
                         description:
                           - Enable detection of microwave oven interference.
                         type: bool
+                        default: False
                       motorola_canopy:
                         description:
                           - Enable detection of Motorola Canopy interference.
                         type: bool
+                        default: False
                       si_fhss:
                         description:
                           - Enable detection of Frequency Hopping Spread Spectrum interference.
                         type: bool
+                        default: False
                       spectrum80211_fh:
                         description:
                           - Enable detection of 802.11 frequency hopping interference.
                         type: bool
+                        default: False
                       spectrum80211_non_standard_channel:
                         description:
                           - Enable detection of 802.11 non-standard channel interference.
                         type: bool
+                        default: False
                       spectrum802154:
                         description:
                           - Enable detection of 802.15.4 (ZigBee) interference.
                         type: bool
+                        default: False
                       spectrum_inverted:
                         description:
                           - Enable detection of spectrum inverted interference.
                         type: bool
+                        default: False
                       super_ag:
                         description:
                           - Enable detection of Super AG interference.
                         type: bool
+                        default: False
                       video_camera:
                         description:
                           - Enable detection of wireless video camera interference.
                         type: bool
+                        default: False
                       wimax_fixed:
                         description:
                           - Enable detection of fixed WiMAX interference.
                         type: bool
+                        default: False
                       wimax_mobile:
                         description:
                           - Enable detection of mobile WiMAX interference.
                         type: bool
+                        default: False
                       xbox:
                         description:
                           - Enable detection of Xbox gaming console interference.
                         type: bool
+                        default: False
               unlocked_attributes:
                 description:
                   - List of CleanAir attribute names unlocked for manual configuration.
@@ -3576,32 +3641,37 @@ options:
                       - Enable BSS (Basic Service Set) coloring for spatial reuse.
                       - Helps distinguish between overlapping BSSs to reduce interference.
                     type: bool
+                    default: False
                   target_waketime_broadcast:
                     description:
                       - Enable broadcast Target Wake Time (TWT) announcements.
                       - Coordinates sleep schedules for multiple clients simultaneously.
                     type: bool
+                    default: False
                   non_srg_obss_pd_max_threshold:
                     description:
                       - Maximum threshold for non-SRG OBSS Packet Detection in dBm.
                       - Controls sensitivity for detecting overlapping BSS transmissions.
                       - Range typically -82 to -62 dBm.
                     type: int
-                  target_wake_up_time_11ax:
+                  target_wakeup_time_11ax:
                     description:
                       - Enable Target Wake Time feature for 802.11ax clients.
                       - Allows clients to negotiate sleep schedules to save power.
                     type: bool
+                    default: False
                   obss_pd:
                     description:
                       - Enable Overlapping BSS Packet Detection for spatial reuse.
                       - Improves spectrum efficiency in dense deployments.
                     type: bool
+                    default: False
                   multiple_bssid:
                     description:
                       - Enable Multiple BSSID feature for 802.11ax.
                       - Allows transmission of multiple SSID beacons efficiently.
                     type: bool
+                    default: False
               unlocked_attributes:
                 description:
                   - List of 802.11ax attribute names unlocked for manual configuration.
@@ -3636,6 +3706,7 @@ options:
                       - Enable or disable 802.11be (Wi-Fi 7) operation.
                       - Activates Wi-Fi 7 features and protocol enhancements.
                     type: bool
+                    default: False
                   radio_band:
                     description:
                       - Radio frequency band for 802.11be operation.
@@ -3676,7 +3747,7 @@ options:
                     description:
                       - Radio frequency band for Event-Driven RRM operation.
                       - RRM algorithms will monitor and optimize this band.
-                      - Note that 6GHz band is not supported for Event-Driven RRM.
+                      - Note - Currently, 6 GHz band is not supported for Event-Driven RRM
                     type: str
                     required: true
                     choices: ["2_4GHZ", "5GHZ"]
@@ -3685,6 +3756,7 @@ options:
                       - Enable Event-Driven RRM for automatic RF optimization.
                       - When enabled, system responds to interference and performance changes.
                     type: bool
+                    default: False
                     required: false
                   event_driven_rrm_threshold_level:
                     description:
@@ -3738,6 +3810,7 @@ options:
                       - Allows multiple sites to use the same IP address ranges.
                       - Useful for branch deployments with NAT or VPN connectivity.
                     type: bool
+                    default: False
               unlocked_attributes:
                 description:
                   - List of FlexConnect attribute names unlocked for manual configuration.
@@ -3847,17 +3920,21 @@ options:
                       - Freeze FRA decisions to prevent automatic changes.
                       - When enabled, current radio assignments are maintained.
                     type: bool
+                    default: false
                     required: false
                   fra_status:
                     description:
                       - Enable or disable Flexible Radio Assignment functionality.
                       - Controls whether radios can dynamically change their band assignment.
                     type: bool
+                    default: false
                     required: false
                   fra_interval:
                     description:
-                      - Interval in minutes for FRA evaluation and potential changes.
+                      - Interval in hours for FRA evaluation and potential changes.
                       - Determines how frequently the system considers radio reassignment.
+                      - Value range is typically 1 to 24 hours.
+                      - Units are in hours.
                     type: int
                     required: false
                   fra_sensitivity:
@@ -3943,6 +4020,7 @@ options:
                       - Identifies areas with poor signal coverage and attempts optimization.
                     type: bool
                     required: false
+                    default: false
               unlocked_attributes:
                 description:
                   - List of RRM general attribute names unlocked for manual configuration.
@@ -4087,14 +4165,14 @@ EXAMPLES = r"""
                   bss_color: true
                   target_waketime_broadcast: true
                   non_srg_obss_pd_max_threshold: -78
-                  target_wake_up_time_11ax: true
+                  target_wakeup_time_11ax: true
                   obss_pd: true
                 unlocked_attributes:
                   - "radio_band"
                   - "bss_color"
                   - "target_waketime_broadcast"
                   - "non_srg_obss_pd_max_threshold"
-                  - "target_wake_up_time_11ax"
+                  - "target_wakeup_time_11ax"
                   - "obss_pd"
 - name: Update dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
@@ -4117,14 +4195,14 @@ EXAMPLES = r"""
                   bss_color: true
                   target_waketime_broadcast: true
                   non_srg_obss_pd_max_threshold: -78
-                  target_wake_up_time_11ax: false
+                  target_wakeup_time_11ax: false
                   obss_pd: true
                 unlocked_attributes:
                   - "radio_band"
                   - "bss_color"
                   - "target_waketime_broadcast"
                   - "non_srg_obss_pd_max_threshold"
-                  - "target_wake_up_time_11ax"
+                  - "target_wakeup_time_11ax"
                   - "obss_pd"
 - name: Delete dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
@@ -4147,14 +4225,14 @@ EXAMPLES = r"""
                   bss_color: true
                   target_waketime_broadcast: true
                   non_srg_obss_pd_max_threshold: -78
-                  target_wake_up_time_11ax: false
+                  target_wakeup_time_11ax: false
                   obss_pd: true
                 unlocked_attributes:
                   - "radio_band"
                   - "bss_color"
                   - "target_waketime_broadcast"
                   - "non_srg_obss_pd_max_threshold"
-                  - "target_wake_up_time_11ax"
+                  - "target_wakeup_time_11ax"
                   - "obss_pd"
 - name: Add dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
@@ -4177,14 +4255,14 @@ EXAMPLES = r"""
                   bss_color: true
                   target_waketime_broadcast: true
                   non_srg_obss_pd_max_threshold: -75
-                  target_wake_up_time_11ax: true
+                  target_wakeup_time_11ax: true
                   obss_pd: true
                 unlocked_attributes:
                   - "radio_band"
                   - "bss_color"
                   - "target_waketime_broadcast"
                   - "non_srg_obss_pd_max_threshold"
-                  - "target_wake_up_time_11ax"
+                  - "target_wakeup_time_11ax"
                   - "obss_pd"
 - name: Update dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
@@ -4207,14 +4285,14 @@ EXAMPLES = r"""
                   bss_color: false
                   target_waketime_broadcast: false
                   non_srg_obss_pd_max_threshold: -75
-                  target_wake_up_time_11ax: true
+                  target_wakeup_time_11ax: true
                   obss_pd: true
                 unlocked_attributes:
                   - "radio_band"
                   - "bss_color"
                   - "target_waketime_broadcast"
                   - "non_srg_obss_pd_max_threshold"
-                  - "target_wake_up_time_11ax"
+                  - "target_wakeup_time_11ax"
                   - "obss_pd"
 - name: Delete dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
@@ -4237,14 +4315,14 @@ EXAMPLES = r"""
                   bss_color: false
                   target_waketime_broadcast: false
                   non_srg_obss_pd_max_threshold: -75
-                  target_wake_up_time_11ax: true
+                  target_wakeup_time_11ax: true
                   obss_pd: true
                 unlocked_attributes:
                   - "radio_band"
                   - "bss_color"
                   - "target_waketime_broadcast"
                   - "non_srg_obss_pd_max_threshold"
-                  - "target_wake_up_time_11ax"
+                  - "target_wakeup_time_11ax"
                   - "obss_pd"
 - name: Add dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
@@ -4267,13 +4345,13 @@ EXAMPLES = r"""
                   bss_color: true
                   target_waketime_broadcast: true
                   multiple_bssid: true
-                  target_wake_up_time_11ax: true
+                  target_wakeup_time_11ax: true
                 unlocked_attributes:
                   - "radio_band"
                   - "bss_color"
                   - "target_waketime_broadcast"
                   - "multiple_bssid"
-                  - "target_wake_up_time_11ax"
+                  - "target_wakeup_time_11ax"
 - name: Update dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4295,13 +4373,13 @@ EXAMPLES = r"""
                   bss_color: true
                   target_waketime_broadcast: false
                   multiple_bssid: true
-                  target_wake_up_time_11ax: true
+                  target_wakeup_time_11ax: true
                 unlocked_attributes:
                   - "radio_band"
                   - "bss_color"
                   - "target_waketime_broadcast"
                   - "multiple_bssid"
-                  - "target_wake_up_time_11ax"
+                  - "target_wakeup_time_11ax"
 - name: Delete dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4323,13 +4401,13 @@ EXAMPLES = r"""
                   bss_color: true
                   target_waketime_broadcast: false
                   multiple_bssid: true
-                  target_wake_up_time_11ax: true
+                  target_wakeup_time_11ax: true
                 unlocked_attributes:
                   - "radio_band"
                   - "bss_color"
                   - "target_waketime_broadcast"
                   - "multiple_bssid"
-                  - "target_wake_up_time_11ax"
+                  - "target_wakeup_time_11ax"
 - name: Add cleanair profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -7536,21 +7614,21 @@ class WirelessDesign(DnacBase):
                                         "type": "str",
                                         "choices": ["DISABLE", "DROP", "FORWARD_UP", "ALLOW_PVT_GROUP"]
                                     },
-                                    "passive_client": {"type": "bool"},
-                                    "prediction_optimization": {"type": "bool"},
-                                    "dual_band_neighbor_list": {"type": "bool"},
-                                    "radius_nac_state": {"type": "bool"},
-                                    "dhcp_required": {"type": "bool"},
+                                    "passive_client": {"type": "bool", "default": False},
+                                    "prediction_optimization": {"type": "bool", "default": False},
+                                    "dual_band_neighbor_list": {"type": "bool", "default": False},
+                                    "radius_nac_state": {"type": "bool", "default": False},
+                                    "dhcp_required": {"type": "bool", "default": False},
                                     "dhcp_server": {"type": "str"},
-                                    "flex_local_auth": {"type": "bool"},
-                                    "target_wakeup_time": {"type": "bool"},
-                                    "downlink_ofdma": {"type": "bool"},
-                                    "uplink_ofdma": {"type": "bool"},
-                                    "downlink_mu_mimo": {"type": "bool"},
-                                    "uplink_mu_mimo": {"type": "bool"},
-                                    "dot11ax": {"type": "bool"},
-                                    "aironet_ie_support": {"type": "bool"},
-                                    "load_balancing": {"type": "bool"},
+                                    "flex_local_auth": {"type": "bool", "default": False},
+                                    "target_wakeup_time": {"type": "bool", "default": False},
+                                    "downlink_ofdma": {"type": "bool", "default": False},
+                                    "uplink_ofdma": {"type": "bool", "default": False},
+                                    "downlink_mu_mimo": {"type": "bool", "default": False},
+                                    "uplink_mu_mimo": {"type": "bool", "default": False},
+                                    "dot11ax": {"type": "bool", "default": False},
+                                    "aironet_ie_support": {"type": "bool", "default": False},
+                                    "load_balancing": {"type": "bool", "default": False},
                                     "dtim_period_5ghz": {"type": "int"},
                                     "dtim_period_24ghz": {"type": "int"},
                                     "scan_defer_time": {"type": "int"},
@@ -7558,37 +7636,37 @@ class WirelessDesign(DnacBase):
                                     "max_clients_per_radio": {"type": "int"},
                                     "max_clients_per_ap": {"type": "int"},
                                     "wmm_policy": {"type": "str", "choices": ["DISABLED", "ALLOWED", "REQUIRED"]},
-                                    "multicast_buffer": {"type": "bool"},
+                                    "multicast_buffer": {"type": "bool", "default": False},
                                     "multicast_buffer_value": {"type": "int"},
-                                    "media_stream_multicast_direct": {"type": "bool"},
-                                    "mu_mimo_11ac": {"type": "bool"},
-                                    "wifi_to_cellular_steering": {"type": "bool"},
-                                    "wifi_alliance_agile_multiband": {"type": "bool"},
-                                    "fastlane_asr": {"type": "bool"},
-                                    "dot11v_bss_max_idle_protected": {"type": "bool"},
-                                    "universal_ap_admin": {"type": "bool"},
-                                    "opportunistic_key_caching": {"type": "bool"},
-                                    "ip_source_guard": {"type": "bool"},
-                                    "dhcp_opt82_remote_id_sub_option": {"type": "bool"},
-                                    "vlan_central_switching": {"type": "bool"},
-                                    "call_snooping": {"type": "bool"},
-                                    "send_disassociate": {"type": "bool"},
-                                    "sent_486_busy": {"type": "bool"},
-                                    "ip_mac_binding": {"type": "bool"},
+                                    "media_stream_multicast_direct": {"type": "bool", "default": False},
+                                    "mu_mimo_11ac": {"type": "bool", "default": False},
+                                    "wifi_to_cellular_steering": {"type": "bool", "default": False},
+                                    "wifi_alliance_agile_multiband": {"type": "bool", "default": False},
+                                    "fastlane_asr": {"type": "bool", "default": False},
+                                    "dot11v_bss_max_idle_protected": {"type": "bool", "default": False},
+                                    "universal_ap_admin": {"type": "bool", "default": False},
+                                    "opportunistic_key_caching": {"type": "bool", "default": False},
+                                    "ip_source_guard": {"type": "bool", "default": False},
+                                    "dhcp_opt82_remote_id_sub_option": {"type": "bool", "default": False},
+                                    "vlan_central_switching": {"type": "bool", "default": False},
+                                    "call_snooping": {"type": "bool", "default": False},
+                                    "send_disassociate": {"type": "bool", "default": False},
+                                    "sent_486_busy": {"type": "bool", "default": False},
+                                    "ip_mac_binding": {"type": "bool", "default": False},
                                     "idle_threshold": {"type": "int"},
-                                    "defer_priority_0": {"type": "bool"},
-                                    "defer_priority_1": {"type": "bool"},
-                                    "defer_priority_2": {"type": "bool"},
-                                    "defer_priority_3": {"type": "bool"},
-                                    "defer_priority_4": {"type": "bool"},
-                                    "defer_priority_5": {"type": "bool"},
-                                    "defer_priority_6": {"type": "bool"},
-                                    "defer_priority_7": {"type": "bool"},
-                                    "share_data_with_client": {"type": "bool"},
-                                    "advertise_support": {"type": "bool"},
-                                    "advertise_pc_analytics_support": {"type": "bool"},
-                                    "send_beacon_on_association": {"type": "bool"},
-                                    "send_beacon_on_roam": {"type": "bool"},
+                                    "defer_priority_0": {"type": "bool", "default": False},
+                                    "defer_priority_1": {"type": "bool", "default": False},
+                                    "defer_priority_2": {"type": "bool", "default": False},
+                                    "defer_priority_3": {"type": "bool", "default": False},
+                                    "defer_priority_4": {"type": "bool", "default": False},
+                                    "defer_priority_5": {"type": "bool", "default": False},
+                                    "defer_priority_6": {"type": "bool", "default": False},
+                                    "defer_priority_7": {"type": "bool", "default": False},
+                                    "share_data_with_client": {"type": "bool", "default": False},
+                                    "advertise_support": {"type": "bool", "default": False},
+                                    "advertise_pc_analytics_support": {"type": "bool", "default": False},
+                                    "send_beacon_on_association": {"type": "bool", "default": False},
+                                    "send_beacon_on_roam": {"type": "bool", "default": False},
                                     "fast_transition_reassociation_timeout": {"type": "int"},
                                     "mdns_mode": {
                                         "type": "str",
@@ -7613,33 +7691,33 @@ class WirelessDesign(DnacBase):
                                 "type": "dict",
                                 "required": False,
                                 "options": {
-                                    "clean_air": {"type": "bool"},
-                                    "clean_air_device_reporting": {"type": "bool"},
-                                    "persistent_device_propagation": {"type": "bool"},
+                                    "clean_air": {"type": "bool", "default": False},
+                                    "clean_air_device_reporting": {"type": "bool", "default": False},
+                                    "persistent_device_propagation": {"type": "bool", "default": False},
                                     "description": {"type": "str"},
                                     "interferers_features": {
                                         "type": "dict",
                                         "required": False,
                                         "options": {
-                                            "ble_beacon": {"type": "bool"},
-                                            "bluetooth_paging_inquiry": {"type": "bool"},
-                                            "bluetooth_sco_acl": {"type": "bool"},
-                                            "continuous_transmitter": {"type": "bool"},
-                                            "generic_dect": {"type": "bool"},
-                                            "generic_tdd": {"type": "bool"},
-                                            "jammer": {"type": "bool"},
-                                            "microwave_oven": {"type": "bool"},
-                                            "motorola_canopy": {"type": "bool"},
-                                            "si_fhss": {"type": "bool"},
-                                            "spectrum80211_fh": {"type": "bool"},
-                                            "spectrum80211_non_standard_channel": {"type": "bool"},
-                                            "spectrum802154": {"type": "bool"},
-                                            "spectrum_inverted": {"type": "bool"},
-                                            "super_ag": {"type": "bool"},
-                                            "video_camera": {"type": "bool"},
-                                            "wimax_fixed": {"type": "bool"},
-                                            "wimax_mobile": {"type": "bool"},
-                                            "xbox": {"type": "bool"},
+                                            "ble_beacon": {"type": "bool", "default": False},
+                                            "bluetooth_paging_inquiry": {"type": "bool", "default": False},
+                                            "bluetooth_sco_acl": {"type": "bool", "default": False},
+                                            "continuous_transmitter": {"type": "bool", "default": False},
+                                            "generic_dect": {"type": "bool", "default": False},
+                                            "generic_tdd": {"type": "bool", "default": False},
+                                            "jammer": {"type": "bool", "default": False},
+                                            "microwave_oven": {"type": "bool", "default": False},
+                                            "motorola_canopy": {"type": "bool", "default": False},
+                                            "si_fhss": {"type": "bool", "default": False},
+                                            "spectrum80211_fh": {"type": "bool", "default": False},
+                                            "spectrum80211_non_standard_channel": {"type": "bool", "default": False},
+                                            "spectrum802154": {"type": "bool", "default": False},
+                                            "spectrum_inverted": {"type": "bool", "default": False},
+                                            "super_ag": {"type": "bool", "default": False},
+                                            "video_camera": {"type": "bool", "default": False},
+                                            "wimax_fixed": {"type": "bool", "default": False},
+                                            "wimax_mobile": {"type": "bool", "default": False},
+                                            "xbox": {"type": "bool", "default": False},
                                         },
                                     },
                                 },
@@ -7658,12 +7736,12 @@ class WirelessDesign(DnacBase):
                                 "required": False,
                                 "options": {
                                     "radio_band": {"type": "str"},
-                                    "bss_color": {"type": "bool"},
-                                    "target_waketime_broadcast": {"type": "bool"},
+                                    "bss_color": {"type": "bool", "default": False},
+                                    "target_waketime_broadcast": {"type": "bool", "default": False},
                                     "non_srg_obss_pd_max_threshold": {"type": "int"},
-                                    "target_wake_up_time_11ax": {"type": "bool"},
-                                    "obss_pd": {"type": "bool"},
-                                    "multiple_bssid": {"type": "bool"},
+                                    "target_wakeup_time_11ax": {"type": "bool", "default": False},
+                                    "obss_pd": {"type": "bool", "default": False},
+                                    "multiple_bssid": {"type": "bool", "default": False},
                                 },
                             },
                             "unlocked_attributes": {"type": "list", "elements": "str", "required": False},
@@ -7679,7 +7757,7 @@ class WirelessDesign(DnacBase):
                                 "type": "dict",
                                 "required": False,
                                 "options": {
-                                    "dot11be_status": {"type": "bool"},
+                                    "dot11be_status": {"type": "bool", "default": False},
                                     "radio_band": {"type": "str", "choices": ["2_4GHZ", "5GHZ", "6GHZ"]},
                                 },
                             },
@@ -7711,6 +7789,7 @@ class WirelessDesign(DnacBase):
                                     "event_driven_rrm_enable": {
                                         "type": "bool",
                                         "required": False,
+                                        "default": False,
                                     },
                                     "event_driven_rrm_threshold_level": {
                                         "type": "str",
@@ -7740,7 +7819,7 @@ class WirelessDesign(DnacBase):
                                 "type": "dict",
                                 "required": False,
                                 "options": {
-                                    "overlap_ip_enable": {"type": "bool"},
+                                    "overlap_ip_enable": {"type": "bool", "default": False},
                                 },
                             },
                             "unlocked_attributes": {
@@ -7813,11 +7892,13 @@ class WirelessDesign(DnacBase):
                                     },
                                     "fra_freeze": {
                                         "type": "bool",
-                                        "required": False
+                                        "required": False,
+                                        "default": False
                                     },
                                     "fra_status": {
                                         "type": "bool",
-                                        "required": False
+                                        "required": False,
+                                        "default": False
                                     },
                                     "fra_interval": {
                                         "type": "int",
@@ -7879,7 +7960,8 @@ class WirelessDesign(DnacBase):
                                     },
                                     "coverage_hole_detection": {
                                         "type": "bool",
-                                        "required": False
+                                        "required": False,
+                                        "default": False
                                     },
                                 },
                             },
@@ -7915,12 +7997,10 @@ class WirelessDesign(DnacBase):
         """
         Determines which RRM General configuration templates need to be deleted
         based on the requested parameters.
-
         Args:
             rrm_general_list (list): A list of dicts containing the requested RRM General
                                     configuration parameters for deletion.
                                     Example: [{"design_name": "rrm_general_design"}]
-
         Returns:
             list: A list of RRM General configuration templates scheduled for deletion,
                 including their IDs.
@@ -7983,12 +8063,10 @@ class WirelessDesign(DnacBase):
         """
         Validates and compares desired RRM General profiles against existing ones and determines
         which need to be created, updated, or left unchanged.
-
         Args:
             rrm_general_list (list): A list of dicts containing the desired RRM General configuration
                                     parameters for creation or update.
                                     Example: [{"design_name": "rrm_general_design", "feature_attributes": {...}, "unlocked_attributes": [...]}]
-
         Returns:
             tuple: Three lists containing RRM General configurations to be created, updated, and not updated:
             - add_list (list): Payloads for new RRM General configurations to create
@@ -8203,11 +8281,9 @@ class WirelessDesign(DnacBase):
 
     def get_rrm_general_profile_details(self, template_id):
         """
-        Retrieve detailed information for a specific RRM General configuration template from Cisco DNAC.
-
+        Retrieve detailed information for a specific RRM General configuration template from Cisco Catalyst Center.
         Args:
             template_id (str): The unique ID of the RRM General feature template.
-
         Returns:
             dict: The details of the RRM General feature template, or {} if fetch fails.
         """
@@ -8218,11 +8294,10 @@ class WirelessDesign(DnacBase):
                 self.log("No template_id provided for RRM General details.", "ERROR")
                 return {}
 
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_r_r_m_general_configuration_feature_template",
-                op_modifies=False,
-                params={"id": template_id},
+            response = self.execute_get_request(
+                "wireless",
+                "get_r_r_m_general_configuration_feature_template",
+                {"id": template_id}
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
 
@@ -8230,18 +8305,16 @@ class WirelessDesign(DnacBase):
             return details
 
         except Exception as e:
-            self.log("Failed to fetch RRM General configuration details: {0}".format(str(e)), "ERROR")
+            self.log("Failed to fetch RRM General configuration details for template_id={0}: {1}".format(template_id, str(e)), "ERROR")
             return {}
 
     def get_rrm_general_profiles(self, design_name=None, template_type="RRM_GENERAL_CONFIGURATION"):
         """
-        Retrieve existing RRM General feature templates from Cisco DNAC.
-
+        Retrieve existing RRM General feature templates from Cisco Catalyst Center.
         Args:
             design_name (str, optional): Specific feature template design name to filter by.
             template_type (str, optional): DNAC template type identifier.
                                         Defaults to "RRM_GENERAL_CONFIGURATION".
-
         Returns:
             list: A list of existing RRM General template dicts (the API 'response' list), or [] on failure.
         """
@@ -8252,11 +8325,10 @@ class WirelessDesign(DnacBase):
             if design_name:
                 params["design_name"] = design_name
 
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_feature_template_summary",
-                op_modifies=False,
-                params=params,
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
 
@@ -8275,12 +8347,10 @@ class WirelessDesign(DnacBase):
         """
         Determines which RRM-FRA configuration templates need to be deleted
         based on the requested parameters.
-
         Args:
             rrm_fra_list (list): A list of dicts containing the requested RRM-FRA
                                 configuration parameters for deletion.
                                 Example: [{"design_name": "fra_design_1"}]
-
         Returns:
             list: A list of RRM-FRA configuration templates scheduled for deletion,
                 including their IDs.
@@ -8298,7 +8368,7 @@ class WirelessDesign(DnacBase):
         self.log("Existing RRM-FRA configurations: {0}".format(instances), "DEBUG")
 
         # Convert existing instances into a dictionary for quick lookup
-        existing_dict = {cfg["designName"]: cfg for cfg in instances}
+        existing_dict = {cfg.get("designName"): cfg for cfg in instances if cfg.get("designName")}
         self.log("Converted existing RRM-FRA configs to dictionary.", "DEBUG")
 
         # Iterate over requested configurations
@@ -8343,12 +8413,10 @@ class WirelessDesign(DnacBase):
         """
         Compares desired RRM-FRA profiles against existing ones and determines
         which need to be created, updated, or left unchanged.
-
         Args:
             rrm_fra_list (list): A list of dicts containing the desired RRM-FRA configuration
                                 parameters for creation or update.
                                 Example: [{"design_name": "fra_design_1", "feature_attributes": {...}}]
-
         Returns:
             tuple: Three lists containing RRM-FRA configurations to be created, updated, and not updated:
             - add_list (list): Payloads for new RRM-FRA configurations to create
@@ -8363,7 +8431,9 @@ class WirelessDesign(DnacBase):
         existing_dict = {}
         for block in (existing_blocks or []):
             for inst in block.get("instances", []) or []:
-                existing_dict[inst["designName"]] = inst
+                design_name = inst.get("designName")
+                if design_name:
+                    existing_dict[design_name] = inst
         self.log("Existing RRM-FRA Profiles Dict: {0}".format(existing_dict), "DEBUG")
 
         # Allowed values
@@ -8375,6 +8445,11 @@ class WirelessDesign(DnacBase):
             design_name = attr.get("design_name")
             fa = attr.get("feature_attributes") or {}
             unlocked = attr.get("unlocked_attributes", [])
+
+            # fail early if design_name missing
+            if not design_name:
+                self.msg = "Missing design_name in RRM-FRA item: {0}".format(attr)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             radio_band = fa.get("radio_band")
             fra_freeze = fa.get("fra_freeze")
@@ -8425,31 +8500,29 @@ class WirelessDesign(DnacBase):
                     "radioBand": radio_band
                 }
             }
-            if fra_freeze is not None:
-                payload["featureAttributes"]["fraFreeze"] = fra_freeze
-            if fra_status is not None:
-                payload["featureAttributes"]["fraStatus"] = fra_status
-            if fra_interval is not None:
-                payload["featureAttributes"]["fraInterval"] = int(fra_interval)
-            if fra_sensitivity is not None:
-                payload["featureAttributes"]["fraSensitivity"] = fra_sensitivity
 
-            # Normalize unlocked attributes to controller keys
+            # Use a mapping and loop to set optional attributes only when provided
+            fa_attr_map = {
+                "fraFreeze": fra_freeze,
+                "fraStatus": fra_status,
+                # store fraInterval as int if provided (we validated above)
+                "fraInterval": int(fra_interval) if fra_interval is not None else None,
+                "fraSensitivity": fra_sensitivity,
+            }
+            for key, value in fa_attr_map.items():
+                if value is not None:
+                    payload["featureAttributes"][key] = value
+
+            # Normalize unlocked attributes to controller keys using a mapping + comprehension
             if unlocked:
-                norm_unlocked = []
-                for u in unlocked:
-                    if u == "radio_band":
-                        norm_unlocked.append("radioBand")
-                    elif u == "fra_freeze":
-                        norm_unlocked.append("fraFreeze")
-                    elif u == "fra_status":
-                        norm_unlocked.append("fraStatus")
-                    elif u == "fra_interval":
-                        norm_unlocked.append("fraInterval")
-                    elif u == "fra_sensitivity":
-                        norm_unlocked.append("fraSensitivity")
-                    else:
-                        norm_unlocked.append(u)
+                unlock_map = {
+                    "radio_band": "radioBand",
+                    "fra_freeze": "fraFreeze",
+                    "fra_status": "fraStatus",
+                    "fra_interval": "fraInterval",
+                    "fra_sensitivity": "fraSensitivity",
+                }
+                norm_unlocked = [unlock_map.get(u, u) for u in unlocked]
                 payload["unlockedAttributes"] = norm_unlocked
 
             # Compare against existing
@@ -8468,16 +8541,20 @@ class WirelessDesign(DnacBase):
             desired_fa = payload["featureAttributes"]
             desired_unl = payload.get("unlockedAttributes", [])
 
+            # Make comparisons type-consistent: ensure fraInterval compared as int and sensitivity compared case-insensitive
+            existing_interval = existing_fa.get("fraInterval")
+            desired_interval = desired_fa.get("fraInterval")
+
+            existing_sens = str(existing_fa.get("fraSensitivity") or "").upper()
+            desired_sens = str(desired_fa.get("fraSensitivity") or "").upper()
+
             needs_update = (
                 existing_fa.get("radioBand") != desired_fa.get("radioBand") or
                 existing_fa.get("fraFreeze") != desired_fa.get("fraFreeze") or
                 existing_fa.get("fraStatus") != desired_fa.get("fraStatus") or
-                existing_fa.get("fraInterval") != desired_fa.get("fraInterval") or
-                (
-                    str(existing_fa.get("fraSensitivity") or "").upper()
-                    != str(desired_fa.get("fraSensitivity") or "").upper()
-                    or set(existing_unl) != set(desired_unl)
-                )
+                (existing_interval != desired_interval) or
+                (existing_sens != desired_sens) or
+                (set(existing_unl) != set(desired_unl))
             )
 
             if needs_update:
@@ -8498,12 +8575,10 @@ class WirelessDesign(DnacBase):
 
     def get_rrm_fra_profiles(self, design_name=None, template_type="RRM_FRA_CONFIGURATION"):
         """
-        Retrieve existing RRM-FRA feature templates from Cisco DNAC.
-
+        Retrieve existing RRM-FRA feature templates from Cisco Catalyst Center.
         Args:
             design_name (str, optional): Specific feature template design name to filter by.
             template_type (str, optional): Defaults to "RRM_FRA_CONFIGURATION".
-
         Returns:
             list: A list of RRM-FRA template dicts (the API 'response' list), or [] on failure.
         """
@@ -8514,11 +8589,10 @@ class WirelessDesign(DnacBase):
             if design_name:
                 params["design_name"] = design_name
 
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_feature_template_summary",
-                op_modifies=False,
-                params=params,
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             existing_fra = response.get("response", [])
@@ -8531,11 +8605,9 @@ class WirelessDesign(DnacBase):
 
     def get_rrm_fra_profile_details(self, template_id):
         """
-        Retrieve detailed information for a specific RRM-FRA configuration template from Cisco DNAC.
-
+        Retrieve detailed information for a specific RRM-FRA configuration template from Cisco Catalyst Center.
         Args:
             template_id (str): The unique ID of the RRM-FRA feature template.
-
         Returns:
             dict: The details of the RRM-FRA feature template, or {} if fetch fails.
         """
@@ -8546,30 +8618,27 @@ class WirelessDesign(DnacBase):
                 self.log("No template_id provided for RRM-FRA details.", "ERROR")
                 return {}
 
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_r_r_m_f_r_a_configuration_feature_template",
-                op_modifies=False,
-                params={"id": template_id},
+            response = self.execute_get_request(
+                "wireless",
+                "get_r_r_m_f_r_a_configuration_feature_template",
+                {"id": template_id}
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             details = response.get("response") or {}
             return details
 
         except Exception as e:
-            self.log("Failed to fetch RRM-FRA configuration details: {0}".format(str(e)), "ERROR")
+            self.log("Failed to fetch RRM-FRA configuration details for template_id={0}: {1}".format(template_id, str(e)), "ERROR")
             return {}
 
     def verify_delete_multicast_requirement(self, multicast_list):
         """
         Determines which multicast configuration templates need to be deleted
         based on the requested parameters.
-
         Args:
             multicast_list (list): A list of dicts containing the requested multicast
                                 configuration parameters for deletion.
                                 Example: [{"design_name": "multicast_office_profile"}]
-
         Returns:
             list: A list of multicast configuration templates scheduled for deletion,
                 including their IDs.
@@ -8632,14 +8701,12 @@ class WirelessDesign(DnacBase):
         """
         Compares desired Multicast profiles against existing ones and determines
         which need to be created, updated, or left unchanged.
-
         Args:
             multicast_list (list): A list of dictionaries representing desired Multicast profiles.
                 Each dictionary should include:
                     - design_name (str): The unique design/profile name.
                     - feature_attributes (dict): The configuration attributes for the profile.
                     - unlocked_attributes (list, optional): List of attribute names to unlock for editing.
-
         Returns:
             tuple: Three lists containing Multicast configurations to be created, updated, and not updated:
                 - add_list (list): Payloads for new Multicast configurations to create
@@ -8655,14 +8722,25 @@ class WirelessDesign(DnacBase):
         # Flatten instances into dict
         existing_dict = {}
         for block in existing_blocks or []:
-            for inst in block.get("instances", []):
-                existing_dict[inst["designName"]] = inst
+            for inst in block.get("instances", []) or []:
+                design = inst.get("designName")
+                if design:
+                    existing_dict[design] = inst
         self.log("Existing Multicast Profiles Dict: {0}".format(existing_dict), "DEBUG")
 
         allowed_ipv4_modes = ["UNICAST", "MULTICAST"]
         allowed_ipv6_modes = ["UNICAST", "MULTICAST"]
 
-        # Iterate requested attributes
+        # mapping for unlocked attribute normalization
+        unlock_map = {
+            "global_multicast_enabled": "globalMulticastEnabled",
+            "multicast_ipv4_mode": "multicastIpv4Mode",
+            "multicast_ipv4_address": "multicastIpv4Address",
+            "multicast_ipv6_mode": "multicastIpv6Mode",
+            "multicast_ipv6_address": "multicastIpv6Address",
+        }
+
+        # iterate requested attributes
         for attr in multicast_list or []:
             design_name = attr.get("design_name")
             feature_attrs = attr.get("feature_attributes") or {}
@@ -8731,30 +8809,21 @@ class WirelessDesign(DnacBase):
                     "globalMulticastEnabled": global_multicast_enabled,
                 },
             }
-            if ipv4_mode:
-                payload["featureAttributes"]["multicastIpv4Mode"] = ipv4_mode
-            if ipv4_address:
-                payload["featureAttributes"]["multicastIpv4Address"] = ipv4_address
-            if ipv6_mode:
-                payload["featureAttributes"]["multicastIpv6Mode"] = ipv6_mode
-            if ipv6_address:
-                payload["featureAttributes"]["multicastIpv6Address"] = ipv6_address
 
+            # use a small mapping to set optional attrs concisely
+            feature_map = {
+                "multicastIpv4Mode": ipv4_mode,
+                "multicastIpv4Address": ipv4_address,
+                "multicastIpv6Mode": ipv6_mode,
+                "multicastIpv6Address": ipv6_address,
+            }
+            for k, v in feature_map.items():
+                if v is not None:
+                    payload["featureAttributes"][k] = v
+
+            # normalize unlocked attributes using mapping (fallback to original key)
             if unlocked_attributes:
-                normalized_unlocked = []
-                for u in unlocked_attributes:
-                    if u == "global_multicast_enabled":
-                        normalized_unlocked.append("globalMulticastEnabled")
-                    elif u == "multicast_ipv4_mode":
-                        normalized_unlocked.append("multicastIpv4Mode")
-                    elif u == "multicast_ipv4_address":
-                        normalized_unlocked.append("multicastIpv4Address")
-                    elif u == "multicast_ipv6_mode":
-                        normalized_unlocked.append("multicastIpv6Mode")
-                    elif u == "multicast_ipv6_address":
-                        normalized_unlocked.append("multicastIpv6Address")
-                    else:
-                        normalized_unlocked.append(u)
+                normalized_unlocked = [unlock_map.get(u, u) for u in unlocked_attributes]
                 payload["unlockedAttributes"] = normalized_unlocked
 
             # --- Compare with existing ---
@@ -8762,31 +8831,33 @@ class WirelessDesign(DnacBase):
             if not existing:
                 add_list.append(payload)
                 self.log("Multicast profile '{0}' scheduled for creation.".format(design_name), "DEBUG")
+                continue
+
+            details = self.get_multicast_profile_details(existing["id"]) or {}
+            self.log("Details for {0}: {1}".format(design_name, details), "DEBUG")
+
+            existing_attrs = details.get("featureAttributes", {}) or {}
+            existing_unlocked = details.get("unlockedAttributes", []) or []
+
+            desired_attrs = payload.get("featureAttributes", {}) or {}
+            desired_unlocked = payload.get("unlockedAttributes", []) or []
+
+            if (
+                existing_attrs.get("globalMulticastEnabled") != desired_attrs.get("globalMulticastEnabled")
+                or existing_attrs.get("multicastIpv4Mode") != desired_attrs.get("multicastIpv4Mode")
+                or existing_attrs.get("multicastIpv4Address") != desired_attrs.get("multicastIpv4Address")
+                or existing_attrs.get("multicastIpv6Mode") != desired_attrs.get("multicastIpv6Mode")
+                or existing_attrs.get("multicastIpv6Address") != desired_attrs.get("multicastIpv6Address")
+                or set(existing_unlocked) != set(desired_unlocked)
+            ):
+                payload["id"] = existing["id"]
+                update_list.append(payload)
+                self.log("Multicast profile '{0}' marked for update.".format(design_name), "DEBUG")
             else:
-                details = self.get_multicast_profile_details(existing["id"])
-                self.log("Details for {0}: {1}".format(design_name, details), "DEBUG")
+                no_update_list.append(details)
+                self.log("Multicast profile '{0}' requires no update.".format(design_name), "DEBUG")
 
-                existing_attrs = details.get("featureAttributes", {})
-                existing_unlocked = details.get("unlockedAttributes", []) or []
-
-                desired_attrs = payload.get("featureAttributes", {})
-                desired_unlocked = payload.get("unlockedAttributes", [])
-
-                if (
-                    existing_attrs.get("globalMulticastEnabled") != desired_attrs.get("globalMulticastEnabled")
-                    or existing_attrs.get("multicastIpv4Mode") != desired_attrs.get("multicastIpv4Mode")
-                    or existing_attrs.get("multicastIpv4Address") != desired_attrs.get("multicastIpv4Address")
-                    or existing_attrs.get("multicastIpv6Mode") != desired_attrs.get("multicastIpv6Mode")
-                    or existing_attrs.get("multicastIpv6Address") != desired_attrs.get("multicastIpv6Address")
-                    or set(existing_unlocked) != set(desired_unlocked)
-                ):
-                    payload["id"] = existing["id"]
-                    update_list.append(payload)
-                    self.log("Multicast profile '{0}' marked for update.".format(design_name), "DEBUG")
-                else:
-                    no_update_list.append(details)
-                    self.log("Multicast profile '{0}' requires no update.".format(design_name), "DEBUG")
-
+        # final summary log and return (ensure return is after loop)
         self.log(
             "Multicast Profiles - Add: {0}, Update: {1}, No Changes: {2}".format(
                 len(add_list), len(update_list), len(no_update_list)
@@ -8798,13 +8869,11 @@ class WirelessDesign(DnacBase):
 
     def get_multicast_profiles(self, design_name=None, template_type="MULTICAST_CONFIGURATION"):
         """
-        Retrieve existing Multicast feature templates from Cisco DNAC.
-
+        Retrieve existing Multicast feature templates from Cisco Catalyst Center.
         Args:
             design_name (str, optional): Specific feature template design name to filter by.
             template_type (str, optional): Feature template type string used by DNAC.
                                         Defaults to "MULTICAST_CONFIGURATION".
-
         Returns:
             list: A list of existing Multicast template dicts (the API 'response' list), or [] on failure.
         """
@@ -8815,11 +8884,10 @@ class WirelessDesign(DnacBase):
             if design_name:
                 params["design_name"] = design_name
 
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_feature_template_summary",
-                op_modifies=False,
-                params=params,
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             existing_multicast = response.get("response", [])
@@ -8835,11 +8903,9 @@ class WirelessDesign(DnacBase):
 
     def get_multicast_profile_details(self, template_id):
         """
-        Retrieve detailed information for a specific Multicast configuration template from Cisco DNAC.
-
+        Retrieve detailed information for a specific Multicast configuration template from Cisco Catalyst Center.
         Args:
             template_id (str): The unique ID of the multicast feature template.
-
         Returns:
             dict: The details of the multicast feature template, or {} if fetch fails.
         """
@@ -8850,11 +8916,10 @@ class WirelessDesign(DnacBase):
                 self.log("No template_id provided for multicast details.", "ERROR")
                 return {}
 
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_multicast_configuration_feature_template",
-                op_modifies=False,
-                params={"id": template_id},
+            response = self.execute_get_request(
+                "wireless",
+                "get_multicast_configuration_feature_template",
+                {"id": template_id}
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
 
@@ -8862,22 +8927,21 @@ class WirelessDesign(DnacBase):
             return details
 
         except Exception as e:
-            self.log("Failed to fetch multicast configuration details: {0}".format(str(e)), "ERROR")
+            self.log("Failed to fetch multicast configuration details for template_id='{0}': {1}".format(template_id, str(e)), "ERROR")
             return {}
 
     def verify_delete_flexconnect_requirement(self, flex_list):
         """
         Build payloads (with id) for FlexConnect templates to delete.
-
         Args:
             flex_list (list): A list of dicts containing the requested FlexConnect
                          configuration parameters for deletion.
                          Example: [{"design_name": "flex_design_1"}]
-
         Returns:
             list: A list of FlexConnect configuration templates scheduled for deletion,including their IDs.
         """
         delete_list = []
+        skipped = []
 
         existing_blocks = self.get_flexconnect_profiles() or []
         instances = []
@@ -8888,6 +8952,7 @@ class WirelessDesign(DnacBase):
         for idx, req in enumerate(flex_list or [], start=1):
             dn = req.get("design_name")
             if not dn:
+                skipped.append(idx)
                 self.log("Iteration {0}: Missing 'design_name' in delete entry. Skipping.".format(idx), "ERROR")
                 continue
             if dn in existing_by_name:
@@ -8899,19 +8964,19 @@ class WirelessDesign(DnacBase):
                 self.log("Iteration {0}: FlexConnect '{1}' not found -> skip".format(idx, dn), "INFO")
 
         self.log("FlexConnect scheduled for delete: {0}".format(delete_list), "DEBUG")
+        if skipped:
+            self.log("FlexConnect entries skipped due to missing design_name: {0}".format(skipped), "WARNING")
         return delete_list
 
     def verify_create_update_flexconnect_requirement(self, flex_list):
         """
         Build payloads to create/update FlexConnect feature templates.
-
         Args:
             flex_list (list): A list of dicts containing desired FlexConnect parameters.
             Each dict should include:
                 - design_name (str): The unique design/profile name
                 - feature_attributes (dict): Configuration attributes
                 - unlocked_attributes (list, optional): Attributes to unlock for editing
-
         Returns:
             tuple: Three lists containing FlexConnect configurations to be created, updated, and not updated:
                 - add_list (list): Payloads for new FlexConnect configurations to create
@@ -8988,10 +9053,8 @@ class WirelessDesign(DnacBase):
     def get_flexconnect_profiles(self, design_name=None, template_type="FLEX_CONFIGURATION"):
         """
         Summary list of FlexConnect templates (uses get_feature_template_summary with type).
-
         Args:
             design_name (str, optional): Optional design_name to filter template_type (str, optional): Template type string (default FLEX_CONFIGURATION)
-
         Returns:
             list: List of FlexConnect template dicts (API 'response' list), or [] on failure
         """
@@ -9000,14 +9063,13 @@ class WirelessDesign(DnacBase):
             params = {"type": template_type}
             if design_name:
                 params["design_name"] = design_name
-            resp = self.dnac._exec(
-                family="wireless",
-                function="get_feature_template_summary",
-                op_modifies=False,
-                params=params,
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
             )
-            self.log("Received API response: {0}".format(resp), "DEBUG")
-            return resp.get("response", []) or []
+            self.log("Received API response: {0}".format(response), "DEBUG")
+            return response.get("response", []) or []
         except Exception as e:
             self.log("Failed to fetch FlexConnect templates: {0}".format(str(e)), "ERROR")
             return []
@@ -9015,10 +9077,8 @@ class WirelessDesign(DnacBase):
     def get_flexconnect_profile_details(self, template_id):
         """
         Details of one FlexConnect template by id.
-
         Args:
             template_id (str): The unique template ID
-
         Returns:
             dict: Dict of FlexConnect template details, or {} if fetch fails
         """
@@ -9027,11 +9087,10 @@ class WirelessDesign(DnacBase):
             if not template_id:
                 self.log("No template_id provided.", "ERROR")
                 return {}
-            resp = self.dnac._exec(
-                family="wireless",
-                function="get_flex_connect_configuration_feature_template",
-                op_modifies=False,
-                params={"id": template_id},
+            resp = self.execute_get_request(
+                "wireless",
+                "get_flex_connect_configuration_feature_template",
+                {"id": template_id}
             )
             self.log("Received API response: {0}".format(resp), "DEBUG")
             return resp.get("response") or {}
@@ -9043,12 +9102,10 @@ class WirelessDesign(DnacBase):
         """
         Determines which dot11be configuration templates need to be deleted
         based on the requested parameters.
-
         Args:
             dot11be_list (list): A list of dicts containing the requested dot11be
                                 configuration parameters for deletion.
                                 Example: [{"design_name": "dot11be_2.4ghz_design"}]
-
         Returns:
             list: A list of dot11be configuration templates scheduled for deletion,
                 including their IDs.
@@ -9059,7 +9116,7 @@ class WirelessDesign(DnacBase):
 
         # Retrieve all existing dot11be configurations
         existing_blocks = self.get_dot11be_profiles()
-        self.log("Existing dot11be Profiles (summary): {0}".format(existing_blocks), "warning")
+        self.log("Existing dot11be Profiles (summary): {0}".format(existing_blocks), "WARNING")
         instances = []
         for block in existing_blocks or []:
             instances.extend(block.get("instances", []) or [])
@@ -9114,14 +9171,12 @@ class WirelessDesign(DnacBase):
     def verify_create_update_dot11be_requirement(self, dot11be_list):
         """
         Compares desired 802.11be profiles against existing ones and determines which need to be created, updated, or left unchanged.
-
         Args:
             dot11be_list (list): A list of dictionaries representing desired 802.11be profiles.
                 Each dictionary should include:
                     - design_name (str): The unique design/profile name.
                     - feature_attributes (dict): The configuration attributes for the profile.
                     - unlocked_attributes (list, optional): List of attribute names to unlock for editing.
-
         Returns:
             tuple: Three lists containing 802.11be configurations to be created, updated, and not updated:
                 - add_list (list): Payloads for new 802.11be configurations to create
@@ -9152,6 +9207,10 @@ class WirelessDesign(DnacBase):
             radio_band = feature_attrs.get("radio_band")
             unlocked_attributes = attr.get("unlocked_attributes", [])
 
+            # Normalize radio_band to uppercase for case-insensitive comparison
+            if radio_band:
+                radio_band = str(radio_band).upper()
+
             # Validate radio_band value
             if radio_band not in allowed_bands:
                 self.msg = ("Invalid radio_band '{0}' for design '{1}'. Must be one of: {2}".format(
@@ -9168,14 +9227,8 @@ class WirelessDesign(DnacBase):
             }
             if unlocked_attributes:
                 # Normalized to camelCase
-                normalized_unlocked = []
-                for u in unlocked_attributes:
-                    if u == "dot11be_status":
-                        normalized_unlocked.append("dot11beStatus")
-                    elif u == "radio_band":
-                        normalized_unlocked.append("radioBand")
-                    else:
-                        normalized_unlocked.append(u)
+                name_map = {"dot11be_status": "dot11beStatus", "radio_band": "radioBand"}
+                normalized_unlocked = [name_map.get(u, u) for u in unlocked_attributes]
                 payload["unlockedAttributes"] = normalized_unlocked
 
             # Check against existing
@@ -9208,13 +9261,6 @@ class WirelessDesign(DnacBase):
 
         self.log(
             "802.11be Profiles - Add: {0}, Update: {1}, No Changes: {2}".format(
-                add_list, update_list, no_update_list
-            ),
-            "DEBUG"
-        )
-
-        self.log(
-            "802.11be Profiles - Add: {0}, Update: {1}, No Changes: {2}".format(
                 len(add_list), len(update_list), len(no_update_list)
             ),
             "DEBUG"
@@ -9224,13 +9270,11 @@ class WirelessDesign(DnacBase):
 
     def get_dot11be_profiles(self, design_name=None, template_type="DOT11BE_STATUS_CONFIGURATION"):
         """
-        Retrieve existing 802.11be feature templates from Cisco DNAC.
-
+        Retrieve existing 802.11be feature templates from Cisco Catalyst Center.
         Args:
             design_name (str, optional): Specific feature template design name to filter by.
             template_type (str, optional): Feature template type string used by DNAC.
                                         Defaults to "DOT11BE_STATUS_CONFIGURATION".
-
         Returns:
             list: A list of existing 802.11be template dicts (the API 'response' list), or [] on failure.
         """
@@ -9241,11 +9285,10 @@ class WirelessDesign(DnacBase):
             if design_name:
                 params["design_name"] = design_name
 
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_feature_template_summary",
-                op_modifies=False,
-                params=params,
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             existing_dot11be = response.get("response", [])
@@ -9261,11 +9304,9 @@ class WirelessDesign(DnacBase):
 
     def get_dot11be_profile_details(self, template_id):
         """
-        Retrieve detailed information for a specific 802.11be configuration template from Cisco DNAC.
-
+        Retrieve detailed information for a specific 802.11be configuration template from Cisco Catalyst Center.
         Args:
             template_id (str): The unique ID of the 802.11be feature template.
-
         Returns:
             dict: The details of the 802.11be feature template, or {} if fetch fails.
         """
@@ -9276,11 +9317,10 @@ class WirelessDesign(DnacBase):
                 self.log("No template_id provided for 802.11be details.", "ERROR")
                 return {}
 
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_dot11be_status_configuration_feature_template",
-                op_modifies=False,
-                params={"id": template_id},
+            response = self.execute_get_request(
+                "wireless",
+                "get_dot11be_status_configuration_feature_template",
+                {"id": template_id}
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
 
@@ -9295,15 +9335,12 @@ class WirelessDesign(DnacBase):
         """
         Compares desired Event Driven RRM profiles against existing ones and determines
         which need to be created, updated, or left unchanged.
-
         Args:
             event_rrm_list (list): A list of dictionaries representing desired Event Driven RRM profiles.
                 Each dictionary should include:
                     - design_name (str): The unique design/profile name.
                     - feature_attributes (dict): The configuration attributes for the profile.
                     - unlocked_attributes (list, optional): List of attribute names to unlock for editing.
-
-
         Returns:
             tuple: Three lists containing Event Driven RRM configurations to be created, updated, and not updated:
                 - add_list (list): Payloads for new Event Driven RRM configurations to create
@@ -9331,9 +9368,9 @@ class WirelessDesign(DnacBase):
         for attr in event_rrm_list or []:
             design_name = attr.get("design_name")
             fa = attr.get("feature_attributes") or {}
-            radio_band = fa.get("radio_band")
+            radio_band = fa.get("radio_band").upper() if fa.get("radio_band") else None
             rrm_enable = fa.get("event_driven_rrm_enable")
-            rrm_level = fa.get("event_driven_rrm_threshold_level")
+            rrm_level = fa.get("event_driven_rrm_threshold_level").upper() if fa.get("event_driven_rrm_threshold_level") else None
             rrm_custom = fa.get("event_driven_rrm_custom_threshold_val")
             unlocked_attributes = attr.get("unlocked_attributes", [])
 
@@ -9393,6 +9430,12 @@ class WirelessDesign(DnacBase):
                     "event_driven_rrm_custom_threshold_val": "eventDrivenRrmCustomThresholdVal",
                 }
                 normalized_unlocked = [name_map.get(u, u) for u in unlocked_attributes]
+                self.log(
+                    "Normalized unlocked attributes for '{0}': {1} -> {2}".format(
+                        design_name, unlocked_attributes, normalized_unlocked
+                    ),
+                    "DEBUG"
+                )
                 payload["unlockedAttributes"] = normalized_unlocked
 
             # ---- Compare with existing ----
@@ -9445,11 +9488,9 @@ class WirelessDesign(DnacBase):
 
     def get_event_rrm_profile_details(self, template_id):
         """
-        Retrieve detailed information for a specific Event Driven RRM configuration template from Cisco DNAC.
-
+        Retrieve detailed information for a specific Event Driven RRM configuration template from Cisco Catalyst Center.
         Args:
             template_id (str): The unique ID of the Event Driven RRM feature template.
-
         Returns:
             dict: The details of the Event Driven RRM feature template, or {} if fetch fails.
         """
@@ -9460,11 +9501,10 @@ class WirelessDesign(DnacBase):
                 self.log("No template_id provided for Event Driven RRM details.", "ERROR")
                 return {}
 
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_event_driven_r_r_m_configuration_feature_template",
-                op_modifies=False,
-                params={"id": template_id},
+            response = self.execute_get_request(
+                "wireless",
+                "get_event_driven_r_r_m_configuration_feature_template",
+                {"id": template_id}
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
 
@@ -9477,13 +9517,11 @@ class WirelessDesign(DnacBase):
 
     def get_event_rrm_profiles(self, design_name=None, template_type="EVENT_DRIVEN_RRM_CONFIGURATION"):
         """
-        Retrieve existing Event Driven RRM feature templates (summary) from Cisco DNAC.
-
+        Retrieve existing Event Driven RRM feature templates (summary) from Cisco Catalyst Center.
         Args:
             design_name (str, optional): Specific feature template design name to filter by.
             template_type (str, optional): Feature template type string used by DNAC.
                                         Defaults to "EVENT_DRIVEN_RRM_CONFIGURATION".
-
         Returns:
             list: A list of existing Event Driven RRM template dicts (summary, not full details),
                 or [] on failure.
@@ -9495,11 +9533,10 @@ class WirelessDesign(DnacBase):
             if design_name:
                 params["design_name"] = design_name
 
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_feature_template_summary",
-                op_modifies=False,
-                params=params,
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
 
@@ -9518,12 +9555,10 @@ class WirelessDesign(DnacBase):
         """
         Determines which Event-Driven RRM configuration templates need to be deleted
         based on the requested parameters.
-
         Args:
             event_rrm_list (list): A list of dicts containing the requested Event-Driven RRM
                                 configuration parameters for deletion.
                                 Example: [{"design_name": "edrrm_2_4ghz_design"}]
-
         Returns:
             list: A list of Event-Driven RRM configuration templates scheduled for deletion,
                 including their IDs.
@@ -9586,12 +9621,10 @@ class WirelessDesign(DnacBase):
         """
         Determines which dot11ax configuration templates need to be deleted
         based on the requested parameters.
-
         Args:
             dot11ax_list (list): A list of dicts containing the requested dot11ax
                                 configuration parameters for deletion.
                                 Example: [{"design_name": "dot11ax_24ghz_design"}]
-
         Returns:
             list: A list of dot11ax configuration templates scheduled for deletion,
                 including their IDs.
@@ -9654,14 +9687,12 @@ class WirelessDesign(DnacBase):
         """
         Compare requested dot11ax profiles against existing templates and determine
         which should be added, updated, or left unchanged.
-
         Args:
             dot11ax_list (list): A list of dictionaries representing desired 802.11ax profiles.
                 Each dictionary should include:
                     - design_name (str): The unique design/profile name.
                     - feature_attributes (dict): The configuration attributes for the profile.
                     - unlocked_attributes (list): List of attribute names to unlock for editing.
-
         Returns:
             tuple: Three lists containing 802.11ax configurations to be created, updated, and not updated:
                 - add_list (list): Payloads for new 802.11ax configurations to create
@@ -9681,7 +9712,7 @@ class WirelessDesign(DnacBase):
             "bss_color": "bssColor",
             "target_waketime_broadcast": "targetWaketimeBroadcast",
             "non_srg_obss_pd_max_threshold": "nonSRGObssPdMaxThreshold",
-            "target_wake_up_time_11ax": "targetWakeUpTime11ax",
+            "target_wakeup_time_11ax": "targetWakeUpTime11ax",
             "obss_pd": "obssPd",
             "multiple_bssid": "multipleBssid",
         }
@@ -9744,8 +9775,8 @@ class WirelessDesign(DnacBase):
             if dropped_unlocked or unmapped_unlocked:
                 # warn user / playbook author that some unlocked attrs were invalid and dropped
                 self.log(
-                    "Some unlockedAttributes were invalid and removed for '{0}': dropped={1}, unmapped={2}".format(
-                        design_name, dropped_unlocked, unmapped_unlocked
+                    "[{0}] Some unlockedAttributes were invalid and removed: dropped={1} ({2}), unmapped={3} ({4})".format(
+                        design_name, len(dropped_unlocked), dropped_unlocked, len(unmapped_unlocked), unmapped_unlocked
                     ),
                     "WARNING",
                 )
@@ -9852,11 +9883,9 @@ class WirelessDesign(DnacBase):
 
     def get_dot11ax_details(self, template_id):
         """
-        Retrieve detailed information for a specific dot11ax configuration template from Cisco DNAC.
-
+        Retrieve detailed information for a specific dot11ax configuration template from Cisco Catalyst Center.
         Args:
             template_id (str): The unique ID of the dot11ax feature template.
-
         Returns:
             dict: The details of the dot11ax feature template, or {} if fetch fails.
         """
@@ -9867,12 +9896,12 @@ class WirelessDesign(DnacBase):
                 self.log("No template_id provided for dot11ax details.", "ERROR")
                 return {}
 
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_dot11ax_configuration_feature_template",
-                op_modifies=False,
-                params={"id": template_id},
+            response = self.execute_get_request(
+                "wireless",
+                "get_dot11ax_configuration_feature_template",
+                {"id": template_id}
             )
+
             self.log("Received API response: {0}".format(response), "DEBUG")
 
             details = response.get("response") or {}
@@ -9884,11 +9913,9 @@ class WirelessDesign(DnacBase):
 
     def get_dot11ax_templates(self, design_name=None, template_type="DOT11AX_CONFIGURATION"):
         """
-        Retrieve detailed information for a specific dot11ax configuration template from Cisco DNAC.
-
+        Retrieve detailed information for a specific dot11ax configuration template from Cisco Catalyst Center.
         Args:
             template_id (str): The unique ID of the dot11ax feature template.
-
         Returns:
             dict: The details of the dot11ax feature template, or {} if fetch fails.
         """
@@ -9899,11 +9926,10 @@ class WirelessDesign(DnacBase):
             if design_name:
                 params["design_name"] = design_name
 
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_feature_template_summary",
-                op_modifies=False,
-                params=params,
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             existing_dot11ax = response.get("response", [])
@@ -9920,11 +9946,9 @@ class WirelessDesign(DnacBase):
     def verify_delete_clean_air_requirement(self, clean_air_list):
         """
         Determines which CleanAir profiles need to be deleted based on the requested parameters.
-
         Args:
             clean_air_list (list): A list of dicts containing the requested CleanAir parameters for deletion.
                                 Example: [{"design_name": "sample_cleanair_design_24ghz"}]
-
         Returns:
             list: A list of CleanAir entries to delete. Each entry is the original requested dict
                 with an added "id" key (the controller template id) when a match is found.
@@ -9984,14 +10008,182 @@ class WirelessDesign(DnacBase):
 
         return delete_clean_air_list
 
+    def _normalize_clean_air_payload(self, requested_entry, key_name_map, snake_to_camel):
+        """
+        Normalize a requested CleanAir entry into controller payload format.
+        Args:
+            requested_entry (dict): Raw playbook entry with snake_case keys
+            key_name_map (dict): Mapping from snake_case to camelCase
+            snake_to_camel (callable): Function to convert snake_case to camelCase
+        Returns:
+            dict: Normalized payload with camelCase keys
+        """
+        design_name = requested_entry.get("design_name")
+        radio_band = requested_entry.get("radio_band")
+        requested_features_raw = requested_entry.get("feature_attributes") or {}
+        requested_unlocked = requested_entry.get("unlocked_attributes")
+        requested_unlocked = [] if requested_unlocked is None else requested_unlocked
+
+        # Build normalized features (convert top-level keys)
+        normalized_features = {}
+        for raw_k, raw_v in requested_features_raw.items():
+            if raw_k == "interferers_features" and isinstance(raw_v, dict):
+                # nested interferersFeatures: normalize inner keys
+                interferers = {}
+                for ik, iv in raw_v.items():
+                    inner_key = key_name_map.get(ik, ik)
+                    interferers[inner_key] = iv
+                normalized_features["interferersFeatures"] = interferers
+            else:
+                mapped_key = key_name_map.get(raw_k, snake_to_camel(raw_k))
+                normalized_features[mapped_key] = raw_v
+
+        payload = {"designName": design_name, "radioBand": radio_band, "featureAttributes": normalized_features}
+
+        if requested_unlocked:
+            # transform unlocked dot-notation to controller-style
+            normalized_unlocked = []
+            for u in requested_unlocked:
+                if "." in u:
+                    left, right = u.split(".", 1)
+                    left_mapped = key_name_map.get(left, snake_to_camel(left))
+                    normalized_unlocked.append(left_mapped + "." + right)
+                else:
+                    normalized_unlocked.append(key_name_map.get(u, snake_to_camel(u)))
+            payload["unlockedAttributes"] = normalized_unlocked
+
+        return payload
+
+    def _compare_nested_interferers(self, key, normalized_features, existing_features, boolean_defaults, to_bool_if_str, reg_diff_fn):
+        """
+        Compare interferersFeatures nested attributes for CleanAir profiles.
+        Args:
+            key (str): Field key, potentially with dot notation (e.g., "interferersFeatures.ble_beacon")
+            normalized_features (dict): Requested features
+            existing_features (dict): Existing features from controller
+            boolean_defaults (dict): Default values for missing fields
+            to_bool_if_str (callable): Function to coerce string bools to bool
+            reg_diff_fn (callable): Function to register differences
+        Returns:
+            bool: True if update is needed, False otherwise
+        """
+        needs_update = False
+
+        if "." in key:
+            # Single nested field check (e.g., "interferersFeatures.ble_beacon")
+            outer, inner = key.split(".", 1)
+            req_map = normalized_features.get("interferersFeatures", {})
+            req_val = req_map.get(inner)
+            exist_map = existing_features.get("interferersFeatures", {}) or {}
+            exist_val = exist_map.get(inner)
+
+            # coerce bool-like strings
+            req_val = to_bool_if_str(req_val)
+            if exist_val is None and isinstance(req_val, bool):
+                exist_val = (
+                    boolean_defaults.get("interferersFeatures", {}).get(inner)
+                    if isinstance(boolean_defaults.get("interferersFeatures"), dict)
+                    else False
+                )
+            if isinstance(exist_val, str) and exist_val.lower() in ("true", "false"):
+                exist_val = exist_val.lower() == "true"
+
+            if exist_val != req_val:
+                reg_diff_fn("interferersFeatures." + inner, exist_val, req_val)
+                needs_update = True
+        else:
+            # Compare entire interferersFeatures map
+            req_map = normalized_features.get("interferersFeatures", {}) or {}
+            exist_map = existing_features.get("interferersFeatures", {}) or {}
+
+            for inner_key in set(list(req_map.keys()) + list(exist_map.keys())):
+                req_val = to_bool_if_str(req_map.get(inner_key))
+                exist_val = exist_map.get(inner_key)
+
+                if exist_val is None and isinstance(req_val, bool):
+                    exist_val = (
+                        boolean_defaults.get("interferersFeatures", {}).get(inner_key)
+                        if isinstance(boolean_defaults.get("interferersFeatures"), dict)
+                        else False
+                    )
+                if isinstance(exist_val, str) and exist_val.lower() in ("true", "false"):
+                    exist_val = exist_val.lower() == "true"
+
+                if exist_val != req_val:
+                    reg_diff_fn("interferersFeatures." + inner_key, exist_val, req_val)
+                    needs_update = True
+
+        return needs_update
+
+    def _compare_clean_air_fields(self, key, normalized_features, existing_features, boolean_defaults, to_bool_if_str, reg_diff_fn):
+        """
+        Compare non-nested CleanAir field values.
+        Args:
+            key (str): Field key to compare
+            normalized_features (dict): Requested features
+            existing_features (dict): Existing features from controller
+            boolean_defaults (dict): Default values for missing fields
+            to_bool_if_str (callable): Function to coerce string bools to bool
+            reg_diff_fn (callable): Function to register differences
+        Returns:
+            bool: True if update is needed, False otherwise
+        """
+        needs_update = False
+        req_value = normalized_features.get(key)
+        exist_value = existing_features.get(key)
+
+        # coerce boolean-like strings
+        req_value = to_bool_if_str(req_value)
+
+        # consult boolean_defaults for missing exist_value
+        if exist_value is None:
+            if key in boolean_defaults:
+                exist_value = boolean_defaults[key]
+            elif isinstance(req_value, bool):
+                exist_value = False  # safe fallback
+
+        if isinstance(exist_value, str) and exist_value.lower() in ("true", "false"):
+            exist_value = exist_value.lower() == "true"
+
+        # type-specific comparison
+        lower_key = key.lower()
+        if lower_key in ("description",):
+            # string compare
+            if exist_value != req_value:
+                reg_diff_fn(key, exist_value, req_value)
+                needs_update = True
+        elif isinstance(req_value, bool) or isinstance(exist_value, bool):
+            # boolean compare
+            if bool(exist_value) != bool(req_value):
+                reg_diff_fn(key, exist_value, req_value)
+                needs_update = True
+        elif isinstance(req_value, (int, float)) or isinstance(exist_value, (int, float)):
+            # numeric tolerant compare
+            try:
+                evn = int(exist_value) if exist_value is not None else None
+            except Exception:
+                evn = exist_value
+            try:
+                rvn = int(req_value) if req_value is not None else None
+            except Exception:
+                rvn = req_value
+            if evn != rvn:
+                reg_diff_fn(key, evn, rvn)
+                needs_update = True
+        else:
+            # default equality
+            if exist_value != req_value:
+                reg_diff_fn(key, exist_value, req_value)
+                needs_update = True
+
+        return needs_update
+
     def verify_create_update_clean_air_requirement(self, clean_air_list, field_to_check=None):
         """
         Determine which CleanAir profiles to add, update, or leave unchanged.
-
         Args:
             clean_air_list (list): list of requested clean-air dicts from the playbook
             field_to_check (str|None): optional single-field to check (snake_case or camelCase, supports dot notation)
-
         Returns:
             tuple: (add_list, update_list, no_update_list)
         Side effect:
@@ -10075,40 +10267,9 @@ class WirelessDesign(DnacBase):
         # Iterate requested profiles
         for requested_entry in clean_air_list or []:
             design_name = requested_entry.get("design_name")
-            radio_band = requested_entry.get("radio_band")
-            requested_features_raw = requested_entry.get("feature_attributes") or {}
-            requested_unlocked = requested_entry.get("unlocked_attributes")
-            requested_unlocked = [] if requested_unlocked is None else requested_unlocked
 
-            # Build normalized request payload (convert top-level keys)
-            normalized_features = {}
-            # handle simple keys
-            for raw_k, raw_v in requested_features_raw.items():
-                if raw_k == "interferers_features" and isinstance(raw_v, dict):
-                    # nested interferersFeatures: normalize inner keys optionally
-                    interferers = {}
-                    for ik, iv in raw_v.items():
-                        # keep inner keys as-is (snake) unless you want camel conversion
-                        # you can map inner keys via key_name_map if needed
-                        inner_key = key_name_map.get(ik, ik)
-                        interferers[inner_key] = iv
-                    normalized_features["interferersFeatures"] = interferers
-                else:
-                    mapped_key = key_name_map.get(raw_k, snake_to_camel(raw_k))
-                    normalized_features[mapped_key] = raw_v
-
-            payload = {"designName": design_name, "radioBand": radio_band, "featureAttributes": normalized_features}
-            if requested_unlocked:
-                # transform unlocked dot-notation to controller-style left-hand mapping
-                normalized_unlocked = []
-                for u in requested_unlocked:
-                    if "." in u:
-                        left, right = u.split(".", 1)
-                        left_mapped = key_name_map.get(left, snake_to_camel(left))
-                        normalized_unlocked.append(left_mapped + "." + right)
-                    else:
-                        normalized_unlocked.append(key_name_map.get(u, snake_to_camel(u)))
-                payload["unlockedAttributes"] = normalized_unlocked
+            # Normalize payload using helper
+            payload = self._normalize_clean_air_payload(requested_entry, key_name_map, snake_to_camel)
 
             # check existing
             existing_entry = existing_by_design.get(design_name)
@@ -10117,7 +10278,7 @@ class WirelessDesign(DnacBase):
                 self.log("CleanAir design '{0}' not found -> ADD".format(design_name), "INFO")
                 continue
 
-            # fetch full existing details (adjust getter function name if needed)
+            # fetch full existing details
             existing_details = self.get_clean_air_details(existing_entry["id"]) or {}
             self.log("Existing clean-air details for {0}: {1}".format(design_name, existing_details), "DEBUG")
             existing_features = existing_details.get("featureAttributes", {}) or {}
@@ -10131,112 +10292,23 @@ class WirelessDesign(DnacBase):
                 per_design_diffs.append((k, ev, rv))
 
             # Determine keys to compare
+            normalized_features = payload.get("featureAttributes", {})
             if field_check_key is None:
                 keys_to_check = list(normalized_features.keys())
-                # ensure we compare nested interferers keys if present
-                if "interferersFeatures" in normalized_features:
-                    # we'll handle nested comparison below
-                    pass
             else:
-                # if it's nested like interferersFeatures.ble_beacon
-                if "." in field_check_key:
-                    keys_to_check = [field_check_key]
-                else:
-                    keys_to_check = [field_check_key]
+                keys_to_check = [field_check_key]
 
             # Compare keys
             for key in keys_to_check:
-                # nested interferersFeatures handling
                 if key.startswith("interferersFeatures"):
-                    # if single-field check might be "interferersFeatures.ble_beacon"
-                    if "." in key:
-                        outer, inner = key.split(".", 1)
-                        req_map = normalized_features.get("interferersFeatures", {})
-                        req_val = req_map.get(inner)
-                        exist_map = existing_features.get("interferersFeatures", {}) or {}
-                        exist_val = exist_map.get(inner)
-                        # coerce bool-like strings
-                        req_val = to_bool_if_str(req_val)
-                        if exist_val is None and isinstance(req_val, bool):
-                            # fallback default
-                            exist_val = (
-                                boolean_defaults.get("interferersFeatures", {}).get(inner)
-                                if isinstance(boolean_defaults.get("interferersFeatures"), dict)
-                                else False
-                            )
-                        if isinstance(exist_val, str) and exist_val.lower() in ("true", "false"):
-                            exist_val = exist_val.lower() == "true"
-                        if exist_val != req_val:
-                            _reg_diff("interferersFeatures." + inner, exist_val, req_val)
-                            needs_update = True
-                    else:
-                        # compare entire interferersFeatures map shallowly: any inner mismatch triggers diff entries
-                        req_map = normalized_features.get("interferersFeatures", {}) or {}
-                        exist_map = existing_features.get("interferersFeatures", {}) or {}
-                        # check union of inner keys
-                        for inner_key in set(list(req_map.keys()) + list(exist_map.keys())):
-                            req_val = to_bool_if_str(req_map.get(inner_key))
-                            exist_val = exist_map.get(inner_key)
-                            if exist_val is None and isinstance(req_val, bool):
-                                exist_val = (
-                                    boolean_defaults.get("interferersFeatures", {}).get(inner_key)
-                                    if isinstance(boolean_defaults.get("interferersFeatures"), dict)
-                                    else False
-                                )
-                            if isinstance(exist_val, str) and exist_val.lower() in ("true", "false"):
-                                exist_val = exist_val.lower() == "true"
-                            if exist_val != req_val:
-                                _reg_diff("interferersFeatures." + inner_key, exist_val, req_val)
-                                needs_update = True
-                    # continue to next key
-                    continue
-
-                # non-nested key comparison
-                req_value = normalized_features.get(key)
-                exist_value = existing_features.get(key)
-
-                # coerce boolean-like strings
-                req_value = to_bool_if_str(req_value)
-
-                # consult boolean_defaults for missing exist_value (controller omitted)
-                if exist_value is None:
-                    if key in boolean_defaults:
-                        exist_value = boolean_defaults[key]
-                    elif isinstance(req_value, bool):
-                        exist_value = False  # safe fallback
-
-                if isinstance(exist_value, str) and exist_value.lower() in ("true", "false"):
-                    exist_value = exist_value.lower() == "true"
-
-                # numeric-ish checks
-                lower_key = key.lower()
-                if lower_key in ("description",):
-                    # string compare
-                    if exist_value != req_value:
-                        _reg_diff(key, exist_value, req_value)
-                        needs_update = True
-                elif isinstance(req_value, bool) or isinstance(exist_value, bool):
-                    # boolean compare
-                    if bool(exist_value) != bool(req_value):
-                        _reg_diff(key, exist_value, req_value)
-                        needs_update = True
-                elif isinstance(req_value, (int, float)) or isinstance(exist_value, (int, float)):
-                    # numeric tolerant compare
-                    try:
-                        evn = int(exist_value) if exist_value is not None else None
-                    except Exception:
-                        evn = exist_value
-                    try:
-                        rvn = int(req_value) if req_value is not None else None
-                    except Exception:
-                        rvn = req_value
-                    if evn != rvn:
-                        _reg_diff(key, evn, rvn)
+                    # Use helper for nested interferers comparison
+                    if self._compare_nested_interferers(key, normalized_features, existing_features,
+                                                        boolean_defaults, to_bool_if_str, _reg_diff):
                         needs_update = True
                 else:
-                    # default equality
-                    if exist_value != req_value:
-                        _reg_diff(key, exist_value, req_value)
+                    # Use helper for non-nested field comparison
+                    if self._compare_clean_air_fields(key, normalized_features, existing_features,
+                                                      boolean_defaults, to_bool_if_str, _reg_diff):
                         needs_update = True
 
             # unlocked attributes diff
@@ -10255,7 +10327,7 @@ class WirelessDesign(DnacBase):
                 no_update_list.append(existing_details)
                 self.log("CleanAir design '{0}' requires NO UPDATE".format(design_name), "INFO")
 
-        # attach diffs to self for inspection (no change to return signature)
+        # attach diffs to self for inspection
         self.clean_air_update_diffs = clean_air_update_diffs
         self.log("Collected CleanAir diffs: {0}".format(clean_air_update_diffs), "DEBUG")
         self.log("ADD: {0}, UPDATE: {1}, NO-CHANGE: {2}".format(len(add_list), len(update_list), len(no_update_list)), "DEBUG")
@@ -10264,11 +10336,9 @@ class WirelessDesign(DnacBase):
     def verify_delete_advanced_ssid_requirement(self, adv_ssid_list):
         """
         Determines which Advanced SSIDs need to be deleted based on the requested parameters.
-
         Args:
             adv_ssid_list (list): A list of dicts containing the requested Advanced SSID parameters for deletion.
                                 Example: [{"design_name": "Corporate_WLAN_Design"}]
-
         Returns:
             list: A list of Advanced SSID entries to delete. Each entry is the original requested dict
                 with an added "id" key (the controller template id) when a match is found.
@@ -10331,12 +10401,9 @@ class WirelessDesign(DnacBase):
     def verify_create_update_advanced_ssid_requirement(self, adv_ssid_list, field_to_check=None):
         """
         Determine which Advanced SSIDs to add, update, or leave unchanged.
-
         This function compares requested Advanced SSID configurations against existing ones
         and categorizes them based on whether they need to be created, updated, or left unchanged.
         It supports both full configuration comparison and single-field checking.
-
-
         Args:
             adv_ssid_list (list): A list of dictionaries representing the Advanced SSIDs to verify.
                 Each dictionary should contain:
@@ -10680,12 +10747,10 @@ class WirelessDesign(DnacBase):
 
     def get_clean_air_templates(self, design_name=None, template_type="CLEANAIR_CONFIGURATION"):
         """
-        Retrieve existing CleanAir feature templates from Cisco DNAC.
-
+        Retrieve existing CleanAir feature templates from Cisco Catalyst Center.
         Args:
             design_name (str, optional): Specific feature template design name to filter by.
             template_type (str, optional): Feature template type string used by DNAC. Defaults to "CLEAN_AIR_CONFIGURATION".
-
         Returns:
             list: A list of existing CleanAir template dicts (the API 'response' list), or [] on failure.
         """
@@ -10696,11 +10761,10 @@ class WirelessDesign(DnacBase):
             if design_name:
                 params["design_name"] = design_name
 
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_feature_template_summary",
-                op_modifies=False,
-                params=params,
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             existing_clean_air = response.get("response", [])
@@ -10717,10 +10781,8 @@ class WirelessDesign(DnacBase):
     def get_clean_air_details(self, template_id):
         """
         Retrieve full details for a specific CleanAir feature template.
-
         Args:
             template_id (str): The feature template ID to fetch.
-
         Returns:
             dict: The template details (API 'response' object) or {} on failure.
         """
@@ -10731,11 +10793,10 @@ class WirelessDesign(DnacBase):
             return {}
 
         try:
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_clean_air_configuration_feature_template",
-                op_modifies=False,
-                params={"id": template_id},
+            response = self.execute_get_request(
+                "wireless",
+                "get_clean_air_configuration_feature_template",
+                {"id": template_id}
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             details = response.get("response", {}) or {}
@@ -10748,27 +10809,23 @@ class WirelessDesign(DnacBase):
 
     def get_advanced_ssid_details(self, ssid_id):
         """
-        Retrieve detailed information for a specific Advanced SSID configuration template from Cisco DNAC.
-
+        Retrieve detailed information for a specific Advanced SSID configuration template from Cisco Catalyst Center.
         Args:
             ssid_id (str): The unique ID of the Advanced SSID feature template.
-
         Returns:
             dict: The details of the Advanced SSID feature template, or {} if fetch fails.
         """
         self.log("Fetching existing Advanced SSID Templates from DNAC.", "DEBUG")
         try:
-            # Prepare API parameters
             params = {}
             if ssid_id:
                 params["id"] = ssid_id
 
             # Execute API call to DNA Center
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_advanced_ssid_configuration_feature_template",
-                op_modifies=False,
-                params=params,
+            response = self.execute_get_request(
+                "wireless",
+                "get_advanced_ssid_configuration_feature_template",
+                params
             )
 
             # Log raw response for debugging
@@ -10789,11 +10846,9 @@ class WirelessDesign(DnacBase):
 
     def get_advanced_ssid_templates(self, design_name=None):
         """
-        Retrieve existing Advanced SSID feature templates from Cisco DNAC.
-
+        Retrieve existing Advanced SSID feature templates from Cisco Catalyst Center.
         Args:
             design_name (str, optional): Specific feature template design name to filter by.
-
         Returns:
             list: A list of existing Advanced SSID template dicts.
         """
@@ -10805,11 +10860,10 @@ class WirelessDesign(DnacBase):
             if design_name:
                 params["design_name"] = design_name
 
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_feature_template_summary",
-                op_modifies=False,
-                params=params,
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             existing_ssids = response.get("response", [])
@@ -10828,7 +10882,6 @@ class WirelessDesign(DnacBase):
     def verify_delete_aaa_radius_attributes_requirement(self, aaa_attr_list):
         """
         Determines whether AAA Radius Attributes need to be deleted based on the requested parameters.
-
         Args:
             aaa_attr_list (list): A list of dictionaries containing the requested AAA Radius Attribute parameters for deletion.
                                 Example: [{"design_name": "AAA_Radius_Template_01"}]
@@ -10895,20 +10948,17 @@ class WirelessDesign(DnacBase):
         """
         Compares desired AAA Radius Attributes against existing ones and determines
         which need to be created, updated, or left unchanged.
-
         Args:
             aaa_attr_list (list): A list of dictionaries containing the requested AAA Radius Attribute parameters.
                 Each dictionary should contain:
                     - design_name (str): The unique design/profile name
                     - called_station_id (str): The called station ID value
                     - unlocked_attributes (bool, optional): Whether to unlock the calledStationId attribute
-
         Returns:
             tuple: Three lists containing AAA Radius Attribute configurations:
                 - add_attrs (list): Payloads for new AAA Radius Attribute configurations to create
                 - update_attrs (list): Payloads for existing AAA Radius Attribute configurations to update (includes "id" field)
                 - no_update_attrs (list): Existing AAA Radius Attribute configurations that require no changes
-
         Note:
             This function ONLY builds and returns payloads. It does NOT call create/update APIs — execution should happen elsewhere.
         """
@@ -10985,11 +11035,9 @@ class WirelessDesign(DnacBase):
 
     def get_aaa_radius_attribute_details(self, template_id):
         """
-        Fetch detailed AAA Radius Attribute template by ID from Cisco DNAC.
-
+        Fetch detailed AAA Radius Attribute template by ID from Cisco Catalyst Center.
         Args:
             template_id (str): The unique ID of the feature template.
-
         Returns:
             dict: Detailed AAA Radius Attribute template (with featureAttributes, unlockedAttributes).
         """
@@ -10999,11 +11047,10 @@ class WirelessDesign(DnacBase):
         )
         self.template_id = template_id
         try:
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_aaa_radius_attributes_configuration_feature_template",
-                op_modifies=False,
-                params={"id": template_id},
+            response = self.execute_get_request(
+                "wireless",
+                "get_aaa_radius_attributes_configuration_feature_template",
+                {"id": template_id}
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             details = response.get("response", {})
@@ -11026,11 +11073,9 @@ class WirelessDesign(DnacBase):
 
     def get_aaa_radius_attributes(self, design_name=None):
         """
-        Retrieve existing AAA Radius Attributes from Cisco DNAC.
-
+        Retrieve existing AAA Radius Attributes from Cisco Catalyst Center.
         Args:
             design_name (str, optional): Specific feature template design name to filter by.
-
         Returns:
             list: A list of existing AAA Radius Attribute dicts (the API 'response' list), or [] on failure.
         """
@@ -11041,11 +11086,10 @@ class WirelessDesign(DnacBase):
             if design_name:
                 params["design_name"] = design_name
 
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_feature_template_summary",
-                op_modifies=False,
-                params=params,
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             existing_attrs = response.get("response", [])
@@ -11063,8 +11107,7 @@ class WirelessDesign(DnacBase):
 
     def process_add_rrm_general(self, params):
         """
-        Handles the creation of RRM General configurations in Cisco DNAC.
-
+        Handles the creation of RRM General configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of RRM General payloads to create. Each payload should include:
                         {
@@ -11072,7 +11115,6 @@ class WirelessDesign(DnacBase):
                             "featureAttributes": { ... },
                             ["unlockedAttributes": [...]]
                         }
-
         Returns:
             self (with self.msg and self.status set)
         """
@@ -11124,8 +11166,7 @@ class WirelessDesign(DnacBase):
 
     def process_update_rrm_general(self, params):
         """
-        Handles the update of RRM General configurations in Cisco DNAC.
-
+        Handles the update of RRM General configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of RRM General payloads to update. Each payload must include:
                         {
@@ -11134,7 +11175,6 @@ class WirelessDesign(DnacBase):
                             "featureAttributes": { ... },
                             ["unlockedAttributes": [...]]
                         }
-
         Returns:
             self (with self.msg and self.status set)
         """
@@ -11197,12 +11237,10 @@ class WirelessDesign(DnacBase):
 
     def process_add_rrm_fra(self, params):
         """
-        Handles the creation of RRM-FRA configurations in Cisco DNAC.
-
+        Handles the creation of RRM-FRA configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of RRM-FRA payloads to create. Each payload should
                         include at least 'designName' and 'featureAttributes'.
-
         Returns:
             self (with self.msg and self.status set)
         """
@@ -11253,8 +11291,7 @@ class WirelessDesign(DnacBase):
 
     def process_update_rrm_fra(self, params):
         """
-        Handles the update of RRM-FRA configurations in Cisco DNAC.
-
+        Handles the update of RRM-FRA configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of RRM-FRA payloads to update. Each payload must include 'id',
                         'designName', and 'featureAttributes'.
@@ -11318,12 +11355,10 @@ class WirelessDesign(DnacBase):
 
     def process_add_multicast(self, params):
         """
-        Handles addition of Multicast configurations in Cisco DNAC.
-
+        Handles addition of Multicast configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of multicast payloads to add.
                         Each payload must contain at least 'design_name' and 'feature_attributes'.
-
         Returns:
             self (with self.msg and self.status set)
         """
@@ -11377,12 +11412,10 @@ class WirelessDesign(DnacBase):
 
     def process_update_multicast(self, params):
         """
-        Handles update of Multicast configurations in Cisco DNAC.
-
+        Handles update of Multicast configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of multicast payloads to update.
                         Each payload must contain at least the template 'id' and updated attributes.
-
         Returns:
             self (with self.msg and self.status set)
         """
@@ -11442,12 +11475,10 @@ class WirelessDesign(DnacBase):
 
     def process_delete_multicast(self, params):
         """
-        Handles deletion of Multicast configurations in Cisco DNAC.
-
+        Handles deletion of Multicast configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of multicast payloads to delete.
                         Each payload must contain at least the template 'id'.
-
         Returns:
             self (with self.msg and self.status set)
         """
@@ -11507,12 +11538,10 @@ class WirelessDesign(DnacBase):
 
     def process_add_flexconnect(self, params):
         """
-        Handles the creation of FlexConnect configurations in Cisco DNAC.
-
+        Handles the creation of FlexConnect configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of FlexConnect payloads to create. Each payload should
                         include at least 'designName' and 'featureAttributes'.
-
         Returns:
             self (with self.msg and self.status set)
         """
@@ -11551,12 +11580,10 @@ class WirelessDesign(DnacBase):
 
     def process_update_flexconnect(self, params):
         """
-        Handles the update of FlexConnect configurations in Cisco DNAC.
-
+        Handles the update of FlexConnect configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of FlexConnect payloads to update.
                         Each payload must contain at least the template 'id' and updated attributes.
-
         Returns:
             self (with self.msg and self.status set)
         """
@@ -11600,13 +11627,11 @@ class WirelessDesign(DnacBase):
 
     def process_add_event_driven_rrm(self, params):
         """
-        Handles the creation of Event-Driven RRM configurations in Cisco DNAC.
-
+        Handles the creation of Event-Driven RRM configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of Event-Driven RRM payloads to create.
                         Each payload should include at least 'designName'
                         and 'featureAttributes' as produced by your verifier.
-
         Returns:
             self (with self.msg and self.status set)
         """
@@ -11658,13 +11683,11 @@ class WirelessDesign(DnacBase):
 
     def process_update_event_driven_rrm(self, params):
         """
-        Handles updating of Event-Driven RRM configurations in Cisco DNAC.
-
+        Handles updating of Event-Driven RRM configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of Event-Driven RRM payloads to update.
                         Each payload must include at least 'id', 'designName',
                         and 'featureAttributes' as produced by your verifier.
-
         Returns:
             self (with self.msg and self.status set)
         """
@@ -11726,8 +11749,7 @@ class WirelessDesign(DnacBase):
 
     def process_add_dot11be(self, params):
         """
-        Handles the creation of dot11be configurations in Cisco DNAC.
-
+        Handles the creation of dot11be configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of dot11be payloads to create. Each payload should include at least 'designName'
                         and 'featureAttributes' as produced by your verifier.
@@ -11780,8 +11802,7 @@ class WirelessDesign(DnacBase):
 
     def process_update_dot11be(self, params):
         """
-        Handles the update of dot11be configurations in Cisco DNAC.
-
+        Handles the update of dot11be configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of dot11be payloads to update. Each payload should include at least 'id',
                         'designName', and 'featureAttributes' as produced by your verifier.
@@ -11840,8 +11861,7 @@ class WirelessDesign(DnacBase):
 
     def process_add_dot11ax(self, params):
         """
-        Handles the creation of dot11ax configurations in Cisco DNAC.
-
+        Handles the creation of dot11ax configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of dot11ax payloads to create. Each payload should include at least 'designName'
                         and 'featureAttributes' as produced by your verifier.
@@ -11894,8 +11914,7 @@ class WirelessDesign(DnacBase):
 
     def process_update_dot11ax(self, params):
         """
-        Handles the update of dot11ax configurations in Cisco DNAC.
-
+        Handles the update of dot11ax configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of dot11ax payloads to update. Each payload should include 'id' (existing template id)
                         and may include 'designName' and 'featureAttributes'.
@@ -11957,8 +11976,7 @@ class WirelessDesign(DnacBase):
 
     def process_add_clean_air(self, params):
         """
-        Handles the creation of CleanAir Profiles in Cisco DNAC.
-
+        Handles the creation of CleanAir Profiles in Cisco Catalyst Center.
         Args:
             params (list): A list of CleanAir payloads to create.
 
@@ -12010,8 +12028,7 @@ class WirelessDesign(DnacBase):
 
     def process_update_clean_air(self, params):
         """
-        Handles the update of CleanAir Profiles in Cisco DNAC.
-
+        Handles the update of CleanAir Profiles in Cisco Catalyst Center.
         Args:
             params (list): A list of CleanAir payloads to update. Each must include 'id'.
 
@@ -12064,8 +12081,7 @@ class WirelessDesign(DnacBase):
 
     def process_update_advanced_ssids(self, params):
         """
-        Handles updating Advanced SSIDs in Cisco DNAC.
-
+        Handles updating Advanced SSIDs in Cisco Catalyst Center.
         Args:
             params (list): A list of Advanced SSID payloads to update. Each payload should include 'id' (existing template id).
 
@@ -12127,8 +12143,7 @@ class WirelessDesign(DnacBase):
 
     def process_add_advanced_ssids(self, params):
         """
-        Handles the creation of Advanced SSIDs in Cisco DNAC.
-
+        Handles the creation of Advanced SSIDs in Cisco Catalyst Center.
         Args:
             params (list): A list of Advanced SSID payloads to create (each payload should contain 'designName' and 'featureAttributes', etc.)
 
@@ -12187,8 +12202,7 @@ class WirelessDesign(DnacBase):
 
     def process_add_aaa_radius_attributes(self, params):
         """
-        Handles the creation of AAA Radius Attributes in Cisco DNAC.
-
+        Handles the creation of AAA Radius Attributes in Cisco Catalyst Center.
         Args:
             params (list): A list of AAA Radius Attribute payloads to create.
 
@@ -12246,8 +12260,7 @@ class WirelessDesign(DnacBase):
 
     def process_update_aaa_radius_attributes(self, params):
         """
-        Handles the update of AAA Radius Attributes in Cisco DNAC.
-
+        Handles the update of AAA Radius Attributes in Cisco Catalyst Center.
         Args:
             params (list): A list of AAA Radius Attribute payloads to update.
 
@@ -12303,13 +12316,11 @@ class WirelessDesign(DnacBase):
 
     def process_delete_rrm_general(self, params):
         """
-        Handles deletion of RRM General configurations in Cisco DNAC.
-
+        Handles deletion of RRM General configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of RRM General payloads to delete.
                         Each payload must contain at least the template 'id'
                         and optionally 'design_name' or 'designName'.
-
         Returns:
             self (with self.msg and self.status set)
         """
@@ -12373,13 +12384,11 @@ class WirelessDesign(DnacBase):
 
     def process_delete_rrm_fra(self, params):
         """
-        Handles deletion of RRM-FRA configurations in Cisco DNAC.
-
+        Handles deletion of RRM-FRA configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of RRM-FRA payloads to delete.
                         Each payload must contain at least the template 'id'
                         and optionally 'design_name' or 'designName'.
-
         Returns:
             self (with self.msg and self.status set)
         """
@@ -12481,8 +12490,7 @@ class WirelessDesign(DnacBase):
 
     def process_delete_dot11be(self, params):
         """
-        Handles deletion of dot11be configurations in Cisco DNAC.
-
+        Handles deletion of dot11be configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of dot11be payloads to delete.
                         Each payload must contain at least the template 'id' and optionally 'design_name' or 'designName'.
@@ -12548,8 +12556,7 @@ class WirelessDesign(DnacBase):
 
     def process_delete_dot11ax(self, params):
         """
-        Handles deletion of dot11ax configurations in Cisco DNAC.
-
+        Handles deletion of dot11ax configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of dot11ax payloads to delete.
                         Each payload must contain at least the template 'id' and optionally 'design_name' or 'designName'.
@@ -12615,8 +12622,7 @@ class WirelessDesign(DnacBase):
 
     def process_delete_clean_air(self, params):
         """
-        Handles the deletion of CleanAir profiles in Cisco DNAC.
-
+        Handles the deletion of CleanAir profiles in Cisco Catalyst Center.
         Args:
             params (list): A list of CleanAir payloads to delete.
                         Each payload must contain at least the template 'id' and optionally 'design_name' or 'designName'.
@@ -12682,8 +12688,7 @@ class WirelessDesign(DnacBase):
 
     def process_delete_event_driven_rrm(self, params):
         """
-        Handles deletion of Event-Driven RRM configurations in Cisco DNAC.
-
+        Handles deletion of Event-Driven RRM configurations in Cisco Catalyst Center.
         Args:
             params (list): A list of Event-Driven RRM payloads to delete.
                         Each payload must contain at least the template 'id'
@@ -12752,12 +12757,10 @@ class WirelessDesign(DnacBase):
 
     def process_delete_advanced_ssids(self, params):
         """
-        Handles the deletion of Advanced SSIDs in Cisco DNAC.
-
+        Handles the deletion of Advanced SSIDs in Cisco Catalyst Center.
         Args:
             params (list): A list of Advanced SSID payloads to delete.
                         Each payload must contain at least the template 'id' and optionally 'design_name'.
-
         Returns:
             self (with self.msg and self.status set)
         """
@@ -12821,7 +12824,7 @@ class WirelessDesign(DnacBase):
 
     def process_delete_aaa_radius_attributes(self, params):
         """
-        Handles the deletion of AAA Radius Attributes in Cisco DNAC.
+        Handles the deletion of AAA Radius Attributes in Cisco Catalyst Center.
         Args:
             params (list): A list of AAA Radius Attribute payloads to delete.
 
@@ -23401,7 +23404,6 @@ class WirelessDesign(DnacBase):
     ):
         """
         Processes the anchor groups for the specified operation (create, update, delete).
-
         Args:
             anchor_groups_params (list): A list of dictionaries containing parameters for each anchor group operation.
             create_or_update_or_delete_anchor_groups (function): The function to execute for each anchor group operation.
@@ -24088,8 +24090,8 @@ class WirelessDesign(DnacBase):
                         }
                     )
                 elif state == "deleted":
-                    self.log("Deleting 802.11be configuration for state: {0}".format(state), "warning")
-                    self.log("Dot11be List: {0}".format(dot11be_list), "warning")
+                    self.log("Deleting 802.11be configuration for state: {0}".format(state), "WARNING")
+                    self.log("Dot11be List: {0}".format(dot11be_list), "WARNING")
                     have["delete_dot11be_configuration"] = self.verify_delete_dot11be_requirement(
                         dot11be_list
                     )
