@@ -1041,6 +1041,98 @@ class BackupRestore(DnacBase):
             }
         }
 
+        allowed_fields = {
+            "nfs_configuration": {
+                "server_ip", "source_path", "nfs_port", "nfs_version", "nfs_portmapper_port"
+            },
+            "backup_storage_configuration": {
+                "server_type", "nfs_details", "data_retention_period", "encryption_passphrase"
+            },
+            "backup": {
+                "name", "scope", "backup_task_timeout", "generate_new_backup",
+                "delete_all_backup", "backup_retention_days"
+            },
+            "restore_operations": {
+                "name", "encryption_passphrase", "restore_task_timeout"
+            }
+        }
+
+        nfs_details_allowed_fields = {
+            "server_ip", "source_path", "nfs_port", "nfs_version", "nfs_portmapper_port"
+        }
+
+        for config_index, config_item in enumerate(self.config):
+            for section_name, section_data in config_item.items():
+                self.log("Validating section '{0}' in configuration item {1}".format(
+                    section_name, config_index + 1), "DEBUG")
+
+                if section_name in config_spec and section_data is None:
+                    self.log("Section '{0}' in configuration item {1} has None value - converting to empty list".format(
+                        section_name, config_index + 1), "DEBUG")
+                    config_item[section_name] = []
+                    continue
+
+                if section_name not in allowed_fields:
+                    self.log("Section '{0}' is not recognized".format(section_name), "DEBUG")
+                    continue
+
+                if section_data and isinstance(section_data, list):
+                    self.log("Validating fields for section '{0}' with {1} items".format(
+                        section_name, len(section_data)), "DEBUG")
+
+                    for item_index, item in enumerate(section_data):
+                        if not isinstance(item, dict):
+                            self.msg = (
+                                "Item {0} in section '{1}' must be a dictionary, "
+                                "found type: {2}"
+                            ).format(item_index + 1, section_name, type(item).__name__)
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                        self.log("Validating item {0} in section '{1}'".format(item_index + 1, section_name), "DEBUG")
+
+                        item_fields = set(item.keys())
+                        allowed_section_fields = allowed_fields[section_name]
+                        invalid_fields = item_fields - allowed_section_fields
+
+                        if invalid_fields:
+                            self.msg = (
+                                "Invalid fields {0} found in '{1}'. "
+                                "Allowed fields: {2}"
+                            ).format(
+                                list(invalid_fields), section_name,
+                                sorted(list(allowed_section_fields))
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                        if section_name == "backup_storage_configuration" and "nfs_details" in item:
+                            nfs_details = item["nfs_details"]
+                            if not isinstance(nfs_details, dict):
+                                self.msg = (
+                                    "Field 'nfs_details' in backup_storage_configuration item {0} "
+                                    "must be a dictionary, found type: {1}"
+                                ).format(item_index + 1, type(nfs_details).__name__)
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                            nfs_details_fields = set(nfs_details.keys())
+                            invalid_nfs_fields = nfs_details_fields - nfs_details_allowed_fields
+
+                            if invalid_nfs_fields:
+                                self.msg = (
+                                    "Invalid fields {0} found in 'nfs_details' of backup_storage_configuration item {1}. "
+                                    "Allowed fields: {2}"
+                                ).format(
+                                    list(invalid_nfs_fields), item_index + 1,
+                                    list(nfs_details_allowed_fields)
+                                )
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                        self.log(
+                            "Field validation passed for '{0}' section item {1}".format(
+                                section_name, item_index + 1
+                            ),
+                            "DEBUG"
+                        )
+
         try:
             valid_config, invalid_params = validate_list_of_dicts(self.config, config_spec)
 
@@ -1840,7 +1932,7 @@ class BackupRestore(DnacBase):
             self.log("Received API response from 'create_backup_configuration': {0}".format(response), "DEBUG")
             self.updated_backup_config.append(source_path)
 
-            if response is None:
+            if response or response is None:
                 self.msg = "Backup configuration updated successfully"
                 self.set_operation_result("success", True, self.msg, "INFO")
                 return self
@@ -2106,7 +2198,7 @@ class BackupRestore(DnacBase):
             self.log("Received API response from 'create_backup_configuration': {0}".format(response), "DEBUG")
             self.created_backup_config.append(source_path)
 
-            if response is None:
+            if response or response is None:
                 self.msg = "Backup configuration created successfully for {0}".format(server_ip)
                 self.set_operation_result("success", True, self.msg, "INFO")
                 return self
@@ -2196,7 +2288,7 @@ class BackupRestore(DnacBase):
             self.log("Received API response from 'create_n_f_s_configuration': {0}".format(response), "DEBUG")
             self.created_nfs_config.append(nfs_config_details["source_path"])
 
-            if response is None:
+            if response or response is None:
                 self.msg = (
                     "NFS configuration created successfully for server {0} "
                     "with source_path {1}".format(
@@ -2606,7 +2698,7 @@ class BackupRestore(DnacBase):
                 )
                 self.deleted_nfs_config.append(source_path)
 
-                if response:
+                if response or response is None:
                     self.msg = "NFS configuration deleted successfully for {0}:{1}".format(server_ip, source_path)
                     self.set_operation_result("success", True, self.msg, "INFO")
                     return self
