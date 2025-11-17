@@ -42,7 +42,7 @@ cisco.dnac.accesspoint_workflow_manager module -- Manage Cisco Catalyst Center a
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.40.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.42.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -275,8 +275,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface, valid values range
-          from 0 to 40. For example, 10.
+      Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface,
+          and antenna gain must be greater than cable loss.
+          Valid values range from 0 to 20. For example, 10.
           
 
 
@@ -345,7 +346,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 40.
+      Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 20.
           This value must be less than the antenna gain. For example, 2.
           
 
@@ -381,7 +382,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of channel assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+      Specifies the channel assignment for the 2.4GHz radio interface. If the channel assignment is set to "Global", the channel\_number is not required. When a channel\_number is provided, the channel assignment defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
 
 
       .. raw:: html
@@ -415,7 +417,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom channel number configured for the 2.4GHz radio interface. For example, 6.
+      Defines the custom channel number for the 2.4GHz radio interface. When a channel number is provided, the channel assignment defaults to "Custom". Valid values range from 1 to 14. For example: 3.
+          
 
 
       .. raw:: html
@@ -449,7 +452,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of power assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+      Specifies the power assignment mode for the 2.4GHz radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
 
 
       .. raw:: html
@@ -483,7 +487,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom power level configured for the 2.4GHz radio interface. For example, 3.
+      Defines the custom power level for the 2.4GHz radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
 
 
       .. raw:: html
@@ -660,8 +665,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Antenna gain value in decibels (dB) for the 5GHz radio interface, valid values range
-          from 0 to 40. For example, 5.
+      Antenna gain value in decibels (dB) for the 5GHz radio interface,
+          and antenna gain must be greater than cable loss.
+          Valid values range from 0 to 20. For example, 5.
           
 
 
@@ -730,7 +736,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 40.
+      Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 20.
           This value must be less than the antenna gain. For example, 3.
           
 
@@ -766,7 +772,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of channel assignment for the 5GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+      Specifies the channel assignment for the 5GHz radio interface. If the channel assignment is set to "Global", the channel\_number is not required. When a channel\_number is provided, the channel assignment defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
 
 
       .. raw:: html
@@ -800,7 +807,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom channel number configured for the 5GHz radio interface. For example, 36.
+      Defines the custom channel number for the 5GHz radio interface. When a channel number is provided, the channel assignment defaults to "Custom". Valid values range from 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. For example: 36.
+          
 
 
       .. raw:: html
@@ -834,7 +842,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Width of the channel configured for the XOR radio interface. Accepts values
+      Width of the channel configured for the 5GHz radio interface. Accepts values
           "20 MHz", "40 MHz", "80 MHz" or "160 MHz". For example, 20 MHz.
           
 
@@ -870,7 +878,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of power assignment for the 5GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+      Specifies the power assignment mode for the 5 GHz radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
 
 
       .. raw:: html
@@ -904,7 +913,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom power level configured for the 5GHz radio interface. For example, 3.
+      Defines the custom power level for the 5 GHz radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
 
 
       .. raw:: html
@@ -1081,8 +1091,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Antenna gain value in decibels (dB) for the 6GHz radio interface, valid values range
-          from 0 to 40. For example, 30.
+      Antenna gain value in decibels (dB) for the 6GHz radio interface,
+          and antenna gain must be greater than cable loss. Valid values range
+          from 0 to 40. For example, 10.
           
 
 
@@ -1187,7 +1198,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of channel assignment for the 6GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+      Specifies the channel assignment for the 6GHz radio interface. If the channel assignment is set to "Global", the channel\_number is not required. When a channel\_number is provided, the channel assignment defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
 
 
       .. raw:: html
@@ -1221,7 +1233,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom channel number configured for the 6GHz radio interface. For example, 6.
+      Defines the custom channel number for the 6GHz radio interface. When a channel number is provided, the channel assignment defaults to "Custom". Valid values range from 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233. For example: 53.
+          
 
 
       .. raw:: html
@@ -1255,7 +1268,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Width of the channel configured for the XOR radio interface. Accepts values
+      Width of the channel configured for the 6GHz radio interface. Accepts values
           "20 MHz", "40 MHz", "80 MHz", "160 MHz" or "320 MHz". For example, 20 MHz.
           
 
@@ -1291,7 +1304,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of power assignment for the 6GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+      Specifies the power assignment mode for the 6GHz radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
 
 
       .. raw:: html
@@ -1325,7 +1339,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom power level configured for the 6GHz radio interface. For example, 3.
+      Defines the custom power level for the 6GHz radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
 
 
       .. raw:: html
@@ -1949,8 +1964,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface, valid values range
-          from 0 to 40. For example, 10.
+      Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface,
+          and antenna gain must be greater than cable loss. Valid values range
+          from 0 to 20. For example, 10.
           
 
 
@@ -2019,7 +2035,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 40.
+      Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 20.
           This value must be less than the antenna gain. For example, 2.
           
 
@@ -2055,7 +2071,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of channel assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+      Specifies the channel assignment for the 2.4GHz radio interface. If the channel assignment is set to "Global", the channel\_number is not required. When a channel\_number is provided, the channel assignment defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
 
 
       .. raw:: html
@@ -2089,7 +2106,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom channel number configured for the 2.4GHz radio interface. For example, 6.
+      Defines the custom channel number for the 2.4GHz radio interface. When a channel number is provided, the channel assignment defaults to "Custom". Valid values range from 1 to 14. For example: 3.
+          
 
 
       .. raw:: html
@@ -2123,7 +2141,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of power assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+      Specifies the power assignment mode for the 2.4GHz radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
 
 
       .. raw:: html
@@ -2157,7 +2176,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom power level configured for the 2.4GHz radio interface. For example, 3.
+      Defines the custom power level for the 2.4GHz radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
 
 
       .. raw:: html
@@ -2334,8 +2354,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Antenna gain value in decibels (dB) for the 5GHz radio interface, valid values range
-          from 0 to 40. For example, 5.
+      Antenna gain value in decibels (dB) for the 5GHz radio interface,
+          and antenna gain must be greater than cable loss. Valid values range
+          from 0 to 20. For example, 5.
           
 
 
@@ -2404,7 +2425,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 40.
+      Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 20.
           This value must be less than the antenna gain. For example, 3.
           
 
@@ -2440,7 +2461,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of channel assignment for the 5GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+      Specifies the channel assignment for the 5GHz radio interface. If the channel assignment is set to "Global", the channel\_number is not required. When a channel\_number is provided, the channel assignment defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
 
 
       .. raw:: html
@@ -2474,7 +2496,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom channel number configured for the 5GHz radio interface. For example, 36.
+      Defines the custom channel number for the 5GHz radio interface. When a channel number is provided, the channel assignment defaults to "Custom". Valid values range from 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. For example: 36.
+          
 
 
       .. raw:: html
@@ -2508,7 +2531,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of power assignment for the 5GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+      Specifies the power assignment mode for the 5GHz radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
 
 
       .. raw:: html
@@ -2542,7 +2566,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom power level configured for the 5GHz radio interface. For example, 3.
+      Defines the custom power level for the 5GHz radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
 
 
       .. raw:: html
@@ -2720,8 +2745,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Antenna gain value in decibels (dB) for the 6GHz radio interface, valid values range
-          from 0 to 40. For example, 30.
+      Antenna gain value in decibels (dB) for the 6GHz radio interface,
+          and antenna gain must be greater than cable loss. Valid values range
+          from 0 to 40. For example, 10.
           
 
 
@@ -2826,7 +2852,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of channel assignment for the 6GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+      Specifies the channel assignment for the 6GHz radio interface. If the channel assignment is set to "Global", the channel\_number is not required. When a channel\_number is provided, the channel assignment defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
 
 
       .. raw:: html
@@ -2860,7 +2887,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom channel number configured for the 6GHz radio interface. For example, 6.
+      Defines the custom channel number for the 6GHz radio interface. When a channel number is provided, the channel assignment defaults to "Custom". Valid values range from 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233. For example: 53.
+          
 
 
       .. raw:: html
@@ -2894,7 +2922,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of power assignment for the 6GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
+      Specifies the power assignment mode for the 6GHz radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
 
 
       .. raw:: html
@@ -2928,7 +2957,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom power level configured for the 6GHz radio interface. For example, 3.
+      Defines the custom power level for the 6GHz radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
 
 
       .. raw:: html
@@ -3288,7 +3318,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      State of the AP's LED. Accepts "Enabled" or "Disabled". For example, "Enabled".
+      Specifies led status for the access point accepts "Enabled" or "Disabled". When a led brightness level is provided, the led status defaults to "Enabled". For example, "Enabled".
+          
 
 
       .. raw:: html
@@ -3775,7 +3806,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Antenna gain value in decibels (dB) for the TRI radio interface, valid values range
+      Antenna gain value in decibels (dB) for the TRI radio interface,
+          and antenna gain must be greater than cable loss. Valid values range
           from 0 to 40. For example, 16.
           
 
@@ -3881,7 +3913,10 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of channel assignment for the TRI radio interface. Accepts "Global" or "Custom".
+      Specifies the channel assignment mode for the TRI radio interface.
+          If the channel assignment mode is set to "Global", the channel number is not required.
+          When a channel number is provided, the channel assignment mode automatically defaults to "Custom".
+          Accepts "Global" or "Custom". For example: "Global".
           For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
           132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
           
@@ -3918,7 +3953,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom channel number configured for the TRI radio interface. For example, 6.
+      Custom channel number configured for the TRI radio interface. For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom) For example, 36.
 
 
       .. raw:: html
@@ -4024,8 +4059,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of power assignment for the TRI radio interface. Accepts "Global" or "Custom".
-          In Custom, it accepts values 1 to 8.
+      Specifies the power assignment mode for the TRI radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
           
 
 
@@ -4060,7 +4094,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom power level configured for the TRI radio interface. For example, 3.
+      Defines the custom power level for the TRI radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
 
 
       .. raw:: html
@@ -4237,7 +4272,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Antenna gain value in decibels (dB) for the XOR radio interface, valid values range
+      Antenna gain value in decibels (dB) for the XOR radio interface,
+          and antenna gain must be greater than cable loss. Valid values range
           from 0 to 40. For example, 14.
           
 
@@ -4343,7 +4379,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of channel assignment for the XOR radio interface. Accepts "Global" or "Custom".
+      If the channel assignment mode is set to "Global", the channel number is not required.
+          When a channel number is provided, the channel assignment mode defaults to "Custom".
+          Accepts "Global" or "Custom". For example: "Global".
           - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14.
           - For "Custom" mode and a radio band of "5 GHz", valid values are
             36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
@@ -4391,7 +4429,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom channel number configured for the XOR radio interface. For example, 6.
+      Custom channel number configured for the XOR radio interface. - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14. - For "Custom" mode and a radio band of "5 GHz", valid values are 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. - For "Custom" mode and a radio band of "6 GHz", valid values are 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233. For example, 6.
 
 
       .. raw:: html
@@ -4461,8 +4499,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of power assignment for the XOR radio interface. Accepts "Global" or "Custom."
-          In "Custom" mode, valid values range from 1 to 8.
+      Specifies the power assignment mode for the XOR radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
           
 
 
@@ -4497,7 +4534,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom power level configured for the XOR radio interface. For example, 3.
+      Defines the custom power level for the XOR radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
 
 
       .. raw:: html
@@ -5022,7 +5060,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      State of the AP's LED. Accepts "Enabled" or "Disabled". For example, "Enabled".
+      Specifies led status for the access point accepts "Enabled" or "Disabled". When a led brightness level is provided, the led status defaults to "Enabled". For example, "Enabled".
+          
 
 
       .. raw:: html
@@ -5905,7 +5944,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Antenna gain value in decibels (dB) for the TRI radio interface, valid values range
+      Antenna gain value in decibels (dB) for the TRI radio interface,
+          and antenna gain must be greater than cable loss. Valid values range
           from 0 to 40. For example, 16.
           
 
@@ -6011,7 +6051,10 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of channel assignment for the TRI radio interface. Accepts "Global" or "Custom".
+      Specifies the channel assignment mode for the TRI radio interface.
+          If the channel assignment mode is set to "Global", the channel number is not required.
+          When a channel number is provided, the channel assignment mode automatically defaults to "Custom".
+          Accepts "Global" or "Custom". For example: "Global".
           For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
           132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
           
@@ -6048,7 +6091,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom channel number configured for the TRI radio interface. For example, 6.
+      Custom channel number configured for the TRI radio interface. For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom) For example, 36.
 
 
       .. raw:: html
@@ -6154,8 +6197,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of power assignment for the TRI radio interface. Accepts "Global" or "Custom".
-          In Custom, it accepts values 1 to 8.
+      Specifies the power assignment mode for the TRI radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
           
 
 
@@ -6190,7 +6232,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom power level configured for the TRI radio interface. For example, 3.
+      Defines the custom power level for the TRI radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
 
 
       .. raw:: html
@@ -6367,7 +6410,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Antenna gain value in decibels (dB) for the XOR radio interface, valid values range
+      Antenna gain value in decibels (dB) for the XOR radio interface,
+          and antenna gain must be greater than cable loss. Valid values range
           from 0 to 40. For example, 14.
           
 
@@ -6473,7 +6517,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of channel assignment for the XOR radio interface. Accepts "Global" or "Custom".
+      If the channel assignment mode is set to "Global", the channel number is not required.
+          When a channel number is provided, the channel assignment mode defaults to "Custom".
+          Accepts "Global" or "Custom". For example: "Global".
           - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14.
           - For "Custom" mode and a radio band of "5 GHz", valid values are
             36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
@@ -6521,7 +6567,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom channel number configured for the XOR radio interface. For example, 6.
+      Custom channel number configured for the XOR radio interface. - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14. - For "Custom" mode and a radio band of "5 GHz", valid values are 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. - For "Custom" mode and a radio band of "6 GHz", valid values are 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233. For example, 6.
 
 
       .. raw:: html
@@ -6591,8 +6637,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode of power assignment for the XOR radio interface. Accepts "Global" or "Custom."
-          In "Custom" mode, valid values range from 1 to 8.
+      Specifies the power assignment mode for the XOR radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
           
 
 
@@ -6627,7 +6672,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Custom power level configured for the XOR radio interface. For example, 3.
+      Defines the custom power level for the XOR radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
 
 
       .. raw:: html
@@ -6742,7 +6788,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Set to true to verify the Cisco Catalyst Center configuration after applying the playbook config.
+      Indicates whether configuration verification is enabled. This flag is always set to false. As a result, some field changes may not exhibit idempotent behavior due to Access Point reboots.
+          
 
 
       .. rst-class:: ansible-option-line

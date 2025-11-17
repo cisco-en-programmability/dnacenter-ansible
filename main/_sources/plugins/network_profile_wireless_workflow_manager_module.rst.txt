@@ -42,7 +42,7 @@ cisco.dnac.network_profile_wireless_workflow_manager module -- Resource module f
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.40.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.42.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.dnac.network_profile_wireless_workflow_manager module -- Resource module f
 
 .. rst-class:: ansible-version-added
 
-New in cisco.dnac 6.31.0
+New in cisco.dnac 6.37.0
 
 .. contents::
    :local:
@@ -427,6 +427,173 @@ Parameters
       .. raw:: html
 
         </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/feature_template_designs"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module__parameter-config/feature_template_designs:
+
+      .. rst-class:: ansible-option-title
+
+      **feature_template_designs**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/feature_template_designs" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of feature template designs to be assigned or removed to/from the wireless network profile.
+          Feature templates provide advanced configuration capabilities for wireless infrastructure
+          including AAA settings, SSID configurations, CleanAir parameters, and RRM settings.
+          These templates enable standardized configuration deployment across wireless network profiles.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/feature_template_designs/applicability_ssids"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module__parameter-config/feature_template_designs/applicability_ssids:
+
+      .. rst-class:: ansible-option-title
+
+      **applicability_ssids**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/feature_template_designs/applicability_ssids" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of SSIDs to which this feature template applies.
+          If "Default Advanced SSID Design" is selected for the 'feature\_templates', this feature template
+          will automatically apply to all SSIDs, regardless of this list's content.
+          For example, ["SSID1", "SSID2"].
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`["All"]`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/feature_template_designs/design_type"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module__parameter-config/feature_template_designs/design_type:
+
+      .. rst-class:: ansible-option-title
+
+      **design_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/feature_template_designs/design_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The category or name of the feature template to be applied.
+          This defines the functional area of the configuration (For example, AAA, SSID, CleanAir).
+          Only one feature template category can be specified per entry in this list.
+          For support values:
+          - AAA\_RADIUS\_ATTRIBUTES\_CONFIGURATION
+          - ADVANCED\_SSID\_CONFIGURATION
+          - CLEANAIR\_CONFIGURATION
+          - DOT11AX\_CONFIGURATION
+          - DOT11BE\_STATUS\_CONFIGURATION
+          - EVENT\_DRIVEN\_RRM\_CONFIGURATION
+          - FLEX\_CONFIGURATION
+          - MULTICAST\_CONFIGURATION
+          - RRM\_FRA\_CONFIGURATION
+          - RRM\_GENERAL\_CONFIGURATION
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/feature_template_designs/feature_templates"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module__parameter-config/feature_template_designs/feature_templates:
+
+      .. rst-class:: ansible-option-title
+
+      **feature_templates**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/feature_template_designs/feature_templates" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of specific design names or IDs to apply within the chosen feature template category.
+          These designs include various parameters and settings for wireless infrastructure configuration.
+          If "Default Advanced SSID Design" is included in this list, it is comprehensive for SSID configuration,
+          and no other template designs are typically needed for that specific SSID feature.
+          
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
@@ -1511,36 +1678,197 @@ Examples
             dnac_task_poll_interval: 1
             state: merged
             config:
-              - profile_name: "Corporate_Wireless_Profile"
+              - profile_name: Corporate_Wireless_Profile
                 site_names:
-                  - "Global/Headquarters"
-                  - "Global/BranchOffice"
+                  - Global/Headquarters
+                  - Global/BranchOffice
                 ssid_details:
-                  - ssid_name: "Corporate_WiFi"
+                  - ssid_name: Corporate_WiFi
                     enable_fabric: false
-                    dot11be_profile_name: "Corporate_VLAN"
-                    vlan_group_name: "Corporate_VLAN_Group"
-                  - ssid_name: "Guest_WiFi"
+                    dot11be_profile_name: Corporate_VLAN
+                    vlan_group_name: Corporate_VLAN_Group
+                  - ssid_name: Guest_WiFi
                     enable_fabric: false
-                    dot11be_profile_name: "Corporate_VLAN"
-                    interface_name: "guest_network"
+                    dot11be_profile_name: Corporate_VLAN
+                    interface_name: guest_network
                     local_to_vlan: 3002
                 ap_zones:
-                  - ap_zone_name: "HQ_AP_Zone"
-                    rf_profile_name: "HIGH"
+                  - ap_zone_name: HQ_AP_Zone
+                    rf_profile_name: HIGH
                     ssids:
-                      - "Corporate_WiFi"
-                  - ap_zone_name: "Branch_AP_Zone"
-                    rf_profile_name: "TYPICAL"
+                      - Corporate_WiFi
+                  - ap_zone_name: Branch_AP_Zone
+                    rf_profile_name: TYPICAL
                     ssids:
-                      - "Guest_WiFi"
+                      - Guest_WiFi
                 additional_interfaces:
-                  - interface_name: "Corp_Interface_1"
+                  - interface_name: Corp_Interface_1
                     vlan_id: 100
-                  - interface_name: "Guest_Interface_1"
+                  - interface_name: Guest_Interface_1
                     vlan_id: 3002
                 day_n_templates:
-                  - "Wireless_Controller_Config"
+                  - Wireless_Controller_Config
+                feature_template_designs:
+                  - design_type: Advanced SSID Configuration
+                    feature_templates:
+                      - Default Advanced SSID Design
+                    applicability_ssids:
+                      - HQ_WiFi
+                      - Branch_Secure
+
+        - name: Create network wireless profile name only
+          cisco.dnac.network_profile_wireless_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - profile_name: Corporate_Wireless_Profile
+
+        - name: Create network wireless profile assign to site
+          cisco.dnac.network_profile_wireless_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - profile_name: Corporate_Wireless_Profile
+                site_names:
+                  - Global/USA/SAN JOSE/SJ_BLD20
+
+        - name: Create network wireless profile with feature template assign to site
+          cisco.dnac.network_profile_wireless_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - profile_name: Corporate_Wireless_Profile
+                site_names:
+                  - Global/USA/SAN JOSE/SJ_BLD20/FLOOR3
+                feature_template_designs:
+                  - design_type: AAA_RADIUS_ATTRIBUTES_CONFIGURATION
+                    feature_templates:
+                      - Default AAA_Radius_Attributes_Configuration
+
+        - name: Update network wireless profile with feature template
+          cisco.dnac.network_profile_wireless_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - profile_name: Corporate_Wireless_Profile
+                site_names:
+                  - Global/USA/SAN JOSE/SJ_BLD20/FLOOR3
+                feature_template_designs:
+                  - design_type: AAA_RADIUS_ATTRIBUTES_CONFIGURATION
+                    feature_templates:
+                      - Default AAA_Radius_Attributes_Configuration
+                  - design_type: CLEANAIR_CONFIGURATION
+                    feature_templates:
+                      - SAMPLE
+                      - Default CleanAir 6GHz Design
+
+        - name: Create network wireless profile with SSID details
+          cisco.dnac.network_profile_wireless_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - profile_name: Corporate_Wireless_Profile
+                ssid_details:
+                  - ssid_name: Guest_WiFi
+                    enable_fabric: false
+                    dot11be_profile_name: Corporate_VLAN
+                    interface_name: guest_network
+                    local_to_vlan: 3002
+                  - ssid_name: ODC_WiFi
+                    enable_fabric: false
+                    dot11be_profile_name: Corporate_VLAN
+                    interface_name: guest_network
+                    local_to_vlan: 3001
+
+        - name: Update network wireless profile with additional SSID details
+          cisco.dnac.network_profile_wireless_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - profile_name: Corporate_Wireless_Profile
+                ssid_details:
+                  - ssid_name: Guest_WiFi
+                    enable_fabric: false
+                    dot11be_profile_name: Corporate_VLAN
+                    interface_name: guest_network
+                    local_to_vlan: 3002
+                  - ssid_name: ODC_WiFi
+                    enable_fabric: false
+                    dot11be_profile_name: Corporate_VLAN
+                    interface_name: guest_network
+                    local_to_vlan: 3001
+                  - ssid_name: Corporate_WiFi
+                    enable_fabric: false
+                    dot11be_profile_name: Corporate_VLAN
+                    interface_name: guest_network
+                    local_to_vlan: 3003
+
         - name: Update wireless network profile
           cisco.dnac.network_profile_wireless_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -1557,27 +1885,27 @@ Examples
             dnac_task_poll_interval: 1
             state: merged
             config:
-              - profile_name: "Corporate_Wireless_Profile"
+              - profile_name: Corporate_Wireless_Profile
                 site_names:
-                  - "Global/FrontOffice"
+                  - Global/FrontOffice
                 ssid_details:
-                  - ssid_name: "Guest_WiFi"
+                  - ssid_name: Guest_WiFi
                     enable_fabric: false
-                    dot11be_profile_name: "Corporate_VLAN"
-                    interface_name: "guest_network"
+                    dot11be_profile_name: Corporate_VLAN
+                    interface_name: guest_network
                     local_to_vlan: 3002
                 ap_zones:
-                  - ap_zone_name: "Branch_AP_Zone"
-                    rf_profile_name: "TYPICAL"
+                  - ap_zone_name: Branch_AP_Zone
+                    rf_profile_name: TYPICAL
                     ssids:
-                      - "Guest_WiFi"
+                      - Guest_WiFi
                 additional_interfaces:
-                  - interface_name: "Guest_Interface_4"
+                  - interface_name: Guest_Interface_4
                     vlan_id: 2002
                 day_n_templates:
-                  - "Wireless_Controller_Config"
-        - name: Delete wireless profile from Cisco Catalyst
-            Center.
+                  - Wireless_Controller_Config
+
+        - name: Delete wireless profile from Cisco Catalyst Center.
           cisco.dnac.network_profile_wireless_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_username: "{{ dnac_username }}"
@@ -1593,7 +1921,7 @@ Examples
             dnac_task_poll_interval: 1
             state: deleted
             config:
-              - profile_name: "Corporate_Wireless_Profile"
+              - profile_name: Corporate_Wireless_Profile
 
 
 
@@ -1620,17 +1948,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-response_create"></div>
+        <div class="ansibleOptionAnchor" id="return-response_deleted"></div>
 
-      .. _ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module__return-response_create:
+      .. _ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module__return-response_deleted:
 
       .. rst-class:: ansible-option-title
 
-      **response_create**
+      **response_deleted**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-response_create" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-response_deleted" title="Permalink to this return value"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1644,17 +1972,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK. This response indicates that the wireless profile was either created or updated successfully.
+      Response returned when wireless profile deletion completes successfully. Contains details about profile removal and site disassociation.
 
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-returned-bold:`Returned:` always
+      :ansible-option-returned-bold:`Returned:` always when state=deleted
 
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Wireless Profile created/updated successfully for '[{'profile\_name': 'Corporate\_Wireless\_Profile',\\n        'status': 'Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully created'}]'.\\",\\n    \\"response\\": [\\n        {\\n            \\"profile\_name\\": \\"Corporate\_Wireless\_Profile\\",\\n            \\"status\\": \\"Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] created Successfully\\"\\n        }\\n    ],\\n    \\"status\\": \\"success\\"\\n}\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"changed": true, "msg": "Wireless profile(s) deleted and verified successfully", "response": [{"profile\_name": "Corporate\_Wireless\_Profile", "sites\_unassigned": "Sites successfully disassociated before deletion", "status": "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted"}], "status": "success"}`
 
 
       .. raw:: html
@@ -1665,17 +1993,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-response_delete"></div>
+        <div class="ansibleOptionAnchor" id="return-response_failed"></div>
 
-      .. _ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module__return-response_delete:
+      .. _ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module__return-response_failed:
 
       .. rst-class:: ansible-option-title
 
-      **response_delete**
+      **response_failed**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-response_delete" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-response_failed" title="Permalink to this return value"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1689,17 +2017,197 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK. This response indicates that the wireless profile was successfully deleted from the system.
+      Response when wireless profile operations fail. Contains error details and information about what failed.
 
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-returned-bold:`Returned:` always
+      :ansible-option-returned-bold:`Returned:` when operations fail
 
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Wireless Profile deleted successfully for '[{'profile\_name': 'Corporate\_Wireless\_Profile',\\n    'status': 'Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted'}]'.\\",\\n    \\"response\\": [\\n        {\\n            \\"profile\_name\\": \\"Corporate\_Wireless\_Profile\\",\\n            \\"status\\": \\"Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted\\"\\n        }\\n    ],\\n    \\"status\\": \\"success\\"\\n}\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"changed": false, "msg": "Failed to create/update wireless profile: API validation error", "response": [{"error": "Invalid SSID configuration: AP Zone SSID names does not exist.", "failed\_operation": "profile\_creation", "profile\_name": "Corporate\_Wireless\_Profile"}], "status": "failed"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_merged"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module__return-response_merged:
+
+      .. rst-class:: ansible-option-title
+
+      **response_merged**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_merged" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response returned when wireless profile operations complete successfully. Contains details about profile creation, updates, site assignments, and template associations.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always when state=merged
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"profile\_create\_basic": {"changed": true, "msg": "Wireless profile(s) created/updated and verified successfully", "response": [{"profile\_name": "Corporate\_Wireless\_Profile", "profile\_status": "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Created"}], "status": "success"}, "profile\_create\_with\_sites": {"changed": true, "msg": "Wireless profile(s) created/updated and verified successfully", "response": [{"profile\_name": "Corporate\_Wireless\_Profile", "profile\_status": "Network Profile [9a1c37bd-52a9-436c-af8c-35e64f788abd] Successfully Created", "site\_status": "Sites ['Global/USA/SAN JOSE/SJ\_BLD20/FLOOR3', 'Global/USA/SAN JOSE/SJ\_BLD20/FLOOR1'] successfully associated to network profile: Corporate\_Wireless\_Profile"}], "status": "success"}, "profile\_update\_with\_template\_assignment": {"changed": true, "msg": "Wireless profile(s) created/updated and verified successfully", "response": [{"profile\_name": "Corporate\_Wireless\_Profile", "profile\_status": "Network Profile [bba6fd01-9d65-4bde-973a-a7ba6a9ad9b4] Successfully Updated", "template\_status": "Templates successfully attached to network profile"}], "status": "success"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_no_changes"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module__return-response_no_changes:
+
+      .. rst-class:: ansible-option-title
+
+      **response_no_changes**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_no_changes" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response when no changes are required as the desired state already exists.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` when configuration already matches desired state
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"changed": false, "msg": "No changes required, profile(s) already exist and match desired configuration", "response": [], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_partial_success"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module__return-response_partial_success:
+
+      .. rst-class:: ansible-option-title
+
+      **response_partial_success**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_partial_success" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response when some operations succeed but others encounter issues. Contains details about successful operations and any warnings or failures.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` when some operations succeed but others fail
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"changed": true, "msg": "Wireless profile(s) created/updated with warnings", "response": [{"profile\_name": "Corporate\_Wireless\_Profile", "profile\_status": "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Created", "warnings": ["Some templates could not be attached due to permission issues", "Site assignment failed for 1 out of 3 sites"]}], "status": "success", "warnings": 2}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_verification_failed"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module__return-response_verification_failed:
+
+      .. rst-class:: ansible-option-title
+
+      **response_verification_failed**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_verification_failed" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response when profile operations complete but verification fails. Indicates the operation may have succeeded but the final state doesn't match expectations.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` when config\_verify=true and verification fails
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"changed": true, "msg": "Profile operation completed but verification failed", "response": [{"operation\_status": "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Created", "profile\_name": "Corporate\_Wireless\_Profile", "verification\_error": "Unable to verify the profile doesn't match expected state"}], "status": "failed"}`
 
 
       .. raw:: html

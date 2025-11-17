@@ -43,7 +43,7 @@ cisco.dnac.application_policy_workflow_manager module -- Resource module for man
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.40.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.42.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -3153,17 +3153,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-creation%20_of_application_queuing_profile_response_task_execution"></div>
+        <div class="ansibleOptionAnchor" id="return-creation_of_application_queuing_profile_response_task_execution"></div>
 
-      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-creation _of_application_queuing_profile_response_task_execution:
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-creation_of_application_queuing_profile_response_task_execution:
 
       .. rst-class:: ansible-option-title
 
-      **creation _of_application_queuing_profile_response_task_execution**
+      **creation_of_application_queuing_profile_response_task_execution**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-creation%20_of_application_queuing_profile_response_task_execution" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-creation_of_application_queuing_profile_response_task_execution" title="Permalink to this return value"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -3603,17 +3603,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-update_not_required_%20for_application_policy_response_task_execution"></div>
+        <div class="ansibleOptionAnchor" id="return-update_not_required_for_application_policy_response_task_execution"></div>
 
-      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-update_not_required_ for_application_policy_response_task_execution:
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-update_not_required_for_application_policy_response_task_execution:
 
       .. rst-class:: ansible-option-title
 
-      **update_not_required_ for_application_policy_response_task_execution**
+      **update_not_required_for_application_policy_response_task_execution**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-update_not_required_%20for_application_policy_response_task_execution" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-update_not_required_for_application_policy_response_task_execution" title="Permalink to this return value"></a>
 
       .. rst-class:: ansible-option-type-line
 

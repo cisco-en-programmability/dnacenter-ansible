@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.40.0
+Collection version 6.42.0
 
 .. contents::
    :local:
@@ -145,6 +145,8 @@ Modules
 * :ref:`authentication_import_certificate_p12 module <ansible_collections.cisco.dnac.authentication_import_certificate_p12_module>` -- Resource module for Authentication Import Certificate P12
 * :ref:`authentication_policy_servers module <ansible_collections.cisco.dnac.authentication_policy_servers_module>` -- Resource module for Authentication Policy Servers
 * :ref:`authentication_policy_servers_info module <ansible_collections.cisco.dnac.authentication_policy_servers_info_module>` -- Information module for Authentication Policy Servers
+* :ref:`backup_and_restore_workflow_manager module <ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module>` -- Resource module for comprehensive backup and restore workflow management with NFS server configuration in Cisco Catalyst Center.
+
 * :ref:`backup_configuration module <ansible_collections.cisco.dnac.backup_configuration_module>` -- Resource module for Backup Configuration
 * :ref:`backup_configuration_info module <ansible_collections.cisco.dnac.backup_configuration_info_module>` -- Information module for Backup Configuration
 * :ref:`backup_nfs_configurations module <ansible_collections.cisco.dnac.backup_nfs_configurations_module>` -- Resource module for Backup Nfs Configurations
@@ -349,6 +351,8 @@ Modules
 * :ref:`event_webhook_info module <ansible_collections.cisco.dnac.event_webhook_info_module>` -- Information module for Event Webhook
 * :ref:`events_and_notifications_workflow_manager module <ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module>` -- Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.
 * :ref:`execute_suggested_actions_commands module <ansible_collections.cisco.dnac.execute_suggested_actions_commands_module>` -- Resource module for Execute Suggested Actions Commands
+* :ref:`fabric_devices_info_workflow_manager module <ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module>` -- Comprehensive fabric device information gathering module for Cisco Catalyst Center with advanced filtering and output capabilities.
+
 * :ref:`fabric_site_health_summaries_count_info module <ansible_collections.cisco.dnac.fabric_site_health_summaries_count_info_module>` -- Information module for Fabric Site Health Summaries Count
 * :ref:`fabric_site_health_summaries_id_info module <ansible_collections.cisco.dnac.fabric_site_health_summaries_id_info_module>` -- Information module for Fabric Site Health Summaries Id
 * :ref:`fabric_site_health_summaries_id_trend_analytics_info module <ansible_collections.cisco.dnac.fabric_site_health_summaries_id_trend_analytics_info_module>` -- Information module for Fabric Site Health Summaries Id Trend Analytics
@@ -688,6 +692,7 @@ Modules
 * :ref:`network_devices_device_controllability_settings_info module <ansible_collections.cisco.dnac.network_devices_device_controllability_settings_info_module>` -- Information module for Network Devices Device Controllability Settings
 * :ref:`network_devices_id_info module <ansible_collections.cisco.dnac.network_devices_id_info_module>` -- Information module for Network Devices Id
 * :ref:`network_devices_info module <ansible_collections.cisco.dnac.network_devices_info_module>` -- Information module for Network Devices
+* :ref:`network_devices_info_workflow_manager module <ansible_collections.cisco.dnac.network_devices_info_workflow_manager_module>` -- Gather facts about network devices from Cisco Catalyst Center (facts/info module) using flexible filters.
 * :ref:`network_devices_intent_count_info module <ansible_collections.cisco.dnac.network_devices_intent_count_info_module>` -- Information module for Network Devices Intent Count
 * :ref:`network_devices_intent_info module <ansible_collections.cisco.dnac.network_devices_intent_info_module>` -- Information module for Network Devices Intent
 * :ref:`network_devices_interfaces_query module <ansible_collections.cisco.dnac.network_devices_interfaces_query_module>` -- Resource module for Network Devices Interfaces Query
@@ -779,6 +784,7 @@ Modules
 * :ref:`reports_info module <ansible_collections.cisco.dnac.reports_info_module>` -- Information module for Reports
 * :ref:`reports_view_group_info module <ansible_collections.cisco.dnac.reports_view_group_info_module>` -- Information module for Reports View Group
 * :ref:`reports_view_group_view_info module <ansible_collections.cisco.dnac.reports_view_group_view_info_module>` -- Information module for Reports View Group View
+* :ref:`reports_workflow_manager module <ansible_collections.cisco.dnac.reports_workflow_manager_module>` -- Resource module for managing Reports in Cisco Catalyst Center.
 * :ref:`reserve_ip_subpool module <ansible_collections.cisco.dnac.reserve_ip_subpool_module>` -- Resource module for Reserve Ip Subpool
 * :ref:`reserve_ip_subpool_create module <ansible_collections.cisco.dnac.reserve_ip_subpool_create_module>` -- Resource module for Reserve Ip Subpool Create
 * :ref:`reserve_ip_subpool_delete module <ansible_collections.cisco.dnac.reserve_ip_subpool_delete_module>` -- Resource module for Reserve Ip Subpool Delete
@@ -1107,6 +1113,7 @@ Modules
 * :ref:`virtual_network_health_summaries_id_info module <ansible_collections.cisco.dnac.virtual_network_health_summaries_id_info_module>` -- Information module for Virtual Network Health Summaries Id
 * :ref:`virtual_network_health_summaries_id_trend_analytics_info module <ansible_collections.cisco.dnac.virtual_network_health_summaries_id_trend_analytics_info_module>` -- Information module for Virtual Network Health Summaries Id Trend Analytics
 * :ref:`virtual_network_health_summaries_info module <ansible_collections.cisco.dnac.virtual_network_health_summaries_info_module>` -- Information module for Virtual Network Health Summaries
+* :ref:`wired_campus_automation_workflow_manager module <ansible_collections.cisco.dnac.wired_campus_automation_workflow_manager_module>` -- Manage wired campus automation operations in Cisco Catalyst Center
 * :ref:`wired_network_devices_id_config_features_deployed_layer2_feature_count_info module <ansible_collections.cisco.dnac.wired_network_devices_id_config_features_deployed_layer2_feature_count_info_module>` -- Information module for Wired Network Devices Id Config Features Deployed Layer2 Feature Count
 * :ref:`wired_network_devices_id_config_features_deployed_layer2_feature_info module <ansible_collections.cisco.dnac.wired_network_devices_id_config_features_deployed_layer2_feature_info_module>` -- Information module for Wired Network Devices Id Config Features Deployed Layer2 Feature
 * :ref:`wired_network_devices_id_config_features_intended_layer2_feature module <ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module>` -- Resource module for Wired Network Devices Id Config Features Intended Layer2 Feature
@@ -1285,6 +1292,7 @@ Modules
     authentication_import_certificate_p12_module
     authentication_policy_servers_module
     authentication_policy_servers_info_module
+    backup_and_restore_workflow_manager_module
     backup_configuration_module
     backup_configuration_info_module
     backup_nfs_configurations_module
@@ -1489,6 +1497,7 @@ Modules
     event_webhook_info_module
     events_and_notifications_workflow_manager_module
     execute_suggested_actions_commands_module
+    fabric_devices_info_workflow_manager_module
     fabric_site_health_summaries_count_info_module
     fabric_site_health_summaries_id_info_module
     fabric_site_health_summaries_id_trend_analytics_info_module
@@ -1828,6 +1837,7 @@ Modules
     network_devices_device_controllability_settings_info_module
     network_devices_id_info_module
     network_devices_info_module
+    network_devices_info_workflow_manager_module
     network_devices_intent_count_info_module
     network_devices_intent_info_module
     network_devices_interfaces_query_module
@@ -1919,6 +1929,7 @@ Modules
     reports_info_module
     reports_view_group_info_module
     reports_view_group_view_info_module
+    reports_workflow_manager_module
     reserve_ip_subpool_module
     reserve_ip_subpool_create_module
     reserve_ip_subpool_delete_module
@@ -2247,6 +2258,7 @@ Modules
     virtual_network_health_summaries_id_info_module
     virtual_network_health_summaries_id_trend_analytics_info_module
     virtual_network_health_summaries_info_module
+    wired_campus_automation_workflow_manager_module
     wired_network_devices_id_config_features_deployed_layer2_feature_count_info_module
     wired_network_devices_id_config_features_deployed_layer2_feature_info_module
     wired_network_devices_id_config_features_intended_layer2_feature_module
