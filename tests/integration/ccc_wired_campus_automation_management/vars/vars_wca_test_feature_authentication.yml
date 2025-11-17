@@ -1,0 +1,224 @@
+---
+# Common device information
+device_info: &device_info
+  ip_address: "204.1.2.3"
+  device_collection_status_check: false
+
+###################################################################################################################
+# Negative Validation Tests for Authentication
+
+#############################################
+#        Authentication Enable Tests
+#############################################
+
+# Test invalid authentication enable - string instead of boolean
+test_authentication_enable_string:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      enable_dot1x_authentication: "true" # Invalid: string instead of boolean
+
+# Test invalid authentication enable - integer instead of boolean
+test_authentication_enable_integer:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      enable_dot1x_authentication: 1 # Invalid: integer instead of boolean
+
+# Test invalid authentication enable - list instead of boolean
+test_authentication_enable_list:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      enable_dot1x_authentication: [true] # Invalid: list instead of boolean
+
+#############################################
+#        Authentication Mode Tests
+#############################################
+
+# Test invalid authentication config mode - integer instead of string
+test_authentication_config_mode_integer:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      authentication_config_mode: 1 # Invalid: integer instead of string
+
+# Test invalid authentication config mode - boolean instead of string
+test_authentication_config_mode_boolean:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      authentication_config_mode: true # Invalid: boolean instead of string
+
+# Test invalid authentication config mode - list instead of string
+test_authentication_config_mode_list:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      authentication_config_mode: ["LEGACY"] # Invalid: list instead of string
+
+# Test invalid authentication config mode - invalid choice
+test_authentication_config_mode_invalid_choice:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      authentication_config_mode: "INVALID_MODE" # Invalid: not in choices
+
+# Test invalid authentication config mode - partial match
+test_authentication_config_mode_partial:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      authentication_config_mode: "LEG" # Invalid: partial string
+
+#############################################
+#        Data Type and Structure Tests
+#############################################
+
+# Test invalid authentication configuration - string instead of dictionary
+test_authentication_invalid_dict_type:
+  <<: *device_info
+  layer2_configuration:
+    authentication: "invalid_authentication_string" # Invalid: string instead of dictionary
+
+# Test invalid authentication configuration - list instead of dictionary
+test_authentication_invalid_list_type:
+  <<: *device_info
+  layer2_configuration:
+    authentication: ["invalid", "authentication", "list"] # Invalid: list instead of dictionary
+
+# Test invalid authentication configuration - integer instead of dictionary
+test_authentication_invalid_integer_type:
+  <<: *device_info
+  layer2_configuration:
+    authentication: 12345 # Invalid: integer instead of dictionary
+
+#############################################
+#        Mode Change Restriction Tests
+#############################################
+
+# Test authentication mode change restriction - attempt to change from LEGACY to NEW_STYLE
+test_authentication_mode_change_legacy_to_new:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      authentication_config_mode: "NEW_STYLE" # This will be used after setting LEGACY first
+
+# Test authentication mode change restriction - attempt to change from NEW_STYLE to LEGACY
+test_authentication_mode_change_new_to_legacy:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      authentication_config_mode: "LEGACY" # This will be used after setting NEW_STYLE first
+
+###################################################################################################################
+# Positive Validation Tests for Authentication
+
+#############################################
+#        POSITIVE TEST CASES - CREATE
+#############################################
+
+# Test authentication configuration with enable only
+test_authentication_create_enable_only:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      enable_dot1x_authentication: true
+
+# Test authentication configuration with disable only
+test_authentication_create_disable_only:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      enable_dot1x_authentication: false
+
+# Test authentication configuration with NEW_STYLE mode only
+test_authentication_create_new_style_mode_only:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      authentication_config_mode: "NEW_STYLE"
+
+# Test authentication configuration with enable and LEGACY mode
+test_authentication_create_enable_legacy:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      enable_dot1x_authentication: true
+      authentication_config_mode: "LEGACY"
+
+# Test authentication configuration with enable and NEW_STYLE mode
+test_authentication_create_enable_new_style:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      enable_dot1x_authentication: true
+      authentication_config_mode: "NEW_STYLE"
+
+# Test authentication configuration with disable and LEGACY mode
+test_authentication_create_disable_legacy:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      enable_dot1x_authentication: false
+      authentication_config_mode: "LEGACY"
+
+# Test authentication configuration with disable and NEW_STYLE mode
+test_authentication_create_disable_new_style:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      enable_dot1x_authentication: false
+      authentication_config_mode: "NEW_STYLE"
+
+#############################################
+#        POSITIVE TEST CASES - UPDATE
+#############################################
+
+# Test authentication update - enable authentication
+test_authentication_update_enable:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      enable_dot1x_authentication: true
+
+# Test authentication update - disable authentication
+test_authentication_update_disable:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      enable_dot1x_authentication: false
+
+# Test authentication update - enable authentication with existing mode
+test_authentication_update_enable_with_mode:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      enable_dot1x_authentication: true
+      authentication_config_mode: "LEGACY"
+
+# Test authentication update - disable authentication with existing mode
+test_authentication_update_disable_with_mode:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      enable_dot1x_authentication: false
+      authentication_config_mode: "LEGACY"
+
+#############################################
+#        POSITIVE TEST CASES - RESET
+#############################################
+
+# Test authentication reset - empty configuration (deleted state resets to defaults)
+test_authentication_reset_empty:
+  <<: *device_info
+  layer2_configuration:
+    authentication: {}
+
+# Test authentication reset - with existing parameters (deleted state resets to defaults)
+test_authentication_reset_with_params:
+  <<: *device_info
+  layer2_configuration:
+    authentication:
+      enable_dot1x_authentication: true # Parameters provided but should reset to defaults in delete state
+      authentication_config_mode: "LEGACY"
