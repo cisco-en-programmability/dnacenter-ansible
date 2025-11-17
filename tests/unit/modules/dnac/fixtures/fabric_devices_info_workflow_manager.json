@@ -6420,34 +6420,6 @@
       ]
     }
   ],
-  "playbook_negative_scenario_11": [
-    {
-      "fabric_devices": [
-        {
-          "fabric_device_role": "EXTENDED_NODE",
-          "fabric_site_hierarchy": "Global/rishipat_area/Fabric-area",
-          "interval": 10,
-          "output_file_info": {
-            "file_format": "yaml",
-            "file_mode": "a",
-            "file_path": "/Users/priyadharshini/Downloads/fabric_device_info",
-            "timestamp": false
-          },
-          "requested_info": [
-            "fabric_info"
-          ],
-          "retries": 1,
-          "timeout": 10
-        }
-      ]
-    }
-  ],
-  "get_sites30": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
   "playbook_negative_scenario_12": [
     {
       "fabric_devices": [
@@ -10990,5 +10962,36 @@
     }
   ],
   "version": "1.0"
-}
+},
+"playbook_negative_scenario_11": [
+  {
+      "fabric_devices": [
+          {
+              "device_identifier": [
+                  {
+                      "ip_address_range": "192.168.200.69-192.168.200.70"
+                  },
+                  {
+                      "ip_address": [
+                          "192.168.200.69"
+                      ]
+                  }
+              ],
+              "fabric_site_hierarchy": "Global/rishipat_area/Fabric-area-1",
+              "interval": 10,
+              "output_file_info": {
+                  "file_format": "yaml",
+                  "file_mode": "w",
+                  "file_path": "/Users/priyadharshini/Downloads/fabric_device_info",
+                  "timestamp": false
+              },
+              "requested_info": [
+                  "fabric_info"
+              ],
+              "retries": 3,
+              "timeout": 30
+          }
+      ]
+  }
+]
 }
