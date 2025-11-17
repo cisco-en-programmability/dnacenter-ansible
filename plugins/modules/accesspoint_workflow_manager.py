@@ -1968,9 +1968,10 @@ class Accesspoint(DnacBase):
         self.radio_interface = ["6ghz_radio", "xor_radio", "tri_radio"]
         self.allowed_series = {
             "6ghz_radio": ["9136I", "9162I", "9163E", "9164I", "IW9167IH", "9178I", "9176I",
-                           "9176D1"],
-            "xor_radio": ["280", "380", "480", "9120", "9166", "IW9167EH", "IW9165E", "IW9165DH"],
-            "tri_radio": ["9124AXE", "9130AXI", "9130AXE", "9178I"]
+                           "9176D1", "9172I", "9172H", "9179F"],
+            "xor_radio": ["280", "380", "480", "9120", "9166", "IW9167EH", "IW9165E", "IW9165DH",
+                          "9176", "CW9174I", "CW9174E"],
+            "tri_radio": ["9124AXE", "9130AXI", "9130AXE", "9178I", "9179F"]
         }
         self.allowed_channel_no = {
             "2.4ghz_radio": list(range(1, 15)),
@@ -2763,18 +2764,24 @@ class Accesspoint(DnacBase):
 
         antenna_gain = radio_config.get("antenna_gain")
         if antenna_gain:
-            if antenna_gain not in range(0, 21) and radio_series in ["2.4ghz_radio", "5ghz_radio"]:
+            if antenna_gain and radio_series in ["6ghz_radio"]:
+                errormsg.append("antenna_gain: '{0}' Not supported for 6 GHz Radio in playbook."
+                                .format(antenna_gain))
+            elif antenna_gain not in range(0, 21) and radio_series in ["2.4ghz_radio", "5ghz_radio"]:
                 errormsg.append("antenna_gain: Invalid '{0}' in playbook, allowed range of min: 0 and max: 20"
                                 .format(antenna_gain))
-            elif antenna_gain not in range(0, 41) and radio_series in ["6ghz_radio", "xor_radio", "tri_radio"]:
+            elif antenna_gain not in range(0, 41) and radio_series in ["xor_radio", "tri_radio"]:
                 errormsg.append("antenna_gain: Invalid '{0}' in playbook, allowed range of min: 0 and max: 40"
                                 .format(antenna_gain))
 
         cable_loss = radio_config.get("cable_loss")
         if cable_loss:
-            if radio_series in ["2.4ghz_radio", "5ghz_radio"] and not 0 <= cable_loss <= 20:
+            if cable_loss and radio_series in ["6ghz_radio"]:
+                errormsg.append("cable_loss: '{0}' Not supported for 6 GHz Radio in playbook."
+                                .format(cable_loss))
+            elif radio_series in ["2.4ghz_radio", "5ghz_radio"] and not 0 <= cable_loss <= 20:
                 errormsg.append("cable_loss: Invalid '{0}' in playbook. Must be between 0 and 20.".format(cable_loss))
-            elif radio_series in ["6ghz_radio", "xor_radio", "tri_radio"] and not 0 <= cable_loss <= 40:
+            elif radio_series in ["xor_radio", "tri_radio"] and not 0 <= cable_loss <= 40:
                 errormsg.append("cable_loss: Invalid '{0}' in playbook. Must be between 0 and 40.".format(cable_loss))
             elif antenna_gain and cable_loss >= antenna_gain:
                 errormsg.append("cable_loss: Invalid '{0}' in playbook. Must be less than antenna_gain: {1}."
@@ -2809,7 +2816,8 @@ class Accesspoint(DnacBase):
             else:
                 current_radio_role = self.check_current_radio_role_assignment(
                     radio_series, self.have["current_ap_config"].get("radio_dtos" , []), radio_band)
-                if self.want.get(radio_series).get("radio_role_assignment") != "Client-Serving" and radio_series != "5ghz_radio":
+                if (self.want.get(radio_series).get("radio_role_assignment") != "Client-Serving" and
+                    radio_series not in ("5ghz_radio", "6ghz_radio")):
                     errormsg.append(
                         "channel_number: This configuration is only supported with Client-Serving Radio Role Assignment {0} "
                         .format(current_radio_role)
@@ -2846,7 +2854,8 @@ class Accesspoint(DnacBase):
             else:
                 current_radio_role = self.check_current_radio_role_assignment(
                     radio_series, self.have["current_ap_config"].get("radio_dtos", []), radio_band)
-                if self.want.get(radio_series).get("radio_role_assignment") != "Client-Serving" and radio_series != "5ghz_radio":
+                if (self.want.get(radio_series).get("radio_role_assignment") != "Client-Serving" and
+                    radio_series not in ("5ghz_radio", "6ghz_radio")):
                     errormsg.append(
                         "power_level: This configuration is only supported with Client-Serving Radio Role Assignment {0} "
                         .format(current_radio_role)
@@ -2903,24 +2912,14 @@ class Accesspoint(DnacBase):
         """
         role_assignment = None
         for each_dto in radio_dtos:
-            slot_id = each_dto["slot_id"]
+            if_type = each_dto["if_type_value"]
             role_assignment = each_dto.get("radio_role_assignment")
-            if (radio_type == "2.4ghz_radio" and slot_id == 0) or \
-               (radio_type == "5ghz_radio" and slot_id == 1) or \
-               (radio_type == "6ghz_radio" and slot_id == 2):
+            if (radio_type == "2.4ghz_radio" and if_type == "2.4 GHz") or \
+               (radio_type == "5ghz_radio" and if_type == "5 GHz") or \
+               (radio_type == "6ghz_radio" and if_type == "6 GHz") or \
+               (radio_type == "xor_radio" and if_type == "Dual Radio") or \
+               (radio_type == "tri_radio" and if_type == "Tri Radio"):
                 break
-
-            if radio_type == "xor_radio":
-                if (radio_band == "2.4 GHz" and slot_id == 0) or \
-                   (radio_band == "5 GHz" and slot_id == 2) or \
-                   (radio_band == "6 GHz" and slot_id == 2):
-                    break
-
-            if radio_type == "tri_radio":
-                if (radio_band == "2.4 GHz" and slot_id == 0) or \
-                   (radio_band == "5 GHz" and slot_id == 1) or \
-                   (radio_band == "5 GHz" and slot_id == 2):
-                    break
 
         self.log("Completed checking radio role assignments. Role assignment: {0}, radio type: {1}, radio band: {2}"
                  .format(role_assignment, radio_type, radio_band), "INFO")
@@ -3558,22 +3557,22 @@ class Accesspoint(DnacBase):
         self.log("Current radio configuration: {}".format(current_radio), "INFO")
         self.log("Desired radio configuration: {}".format(want_radio), "INFO")
         available_key = {
-            "_0": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
+            "_1": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
                    "power_assignment_mode", "power_level", "channel_assignment_mode",
                    "channel_number", "cable_loss", "antenna_cable_name", "radio_type",
                    "radio_band"),
-            "_1": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
+            "_2": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
                    "power_assignment_mode", "power_level", "channel_assignment_mode",
                    "channel_number", "cable_loss", "antenna_cable_name", "channel_width",
                    "radio_type", "radio_band", "dual_radio_mode"),
-            "_2": ("admin_status", "radio_role_assignment", "radio_type",
+            "_6": ("admin_status", "radio_role_assignment", "radio_type",
                    "power_assignment_mode", "power_level", "channel_assignment_mode",
                    "channel_number", "channel_width", "dual_radio_mode", "radio_band"),
             "_3": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
                    "power_assignment_mode", "power_level", "channel_assignment_mode",
                    "channel_number", "cable_loss", "antenna_cable_name", "radio_band",
                    "channel_width", "radio_type"),
-            "_4": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
+            "_5": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
                    "power_assignment_mode", "power_level", "channel_assignment_mode",
                    "channel_number", "cable_loss", "antenna_cable_name", "dual_radio_mode",
                    "channel_width", "radio_type")
@@ -3583,15 +3582,17 @@ class Accesspoint(DnacBase):
         unmatch_count = 0
         self.keymap["power_level"] = "powerlevel"
         dtos_keys = list(want_radio.keys())
-        slot_id_key = "_" + str(current_radio["slot_id"])
-        self.log("Comparing keys for slot ID: {}".format(current_radio["slot_id"]), "INFO")
+        if_type_key = "_" + str(current_radio["if_type"])
+        self.log("Comparing keys for if_type: {}".format(current_radio["if_type"]), "INFO")
 
         for dto_key in dtos_keys:
-            if dto_key in available_key[slot_id_key]:
+            if dto_key in available_key[if_type_key]:
                 if dto_key == "antenna_name":
                     temp_dtos[dto_key] = want_radio[dto_key]
                     unmatch_count = unmatch_count + 1
                     self.log("Antenna name unmatched: {0}".format(want_radio[dto_key]), "INFO")
+                elif dto_key == "admin_status" and want_radio.get(dto_key) == "Enabled":
+                    temp_dtos[self.keymap[dto_key]] = want_radio.get(dto_key)
                 elif dto_key == "cable_loss":
                     cable_loss = int(want_radio[dto_key])
                     antenna_gain = int(want_radio.get("antenna_gain", 0))
@@ -3674,19 +3675,19 @@ class Accesspoint(DnacBase):
                         current_radio_dtos = current_ap_config.get("radio_dtos")
                         radio_data = {}
                         for each_radio in current_radio_dtos:
-                            if each_key == "2.4ghz_radio" and each_radio["slot_id"] == 0:
+                            if each_key == "2.4ghz_radio" and each_radio["if_type_value"] == "2.4 GHz":
                                 radio_data = self.compare_radio_config(each_radio,
                                                                        self.want[each_key])
-                            elif each_key == "5ghz_radio" and each_radio["slot_id"] == 1:
+                            elif each_key == "5ghz_radio" and each_radio["if_type_value"] == "5 GHz":
                                 radio_data = self.compare_radio_config(each_radio,
                                                                        self.want[each_key])
-                            elif each_key == "6ghz_radio" and each_radio["slot_id"] == 2:
+                            elif each_key == "6ghz_radio" and each_radio["if_type_value"] == "6 GHz":
                                 radio_data = self.compare_radio_config(each_radio,
                                                                        self.want[each_key])
-                            elif each_key == "xor_radio" and each_radio["slot_id"] == 0:
+                            elif each_key == "xor_radio" and each_radio["if_type_value"] == "Dual Radio":
                                 radio_data = self.compare_radio_config(each_radio,
                                                                        self.want[each_key])
-                            elif each_key == "tri_radio" and each_radio.get("dual_radio_mode") is not None:
+                            elif each_key == "tri_radio" and each_radio["if_type_value"] == "Tri Radio":
                                 radio_data = self.compare_radio_config(each_radio,
                                                                        self.want[each_key])
                         if radio_data.get("unmatch") != 0:
@@ -3695,15 +3696,15 @@ class Accesspoint(DnacBase):
                                       "clean_air_si_6ghz"):
                         current_radio_dtos = current_ap_config.get("radio_dtos")
                         for each_dtos in current_radio_dtos:
-                            if each_key == "clean_air_si_2.4ghz" and each_dtos["slot_id"] == 0 \
+                            if each_key == "clean_air_si_2.4ghz" and each_dtos["if_type_value"] == "2.4 GHz" \
                                     and each_dtos["clean_air_si"] != self.want.get(each_key):
                                 update_config["cleanAirSI24"] = self.want[each_key]
                                 break
-                            elif each_key == "clean_air_si_5ghz" and each_dtos["slot_id"] == 1 \
+                            elif each_key == "clean_air_si_5ghz" and each_dtos["if_type_value"] == "5 GHz" \
                                     and each_dtos["clean_air_si"] != self.want.get(each_key):
                                 update_config["cleanAirSI5"] = self.want[each_key]
                                 break
-                            elif each_key == "clean_air_si_6ghz" and each_dtos["slot_id"] == 2 \
+                            elif each_key == "clean_air_si_6ghz" and each_dtos["if_type_value"] == "6 GHz" \
                                     and each_dtos["clean_air_si"] != self.want.get(each_key):
                                 update_config["cleanAirSI6"] = self.want[each_key]
                                 break
@@ -3766,6 +3767,10 @@ class Accesspoint(DnacBase):
                                     self.want["tertiary_ip_address"]["address"]
                             else:
                                 update_config[self.keymap["tertiary_ip_address"]]["address"] = "0.0.0.0"
+
+                    # remove the controller name if the key is in snake case.
+                    if update_config.get(ctrl_name) is not None:
+                        del update_config[ctrl_name]
 
                 if update_config:
                     update_config["macAddress"] = current_ap_config["eth_mac"]
@@ -3915,7 +3920,7 @@ class Accesspoint(DnacBase):
                     radio_dtos["configureChannel"] = True
 
                 if each_radio.get(self.keymap["channel_number"]) is not None:
-                    radio_dtos[self.keymap["channel_number"]] = \
+                    radio_dtos["channelNumber"] = \
                         each_radio.get(self.keymap["channel_number"])
                     radio_dtos["configureChannel"] = True
                     radio_dtos[self.keymap["channel_assignment_mode"]] = 2
@@ -3941,7 +3946,7 @@ class Accesspoint(DnacBase):
                     radio_dtos["configurePower"] = True
                 self.log(self.pprint(each_radio), "INFO")
                 if each_radio.get(self.keymap["power_level"]) is not None:
-                    radio_dtos[self.keymap["power_level"]] = \
+                    radio_dtos["powerlevel"] = \
                         each_radio.get(self.keymap["power_level"])
                     radio_dtos[self.keymap["power_assignment_mode"]] = 2
                     radio_dtos["configurePower"] = True
