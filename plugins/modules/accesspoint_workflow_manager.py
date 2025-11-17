@@ -2817,7 +2817,7 @@ class Accesspoint(DnacBase):
                 current_radio_role = self.check_current_radio_role_assignment(
                     radio_series, self.have["current_ap_config"].get("radio_dtos" , []), radio_band)
                 if (self.want.get(radio_series).get("radio_role_assignment") != "Client-Serving" and
-                    radio_series not in ("5ghz_radio", "6ghz_radio")):
+                   radio_series not in ("5ghz_radio", "6ghz_radio")):
                     errormsg.append(
                         "channel_number: This configuration is only supported with Client-Serving Radio Role Assignment {0} "
                         .format(current_radio_role)
@@ -2855,7 +2855,7 @@ class Accesspoint(DnacBase):
                 current_radio_role = self.check_current_radio_role_assignment(
                     radio_series, self.have["current_ap_config"].get("radio_dtos", []), radio_band)
                 if (self.want.get(radio_series).get("radio_role_assignment") != "Client-Serving" and
-                    radio_series not in ("5ghz_radio", "6ghz_radio")):
+                   radio_series not in ("5ghz_radio", "6ghz_radio")):
                     errormsg.append(
                         "power_level: This configuration is only supported with Client-Serving Radio Role Assignment {0} "
                         .format(current_radio_role)
