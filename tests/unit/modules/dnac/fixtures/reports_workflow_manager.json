@@ -1,0 +1,2737 @@
+{
+  "playbook_config_create": [
+      {
+        "generate_report": [
+            {
+                "name": "compliance_report_test1",
+                "view_group_name": "Compliance",
+                "deliveries": [
+                    {
+                        "delivery_type": "DOWNLOAD",
+                        "file_path": "/Users/mekandar/Desktop"
+                    }
+                ],
+                "schedule": {
+                    "schedule_type": "SCHEDULE_NOW",
+                    "time_zone": "Asia/Calcutta"
+                },
+                "view": {
+                    "view_name": "Network Device Compliance",
+                    "field_groups": [
+                        {
+                            "name": "inventoryAllData",
+                            "display_name": "All Data"
+                        }
+                    ],
+                    "format": {
+                        "format_type": "CSV"
+                    },
+                    "filters": [
+                        {
+                            "name": "Location",
+                            "display_name": "Location",
+                            "filter_type": "MULTI_SELECT_TREE"
+                        }
+                    ]
+                },
+                "tags": []
+            }
+        ]
+} 
+],
+
+"playbook_parallel_report_creation": [
+      {
+        "generate_report": [
+               {
+                "name": "Port_Reclaim_Email_CSV_27100_first",
+                "new_report": true,
+                "view_group_name": "Inventory",
+                "tags": [],
+                "view_group_version": "2.0.0",
+                "schedule": {
+                    "schedule_type": "SCHEDULE_NOW",
+                    "date_time": null,
+                    "time_zone": "Asia/Calcutta",
+                    "recurrence": null,
+                    "time": null,
+                    "start_date": null
+                },
+                "deliveries": [
+                    {
+                        "delivery_type": "NOTIFICATION",
+                        "file_path": null,
+                        "notification_endpoints": [
+                            {
+                                "email_addresses": [
+                                    "pbalaku2@cisco.com"
+                                ]
+                            }
+                        ],
+                        "email_attach": true,
+                        "notify": null,
+                        "webhook_name": null
+                    }
+                ],
+                "view": {
+                    "view_name": "Port Reclaim View",
+                    "field_groups": null,
+                    "format": null,
+                    "filters": null
+                }
+            },
+            {
+                "name": "Port_Reclaim_Email_CSV_27100_second",
+                "new_report": true,
+                "view_group_name": "Inventory",
+                "tags": [],
+                "view_group_version": "2.0.0",
+                "schedule": {
+                    "schedule_type": "SCHEDULE_NOW",
+                    "date_time": null,
+                    "time_zone": "Asia/Calcutta",
+                    "recurrence": null,
+                    "time": null,
+                    "start_date": null
+                },
+                "deliveries": [
+                    {
+                        "delivery_type": "NOTIFICATION",
+                        "file_path": null,
+                        "notification_endpoints": [
+                            {
+                                "email_addresses": [
+                                    "pbalaku2@cisco.com"
+                                ]
+                            }
+                        ],
+                        "email_attach": true,
+                        "notify": null,
+                        "webhook_name": null
+                    }
+                ],
+                "view": {
+                    "view_name": "Port Reclaim View",
+                    "field_groups": null,
+                    "format": null,
+                    "filters": null
+                }
+            }
+        ]
+} 
+],
+
+"playbook_config_missing_schedule_type": [
+    {
+        "generate_report": [
+            {
+                "name": "compliance_report_test1",
+                "view_group_name": "Compliance",
+                "deliveries": [
+                    {
+                        "delivery_type": "DOWNLOAD",
+                        "file_path": "/Users/mekandar/Desktop"
+                    }
+                ],
+                "schedule": {
+
+                    "time_zone": "Asia/Calcutta"
+                },
+                "view": {
+                    "view_name": "Network Device Compliance",
+                    "field_groups": [
+                        {
+                            "name": "inventoryAllData",
+                            "display_name": "All Data"
+                        }
+                    ],
+                    "format": {
+                        "format_type": "CSV"
+                    },
+                    "filters": [
+                        {
+                            "name": "Location",
+                            "display_name": "Location",
+                            "filter_type": "MULTI_SELECT_TREE"
+                        }
+                    ]
+                },
+                "tags": []
+            }
+        ]
+    }
+],
+
+"playbook_config_schedule_later":[
+    {
+    "generate_report": [
+        {
+            "name": "compliance_report_test1",
+            "view_group_name": "Compliance",
+            "deliveries": [
+                {
+                    "delivery_type": "DOWNLOAD",
+                    "file_path": "/Users/mekandar/Desktop"
+                }
+            ],
+            "schedule": {
+                "time_zone": "Asia/Calcutta",
+                "schedule_type": "SCHEDULE_LATER",
+                "date_time": "2027-08-12 12:40 PM"
+            },
+            "view": {
+                "view_name": "Network Device Compliance",
+                "field_groups": [
+                    {
+                        "name": "inventoryAllData",
+                        "display_name": "All Data"
+                    }
+                ],
+                "format": {
+                    "format_type": "CSV"
+                },
+                "filters": [
+                    {
+                        "name": "Location",
+                        "display_name": "Location",
+                        "filter_type": "MULTI_SELECT_TREE"
+                    }
+                ]
+            },
+            "tags": []
+        }
+    ]
+} 
+],
+
+"playbook_config_schedule_recurrance":[
+    {
+    "generate_report": [
+        {
+            "name": "compliance_report_test1",
+            "view_group_name": "Compliance",
+            "deliveries": [
+                {
+                    "delivery_type": "DOWNLOAD",
+                    "file_path": "/Users/mekandar/Desktop"
+                }
+            ],
+            "schedule": {
+                "time_zone": "Asia/Calcutta",
+                "schedule_type": "SCHEDULE_RECURRENCE",
+                "date_time": "2025-08-12 12:40 PM",
+                "recurrence": {
+                    "recurrence_type": "MONTHLY",
+                    "day_of_month": 12,
+                    "last_day_of_month": false
+                }
+            },
+            "view": {
+                "view_name": "Network Device Compliance",
+                "field_groups": [
+                    {
+                        "name": "inventoryAllData",
+                        "display_name": "All Data"
+                    }
+                ],
+                "format": {
+                    "format_type": "CSV"
+                },
+                "filters": [
+                    {
+                        "name": "Location",
+                        "display_name": "Location",
+                        "filter_type": "MULTI_SELECT_TREE"
+                    }
+                ]
+            },
+            "tags": []
+        }
+    ]
+} 
+],
+
+"playbook_config_schedule_recurrance_weekly":[
+    {
+    "generate_report": [
+        {
+            "name": "compliance_report_test1",
+            "view_group_name": "Compliance",
+            "deliveries": [
+                {
+                    "delivery_type": "DOWNLOAD",
+                    "file_path": "/Users/mekandar/Desktop"
+                }
+            ],
+            "schedule": {
+                "time_zone": "Asia/Calcutta",
+                "schedule_type": "SCHEDULE_RECURRENCE",
+                "date_time": "2025-08-12 12:40 PM",
+                "recurrence": {
+                    "recurrence_type": "WEEKLY",
+                    "days": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+                }
+            },
+            "view": {
+                "view_name": "Network Device Compliance",
+                "field_groups": [
+                    {
+                        "name": "inventoryAllData",
+                        "display_name": "All Data"
+                    }
+                ],
+                "format": {
+                    "format_type": "CSV"
+                },
+                "filters": [
+                    {
+                        "name": "Location",
+                        "display_name": "Location",
+                        "filter_type": "MULTI_SELECT_TREE"
+                    }
+                ]
+            },
+            "tags": []
+        }
+    ]
+} 
+],
+
+"playbook_config_schedule_recurrance_weekly_daily":[
+   {
+  "generate_report": [
+    {
+      "name": "compliance_report_check",
+      "view_group_name": "Compliance",
+      "deliveries": [
+        {
+          "delivery_type": "DOWNLOAD",
+          "file_path": "/Users/mekandar/Desktop"
+        }
+      ],
+      "schedule": {
+        "schedule_type": "SCHEDULE_RECURRENCE",
+        "date_time": "2025-09-26 05:45 PM",
+        "time_zone": "Asia/Calcutta",
+        "recurrence": {
+          "recurrence_type": "WEEKLY",
+          "days": ["Daily"]
+        }
+      },
+      "view": {
+        "view_name": "Network Device Compliance",
+        "field_groups": [
+          {
+            "name": "inventoryAllData",
+            "display_name": "All Data"
+          }
+        ],
+        "format": {
+          "format_type": "CSV"
+        },
+        "filters": [
+          {
+            "name": "Location",
+            "filter_type": "MULTI_SELECT_TREE"
+          }
+        ]
+      },
+      "tags": []
+    }
+  ]
+}
+
+],
+
+  "create_get_all_view_groups": [
+    {
+        "viewGroupId": "8e14930c-f229-4cd0-b8e5-3a588efc6be5",
+        "name": "Compliance",
+        "description": "Network Device",
+        "category": "Network"
+    },
+    {
+        "viewGroupId": "d7afe5c9-4941-4251-8bf5-0fb643e90888",
+        "name": "Executive Summary",
+        "description": "Analyze how the network is performing with insights into network devices, clients and applications",
+        "category": "Executive"
+    },
+    {
+        "viewGroupId": "d1f59396-bfd7-4de6-829f-0b3abcc7bd17",
+        "name": "Inventory",
+        "description": "List of all network devices discovered by Cisco Catalyst Center",
+        "category": "Inventory"
+    },
+    {
+        "viewGroupId": "357ae6a4-05b0-42c4-8607-7817d35366f2",
+        "name": "SWIM",
+        "description": "View all network devices and their current version of code",
+        "category": "SWIM"
+    },
+    {
+        "viewGroupId": "c8bfe5c9-4941-4251-8bf5-0fb643e90816",
+        "name": "Access Point",
+        "description": "Contains Access Point related reports",
+        "category": "AP"
+    },
+    {
+        "viewGroupId": "35d0cc41-e170-4e51-87e2-97dc1c8931ea",
+        "name": "Long Term",
+        "description": "AI Cloud-based Reports",
+        "category": "Cloud"
+    },
+    {
+        "viewGroupId": "6f68ac1e-0d26-4d57-baaa-f440c3c9e488",
+        "name": "Network Devices",
+        "description": "Network Devices",
+        "category": "Network Devices"
+    },
+    {
+        "viewGroupId": "3e69c2fd-b96c-42e8-a172-9cdc10c35e2a",
+        "name": "Group Pair Communication Analytics",
+        "description": "Group Pair Communication Analytics",
+        "category": "Activity"
+    },
+    {
+        "viewGroupId": "49102789-9e5f-4e11-a788-0f9f49d856a8",
+        "name": "Telemetry",
+        "description": "Lifecycle VG",
+        "category": "Telemetry"
+    },
+    {
+        "viewGroupId": "59c08996-b335-43a6-a6fe-07710f8a48e5",
+        "name": "Group Communication Summary",
+        "description": "Group Communication Summary",
+        "category": "Activity"
+    },
+    {
+        "viewGroupId": "e0ce7b73-18fb-4655-a4e8-952e057384d0",
+        "name": "EoX",
+        "description": "List of all EoX alerts discovered by Cisco Catalyst Center",
+        "category": "EoX"
+    },
+    {
+        "viewGroupId": "97afe5c9-4941-4251-8bf5-0fb643e90841",
+        "name": "Rogue and aWIPS",
+        "description": "Analyze the Rogue and aWIPS threat",
+        "category": "Rogue and aWIPS"
+    },
+    {
+        "viewGroupId": "766de04e-2808-4de7-bb11-c737fe2979a0",
+        "name": "Licensing",
+        "description": "Licensing data and reports",
+        "category": "Licensing"
+    },
+    {
+        "viewGroupId": "2164b90a-c6a4-11ea-87d0-0242ac130003",
+        "name": "AI Endpoint Analytics",
+        "description": "DCS",
+        "category": "AI Endpoint Analytics"
+    },
+    {
+        "viewGroupId": "d7afe5c9-4941-4251-8bf5-0fb643e90a12",
+        "name": "Audit Log",
+        "description": "Audit Log Report.",
+        "category": "AuditLog"
+    },
+    {
+        "viewGroupId": "4ce5fd8c-d37e-4478-b1ac-8d7a20e989b1",
+        "name": "Configuration Archive",
+        "description": "ConfigArchive",
+        "category": "Network"
+    },
+    {
+        "viewGroupId": "d7afe5c9-4941-4251-8bf5-0fb643e90847",
+        "name": "Client",
+        "description": "Analyze how clients are performing in your network using Client Summary, Top N Summary and Client Detail reports",
+        "category": "Client"
+    },
+    {
+        "viewGroupId": "b3760891-1e1f-465a-a018-bbd428c17018",
+        "name": "Security Advisories",
+        "description": "List of all security advisories discovered by Cisco Catalyst Center",
+        "category": "Security Advisories"
+    }
+] ,
+
+"create_get_views_for_a_given_view_group":
+{
+    "viewGroupId": "8e14930c-f229-4cd0-b8e5-3a588efc6be5",
+    "views": [
+        {
+            "viewId": "ee7167c2-cebc-4303-ae09-2e96d7186282",
+            "viewName": "Network Device Compliance",
+            "description": "This report contains Device Name, Device Family, Device Type,IP Address, Compliance Status, Software Image Status,Startup Vs Running Configuration Status,Critical Security Advisories Status,Network Profiles Status."
+        }
+    ]
+},
+
+"create_get_list_of_scheduled_reports":
+[
+    {
+        "name": "compliance_report",
+        "dataCategory": "Network",
+        "viewGroupId": "8e14930c-f229-4cd0-b8e5-3a588efc6be5",
+        "viewGroupName": null,
+        "schedule": {
+            "type": "SCHEDULE_RECURRENCE",
+            "timeZoneId": "Asia/Calcutta",
+            "scheduledServiceId": "3b42502d-feca-4a1d-8ea2-27311fccd487",
+            "startDate": 1754982600000,
+            "endDate": 0,
+            "endAfterOccurrences": 0,
+            "time": 1754982600000,
+            "recurrence": {
+                "type": "MONTHLY",
+                "dayOfMonth": 12,
+                "lastDayOfMonth": false
+            }
+        },
+        "deliveries": [
+            {
+                "type": "DOWNLOAD",
+                "tenantId": null,
+                "default": false
+            }
+        ],
+        "view": {
+            "name": "Network Device Compliance",
+            "description": "Network Device",
+            "fieldGroups": [
+                {
+                    "fieldGroupName": "Compliance",
+                    "fieldGroupDisplayName": "Compliance",
+                    "fields": [
+                        {
+                            "name": "rownum",
+                            "displayName": "Sl.No"
+                        },
+                        {
+                            "name": "hostname",
+                            "displayName": "Device Name"
+                        },
+                        {
+                            "name": "family",
+                            "displayName": "Device Family"
+                        },
+                        {
+                            "name": "type",
+                            "displayName": "Device Type"
+                        },
+                        {
+                            "name": "managementIpAddress",
+                            "displayName": "IP Address"
+                        },
+                        {
+                            "name": "complianceStatus",
+                            "displayName": "Compliance Status"
+                        },
+                        {
+                            "name": "IMAGE",
+                            "displayName": "Software Image"
+                        },
+                        {
+                            "name": "RUNNING_CONFIG",
+                            "displayName": "Startup Vs Running Configuration"
+                        },
+                        {
+                            "name": "PSIRT",
+                            "displayName": "Critical Security Advisories"
+                        },
+                        {
+                            "name": "NETWORK_PROFILE",
+                            "displayName": "Network Profile"
+                        },
+                        {
+                            "name": "NETWORK_SETTINGS",
+                            "displayName": "Network Settings"
+                        },
+                        {
+                            "name": "EOX",
+                            "displayName": "EoX"
+                        },
+                        {
+                            "name": "FABRIC",
+                            "displayName": "Fabric"
+                        },
+                        {
+                            "name": "APPLICATION_VISIBILITY",
+                            "displayName": "Application Visibility"
+                        },
+                        {
+                            "name": "CUSTOMIZATION_PROFILE",
+                            "displayName": "Customization Profile"
+                        }
+                    ]
+                }
+            ],
+            "filters": [
+                {
+                    "type": "MULTI_SELECT_TREE",
+                    "name": "Location",
+                    "displayName": "Location",
+                    "scope": null,
+                    "filterSpecId": null
+                }
+            ],
+            "format": {
+                "name": "CSV",
+                "formatType": "CSV",
+                "template": {
+                    "jsTemplateId": "BJYghfA3z"
+                },
+                "default": true
+            },
+            "viewId": "ee7167c2-cebc-4303-ae09-2e96d7186282"
+        },
+        "executions": [
+            {
+                "runTime": null,
+                "dataPrepTime": null,
+                "executionId": "d4b25241-aa01-40e5-8697-c33f19a7b4c7",
+                "startTime": 1754982602376,
+                "endTime": 1754982712138,
+                "processStatus": "SUCCESS",
+                "requestStatus": "ACCEPT",
+                "downloadFileSize": 2.2382812,
+                "downloadFile": "/opt/maglev/daas-runtime/data/datasets/36f22437-6a84-4894-8ba8-eb68e32d7739/d4b25241-aa01-40e5-8697-c33f19a7b4c7/compliance_report_d4b25241-aa01-40e5-8697-c33f19a7b4c7.csv",
+                "errors": [
+                    ""
+                ]
+            }
+        ],
+        "executionCount": 1,
+        "clientId": "default0",
+        "userName": "admin",
+        "resourceDomain": {
+            "name": "SUPER-ADMIN_GLOBAL",
+            "resourceGroups": [
+                {
+                    "srcResourceId": "*",
+                    "type": "site",
+                    "name": "Global"
+                }
+            ],
+            "_id": "f9543bc99acefb96d3a38f6c140204d4a38c95da"
+        },
+        "reportId": "36f22437-6a84-4894-8ba8-eb68e32d7739",
+        "viewGroupVersion": "2.0.0",
+        "reportWasExecuted": true
+    },
+    {
+        "name": "compliance_report2",
+        "dataCategory": "Network",
+        "viewGroupId": "8e14930c-f229-4cd0-b8e5-3a588efc6be5",
+        "viewGroupName": null,
+        "schedule": {
+            "type": "SCHEDULE_RECURRENCE",
+            "timeZoneId": "Asia/Calcutta",
+            "scheduledServiceId": "fd1193c3-d823-4350-8787-604196aea06b",
+            "startDate": 1754982600000,
+            "endDate": 0,
+            "endAfterOccurrences": 0,
+            "time": 1754982600000,
+            "recurrence": {
+                "type": "MONTHLY",
+                "dayOfMonth": 0,
+                "lastDayOfMonth": true
+            }
+        },
+        "deliveries": [
+            {
+                "type": "DOWNLOAD",
+                "tenantId": null,
+                "default": false
+            }
+        ],
+        "view": {
+            "name": "Network Device Compliance",
+            "description": "Network Device",
+            "fieldGroups": [
+                {
+                    "fieldGroupName": "Compliance",
+                    "fieldGroupDisplayName": "Compliance",
+                    "fields": [
+                        {
+                            "name": "rownum",
+                            "displayName": "Sl.No"
+                        },
+                        {
+                            "name": "hostname",
+                            "displayName": "Device Name"
+                        },
+                        {
+                            "name": "family",
+                            "displayName": "Device Family"
+                        },
+                        {
+                            "name": "type",
+                            "displayName": "Device Type"
+                        },
+                        {
+                            "name": "managementIpAddress",
+                            "displayName": "IP Address"
+                        },
+                        {
+                            "name": "complianceStatus",
+                            "displayName": "Compliance Status"
+                        },
+                        {
+                            "name": "IMAGE",
+                            "displayName": "Software Image"
+                        },
+                        {
+                            "name": "RUNNING_CONFIG",
+                            "displayName": "Startup Vs Running Configuration"
+                        },
+                        {
+                            "name": "PSIRT",
+                            "displayName": "Critical Security Advisories"
+                        },
+                        {
+                            "name": "NETWORK_PROFILE",
+                            "displayName": "Network Profile"
+                        },
+                        {
+                            "name": "NETWORK_SETTINGS",
+                            "displayName": "Network Settings"
+                        },
+                        {
+                            "name": "EOX",
+                            "displayName": "EoX"
+                        },
+                        {
+                            "name": "FABRIC",
+                            "displayName": "Fabric"
+                        },
+                        {
+                            "name": "APPLICATION_VISIBILITY",
+                            "displayName": "Application Visibility"
+                        },
+                        {
+                            "name": "CUSTOMIZATION_PROFILE",
+                            "displayName": "Customization Profile"
+                        }
+                    ]
+                }
+            ],
+            "filters": [
+                {
+                    "type": "MULTI_SELECT_TREE",
+                    "name": "Location",
+                    "displayName": "Location",
+                    "scope": null,
+                    "filterSpecId": null
+                }
+            ],
+            "format": {
+                "name": "CSV",
+                "formatType": "CSV",
+                "template": {
+                    "jsTemplateId": "BJYghfA3z"
+                },
+                "default": true
+            },
+            "viewId": "ee7167c2-cebc-4303-ae09-2e96d7186282"
+        },
+        "executionCount": 0,
+        "clientId": "default0",
+        "userName": "admin",
+        "resourceDomain": {
+            "name": "SUPER-ADMIN_GLOBAL",
+            "resourceGroups": [
+                {
+                    "srcResourceId": "*",
+                    "type": "site",
+                    "name": "Global"
+                }
+            ],
+            "_id": "f9543bc99acefb96d3a38f6c140204d4a38c95da"
+        },
+        "reportId": "10a05d97-bd36-4d16-91b2-d0a6c9922277",
+        "viewGroupVersion": "2.0.0",
+        "reportWasExecuted": false
+    },
+    {
+        "name": "compliance_report_test",
+        "dataCategory": "Network",
+        "viewGroupId": "8e14930c-f229-4cd0-b8e5-3a588efc6be5",
+        "viewGroupName": null,
+        "schedule": {
+            "type": "SCHEDULE_NOW",
+            "scheduledServiceId": "90740ee1-a5db-4dd0-9a6b-5ec144a5b149",
+            "dateTime": 1755539754783
+        },
+        "deliveries": [
+            {
+                "type": "DOWNLOAD",
+                "tenantId": null,
+                "default": false
+            }
+        ],
+        "view": {
+            "name": "Network Device Compliance",
+            "description": "Network Device",
+            "fieldGroups": [
+                {
+                    "fieldGroupName": "Compliance",
+                    "fieldGroupDisplayName": "Compliance",
+                    "fields": [
+                        {
+                            "name": "rownum",
+                            "displayName": "Sl.No"
+                        },
+                        {
+                            "name": "hostname",
+                            "displayName": "Device Name"
+                        },
+                        {
+                            "name": "family",
+                            "displayName": "Device Family"
+                        },
+                        {
+                            "name": "type",
+                            "displayName": "Device Type"
+                        },
+                        {
+                            "name": "managementIpAddress",
+                            "displayName": "IP Address"
+                        },
+                        {
+                            "name": "complianceStatus",
+                            "displayName": "Compliance Status"
+                        },
+                        {
+                            "name": "IMAGE",
+                            "displayName": "Software Image"
+                        },
+                        {
+                            "name": "RUNNING_CONFIG",
+                            "displayName": "Startup Vs Running Configuration"
+                        },
+                        {
+                            "name": "PSIRT",
+                            "displayName": "Critical Security Advisories"
+                        },
+                        {
+                            "name": "NETWORK_PROFILE",
+                            "displayName": "Network Profile"
+                        },
+                        {
+                            "name": "NETWORK_SETTINGS",
+                            "displayName": "Network Settings"
+                        },
+                        {
+                            "name": "EOX",
+                            "displayName": "EoX"
+                        },
+                        {
+                            "name": "FABRIC",
+                            "displayName": "Fabric"
+                        },
+                        {
+                            "name": "APPLICATION_VISIBILITY",
+                            "displayName": "Application Visibility"
+                        },
+                        {
+                            "name": "CUSTOMIZATION_PROFILE",
+                            "displayName": "Customization Profile"
+                        }
+                    ]
+                }
+            ],
+            "filters": [
+                {
+                    "type": "MULTI_SELECT_TREE",
+                    "name": "Location",
+                    "displayName": "Location",
+                    "scope": null,
+                    "filterSpecId": null
+                }
+            ],
+            "format": {
+                "name": "CSV",
+                "formatType": "CSV",
+                "template": {
+                    "jsTemplateId": "BJYghfA3z"
+                },
+                "default": true
+            },
+            "viewId": "ee7167c2-cebc-4303-ae09-2e96d7186282"
+        },
+        "executions": [
+            {
+                "runTime": null,
+                "dataPrepTime": null,
+                "executionId": "9cfd8351-281f-4799-a8ad-e221c57f4047",
+                "startTime": 1755539766569,
+                "endTime": 1755539884234,
+                "processStatus": "SUCCESS",
+                "requestStatus": "ACCEPT",
+                "downloadFileSize": 2.2382812,
+                "downloadFile": "/opt/maglev/daas-runtime/data/datasets/4f508d06-a7f8-4af6-a155-a08ad8911348/9cfd8351-281f-4799-a8ad-e221c57f4047/compliance_report_test_9cfd8351-281f-4799-a8ad-e221c57f4047.csv",
+                "errors": [
+                    ""
+                ]
+            }
+        ],
+        "executionCount": 1,
+        "clientId": "default0",
+        "userName": "admin",
+        "resourceDomain": {
+            "name": "SUPER-ADMIN_GLOBAL",
+            "resourceGroups": [
+                {
+                    "srcResourceId": "*",
+                    "type": "site",
+                    "name": "Global"
+                }
+            ],
+            "_id": "f9543bc99acefb96d3a38f6c140204d4a38c95da"
+        },
+        "reportId": "4f508d06-a7f8-4af6-a155-a08ad8911348",
+        "viewGroupVersion": "2.0.0",
+        "reportWasExecuted": true
+    }
+],
+
+"create_get_view_details_for_a_given_view_group_and_view":
+{
+    "viewId": "ee7167c2-cebc-4303-ae09-2e96d7186282",
+    "viewName": "Network Device Compliance",
+    "description": "This report contains Device Name, Device Family, Device Type,IP Address, Compliance Status, Software Image Status,Startup Vs Running Configuration Status,Critical Security Advisories Status,Network Profiles Status.",
+    "viewInfo": null,
+    "schedules": [
+        {
+            "type": "SCHEDULE_NOW",
+            "default": true
+        },
+        {
+            "type": "SCHEDULE_LATER",
+            "default": false
+        },
+        {
+            "type": "SCHEDULE_RECURRENCE",
+            "default": false
+        }
+    ],
+    "deliveries": [
+        {
+            "type": "DOWNLOAD",
+            "default": true
+        },
+        {
+            "type": "NOTIFICATION",
+            "default": false
+        },
+        {
+            "type": "WEBHOOK",
+            "default": false
+        }
+    ],
+    "formats": [
+        {
+            "name": "CSV",
+            "format": "CSV",
+            "template": {
+                "jsTemplateId": "BJYghfA3z"
+            },
+            "default": true
+        },
+        {
+            "name": "PDF",
+            "format": "PDF",
+            "template": {
+                "jsTemplateId": "IyNMS75UYt"
+            },
+            "default": false
+        },
+        {
+            "name": "JSON",
+            "format": "JSON",
+            "template": null,
+            "default": false
+        }
+    ],
+    "fieldGroups": [
+        {
+            "fieldGroupName": "Compliance",
+            "fieldGroupDisplayName": "Compliance",
+            "tableId": "afcf4f94-3eb8-4f79-8c68-bbaf8e5385d0",
+            "fields": [
+                {
+                    "name": "rownum",
+                    "displayName": "Sl.No"
+                },
+                {
+                    "name": "hostname",
+                    "displayName": "Device Name"
+                },
+                {
+                    "name": "family",
+                    "displayName": "Device Family"
+                },
+                {
+                    "name": "type",
+                    "displayName": "Device Type"
+                },
+                {
+                    "name": "managementIpAddress",
+                    "displayName": "IP Address"
+                },
+                {
+                    "name": "complianceStatus",
+                    "displayName": "Compliance Status"
+                },
+                {
+                    "name": "IMAGE",
+                    "displayName": "Software Image"
+                },
+                {
+                    "name": "RUNNING_CONFIG",
+                    "displayName": "Startup Vs Running Configuration"
+                },
+                {
+                    "name": "PSIRT",
+                    "displayName": "Critical Security Advisories"
+                },
+                {
+                    "name": "NETWORK_PROFILE",
+                    "displayName": "Network Profile"
+                },
+                {
+                    "name": "NETWORK_SETTINGS",
+                    "displayName": "Network Settings"
+                },
+                {
+                    "name": "EOX",
+                    "displayName": "EoX"
+                },
+                {
+                    "name": "FABRIC",
+                    "displayName": "Fabric"
+                },
+                {
+                    "name": "APPLICATION_VISIBILITY",
+                    "displayName": "Application Visibility"
+                },
+                {
+                    "name": "CUSTOMIZATION_PROFILE",
+                    "displayName": "Customization Profile"
+                }
+            ]
+        }
+    ],
+    "filters": [
+        {
+            "isSeeded": false,
+            "name": "complianceStatus",
+            "displayName": "Compliance Status",
+            "type": "REGULAR",
+            "dataType": null,
+            "filterSource": {
+                "rootPath": "",
+                "valuePath": "",
+                "displayValuePath": "",
+                "dataSource": {
+                    "type": "STATIC",
+                    "options": [
+                        {
+                            "label": "Compliant",
+                            "value": "COMPLIANT"
+                        },
+                        {
+                            "label": "Non Compliant",
+                            "value": "NON_COMPLIANT"
+                        },
+                        {
+                            "label": "Not Applicable",
+                            "value": "NOT_APPLICABLE"
+                        }
+                    ]
+                }
+            },
+            "cacheFilter": false,
+            "required": false,
+            "timeOptions": null,
+            "additionalInfo": null,
+            "filterInfo": null,
+            "parent": null,
+            "selectLimit": null,
+            "scope": null,
+            "clientId": "default0",
+            "tenantId": null
+        },
+        {
+            "isSeeded": false,
+            "name": "complianceType",
+            "displayName": "Compliance Category",
+            "type": "REGULAR",
+            "dataType": null,
+            "filterSource": {
+                "rootPath": "$",
+                "valuePath": "",
+                "displayValuePath": "",
+                "dataSource": {
+                    "type": "STATIC",
+                    "options": [
+                        {
+                            "label": "Software Image",
+                            "value": "IMAGE"
+                        },
+                        {
+                            "label": "Startup Vs Running Configuration",
+                            "value": "RUNNING_CONFIG"
+                        },
+                        {
+                            "label": "Critical Security Advisories",
+                            "value": "PSIRT"
+                        },
+                        {
+                            "label": "Network Profile",
+                            "value": "NETWORK_PROFILE"
+                        },
+                        {
+                            "label": "Network Settings",
+                            "value": "NETWORK_SETTINGS"
+                        },
+                        {
+                            "label": "EoX",
+                            "value": "EOX"
+                        },
+                        {
+                            "label": "Fabric",
+                            "value": "FABRIC"
+                        },
+                        {
+                            "label": "Application Visibility",
+                            "value": "APPLICATION_VISIBILITY"
+                        },
+                        {
+                            "label": "Customization Profile",
+                            "value": "CUSTOMIZATION_PROFILE"
+                        }
+                    ]
+                }
+            },
+            "cacheFilter": false,
+            "required": false,
+            "timeOptions": null,
+            "additionalInfo": null,
+            "filterInfo": null,
+            "parent": null,
+            "selectLimit": null,
+            "scope": null,
+            "clientId": "default0",
+            "tenantId": null
+        },
+        {
+            "isSeeded": false,
+            "name": "family",
+            "displayName": "Device Family",
+            "type": "REGULAR",
+            "dataType": null,
+            "filterSource": {
+                "rootPath": "$",
+                "valuePath": "",
+                "displayValuePath": "",
+                "dataSource": {
+                    "type": "REST_API",
+                    "context": {
+                        "pathOrUrl": "/autocomplete/family",
+                        "servicePath": "/api/v2/data/compliance",
+                        "serviceName": null,
+                        "servicePort": null,
+                        "namespace": null,
+                        "method": "GET",
+                        "body": null,
+                        "external": false
+                    },
+                    "bapi": false
+                }
+            },
+            "cacheFilter": false,
+            "required": false,
+            "timeOptions": null,
+            "additionalInfo": null,
+            "filterInfo": null,
+            "parent": null,
+            "selectLimit": null,
+            "scope": null,
+            "clientId": "default0",
+            "tenantId": null
+        },
+        {
+            "isSeeded": false,
+            "name": "DeviceType",
+            "displayName": "Device Type",
+            "type": "REGULAR",
+            "dataType": null,
+            "filterSource": {
+                "rootPath": "$.response",
+                "valuePath": "",
+                "displayValuePath": "",
+                "dataSource": {
+                    "type": "REST_API",
+                    "context": {
+                        "pathOrUrl": "/autocomplete?type",
+                        "servicePath": "/api/v1/network-device",
+                        "serviceName": null,
+                        "servicePort": null,
+                        "namespace": null,
+                        "method": "GET",
+                        "body": null,
+                        "external": false
+                    },
+                    "bapi": false
+                }
+            },
+            "cacheFilter": false,
+            "required": false,
+            "timeOptions": null,
+            "additionalInfo": null,
+            "filterInfo": null,
+            "parent": null,
+            "selectLimit": null,
+            "scope": null,
+            "clientId": "default0",
+            "tenantId": null
+        }
+    ]
+},
+
+"create_n_schedule_reports":
+{
+    "name": "compliance_report_test1",
+    "dataCategory": "Network",
+    "viewGroupId": "8e14930c-f229-4cd0-b8e5-3a588efc6be5",
+    "viewGroupName": null,
+    "schedule": {
+        "type": "SCHEDULE_NOW",
+        "scheduledServiceId": "e1d72a9e-9821-49db-947a-8bea9a7a786b",
+        "dateTime": 1755541480914
+    },
+    "deliveries": [
+        {
+            "type": "DOWNLOAD",
+            "tenantId": null,
+            "default": false
+        }
+    ],
+    "view": {
+        "name": "Network Device Compliance",
+        "description": "Network Device",
+        "fieldGroups": [
+            {
+                "fieldGroupName": "Compliance",
+                "fieldGroupDisplayName": "Compliance",
+                "fields": [
+                    {
+                        "name": "rownum",
+                        "displayName": "Sl.No"
+                    },
+                    {
+                        "name": "hostname",
+                        "displayName": "Device Name"
+                    },
+                    {
+                        "name": "family",
+                        "displayName": "Device Family"
+                    },
+                    {
+                        "name": "type",
+                        "displayName": "Device Type"
+                    },
+                    {
+                        "name": "managementIpAddress",
+                        "displayName": "IP Address"
+                    },
+                    {
+                        "name": "complianceStatus",
+                        "displayName": "Compliance Status"
+                    },
+                    {
+                        "name": "IMAGE",
+                        "displayName": "Software Image"
+                    },
+                    {
+                        "name": "RUNNING_CONFIG",
+                        "displayName": "Startup Vs Running Configuration"
+                    },
+                    {
+                        "name": "PSIRT",
+                        "displayName": "Critical Security Advisories"
+                    },
+                    {
+                        "name": "NETWORK_PROFILE",
+                        "displayName": "Network Profile"
+                    },
+                    {
+                        "name": "NETWORK_SETTINGS",
+                        "displayName": "Network Settings"
+                    },
+                    {
+                        "name": "EOX",
+                        "displayName": "EoX"
+                    },
+                    {
+                        "name": "FABRIC",
+                        "displayName": "Fabric"
+                    },
+                    {
+                        "name": "APPLICATION_VISIBILITY",
+                        "displayName": "Application Visibility"
+                    },
+                    {
+                        "name": "CUSTOMIZATION_PROFILE",
+                        "displayName": "Customization Profile"
+                    }
+                ]
+            }
+        ],
+        "filters": [
+            {
+                "type": "MULTI_SELECT_TREE",
+                "name": "Location",
+                "displayName": "Location",
+                "scope": null,
+                "filterSpecId": null
+            }
+        ],
+        "format": {
+            "name": "CSV",
+            "formatType": "CSV",
+            "template": {
+                "jsTemplateId": "BJYghfA3z"
+            },
+            "default": true
+        },
+        "viewId": "ee7167c2-cebc-4303-ae09-2e96d7186282"
+    },
+    "executionCount": 0,
+    "clientId": "default0",
+    "userName": "admin",
+    "resourceDomain": {
+        "name": "SUPER-ADMIN_GLOBAL",
+        "resourceGroups": [
+            {
+                "srcResourceId": "*",
+                "type": "site",
+                "name": "Global"
+            }
+        ],
+        "_id": "f9543bc99acefb96d3a38f6c140204d4a38c95da"
+    },
+    "reportId": "016f0f08-ace0-43ec-960e-ce4ddc72ef31",
+    "viewGroupVersion": "2.0.0",
+    "reportWasExecuted": false
+},
+
+"delete_get_list_of_scheduled_reports":  [
+    {
+        "name": "compliance_report",
+        "dataCategory": "Network",
+        "viewGroupId": "8e14930c-f229-4cd0-b8e5-3a588efc6be5",
+        "viewGroupName": null,
+        "schedule": {
+            "type": "SCHEDULE_RECURRENCE",
+            "timeZoneId": "Asia/Calcutta",
+            "scheduledServiceId": "3b42502d-feca-4a1d-8ea2-27311fccd487",
+            "startDate": 1754982600000,
+            "endDate": 0,
+            "endAfterOccurrences": 0,
+            "time": 1754982600000,
+            "recurrence": {
+                "type": "MONTHLY",
+                "dayOfMonth": 12,
+                "lastDayOfMonth": false
+            }
+        },
+        "deliveries": [
+            {
+                "type": "DOWNLOAD",
+                "tenantId": null,
+                "default": false
+            }
+        ],
+        "view": {
+            "name": "Network Device Compliance",
+            "description": "Network Device",
+            "fieldGroups": [
+                {
+                    "fieldGroupName": "Compliance",
+                    "fieldGroupDisplayName": "Compliance",
+                    "fields": [
+                        {
+                            "name": "rownum",
+                            "displayName": "Sl.No"
+                        },
+                        {
+                            "name": "hostname",
+                            "displayName": "Device Name"
+                        },
+                        {
+                            "name": "family",
+                            "displayName": "Device Family"
+                        },
+                        {
+                            "name": "type",
+                            "displayName": "Device Type"
+                        },
+                        {
+                            "name": "managementIpAddress",
+                            "displayName": "IP Address"
+                        },
+                        {
+                            "name": "complianceStatus",
+                            "displayName": "Compliance Status"
+                        },
+                        {
+                            "name": "IMAGE",
+                            "displayName": "Software Image"
+                        },
+                        {
+                            "name": "RUNNING_CONFIG",
+                            "displayName": "Startup Vs Running Configuration"
+                        },
+                        {
+                            "name": "PSIRT",
+                            "displayName": "Critical Security Advisories"
+                        },
+                        {
+                            "name": "NETWORK_PROFILE",
+                            "displayName": "Network Profile"
+                        },
+                        {
+                            "name": "NETWORK_SETTINGS",
+                            "displayName": "Network Settings"
+                        },
+                        {
+                            "name": "EOX",
+                            "displayName": "EoX"
+                        },
+                        {
+                            "name": "FABRIC",
+                            "displayName": "Fabric"
+                        },
+                        {
+                            "name": "APPLICATION_VISIBILITY",
+                            "displayName": "Application Visibility"
+                        },
+                        {
+                            "name": "CUSTOMIZATION_PROFILE",
+                            "displayName": "Customization Profile"
+                        }
+                    ]
+                }
+            ],
+            "filters": [
+                {
+                    "type": "MULTI_SELECT_TREE",
+                    "name": "Location",
+                    "displayName": "Location",
+                    "scope": null,
+                    "filterSpecId": null
+                }
+            ],
+            "format": {
+                "name": "CSV",
+                "formatType": "CSV",
+                "template": {
+                    "jsTemplateId": "BJYghfA3z"
+                },
+                "default": true
+            },
+            "viewId": "ee7167c2-cebc-4303-ae09-2e96d7186282"
+        },
+        "executionCount": 0,
+        "clientId": "default0",
+        "userName": "admin",
+        "resourceDomain": {
+            "name": "SUPER-ADMIN_GLOBAL",
+            "resourceGroups": [
+                {
+                    "srcResourceId": "*",
+                    "type": "site",
+                    "name": "Global"
+                }
+            ],
+            "_id": "f9543bc99acefb96d3a38f6c140204d4a38c95da"
+        },
+        "reportId": "36f22437-6a84-4894-8ba8-eb68e32d7739",
+        "viewGroupVersion": "2.0.0",
+        "reportWasExecuted": true
+    },
+    {
+        "name": "compliance_report2",
+        "dataCategory": "Network",
+        "viewGroupId": "8e14930c-f229-4cd0-b8e5-3a588efc6be5",
+        "viewGroupName": null,
+        "schedule": {
+            "type": "SCHEDULE_RECURRENCE",
+            "timeZoneId": "Asia/Calcutta",
+            "scheduledServiceId": "fd1193c3-d823-4350-8787-604196aea06b",
+            "startDate": 1754982600000,
+            "endDate": 0,
+            "endAfterOccurrences": 0,
+            "time": 1754982600000,
+            "recurrence": {
+                "type": "MONTHLY",
+                "dayOfMonth": 0,
+                "lastDayOfMonth": true
+            }
+        },
+        "deliveries": [
+            {
+                "type": "DOWNLOAD",
+                "tenantId": null,
+                "default": false
+            }
+        ],
+        "view": {
+            "name": "Network Device Compliance",
+            "description": "Network Device",
+            "fieldGroups": [
+                {
+                    "fieldGroupName": "Compliance",
+                    "fieldGroupDisplayName": "Compliance",
+                    "fields": [
+                        {
+                            "name": "rownum",
+                            "displayName": "Sl.No"
+                        },
+                        {
+                            "name": "hostname",
+                            "displayName": "Device Name"
+                        },
+                        {
+                            "name": "family",
+                            "displayName": "Device Family"
+                        },
+                        {
+                            "name": "type",
+                            "displayName": "Device Type"
+                        },
+                        {
+                            "name": "managementIpAddress",
+                            "displayName": "IP Address"
+                        },
+                        {
+                            "name": "complianceStatus",
+                            "displayName": "Compliance Status"
+                        },
+                        {
+                            "name": "IMAGE",
+                            "displayName": "Software Image"
+                        },
+                        {
+                            "name": "RUNNING_CONFIG",
+                            "displayName": "Startup Vs Running Configuration"
+                        },
+                        {
+                            "name": "PSIRT",
+                            "displayName": "Critical Security Advisories"
+                        },
+                        {
+                            "name": "NETWORK_PROFILE",
+                            "displayName": "Network Profile"
+                        },
+                        {
+                            "name": "NETWORK_SETTINGS",
+                            "displayName": "Network Settings"
+                        },
+                        {
+                            "name": "EOX",
+                            "displayName": "EoX"
+                        },
+                        {
+                            "name": "FABRIC",
+                            "displayName": "Fabric"
+                        },
+                        {
+                            "name": "APPLICATION_VISIBILITY",
+                            "displayName": "Application Visibility"
+                        },
+                        {
+                            "name": "CUSTOMIZATION_PROFILE",
+                            "displayName": "Customization Profile"
+                        }
+                    ]
+                }
+            ],
+            "filters": [
+                {
+                    "type": "MULTI_SELECT_TREE",
+                    "name": "Location",
+                    "displayName": "Location",
+                    "scope": null,
+                    "filterSpecId": null
+                }
+            ],
+            "format": {
+                "name": "CSV",
+                "formatType": "CSV",
+                "template": {
+                    "jsTemplateId": "BJYghfA3z"
+                },
+                "default": true
+            },
+            "viewId": "ee7167c2-cebc-4303-ae09-2e96d7186282"
+        },
+        "executionCount": 0,
+        "clientId": "default0",
+        "userName": "admin",
+        "resourceDomain": {
+            "name": "SUPER-ADMIN_GLOBAL",
+            "resourceGroups": [
+                {
+                    "srcResourceId": "*",
+                    "type": "site",
+                    "name": "Global"
+                }
+            ],
+            "_id": "f9543bc99acefb96d3a38f6c140204d4a38c95da"
+        },
+        "reportId": "10a05d97-bd36-4d16-91b2-d0a6c9922277",
+        "viewGroupVersion": "2.0.0",
+        "reportWasExecuted": false
+    },
+    {
+        "name": "compliance_report_test",
+        "dataCategory": "Network",
+        "viewGroupId": "8e14930c-f229-4cd0-b8e5-3a588efc6be5",
+        "viewGroupName": null,
+        "schedule": {
+            "type": "SCHEDULE_NOW",
+            "scheduledServiceId": "90740ee1-a5db-4dd0-9a6b-5ec144a5b149",
+            "dateTime": 1755539754783
+        },
+        "deliveries": [
+            {
+                "type": "DOWNLOAD",
+                "tenantId": null,
+                "default": false
+            }
+        ],
+        "view": {
+            "name": "Network Device Compliance",
+            "description": "Network Device",
+            "fieldGroups": [
+                {
+                    "fieldGroupName": "Compliance",
+                    "fieldGroupDisplayName": "Compliance",
+                    "fields": [
+                        {
+                            "name": "rownum",
+                            "displayName": "Sl.No"
+                        },
+                        {
+                            "name": "hostname",
+                            "displayName": "Device Name"
+                        },
+                        {
+                            "name": "family",
+                            "displayName": "Device Family"
+                        },
+                        {
+                            "name": "type",
+                            "displayName": "Device Type"
+                        },
+                        {
+                            "name": "managementIpAddress",
+                            "displayName": "IP Address"
+                        },
+                        {
+                            "name": "complianceStatus",
+                            "displayName": "Compliance Status"
+                        },
+                        {
+                            "name": "IMAGE",
+                            "displayName": "Software Image"
+                        },
+                        {
+                            "name": "RUNNING_CONFIG",
+                            "displayName": "Startup Vs Running Configuration"
+                        },
+                        {
+                            "name": "PSIRT",
+                            "displayName": "Critical Security Advisories"
+                        },
+                        {
+                            "name": "NETWORK_PROFILE",
+                            "displayName": "Network Profile"
+                        },
+                        {
+                            "name": "NETWORK_SETTINGS",
+                            "displayName": "Network Settings"
+                        },
+                        {
+                            "name": "EOX",
+                            "displayName": "EoX"
+                        },
+                        {
+                            "name": "FABRIC",
+                            "displayName": "Fabric"
+                        },
+                        {
+                            "name": "APPLICATION_VISIBILITY",
+                            "displayName": "Application Visibility"
+                        },
+                        {
+                            "name": "CUSTOMIZATION_PROFILE",
+                            "displayName": "Customization Profile"
+                        }
+                    ]
+                }
+            ],
+            "filters": [
+                {
+                    "type": "MULTI_SELECT_TREE",
+                    "name": "Location",
+                    "displayName": "Location",
+                    "scope": null,
+                    "filterSpecId": null
+                }
+            ],
+            "format": {
+                "name": "CSV",
+                "formatType": "CSV",
+                "template": {
+                    "jsTemplateId": "BJYghfA3z"
+                },
+                "default": true
+            },
+            "viewId": "ee7167c2-cebc-4303-ae09-2e96d7186282"
+        },
+        "executions": [
+            {
+                "runTime": null,
+                "dataPrepTime": null,
+                "executionId": "9cfd8351-281f-4799-a8ad-e221c57f4047",
+                "startTime": 1755539766569,
+                "endTime": 1755539884234,
+                "processStatus": "SUCCESS",
+                "requestStatus": "ACCEPT",
+                "downloadFileSize": 2.2382812,
+                "downloadFile": "/opt/maglev/daas-runtime/data/datasets/4f508d06-a7f8-4af6-a155-a08ad8911348/9cfd8351-281f-4799-a8ad-e221c57f4047/compliance_report_test_9cfd8351-281f-4799-a8ad-e221c57f4047.csv",
+                "errors": [
+                    ""
+                ]
+            }
+        ],
+        "executionCount": 1,
+        "clientId": "default0",
+        "userName": "admin",
+        "resourceDomain": {
+            "name": "SUPER-ADMIN_GLOBAL",
+            "resourceGroups": [
+                {
+                    "srcResourceId": "*",
+                    "type": "site",
+                    "name": "Global"
+                }
+            ],
+            "_id": "f9543bc99acefb96d3a38f6c140204d4a38c95da"
+        },
+        "reportId": "4f508d06-a7f8-4af6-a155-a08ad8911348",
+        "viewGroupVersion": "2.0.0",
+        "reportWasExecuted": true
+    },
+    {
+        "name": "compliance_report_test1",
+        "dataCategory": "Network",
+        "viewGroupId": "8e14930c-f229-4cd0-b8e5-3a588efc6be5",
+        "viewGroupName": null,
+        "schedule": {
+            "type": "SCHEDULE_NOW",
+            "scheduledServiceId": "6a7bf5f5-4997-41ca-a4ff-a368bfed5abe",
+            "dateTime": 1755588551092
+        },
+        "deliveries": [
+            {
+                "type": "DOWNLOAD",
+                "tenantId": null,
+                "default": false
+            }
+        ],
+        "view": {
+            "name": "Network Device Compliance",
+            "description": "Network Device",
+            "fieldGroups": [
+                {
+                    "fieldGroupName": "Compliance",
+                    "fieldGroupDisplayName": "Compliance",
+                    "fields": [
+                        {
+                            "name": "rownum",
+                            "displayName": "Sl.No"
+                        },
+                        {
+                            "name": "hostname",
+                            "displayName": "Device Name"
+                        },
+                        {
+                            "name": "family",
+                            "displayName": "Device Family"
+                        },
+                        {
+                            "name": "type",
+                            "displayName": "Device Type"
+                        },
+                        {
+                            "name": "managementIpAddress",
+                            "displayName": "IP Address"
+                        },
+                        {
+                            "name": "complianceStatus",
+                            "displayName": "Compliance Status"
+                        },
+                        {
+                            "name": "IMAGE",
+                            "displayName": "Software Image"
+                        },
+                        {
+                            "name": "RUNNING_CONFIG",
+                            "displayName": "Startup Vs Running Configuration"
+                        },
+                        {
+                            "name": "PSIRT",
+                            "displayName": "Critical Security Advisories"
+                        },
+                        {
+                            "name": "NETWORK_PROFILE",
+                            "displayName": "Network Profile"
+                        },
+                        {
+                            "name": "NETWORK_SETTINGS",
+                            "displayName": "Network Settings"
+                        },
+                        {
+                            "name": "EOX",
+                            "displayName": "EoX"
+                        },
+                        {
+                            "name": "FABRIC",
+                            "displayName": "Fabric"
+                        },
+                        {
+                            "name": "APPLICATION_VISIBILITY",
+                            "displayName": "Application Visibility"
+                        },
+                        {
+                            "name": "CUSTOMIZATION_PROFILE",
+                            "displayName": "Customization Profile"
+                        }
+                    ]
+                }
+            ],
+            "filters": [
+                {
+                    "type": "MULTI_SELECT_TREE",
+                    "name": "Location",
+                    "displayName": "Location",
+                    "scope": null,
+                    "filterSpecId": null
+                }
+            ],
+            "format": {
+                "name": "CSV",
+                "formatType": "CSV",
+                "template": {
+                    "jsTemplateId": "BJYghfA3z"
+                },
+                "default": true
+            },
+            "viewId": "ee7167c2-cebc-4303-ae09-2e96d7186282"
+        },
+        "executions": [
+            {
+                "runTime": null,
+                "dataPrepTime": null,
+                "executionId": "42f1acec-d175-40a2-846a-11f89c6214f7",
+                "startTime": 1755588561967,
+                "endTime": 1755588671142,
+                "processStatus": "SUCCESS",
+                "requestStatus": "ACCEPT",
+                "downloadFileSize": 2.2382812,
+                "downloadFile": "/opt/maglev/daas-runtime/data/datasets/6c3dfd3c-47ce-4467-88ca-1ba87ce97ab8/42f1acec-d175-40a2-846a-11f89c6214f7/compliance_report_test1_42f1acec-d175-40a2-846a-11f89c6214f7.csv",
+                "errors": [
+                    ""
+                ]
+            }
+        ],
+        "executionCount": 1,
+        "clientId": "default0",
+        "userName": "admin",
+        "resourceDomain": {
+            "name": "SUPER-ADMIN_GLOBAL",
+            "resourceGroups": [
+                {
+                    "srcResourceId": "*",
+                    "type": "site",
+                    "name": "Global"
+                }
+            ],
+            "_id": "f9543bc99acefb96d3a38f6c140204d4a38c95da"
+        },
+        "reportId": "6c3dfd3c-47ce-4467-88ca-1ba87ce97ab8",
+        "viewGroupVersion": "2.0.0",
+        "reportWasExecuted": true
+    }
+],
+
+"delete_report":
+{
+    "message": "report deleted successfully",
+    "status": 200
+}, 
+
+"download_get_execution_id_for_report":
+{
+    "name": "compliance_report_test",
+    "dataCategory": "Network",
+    "viewGroupId": "8e14930c-f229-4cd0-b8e5-3a588efc6be5",
+    "viewGroupName": null,
+    "schedule": null,
+    "view": {
+        "name": "Network Device Compliance",
+        "description": "Network Device",
+        "format": null,
+        "viewId": "ee7167c2-cebc-4303-ae09-2e96d7186282"
+    },
+    "executions": [
+        {
+            "runTime": null,
+            "dataPrepTime": null,
+            "executionId": "9cfd8351-281f-4799-a8ad-e221c57f4047",
+            "startTime": 1755539766569,
+            "endTime": 1755539884234,
+            "processStatus": "SUCCESS",
+            "requestStatus": "ACCEPT",
+            "downloadFileSize": 2.2382812,
+            "downloadFile": "/opt/maglev/daas-runtime/data/datasets/4f508d06-a7f8-4af6-a155-a08ad8911348/9cfd8351-281f-4799-a8ad-e221c57f4047/compliance_report_test_9cfd8351-281f-4799-a8ad-e221c57f4047.csv",
+            "errors": [
+                ""
+            ]
+        }
+    ],
+    "executionCount": 1,
+    "clientId": "default0",
+    "userName": "admin",
+    "resourceDomain": {
+        "name": "SUPER-ADMIN_GLOBAL",
+        "resourceGroups": [
+            {
+                "srcResourceId": "*",
+                "type": "site",
+                "name": "Global"
+            }
+        ],
+        "_id": "f9543bc99acefb96d3a38f6c140204d4a38c95da"
+    },
+    "reportId": "4f508d06-a7f8-4af6-a155-a08ad8911348",
+    "viewGroupVersion": "2.0.0",
+    "reportWasExecuted": true
+},
+
+"download_report_content":
+{
+    "filters": {
+        "Location": "ALL",
+        "Sl.No": "Device Name",
+        "Device Family": "ALL"
+    }
+},
+
+"later_create_get_list_of_scheduled_reports":
+[
+    {
+        "name": "compliance_report",
+        "dataCategory": "Network",
+        "viewGroupId": "8e14930c-f229-4cd0-b8e5-3a588efc6be5",
+        "viewGroupName": null,
+        "schedule": {
+            "type": "SCHEDULE_RECURRENCE",
+            "timeZoneId": "Asia/Calcutta",
+            "scheduledServiceId": "3b42502d-feca-4a1d-8ea2-27311fccd487",
+            "startDate": 1754982600000,
+            "endDate": 0,
+            "endAfterOccurrences": 0,
+            "time": 1754982600000,
+            "recurrence": {
+                "type": "MONTHLY",
+                "dayOfMonth": 12,
+                "lastDayOfMonth": false
+            }
+        },
+        "deliveries": [
+            {
+                "type": "DOWNLOAD",
+                "tenantId": null,
+                "default": false
+            }
+        ],
+        "view": {
+            "name": "Network Device Compliance",
+            "description": "Network Device",
+            "fieldGroups": [
+                {
+                    "fieldGroupName": "Compliance",
+                    "fieldGroupDisplayName": "Compliance",
+                    "fields": [
+                        {
+                            "name": "rownum",
+                            "displayName": "Sl.No"
+                        },
+                        {
+                            "name": "hostname",
+                            "displayName": "Device Name"
+                        },
+                        {
+                            "name": "family",
+                            "displayName": "Device Family"
+                        },
+                        {
+                            "name": "type",
+                            "displayName": "Device Type"
+                        },
+                        {
+                            "name": "managementIpAddress",
+                            "displayName": "IP Address"
+                        },
+                        {
+                            "name": "complianceStatus",
+                            "displayName": "Compliance Status"
+                        },
+                        {
+                            "name": "IMAGE",
+                            "displayName": "Software Image"
+                        },
+                        {
+                            "name": "RUNNING_CONFIG",
+                            "displayName": "Startup Vs Running Configuration"
+                        },
+                        {
+                            "name": "PSIRT",
+                            "displayName": "Critical Security Advisories"
+                        },
+                        {
+                            "name": "NETWORK_PROFILE",
+                            "displayName": "Network Profile"
+                        },
+                        {
+                            "name": "NETWORK_SETTINGS",
+                            "displayName": "Network Settings"
+                        },
+                        {
+                            "name": "EOX",
+                            "displayName": "EoX"
+                        },
+                        {
+                            "name": "FABRIC",
+                            "displayName": "Fabric"
+                        },
+                        {
+                            "name": "APPLICATION_VISIBILITY",
+                            "displayName": "Application Visibility"
+                        },
+                        {
+                            "name": "CUSTOMIZATION_PROFILE",
+                            "displayName": "Customization Profile"
+                        }
+                    ]
+                }
+            ],
+            "filters": [
+                {
+                    "type": "MULTI_SELECT_TREE",
+                    "name": "Location",
+                    "displayName": "Location",
+                    "scope": null,
+                    "filterSpecId": null
+                }
+            ],
+            "format": {
+                "name": "CSV",
+                "formatType": "CSV",
+                "template": {
+                    "jsTemplateId": "BJYghfA3z"
+                },
+                "default": true
+            },
+            "viewId": "ee7167c2-cebc-4303-ae09-2e96d7186282"
+        },
+        "executionCount": 0,
+        "clientId": "default0",
+        "userName": "admin",
+        "resourceDomain": {
+            "name": "SUPER-ADMIN_GLOBAL",
+            "resourceGroups": [
+                {
+                    "srcResourceId": "*",
+                    "type": "site",
+                    "name": "Global"
+                }
+            ],
+            "_id": "f9543bc99acefb96d3a38f6c140204d4a38c95da"
+        },
+        "reportId": "36f22437-6a84-4894-8ba8-eb68e32d7739",
+        "viewGroupVersion": "2.0.0",
+        "reportWasExecuted": true
+    },
+    {
+        "name": "compliance_report_test1",
+        "dataCategory": "Network",
+        "viewGroupId": "8e14930c-f229-4cd0-b8e5-3a588efc6be5",
+        "viewGroupName": null,
+        "schedule": {
+            "type": "SCHEDULE_RECURRENCE",
+            "timeZoneId": "Asia/Calcutta",
+            "scheduledServiceId": "fd1193c3-d823-4350-8787-604196aea06b",
+            "startDate": 1754982600000,
+            "endDate": 0,
+            "endAfterOccurrences": 0,
+            "time": 1754982600000,
+            "recurrence": {
+                "type": "MONTHLY",
+                "dayOfMonth": 0,
+                "lastDayOfMonth": true
+            }
+        },
+        "deliveries": [
+            {
+                "type": "DOWNLOAD",
+                "tenantId": null,
+                "default": false
+            }
+        ],
+        "view": {
+            "name": "Network Device Compliance",
+            "description": "Network Device",
+            "fieldGroups": [
+                {
+                    "fieldGroupName": "Compliance",
+                    "fieldGroupDisplayName": "Compliance",
+                    "fields": [
+                        {
+                            "name": "rownum",
+                            "displayName": "Sl.No"
+                        },
+                        {
+                            "name": "hostname",
+                            "displayName": "Device Name"
+                        },
+                        {
+                            "name": "family",
+                            "displayName": "Device Family"
+                        },
+                        {
+                            "name": "type",
+                            "displayName": "Device Type"
+                        },
+                        {
+                            "name": "managementIpAddress",
+                            "displayName": "IP Address"
+                        },
+                        {
+                            "name": "complianceStatus",
+                            "displayName": "Compliance Status"
+                        },
+                        {
+                            "name": "IMAGE",
+                            "displayName": "Software Image"
+                        },
+                        {
+                            "name": "RUNNING_CONFIG",
+                            "displayName": "Startup Vs Running Configuration"
+                        },
+                        {
+                            "name": "PSIRT",
+                            "displayName": "Critical Security Advisories"
+                        },
+                        {
+                            "name": "NETWORK_PROFILE",
+                            "displayName": "Network Profile"
+                        },
+                        {
+                            "name": "NETWORK_SETTINGS",
+                            "displayName": "Network Settings"
+                        },
+                        {
+                            "name": "EOX",
+                            "displayName": "EoX"
+                        },
+                        {
+                            "name": "FABRIC",
+                            "displayName": "Fabric"
+                        },
+                        {
+                            "name": "APPLICATION_VISIBILITY",
+                            "displayName": "Application Visibility"
+                        },
+                        {
+                            "name": "CUSTOMIZATION_PROFILE",
+                            "displayName": "Customization Profile"
+                        }
+                    ]
+                }
+            ],
+            "filters": [
+                {
+                    "type": "MULTI_SELECT_TREE",
+                    "name": "Location",
+                    "displayName": "Location",
+                    "scope": null,
+                    "filterSpecId": null
+                }
+            ],
+            "format": {
+                "name": "CSV",
+                "formatType": "CSV",
+                "template": {
+                    "jsTemplateId": "BJYghfA3z"
+                },
+                "default": true
+            },
+            "viewId": "ee7167c2-cebc-4303-ae09-2e96d7186282"
+        },
+        "executionCount": 0,
+        "clientId": "default0",
+        "userName": "admin",
+        "resourceDomain": {
+            "name": "SUPER-ADMIN_GLOBAL",
+            "resourceGroups": [
+                {
+                    "srcResourceId": "*",
+                    "type": "site",
+                    "name": "Global"
+                }
+            ],
+            "_id": "f9543bc99acefb96d3a38f6c140204d4a38c95da"
+        },
+        "reportId": "10a05d97-bd36-4d16-91b2-d0a6c9922277",
+        "viewGroupVersion": "2.0.0",
+        "reportWasExecuted": false
+    },
+    {
+        "name": "compliance_report_test",
+        "dataCategory": "Network",
+        "viewGroupId": "8e14930c-f229-4cd0-b8e5-3a588efc6be5",
+        "viewGroupName": null,
+        "schedule": {
+            "type": "SCHEDULE_NOW",
+            "scheduledServiceId": "90740ee1-a5db-4dd0-9a6b-5ec144a5b149",
+            "dateTime": 1755539754783
+        },
+        "deliveries": [
+            {
+                "type": "DOWNLOAD",
+                "tenantId": null,
+                "default": false
+            }
+        ],
+        "view": {
+            "name": "Network Device Compliance",
+            "description": "Network Device",
+            "fieldGroups": [
+                {
+                    "fieldGroupName": "Compliance",
+                    "fieldGroupDisplayName": "Compliance",
+                    "fields": [
+                        {
+                            "name": "rownum",
+                            "displayName": "Sl.No"
+                        },
+                        {
+                            "name": "hostname",
+                            "displayName": "Device Name"
+                        },
+                        {
+                            "name": "family",
+                            "displayName": "Device Family"
+                        },
+                        {
+                            "name": "type",
+                            "displayName": "Device Type"
+                        },
+                        {
+                            "name": "managementIpAddress",
+                            "displayName": "IP Address"
+                        },
+                        {
+                            "name": "complianceStatus",
+                            "displayName": "Compliance Status"
+                        },
+                        {
+                            "name": "IMAGE",
+                            "displayName": "Software Image"
+                        },
+                        {
+                            "name": "RUNNING_CONFIG",
+                            "displayName": "Startup Vs Running Configuration"
+                        },
+                        {
+                            "name": "PSIRT",
+                            "displayName": "Critical Security Advisories"
+                        },
+                        {
+                            "name": "NETWORK_PROFILE",
+                            "displayName": "Network Profile"
+                        },
+                        {
+                            "name": "NETWORK_SETTINGS",
+                            "displayName": "Network Settings"
+                        },
+                        {
+                            "name": "EOX",
+                            "displayName": "EoX"
+                        },
+                        {
+                            "name": "FABRIC",
+                            "displayName": "Fabric"
+                        },
+                        {
+                            "name": "APPLICATION_VISIBILITY",
+                            "displayName": "Application Visibility"
+                        },
+                        {
+                            "name": "CUSTOMIZATION_PROFILE",
+                            "displayName": "Customization Profile"
+                        }
+                    ]
+                }
+            ],
+            "filters": [
+                {
+                    "type": "MULTI_SELECT_TREE",
+                    "name": "Location",
+                    "displayName": "Location",
+                    "scope": null,
+                    "filterSpecId": null
+                }
+            ],
+            "format": {
+                "name": "CSV",
+                "formatType": "CSV",
+                "template": {
+                    "jsTemplateId": "BJYghfA3z"
+                },
+                "default": true
+            },
+            "viewId": "ee7167c2-cebc-4303-ae09-2e96d7186282"
+        },
+        "executions": [
+            {
+                "runTime": null,
+                "dataPrepTime": null,
+                "executionId": "9cfd8351-281f-4799-a8ad-e221c57f4047",
+                "startTime": 1755539766569,
+                "endTime": 1755539884234,
+                "processStatus": "SUCCESS",
+                "requestStatus": "ACCEPT",
+                "downloadFileSize": 2.2382812,
+                "downloadFile": "/opt/maglev/daas-runtime/data/datasets/4f508d06-a7f8-4af6-a155-a08ad8911348/9cfd8351-281f-4799-a8ad-e221c57f4047/compliance_report_test_9cfd8351-281f-4799-a8ad-e221c57f4047.csv",
+                "errors": [
+                    ""
+                ]
+            }
+        ],
+        "executionCount": 1,
+        "clientId": "default0",
+        "userName": "admin",
+        "resourceDomain": {
+            "name": "SUPER-ADMIN_GLOBAL",
+            "resourceGroups": [
+                {
+                    "srcResourceId": "*",
+                    "type": "site",
+                    "name": "Global"
+                }
+            ],
+            "_id": "f9543bc99acefb96d3a38f6c140204d4a38c95da"
+        },
+        "reportId": "4f508d06-a7f8-4af6-a155-a08ad8911348",
+        "viewGroupVersion": "2.0.0",
+        "reportWasExecuted": true
+    },
+    {
+        "name": "compliance_report_test2",
+        "dataCategory": "Network",
+        "viewGroupId": "8e14930c-f229-4cd0-b8e5-3a588efc6be5",
+        "viewGroupName": null,
+        "schedule": {
+            "type": "SCHEDULE_LATER",
+            "timeZoneId": "Asia/Calcutta",
+            "scheduledServiceId": "6610c0ca-32a2-4c12-93e2-73eb9c56ebf6",
+            "dateTime": 1754982600000
+        },
+        "deliveries": [
+            {
+                "type": "DOWNLOAD",
+                "tenantId": null,
+                "default": false
+            }
+        ],
+        "view": {
+            "name": "Network Device Compliance",
+            "description": "Network Device",
+            "fieldGroups": [
+                {
+                    "fieldGroupName": "Compliance",
+                    "fieldGroupDisplayName": "Compliance",
+                    "fields": [
+                        {
+                            "name": "rownum",
+                            "displayName": "Sl.No"
+                        },
+                        {
+                            "name": "hostname",
+                            "displayName": "Device Name"
+                        },
+                        {
+                            "name": "family",
+                            "displayName": "Device Family"
+                        },
+                        {
+                            "name": "type",
+                            "displayName": "Device Type"
+                        },
+                        {
+                            "name": "managementIpAddress",
+                            "displayName": "IP Address"
+                        },
+                        {
+                            "name": "complianceStatus",
+                            "displayName": "Compliance Status"
+                        },
+                        {
+                            "name": "IMAGE",
+                            "displayName": "Software Image"
+                        },
+                        {
+                            "name": "RUNNING_CONFIG",
+                            "displayName": "Startup Vs Running Configuration"
+                        },
+                        {
+                            "name": "PSIRT",
+                            "displayName": "Critical Security Advisories"
+                        },
+                        {
+                            "name": "NETWORK_PROFILE",
+                            "displayName": "Network Profile"
+                        },
+                        {
+                            "name": "NETWORK_SETTINGS",
+                            "displayName": "Network Settings"
+                        },
+                        {
+                            "name": "EOX",
+                            "displayName": "EoX"
+                        },
+                        {
+                            "name": "FABRIC",
+                            "displayName": "Fabric"
+                        },
+                        {
+                            "name": "APPLICATION_VISIBILITY",
+                            "displayName": "Application Visibility"
+                        },
+                        {
+                            "name": "CUSTOMIZATION_PROFILE",
+                            "displayName": "Customization Profile"
+                        }
+                    ]
+                }
+            ],
+            "filters": [
+                {
+                    "type": "MULTI_SELECT_TREE",
+                    "name": "Location",
+                    "displayName": "Location",
+                    "scope": null,
+                    "filterSpecId": null
+                }
+            ],
+            "format": {
+                "name": "CSV",
+                "formatType": "CSV",
+                "template": {
+                    "jsTemplateId": "BJYghfA3z"
+                },
+                "default": true
+            },
+            "viewId": "ee7167c2-cebc-4303-ae09-2e96d7186282"
+        },
+        "executions": [
+            {
+                "runTime": null,
+                "dataPrepTime": null,
+                "executionId": "c73cb6d8-08dc-4a9d-8902-031c9a4f59c4",
+                "startTime": 0,
+                "endTime": 0,
+                "processStatus": null,
+                "requestStatus": "ACCEPT",
+                "downloadFileSize": 0.0,
+                "downloadFile": "",
+                "errors": [
+                    ""
+                ]
+            }
+        ],
+        "executionCount": 1,
+        "clientId": "default0",
+        "userName": "admin",
+        "resourceDomain": {
+            "name": "SUPER-ADMIN_GLOBAL",
+            "resourceGroups": [
+                {
+                    "srcResourceId": "*",
+                    "type": "site",
+                    "name": "Global"
+                }
+            ],
+            "_id": "f9543bc99acefb96d3a38f6c140204d4a38c95da"
+        },
+        "reportId": "950c9caf-1820-4e3b-b1d4-99a1b77a3c7b",
+        "viewGroupVersion": "2.0.0",
+        "reportWasExecuted": true
+    }
+],
+
+"create_first_report_response":
+{
+    "name": "Port_Reclaim_Email_CSV_27100_first",
+    "dataCategory": "Inventory",
+    "viewGroupId": "d1f59396-bfd7-4de6-829f-0b3abcc7bd17",
+    "viewGroupName": null,
+    "schedule": {
+        "type": "SCHEDULE_NOW",
+        "scheduledServiceId": "9e20060d-6b86-403b-8a63-a6a89fb91c78",
+        "dateTime": 1762097751777
+    },
+    "deliveries": [
+        {
+            "type": "NOTIFICATION",
+            "subscriptionId": null,
+            "notificationEndpoints": [
+                {
+                    "type": "EMAIL",
+                    "emailAddresses": [
+                        "pbalaku2@cisco.com"
+                    ],
+                    "emailSubscriptionEndpointId": null,
+                    "emailSubscriptionEndpointInstanceId": null
+                }
+            ],
+            "emailAttach": true,
+            "tenantId": null,
+            "default": false
+        }
+    ],
+    "view": {
+        "name": "Port Reclaim View",
+        "description": "List of all network devices discovered by Cisco Catalyst Center",
+        "fieldGroups": [
+            {
+                "fieldGroupName": "PortReclaimFieldGroup",
+                "fieldGroupDisplayName": "Port Reclaim Fields",
+                "fields": [
+                    {
+                        "name": "rownum",
+                        "displayName": "Sl.No"
+                    },
+                    {
+                        "name": "hostname",
+                        "displayName": "Device Name"
+                    },
+                    {
+                        "name": "family",
+                        "displayName": "Device Family"
+                    },
+                    {
+                        "name": "type",
+                        "displayName": "Device Type"
+                    },
+                    {
+                        "name": "managementIpAddress",
+                        "displayName": "IP Address"
+                    },
+                    {
+                        "name": "portname",
+                        "displayName": "Port Name"
+                    },
+                    {
+                        "name": "description",
+                        "displayName": "Description"
+                    },
+                    {
+                        "name": "macAddress",
+                        "displayName": "MAC Address"
+                    },
+                    {
+                        "name": "adminStatus",
+                        "displayName": "Admin Status"
+                    },
+                    {
+                        "name": "status",
+                        "displayName": "Operational Status"
+                    },
+                    {
+                        "name": "lastInput",
+                        "displayName": "Last Input"
+                    },
+                    {
+                        "name": "lastOutput",
+                        "displayName": "Last Output"
+                    }
+                ]
+            }
+        ],
+        "format": {
+            "name": "CSV",
+            "formatType": "CSV",
+            "template": {
+                "jsTemplateId": "BJYghfA3z"
+            },
+            "default": true
+        },
+        "viewId": "75e3b322-7fef-11ec-a8a3-0242ac120002"
+    },
+    "executionCount": 0,
+    "clientId": "default0",
+    "userName": "admin",
+    "resourceDomain": {
+        "name": "SUPER-ADMIN_GLOBAL",
+        "resourceGroups": [
+            {
+                "srcResourceId": "*",
+                "type": "site",
+                "name": "Global"
+            }
+        ],
+        "_id": "bf968342bb086d285e9c18508bb5af7a67e329be"
+    },
+    "reportId": "ff74bf35-5311-46b5-a7c9-9bb3720d3832",
+    "viewGroupVersion": "2.0.0",
+    "reportWasExecuted": false
+},
+
+"create_second_report_response":
+{
+    "name": "Port_Reclaim_Email_CSV_27100_first",
+    "dataCategory": "Inventory",
+    "viewGroupId": "d1f59396-bfd7-4de6-829f-0b3abcc7bd17",
+    "viewGroupName": null,
+    "schedule": {
+        "type": "SCHEDULE_NOW",
+        "scheduledServiceId": "9e20060d-6b86-403b-8a63-a6a89fb91c78",
+        "dateTime": 1762097751777
+    },
+    "deliveries": [
+        {
+            "type": "NOTIFICATION",
+            "subscriptionId": null,
+            "notificationEndpoints": [
+                {
+                    "type": "EMAIL",
+                    "emailAddresses": [
+                        "pbalaku2@cisco.com"
+                    ],
+                    "emailSubscriptionEndpointId": null,
+                    "emailSubscriptionEndpointInstanceId": null
+                }
+            ],
+            "emailAttach": true,
+            "tenantId": null,
+            "default": false
+        }
+    ],
+    "view": {
+        "name": "Port Reclaim View",
+        "description": "List of all network devices discovered by Cisco Catalyst Center",
+        "fieldGroups": [
+            {
+                "fieldGroupName": "PortReclaimFieldGroup",
+                "fieldGroupDisplayName": "Port Reclaim Fields",
+                "fields": [
+                    {
+                        "name": "rownum",
+                        "displayName": "Sl.No"
+                    },
+                    {
+                        "name": "hostname",
+                        "displayName": "Device Name"
+                    },
+                    {
+                        "name": "family",
+                        "displayName": "Device Family"
+                    },
+                    {
+                        "name": "type",
+                        "displayName": "Device Type"
+                    },
+                    {
+                        "name": "managementIpAddress",
+                        "displayName": "IP Address"
+                    },
+                    {
+                        "name": "portname",
+                        "displayName": "Port Name"
+                    },
+                    {
+                        "name": "description",
+                        "displayName": "Description"
+                    },
+                    {
+                        "name": "macAddress",
+                        "displayName": "MAC Address"
+                    },
+                    {
+                        "name": "adminStatus",
+                        "displayName": "Admin Status"
+                    },
+                    {
+                        "name": "status",
+                        "displayName": "Operational Status"
+                    },
+                    {
+                        "name": "lastInput",
+                        "displayName": "Last Input"
+                    },
+                    {
+                        "name": "lastOutput",
+                        "displayName": "Last Output"
+                    }
+                ]
+            }
+        ],
+        "format": {
+            "name": "CSV",
+            "formatType": "CSV",
+            "template": {
+                "jsTemplateId": "BJYghfA3z"
+            },
+            "default": true
+        },
+        "viewId": "75e3b322-7fef-11ec-a8a3-0242ac120002"
+    },
+    "executionCount": 0,
+    "clientId": "default0",
+    "userName": "admin",
+    "resourceDomain": {
+        "name": "SUPER-ADMIN_GLOBAL",
+        "resourceGroups": [
+            {
+                "srcResourceId": "*",
+                "type": "site",
+                "name": "Global"
+            }
+        ],
+        "_id": "bf968342bb086d285e9c18508bb5af7a67e329be"
+    },
+    "reportId": "ff74bf35-5311-46b5-a7c9-9bb3720d3832",
+    "viewGroupVersion": "2.0.0",
+    "reportWasExecuted": false
+} 
+
+}

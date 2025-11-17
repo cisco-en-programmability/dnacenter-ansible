@@ -1,0 +1,22 @@
+---
+fabric_devices_info:
+  - fabric_devices:
+      - fabric_site_hierarchy: "Global/rishipat_area/Fabric-area-1"  # Mandatory parameter
+        fabric_device_role: "EDGE_NODE"
+        device_identifier:
+          - ip_address: ["192.168.200.69"]
+        timeout: 30
+        retries: 3
+        interval: 10
+        requested_info:
+          - fabric_info
+          - handoff_info
+          - onboarding_info
+          - connected_devices_info
+          - device_health_info
+          - device_issues_info
+        output_file_info:
+          file_path: /Users/priyadharshini/Downloads/fabric_device_info
+          file_format: yaml
+          file_mode: w
+          timestamp: false

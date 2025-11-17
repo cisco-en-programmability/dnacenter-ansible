@@ -1,0 +1,395 @@
+---
+# Common device information
+device_info: &device_info
+  ip_address: "204.1.2.3"
+  device_collection_status_check: false
+
+###################################################################################################################
+# Negative Validation Tests for VTP
+
+#############################################
+#        VTP Mode Tests
+#############################################
+
+# Test invalid VTP mode - not in choices
+test_vtp_mode_invalid_choice:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_mode: "INVALID_MODE" # Invalid: not in [SERVER, CLIENT, TRANSPARENT, OFF]
+
+# Test invalid VTP mode - integer instead of string
+test_vtp_mode_integer:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_mode: 1 # Invalid: integer instead of string
+
+# Test invalid VTP mode - boolean instead of string
+test_vtp_mode_boolean:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_mode: true # Invalid: boolean instead of string
+
+#############################################
+#        VTP Version Tests
+#############################################
+
+# Test invalid VTP version - not in choices
+test_vtp_version_invalid_choice:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_version: "VERSION_4" # Invalid: not in [VERSION_1, VERSION_2, VERSION_3]
+
+# Test invalid VTP version - integer instead of string
+test_vtp_version_integer:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_version: 2 # Invalid: integer instead of string
+
+# Test invalid VTP version - boolean instead of string
+test_vtp_version_boolean:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_version: false # Invalid: boolean instead of string
+
+#############################################
+#        VTP Domain Name Tests
+#############################################
+
+# Test VTP domain name exceeds maximum length (33 characters)
+test_vtp_domain_name_max_length:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_domain_name: "ThisDomainNameIsTooLongForVTPAndExceeds32Characters" # Invalid: 53 chars > 32
+
+# Test invalid VTP domain name - integer instead of string
+test_vtp_domain_name_integer:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_domain_name: 12345 # Invalid: integer instead of string
+
+# Test invalid VTP domain name - boolean instead of string
+test_vtp_domain_name_boolean:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_domain_name: true # Invalid: boolean instead of string
+
+#############################################
+#     VTP Domain Name Modification Tests
+#############################################
+
+# Setup initial domain for modification restriction tests
+test_vtp_setup_initial_domain:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_mode: "TRANSPARENT"
+      vtp_domain_name: "InitialDomain"
+
+# Test VTP domain name modification - should fail once domain is set
+test_vtp_domain_name_modification_attempt:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_domain_name: "ModifiedDomain" # Invalid: attempting to change existing domain
+
+# Test VTP domain name empty string update - should fail
+test_vtp_domain_name_empty_string:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_domain_name: "" # Invalid: empty string not allowed for domain name
+
+#############################################
+#           VTP Pruning Tests
+#############################################
+
+# Test invalid VTP pruning - string instead of boolean
+test_vtp_pruning_string:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_pruning: "true" # Invalid: string instead of boolean
+
+# Test invalid VTP pruning - integer instead of boolean
+test_vtp_pruning_integer:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_pruning: 1 # Invalid: integer instead of boolean
+
+#############################################
+#      VTP Configuration File Name Tests
+#############################################
+
+# Test VTP configuration file name exceeds maximum length (245 characters)
+test_vtp_config_file_name_max_length:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_configuration_file_name: "flash:/this_is_an_extremely_long_filename_that_exceeds_the_maximum_allowed_length_for_vtp_configuration_file_names_and_should_cause_validation_to_fail_because_it_is_way_too_long_for_the_filesystem_to_handle_properly_and_efficiently_so_we_need_to_reject_it.dat" # Invalid: > 244 chars
+
+# Test invalid VTP configuration file name - integer instead of string
+test_vtp_config_file_name_integer:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_configuration_file_name: 12345 # Invalid: integer instead of string
+
+# Test invalid VTP configuration file name - boolean instead of string
+test_vtp_config_file_name_boolean:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_configuration_file_name: false # Invalid: boolean instead of string
+
+#############################################
+#        VTP Source Interface Tests
+#############################################
+
+# Test invalid VTP source interface - integer instead of string
+test_vtp_source_interface_integer:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_source_interface: 1 # Invalid: integer instead of string
+
+# Test invalid VTP source interface - boolean instead of string
+test_vtp_source_interface_boolean:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_source_interface: true # Invalid: boolean instead of string
+
+#############################################
+#        Data Type and Structure Tests
+#############################################
+
+# Test invalid VTP configuration - string instead of dictionary
+test_vtp_invalid_dict_type:
+  <<: *device_info
+  layer2_configuration:
+    vtp: "invalid_vtp_string" # Invalid: string instead of dictionary
+
+# Test invalid VTP configuration - list instead of dictionary
+test_vtp_invalid_list_type:
+  <<: *device_info
+  layer2_configuration:
+    vtp: ["invalid", "vtp", "list"] # Invalid: list instead of dictionary
+
+###################################################################################################################
+# Positive Validation Tests for VTP
+
+#############################################
+#        POSITIVE TEST CASES - CREATE
+#############################################
+
+# Test VTP configuration with mode only
+test_vtp_create_mode_only:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_mode: "OFF"
+      vtp_domain_name: "TestDomain"
+      vtp_source_interface: "Loopback0"
+      vtp_configuration_file_name: "flash:vtp_config_backup.dat"
+
+# Test VTP configuration with version only
+test_vtp_create_version_only:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_version: "VERSION_2"
+
+# Test VTP configuration with domain name only
+test_vtp_create_domain_name_only:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_domain_name: "TestDomain2"
+
+# Test VTP configuration with all parameters
+test_vtp_create_all_params:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_mode: "TRANSPARENT"
+      vtp_version: "VERSION_2"
+      vtp_domain_name: "ComprehensiveDomain"
+      vtp_pruning: false
+      vtp_configuration_file_name: "flash:vtp_config_backup.dat"
+      vtp_source_interface: "Loopback0"
+
+#############################################
+#        POSITIVE TEST CASES - UPDATE
+#############################################
+
+# Test VTP update - change mode to CLIENT
+test_vtp_update_mode_client:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_mode: "OFF"
+
+# Test VTP update - change mode to TRANSPARENT
+test_vtp_update_mode_transparent:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_mode: "TRANSPARENT"
+
+# Test VTP update - change mode to OFF
+test_vtp_update_mode_off:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_mode: "OFF"
+
+# Test VTP update - change version to VERSION_1
+test_vtp_update_version_1:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_version: "VERSION_1"
+
+# Test VTP update - change version to VERSION_2
+test_vtp_update_version_2:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_version: "VERSION_2"
+
+# Test VTP update - change version to VERSION_3
+test_vtp_update_version_3:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_version: "VERSION_3"
+
+# Test VTP update - enable pruning
+test_vtp_update_enable_pruning:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_pruning: false
+      vtp_source_interface: "GigabitEthernet1/1/1"
+
+# Test VTP update - disable pruning
+test_vtp_update_disable_pruning:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_pruning: false
+      vtp_configuration_file_name: "flash:updated_vtp_config.dat"
+
+# Test VTP update - update configuration file name
+test_vtp_update_config_file_name:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_configuration_file_name: ""
+
+# Test VTP update - update source interface
+test_vtp_update_source_interface:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_source_interface: ""
+
+#############################################
+#        POSITIVE TEST CASES - RESET
+#############################################
+
+# Test VTP reset - empty configuration (deleted state resets to defaults)
+test_vtp_reset_empty:
+  <<: *device_info
+  layer2_configuration:
+    vtp: {}
+
+# Test VTP reset - with existing parameters (deleted state resets to defaults)
+test_vtp_reset_with_params:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_mode: "SERVER" # Parameters provided but should reset to defaults in delete state
+      vtp_version: "VERSION_2"
+      vtp_domain_name: "TestDomain"
+      vtp_pruning: true
+
+#############################################
+#           Boundary Value Tests
+#############################################
+
+# Test VTP with maximum length domain name (32 characters)
+test_vtp_boundary_max_domain_name:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_domain_name: "MaxLengthDomainNameThirtyTwoChar" # Exactly 32 characters
+
+# Test VTP with maximum length configuration file name (244 characters)
+test_vtp_boundary_max_config_file_name:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_configuration_file_name: "flash:/this_is_a_very_long_filename_that_reaches_exactly_244_characters_which_is_the_maximum_allowed_length_for_vtp_configuration_file_names_and_should_be_accepted_by_validation_since_it_meets_boundary_requirements_test.dat" # Exactly 244 characters
+
+# Test VTP with minimal configuration
+test_vtp_boundary_minimal_config:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_mode: "OFF"
+
+#############################################
+#        Special Configuration Tests
+#############################################
+
+# Test VTP with version-specific configuration (VERSION_1 with specific features)
+test_vtp_version_1_specific:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_mode: "SERVER"
+      vtp_version: "VERSION_1"
+      vtp_domain_name: "V1Domain"
+
+# Test VTP with version-specific configuration (VERSION_2 with pruning)
+test_vtp_version_2_with_pruning:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_mode: "SERVER"
+      vtp_version: "VERSION_2"
+      vtp_domain_name: "V2Domain"
+      vtp_pruning: true
+
+# Test VTP with server mode comprehensive configuration
+test_vtp_server_mode_comprehensive:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_mode: "SERVER"
+      vtp_version: "VERSION_3"
+      vtp_domain_name: "ServerDomain"
+      vtp_pruning: true
+      vtp_configuration_file_name: "flash:server_vtp_config.dat"
+      vtp_source_interface: "Loopback0"
+
+# Test VTP with transparent mode configuration
+test_vtp_transparent_mode_config:
+  <<: *device_info
+  layer2_configuration:
+    vtp:
+      vtp_mode: "TRANSPARENT"
+      vtp_version: "VERSION_2"
+      vtp_domain_name: "TransparentDomain"
+      vtp_configuration_file_name: "flash:transparent_vtp.dat"

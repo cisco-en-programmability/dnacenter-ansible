@@ -114,6 +114,7 @@ options:
                   can be applied to.
                 type: list
                 elements: dict
+                required: true
                 suboptions:
                   product_family:
                     description: Denotes the family
@@ -132,6 +133,7 @@ options:
                       - Voice and Telephony
                       - Wireless Controller
                     type: str
+                    required: true
                   product_series:
                     description: Specifies the series
                       classification of the device.
@@ -166,6 +168,27 @@ options:
                 description: Narrative that elaborates
                   on the purpose and scope of the project.
                 type: str
+              profile_names:
+                description: |
+                    - List of profile names to be associated with the Configuration Template during creation or update operations.
+                    - Enables assignment of one or more network profiles to CLI templates for enhanced device configuration management.
+                    - Profile names must correspond to existing network profiles in Cisco Catalyst Center for the specified device types.
+                    - Supports assignment of multiple profiles simultaneously for comprehensive device configuration coverage.
+                    - Profiles are validated against the device types specified in the template configuration to ensure compatibility.
+                    - When combined with existing profile assignments, new profiles are added while preserving existing assignments.
+                    - Profile assignment operations are idempotent - re-assigning existing profiles will not cause errors or duplicate assignments.
+                    - Requires Cisco Catalyst Center version 3.1.3.0 or later for profile assignment functionality.
+                    - Profile names are case-sensitive and must match exactly as configured in Cisco Catalyst Center.
+                    - Each profile in the list must be a valid string representing an existing network profile name.
+                    - If no profiles are specified, the template will not be associated with any profiles by default.
+                    - Profile names can be detached from the template based on deleted state operations.
+                    - C(examples):
+                    - ["Enterprise_Security_Profile", "QoS_Voice_Profile"]
+                    - ["Campus_Switching_Profile"]
+                    - ["WAN_Edge_Profile", "Security_Baseline_Profile", "Monitoring_Profile"]
+                type: list
+                elements: str
+                required: false
               tags:
                 description: A list of dictionaries
                   representing tags associated with
@@ -1416,6 +1439,8 @@ EXAMPLES = r"""
           template_name: string
           project_name: string
           project_description: string
+          profile_names:
+            - string
           software_type: string
           software_version: string
           tags:
@@ -1454,6 +1479,8 @@ EXAMPLES = r"""
           new_template_name: string
           project_name: string
           project_description: string
+          profile_names:
+            - string
           software_type: string
           software_version: string
           tags:
@@ -1795,6 +1822,147 @@ EXAMPLES = r"""
     config:
       - projects:
           - name: Wireless_Template_Management
+
+- name: Creating complete configuration template with profiles
+    response in Case_9
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: true
+    config:
+      - configuration_templates:
+          author: Test_User
+          composite: false
+          custom_params_order: true
+          template_description: Template to configure access
+            VLAN and access interfaces
+          device_types:
+            - product_family: Switches and Hubs
+              product_series: Cisco Catalyst 9300 Series
+                Switches
+          failure_policy: ABORT_TARGET_ON_ERROR
+          language: JINJA
+          template_name: PnP-Upstream-SW1
+          profile_names:
+            - TestProfile
+            - PNP_Onboarding_Template
+          project_name: access_vlan_template_9300_switches
+          project_description: This project contains
+            all the templates for Access Switches
+          software_type: IOS-XE
+          template_content: |
+            {% raw %}
+            vlan {{ vlan }}
+            interface {{ interface }}
+            no shutdown
+            switchport access vlan {{ vlan }}
+            switchport mode access
+            description {{ interface_description }}
+            {% endraw %}
+          version: "1.0"
+
+- name: Update configuration template with additional profile
+    response in Case_10
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: true
+    config:
+      - configuration_templates:
+          author: Test_User
+          composite: false
+          custom_params_order: true
+          template_description: Template to configure access
+            VLAN and access interfaces
+          device_types:
+            - product_family: Switches and Hubs
+              product_series: Cisco Catalyst 9300 Series
+                Switches
+          failure_policy: ABORT_TARGET_ON_ERROR
+          language: JINJA
+          template_name: PnP-Upstream-SW1
+          profile_names:
+            - TestProfile
+            - PNP_Onboarding_Template
+          project_name: access_vlan_template_9300_switches
+          project_description: This project contains
+            all the templates for Access Switches
+          software_type: IOS-XE
+          template_content: |
+            {% raw %}
+            vlan {{ vlan }}
+            interface {{ interface }}
+            no shutdown
+            switchport access vlan {{ vlan }}
+            switchport mode access
+            description {{ interface_description }}
+            {% endraw %}
+          version: "1.0"
+
+- name: Detach a profile from the configuration template on deleted state
+    response in Case_11
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
+    state: deleted
+    config:
+      configuration_templates:
+        project_name: "access_vlan_template_9300_switches"
+        template_name: "AA_PnP-Upstream-SW1"
+        language: "JINJA"
+        software_type: "IOS-XE"
+        profile_names:
+          - TestProfile
+        device_types:
+          - product_family: "Switches and Hubs"
+
+- name: Deleting configuration template no need to attach profiles
+    it will unassign profiles and delete the template without impacting profiles
+    response in Case_12
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
+    state: deleted
+    config:
+      configuration_templates:
+        project_name: "access_vlan_template_9300_switches"
+        template_name: "AA_PnP-Upstream-SW1"
+        language: "JINJA"
+        software_type: "IOS-XE"
+        device_types:
+          - product_family: "Switches and Hubs"
 """
 
 RETURN = r"""
@@ -1904,6 +2072,66 @@ response_8:
         ],
         "status": "success"
     }
+
+# Case_9: Response for Creating a Complete Configuration Template with profiles
+response_9:
+  description: Response when a complete configuration template is created successfully with profiles.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Template '['AA_PnP-Upstream-SW1']' created successfully in the Cisco Catalyst Center.
+                Template '['AA_PnP-Upstream-SW1']' committed successfully in the Cisco Catalyst Center.
+                Profile(s) '['TestProfile', 'PNP_Onboarding_Template']' assigned successfully to the template.",
+        "response": "Template '['AA_PnP-Upstream-SW1']' created successfully in the Cisco Catalyst Center.
+                    Template '['AA_PnP-Upstream-SW1']' committed successfully in the Cisco Catalyst Center.
+                    Profile(s) '['TestProfile', 'PNP_Onboarding_Template']' assigned successfully to the template.",
+        "status": "success"
+    }
+
+# Case_10: Response for Updating a Configuration Template with Additional Profile
+response_10:
+  description: Response when a configuration template is updated successfully with an additional profile.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Template '['AA_PnP-Upstream-SW1']' updated successfully in the Cisco Catalyst Center.
+                Template '['AA_PnP-Upstream-SW1']' committed successfully in the Cisco Catalyst Center.
+                Profile(s) '['PNP_Onboarding_Template']' assigned successfully to the template.
+                Profile(s) '['TestProfile']' already exist and cannot be assigned to the template.",
+        "response": "Template '['AA_PnP-Upstream-SW1']' updated successfully in the Cisco Catalyst Center.
+                    Template '['AA_PnP-Upstream-SW1']' committed successfully in the Cisco Catalyst Center.
+                    Profile(s) '['PNP_Onboarding_Template']' assigned successfully to the template.
+                    Profile(s) '['TestProfile']' already exist and cannot be assigned to the template.",
+        "status": "success"
+    }
+
+# Case_11: Response for Detach a profile from the configuration template on deleted state
+response_11:
+  description: Response when a profile is detached from the configuration template on deleted state.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Profile(s) '['TestProfile']' detached successfully from the template.",
+        "response": "Profile(s) '['TestProfile']' detached successfully from the template.",
+        "status": "success"
+    }
+
+# Case_12: Response for Deleting a configuration template without affecting profiles
+response_12:
+  description: Response when a configuration template is deleted without affecting profiles.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Task: deletes_the_template is successful for parameters:
+                {'template_id': '9a68dfa3-86ac-442b-bc92-957bfbd76ca7', 'active_validation': False}",
+        "response": "Task: deletes_the_template is successful for parameters:
+                    {'template_id': '9a68dfa3-86ac-442b-bc92-957bfbd76ca7', 'active_validation': False}",
+        "status": "success"
+    }
 """
 
 import copy
@@ -1912,15 +2140,17 @@ import time
 import re
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DnacBase,
     validate_list_of_dicts,
     get_dict_result,
     dnac_compare_equality,
     validate_str
 )
+from ansible_collections.cisco.dnac.plugins.module_utils.network_profiles import (
+    NetworkProfileFunctions,
+)
 
 
-class Template(DnacBase):
+class Template(NetworkProfileFunctions):
     """Class containing member attributes for template_workflow_manager module"""
 
     def __init__(self, module):
@@ -1933,6 +2163,8 @@ class Template(DnacBase):
         self.max_timeout = self.params.get('dnac_api_task_timeout')
         self.template_created, self.no_update_template, self.template_updated = [], [], []
         self.project_created, self.template_committed = [], []
+        self.profile_assigned, self.no_profile_assigned, self.profile_exists = [], [], []
+        self.profile_detached, self.profile_not_detached, self.profile_already_detached = [], [], []
         self.result['response'] = [
             {"configurationTemplate": {"response": {}, "msg": {}}},
             {"export": {"response": {}}},
@@ -1986,6 +2218,7 @@ class Template(DnacBase):
                 "name": {"type": "str"},
                 "project_name": {"type": "str"},
                 "project_description": {"type": "str"},
+                "profile_names": {"type": "list", "elements": "str"},
                 "software_type": {"type": "str"},
                 "software_version": {"type": "str"},
                 "template_content": {"type": "str"},
@@ -2111,7 +2344,7 @@ class Template(DnacBase):
 
         self.validated_config = valid_temp
         self.log(
-            "Successfully validated playbook config params: {0}".format(valid_temp),
+            "Successfully validated playbook config params: {0}".format(self.pprint(valid_temp)),
             "INFO",
         )
         self.msg = "Successfully validated input"
@@ -2161,6 +2394,28 @@ class Template(DnacBase):
                 description = each_project.get("description")
                 if description and isinstance(description, str):
                     validate_str(description, param_spec_str, "description", errormsg)
+
+        self.log("Initiating profile assignment validation for CLI templates", "DEBUG")
+        configuration_templates = config[0].get("configuration_templates")
+        if configuration_templates and isinstance(configuration_templates, dict):
+            profile_names = configuration_templates.get("profile_names")
+            ccc_version = self.get_ccc_version()
+            self.log("Processing profile assignment configuration - profiles: {0}".format(
+                profile_names), "DEBUG")
+
+            if profile_names and isinstance(profile_names, list):
+                if self.compare_dnac_versions(ccc_version, "3.1.3.0") < 0:
+                    msg = (
+                        "Profile assignment feature is not supported in Cisco Catalyst Center version '{0}'. "
+                        "Supported versions start from '3.1.3.0' onwards. Current configuration includes "
+                        "profiles: {1}".format(ccc_version, bool(profile_names))
+                    )
+                    errormsg.append(msg)
+                else:
+                    self.log("Validating profiles configuration for template profile assignment", "DEBUG")
+                    for each_profile in profile_names:
+                        if each_profile and isinstance(each_profile, str):
+                            validate_str(each_profile, param_spec_str, "profile_names", errormsg)
 
         if errormsg:
             msg = "Invalid parameters in playbook config: '{0}' ".format(errormsg)
@@ -2440,33 +2695,6 @@ class Template(DnacBase):
             i = i + 1
 
         return templateParams
-
-    def get_templates_details(self, name):
-        """
-        Get the template details from the template name provided in the playbook.
-
-        Parameters:
-            name (str) - Name of the template provided in the playbook.
-
-        Returns:
-            result (dict) - Template details for the given template name.
-        """
-
-        result = None
-        items = self.dnac_apply["exec"](
-            family="configuration_templates",
-            function="get_templates_details",
-            op_modifies=True,
-            params={"name": name},
-        )
-        if items:
-            result = items
-
-        self.log(
-            "Received API response from 'get_templates_details': {0}".format(items),
-            "DEBUG",
-        )
-        return result
 
     def get_project_defined_template_details(self, project_name, template_name):
         """
@@ -3027,6 +3255,264 @@ class Template(DnacBase):
         self.status = "success"
         return self
 
+    def _retrieve_all_profiles_with_pagination(self, device_type):
+        """
+        Retrieves all profiles for the specified device type using pagination.
+
+        Parameters:
+            device_type (str): The type of device for which to retrieve profiles.
+        """
+
+        self.log("Starting profile retrieval with pagination for device type: '{0}'".format(
+            device_type), "DEBUG")
+
+        offset = 1
+        limit = 500
+        api_timeout = int(self.payload.get("dnac_api_task_timeout", 1200))
+        poll_interval = int(self.payload.get("dnac_task_poll_interval", 2))
+
+        start_time = time.time()
+
+        while True:
+            # Check timeout
+            elapsed_time = time.time() - start_time
+            if elapsed_time >= api_timeout:
+                self.msg = "Timeout exceeded ({0}s) while retrieving profiles for device type '{1}'".format(
+                    api_timeout, device_type)
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+            self.log("Retrieving profiles with offset={0}, limit={1} for device type '{2}'".format(
+                offset, limit, device_type), "DEBUG")
+
+            profiles = self._get_profiles_by_device_type(device_type, offset, limit)
+
+            if not profiles:
+                self.log("No more profiles received from API (offset={0}). Pagination complete.".format(offset), "DEBUG")
+                break
+
+            self.log("Retrieved {0} profile(s) from API (offset={1})".format(len(profiles), offset), "DEBUG")
+            self.have["profile_list"].extend(profiles)
+
+            # Check if we've received all available profiles
+            if len(profiles) < limit:
+                self.log("Received fewer profiles than limit ({0} < {1}). Last page reached.".format(
+                    len(profiles), limit), "DEBUG")
+                break
+
+            # Prepare for next iteration
+            offset += limit
+            self.log("Incrementing offset to {0} for next API request".format(offset), "DEBUG")
+
+            # Rate limiting
+            self.log("Applying rate limiting delay of {0} seconds before next API call".format(poll_interval), "DEBUG")
+            time.sleep(poll_interval)
+
+    def _get_profiles_by_device_type(self, device_type, offset, limit):
+        """
+        Maps device type to appropriate network profile category and retrieves profiles.
+
+        Parameters:
+            device_type (str): The type of device.
+            offset (int): Pagination offset.
+            limit (int): Pagination limit.
+
+        Returns:
+            list: List of profiles for the specified device type.
+        """
+
+        # Device type to profile category mapping
+        device_type_mapping = {
+            "Switches and Hubs": "Switching",
+            "Wireless Controller": "Wireless",
+            "Routers": "Routing",
+            "Security and VPN": "Firewall"
+        }
+
+        profile_category = device_type_mapping.get(device_type, "Assurance")
+
+        self.log("Mapping device type '{0}' to profile category '{1}'".format(
+            device_type, profile_category), "DEBUG")
+
+        try:
+            profiles = self.get_network_profile(profile_category, offset, limit)
+            self.log("Successfully retrieved profiles for category '{0}'".format(
+                profile_category), "DEBUG")
+            return profiles
+
+        except Exception as e:
+            self.log("Error retrieving profiles for category '{0}': {1}".format(
+                profile_category, str(e)), "ERROR")
+            return []
+
+    def _process_individual_profile(self, profile_name, template_name):
+        """
+        Processes an individual profile to determine its assignment status.
+
+        Parameters:
+            profile_name (str): Name of the profile to process.
+            template_name (str): Name of the template to check assignment against.
+
+        Returns:
+            dict: Profile information including assignment status.
+        """
+        self.log("Processing individual profile: '{0}' for template: '{1}'".format(
+            profile_name, template_name), "DEBUG")
+
+        profile_info = {
+            "profile_name": profile_name,
+            "template_name": template_name
+        }
+
+        # Validate profile existence
+        if not self.value_exists(self.have["profile_list"], "name", profile_name):
+            self.msg = "Profile '{0}' does not exist in Cisco Catalyst Center".format(profile_name)
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        # Get profile ID
+        profile_index = next(
+            (index for index, profile in enumerate(self.have["profile_list"])
+             if profile.get("name") == profile_name), -1
+        )
+
+        if profile_index == -1:
+            self.msg = "Failed to locate profile '{0}' in retrieved profile list".format(profile_name)
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        profile_id = self.have["profile_list"][profile_index]["id"]
+        profile_info["profile_id"] = profile_id
+
+        self.log("Successfully resolved profile '{0}' to ID: '{1}'".format(
+            profile_name, profile_id), "DEBUG")
+
+        # Check template assignment
+        assignment_status = self._check_profile_template_assignment(
+            profile_name, profile_id, template_name)
+        profile_info["profile_status"] = assignment_status
+
+        if assignment_status == "already assigned":
+            self.profile_exists.append(profile_name)
+            self.log("Profile '{0}' marked as existing (already assigned)".format(
+                profile_name), "DEBUG")
+
+        self.log("Profile processing completed for '{0}': status='{1}'".format(
+            profile_name, assignment_status), "DEBUG")
+        return profile_info
+
+    def _check_profile_template_assignment(self, profile_name, profile_id, template_name):
+        """
+        Checks if a profile is assigned to the specified template.
+
+        Parameters:
+            profile_name (str): Name of the profile.
+            profile_id (str): ID of the profile.
+            template_name (str): Name of the template.
+
+        Returns:
+            str: Assignment status ('Not Assigned' or 'already assigned').
+        """
+
+        self.log("Checking template assignment for profile '{0}' (ID: {1}) against template '{2}'".format(
+            profile_name, profile_id, template_name), "DEBUG")
+
+        try:
+            template_details = self.get_templates_for_profile(profile_id)
+
+            if not template_details:
+                self.log("No templates found assigned to profile '{0}'".format(
+                    profile_name), "INFO")
+                return "Not Assigned"
+
+            self.log("Found {0} template(s) assigned to profile '{1}'".format(
+                len(template_details), profile_name), "DEBUG")
+
+            # Check if the specific template is assigned
+            if self.value_exists(template_details, "name", template_name):
+                self.log("Profile '{0}' is already assigned to template '{1}'".format(
+                    profile_name, template_name), "INFO")
+                return "already assigned"
+            else:
+                self.log("Profile '{0}' is not assigned to template '{1}' (assigned to other templates)".format(
+                    profile_name, template_name), "INFO")
+                return "Not Assigned"
+
+        except Exception as e:
+            self.log("Error checking template assignment for profile '{0}': {1}".format(
+                profile_name, str(e)), "ERROR")
+            return "Not Assigned"
+
+    def get_profile_details(self, device_type, input_profiles, template_name):
+        """
+        Retrieves profile details and assignment status for given profile names from Cisco Catalyst Center.
+
+        Parameters:
+            device_type (str) - The type of device for which to retrieve profile details.
+            input_profiles (list) - List of profile names to retrieve details for.
+            template_name (str) - The name of the template for which to retrieve profile details.
+
+        Returns:
+            list: A list of dictionaries containing profile information including:
+                - profile_name (str): Name of the profile
+                - profile_id (str): UUID of the profile
+                - profile_status (str): Assignment status ('Not Assigned' or 'already assigned')
+                - template_name (str): Name of the template
+
+        Description:
+            This function retrieves comprehensive profile information from Cisco Catalyst Center and determines
+            the assignment status of each profile to the specified template. It handles pagination for large
+            profile datasets, validates profile existence, and checks current template assignments. The function
+            supports multiple device types and maps them to appropriate network profile categories for API calls.
+        """
+        self.log("Initiating profile details collection for device type '{0}' with profiles: {1} and template '{2}'".format(
+            device_type, input_profiles, template_name), "DEBUG")
+
+        # Input validation
+        if not device_type:
+            self.msg = "Device type is required but not provided for profile details collection"
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        if not input_profiles or not isinstance(input_profiles, list):
+            self.msg = "Input profiles must be provided as a non-empty list for profile details collection"
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        if not template_name:
+            self.msg = "Template name is required but not provided for profile details collection"
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        self.log("Collecting profile information for device type '{0}', profiles: {1}, template: '{2}'".format(
+            device_type, input_profiles, template_name), "INFO")
+
+        # Initialize profile storage
+        self.have["profile"] = []
+        self.have["profile_list"] = []
+
+        # Retrieve all profiles with pagination
+        self._retrieve_all_profiles_with_pagination(device_type)
+
+        if not self.have["profile_list"]:
+            self.msg = "No profiles found for device type '{0}' in Cisco Catalyst Center".format(device_type)
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        self.log("Successfully retrieved {0} total profile(s) for device type '{1}'".format(
+            len(self.have["profile_list"]), device_type), "INFO")
+
+        # Process each input profile
+        processed_profiles = []
+        for profile_name in input_profiles:
+            profile_info = self._process_individual_profile(profile_name, template_name)
+            processed_profiles.append(profile_info)
+
+        self.log("Profile details collection completed successfully. Processed {0} profile(s): {1}".format(
+            len(processed_profiles), self.pprint(processed_profiles)), "INFO")
+
+        return processed_profiles
+
     def get_have(self, config):
         """
         Get the current project and template details from Cisco Catalyst Center.
@@ -3040,13 +3526,33 @@ class Template(DnacBase):
         have = {}
         configuration_templates = config.get("configuration_templates")
         if configuration_templates:
-            if not configuration_templates.get("project_name"):
+            profile_names = configuration_templates.get("profile_names")
+            template_name = configuration_templates.get("template_name")
+            device_types = configuration_templates.get("device_types")
+            project_name = configuration_templates.get("project_name")
+
+            if not project_name:
                 self.msg = "The parameter 'project_name' is required but not provided."
                 self.status = "failed"
                 return self
             template_available = self.get_have_project(config)
             if template_available:
                 self.get_have_template(config, template_available)
+
+            if profile_names and template_name and device_types:
+                self.log("Initiating profile assignment collection for template profile management", "DEBUG")
+
+                if device_types:
+                    parsed_current_profile = []
+                    for each_type in device_types:
+                        each_family = each_type.get("product_family")
+                        parsed_current_profile.extend(
+                            self.get_profile_details(each_family,
+                                                     profile_names,
+                                                     template_name)
+                        )
+
+                have["current_profile"] = self.deduplicate_list_of_dict(parsed_current_profile)
 
         project_config = config.get("projects", [])
         if project_config and isinstance(project_config, list):
@@ -3210,6 +3716,13 @@ class Template(DnacBase):
 
             if self.params.get("state") == "merged":
                 self.update_mandatory_parameters(template_params)
+
+            ccc_version = self.get_ccc_version()
+            if (
+                self.compare_dnac_versions(ccc_version, "3.1.3.0") >= 0
+                and configuration_templates.get("profile_names")
+            ):
+                want["profile_names"] = configuration_templates.get("profile_names")
 
             want["template_params"] = template_params
             want["project_params"] = project_params
@@ -4099,8 +4612,81 @@ class Template(DnacBase):
         if is_commit:
             name = self.want.get("template_params").get("name")
             self.log("Attempting to commit template '{0}' with ID '{1}'.".format(name, template_id), "INFO")
+
             self.commit_the_template(template_id, name).check_return_status()
             self.log("Template '{0}' committed successfully in the Cisco Catalyst Center.".format(name), "INFO")
+
+            self.log("Initiating profile assignment and detachment processing for template '{0}'".format(
+                name), "DEBUG")
+            current_profiles = self.have.get("current_profile", [])
+            self.log("Processing {0} profile(s) for template '{1}'.".format(
+                len(current_profiles), name), "INFO")
+
+            for profile_index, each_profile in enumerate(current_profiles):
+                # Extract profile information once per iteration
+                each_profile_name = each_profile.get("profile_name")
+                each_profile_id = each_profile.get("profile_id")
+                profile_template_name = each_profile.get("template_name")
+                profile_status = each_profile.get("profile_status")
+
+                # Skip profiles not associated with the current template
+                if profile_template_name != name:
+                    self.log("Skipping profile '{0}' - not associated with template '{1}' (associated with '{2}')".format(
+                        each_profile_name, name, profile_template_name), "DEBUG")
+                    continue
+
+                self.log("Processing profile '{0}' (index {1}) with status '{2}' for template '{3}'".format(
+                    each_profile_name, profile_index, profile_status, name), "DEBUG")
+
+                # Case 1: Assign profile to template
+                if profile_status == "Not Assigned":
+                    self.log("Assigning profile '{0}' to template '{1}' - profile not currently assigned".format(
+                        each_profile_name, name), "INFO")
+
+                    try:
+                        template_status = self.attach_networkprofile_cli_template(
+                            each_profile_name, each_profile_id, name, template_id)
+                        self.log("Received response from profile attachment API for profile '{0}': {1}".format(
+                            each_profile_name, template_status), "DEBUG")
+
+                        if template_status and template_status.get("progress"):
+                            success_msg = "Profile '{0}' successfully attached to template '{1}'".format(
+                                each_profile_name, name)
+                            self.log(success_msg, "INFO")
+                            self.profile_assigned.append(each_profile_name)
+                        else:
+                            error_msg = "Failed to attach profile '{0}' to template '{1}' - API response indicates failure".format(
+                                each_profile_name, name)
+                            self.log(error_msg, "ERROR")
+                            self.no_profile_assigned.append(each_profile_name)
+
+                    except Exception as e:
+                        error_msg = "Exception occurred while attaching profile '{0}' to template '{1}': {2}".format(
+                            each_profile_name, name, str(e))
+                        self.log(error_msg, "ERROR")
+                        self.no_profile_assigned.append(each_profile_name)
+
+                # Case 2: Profile already assigned (idempotent case)
+                elif profile_status == "already assigned":
+                    self.log("Profile '{0}' already assigned to template '{1}' - no action required".format(
+                        each_profile_name, name), "DEBUG")
+
+                # Case 3: Unexpected scenario
+                else:
+                    self.log("Unexpected scenario for profile '{0}' on template '{1}': status='{2}'".format(
+                        each_profile_name, name, profile_status), "WARNING")
+
+            # Log summary of operations
+            total_assigned = len(getattr(self, 'profile_assigned', []))
+            total_assignment_failures = len(getattr(self, 'no_profile_assigned', []))
+
+            self.log("Profile operation summary for template '{0}':".format(name), "INFO")
+            self.log("  - Profiles assigned: {0} {1}".format(total_assigned,
+                                                             getattr(self, 'profile_assigned', [])), "INFO")
+            self.log("  - Assignment failures: {0} {1}".format(total_assignment_failures,
+                                                               getattr(self, 'no_profile_assigned', [])), "INFO")
+
+            self.log("Completed profile assignment and processing for template '{0}'".format(name), "INFO")
 
         return self
 
@@ -5343,9 +5929,40 @@ class Template(DnacBase):
             commit_template_msg = "Template '{0}' committed successfully in the Cisco Catalyst Center.".format(self.template_committed)
             result_msg_list.append(commit_template_msg)
 
+        if self.profile_assigned:
+            profile_assign_msg = "Profile(s) '{0}' assigned successfully to the template.".format(str(
+                self.profile_assigned))
+            result_msg_list.append(profile_assign_msg)
+
+        if self.no_profile_assigned:
+            no_profile_assign_msg = "Unable to assign the profile(s) '{0}' to the template.".format(str(
+                self.no_profile_assigned))
+            result_msg_list.append(no_profile_assign_msg)
+
+        if (self.profile_exists and not self.profile_detached
+           and not self.profile_not_detached and not self.profile_already_detached):
+            profile_exists_msg = "Profile(s) '{0}' already exist and cannot be assigned to the template.".format(str(
+                self.profile_exists))
+            result_msg_list.append(profile_exists_msg)
+
+        if self.profile_detached:
+            profile_detach_msg = "Profile(s) '{0}' detached successfully from the template.".format(str(
+                self.profile_detached))
+            result_msg_list.append(profile_detach_msg)
+
+        if self.profile_not_detached:
+            profile_not_detach_msg = "Profile(s) '{0}' could not be detached from the template.".format(str(
+                self.profile_not_detached))
+            result_msg_list.append(profile_not_detach_msg)
+
+        if self.profile_already_detached:
+            profile_already_detach_msg = "Profile(s) '{0}' were already detached from the template.".format(str(
+                self.profile_already_detached))
+            result_msg_list.append(profile_already_detach_msg)
+
         if (
             self.project_created or self.template_created or self.template_updated
-            or self.template_committed
+            or self.template_committed or self.profile_assigned or self.profile_detached
         ):
             self.result["changed"] = True
 
@@ -5715,6 +6332,16 @@ class Template(DnacBase):
                 )
                 time.sleep(sleep_duration)
         else:
+            current_profiles = self.have.get("current_profile", [])
+            if current_profiles and self.compare_dnac_versions(ccc_version, "3.1.3.0") >= 0:
+                template_name = self.want.get("template_params").get("name")
+                self.log("Detaching profile from template", "DEBUG")
+                detach_status = self.detach_profiles_from_template(template_name, current_profiles)
+                if detach_status:
+                    self.log("Received response from detach profile.", "DEBUG")
+                    self.update_template_projects_message().check_return_status()
+                    return self
+
             self.log(
                 "Deleting '{0}' using function '{1}' with parameters: '{2}' on Catalyst version: {3} (> 2.3.5.3)".format(
                     name, deletion_value, params_key, ccc_version
@@ -5743,6 +6370,92 @@ class Template(DnacBase):
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
         return self
+
+    def detach_profiles_from_template(self, name, current_profiles):
+        """
+        Detach profiles from a specific template in Cisco Catalyst Center.
+
+        Args:
+            name (str): The name of the template.
+            current_profiles (list): A list of profile names to detach.
+
+        Returns:
+            bool: Returns True if the detachment was successful execution.
+        """
+        self.log("Detaching profiles from template '{0}': {1}".format(name, current_profiles), "INFO")
+
+        for profile_index, each_profile in enumerate(current_profiles):
+            # Extract profile information once per iteration
+            each_profile_name = each_profile.get("profile_name")
+            each_profile_id = each_profile.get("profile_id")
+            profile_template_name = each_profile.get("template_name")
+            profile_status = each_profile.get("profile_status")
+            template_id = self.have_template.get("id")
+
+            # Skip profiles not associated with the current template
+            if profile_template_name != name:
+                self.log("Skipping profile '{0}' - not associated with template '{1}' (associated with '{2}')".format(
+                    each_profile_name, name, profile_template_name), "DEBUG")
+                continue
+
+            self.log("Processing profile '{0}' (index {1}) with status '{2}' for template '{3}'".format(
+                each_profile_name, profile_index, profile_status, name), "DEBUG")
+
+            # Case 1: Detach profile from template
+            if profile_status == "already assigned":
+                self.log("Detaching profile '{0}' from template '{1}' - profile currently assigned and detach requested".format(
+                    each_profile_name, name), "INFO")
+
+                try:
+                    template_status = self.detach_networkprofile_cli_template(
+                        each_profile_name, each_profile_id, name, template_id)
+                    self.log("Received response from profile detachment API for profile '{0}': {1}".format(
+                        each_profile_name, template_status), "DEBUG")
+
+                    if template_status and template_status.get("progress"):
+                        success_msg = "Profile '{0}' successfully detached from template '{1}'".format(
+                            each_profile_name, name)
+                        self.log(success_msg, "INFO")
+                        self.profile_detached.append(each_profile_name)
+                    else:
+                        error_msg = "Failed to detach profile '{0}' from template '{1}' - API response indicates failure".format(
+                            each_profile_name, name)
+                        self.log(error_msg, "ERROR")
+                        self.profile_not_detached.append(each_profile_name)
+
+                except Exception as e:
+                    error_msg = "Exception occurred while detaching profile '{0}' from template '{1}': {2}".format(
+                        each_profile_name, name, str(e))
+                    self.log(error_msg, "ERROR")
+                    self.profile_not_detached.append(each_profile_name)
+
+            # Case 2: Profile already detached (idempotent case)
+            elif profile_status == "Not Assigned":
+                self.log("Profile '{0}' already detached from template '{1}' - no action required".format(
+                    each_profile_name, name), "INFO")
+                self.profile_already_detached.append(each_profile_name)
+
+            # Case 3: Unexpected scenario
+            else:
+                self.log("Unexpected scenario for profile '{0}' on template '{1}': status='{2}'".format(
+                    each_profile_name, name, profile_status), "WARNING")
+
+        # Log summary of operations
+        total_detached = len(getattr(self, 'profile_detached', []))
+        total_detachment_failures = len(getattr(self, 'profile_not_detached', []))
+        total_already_detached = len(getattr(self, 'profile_already_detached', []))
+
+        self.log("Profile operation summary for template '{0}':".format(name), "INFO")
+        self.log("  - Profiles detached: {0} {1}".format(total_detached,
+                                                         getattr(self, 'profile_detached', [])), "INFO")
+        self.log("  - Detachment failures: {0} {1}".format(total_detachment_failures,
+                                                           getattr(self, 'profile_not_detached', [])), "INFO")
+        self.log("  - Already detached: {0} {1}".format(total_already_detached,
+                                                        getattr(self, 'profile_already_detached', [])), "INFO")
+
+        self.log("Completed profile detachment processing for template '{0}'".format(name), "INFO")
+
+        return True
 
     def get_diff_deleted(self, config):
         """

@@ -1,0 +1,1378 @@
+# ---
+# # ===================================================================================================
+# # LOGICAL PORTS FEATURE TESTS SUMMARY
+# # ===================================================================================================
+# #
+# # This test suite validates Logical Ports configuration for Wired Campus Automation.
+# #
+# # TEST CATEGORIES:
+# #
+# # 1. NEGATIVE VALIDATION TESTS (Lines 25-1200)
+# #    a) Logical Ports Global Configuration Tests
+# #       - Logical ports configuration validation (string/list instead of dictionary)
+# #       - Port channel auto validation (string/integer instead of boolean)
+# #       - Port channel LACP system priority validation (string/boolean instead of integer, range validation)
+# #       - Port channel load balancing method validation (invalid choice, integer instead of string)
+# #       - Port channels validation (string/dictionary instead of list, conflict with auto enabled)
+# #
+# #    b) Port Channel Configuration Tests
+# #       - Port channel item validation (string instead of dictionary)
+# #       - Port channel protocol validation (missing required, invalid choice, integer instead of string)
+# #       - Port channel name validation (missing required, integer instead of string, length validation)
+# #       - Port channel min links validation (string instead of integer, range validation)
+# #       - Port channel members validation (missing required, string/dictionary instead of list, empty list)
+# #
+# #    c) Port Channel Member Configuration Tests
+# #       - Port channel member item validation (string instead of dictionary)
+# #       - Port channel interface name validation (missing required, integer instead of string, empty string)
+# #       - Port channel mode validation (invalid choices for different protocols, integer instead of string)
+# #       - Port channel port priority validation (string instead of integer, range validation for LACP/PAGP)
+# #       - Port channel rate validation (string/invalid choice, protocol specific validation)
+# #       - Port channel learn method validation (invalid choice, protocol specific validation)
+# #
+# #    d) Duplicate and Conflict Tests
+# #       - Duplicate port channel names validation
+# #       - Duplicate member interfaces validation (across channels and within same channel)
+# #
+# # 2. POSITIVE VALIDATION TESTS (Lines 1200-2000)
+# #    a) Logical Ports Creation Tests (Merged State)
+# #       - Global parameters only configuration (auto enabled/disabled)
+# #       - Single port channel configurations (LACP, PAGP, static - minimal and comprehensive)
+# #       - Multiple port channel configurations (different protocols, same protocols)
+# #       - All load balancing methods testing
+# #       - Boundary value testing (minimum and maximum values)
+# #       - All mode testing (LACP, PAGP modes)
+# #       - Large scale testing
+# #
+# #    b) Logical Ports Update Tests (Merged State)
+# #       - Global parameters only updates
+# #       - Modifying existing port channel configurations
+# #       - Adding new port channels
+# #       - Modifying member configurations
+# #       - Changing protocol types
+# #       - Adding members to existing port channels
+# #       - Comprehensive updates
+# #       - Enabling auto mode
+# #       - Individual parameter updates
+# #
+# # VALIDATION RANGES:
+# # - Port Channel Auto: boolean (true/false)
+# # - Port Channel LACP System Priority: integer (0-65535)
+# # - Port Channel Load Balancing Method: string (valid choices)
+# # - Port Channel Protocol: string ("LACP", "PAGP", "NONE")
+# # - Port Channel Name: string (13-15 characters)
+# # - Port Channel Min Links: integer (1-8)
+# # - Port Channel Interface Name: string (non-empty)
+# # - Port Channel Mode: string (protocol specific choices)
+# # - Port Channel Port Priority: integer (0-65535 for LACP, 0-255 for PAGP)
+# # - Port Channel Rate: integer (1, 30 - LACP only)
+# # - Port Channel Learn Method: string ("AGGREGATION_PORT", "PHYSICAL_PORT" - PAGP only)
+# #
+# # EXPECTED BEHAVIORS:
+# # - Negative tests should fail with appropriate error messages
+# # - Positive tests should succeed with changed=true and response defined
+# # - Global and port channel configurations can be applied independently
+# # - Multiple port channels can be configured with different settings
+# # - Protocol-specific validations enforced (LACP, PAGP, NONE modes)
+# # - Duplicate names and interfaces should be rejected
+# # - All boolean fields reject string/integer values
+# # - All integer fields reject string/boolean values
+# # - Range validation enforced for numeric fields
+# # - Structure validation enforced for complex data types
+# #
+# # ===================================================================================================
+
+# - debug: msg="Starting Logical Ports feature tests for Wired Campus Automation"
+# - debug: msg="Role Path {{ role_path }}"
+
+# - block:
+#     - name: Load Logical Ports test variables
+#       include_vars:
+#         file: "{{ role_path }}/vars/vars_wca_test_feature_logical_ports.yml"
+#         name: logical_ports_vars_map
+#       vars:
+#         dnac_login: &dnac_login
+#           dnac_host: "{{ dnac_host }}"
+#           dnac_username: "{{ dnac_username }}"
+#           dnac_password: "{{ dnac_password }}"
+#           dnac_verify: "{{ dnac_verify }}"
+#           dnac_port: "{{ dnac_port }}"
+#           dnac_version: "{{ dnac_version }}"
+#           dnac_debug: "{{ dnac_debug }}"
+#           dnac_log: true
+#           dnac_log_level: DEBUG
+#           config_verify: true
+#           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
+#           dnac_log_append: false
+
+#     ###################################################################################################################
+#     # Negative Validation Tests for Logical Ports
+
+#     #############################################
+#     #  Logical Ports Global Configuration Tests #
+#     #############################################
+
+#     - name: Test logical ports configuration validation - string instead of dictionary should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_invalid_dict_type }}"
+#       register: result_logical_ports_invalid_dict_type
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, structure, dict]
+
+#     - name: Assert logical ports configuration dictionary type validation failed
+#       assert:
+#         that:
+#           - result_logical_ports_invalid_dict_type.failed == true
+#           - "'must be of type dict' in result_logical_ports_invalid_dict_type.msg or 'logical_ports' in result_logical_ports_invalid_dict_type.msg"
+#         fail_msg: "Logical ports configuration dictionary type validation should have failed"
+#         success_msg: "Logical ports configuration dictionary type validation correctly failed"
+#       tags: [negative, logical_ports, structure, dict]
+
+#     - name: Test logical ports configuration validation - list instead of dictionary should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_invalid_list_type }}"
+#       register: result_logical_ports_invalid_list_type
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, structure, list]
+
+#     - name: Assert logical ports configuration list type validation failed
+#       assert:
+#         that:
+#           - result_logical_ports_invalid_list_type.failed == true
+#           - "'must be of type dict' in result_logical_ports_invalid_list_type.msg or 'logical_ports' in result_logical_ports_invalid_list_type.msg"
+#         fail_msg: "Logical ports configuration list type validation should have failed"
+#         success_msg: "Logical ports configuration list type validation correctly failed"
+#       tags: [negative, logical_ports, structure, list]
+
+#     - name: Test port channel auto validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_auto_integer }}"
+#       register: result_port_channel_auto_integer
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, auto, integer]
+
+#     - name: Assert port channel auto integer validation failed
+#       assert:
+#         that:
+#           - result_port_channel_auto_integer.failed == true
+#           - "'must be of type boolean' in result_port_channel_auto_integer.msg"
+#         fail_msg: "Port channel auto integer validation should have failed"
+#         success_msg: "Port channel auto integer validation correctly failed"
+#       tags: [negative, logical_ports, auto, integer]
+
+#     - name: Test port channel LACP system priority validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_lacp_system_priority_string }}"
+#       register: result_port_channel_lacp_system_priority_string
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, lacp_priority, string]
+
+#     - name: Assert port channel LACP system priority string validation failed
+#       assert:
+#         that:
+#           - result_port_channel_lacp_system_priority_string.failed == true
+#           - "'must be of type integer' in result_port_channel_lacp_system_priority_string.msg"
+#         fail_msg: "Port channel LACP system priority string validation should have failed"
+#         success_msg: "Port channel LACP system priority string validation correctly failed"
+#       tags: [negative, logical_ports, lacp_priority, string]
+
+#     - name: Test port channel LACP system priority validation - boolean value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_lacp_system_priority_boolean }}"
+#       register: result_port_channel_lacp_system_priority_boolean
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, lacp_priority, boolean]
+
+#     - name: Assert port channel LACP system priority boolean validation failed
+#       assert:
+#         that:
+#           - result_port_channel_lacp_system_priority_boolean.failed == true
+#           - "'must be of type integer' in result_port_channel_lacp_system_priority_boolean.msg"
+#         fail_msg: "Port channel LACP system priority boolean validation should have failed"
+#         success_msg: "Port channel LACP system priority boolean validation correctly failed"
+#       tags: [negative, logical_ports, lacp_priority, boolean]
+
+#     - name: Test port channel LACP system priority validation - negative value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_lacp_system_priority_negative }}"
+#       register: result_port_channel_lacp_system_priority_negative
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, lacp_priority, range]
+
+#     - name: Assert port channel LACP system priority negative validation failed
+#       assert:
+#         that:
+#           - result_port_channel_lacp_system_priority_negative.failed == true
+#           - "'must be within the range' in result_port_channel_lacp_system_priority_negative.msg or 'priority' in result_port_channel_lacp_system_priority_negative.msg"
+#         fail_msg: "Port channel LACP system priority negative validation should have failed"
+#         success_msg: "Port channel LACP system priority negative validation correctly failed"
+#       tags: [negative, logical_ports, lacp_priority, range]
+
+#     - name: Test port channel LACP system priority validation - exceeds maximum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_lacp_system_priority_max }}"
+#       register: result_port_channel_lacp_system_priority_max
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, lacp_priority, range]
+
+#     - name: Assert port channel LACP system priority maximum validation failed
+#       assert:
+#         that:
+#           - result_port_channel_lacp_system_priority_max.failed == true
+#           - "'must be within the range' in result_port_channel_lacp_system_priority_max.msg or 'priority' in result_port_channel_lacp_system_priority_max.msg"
+#         fail_msg: "Port channel LACP system priority maximum validation should have failed"
+#         success_msg: "Port channel LACP system priority maximum validation correctly failed"
+#       tags: [negative, logical_ports, lacp_priority, range]
+
+#     - name: Test port channel load balancing method validation - invalid choice should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_load_balancing_method_invalid }}"
+#       register: result_port_channel_load_balancing_method_invalid
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, load_balancing, choice]
+
+#     - name: Assert port channel load balancing method invalid validation failed
+#       assert:
+#         that:
+#           - result_port_channel_load_balancing_method_invalid.failed == true
+#           - "'not a valid choice' in result_port_channel_load_balancing_method_invalid.msg or 'INVALID_METHOD' in result_port_channel_load_balancing_method_invalid.msg"
+#         fail_msg: "Port channel load balancing method invalid validation should have failed"
+#         success_msg: "Port channel load balancing method invalid validation correctly failed"
+#       tags: [negative, logical_ports, load_balancing, choice]
+
+#     - name: Test port channel load balancing method validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_load_balancing_method_integer }}"
+#       register: result_port_channel_load_balancing_method_integer
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, load_balancing, integer]
+
+#     - name: Assert port channel load balancing method integer validation failed
+#       assert:
+#         that:
+#           - result_port_channel_load_balancing_method_integer.failed == true
+#           - "'must be of type string' in result_port_channel_load_balancing_method_integer.msg"
+#         fail_msg: "Port channel load balancing method integer validation should have failed"
+#         success_msg: "Port channel load balancing method integer validation correctly failed"
+#       tags: [negative, logical_ports, load_balancing, integer]
+
+#     - name: Test port channels validation - string instead of list should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channels_invalid_list_type }}"
+#       register: result_port_channels_invalid_list_type
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channels, list]
+
+#     - name: Assert port channels list type validation failed
+#       assert:
+#         that:
+#           - result_port_channels_invalid_list_type.failed == true
+#           - "'must be a list of dictionaries' in result_port_channels_invalid_list_type.msg or 'port_channels' in result_port_channels_invalid_list_type.msg"
+#         fail_msg: "Port channels list type validation should have failed"
+#         success_msg: "Port channels list type validation correctly failed"
+#       tags: [negative, logical_ports, port_channels, list]
+
+#     - name: Test port channels validation - dictionary instead of list should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channels_invalid_dict_type }}"
+#       register: result_port_channels_invalid_dict_type
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channels, dict]
+
+#     - name: Assert port channels dictionary type validation failed
+#       assert:
+#         that:
+#           - result_port_channels_invalid_dict_type.failed == true
+#           - "'must be a list of dictionaries' in result_port_channels_invalid_dict_type.msg or 'port_channels' in result_port_channels_invalid_dict_type.msg"
+#         fail_msg: "Port channels dictionary type validation should have failed"
+#         success_msg: "Port channels dictionary type validation correctly failed"
+#       tags: [negative, logical_ports, port_channels, dict]
+
+#     #############################################
+#     #        Port Channel Configuration Tests  #
+#     #############################################
+
+#     - name: Test port channel item validation - string instead of dictionary should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_item_invalid_dict_type }}"
+#       register: result_port_channel_item_invalid_dict_type
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_item, dict]
+
+#     - name: Assert port channel item dictionary type validation failed
+#       assert:
+#         that:
+#           - result_port_channel_item_invalid_dict_type.failed == true
+#           - "'must be a dictionary' in result_port_channel_item_invalid_dict_type.msg or 'port_channels' in result_port_channel_item_invalid_dict_type.msg"
+#         fail_msg: "Port channel item dictionary type validation should have failed"
+#         success_msg: "Port channel item dictionary type validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_item, dict]
+
+#     - name: Test missing required port channel protocol
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_protocol_missing }}"
+#       register: result_port_channel_protocol_missing
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_protocol, required]
+
+#     - name: Assert missing port channel protocol validation failed
+#       assert:
+#         that:
+#           - result_port_channel_protocol_missing.failed == true
+#           - "'port_channel_protocol' in result_port_channel_protocol_missing.msg or 'required' in result_port_channel_protocol_missing.msg"
+#         fail_msg: "Missing port channel protocol validation should have failed"
+#         success_msg: "Missing port channel protocol validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_protocol, required]
+
+#     - name: Test port channel protocol validation - invalid choice should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_protocol_invalid }}"
+#       register: result_port_channel_protocol_invalid
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_protocol, choice]
+
+#     - name: Assert port channel protocol invalid validation failed
+#       assert:
+#         that:
+#           - result_port_channel_protocol_invalid.failed == true
+#           - "'not a valid choice' in result_port_channel_protocol_invalid.msg or 'INVALID_PROTOCOL' in result_port_channel_protocol_invalid.msg"
+#         fail_msg: "Port channel protocol invalid validation should have failed"
+#         success_msg: "Port channel protocol invalid validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_protocol, choice]
+
+#     - name: Test port channel protocol validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_protocol_integer }}"
+#       register: result_port_channel_protocol_integer
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_protocol, integer]
+
+#     - name: Assert port channel protocol integer validation failed
+#       assert:
+#         that:
+#           - result_port_channel_protocol_integer.failed == true
+#           - "'must be of type string' in result_port_channel_protocol_integer.msg"
+#         fail_msg: "Port channel protocol integer validation should have failed"
+#         success_msg: "Port channel protocol integer validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_protocol, integer]
+
+#     - name: Test missing required port channel name
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_name_missing }}"
+#       register: result_port_channel_name_missing
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_name, required]
+
+#     - name: Assert missing port channel name validation failed
+#       assert:
+#         that:
+#           - result_port_channel_name_missing.failed == true
+#           - "'port_channel_name' in result_port_channel_name_missing.msg or 'required' in result_port_channel_name_missing.msg"
+#         fail_msg: "Missing port channel name validation should have failed"
+#         success_msg: "Missing port channel name validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_name, required]
+
+#     - name: Test port channel name validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_name_integer }}"
+#       register: result_port_channel_name_integer
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_name, integer]
+
+#     - name: Assert port channel name integer validation failed
+#       assert:
+#         that:
+#           - result_port_channel_name_integer.failed == true
+#           - "'must be of type string' in result_port_channel_name_integer.msg"
+#         fail_msg: "Port channel name integer validation should have failed"
+#         success_msg: "Port channel name integer validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_name, integer]
+
+#     - name: Test port channel name validation - too short should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_name_too_short }}"
+#       register: result_port_channel_name_too_short
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_name, length]
+
+#     - name: Assert port channel name too short validation failed
+#       assert:
+#         that:
+#           - result_port_channel_name_too_short.failed == true
+#           - "'length' in result_port_channel_name_too_short.msg or 'characters' in result_port_channel_name_too_short.msg"
+#         fail_msg: "Port channel name too short validation should have failed"
+#         success_msg: "Port channel name too short validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_name, length]
+
+#     - name: Test port channel name validation - too long should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_name_too_long }}"
+#       register: result_port_channel_name_too_long
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_name, length]
+
+#     - name: Assert port channel name too long validation failed
+#       assert:
+#         that:
+#           - result_port_channel_name_too_long.failed == true
+#           - "'length' in result_port_channel_name_too_long.msg or 'characters' in result_port_channel_name_too_long.msg"
+#         fail_msg: "Port channel name too long validation should have failed"
+#         success_msg: "Port channel name too long validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_name, length]
+
+#     - name: Test port channel name validation - empty string should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_name_empty }}"
+#       register: result_port_channel_name_empty
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_name, empty]
+
+#     - name: Assert port channel name empty validation failed
+#       assert:
+#         that:
+#           - result_port_channel_name_empty.failed == true
+#           - "'empty' in result_port_channel_name_empty.msg or 'port_channel_name' in result_port_channel_name_empty.msg"
+#         fail_msg: "Port channel name empty validation should have failed"
+#         success_msg: "Port channel name empty validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_name, empty]
+
+#     - name: Test port channel min links validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_min_links_string }}"
+#       register: result_port_channel_min_links_string
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_min_links, string]
+
+#     - name: Assert port channel min links string validation failed
+#       assert:
+#         that:
+#           - result_port_channel_min_links_string.failed == true
+#           - "'must be of type integer' in result_port_channel_min_links_string.msg"
+#         fail_msg: "Port channel min links string validation should have failed"
+#         success_msg: "Port channel min links string validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_min_links, string]
+
+#     - name: Test port channel min links validation - negative value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_min_links_negative }}"
+#       register: result_port_channel_min_links_negative
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_min_links, range]
+
+#     - name: Assert port channel min links negative validation failed
+#       assert:
+#         that:
+#           - result_port_channel_min_links_negative.failed == true
+#           - "'must be within the range' in result_port_channel_min_links_negative.msg or 'min_links' in result_port_channel_min_links_negative.msg"
+#         fail_msg: "Port channel min links negative validation should have failed"
+#         success_msg: "Port channel min links negative validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_min_links, range]
+
+#     - name: Test port channel min links validation - zero value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_min_links_zero }}"
+#       register: result_port_channel_min_links_zero
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_min_links, range]
+
+#     - name: Assert port channel min links zero validation failed
+#       assert:
+#         that:
+#           - result_port_channel_min_links_zero.failed == true
+#           - "'must be within the range' in result_port_channel_min_links_zero.msg or 'min_links' in result_port_channel_min_links_zero.msg"
+#         fail_msg: "Port channel min links zero validation should have failed"
+#         success_msg: "Port channel min links zero validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_min_links, range]
+
+#     - name: Test port channel min links validation - exceeds maximum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_min_links_max }}"
+#       register: result_port_channel_min_links_max
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_min_links, range]
+
+#     - name: Assert port channel min links maximum validation failed
+#       assert:
+#         that:
+#           - result_port_channel_min_links_max.failed == true
+#           - "'must be within the range' in result_port_channel_min_links_max.msg or 'min_links' in result_port_channel_min_links_max.msg"
+#         fail_msg: "Port channel min links maximum validation should have failed"
+#         success_msg: "Port channel min links maximum validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_min_links, range]
+
+#     - name: Test missing required port channel members
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_members_missing }}"
+#       register: result_port_channel_members_missing
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_members, required]
+
+#     - name: Assert missing port channel members validation failed
+#       assert:
+#         that:
+#           - result_port_channel_members_missing.failed == true
+#           - "'port_channel_members' in result_port_channel_members_missing.msg or 'required' in result_port_channel_members_missing.msg"
+#         fail_msg: "Missing port channel members validation should have failed"
+#         success_msg: "Missing port channel members validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_members, required]
+
+#     - name: Test port channel members validation - string instead of list should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_members_invalid_list_type }}"
+#       register: result_port_channel_members_invalid_list_type
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_members, list]
+
+#     - name: Assert port channel members list type validation failed
+#       assert:
+#         that:
+#           - result_port_channel_members_invalid_list_type.failed == true
+#           - "'must be of type list' in result_port_channel_members_invalid_list_type.msg"
+#         fail_msg: "Port channel members list type validation should have failed"
+#         success_msg: "Port channel members list type validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_members, list]
+
+#     - name: Test port channel members validation - dictionary instead of list should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_members_invalid_dict_type }}"
+#       register: result_port_channel_members_invalid_dict_type
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_members, dict]
+
+#     - name: Assert port channel members dictionary type validation failed
+#       assert:
+#         that:
+#           - result_port_channel_members_invalid_dict_type.failed == true
+#           - "'must be of type list' in result_port_channel_members_invalid_dict_type.msg"
+#         fail_msg: "Port channel members dictionary type validation should have failed"
+#         success_msg: "Port channel members dictionary type validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_members, dict]
+
+#     - name: Test port channel members validation - empty list should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_members_empty_list }}"
+#       register: result_port_channel_members_empty_list
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_members, empty]
+
+#     - name: Assert port channel members empty list validation failed
+#       assert:
+#         that:
+#           - result_port_channel_members_empty_list.failed == true
+#           - "'memberPorts: may not be null' in result_port_channel_members_empty_list.msg or 'port_channel_members' in result_port_channel_members_empty_list.msg"
+#         fail_msg: "Port channel members empty list validation should have failed"
+#         success_msg: "Port channel members empty list validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_members, empty]
+
+#     #############################################
+#     #  Port Channel Member Configuration Tests  #
+#     #############################################
+
+#     - name: Test port channel member item validation - string instead of dictionary should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_member_invalid_dict_type }}"
+#       register: result_port_channel_member_invalid_dict_type
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_member, dict]
+
+#     - name: Assert port channel member dictionary type validation failed
+#       assert:
+#         that:
+#           - result_port_channel_member_invalid_dict_type.failed == true
+#           - "'must be a dictionary' in result_port_channel_member_invalid_dict_type.msg or 'port_channel_members' in result_port_channel_member_invalid_dict_type.msg"
+#         fail_msg: "Port channel member dictionary type validation should have failed"
+#         success_msg: "Port channel member dictionary type validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_member, dict]
+
+#     - name: Test missing required port channel interface name
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_interface_name_missing }}"
+#       register: result_port_channel_interface_name_missing
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_interface_name, required]
+
+#     - name: Assert missing port channel interface name validation failed
+#       assert:
+#         that:
+#           - result_port_channel_interface_name_missing.failed == true
+#           - "'port_channel_interface_name' in result_port_channel_interface_name_missing.msg or 'required' in result_port_channel_interface_name_missing.msg"
+#         fail_msg: "Missing port channel interface name validation should have failed"
+#         success_msg: "Missing port channel interface name validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_interface_name, required]
+
+#     - name: Test port channel interface name validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_interface_name_integer }}"
+#       register: result_port_channel_interface_name_integer
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_interface_name, integer]
+
+#     - name: Assert port channel interface name integer validation failed
+#       assert:
+#         that:
+#           - result_port_channel_interface_name_integer.failed == true
+#           - "'must be of type string' in result_port_channel_interface_name_integer.msg"
+#         fail_msg: "Port channel interface name integer validation should have failed"
+#         success_msg: "Port channel interface name integer validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_interface_name, integer]
+
+#     - name: Test port channel mode validation - invalid choice for LACP should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_mode_invalid_lacp }}"
+#       register: result_port_channel_mode_invalid_lacp
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_mode, lacp]
+
+#     - name: Assert port channel mode invalid LACP validation failed
+#       assert:
+#         that:
+#           - result_port_channel_mode_invalid_lacp.failed == true
+#           - "'not valid for LACP' in result_port_channel_mode_invalid_lacp.msg or 'DESIRABLE' in result_port_channel_mode_invalid_lacp.msg"
+#         fail_msg: "Port channel mode invalid LACP validation should have failed"
+#         success_msg: "Port channel mode invalid LACP validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_mode, lacp]
+
+#     - name: Test port channel mode validation - invalid choice for PAGP should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_mode_invalid_pagp }}"
+#       register: result_port_channel_mode_invalid_pagp
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_mode, pagp]
+
+#     - name: Assert port channel mode invalid PAGP validation failed
+#       assert:
+#         that:
+#           - result_port_channel_mode_invalid_pagp.failed == true
+#           - "'not valid for PAGP' in result_port_channel_mode_invalid_pagp.msg or 'ACTIVE' in result_port_channel_mode_invalid_pagp.msg"
+#         fail_msg: "Port channel mode invalid PAGP validation should have failed"
+#         success_msg: "Port channel mode invalid PAGP validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_mode, pagp]
+
+#     - name: Test port channel mode validation - invalid choice for NONE should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_mode_invalid_none }}"
+#       register: result_port_channel_mode_invalid_none
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_mode, none]
+
+#     - name: Assert port channel mode invalid NONE validation failed
+#       assert:
+#         that:
+#           - result_port_channel_mode_invalid_none.failed == true
+#           - "'not valid for NONE' in result_port_channel_mode_invalid_none.msg or 'ACTIVE' in result_port_channel_mode_invalid_none.msg"
+#         fail_msg: "Port channel mode invalid NONE validation should have failed"
+#         success_msg: "Port channel mode invalid NONE validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_mode, none]
+
+#     - name: Test port channel mode validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_mode_integer }}"
+#       register: result_port_channel_mode_integer
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_mode, integer]
+
+#     - name: Assert port channel mode integer validation failed
+#       assert:
+#         that:
+#           - result_port_channel_mode_integer.failed == true
+#           - "'must be of type string' in result_port_channel_mode_integer.msg"
+#         fail_msg: "Port channel mode integer validation should have failed"
+#         success_msg: "Port channel mode integer validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_mode, integer]
+
+#     - name: Test port channel port priority validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_port_priority_string }}"
+#       register: result_port_channel_port_priority_string
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_port_priority, string]
+
+#     - name: Assert port channel port priority string validation failed
+#       assert:
+#         that:
+#           - result_port_channel_port_priority_string.failed == true
+#           - "'must be of type integer' in result_port_channel_port_priority_string.msg"
+#         fail_msg: "Port channel port priority string validation should have failed"
+#         success_msg: "Port channel port priority string validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_port_priority, string]
+
+#     - name: Test port channel port priority validation - negative value for LACP should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_port_priority_negative_lacp }}"
+#       register: result_port_channel_port_priority_negative_lacp
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_port_priority, lacp, range]
+
+#     - name: Assert port channel port priority negative LACP validation failed
+#       assert:
+#         that:
+#           - result_port_channel_port_priority_negative_lacp.failed == true
+#           - "'must be within the range' in result_port_channel_port_priority_negative_lacp.msg or 'priority' in result_port_channel_port_priority_negative_lacp.msg"
+#         fail_msg: "Port channel port priority negative LACP validation should have failed"
+#         success_msg: "Port channel port priority negative LACP validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_port_priority, lacp, range]
+
+#     - name: Test port channel port priority validation - exceeds maximum for LACP should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_port_priority_max_lacp }}"
+#       register: result_port_channel_port_priority_max_lacp
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_port_priority, lacp, range]
+
+#     - name: Assert port channel port priority maximum LACP validation failed
+#       assert:
+#         that:
+#           - result_port_channel_port_priority_max_lacp.failed == true
+#           - "'must be within the range' in result_port_channel_port_priority_max_lacp.msg or 'priority' in result_port_channel_port_priority_max_lacp.msg"
+#         fail_msg: "Port channel port priority maximum LACP validation should have failed"
+#         success_msg: "Port channel port priority maximum LACP validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_port_priority, lacp, range]
+
+#     - name: Test port channel port priority validation - exceeds maximum for PAGP should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_port_priority_max_pagp }}"
+#       register: result_port_channel_port_priority_max_pagp
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_port_priority, pagp, range]
+
+#     - name: Assert port channel port priority maximum PAGP validation failed
+#       assert:
+#         that:
+#           - result_port_channel_port_priority_max_pagp.failed == true
+#           - "'must be within the range' in result_port_channel_port_priority_max_pagp.msg or 'priority' in result_port_channel_port_priority_max_pagp.msg"
+#         fail_msg: "Port channel port priority maximum PAGP validation should have failed"
+#         success_msg: "Port channel port priority maximum PAGP validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_port_priority, pagp, range]
+
+#     - name: Test port channel rate validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_rate_string }}"
+#       register: result_port_channel_rate_string
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_rate, string]
+
+#     - name: Assert port channel rate string validation failed
+#       assert:
+#         that:
+#           - result_port_channel_rate_string.failed == true
+#           - "'must be an integer (1 or 30)' in result_port_channel_rate_string.msg"
+#         fail_msg: "Port channel rate string validation should have failed"
+#         success_msg: "Port channel rate string validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_rate, string]
+
+#     - name: Test port channel rate validation - invalid choice should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_rate_invalid }}"
+#       register: result_port_channel_rate_invalid
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_rate, choice]
+
+#     - name: Assert port channel rate invalid validation failed
+#       assert:
+#         that:
+#           - result_port_channel_rate_invalid.failed == true
+#           - "'not a valid choice' in result_port_channel_rate_invalid.msg or 'rate' in result_port_channel_rate_invalid.msg"
+#         fail_msg: "Port channel rate invalid validation should have failed"
+#         success_msg: "Port channel rate invalid validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_rate, choice]
+
+#     - name: Test port channel learn method validation - invalid choice should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_learn_method_invalid }}"
+#       register: result_port_channel_learn_method_invalid
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_learn_method, choice]
+
+#     - name: Assert port channel learn method invalid validation failed
+#       assert:
+#         that:
+#           - result_port_channel_learn_method_invalid.failed == true
+#           - "'not a valid choice' in result_port_channel_learn_method_invalid.msg or 'INVALID_METHOD' in result_port_channel_learn_method_invalid.msg"
+#         fail_msg: "Port channel learn method invalid validation should have failed"
+#         success_msg: "Port channel learn method invalid validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_learn_method, choice]
+
+#     - name: Test port channel learn method validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_learn_method_integer }}"
+#       register: result_port_channel_learn_method_integer
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_learn_method, integer]
+
+#     - name: Assert port channel learn method integer validation failed
+#       assert:
+#         that:
+#           - result_port_channel_learn_method_integer.failed == true
+#           - "'must be of type string' in result_port_channel_learn_method_integer.msg"
+#         fail_msg: "Port channel learn method integer validation should have failed"
+#         success_msg: "Port channel learn method integer validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_learn_method, integer]
+
+#     - name: Test port channel learn method on non-PAGP protocol should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_port_channel_learn_method_non_pagp }}"
+#       register: result_port_channel_learn_method_non_pagp
+#       ignore_errors: yes
+#       tags: [negative, logical_ports, port_channel_learn_method, protocol]
+
+#     - name: Assert port channel learn method non-PAGP validation failed
+#       assert:
+#         that:
+#           - result_port_channel_learn_method_non_pagp.failed == true
+#           - "'only applicable for PAGP' in result_port_channel_learn_method_non_pagp.msg or 'learn_method' in result_port_channel_learn_method_non_pagp.msg"
+#         fail_msg: "Port channel learn method non-PAGP validation should have failed"
+#         success_msg: "Port channel learn method non-PAGP validation correctly failed"
+#       tags: [negative, logical_ports, port_channel_learn_method, protocol]
+
+
+#     # ##################################################################################################################
+#     # Positive Test Cases for Logical Ports
+
+#     #############################################
+#     #        POSITIVE TEST CASES - CREATE      #
+#     #############################################
+
+#     - name: Create logical ports configuration with global parameters only - auto enabled
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_create_global_auto_enabled }}"
+#       register: result_logical_ports_create_global_auto_enabled
+#       tags: [positive, logical_ports, create, global, auto]
+
+#     - name: Assert logical ports global auto enabled creation succeeded
+#       assert:
+#         that:
+#           - result_logical_ports_create_global_auto_enabled.changed == true
+#           - result_logical_ports_create_global_auto_enabled.response is defined
+#         fail_msg: "Logical ports global auto enabled creation should have succeeded"
+#         success_msg: "Logical ports global auto enabled creation succeeded"
+#       tags: [positive, logical_ports, create, global, auto]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, logical_ports, create]
+
+#     - name: Create logical ports configuration with global parameters only - auto disabled
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_create_global_auto_disabled }}"
+#       register: result_logical_ports_create_global_auto_disabled
+#       tags: [positive, logical_ports, create, global, manual]
+
+#     - name: Assert logical ports global auto disabled creation succeeded
+#       assert:
+#         that:
+#           - result_logical_ports_create_global_auto_disabled.changed == true
+#           - result_logical_ports_create_global_auto_disabled.response is defined
+#         fail_msg: "Logical ports global auto disabled creation should have succeeded"
+#         success_msg: "Logical ports global auto disabled creation succeeded"
+#       tags: [positive, logical_ports, create, global, manual]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, logical_ports, create]
+
+#     - name: Create logical ports configuration with single LACP port channel - minimal
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_create_single_lacp_minimal }}"
+#       register: result_logical_ports_create_single_lacp_minimal
+#       tags: [positive, logical_ports, create, lacp, minimal]
+
+#     - name: Assert logical ports single LACP minimal creation succeeded
+#       assert:
+#         that:
+#           - result_logical_ports_create_single_lacp_minimal.changed == true
+#           - result_logical_ports_create_single_lacp_minimal.response is defined
+#         fail_msg: "Logical ports single LACP minimal creation should have succeeded"
+#         success_msg: "Logical ports single LACP minimal creation succeeded"
+#       tags: [positive, logical_ports, create, lacp, minimal]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, logical_ports, create]
+
+#     - name: Create logical ports configuration with single LACP port channel - comprehensive
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_create_single_lacp_comprehensive }}"
+#       register: result_logical_ports_create_single_lacp_comprehensive
+#       tags: [positive, logical_ports, create, lacp, comprehensive]
+
+#     - name: Assert logical ports single LACP comprehensive creation succeeded
+#       assert:
+#         that:
+#           - result_logical_ports_create_single_lacp_comprehensive.changed == true
+#           - result_logical_ports_create_single_lacp_comprehensive.response is defined
+#         fail_msg: "Logical ports single LACP comprehensive creation should have succeeded"
+#         success_msg: "Logical ports single LACP comprehensive creation succeeded"
+#       tags: [positive, logical_ports, create, lacp, comprehensive]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, logical_ports, create]
+
+#     - name: Create logical ports configuration with single PAGP port channel - minimal
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_create_single_pagp_minimal }}"
+#       register: result_logical_ports_create_single_pagp_minimal
+#       tags: [positive, logical_ports, create, pagp, minimal]
+
+#     - name: Assert logical ports single PAGP minimal creation succeeded
+#       assert:
+#         that:
+#           - result_logical_ports_create_single_pagp_minimal.changed == true
+#           - result_logical_ports_create_single_pagp_minimal.response is defined
+#         fail_msg: "Logical ports single PAGP minimal creation should have succeeded"
+#         success_msg: "Logical ports single PAGP minimal creation succeeded"
+#       tags: [positive, logical_ports, create, pagp, minimal]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, logical_ports, create]
+
+#     - name: Create logical ports configuration with single PAGP port channel - comprehensive
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_create_single_pagp_comprehensive }}"
+#       register: result_logical_ports_create_single_pagp_comprehensive
+#       tags: [positive, logical_ports, create, pagp, comprehensive]
+
+#     - name: Assert logical ports single PAGP comprehensive creation succeeded
+#       assert:
+#         that:
+#           - result_logical_ports_create_single_pagp_comprehensive.changed == true
+#           - result_logical_ports_create_single_pagp_comprehensive.response is defined
+#         fail_msg: "Logical ports single PAGP comprehensive creation should have succeeded"
+#         success_msg: "Logical ports single PAGP comprehensive creation succeeded"
+#       tags: [positive, logical_ports, create, pagp, comprehensive]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, logical_ports, create]
+
+#     - name: Create logical ports configuration with single static port channel - minimal
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_create_single_static_minimal }}"
+#       register: result_logical_ports_create_single_static_minimal
+#       tags: [positive, logical_ports, create, static, minimal]
+
+#     - name: Assert logical ports single static minimal creation succeeded
+#       assert:
+#         that:
+#           - result_logical_ports_create_single_static_minimal.changed == true
+#           - result_logical_ports_create_single_static_minimal.response is defined
+#         fail_msg: "Logical ports single static minimal creation should have succeeded"
+#         success_msg: "Logical ports single static minimal creation succeeded"
+#       tags: [positive, logical_ports, create, static, minimal]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, logical_ports, create]
+
+#     - name: Create logical ports configuration with single static port channel - comprehensive
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_create_single_static_comprehensive }}"
+#       register: result_logical_ports_create_single_static_comprehensive
+#       tags: [positive, logical_ports, create, static, comprehensive]
+
+#     - name: Assert logical ports single static comprehensive creation succeeded
+#       assert:
+#         that:
+#           - result_logical_ports_create_single_static_comprehensive.changed == true
+#           - result_logical_ports_create_single_static_comprehensive.response is defined
+#         fail_msg: "Logical ports single static comprehensive creation should have succeeded"
+#         success_msg: "Logical ports single static comprehensive creation succeeded"
+#       tags: [positive, logical_ports, create, static, comprehensive]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, logical_ports, create]
+
+#     - name: Create logical ports configuration with multiple port channels - different protocols
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_create_multiple_different_protocols }}"
+#       register: result_logical_ports_create_multiple_different_protocols
+#       tags: [positive, logical_ports, create, multiple, protocols]
+
+#     - name: Assert logical ports multiple different protocols creation succeeded
+#       assert:
+#         that:
+#           - result_logical_ports_create_multiple_different_protocols.changed == true
+#           - result_logical_ports_create_multiple_different_protocols.response is defined
+#         fail_msg: "Logical ports multiple different protocols creation should have succeeded"
+#         success_msg: "Logical ports multiple different protocols creation succeeded"
+#       tags: [positive, logical_ports, create, multiple, protocols]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, logical_ports, create]
+
+#     - name: Create logical ports configuration with multiple LACP port channels
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_create_multiple_lacp }}"
+#       register: result_logical_ports_create_multiple_lacp
+#       tags: [positive, logical_ports, create, multiple, lacp]
+
+#     - name: Assert logical ports multiple LACP creation succeeded
+#       assert:
+#         that:
+#           - result_logical_ports_create_multiple_lacp.changed == true
+#           - result_logical_ports_create_multiple_lacp.response is defined
+#         fail_msg: "Logical ports multiple LACP creation should have succeeded"
+#         success_msg: "Logical ports multiple LACP creation succeeded"
+#       tags: [positive, logical_ports, create, multiple, lacp]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, logical_ports, create]
+
+#     - name: Create logical ports configuration with all load balancing methods
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_create_all_load_balancing_methods }}"
+#       register: result_logical_ports_create_all_load_balancing_methods
+#       tags: [positive, logical_ports, create, load_balancing]
+
+#     - name: Assert logical ports all load balancing methods creation succeeded
+#       assert:
+#         that:
+#           - result_logical_ports_create_all_load_balancing_methods.changed == true
+#           - result_logical_ports_create_all_load_balancing_methods.response is defined
+#         fail_msg: "Logical ports all load balancing methods creation should have succeeded"
+#         success_msg: "Logical ports all load balancing methods creation succeeded"
+#       tags: [positive, logical_ports, create, load_balancing]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, logical_ports, create]
+
+#     - name: Create logical ports configuration with boundary values - minimum
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_create_boundary_minimum_values }}"
+#       register: result_logical_ports_create_boundary_minimum_values
+#       tags: [positive, logical_ports, create, boundary, minimum]
+
+#     - name: Assert logical ports boundary minimum values creation succeeded
+#       assert:
+#         that:
+#           - result_logical_ports_create_boundary_minimum_values.changed == true
+#           - result_logical_ports_create_boundary_minimum_values.response is defined
+#         fail_msg: "Logical ports boundary minimum values creation should have succeeded"
+#         success_msg: "Logical ports boundary minimum values creation succeeded"
+#       tags: [positive, logical_ports, create, boundary, minimum]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, logical_ports, create]
+
+#     - name: Create logical ports configuration with boundary values - maximum
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_create_boundary_maximum_values }}"
+#       register: result_logical_ports_create_boundary_maximum_values
+#       tags: [positive, logical_ports, create, boundary, maximum]
+
+#     - name: Assert logical ports boundary maximum values creation succeeded
+#       assert:
+#         that:
+#           - result_logical_ports_create_boundary_maximum_values.changed == true
+#           - result_logical_ports_create_boundary_maximum_values.response is defined
+#         fail_msg: "Logical ports boundary maximum values creation should have succeeded"
+#         success_msg: "Logical ports boundary maximum values creation succeeded"
+#       tags: [positive, logical_ports, create, boundary, maximum]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, logical_ports, create]
+
+#     - name: Create logical ports configuration with PAGP boundary values
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_create_pagp_boundary_values }}"
+#       register: result_logical_ports_create_pagp_boundary_values
+#       tags: [positive, logical_ports, create, pagp, boundary]
+
+#     - name: Assert logical ports PAGP boundary values creation succeeded
+#       assert:
+#         that:
+#           - result_logical_ports_create_pagp_boundary_values.changed == true
+#           - result_logical_ports_create_pagp_boundary_values.response is defined
+#         fail_msg: "Logical ports PAGP boundary values creation should have succeeded"
+#         success_msg: "Logical ports PAGP boundary values creation succeeded"
+#       tags: [positive, logical_ports, create, pagp, boundary]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, logical_ports, create]
+
+#     - name: Create logical ports configuration with all LACP modes
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_create_all_lacp_modes }}"
+#       register: result_logical_ports_create_all_lacp_modes
+#       tags: [positive, logical_ports, create, lacp, modes]
+
+#     - name: Assert logical ports all LACP modes creation succeeded
+#       assert:
+#         that:
+#           - result_logical_ports_create_all_lacp_modes.changed == true
+#           - result_logical_ports_create_all_lacp_modes.response is defined
+#         fail_msg: "Logical ports all LACP modes creation should have succeeded"
+#         success_msg: "Logical ports all LACP modes creation succeeded"
+#       tags: [positive, logical_ports, create, lacp, modes]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, logical_ports, update]
+
+#     #############################################
+#     #        POSITIVE TEST CASES - UPDATE      #
+#     #############################################
+
+#     - name: Update logical ports configuration - global parameters only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_update_global_only }}"
+#       register: result_logical_ports_update_global_only
+#       tags: [positive, logical_ports, update, global]
+
+#     - name: Assert logical ports global only update succeeded
+#       assert:
+#         that:
+#           - result_logical_ports_update_global_only.changed == true
+#           - result_logical_ports_update_global_only.response is defined
+#         fail_msg: "Logical ports global only update should have succeeded"
+#         success_msg: "Logical ports global only update succeeded"
+#       tags: [positive, logical_ports, update, global]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, logical_ports, update]
+
+#     - name: Update logical ports configuration - change LACP system priority only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_update_lacp_priority_only }}"
+#       register: result_logical_ports_update_lacp_priority_only
+#       tags: [positive, logical_ports, update, lacp_priority_only]
+
+#     - name: Assert logical ports LACP priority only update succeeded
+#       assert:
+#         that:
+#           - result_logical_ports_update_lacp_priority_only.changed == true
+#           - result_logical_ports_update_lacp_priority_only.response is defined
+#         fail_msg: "Logical ports LACP priority only update should have succeeded"
+#         success_msg: "Logical ports LACP priority only update succeeded"
+#       tags: [positive, logical_ports, update, lacp_priority_only]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, logical_ports, update]
+
+#     - name: Update logical ports configuration - modify multiple port channels simultaneously
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ logical_ports_vars_map.test_logical_ports_update_multiple_port_channels }}"
+#       register: result_logical_ports_update_multiple_port_channels
+#       tags: [positive, logical_ports, update, multiple_channels]
+
+#     - name: Assert logical ports multiple port channels update succeeded
+#       assert:
+#         that:
+#           - result_logical_ports_update_multiple_port_channels.changed == true
+#           - result_logical_ports_update_multiple_port_channels.response is defined
+#         fail_msg: "Logical ports multiple port channels update should have succeeded"
+#         success_msg: "Logical ports multiple port channels update succeeded"
+#       tags: [positive, logical_ports, update, multiple_channels]
