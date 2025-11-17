@@ -32,6 +32,7 @@
                 state: Unclaimed
                 pid: c9300-24P
                 is_sudi_required: false
+                authorize: true
 
               - serial_number: QTC2320E0H9
                 state: Unclaimed
@@ -55,6 +56,7 @@
                 state: Unclaimed
                 pid: c9300-24P
                 is_sudi_required: true
+                authorize: true
 
     - name: Claim a pre-added switch, apply a template, and perform an image upgrade for a specific site
       cisco.dnac.pnp_workflow_manager:

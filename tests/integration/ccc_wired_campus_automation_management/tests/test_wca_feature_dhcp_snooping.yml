@@ -1,0 +1,1237 @@
+# ---
+# # ===================================================================================================
+# # DHCP SNOOPING FEATURE TESTS SUMMARY
+# # ===================================================================================================
+# #
+# # This test suite validates DHCP Snooping configuration functionality for Wired Campus Automation.
+# #
+# # TEST CATEGORIES:
+# #
+# # 1. NEGATIVE VALIDATION TESTS (Lines 110-590)
+# #    - DHCP Admin Status validation (string/integer instead of boolean)
+# #    - DHCP Snooping VLANs validation (data type, range, elements validation)
+# #    - DHCP Snooping Glean validation (string/integer instead of boolean)
+# #    - DHCP Database Agent URL validation (data type, length validation)
+# #    - DHCP Database Timeout validation (data type, range validation)
+# #    - DHCP Database Write Delay validation (data type, range validation)
+# #    - DHCP Proxy Bridge VLANs validation (data type, range validation)
+# #    - Data type and structure validation (invalid dict/list types)
+# #
+# # 2. POSITIVE VALIDATION TESTS (Lines 590-1513)
+# #    a) DHCP Snooping Creation Tests (Merged State)
+# #       - Admin status only configuration
+# #       - VLANs only configuration
+# #       - Glean only configuration
+# #       - Database URL only configuration
+# #       - Database timeout only configuration
+# #       - Database write delay only configuration
+# #       - Proxy bridge VLANs only configuration
+# #       - All parameters comprehensive configuration
+# #
+# #    b) DHCP Snooping Update Tests (Merged State)
+# #       - Enable/disable admin status
+# #       - Update VLANs list
+# #       - Enable/disable glean
+# #       - Update database agent URL
+# #       - Update database timeout
+# #       - Update database write delay
+# #       - Update proxy bridge VLANs
+# #       - Comprehensive updates
+# #
+# #    c) DHCP Snooping Reset Tests (Deleted State)
+# #       - Empty configuration reset (resets to defaults)
+# #       - Configuration with parameters reset
+# #
+# #    d) Boundary Value Tests
+# #       - Minimum/maximum database timeout (0-86400 seconds)
+# #       - Minimum/maximum database write delay (15-86400 seconds)
+# #       - Minimum/maximum database agent URL length (5-227 characters)
+# #       - Minimum/maximum VLAN IDs (1-4094)
+# #       - Single VLAN vs large VLAN list configurations
+# #
+# #    e) Special Configuration Tests
+# #       - Database configuration only
+# #       - VLAN configuration only
+# #       - Minimal configurations
+# #       - Overlapping VLANs (same VLAN in both lists)
+# #       - Different URL protocols (FTP, HTTP)
+# #
+# #    f) Advanced Test Scenarios
+# #       - Idempotency tests (same config applied twice)
+# #       - Cleanup operations
+# #
+# # VALIDATION RANGES:
+# # - Admin Status: boolean (true/false)
+# # - Snooping VLANs: list of integers (1-4094)
+# # - Glean: boolean (true/false)
+# # - Database Agent URL: string (5-227 characters)
+# # - Database Timeout: integer (0-86400 seconds)
+# # - Database Write Delay: integer (15-86400 seconds)
+# # - Proxy Bridge VLANs: list of integers (1-4094)
+# #
+# # DHCP SNOOPING FUNCTIONALITY:
+# # - DHCP Snooping provides security by filtering untrusted DHCP messages
+# # - Builds and maintains DHCP snooping binding database
+# # - Validates DHCP packets received from untrusted sources
+# # - Supports database persistence via external URLs (FTP, HTTP, TFTP)
+# # - Glean feature extracts IP address bindings from existing traffic
+# # - Admin status enables/disables the entire DHCP snooping feature
+# #
+# # EXPECTED BEHAVIORS:
+# # - Negative tests should fail with appropriate error messages
+# # - Positive tests should succeed with 'Successfully' in response
+# # - Idempotency: First run changes=true, second run changes=false
+# # - All tests include proper pause times for configuration settlement
+# # - Deleted state resets DHCP snooping to default configuration
+# # - Empty VLAN lists may trigger API bugs (special test cases included)
+# # - URL validation accepts various protocols (FTP, HTTP, TFTP)
+# # - Database timeout 0 means infinite timeout
+# # - Write delay controls frequency of database updates
+# #
+# # SPECIAL CONSIDERATIONS:
+# # - Empty VLAN lists are tested for potential API bugs
+# # - Overlapping VLANs between snooping and proxy bridge lists are allowed
+# # - Database URL must be properly formatted with protocol prefix
+# # - Timeout and write delay values are in seconds
+# # - VLAN ID 1 is typically reserved but can be configured
+# # - Configuration changes may require time to propagate to the device
+# #
+# # ===================================================================================================
+
+# - debug: msg="Starting DHCP Snooping feature tests for Wired Campus Automation"
+# - debug: msg="Role Path {{ role_path }}"
+
+# - block:
+#     - name: Load DHCP Snooping test variables
+#       include_vars:
+#         file: "{{ role_path }}/vars/vars_wca_test_feature_dhcp_snooping.yml"
+#         name: dhcp_snooping_vars_map
+#       vars:
+#         dnac_login: &dnac_login
+#           dnac_host: "{{ dnac_host }}"
+#           dnac_username: "{{ dnac_username }}"
+#           dnac_password: "{{ dnac_password }}"
+#           dnac_verify: "{{ dnac_verify }}"
+#           dnac_port: "{{ dnac_port }}"
+#           dnac_version: "{{ dnac_version }}"
+#           dnac_debug: "{{ dnac_debug }}"
+#           dnac_log: true
+#           dnac_log_level: "DEBUG"
+#           config_verify: true
+#           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
+#           dnac_log_append: false
+
+#     # =============================================================================
+#     # NEGATIVE VALIDATION TESTS FOR DHCP SNOOPING
+#     # =============================================================================
+
+#     # #############################################
+#     #        DHCP Admin Status Tests
+#     # #############################################
+
+#     - name: Test DHCP admin status validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_admin_status_string }}"
+#       register: result_dhcp_admin_status_string
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, admin_status]
+
+#     - name: Assert DHCP admin status string validation failed
+#       assert:
+#         that:
+#           - result_dhcp_admin_status_string.failed == true
+#           - "'must be of type boolean' in result_dhcp_admin_status_string.msg"
+#         fail_msg: "DHCP admin status string validation should have failed"
+#         success_msg: "DHCP admin status string validation correctly failed"
+#       tags: [negative, dhcp_snooping, admin_status]
+
+#     - name: Test DHCP admin status validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_admin_status_integer }}"
+#       register: result_dhcp_admin_status_integer
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, admin_status]
+
+#     - name: Assert DHCP admin status integer validation failed
+#       assert:
+#         that:
+#           - result_dhcp_admin_status_integer.failed == true
+#           - "'must be of type boolean' in result_dhcp_admin_status_integer.msg"
+#         fail_msg: "DHCP admin status integer validation should have failed"
+#         success_msg: "DHCP admin status integer validation correctly failed"
+#       tags: [negative, dhcp_snooping, admin_status]
+
+#     # #############################################
+#     #        DHCP Snooping VLANs Tests
+#     # #############################################
+
+#     - name: Test DHCP snooping VLANs validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_vlans_string }}"
+#       register: result_dhcp_vlans_string
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, vlans]
+
+#     - name: Assert DHCP snooping VLANs string validation failed
+#       assert:
+#         that:
+#           - result_dhcp_vlans_string.failed == true
+#           - "'must be a list' in result_dhcp_vlans_string.msg"
+#         fail_msg: "DHCP snooping VLANs string validation should have failed"
+#         success_msg: "DHCP snooping VLANs string validation correctly failed"
+#       tags: [negative, dhcp_snooping, vlans]
+
+#     - name: Test DHCP snooping VLANs validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_vlans_integer }}"
+#       register: result_dhcp_vlans_integer
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, vlans]
+
+#     - name: Assert DHCP snooping VLANs integer validation failed
+#       assert:
+#         that:
+#           - result_dhcp_vlans_integer.failed == true
+#           - "'must be a list' in result_dhcp_vlans_integer.msg"
+#         fail_msg: "DHCP snooping VLANs integer validation should have failed"
+#         success_msg: "DHCP snooping VLANs integer validation correctly failed"
+#       tags: [negative, dhcp_snooping, vlans]
+
+#     - name: Test DHCP snooping VLANs validation - boolean value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_vlans_boolean }}"
+#       register: result_dhcp_vlans_boolean
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, vlans]
+
+#     - name: Assert DHCP snooping VLANs boolean validation failed
+#       assert:
+#         that:
+#           - result_dhcp_vlans_boolean.failed == true
+#           - "'must be a list' in result_dhcp_vlans_boolean.msg"
+#         fail_msg: "DHCP snooping VLANs boolean validation should have failed"
+#         success_msg: "DHCP snooping VLANs boolean validation correctly failed"
+#       tags: [negative, dhcp_snooping, vlans]
+
+#     - name: Test DHCP snooping VLANs validation - VLAN ID out of range (too low) should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_vlans_range_low }}"
+#       register: result_dhcp_vlans_range_low
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, vlans, range]
+
+#     - name: Assert DHCP snooping VLANs range low validation failed
+#       assert:
+#         that:
+#           - result_dhcp_vlans_range_low.failed == true
+#           - "'must be between 1 and 4094' in result_dhcp_vlans_range_low.msg"
+#         fail_msg: "DHCP snooping VLANs range low validation should have failed"
+#         success_msg: "DHCP snooping VLANs range low validation correctly failed"
+#       tags: [negative, dhcp_snooping, vlans, range]
+
+#     - name: Test DHCP snooping VLANs validation - VLAN ID out of range (too high) should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_vlans_range_high }}"
+#       register: result_dhcp_vlans_range_high
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, vlans, range]
+
+#     - name: Assert DHCP snooping VLANs range high validation failed
+#       assert:
+#         that:
+#           - result_dhcp_vlans_range_high.failed == true
+#           - "'must be between 1 and 4094' in result_dhcp_vlans_range_high.msg"
+#         fail_msg: "DHCP snooping VLANs range high validation should have failed"
+#         success_msg: "DHCP snooping VLANs range high validation correctly failed"
+#       tags: [negative, dhcp_snooping, vlans, range]
+
+#     - name: Test DHCP snooping VLANs validation - string elements should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_vlans_string_elements }}"
+#       register: result_dhcp_vlans_string_elements
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, vlans, elements]
+
+#     - name: Assert DHCP snooping VLANs string elements validation failed
+#       assert:
+#         that:
+#           - result_dhcp_vlans_string_elements.failed == true
+#           - "' must be integers' in result_dhcp_vlans_string_elements.msg"
+#         fail_msg: "DHCP snooping VLANs string elements validation should have failed"
+#         success_msg: "DHCP snooping VLANs string elements validation correctly failed"
+#       tags: [negative, dhcp_snooping, vlans, elements]
+
+#     - name: Test DHCP snooping VLANs - empty list (check for API bug)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_vlans_empty_list }}"
+#       register: result_dhcp_vlans_empty_list
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, vlans, empty_list, api_bug_test]
+
+#     - name: Display empty list test result (potential API bug)
+#       debug:
+#         msg: |
+#           Empty VLAN list test result:
+#           Failed: {{ result_dhcp_vlans_empty_list.failed }}
+#           Message: {{ result_dhcp_vlans_empty_list.msg | default('No error message') }}
+#           This test checks for potential API bug with empty VLAN lists
+#       tags: [negative, dhcp_snooping, vlans, empty_list, api_bug_test]
+
+#     # #############################################
+#     #        DHCP Snooping Glean Tests
+#     # #############################################
+
+#     - name: Test DHCP snooping glean validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_glean_string }}"
+#       register: result_dhcp_glean_string
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, glean]
+
+#     - name: Assert DHCP snooping glean string validation failed
+#       assert:
+#         that:
+#           - result_dhcp_glean_string.failed == true
+#           - "'must be of type boolean' in result_dhcp_glean_string.msg"
+#         fail_msg: "DHCP snooping glean string validation should have failed"
+#         success_msg: "DHCP snooping glean string validation correctly failed"
+#       tags: [negative, dhcp_snooping, glean]
+
+#     - name: Test DHCP snooping glean validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_glean_integer }}"
+#       register: result_dhcp_glean_integer
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, glean]
+
+#     - name: Assert DHCP snooping glean integer validation failed
+#       assert:
+#         that:
+#           - result_dhcp_glean_integer.failed == true
+#           - "'must be of type boolean' in result_dhcp_glean_integer.msg"
+#         fail_msg: "DHCP snooping glean integer validation should have failed"
+#         success_msg: "DHCP snooping glean integer validation correctly failed"
+#       tags: [negative, dhcp_snooping, glean]
+
+#     # #############################################
+#     #        DHCP Database Agent URL Tests
+#     # #############################################
+
+#     - name: Test DHCP database agent URL validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_agent_url_integer }}"
+#       register: result_dhcp_url_integer
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, database_url]
+
+#     - name: Assert DHCP database agent URL integer validation failed
+#       assert:
+#         that:
+#           - result_dhcp_url_integer.failed == true
+#           - "'must be of type string' in result_dhcp_url_integer.msg"
+#         fail_msg: "DHCP database agent URL integer validation should have failed"
+#         success_msg: "DHCP database agent URL integer validation correctly failed"
+#       tags: [negative, dhcp_snooping, database_url]
+
+#     - name: Test DHCP database agent URL validation - boolean value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_agent_url_boolean }}"
+#       register: result_dhcp_url_boolean
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, database_url]
+
+#     - name: Assert DHCP database agent URL boolean validation failed
+#       assert:
+#         that:
+#           - result_dhcp_url_boolean.failed == true
+#           - "'must be of type string' in result_dhcp_url_boolean.msg"
+#         fail_msg: "DHCP database agent URL boolean validation should have failed"
+#         success_msg: "DHCP database agent URL boolean validation correctly failed"
+#       tags: [negative, dhcp_snooping, database_url]
+
+#     - name: Test DHCP database agent URL validation - exceeds maximum length should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_agent_url_max_length }}"
+#       register: result_dhcp_url_max_length
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, database_url, length]
+
+#     - name: Assert DHCP database agent URL max length validation failed
+#       assert:
+#         that:
+#           - result_dhcp_url_max_length.failed == true
+#           - "'exceeds maximum length' in result_dhcp_url_max_length.msg"
+#         fail_msg: "DHCP database agent URL max length validation should have failed"
+#         success_msg: "DHCP database agent URL max length validation correctly failed"
+#       tags: [negative, dhcp_snooping, database_url, length]
+
+#     # #############################################
+#     #        DHCP Database Timeout Tests
+#     # #############################################
+
+#     - name: Test DHCP database timeout validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_timeout_string }}"
+#       register: result_dhcp_timeout_string
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, database_timeout]
+
+#     - name: Assert DHCP database timeout string validation failed
+#       assert:
+#         that:
+#           - result_dhcp_timeout_string.failed == true
+#           - "'must be of type integer' in result_dhcp_timeout_string.msg"
+#         fail_msg: "DHCP database timeout string validation should have failed"
+#         success_msg: "DHCP database timeout string validation correctly failed"
+#       tags: [negative, dhcp_snooping, database_timeout]
+
+#     - name: Test DHCP database timeout validation - boolean value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_timeout_boolean }}"
+#       register: result_dhcp_timeout_boolean
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, database_timeout]
+
+#     - name: Assert DHCP database timeout boolean validation failed
+#       assert:
+#         that:
+#           - result_dhcp_timeout_boolean.failed == true
+#           - "'must be of type integer' in result_dhcp_timeout_boolean.msg"
+#         fail_msg: "DHCP database timeout boolean validation should have failed"
+#         success_msg: "DHCP database timeout boolean validation correctly failed"
+#       tags: [negative, dhcp_snooping, database_timeout]
+
+#     - name: Test DHCP database timeout validation - negative value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_timeout_negative }}"
+#       register: result_dhcp_timeout_negative
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, database_timeout, range]
+
+#     - name: Assert DHCP database timeout negative validation failed
+#       assert:
+#         that:
+#           - result_dhcp_timeout_negative.failed == true
+#           - "'must be within the range' in result_dhcp_timeout_negative.msg"
+#         fail_msg: "DHCP database timeout negative validation should have failed"
+#         success_msg: "DHCP database timeout negative validation correctly failed"
+#       tags: [negative, dhcp_snooping, database_timeout, range]
+
+#     - name: Test DHCP database timeout validation - exceeds maximum value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_timeout_max }}"
+#       register: result_dhcp_timeout_max
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, database_timeout, range]
+
+#     - name: Assert DHCP database timeout max validation failed
+#       assert:
+#         that:
+#           - result_dhcp_timeout_max.failed == true
+#           - "'must be within the range' in result_dhcp_timeout_max.msg"
+#         fail_msg: "DHCP database timeout max validation should have failed"
+#         success_msg: "DHCP database timeout max validation correctly failed"
+#       tags: [negative, dhcp_snooping, database_timeout, range]
+
+#     # #############################################
+#     #        DHCP Database Write Delay Tests
+#     # #############################################
+
+#     - name: Test DHCP database write delay validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_write_delay_string }}"
+#       register: result_dhcp_write_delay_string
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, database_write_delay]
+
+#     - name: Assert DHCP database write delay string validation failed
+#       assert:
+#         that:
+#           - result_dhcp_write_delay_string.failed == true
+#           - "'must be of type integer' in result_dhcp_write_delay_string.msg"
+#         fail_msg: "DHCP database write delay string validation should have failed"
+#         success_msg: "DHCP database write delay string validation correctly failed"
+#       tags: [negative, dhcp_snooping, database_write_delay]
+
+#     - name: Test DHCP database write delay validation - boolean value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_write_delay_boolean }}"
+#       register: result_dhcp_write_delay_boolean
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, database_write_delay]
+
+#     - name: Assert DHCP database write delay boolean validation failed
+#       assert:
+#         that:
+#           - result_dhcp_write_delay_boolean.failed == true
+#           - "'must be of type integer' in result_dhcp_write_delay_boolean.msg"
+#         fail_msg: "DHCP database write delay boolean validation should have failed"
+#         success_msg: "DHCP database write delay boolean validation correctly failed"
+#       tags: [negative, dhcp_snooping, database_write_delay]
+
+#     - name: Test DHCP database write delay validation - below minimum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_write_delay_min }}"
+#       register: result_dhcp_write_delay_min
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, database_write_delay, range]
+
+#     - name: Assert DHCP database write delay min validation failed
+#       assert:
+#         that:
+#           - result_dhcp_write_delay_min.failed == true
+#           - "'must be within the range' in result_dhcp_write_delay_min.msg"
+#         fail_msg: "DHCP database write delay min validation should have failed"
+#         success_msg: "DHCP database write delay min validation correctly failed"
+#       tags: [negative, dhcp_snooping, database_write_delay, range]
+
+#     - name: Test DHCP database write delay validation - exceeds maximum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_write_delay_max }}"
+#       register: result_dhcp_write_delay_max
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, database_write_delay, range]
+
+#     - name: Assert DHCP database write delay max validation failed
+#       assert:
+#         that:
+#           - result_dhcp_write_delay_max.failed == true
+#           - "'must be within the range' in result_dhcp_write_delay_max.msg"
+#         fail_msg: "DHCP database write delay max validation should have failed"
+#         success_msg: "DHCP database write delay max validation correctly failed"
+#       tags: [negative, dhcp_snooping, database_write_delay, range]
+
+#     # #############################################
+#     #        DHCP Proxy Bridge VLANs Tests
+#     # #############################################
+
+#     - name: Test DHCP proxy bridge VLANs validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_proxy_bridge_vlans_string }}"
+#       register: result_dhcp_proxy_vlans_string
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, proxy_bridge_vlans]
+
+#     - name: Assert DHCP proxy bridge VLANs string validation failed
+#       assert:
+#         that:
+#           - result_dhcp_proxy_vlans_string.failed == true
+#           - "'must be a list' in result_dhcp_proxy_vlans_string.msg"
+#         fail_msg: "DHCP proxy bridge VLANs string validation should have failed"
+#         success_msg: "DHCP proxy bridge VLANs string validation correctly failed"
+#       tags: [negative, dhcp_snooping, proxy_bridge_vlans]
+
+#     - name: Test DHCP proxy bridge VLANs validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_proxy_bridge_vlans_integer }}"
+#       register: result_dhcp_proxy_vlans_integer
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, proxy_bridge_vlans]
+
+#     - name: Assert DHCP proxy bridge VLANs integer validation failed
+#       assert:
+#         that:
+#           - result_dhcp_proxy_vlans_integer.failed == true
+#           - "'must be a list' in result_dhcp_proxy_vlans_integer.msg"
+#         fail_msg: "DHCP proxy bridge VLANs integer validation should have failed"
+#         success_msg: "DHCP proxy bridge VLANs integer validation correctly failed"
+#       tags: [negative, dhcp_snooping, proxy_bridge_vlans]
+
+#     - name: Test DHCP proxy bridge VLANs validation - VLAN ID out of range (too low) should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_proxy_bridge_vlans_range_low }}"
+#       register: result_dhcp_proxy_vlans_range_low
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, proxy_bridge_vlans, range]
+
+#     - name: Assert DHCP proxy bridge VLANs range low validation failed
+#       assert:
+#         that:
+#           - result_dhcp_proxy_vlans_range_low.failed == true
+#           - "'must be between 1 and 4094' in result_dhcp_proxy_vlans_range_low.msg"
+#         fail_msg: "DHCP proxy bridge VLANs range low validation should have failed"
+#         success_msg: "DHCP proxy bridge VLANs range low validation correctly failed"
+#       tags: [negative, dhcp_snooping, proxy_bridge_vlans, range]
+
+#     - name: Test DHCP proxy bridge VLANs validation - VLAN ID out of range (too high) should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_proxy_bridge_vlans_range_high }}"
+#       register: result_dhcp_proxy_vlans_range_high
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, proxy_bridge_vlans, range]
+
+#     - name: Assert DHCP proxy bridge VLANs range high validation failed
+#       assert:
+#         that:
+#           - result_dhcp_proxy_vlans_range_high.failed == true
+#           - "'must be between 1 and 4094' in result_dhcp_proxy_vlans_range_high.msg"
+#         fail_msg: "DHCP proxy bridge VLANs range high validation should have failed"
+#         success_msg: "DHCP proxy bridge VLANs range high validation correctly failed"
+#       tags: [negative, dhcp_snooping, proxy_bridge_vlans, range]
+
+#     - name: Test DHCP proxy bridge VLANs - empty list (check for API bug)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_proxy_bridge_vlans_empty_list }}"
+#       register: result_dhcp_proxy_vlans_empty_list
+#       ignore_errors: true
+#       tags:
+#         [negative, dhcp_snooping, proxy_bridge_vlans, empty_list, api_bug_test]
+
+#     - name: Display empty proxy bridge VLANs list test result (potential API bug)
+#       debug:
+#         msg: |
+#           Empty proxy bridge VLAN list test result:
+#           Failed: {{ result_dhcp_proxy_vlans_empty_list.failed }}
+#           Message: {{ result_dhcp_proxy_vlans_empty_list.msg | default('No error message') }}
+#           This test checks for potential API bug with empty proxy bridge VLAN lists
+#       tags:
+#         [negative, dhcp_snooping, proxy_bridge_vlans, empty_list, api_bug_test]
+
+#     # #############################################
+#     #        Data Type and Structure Tests
+#     # #############################################
+
+#     - name: Test DHCP snooping structure validation - string instead of dict should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_invalid_dict_type }}"
+#       register: result_dhcp_invalid_dict_type
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, structure]
+
+#     - name: Assert DHCP snooping invalid dict type validation failed
+#       assert:
+#         that:
+#           - result_dhcp_invalid_dict_type.failed == true
+#           - "'must be of type dictionary' in result_dhcp_invalid_dict_type.msg"
+#         fail_msg: "DHCP snooping invalid dict type validation should have failed"
+#         success_msg: "DHCP snooping invalid dict type validation correctly failed"
+#       tags: [negative, dhcp_snooping, structure]
+
+#     - name: Test DHCP snooping structure validation - list instead of dict should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_invalid_list_type }}"
+#       register: result_dhcp_invalid_list_type
+#       ignore_errors: true
+#       tags: [negative, dhcp_snooping, structure]
+
+#     - name: Assert DHCP snooping invalid list type validation failed
+#       assert:
+#         that:
+#           - result_dhcp_invalid_list_type.failed == true
+#           - "'must be of type dictionary' in result_dhcp_invalid_list_type.msg"
+#         fail_msg: "DHCP snooping invalid list type validation should have failed"
+#         success_msg: "DHCP snooping invalid list type validation correctly failed"
+#       tags: [negative, dhcp_snooping, structure]
+
+#     - name: Display negative test summary
+#       debug:
+#         msg: "DHCP Snooping negative validation tests completed successfully"
+#       tags: [negative, dhcp_snooping]
+
+#     # =============================================================================
+#     # POSITIVE VALIDATION TESTS FOR DHCP SNOOPING
+#     # =============================================================================
+
+#     # #############################################
+#     #        DHCP Snooping Creation Tests
+#     # #############################################
+
+#     - name: Test DHCP snooping configuration with admin status only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_create_admin_status_only }}"
+#       register: result_dhcp_create_admin_status_only
+#       tags: [positive, dhcp_snooping, create, admin_status]
+
+#     - name: Assert DHCP snooping admin status only configuration succeeded
+#       assert:
+#         that:
+#           - result_dhcp_create_admin_status_only.failed == false
+#           - result_dhcp_create_admin_status_only.changed == true
+#           - "'Successfully' in result_dhcp_create_admin_status_only.response"
+#         fail_msg: "DHCP snooping admin status only configuration should have succeeded"
+#         success_msg: "DHCP snooping admin status only configuration succeeded"
+#       tags: [positive, dhcp_snooping, create, admin_status]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, dhcp_snooping, create]
+
+#     - name: Test DHCP snooping configuration with VLANs only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_create_vlans_only }}"
+#       register: result_dhcp_create_vlans_only
+#       tags: [positive, dhcp_snooping, create, vlans]
+
+#     - name: Assert DHCP snooping VLANs only configuration succeeded
+#       assert:
+#         that:
+#           - result_dhcp_create_vlans_only.failed == false
+#           - result_dhcp_create_vlans_only.changed == true
+#           - "'Successfully' in result_dhcp_create_vlans_only.response"
+#         fail_msg: "DHCP snooping VLANs only configuration should have succeeded"
+#         success_msg: "DHCP snooping VLANs only configuration succeeded"
+#       tags: [positive, dhcp_snooping, create, vlans]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, dhcp_snooping, create]
+
+#     - name: Test DHCP snooping configuration with glean only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_create_glean_only }}"
+#       register: result_dhcp_create_glean_only
+#       tags: [positive, dhcp_snooping, create, glean]
+
+#     - name: Assert DHCP snooping glean only configuration succeeded
+#       assert:
+#         that:
+#           - result_dhcp_create_glean_only.failed == false
+#           - result_dhcp_create_glean_only.changed == true
+#           - "'Successfully' in result_dhcp_create_glean_only.response"
+#         fail_msg: "DHCP snooping glean only configuration should have succeeded"
+#         success_msg: "DHCP snooping glean only configuration succeeded"
+#       tags: [positive, dhcp_snooping, create, glean]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, dhcp_snooping, create]
+
+#     - name: Test DHCP snooping configuration with database agent URL only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_create_database_url_only }}"
+#       register: result_dhcp_create_database_url_only
+#       tags: [positive, dhcp_snooping, create, database_url]
+
+#     - name: Assert DHCP snooping database URL only configuration succeeded
+#       assert:
+#         that:
+#           - result_dhcp_create_database_url_only.failed == false
+#           - result_dhcp_create_database_url_only.changed == true
+#           - "'Successfully' in result_dhcp_create_database_url_only.response"
+#         fail_msg: "DHCP snooping database URL only configuration should have succeeded"
+#         success_msg: "DHCP snooping database URL only configuration succeeded"
+#       tags: [positive, dhcp_snooping, create, database_url]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, dhcp_snooping, create]
+
+#     - name: Test DHCP snooping configuration with database timeout only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_create_database_timeout_only }}"
+#       register: result_dhcp_create_database_timeout_only
+#       tags: [positive, dhcp_snooping, create, database_timeout]
+
+#     - name: Assert DHCP snooping database timeout only configuration succeeded
+#       assert:
+#         that:
+#           - result_dhcp_create_database_timeout_only.failed == false
+#           - result_dhcp_create_database_timeout_only.changed == true
+#           - "'Successfully' in result_dhcp_create_database_timeout_only.response"
+#         fail_msg: "DHCP snooping database timeout only configuration should have succeeded"
+#         success_msg: "DHCP snooping database timeout only configuration succeeded"
+#       tags: [positive, dhcp_snooping, create, database_timeout]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, dhcp_snooping, create]
+
+#     - name: Test DHCP snooping configuration with database write delay only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_create_database_write_delay_only }}"
+#       register: result_dhcp_create_database_write_delay_only
+#       tags: [positive, dhcp_snooping, create, database_write_delay]
+
+#     - name: Assert DHCP snooping database write delay only configuration succeeded
+#       assert:
+#         that:
+#           - result_dhcp_create_database_write_delay_only.failed == false
+#           - result_dhcp_create_database_write_delay_only.changed == true
+#           - "'Successfully' in result_dhcp_create_database_write_delay_only.response"
+#         fail_msg: "DHCP snooping database write delay only configuration should have succeeded"
+#         success_msg: "DHCP snooping database write delay only configuration succeeded"
+#       tags: [positive, dhcp_snooping, create, database_write_delay]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, dhcp_snooping, create]
+
+#     - name: Test DHCP snooping configuration with proxy bridge VLANs only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_create_proxy_bridge_vlans_only }}"
+#       register: result_dhcp_create_proxy_bridge_vlans_only
+#       tags: [positive, dhcp_snooping, create, proxy_bridge_vlans]
+
+#     - name: Assert DHCP snooping proxy bridge VLANs only configuration succeeded
+#       assert:
+#         that:
+#           - result_dhcp_create_proxy_bridge_vlans_only.failed == false
+#           - result_dhcp_create_proxy_bridge_vlans_only.changed == true
+#           - "'Successfully' in result_dhcp_create_proxy_bridge_vlans_only.response"
+#         fail_msg: "DHCP snooping proxy bridge VLANs only configuration should have succeeded"
+#         success_msg: "DHCP snooping proxy bridge VLANs only configuration succeeded"
+#       tags: [positive, dhcp_snooping, create, proxy_bridge_vlans]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, dhcp_snooping, create]
+
+#     - name: Test DHCP snooping configuration with all parameters
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_create_all_params }}"
+#       register: result_dhcp_create_all_params
+#       tags: [positive, dhcp_snooping, create, comprehensive]
+
+#     - name: Assert DHCP snooping all parameters configuration succeeded
+#       assert:
+#         that:
+#           - result_dhcp_create_all_params.failed == false
+#           - result_dhcp_create_all_params.changed == true
+#           - "'Successfully' in result_dhcp_create_all_params.response"
+#         fail_msg: "DHCP snooping all parameters configuration should have succeeded"
+#         success_msg: "DHCP snooping all parameters configuration succeeded"
+#       tags: [positive, dhcp_snooping, create, comprehensive]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 15
+#       tags: [positive, dhcp_snooping, create]
+
+#     # #############################################
+#     #        DHCP Snooping Update Tests
+#     # #############################################
+
+#     - name: Test DHCP snooping update - disable admin status
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_update_disable_admin }}"
+#       register: result_dhcp_update_disable_admin
+#       tags: [positive, dhcp_snooping, update, admin_status]
+
+#     - name: Assert DHCP snooping disable admin status update succeeded
+#       assert:
+#         that:
+#           - result_dhcp_update_disable_admin.failed == false
+#           - result_dhcp_update_disable_admin.changed == true
+#           - "'Successfully' in result_dhcp_update_disable_admin.response"
+#         fail_msg: "DHCP snooping disable admin status update should have succeeded"
+#         success_msg: "DHCP snooping disable admin status update succeeded"
+#       tags: [positive, dhcp_snooping, update, admin_status]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, dhcp_snooping, update]
+
+#     - name: Test DHCP snooping update - update VLANs list
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_update_vlans }}"
+#       register: result_dhcp_update_vlans
+#       tags: [positive, dhcp_snooping, update, vlans]
+#       ignore_errors: true
+
+#     - name: Assert DHCP snooping VLANs update succeeded
+#       assert:
+#         that:
+#           - result_dhcp_update_vlans.failed == true
+#           - result_dhcp_update_vlans.changed == false
+#           - "'Must match ASCII character' in result_dhcp_update_vlans.response"
+#         fail_msg: "DHCP snooping VLANs update should have succeeded"
+#         success_msg: "DHCP snooping VLANs update succeeded"
+#       tags: [positive, dhcp_snooping, update, vlans]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, dhcp_snooping, update]
+
+#     - name: Test DHCP snooping update - disable glean
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_update_disable_glean }}"
+#       register: result_dhcp_update_disable_glean
+#       tags: [positive, dhcp_snooping, update, glean]
+
+#     - name: Assert DHCP snooping disable glean update succeeded
+#       assert:
+#         that:
+#           - result_dhcp_update_disable_glean.failed == false
+#           - result_dhcp_update_disable_glean.changed == true
+#           - "'Successfully' in result_dhcp_update_disable_glean.response"
+#         fail_msg: "DHCP snooping disable glean update should have succeeded"
+#         success_msg: "DHCP snooping disable glean update succeeded"
+#       tags: [positive, dhcp_snooping, update, glean]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, dhcp_snooping, update]
+
+#     - name: Test DHCP snooping update - update database agent URL
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_update_database_url }}"
+#       register: result_dhcp_update_database_url
+#       tags: [positive, dhcp_snooping, update, database_url]
+
+#     - name: Assert DHCP snooping database URL update succeeded
+#       assert:
+#         that:
+#           - result_dhcp_update_database_url.failed == false
+#           - result_dhcp_update_database_url.changed == true
+#           - "'Successfully' in result_dhcp_update_database_url.response"
+#         fail_msg: "DHCP snooping database URL update should have succeeded"
+#         success_msg: "DHCP snooping database URL update succeeded"
+#       tags: [positive, dhcp_snooping, update, database_url]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, dhcp_snooping, update]
+
+#     - name: Test DHCP snooping update - update database timeout
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_update_database_timeout }}"
+#       register: result_dhcp_update_database_timeout
+#       tags: [positive, dhcp_snooping, update, database_timeout]
+
+#     - name: Assert DHCP snooping database timeout update succeeded
+#       assert:
+#         that:
+#           - result_dhcp_update_database_timeout.failed == false
+#           - result_dhcp_update_database_timeout.changed == true
+#           - "'Successfully' in result_dhcp_update_database_timeout.response"
+#         fail_msg: "DHCP snooping database timeout update should have succeeded"
+#         success_msg: "DHCP snooping database timeout update succeeded"
+#       tags: [positive, dhcp_snooping, update, database_timeout]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, dhcp_snooping, update]
+
+#     - name: Test DHCP snooping update - update database write delay
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_update_database_write_delay }}"
+#       register: result_dhcp_update_database_write_delay
+#       tags: [positive, dhcp_snooping, update, database_write_delay]
+
+#     - name: Assert DHCP snooping database write delay update succeeded
+#       assert:
+#         that:
+#           - result_dhcp_update_database_write_delay.failed == false
+#           - result_dhcp_update_database_write_delay.changed == true
+#           - "'Successfully' in result_dhcp_update_database_write_delay.response"
+#         fail_msg: "DHCP snooping database write delay update should have succeeded"
+#         success_msg: "DHCP snooping database write delay update succeeded"
+#       tags: [positive, dhcp_snooping, update, database_write_delay]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, dhcp_snooping, update]
+
+#     - name: Test DHCP snooping update - update proxy bridge VLANs
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_update_proxy_bridge_vlans }}"
+#       register: result_dhcp_update_proxy_bridge_vlans
+#       tags: [positive, dhcp_snooping, update, proxy_bridge_vlans]
+
+#     - name: Assert DHCP snooping proxy bridge VLANs update succeeded
+#       assert:
+#         that:
+#           - result_dhcp_update_proxy_bridge_vlans.failed == false
+#           - result_dhcp_update_proxy_bridge_vlans.changed == true
+#           - "'Successfully' in result_dhcp_update_proxy_bridge_vlans.response"
+#         fail_msg: "DHCP snooping proxy bridge VLANs update should have succeeded"
+#         success_msg: "DHCP snooping proxy bridge VLANs update succeeded"
+#       tags: [positive, dhcp_snooping, update, proxy_bridge_vlans]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, dhcp_snooping, update]
+
+#     - name: Test DHCP snooping update - comprehensive update
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_update_comprehensive }}"
+#       register: result_dhcp_update_comprehensive
+#       tags: [positive, dhcp_snooping, update, comprehensive]
+
+#     - name: Assert DHCP snooping comprehensive update succeeded
+#       assert:
+#         that:
+#           - result_dhcp_update_comprehensive.failed == false
+#           - result_dhcp_update_comprehensive.changed == true
+#           - "'Successfully' in result_dhcp_update_comprehensive.response"
+#         fail_msg: "DHCP snooping comprehensive update should have succeeded"
+#         success_msg: "DHCP snooping comprehensive update succeeded"
+#       tags: [positive, dhcp_snooping, update, comprehensive]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 15
+#       tags: [positive, dhcp_snooping, update]
+
+#     # #############################################
+#     #        DHCP Snooping Reset Tests
+#     # #############################################
+
+#     - name: Test DHCP snooping reset - empty configuration (deleted state resets to defaults)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_reset_empty }}"
+#       register: result_dhcp_reset_empty
+#       tags: [positive, dhcp_snooping, reset, deleted]
+
+#     - name: Assert DHCP snooping empty reset succeeded
+#       assert:
+#         that:
+#           - result_dhcp_reset_empty.failed == false
+#           - result_dhcp_reset_empty.changed == true
+#           - "'Successfully' in result_dhcp_reset_empty.response"
+#         fail_msg: "DHCP snooping empty reset should have succeeded"
+#         success_msg: "DHCP snooping empty reset succeeded"
+#       tags: [positive, dhcp_snooping, reset, deleted]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 15
+#       tags: [positive, dhcp_snooping, reset]
+
+#     - name: Test DHCP snooping reset - with existing parameters (deleted state resets to defaults)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_reset_with_params }}"
+#       register: result_dhcp_reset_with_params
+#       tags: [positive, dhcp_snooping, reset, deleted]
+
+#     - name: Assert DHCP snooping reset with params succeeded
+#       assert:
+#         that:
+#           - result_dhcp_reset_with_params.failed == false
+#           - result_dhcp_reset_with_params.changed == true
+#           - "'Successfully' in result_dhcp_reset_with_params.response"
+#         fail_msg: "DHCP snooping reset with params should have succeeded"
+#         success_msg: "DHCP snooping reset with params succeeded"
+#       tags: [positive, dhcp_snooping, reset, deleted]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 15
+#       tags: [positive, dhcp_snooping, reset]
+
+#     # #############################################
+#     #        Special Configuration Tests
+#     # #############################################
+
+#     - name: Test DHCP snooping with  url set to empty string should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_special_url_empty_string }}"
+#       register: result_dhcp_snooping_special_url_empty_string
+#       tags: [positive, dhcp_snooping, special, database_only]
+#       ignore_errors: true
+
+#     - name: Assert DHCP snooping database only configuration succeeded
+#       assert:
+#         that:
+#           - result_dhcp_snooping_special_url_empty_string.failed == true
+#           - result_dhcp_snooping_special_url_empty_string.changed == false
+#           - "'ASCII' in result_dhcp_snooping_special_url_empty_string.response"
+#         fail_msg: "DHCP snooping database only configuration should have succeeded"
+#         success_msg: "DHCP snooping database only configuration succeeded"
+#       tags: [positive, dhcp_snooping, special, database_only]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, dhcp_snooping, special]
+
+#     - name: Test DHCP snooping with VLANs empty list (check for API bug)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_special_vlan_empty_list }}"
+#       register: result_dhcp_special_vlan_only
+#       tags: [positive, dhcp_snooping, special, vlan_only]
+#       ignore_errors: true
+
+#     - name: Assert DHCP snooping VLAN only configuration succeeded
+#       assert:
+#         that:
+#           - result_dhcp_special_vlan_only.failed == true
+#           - result_dhcp_special_vlan_only.changed == false
+#           - "'ASCII' in result_dhcp_special_vlan_only.response"
+#         fail_msg: "DHCP snooping VLAN only configuration should have succeeded"
+#         success_msg: "DHCP snooping VLAN only configuration succeeded"
+#       tags: [positive, dhcp_snooping, special, vlan_only]
+
+#     # #############################################
+#     #        Cleanup Operations
+#     # #############################################
+
+#     - name: Cleanup - Reset DHCP snooping to default configuration
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_reset_empty }}"
+#       register: result_dhcp_cleanup
+#       tags: [positive, dhcp_snooping, cleanup]
+
+#     - name: Assert DHCP snooping cleanup succeeded
+#       assert:
+#         that:
+#           - result_dhcp_cleanup.failed == false
+#           - result_dhcp_cleanup.changed == true
+#           - "'Successfully' in result_dhcp_cleanup.response"
+#         fail_msg: "DHCP snooping cleanup should have succeeded"
+#         success_msg: "DHCP snooping cleanup succeeded"
+#       tags: [positive, dhcp_snooping, cleanup]

@@ -889,7 +889,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 # Case 1: Successful creation of application queuing profile
-creation _of_application_queuing_profile_response_task_execution:
+creation_of_application_queuing_profile_response_task_execution:
   description: A dictionary with details for successful task execution.
   returned: always
   type: dict
@@ -1059,7 +1059,7 @@ successful_deletion_of_application_policy_response_task_execution:
       "status": "success"
     }
 # Case 19: update not required for application policy
-update_not_required_ for_application_policy_response_task_execution:
+update_not_required_for_application_policy_response_task_execution:
   description: With task id get details for successful task execution
   returned: always
   type: dict

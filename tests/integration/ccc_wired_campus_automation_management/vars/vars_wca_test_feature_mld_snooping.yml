@@ -1,0 +1,492 @@
+---
+# Common device information
+device_info: &device_info
+  ip_address: "204.1.2.3"
+  device_collection_status_check: false
+
+###################################################################################################################
+# Negative Validation Tests for MLD Snooping
+
+#############################################
+#        MLD Snooping Global Configuration Tests    #
+#############################################
+
+# Test invalid MLD snooping enabled - string instead of boolean
+test_mld_global_enabled_string:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      enable_mld_snooping: "true" # Invalid: string instead of boolean
+
+# Test invalid MLD snooping enabled - integer instead of boolean
+test_mld_global_enabled_integer:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      enable_mld_snooping: 1 # Invalid: integer instead of boolean
+
+# Test invalid MLD querier enabled - string instead of boolean
+test_mld_global_querier_enabled_string:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_querier: "false" # Invalid: string instead of boolean
+
+# Test invalid MLD querier enabled - integer instead of boolean
+test_mld_global_querier_enabled_integer:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_querier: 0 # Invalid: integer instead of boolean
+
+# Test invalid MLD querier address - not IPv6 format
+test_mld_global_querier_address_invalid:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_querier_address: "192.168.1.1" # Invalid: IPv4 instead of IPv6
+
+# Test invalid MLD querier version - invalid choice
+test_mld_global_querier_version_invalid:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_querier_version: "VERSION_3" # Invalid: only VERSION_1 and VERSION_2 allowed
+
+# Test invalid MLD querier version - integer instead of string
+test_mld_global_querier_version_integer:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_querier_version: 2 # Invalid: integer instead of string
+
+# Test invalid MLD listener - string instead of boolean
+test_mld_global_listener_string:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_listener: "true" # Invalid: string instead of boolean
+
+# Test invalid MLD listener - integer instead of boolean
+test_mld_global_listener_integer:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_listener: 1 # Invalid: integer instead of boolean
+
+# Test invalid MLD query interval - string instead of integer
+test_mld_global_query_interval_string:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_querier_query_interval: "125" # Invalid: string instead of integer
+
+# Test invalid MLD query interval - boolean instead of integer
+test_mld_global_query_interval_boolean:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_querier_query_interval: true # Invalid: boolean instead of integer
+
+# Test invalid MLD query interval - below minimum value
+test_mld_global_query_interval_min:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_querier_query_interval: 0 # Invalid: below minimum of 1
+
+# Test invalid MLD query interval - exceeds maximum value
+test_mld_global_query_interval_max:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_querier_query_interval: 18001 # Invalid: exceeds maximum of 18000
+
+#############################################
+#        MLD Snooping VLAN Configuration Tests  #
+#############################################
+
+# Test invalid MLD VLAN ID - string instead of integer
+test_mld_vlan_id_string:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: "98" # Invalid: string instead of integer
+          enable_mld_snooping: true
+
+# Test invalid MLD VLAN ID - negative value
+test_mld_vlan_id_negative:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: -1 # Invalid: negative value
+          enable_mld_snooping: true
+
+# Test invalid MLD VLAN ID - exceeds maximum value
+test_mld_vlan_id_max:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 4095 # Invalid: exceeds maximum of 4094
+          enable_mld_snooping: true
+
+# Test invalid MLD VLAN ID - zero value
+test_mld_vlan_id_zero:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 0 # Invalid: zero value
+          enable_mld_snooping: true
+
+# Test missing required MLD VLAN ID
+test_mld_vlan_id_missing:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - # mld_snooping_vlan_id is missing - should fail
+          enable_mld_snooping: true
+
+# Test invalid MLD VLAN enabled - string instead of boolean
+test_mld_vlan_enabled_string:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 98
+          enable_mld_snooping: "true" # Invalid: string instead of boolean
+
+# Test invalid MLD VLAN enabled - integer instead of boolean
+test_mld_vlan_enabled_integer:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 99
+          enable_mld_snooping: 1 # Invalid: integer instead of boolean
+
+# Test invalid MLD VLAN immediate leave - string instead of boolean
+test_mld_vlan_immediate_leave_string:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 202
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: "false" # Invalid: string instead of boolean
+
+# Test invalid MLD VLAN immediate leave - integer instead of boolean
+test_mld_vlan_immediate_leave_integer:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 400
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: 0 # Invalid: integer instead of boolean
+
+# Test invalid MLD VLAN querier enabled - string instead of boolean
+test_mld_vlan_querier_enabled_string:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 401
+          enable_mld_snooping: true
+          mld_snooping_querier: "false" # Invalid: string instead of boolean
+
+# Test invalid MLD VLAN querier enabled - integer instead of boolean
+test_mld_vlan_querier_enabled_integer:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 402
+          enable_mld_snooping: true
+          mld_snooping_querier: 0 # Invalid: integer instead of boolean
+
+# Test invalid MLD VLAN querier address - IPv4 instead of IPv6
+test_mld_vlan_querier_address_ipv4:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 403
+          enable_mld_snooping: true
+          mld_snooping_querier_address: "192.168.1.1" # Invalid: IPv4 instead of IPv6
+
+# Test invalid MLD VLAN querier version - invalid choice
+test_mld_vlan_querier_version_invalid:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 99
+          enable_mld_snooping: true
+          mld_snooping_querier_version: "VERSION_3" # Invalid: only VERSION_1 and VERSION_2 allowed
+
+# Test invalid MLD VLAN querier version - integer instead of string
+test_mld_vlan_querier_version_integer:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 202
+          enable_mld_snooping: true
+          mld_snooping_querier_version: 1 # Invalid: integer instead of string
+
+# Test invalid MLD VLAN query interval - string instead of integer
+test_mld_vlan_query_interval_string:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 400
+          enable_mld_snooping: true
+          mld_snooping_querier_query_interval: "125" # Invalid: string instead of integer
+
+# Test invalid MLD VLAN query interval - below minimum value
+test_mld_vlan_query_interval_min:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 401
+          enable_mld_snooping: true
+          mld_snooping_querier_query_interval: 0 # Invalid: below minimum of 1
+
+# Test invalid MLD VLAN query interval - exceeds maximum value
+test_mld_vlan_query_interval_max:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 402
+          enable_mld_snooping: true
+          mld_snooping_querier_query_interval: 18001 # Invalid: exceeds maximum of 18000
+
+# Test invalid MLD VLAN mrouter port list - string instead of list
+test_mld_vlan_mrouter_port_list_string:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 403
+          enable_mld_snooping: true
+          mld_snooping_mrouter_port_list: "GigabitEthernet1/0/1" # Invalid: string instead of list
+
+#############################################
+#        Data Type and Structure Tests     #
+#############################################
+
+# Test invalid MLD snooping configuration - string instead of dictionary
+test_mld_invalid_dict_type:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping: "invalid_mld_string" # Invalid: string instead of dictionary
+
+# Test invalid MLD snooping configuration - list instead of dictionary
+test_mld_invalid_list_type:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping: ["invalid", "mld", "list"] # Invalid: list instead of dictionary
+
+# Test invalid MLD VLANs - string instead of list
+test_mld_vlans_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans: "invalid_vlans_string" # Invalid: string instead of list
+
+# Test invalid MLD VLANs - dictionary instead of list
+test_mld_vlans_invalid_dict:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans: { "invalid": "dict" } # Invalid: dictionary instead of list
+
+# Test invalid MLD VLAN item - string instead of dictionary
+test_mld_vlan_invalid_dict_type:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - "invalid_vlan_string" # Invalid: string instead of dictionary
+
+###################################################################################################################
+# Positive Test Cases for MLD Snooping
+
+#############################################
+#        POSITIVE TEST CASES - CREATE      #
+#############################################
+
+# Test MLD snooping configuration with global parameters only
+test_mld_create_global_only:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      enable_mld_snooping: true
+      mld_snooping_querier: false
+      mld_snooping_querier_address: "fe80::1"
+      mld_snooping_querier_version: "VERSION_2"
+      mld_snooping_listener: true
+      mld_snooping_querier_query_interval: 125
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 300
+          mld_snooping_querier_address: "fe80::1"
+
+
+# Test MLD snooping configuration with VLANs only
+test_mld_create_vlans_only:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 98
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: false
+          mld_snooping_querier: false
+          mld_snooping_querier_address: "fe80::403"
+          mld_snooping_querier_version: "VERSION_2"
+          mld_snooping_querier_query_interval: 125
+          mld_snooping_mrouter_port_list:
+            ["GigabitEthernet1/0/1", "GigabitEthernet1/0/2"]
+
+# Test MLD snooping configuration with single VLAN
+test_mld_create_single_vlan:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 99
+          enable_mld_snooping: true
+
+# Test MLD snooping configuration with global and VLANs
+test_mld_create_global_and_vlans:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      enable_mld_snooping: true
+      mld_snooping_querier: true
+      mld_snooping_querier_address: "fe80::1"
+      mld_snooping_querier_version: "VERSION_1"
+      mld_snooping_listener: true
+      mld_snooping_querier_query_interval: 60
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 202
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: false
+          mld_snooping_querier: false
+          mld_snooping_querier_address: "fe80::202"
+          mld_snooping_querier_version: "VERSION_2"
+          mld_snooping_querier_query_interval: 125
+          mld_snooping_mrouter_port_list: ["GigabitEthernet1/0/1"]
+        - mld_snooping_vlan_id: 400
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: true
+          mld_snooping_querier: true
+          mld_snooping_querier_address: "fe80::400"
+          mld_snooping_querier_version: "VERSION_1"
+          mld_snooping_querier_query_interval: 90
+          mld_snooping_mrouter_port_list:
+            ["GigabitEthernet1/0/3", "GigabitEthernet1/0/4"]
+
+# Test MLD snooping configuration with minimal VLAN parameters
+test_mld_create_minimal_vlan:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 401
+          enable_mld_snooping: false
+
+# Test MLD snooping configuration with multiple VLANs - different settings
+test_mld_create_multiple_vlans_different_settings:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 401
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: false
+          mld_snooping_querier: false
+          mld_snooping_querier_query_interval: 60
+        - mld_snooping_vlan_id: 402
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: true
+          mld_snooping_querier: true
+          mld_snooping_querier_query_interval: 125
+        - mld_snooping_vlan_id: 403
+          enable_mld_snooping: false
+          mld_snooping_enable_immediate_leave: false
+          mld_snooping_querier: false
+          mld_snooping_querier_query_interval: 250
+
+#############################################
+#        POSITIVE TEST CASES - UPDATE      #
+#############################################
+
+# Test MLD snooping update - global parameters only
+test_mld_update_global_only:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      enable_mld_snooping: true
+      mld_snooping_querier: true
+      mld_snooping_querier_address: "fe80::98"
+      mld_snooping_querier_version: "VERSION_1"
+      mld_snooping_listener: false
+      mld_snooping_querier_query_interval: 90
+
+# Test MLD snooping update - modify existing VLANs
+test_mld_update_modify_vlans:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 202
+          enable_mld_snooping: false # Changed from true
+          mld_snooping_enable_immediate_leave: true # Changed from false
+          mld_snooping_querier: true # Changed from false
+          mld_snooping_querier_query_interval: 180 # Changed from 125
+        - mld_snooping_vlan_id: 400
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: false # Changed from true
+          mld_snooping_querier: false # Changed from true
+          mld_snooping_querier_query_interval: 240 # Changed from 90
+
+# Test MLD snooping update - global and VLANs together
+test_mld_update_global_and_vlans:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      enable_mld_snooping: true
+      mld_snooping_querier: false # Updated global querier
+      mld_snooping_querier_query_interval: 180 # Updated global query interval
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 401
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: false
+          mld_snooping_querier: false
+          mld_snooping_querier_query_interval: 240
+        - mld_snooping_vlan_id: 402 # Updated VLAN
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: true
+          mld_snooping_querier: true
+          mld_snooping_querier_query_interval: 150
+
+# Test MLD snooping update - modify single VLAN
+test_mld_update_single_vlan:
+  <<: *device_info
+  layer2_configuration:
+    mld_snooping:
+      mld_snooping_vlans:
+        - mld_snooping_vlan_id: 403
+          enable_mld_snooping: true
+          mld_snooping_enable_immediate_leave: true
+          mld_snooping_querier: true
+          mld_snooping_querier_query_interval: 300
