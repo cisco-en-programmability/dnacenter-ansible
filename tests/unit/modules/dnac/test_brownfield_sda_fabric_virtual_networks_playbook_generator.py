@@ -33,7 +33,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     module = brownfield_sda_fabric_virtual_networks_playbook_generator
     test_data = loadPlaybookData("brownfield_sda_fabric_virtual_networks_playbook_generator")
-    
+
     # Load all playbook configurations
     playbook_config_generate_all_configurations = test_data.get("playbook_config_generate_all_configurations")
     playbook_config_fabric_vlan_by_vlan_name_single = test_data.get("playbook_config_fabric_vlan_by_vlan_name_single")
@@ -62,12 +62,12 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
         self.run_dnac_init = self.mock_dnac_init.start()
         self.run_dnac_init.side_effect = [None]
-        
+
         self.mock_dnac_exec = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK._exec"
         )
         self.run_dnac_exec = self.mock_dnac_exec.start()
-        
+
         self.load_fixtures()
 
     def tearDown(self):
@@ -289,7 +289,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         generate a complete YAML playbook configuration file.
         """
         mock_exists.return_value = True
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -314,7 +314,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         for a single fabric VLAN when filtered by VLAN name.
         """
         mock_exists.return_value = True
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -339,7 +339,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         for multiple fabric VLANs when filtered by multiple VLAN names.
         """
         mock_exists.return_value = True
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -364,7 +364,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         for a single fabric VLAN when filtered by VLAN ID.
         """
         mock_exists.return_value = True
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -389,7 +389,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         for multiple fabric VLANs when filtered by multiple VLAN IDs.
         """
         mock_exists.return_value = True
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -414,7 +414,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         when filtering by both VLAN name and VLAN ID combinations.
         """
         mock_exists.return_value = True
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -436,7 +436,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         This test verifies that the generator properly validates and handles VLAN IDs
         that are outside the acceptable range (2-4094, excluding reserved VLANs).
         """
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -461,7 +461,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         for a single virtual network when filtered by VN name.
         """
         mock_exists.return_value = True
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -486,7 +486,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         for multiple virtual networks when filtered by multiple VN names.
         """
         mock_exists.return_value = True
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -511,7 +511,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         for anycast gateways when filtered by virtual network name.
         """
         mock_exists.return_value = True
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -536,7 +536,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         for anycast gateways when filtered by IP pool name.
         """
         mock_exists.return_value = True
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -561,7 +561,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         for anycast gateways when filtered by VLAN ID.
         """
         mock_exists.return_value = True
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -586,7 +586,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         for anycast gateways when filtered by VLAN name.
         """
         mock_exists.return_value = True
-        
+ 
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -611,7 +611,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         for anycast gateways when filtered by both VLAN name and ID.
         """
         mock_exists.return_value = True
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -636,7 +636,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         including VN name, VLAN name, VLAN ID, and IP pool name.
         """
         mock_exists.return_value = True
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -661,7 +661,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         fabric VLANs, virtual networks, and anycast gateways simultaneously.
         """
         mock_exists.return_value = True
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -686,7 +686,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         (fabric VLANs, virtual networks, and anycast gateways).
         """
         mock_exists.return_value = True
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -711,7 +711,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         component filters are specified but empty.
         """
         mock_exists.return_value = True
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -736,7 +736,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         no file path is provided in the configuration.
         """
         mock_exists.return_value = True
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -750,4 +750,3 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
-
