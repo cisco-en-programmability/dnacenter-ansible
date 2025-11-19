@@ -1100,7 +1100,7 @@ EXAMPLES = r"""
     config:
       - image_distribution_details:
           sub_package_images:
-            - C9800-SW-iosxe-wlc.17.12.01.SPA.bin 
+            - C9800-SW-iosxe-wlc.17.12.01.SPA.bin
           convert_to_wlc: true
           site_name: Global/a_swim
 
@@ -1118,7 +1118,7 @@ EXAMPLES = r"""
     config:
       - image_activation_details:
           sub_package_images:
-            - C9800-SW-iosxe-wlc.17.12.01.SPA.bin 
+            - C9800-SW-iosxe-wlc.17.12.01.SPA.bin
           convert_to_wlc: true
           site_name: Global/a_swim
           activate_lower_image_version: true
