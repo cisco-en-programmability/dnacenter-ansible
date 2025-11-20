@@ -254,7 +254,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
     BrownFieldHelper,
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DnacBase,
     validate_list_of_dicts,
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.network_profiles import (
@@ -365,7 +364,7 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
                     "elements": "str"
                 },
                 "day_n_template_list": {
-                    "type": "list", 
+                    "type": "list",
                     "required": False,
                     "elements": "str"
                 },
@@ -848,7 +847,7 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
                     self.log(f"Collecting Template details based on profile: {profile_name_list}", "INFO")
                     self.collect_all_switch_profile_list()
                     self.collect_site_and_template_details(self.have.get("switch_profile_names", []))
-    
+
                 if site_list and isinstance(site_list, list):
                     self.log(f"Collecting Site details based on profile: {profile_name_list}", "INFO")
                     self.collect_all_switch_profile_list()
@@ -913,6 +912,7 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
         )
 
         return self
+
 
 def main():
     """main entry point for module execution"""
@@ -982,6 +982,7 @@ def main():
         ]().check_return_status()
 
     module.exit_json(**ccc_network_profile_switching_playbook_generator.result)
+
 
 if __name__ == "__main__":
     main()
