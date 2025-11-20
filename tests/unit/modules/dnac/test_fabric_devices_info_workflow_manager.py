@@ -247,11 +247,6 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
 
             ]
 
-        elif "playbook_negative_scenario_11" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_sites30"),
-            ]
-
         elif "playbook_negative_scenario_12" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites31"),
@@ -1276,11 +1271,11 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario_11(self):
         """
-        Test configuration validation when fabric site does not exist in Cisco Catalyst Center.
+        Test configuration validation when both 'ip_address' and 'ip_address_range' are specified.
 
         This test verifies that the workflow correctly identifies and reports an error
-        when the specified fabric_site_hierarchy does not exist in the system, ensuring
-        proper validation and error messaging for site hierarchy validation.
+        when both 'ip_address' and 'ip_address_range' are provided in the device_identifier,
+        ensuring proper validation and error messaging for mutually exclusive parameters.
         """
         set_module_args(
             dict(
@@ -1298,11 +1293,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "An exception occurred while retrieving Site details for Site "
-            "'Global/rishipat_area/Fabric-area' does not exist in the Cisco Catalyst Center. "
-            "Error: {'msg': 'No site details retrieved for site name: "
-            "Global/rishipat_area/Fabric-area', 'response': 'No site details retrieved for site "
-            "name: Global/rishipat_area/Fabric-area', 'failed': True}"
+            "Both 'ip_address' and 'ip_address_range' are specified across device_identifier entries. Please specify only one of them."
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario_12(self):
