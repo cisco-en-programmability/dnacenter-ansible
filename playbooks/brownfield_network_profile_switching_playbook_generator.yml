@@ -1,0 +1,43 @@
+---
+# Playbook Configure to generate Network Switch Profiles on Cisco Catalyst Center
+- name: Generate the playbook for the Network Switch Profiles from Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Generate Network Switch Profiles workflow playbook
+      cisco.dnac.brownfield_network_profile_switching_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          - file_path: "tmp/brownfield_network_profile_switching_workflow_playbook.yml"
+            generate_all_configurations: true
+          - file_path: "tmp/brownfield_network_profile_switching_workflow_playbook_profilebase.yml"
+            global_filters:
+              profile_name_list:
+                - Enterprise_Switching_Profile
+                - Campus_Core_Switching
+          - file_path: "tmp/brownfield_network_profile_switching_workflow_playbook_templatebase.yml"
+            global_filters:
+              day_n_template_list:
+                - evpn_l2vn_anycast_template
+          - file_path: "tmp/brownfield_network_profile_switching_workflow_playbook_sitebase.yml"
+            global_filters:
+              site_list:
+                - Global/USA/SAN JOSE/SJ_BLD21/FLOOR1
+                - Global/USA/SAN JOSE/SJ_BLD21/FLOOR2
+      register: result_custom_path
+      tags: [generate_all, custom_path]
