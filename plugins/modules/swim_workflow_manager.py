@@ -1186,7 +1186,7 @@ class Swim(DnacBase):
         super().__init__(module)
         self.supported_states = ["merged", "deleted"]
         self.images_to_import, self.existing_images = [], []
-
+        self.state = self.params.get("state")
     def validate_input(self):
         """
         Validate the fields provided in the playbook.
@@ -2065,7 +2065,7 @@ class Swim(DnacBase):
         """
         self.log("Retrieving and storing software image and device details from Cisco Catalyst Center", "DEBUG")
 
-        if self.want.get("image_name"):
+        if self.want.get("image_name") and self.state == "merged":
             self.log("Processing bulk image names for ID resolution", "DEBUG")
             have = {}
             names = self.want.get("image_name")
@@ -4371,6 +4371,10 @@ class Swim(DnacBase):
 
         # OLD FLOW (for DNAC <= 2.3.7.9)
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+            self.log(
+                "Using old version of SWIM API for image activation (<= 2.3.7.9)",
+                "INFO",
+            )
             for device_uuid in device_uuid_list:
                 device_ip = self.get_device_ip_from_id(device_uuid)
                 activated = False
@@ -4409,7 +4413,7 @@ class Swim(DnacBase):
                             deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
                             distributeIfNeeded=activation_details.get("distribute_if_needed"),
                             deviceUuid=device_id,
-                            imageUuidList=[image_id],
+                            imageUuidList=[image_id] if image_id else [],
                         )
                     ]
 
@@ -5114,14 +5118,15 @@ class Swim(DnacBase):
         results = []
         success_deletions = []
         failed_deletions = []
+        non_existent_images = []
 
         for image_name in image_names:
             self.log("Processing deletion request for image: '{0}'".format(image_name), "DEBUG")
-            image_id = self.get_image_id(image_name)
+            image_id = self.get_image_id_v1(image_name)
 
             if not image_id:
                 msg = "Image '{0}' does not exist in Cisco Catalyst Center.".format(image_name)
-                failed_deletions.append(image_name)
+                non_existent_images.append(image_name)
                 results.append({"image": image_name, "status": "failed", "message": msg})
                 continue
 
@@ -5129,13 +5134,13 @@ class Swim(DnacBase):
                 self.log("Attempting to delete image '{0}' with ID '{1}'.".format(image_name, image_id), "INFO")
                 response = self.dnac._exec(
                     family="software_image_management_swim",
-                    function='delete_image_v1',
+                    function='delete_image',
                     op_modifies=True,
                     params={"id": image_id}
                 )
 
-                self.check_tasks_response_status(response, "delete_image_v1")
-                self.log("Received API response from 'delete_image_v1': {0}".format(str(response)), "DEBUG")
+                self.check_tasks_response_status(response, "delete_image")
+                self.log("Received API response from 'delete_image': {0}".format(str(response)), "DEBUG")
 
                 if self.status not in ["failed", "exited"]:
                     msg = "Image '{0}' deleted successfully.".format(image_name)
@@ -5171,22 +5176,33 @@ class Swim(DnacBase):
         if failed_deletions:
             failed_list = "', '".join(failed_deletions)
             status_parts.append("Failed to delete image(s): '{0}'".format(failed_list))
+        
+        if non_existent_images:
+            non_existent_list = "', '".join(non_existent_images)
+            status_parts.append("Image(s) not found and could not be deleted: '{0}'".format(non_existent_list))
 
         final_message = ". ".join(status_parts) + "."
 
         # Determine final operation status
-        if success_deletions and not failed_deletions:
+        if success_deletions and not failed_deletions and not non_existent_images:
             # All deletions successful
             self.msg = final_message
             self.log("All image deletion operations completed successfully", "INFO")
             self.set_operation_result("success", True, self.msg, "INFO")
             return self
 
-        if success_deletions and failed_deletions:
+        if success_deletions and (failed_deletions or non_existent_images):
             # Partial success
             self.msg = final_message
             self.log("Image deletion completed with partial success", "WARNING")
             self.set_operation_result("success", True, self.msg, "WARNING")
+            return self
+
+        if not success_deletions and non_existent_images and not failed_deletions:
+            # Only non-existent images (nothing to delete)
+            self.msg = final_message
+            self.log("No images were deleted as all specified images do not exist", "WARNING")
+            self.set_operation_result("success", False, self.msg, "WARNING")
             return self
 
         # All deletions failed
@@ -5219,7 +5235,7 @@ class Swim(DnacBase):
         for image_name in image_names:
             self.log("Verifying deletion status for image: '{0}'".format(image_name), "DEBUG")
 
-            image_id = self.get_image_id(image_name)
+            image_id = self.get_image_id_v1(image_name)
 
             if not image_id:
                 self.log("Verification successful: Image '{0}' no longer exists in Cisco Catalyst Center".format(image_name), "INFO")
@@ -5256,20 +5272,17 @@ class Swim(DnacBase):
             # All deletions verified successfully
             self.msg = final_message
             self.log("All image deletion operations have been successfully verified", "INFO")
-            self.set_operation_result("success", True, self.msg, "INFO")
             return self
 
         if verified_deleted and still_existing:
             # Partial verification success
             self.msg = final_message
             self.log("Image deletion verification completed with partial success", "WARNING")
-            self.set_operation_result("success", True, self.msg, "WARNING")
             return self
 
         # All verifications failed (all images still exist)
         self.msg = final_message
         self.log("All image deletion verification attempts failed - no images were successfully deleted", "ERROR")
-        self.set_operation_result("failed", False, self.msg, "ERROR")
         return self
 
     def update_swim_profile_messages(self):
@@ -5353,7 +5366,12 @@ def main():
         )
         ccc_swims.status = "failed"
         ccc_swims.check_return_status()
-
+    if ccc_swims.compare_dnac_versions(ccc_swims.get_ccc_version(), "2.3.7.6") <= 0 and state == "deleted":
+        ccc_swims.msg = (
+            "The 'deleted' state is not supported in version '{0}' and earlier. "
+            "Please use version '2.3.7.9' or latest.".format(ccc_swims.get_ccc_version())
+        )
+        ccc_swims.set_operation_result("failed", False, ccc_swims.msg, "ERROR").check_return_status()
     if state not in ccc_swims.supported_states:
         ccc_swims.status = "invalid"
         ccc_swims.msg = "State {0} is invalid".format(state)
