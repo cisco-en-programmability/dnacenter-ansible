@@ -461,8 +461,9 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
                         f"The following switch profile(s) do not exist in Cisco Catalyst Center: {non_existing_profiles}.",
                         "ERROR",
                     )
+                    not_exist_profile = ", ".join(non_existing_profiles)
                     self.fail_and_exit(
-                        self.fail_and_exit(f"Switch profile(s) '{", ".join(non_existing_profiles)}' does not exist in Cisco Catalyst Center.")
+                        self.fail_and_exit(f"Switch profile(s) '{not_exist_profile}' does not exist in Cisco Catalyst Center.")
                     )
 
                 if filtered_profiles:
