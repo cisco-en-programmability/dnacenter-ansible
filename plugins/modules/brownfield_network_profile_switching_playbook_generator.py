@@ -259,22 +259,21 @@ from ansible_collections.cisco.dnac.plugins.module_utils.network_profiles import
     NetworkProfileFunctions,
 )
 import time
+from collections import OrderedDict
+
 try:
     import yaml
     HAS_YAML = True
-except ImportError:
-    HAS_YAML = False
-    yaml = None
-from collections import OrderedDict
 
-
-if HAS_YAML:
+    # Only define OrderedDumper if yaml is available
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
             return self.represent_mapping("tag:yaml.org,2002:map", data.items())
 
     OrderedDumper.add_representer(OrderedDict, OrderedDumper.represent_dict)
-else:
+except ImportError:
+    HAS_YAML = False
+    yaml = None
     OrderedDumper = None
 
 
