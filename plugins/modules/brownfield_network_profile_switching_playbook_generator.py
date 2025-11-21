@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Network Profile Switching Module."""
+from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 __author__ = ("A Mohamed Rafeek, Madhan Sankaranarayanan")
@@ -247,7 +248,6 @@ response_2:
     }
 """
 
-from __future__ import absolute_import, division, print_function
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper import (
     BrownFieldHelper,
@@ -374,7 +374,7 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
             }
         }
 
-    def collect_all_switch_profile_list(self, profile_names=[]):
+    def collect_all_switch_profile_list(self, profile_names=None):
         """
         Get required details for the given profile config from Cisco Catalyst Center
 
