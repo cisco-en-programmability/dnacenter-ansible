@@ -1374,23 +1374,6 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log("Completed NM retrieval for all targeted sites. Total sites processed: {0}".format(self.pprint(final_nm_details)), "INFO")
         self.log(self.pprint(nm_details), "DEBUG")
-        # # === APPLY REVERSE MAPPING BEFORE RETURN ===
-        # try:
-        #     nm_mapping_spec = self.network_management_reverse_mapping_function()
-        #     self.log(self.pprint(nm_mapping_spec), "DEBUG")
-        #     transformed_nm = []
-
-        #     for entry in final_nm_details:
-        #         transformed_entry = self.network_management_reverse_mapping_function(
-        #             entry, nm_mapping_spec
-        #         )
-        #         transformed_nm.append(transformed_entry)
-        #     self.log("NM reverse mapping completed successfully", "INFO")
-        #     self.log(self.pprint(transformed_nm), "DEBUG")
-
-        # except Exception as e:
-        #     self.log("Reverse mapping failed for NM: {0}".format(e), "ERROR")
-        #     transformed_nm = final_nm_details  # fallback
 
         # === APPLY UNIFIED NM REVERSE MAPPING BEFORE RETURN ===
         try:
@@ -1408,7 +1391,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
 
                 # ---- Apply unified reverse mapping ----
-                transformed_entry = {
+                transformed_entry = self.prune_empty({
                     "site_name": site_name,
                     "settings": {
                         "network_aaa": self.extract_network_aaa(entry),
@@ -1422,7 +1405,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "snmp_server": self.extract_snmp(entry),
                         "syslog_server": self.extract_syslog(entry),
                     }
-                }
+                })
 
                 transformed_nm.append(transformed_entry)
 
@@ -1467,6 +1450,27 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Primitive (str, int, bool, None)
         return entry
+
+    def prune_empty(self, data):
+        """
+        Recursively remove keys with None, '' or empty lists/dicts.
+        """
+        if isinstance(data, dict):
+            cleaned = {}
+            for k, v in data.items():
+                v = self.prune_empty(v)
+                if v in ("", None, [], {}):
+                    continue
+                cleaned[k] = v
+            return cleaned
+
+        elif isinstance(data, list):
+            cleaned_list = [self.prune_empty(i) for i in data]
+            # Remove empty items
+            return [i for i in cleaned_list if i not in ("", None, [], {})]
+
+        return data
+
 
     def extract_network_aaa(self, entry):
         data = entry.get("aaaNetwork", {})
@@ -1521,15 +1525,25 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def extract_netflow(self, entry):
         telemetry = entry.get("telemetry", {})
-        collector = telemetry.get("applicationVisibility", {}).get("collector", {})
+        app_vis = telemetry.get("applicationVisibility", {})
+        collector = app_vis.get("collector", {})
 
-        if collector.get("collectorType") != "External":
-            return {}
+        collector_type = collector.get("collectorType")
 
-        return {
+        # Prepare base structure
+        result = {
+            "collector_type": collector_type or "",
             "ip_address": collector.get("ipAddress", ""),
-            "port": collector.get("port", "")
+            "port": collector.get("port", None),
+            "enable_on_wired_access_devices": app_vis.get("enableOnWiredAccessDevices", False)
         }
+
+        # If Builtin collector -> return only type + enable flag
+        if collector_type != "External":
+            result["ip_address"] = ""
+            result["port"] = None
+
+        return result
 
     def extract_snmp(self, entry):
         traps = entry.get("telemetry", {}).get("snmpTraps", {})
