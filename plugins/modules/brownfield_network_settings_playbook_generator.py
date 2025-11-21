@@ -286,7 +286,7 @@ EXAMPLES = r"""
         global_filters:
           site_name_list: ["Global/India/Mumbai", "Global/India/Delhi"]
         component_specific_filters:
-          components_list: ["global_pool_details", "reserve_pool_details"]
+          components_list: ["global_pool_details", "reserve_pool_details", "network_management_details"]
 
 - name: Generate YAML Configuration for global pools with no filters
   cisco.dnac.brownfield_network_settings_playbook_generator:
@@ -469,6 +469,11 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Initialize generate_all_configurations as class-level parameter
         self.generate_all_configurations = False
+        
+        # Add state mapping
+        self.get_diff_state_apply = {
+            "merged": self.get_diff_merged,
+        }
 
     def validate_input(self):
         """
@@ -510,6 +515,53 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             str(valid_temp)
         )
         self.set_operation_result("success", False, self.msg, "INFO")
+        return self
+
+    def validate_params(self, config):
+        """
+        Validates the configuration parameters.
+        Args:
+            config (dict): Configuration parameters to validate
+        Returns:
+            self: Returns self with validation status
+        """
+        self.log("Starting validation of configuration parameters", "DEBUG")
+        
+        # Check for required parameters
+        if not config:
+            self.msg = "Configuration cannot be empty"
+            self.status = "failed"
+            return self
+        
+        # Validate file_path if provided
+        file_path = config.get("file_path")
+        if file_path:
+            import os
+            directory = os.path.dirname(file_path)
+            if directory and not os.path.exists(directory):
+                try:
+                    os.makedirs(directory, exist_ok=True)
+                    self.log("Created directory: {0}".format(directory), "INFO")
+                except Exception as e:
+                    self.msg = "Cannot create directory for file_path: {0}. Error: {1}".format(directory, str(e))
+                    self.status = "failed"
+                    return self
+
+        # Validate component_specific_filters
+        component_filters = config.get("component_specific_filters", {})
+        if component_filters:
+            components_list = component_filters.get("components_list", [])
+            supported_components = list(self.module_schema.get("network_elements", {}).keys())
+            
+            for component in components_list:
+                if component not in supported_components:
+                    self.msg = "Unsupported component: {0}. Supported components: {1}".format(
+                        component, supported_components)
+                    self.status = "failed"
+                    return self
+
+        self.log("Configuration parameters validation completed successfully", "DEBUG")
+        self.status = "success"
         return self
 
     def get_workflow_elements_schema(self):
@@ -564,10 +616,6 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                             "type": "str",
                             "required": False
                         },
-                        "ntp_server": {
-                            "type": "str",
-                            "required": False
-                        }
                     },
                     "reverse_mapping_function": self.network_management_reverse_mapping_function,
                     "api_function": "get_network_v2",
@@ -580,23 +628,6 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "api_function": "get_device_controllability_settings",
                     "api_family": "site_design",
                     "get_function_name": self.get_device_controllability_settings,
-                },
-                "aaa_settings": {
-                    "filters": {
-                        "network": {
-                            "type": "str",
-                            "required": False
-                        },
-                        "server_type": {
-                            "type": "str",
-                            "required": False,
-                            "choices": ["ISE", "AAA"]
-                        }
-                    },
-                    "reverse_mapping_function": self.aaa_settings_reverse_mapping_function,
-                    "api_function": "get_network_v2_aaa",
-                    "api_family": "network_settings",
-                    "get_function_name": self.get_aaa_settings,
                 },
             },
             "global_filters": {
@@ -727,29 +758,257 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def network_management_reverse_mapping_function(self, requested_components=None):
         """
-        Returns the reverse mapping specification for network management configurations.
-        Args:
-            requested_components (list, optional): List of specific components to include
-        Returns:
-            dict: Reverse mapping specification for network management details
+        Reverse mapping for Network Management settings (v1 API).
+        Converts DNAC raw API response into the flattened Ansible-friendly structure:
+
+            network_management_details:
+                - site_name: ...
+                settings:
+                    dns_server: {...}
+                    dhcp_server: [...]
+                    ntp_server: [...]
+                    timezone: ...
+                    message_of_the_day: {...}
+                    network_aaa: {...}
+                    client_and_endpoint_aaa: {...}
+                    ...
+
+        This follows the same flat-mapping pattern as reserve_pool_reverse_mapping_function.
         """
-        self.log("Generating reverse mapping specification for network management settings.", "DEBUG")
-        
+        self.log("Generating reverse mapping specification for network management (v1).", "DEBUG")
+
         return OrderedDict({
+
+            # -------------------------------
+            # Top field: site_name
+            # -------------------------------
             "site_name": {
                 "type": "str",
+                "source_key": "siteName",
                 "special_handling": True,
-                "transform": self.transform_site_location,
+                "transform": self.transform_site_location
             },
-            "ntp_server": {"type": "list", "source_key": "ntpServer"},
-            "dhcp_server": {"type": "list", "source_key": "dhcpServer"},
-            "dns_server": {"type": "dict", "source_key": "dnsServer"},
-            "timezone": {"type": "str", "source_key": "timezone"},
-            "message_of_the_day": {"type": "dict", "source_key": "messageOfTheday"},
-            "netflow_collector": {"type": "dict", "source_key": "netflowcollector"},
-            "snmp_server": {"type": "dict", "source_key": "snmpServer"},
-            "syslog_server": {"type": "dict", "source_key": "syslogServer"},
+
+            # -------------------------------
+            # DHCP server
+            # -------------------------------
+            "dhcp_server": {
+                "type": "list",
+                "source_key": "settings.dhcp.servers"
+            },
+
+            # -------------------------------
+            # DNS server block
+            # -------------------------------
+            "dns_server.domain_name": {
+                "type": "str",
+                "source_key": "settings.dns.domainName"
+            },
+            "dns_server.dns_servers": {
+                "type": "list",
+                "source_key": "settings.dns.dnsServers"
+            },
+
+            # -------------------------------
+            # NTP + Timezone
+            # -------------------------------
+            "ntp_server": {
+                "type": "list",
+                "source_key": "settings.ntp.servers"
+            },
+            "timezone": {
+                "type": "str",
+                "source_key": "settings.timeZone.identifier"
+            },
+
+            # -------------------------------
+            # MOTD / Banner
+            # -------------------------------
+            "message_of_the_day.banner_message": {
+                "type": "str",
+                "source_key": "settings.banner.message"
+            },
+            "message_of_the_day.retain_existing_banner": {
+                "type": "bool",
+                "source_key": "settings.banner.retainExistingBanner"
+            },
+
+            # -------------------------------
+            # Network AAA
+            # -------------------------------
+            "network_aaa.primary_server_address": {
+                "type": "str",
+                "source_key": "settings.aaaNetwork.primaryServerIp"
+            },
+            "network_aaa.secondary_server_address": {
+                "type": "str",
+                "source_key": "settings.aaaNetwork.secondaryServerIp",
+                "optional": True
+            },
+            "network_aaa.protocol": {
+                "type": "str",
+                "source_key": "settings.aaaNetwork.protocol"
+            },
+            "network_aaa.server_type": {
+                "type": "str",
+                "source_key": "settings.aaaNetwork.serverType"
+            },
+            "network_aaa.shared_secret": {
+                "type": "str",
+                "source_key": "settings.aaaNetwork.sharedSecret",
+                "optional": True
+            },
+
+            # -------------------------------
+            # Client & Endpoint AAA
+            # -------------------------------
+            "client_and_endpoint_aaa.primary_server_address": {
+                "type": "str",
+                "source_key": "settings.aaaClient.primaryServerIp"
+            },
+            "client_and_endpoint_aaa.secondary_server_address": {
+                "type": "str",
+                "source_key": "settings.aaaClient.secondaryServerIp",
+                "optional": True
+            },
+            "client_and_endpoint_aaa.protocol": {
+                "type": "str",
+                "source_key": "settings.aaaClient.protocol"
+            },
+            "client_and_endpoint_aaa.server_type": {
+                "type": "str",
+                "source_key": "settings.aaaClient.serverType"
+            },
+            "client_and_endpoint_aaa.shared_secret": {
+                "type": "str",
+                "source_key": "settings.aaaClient.sharedSecret",
+                "optional": True
+            },
+
+            # -------------------------------
+            # NetFlow Collector
+            # -------------------------------
+            "netflow_collector.ip_address": {
+                "type": "str",
+                "source_key": "settings.telemetry.applicationVisibility.collector.address"
+            },
+            "netflow_collector.port": {
+                "type": "int",
+                "source_key": "settings.telemetry.applicationVisibility.collector.port"
+            },
+
+            # -------------------------------
+            # SNMP Server
+            # -------------------------------
+            "snmp_server.configure_dnac_ip": {
+                "type": "bool",
+                "source_key": "settings.telemetry.snmpTraps.useBuiltinTrapServer"
+            },
+            "snmp_server.ip_addresses": {
+                "type": "list",
+                "source_key": "settings.telemetry.snmpTraps.externalTrapServers",
+                "optional": True
+            },
+
+            # -------------------------------
+            # Syslog Server
+            # -------------------------------
+            "syslog_server.configure_dnac_ip": {
+                "type": "bool",
+                "source_key": "settings.telemetry.syslogs.useBuiltinSyslogServer"
+            },
+            "syslog_server.ip_addresses": {
+                "type": "list",
+                "source_key": "settings.telemetry.syslogs.externalSyslogServers",
+                "optional": True
+            },
+
+            # -------------------------------
+            # Wired/Wireless Telemetry
+            # -------------------------------
+            "wired_data_collection.enable_wired_data_collection": {
+                "type": "bool",
+                "source_key": "settings.telemetry.wiredDataCollection.enableWiredDataCollection"
+            },
+            "wireless_telemetry.enable_wireless_telemetry": {
+                "type": "bool",
+                "source_key": "settings.telemetry.wirelessTelemetry.enableWirelessTelemetry"
+            }
         })
+
+    def modify_network_parameters(self, params):
+        """
+        Safely sanitize and normalize config parameters BEFORE reverse-mapping.
+        Prevents errors like:
+            - "expected str but got NoneType"
+            - reverse mapping crash if a key is missing or None
+            - AAA settings failing when values are not strings
+        
+        This function makes sure:
+            - None becomes "" (or [] for list or {} for dict)
+            - Integers become strings
+            - Boolean values become lowercase strings ("true"/"false")
+            - Unexpected value types are removed/sanitized
+        """
+
+        if params is None:
+            return {}
+
+        normalized = {}
+
+        for key, value in params.items():
+
+            # ------------------------------
+            # 1. Handle nested dictionaries
+            # ------------------------------
+            if isinstance(value, dict):
+                normalized[key] = self.modify_network_parameters(value)
+                continue
+
+            # ------------------------------
+            # 2. Handle list values
+            # ------------------------------
+            if isinstance(value, list):
+                clean_list = []
+                for item in value:
+                    if item is None:
+                        clean_list.append("")
+                    elif isinstance(item, (int, float)):
+                        clean_list.append(str(item))
+                    elif isinstance(item, bool):
+                        clean_list.append(str(item).lower())
+                    else:
+                        clean_list.append(item)
+                normalized[key] = clean_list
+                continue
+
+            # ------------------------------
+            # 3. Convert None → ""
+            # ------------------------------
+            if value is None:
+                normalized[key] = ""
+                continue
+
+            # ------------------------------
+            # 4. Convert integer/float → str
+            # ------------------------------
+            if isinstance(value, (int, float)):
+                normalized[key] = str(value)
+                continue
+
+            # ------------------------------
+            # 5. Convert boolean → lowercase string
+            # ------------------------------
+            if isinstance(value, bool):
+                normalized[key] = str(value).lower()
+                continue
+
+            # ------------------------------
+            # 6. Everything else remain same
+            # ------------------------------
+            normalized[key] = value
+
+        return normalized
 
     def device_controllability_reverse_mapping_function(self, requested_components=None):
         """
@@ -964,8 +1223,8 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         reverse_mapping_function = network_element.get("reverse_mapping_function")
         reverse_mapping_spec = reverse_mapping_function()
         
-        # Transform using modify_parameters
-        pools_details = self.modify_parameters(reverse_mapping_spec, final_global_pools)
+        # Transform using modify_network_parameters
+        pools_details = self.modify_network_parameters(reverse_mapping_spec, final_global_pools)
         
         return {
             "global_pool_details": {
@@ -975,6 +1234,317 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             },
             "operation_summary": self.get_operation_summary()
         }
+
+    def get_network_management_settings(self, network_element, filters):
+        """
+        Retrieves network management settings for all targeted sites.
+        Uses get_*_settings_for_site() helper functions.
+        Mirrors reserve pool logic for consistent behavior.
+        """
+
+        self.log("Starting NM retrieval with API family: {0}, function: {1}".format(
+            network_element.get("api_family"), network_element.get("api_function")), "DEBUG")
+
+        # === Determine target sites (same logic as reserve pools) ===
+        global_filters = filters.get("global_filters", {})
+        site_name_list = global_filters.get("site_name_list", [])
+
+        target_sites = []
+
+        # Build site mapping only once
+        if not hasattr(self, "site_id_name_dict"):
+            self.site_id_name_dict = self.get_site_id_name_mapping()
+
+        # Reverse-map: name → ID
+        site_name_to_id = {v: k for k, v in self.site_id_name_dict.items()}
+
+        if site_name_list:
+            # Specific sites requested
+            for sname in site_name_list:
+                sid = site_name_to_id.get(sname)
+                if sid:
+                    target_sites.append({"site_name": sname, "site_id": sid})
+                    self.log("Target NM site added: {0} (ID: {1})".format(sname, sid), "DEBUG")
+                else:
+                    self.log("Site '{0}' not found in Catalyst Center".format(sname), "WARNING")
+                    self.add_failure(sname, "network_management_details", {
+                        "error_type": "site_not_found",
+                        "error_message": "Site not found in Catalyst Center"
+                    })
+        else:
+            # All sites
+            for sid, sname in self.site_id_name_dict.items():
+                target_sites.append({"site_name": sname, "site_id": sid})
+
+        final_nm_details = []
+
+        # === Process each site ===
+        for site in target_sites:
+            site_name = site["site_name"]
+            site_id = site["site_id"]
+
+            self.log("Composing NM settings for {0} (ID: {1})".format(site_name, site_id), "INFO")
+
+            nm_details = {
+                "site_name": site_name,
+                "site_id": site_id
+            }
+
+            # ---------- AAA ----------
+            try:
+                if hasattr(self, "get_aaa_settings_for_site"):
+                    aaa_network, aaa_client = self.get_aaa_settings_for_site(site_name, site_id)
+                    nm_details["aaaNetwork"] = aaa_network or {}
+                    nm_details["aaaClient"] = aaa_client or {}
+                else:
+                    nm_details["aaaNetwork"] = {}
+                    nm_details["aaaClient"] = {}
+            except Exception as e:
+                self.log(f"AAA retrieval failed for {site_name}: {e}", "WARNING")
+                nm_details["aaaNetwork"] = {}
+                nm_details["aaaClient"] = {}
+
+            # ---------- DHCP ----------
+            try:
+                if hasattr(self, "get_dhcp_settings_for_site"):
+                    nm_details["dhcp"] = self.get_dhcp_settings_for_site(site_name, site_id) or {}
+                else:
+                    nm_details["dhcp"] = {}
+            except Exception as e:
+                self.log(f"DHCP retrieval failed for {site_name}: {e}", "WARNING")
+                nm_details["dhcp"] = {}
+
+            # ---------- DNS ----------
+            try:
+                if hasattr(self, "get_dns_settings_for_site"):
+                    nm_details["dns"] = self.get_dns_settings_for_site(site_name, site_id) or {}
+                else:
+                    nm_details["dns"] = {}
+            except Exception as e:
+                self.log(f"DNS retrieval failed for {site_name}: {e}", "WARNING")
+                nm_details["dns"] = {}
+
+            # ---------- TELEMETRY ----------
+            try:
+                if hasattr(self, "get_telemetry_settings_for_site"):
+                    nm_details["telemetry"] = self.get_telemetry_settings_for_site(site_name, site_id) or {}
+                else:
+                    nm_details["telemetry"] = {}
+            except Exception as e:
+                self.log(f"Telemetry retrieval failed for {site_name}: {e}", "WARNING")
+                nm_details["telemetry"] = {}
+
+            # ---------- NTP ----------
+            try:
+                if hasattr(self, "get_ntp_settings_for_site"):
+                    nm_details["ntp"] = self.get_ntp_settings_for_site(site_name, site_id) or {}
+                else:
+                    nm_details["ntp"] = {}
+            except Exception as e:
+                self.log(f"NTP retrieval failed for {site_name}: {e}", "WARNING")
+                nm_details["ntp"] = {}
+
+            # ---------- TIMEZONE ----------
+            try:
+                if hasattr(self, "get_time_zone_settings_for_site"):
+                    nm_details["timeZone"] = self.get_time_zone_settings_for_site(site_name, site_id) or {}
+                else:
+                    nm_details["timeZone"] = {}
+            except Exception as e:
+                self.log(f"Timezone retrieval failed for {site_name}: {e}", "WARNING")
+                nm_details["timeZone"] = {}
+
+            # ---------- BANNER ----------
+            try:
+                if hasattr(self, "get_banner_settings_for_site"):
+                    nm_details["banner"] = self.get_banner_settings_for_site(site_name, site_id) or {}
+                else:
+                    nm_details["banner"] = {}
+            except Exception as e:
+                self.log(f"Banner retrieval failed for {site_name}: {e}", "WARNING")
+                nm_details["banner"] = {}
+
+            # Store result for this site
+            final_nm_details.append(nm_details)
+
+            # Track success
+            self.add_success(site_name, "network_management_details", {
+                "nm_components_processed": len(nm_details)
+            })
+
+        self.log("Completed NM retrieval for all targeted sites. Total sites processed: {0}".format(self.pprint(final_nm_details)), "INFO")
+        self.log(self.pprint(nm_details), "DEBUG")
+        # # === APPLY REVERSE MAPPING BEFORE RETURN ===
+        # try:
+        #     nm_mapping_spec = self.network_management_reverse_mapping_function()
+        #     self.log(self.pprint(nm_mapping_spec), "DEBUG")
+        #     transformed_nm = []
+
+        #     for entry in final_nm_details:
+        #         transformed_entry = self.network_management_reverse_mapping_function(
+        #             entry, nm_mapping_spec
+        #         )
+        #         transformed_nm.append(transformed_entry)
+        #     self.log("NM reverse mapping completed successfully", "INFO")
+        #     self.log(self.pprint(transformed_nm), "DEBUG")
+
+        # except Exception as e:
+        #     self.log("Reverse mapping failed for NM: {0}".format(e), "ERROR")
+        #     transformed_nm = final_nm_details  # fallback
+
+        # === APPLY UNIFIED NM REVERSE MAPPING BEFORE RETURN ===
+        try:
+            self.log("Applying NM unified reverse mapping...", "INFO")
+
+            transformed_nm = []
+
+            for entry in final_nm_details:
+                self.log("Processing NM entry for site: {0}".format(entry.get("site_name")), "DEBUG")
+                site_name = entry.get("site_name")
+
+                # ---- Clean / normalize DNAC response ----
+                # entry = self.modify_parameters(entry)
+                entry = self.clean_nm_entry(entry)
+
+
+                # ---- Apply unified reverse mapping ----
+                transformed_entry = {
+                    "site_name": site_name,
+                    "settings": {
+                        "network_aaa": self.extract_network_aaa(entry),
+                        "client_and_endpoint_aaa": self.extract_client_aaa(entry),
+                        "dhcp_server": self.extract_dhcp(entry),
+                        "dns_server": self.extract_dns(entry),
+                        "ntp_server": self.extract_ntp(entry),
+                        "timezone": self.extract_timezone(entry),
+                        "message_of_the_day": self.extract_banner(entry),
+                        "netflow_collector": self.extract_netflow(entry),
+                        "snmp_server": self.extract_snmp(entry),
+                        "syslog_server": self.extract_syslog(entry),
+                    }
+                }
+
+                transformed_nm.append(transformed_entry)
+
+            self.log("NM unified reverse mapping completed successfully", "INFO")
+            self.log(self.pprint(transformed_nm), "DEBUG")
+
+        except Exception as e:
+            self.log("Unified reverse mapping failed for NM: {0}".format(e), "ERROR")
+            transformed_nm = final_nm_details  # fallback
+
+        # Return result in consistent format
+        return {
+            "network_management_details": transformed_nm,
+            "operation_summary": self.get_operation_summary()
+        }
+
+    def clean_nm_entry(self, entry):
+        """
+        Converts DNAC MyDict objects to plain Python dicts recursively.
+        Ensures unified reverse mapping always gets standard Python types.
+        """
+
+        # ---- Case 1: DNAC MyDict ----
+        if hasattr(entry, "to_dict"):
+            try:
+                entry = entry.to_dict()
+            except Exception:
+                entry = dict(entry)
+
+        # ---- Case 2: Regular dict ----
+        if isinstance(entry, dict):
+            cleaned = {}
+            for key, value in entry.items():
+                if value is None:
+                    continue
+                cleaned[key] = self.clean_nm_entry(value)
+            return cleaned
+
+        # ---- Case 3: List ----
+        if isinstance(entry, list):
+            return [self.clean_nm_entry(v) for v in entry]
+
+        # Primitive (str, int, bool, None)
+        return entry
+
+    def extract_network_aaa(self, entry):
+        data = entry.get("aaaNetwork", {})
+        if not data:
+            return {}
+
+        return {
+            "primary_server_address": data.get("primaryServerIp", ""),
+            "secondary_server_address": data.get("secondaryServerIp", ""),
+            "protocol": data.get("protocol", ""),
+            "server_type": data.get("serverType", ""),
+        }
+
+    def extract_client_aaa(self, entry):
+        data = entry.get("aaaClient", {})
+        if not data:
+            return {}
+
+        return {
+            "primary_server_address": data.get("primaryServerIp", ""),
+            "secondary_server_address": data.get("secondaryServerIp", ""),
+            "protocol": data.get("protocol", ""),
+            "server_type": data.get("serverType", ""),
+        }
+
+    def extract_dhcp(self, entry):
+        dhcp = entry.get("dhcp", {})
+        return dhcp.get("servers", [])
+
+    def extract_dns(self, entry):
+        dns = entry.get("dns", {})
+        return {
+            "domain_name": dns.get("domainName", ""),
+            "primary_ip_address": dns.get("dnsServers", ["", ""])[0] if dns.get("dnsServers") else "",
+            "secondary_ip_address": dns.get("dnsServers", ["", ""])[1] if dns.get("dnsServers") and len(dns.get("dnsServers")) > 1 else "",
+        }
+
+    def extract_ntp(self, entry):
+        ntp = entry.get("ntp", {})
+        return ntp.get("servers", [])
+
+    def extract_timezone(self, entry):
+        tz = entry.get("timeZone", {})
+        return tz.get("identifier", "")
+
+    def extract_banner(self, entry):
+        banner = entry.get("banner", {})
+        return {
+            "banner_message": banner.get("message", ""),
+            "retain_existing_banner": False  # DNAC v1 does not provide this flag
+        }
+
+    def extract_netflow(self, entry):
+        telemetry = entry.get("telemetry", {})
+        collector = telemetry.get("applicationVisibility", {}).get("collector", {})
+
+        if collector.get("collectorType") != "External":
+            return {}
+
+        return {
+            "ip_address": collector.get("ipAddress", ""),
+            "port": collector.get("port", "")
+        }
+
+    def extract_snmp(self, entry):
+        traps = entry.get("telemetry", {}).get("snmpTraps", {})
+        return {
+            "configure_dnac_ip": traps.get("useBuiltinTrapServer", False),
+            "ip_addresses": traps.get("externalTrapServers", []),
+        }
+
+    def extract_syslog(self, entry):
+        syslog = entry.get("telemetry", {}).get("syslogs", {})
+        return {
+            "configure_dnac_ip": syslog.get("useBuiltinSyslogServer", False),
+            "ip_addresses": syslog.get("externalSyslogServers", []),
+        }
+
 
     def get_reserve_pools(self, network_element, filters):
         """
@@ -1152,8 +1722,8 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         reverse_mapping_function = network_element.get("reverse_mapping_function")
         reverse_mapping_spec = reverse_mapping_function()
         
-        # Transform using modify_parameters
-        pools_details = self.modify_parameters(reverse_mapping_spec, final_reserve_pools)
+        # Transform using modify_network_parameters
+        pools_details = self.modify_network_parameters(reverse_mapping_spec, final_reserve_pools)
         
         # Return in the correct format - note the structure difference from global pools
         return {
@@ -1161,10 +1731,388 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "operation_summary": self.get_operation_summary()
         }
 
-    def get_network_management_settings(self, network_element, filters):
-        """Placeholder for network management implementation"""
-        self.log("Network management retrieval not yet implemented", "WARNING")
-        return {"network_management_details": [], "operation_summary": self.get_operation_summary()}
+    def get_aaa_settings_for_site(self, site_name, site_id):
+        try:
+            api_family = "network_settings"
+            api_function = "retrieve_aaa_settings_for_a_site"
+            params = {"id": site_id}
+
+             # Execute the API call
+            aaa_network_response = self.dnac._exec(
+                family=api_family,
+                function=api_function,
+                op_modifies=False,
+                params=params,
+            )
+
+            # Extract AAA network and client/endpoint settings
+            response = aaa_network_response.get("response", {})
+            network_aaa = response.get("aaaNetwork")
+            client_and_endpoint_aaa = response.get("aaaClient")
+
+            if not network_aaa or not client_and_endpoint_aaa:
+                missing = []
+                if not network_aaa:
+                    missing.append("network_aaa")
+                if not client_and_endpoint_aaa:
+                    missing.append("client_and_endpoint_aaa")
+                self.log(
+                    "No {0} settings found for site '{1}' (ID: {2})".format(
+                        " and ".join(missing), site_name, site_id
+                    ),
+                    "WARNING",
+                )
+                return network_aaa, client_and_endpoint_aaa
+
+            self.log(
+                "Successfully retrieved AAA Network settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, network_aaa
+                ),
+                "DEBUG",
+            )
+            self.log(
+                "Successfully retrieved AAA Client and Endpoint settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, client_and_endpoint_aaa
+                ),
+                "DEBUG",
+            )
+        except Exception as e:
+            self.msg = "Exception occurred while getting AAA settings for site '{0}' (ID: {1}): {2}".format(
+                site_name, site_id, str(e)
+            )
+            self.log(self.msg, "CRITICAL")
+            self.status = "failed"
+            return self.check_return_status()
+
+        return network_aaa, client_and_endpoint_aaa
+
+    def get_dhcp_settings_for_site(self, site_name, site_id):
+        """
+        Retrieve the DHCP settings for a specified site from Cisco Catalyst Center.
+
+        Parameters:
+            self - The current object details.
+            site_name (str): The name of the site to retrieve DHCP settings for.
+            site_id (str) - The ID of the site to retrieve DHCP settings for.
+
+        Returns:
+            dhcp_details (dict) - DHCP settings details for the specified site.
+        """
+        self.log(
+            "Attempting to retrieve DHCP settings for site '{0}' (ID: {1})".format(
+                site_name, site_id
+            ),
+            "INFO",
+        )
+
+        try:
+            dhcp_response = self.dnac._exec(
+                family="network_settings",
+                function="retrieve_d_h_c_p_settings_for_a_site",
+                op_modifies=False,
+                params={"id": site_id},
+            )
+            # Extract DHCP details
+            dhcp_details = dhcp_response.get("response", {}).get("dhcp")
+
+            if not dhcp_response:
+                self.log(
+                    "No DHCP settings found for site '{0}' (ID: {1})".format(
+                        site_name, site_id
+                    ),
+                    "WARNING",
+                )
+                return None
+
+            self.log(
+                "Successfully retrieved DNS settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, dhcp_response
+                ),
+                "DEBUG",
+            )
+        except Exception as e:
+            self.msg = "Exception occurred while getting DHCP settings for site '{0}' (ID: {1}): {2}".format(
+                site_name, site_id, str(e)
+            )
+            self.log(self.msg, "CRITICAL")
+            self.status = "failed"
+            return self.check_return_status()
+
+        return dhcp_details
+
+    def get_dns_settings_for_site(self, site_name, site_id):
+        """
+        Retrieve the DNS settings for a specified site from Cisco Catalyst Center.
+
+        Parameters:
+            self - The current object details.
+            site_name (str): The name of the site to retrieve DNS settings for.
+            site_id (str): The ID of the site to retrieve DNS settings for.
+
+        Returns:
+            dns_details (dict): DNS settings details for the specified site.
+        """
+        self.log(
+            "Attempting to retrieve DNS settings for site '{0}' (ID: {1})".format(
+                site_name, site_id
+            ),
+            "INFO",
+        )
+
+        try:
+            dns_response = self.dnac._exec(
+                family="network_settings",
+                function="retrieve_d_n_s_settings_for_a_site",
+                op_modifies=False,
+                params={"id": site_id},
+            )
+            # Extract DNS details
+            dns_details = dns_response.get("response", {}).get("dns")
+
+            if not dns_details:
+                self.log(
+                    "No DNS settings found for site '{0}' (ID: {1})".format(
+                        site_name, site_id
+                    ),
+                    "WARNING",
+                )
+                return None
+
+            self.log(
+                "Successfully retrieved DNS settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, dns_details
+                ),
+                "DEBUG",
+            )
+        except Exception as e:
+            self.msg = "Exception occurred while getting DNS settings for site '{0}' (ID: {1}): {2}".format(
+                site_name, site_id, str(e)
+            )
+            self.log(self.msg, "CRITICAL")
+            self.status = "failed"
+            return self.check_return_status()
+
+        return dns_details
+
+    def get_telemetry_settings_for_site(self, site_name, site_id):
+        """
+        Retrieve the telemetry settings for a specified site from Cisco Catalyst Center.
+
+        Parameters:
+            self - The current object details.
+            site_name (str): The name of the site to retrieve telemetry settings for.
+            site_id (str): The ID of the site to retrieve telemetry settings for.
+
+        Returns:
+            telemetry_details (dict): Telemetry settings details for the specified site.
+        """
+        self.log(
+            "Attempting to retrieve telemetry settings for site ID: {0}".format(
+                site_id
+            ),
+            "INFO",
+        )
+
+        try:
+            telemetry_response = self.dnac._exec(
+                family="network_settings",
+                function="retrieve_telemetry_settings_for_a_site",
+                op_modifies=False,
+                params={"id": site_id},
+            )
+
+            # Extract telemetry details
+            telemetry_details = telemetry_response.get("response", {})
+
+            if not telemetry_details:
+                self.log(
+                    "No telemetry settings found for site '{0}' (ID: {1})".format(
+                        site_name, site_id
+                    ),
+                    "WARNING",
+                )
+                return None
+
+            self.log(
+                "Successfully retrieved telemetry settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, telemetry_details
+                ),
+                "DEBUG",
+            )
+        except Exception as e:
+            self.msg = "Exception occurred while getting telemetry settings for site '{0}' (ID: {1}): {2}".format(
+                site_name, site_id, str(e)
+            )
+            self.log(self.msg, "CRITICAL")
+            self.status = "failed"
+            return self.check_return_status()
+
+        return telemetry_details
+
+    def get_ntp_settings_for_site(self, site_name, site_id):
+        """
+        Retrieve the NTP server settings for a specified site from Cisco Catalyst Center.
+
+        Parameters:
+            self - The current object details.
+            site_name (str): The name of the site to retrieve NTP server settings for.
+            site_id (str): The ID of the site to retrieve NTP server settings for.
+
+        Returns:
+            ntpserver_details (dict): NTP server settings details for the specified site.
+        """
+        self.log(
+            "Attempting to retrieve NTP server settings for site '{0}' (ID: {1})".format(
+                site_name, site_id
+            ),
+            "INFO",
+        )
+
+        try:
+            ntpserver_response = self.dnac._exec(
+                family="network_settings",
+                function="retrieve_n_t_p_settings_for_a_site",
+                op_modifies=False,
+                params={"id": site_id},
+            )
+            # Extract NTP server details
+            ntpserver_details = ntpserver_response.get("response", {}).get("ntp")
+
+            if not ntpserver_details:
+                self.log(
+                    "No NTP server settings found for site '{0}' (ID: {1})".format(
+                        site_name, site_id
+                    ),
+                    "WARNING",
+                )
+                return None
+
+            if ntpserver_details.get("servers") is None:
+                ntpserver_details["servers"] = []
+
+            self.log(
+                "Successfully retrieved NTP server settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, ntpserver_details
+                ),
+                "DEBUG",
+            )
+        except Exception as e:
+            self.msg = "Exception occurred while getting NTP server settings for site '{0}' (ID: {1}): {2}".format(
+                site_name, site_id, str(e)
+            )
+            self.log(self.msg, "CRITICAL")
+            self.status = "failed"
+            return self.check_return_status()
+
+        return ntpserver_details
+
+    def get_time_zone_settings_for_site(self, site_name, site_id):
+        """
+        Retrieve the time zone settings for a specified site from Cisco Catalyst Center.
+
+        Parameters:
+            self - The current object details.
+            site_name (str): The name of the site to retrieve time zone settings for.
+            site_id (str): The ID of the site to retrieve time zone settings for.
+
+        Returns:
+            timezone_details (dict): Time zone settings details for the specified site.
+        """
+        self.log(
+            "Attempting to retrieve time zone settings for site '{0}' (ID: {1})".format(
+                site_name, site_id
+            ),
+            "INFO",
+        )
+
+        try:
+            timezone_response = self.dnac._exec(
+                family="network_settings",
+                function="retrieve_time_zone_settings_for_a_site",
+                op_modifies=False,
+                params={"id": site_id},
+            )
+            # Extract time zone details
+            timezone_details = timezone_response.get("response", {}).get("timeZone")
+
+            if not timezone_details:
+                self.log(
+                    "No time zone settings found for site '{0}' (ID: {1})".format(
+                        site_name, site_id
+                    ),
+                    "WARNING",
+                )
+                return None
+
+            self.log(
+                "Successfully retrieved time zone settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, timezone_details
+                ),
+                "DEBUG",
+            )
+        except Exception as e:
+            self.msg = "Exception occurred while getting time zone settings for site '{0}' (ID: {1}): {2}".format(
+                site_name, site_id, str(e)
+            )
+            self.log(self.msg, "CRITICAL")
+            self.status = "failed"
+            return self.check_return_status()
+
+        return timezone_details
+
+    def get_banner_settings_for_site(self, site_name, site_id):
+        """
+        Retrieve the Message of the Day (banner) settings for a specified site from Cisco Catalyst Center.
+
+        Parameters:
+            self - The current object details.
+            site_name (str): The name of the site to retrieve banner settings for.
+            site_id (str): The ID of the site to retrieve banner settings for.
+
+        Returns:
+            messageoftheday_details (dict): Banner (Message of the Day) settings details for the specified site.
+        """
+        self.log(
+            "Attempting to retrieve banner (Message of the Day) settings for site '{0}' (ID: {1})".format(
+                site_name, site_id
+            ),
+            "INFO",
+        )
+
+        try:
+            banner_response = self.dnac._exec(
+                family="network_settings",
+                function="retrieve_banner_settings_for_a_site",
+                op_modifies=False,
+                params={"id": site_id},
+            )
+            # Extract banner (Message of the Day) details
+            messageoftheday_details = banner_response.get("response", {}).get("banner")
+
+            if not messageoftheday_details:
+                self.log(
+                    "No banner (Message of the Day) settings found for site '{0}' (ID: {1})".format(
+                        site_name, site_id
+                    ),
+                    "WARNING",
+                )
+                return None
+
+            self.log(
+                "Successfully retrieved banner (Message of the Day) settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, messageoftheday_details
+                ),
+                "DEBUG",
+            )
+        except Exception as e:
+            self.msg = "Exception occurred while getting banner settings for site '{0}' (ID: {1}): {2}".format(
+                site_name, site_id, str(e)
+            )
+            self.log(self.msg, "CRITICAL")
+            self.status = "failed"
+            return self.check_return_status()
+
+        return messageoftheday_details
 
     def get_device_controllability_settings(self, network_element, filters):
         """
@@ -1270,7 +2218,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         reverse_mapping_function = network_element.get("reverse_mapping_function")
         reverse_mapping_spec = reverse_mapping_function()
 
-        settings_details = self.modify_parameters(reverse_mapping_spec, device_controllability_settings)
+        settings_details = self.modify_network_parameters(reverse_mapping_spec, device_controllability_settings)
 
         self.log(
             f"Successfully transformed {len(settings_details)} device controllability settings: {settings_details}",
@@ -1281,7 +2229,6 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "device_controllability_details": settings_details,
             "operation_summary": self.get_operation_summary(),
         }
-
 
     def get_aaa_settings(self, network_element, filters):
         """Placeholder for AAA settings implementation"""
@@ -1362,8 +2309,12 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             self.log("Details retrieved for component {0}: {1}".format(component, details), "DEBUG")
 
-            if details and details.get(component):
+            # Always add details if the component key exists, even if it's empty
+            if details and component in details:
                 final_list.extend([details])
+                self.log("Added component {0} to final list (including empty results)".format(component), "DEBUG")
+            else:
+                self.log("Component {0} returned no valid details structure".format(component), "WARNING")
 
             # Consolidate operation summary
             if details and details.get("operation_summary"):
@@ -1420,7 +2371,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         want = {}
         want["yaml_config_generator"] = config
-        
+
         self.want = want
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
         self.msg = "Successfully collected all parameters from the playbook for Network Settings operations."
