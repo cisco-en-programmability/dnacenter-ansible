@@ -4,8 +4,6 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Network Profile Switching Module."""
-from __future__ import absolute_import, division, print_function
-from logging import WARNING, config
 
 __metaclass__ = type
 __author__ = ("A Mohamed Rafeek, Madhan Sankaranarayanan")
@@ -249,6 +247,7 @@ response_2:
     }
 """
 
+from __future__ import absolute_import, division, print_function
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper import (
     BrownFieldHelper,
