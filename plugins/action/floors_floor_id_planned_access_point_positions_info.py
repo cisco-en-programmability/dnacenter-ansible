@@ -33,8 +33,8 @@ argument_spec.update(
         name=dict(type="str"),
         macAddress=dict(type="str"),
         type=dict(type="str"),
-        offset=dict(type="float"),
-        limit=dict(type="float"),
+        offset=dict(type="int"),
+        limit=dict(type="int"),
         headers=dict(type="dict"),
     )
 )

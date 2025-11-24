@@ -79,6 +79,13 @@ options:
                 2025 08:26 PM".
             type: str
             required: false
+          new_report:
+            description:
+              - Specifies whether to create a new report when a report with the same name already exists.
+              - If set to C(True) and a report with the same name is found,
+                a new report is created with a unique timestamp suffix appended to its name.
+            type: bool
+            default: true
           view_group_name:
             description:
               - The name of the view group as defined in Catalyst Center. For example, C(Inventory)
@@ -115,12 +122,7 @@ options:
           view_group_version:
             description:
               - The version of the view group to be used for the report.
-              - Determines which version of the view group schema and available fields to use.
-              - Different versions may have different available views, field groups, and filtering options.
               - Defaults to C(2.0.0) if not specified.
-            type: str
-            required: false
-            default: "2.0.0"
           schedule:
             description:
               - Defines when the report should be executed (immediately, later, or
@@ -269,6 +271,7 @@ options:
                     - Whether the report should be attached in the notification email.
                     type: bool
                     required: false
+                    default: false
                   notify:
                     description:
                     - List of report execution statuses that will trigger
@@ -388,13 +391,18 @@ options:
                 elements: dict
                 required: true
                 suboptions:
-                  name:
+                  field_group_name:
                     description:
-                      - Name of the field group as defined in the view metadata.
-                      - Must match exactly with available field groups for the
-                        selected view.
+                        - The internal name of the field group as defined in the view metadata.
+                        - Must match exactly with the available field_groups for the selected view.
                     type: str
                     required: true
+                  field_group_display_name:
+                    description:
+                        - The display name shown in the UI for the field group.
+                        - Optional but recommended for readability.
+                    type: str
+                    required: false
                   fields:
                     description:
                       - List of specific fields to include within the field group.
@@ -410,6 +418,12 @@ options:
                           - Must match exactly with available fields in the group.
                         type: str
                         required: true
+                      display_name:
+                        description:
+                            - Optional UI-friendly display label for the field.
+                            - Used only for readability; API uses `name`.
+                        type: str
+                        required: false
               format:
                 description:
                   - Specifies the output format of the report.
@@ -447,6 +461,11 @@ options:
                       - Common filters include Location, Time Range, Device Type, etc.
                     type: str
                     required: true
+                  display_name:
+                    description:
+                        - Human-readable name of the filter shown in the UI.
+                    type: str
+                    required: false
                   filter_type:
                     description:
                       - Type of the filter determining how values are selected.
@@ -472,6 +491,18 @@ options:
                     type: list
                     elements: dict
                     required: true
+                    suboptions:
+                        value:
+                            description:
+                                - API-compatible internal value (e.g., DeviceFamily = SWITCHES)
+                            type: str
+                            required: true
+                        display_value:
+                            description:
+                                - Human-readable value (e.g., "Switches" or "Global/India")
+                            type: str
+                            required: true
+
 requirements:
   - dnacentersdk >= 2.8.6
   - python >= 3.9
@@ -1036,6 +1067,58 @@ Note: The available format types are retrieved through the following API endpoin
 '''
 
 EXAMPLES = r'''
+- name: Create/Schedule a Sample Inventory Report and Download It
+  cisco.dnac.reports_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: DEBUG
+    dnac_log: true
+    state: merged
+    config_verify: true
+    config:
+      - generate_report:
+          - name: "Sample Inventory report"
+            data_category: "Inventory"
+            view_group_version: "2.0.0"
+            view:
+              view_name: "All Data"
+              format:
+                format_type: "CSV"
+              field_groups:
+                - field_group_name: "inventoryAllData"
+                  field_group_display_name: "All Data"
+                  fields:
+                    - name: "type"
+                      display_name: "Device Type"
+                    - name: "hostname"
+                      display_name: "Device Name"
+                    - name: "ipAddress"
+                      display_name: "IP Address"
+              filters:
+                - name: "Location"
+                  filter_type: "MULTI_SELECT_TREE"
+                  value: []
+                - name: "DeviceFamily"
+                  filter_type: "MULTI_SELECT"
+                  value: []
+                - name: "DeviceType"
+                  filter_type: "MULTI_SELECT"
+                  value: []
+                - name: "SoftwareVersion"
+                  filter_type: "MULTI_SELECT"
+                  value: []
+            schedule:
+              schedule_type: "SCHEDULE_NOW"
+              time_zone: "Asia/Calcutta"
+            deliveries:
+              - delivery_type: "DOWNLOAD"
+                file_path: "/Users/xyz/Desktop"
+
 - name: Create/Schedule a compliance report with immediate execution
   cisco.dnac.reports_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -1062,7 +1145,11 @@ EXAMPLES = r'''
             view:
               view_name: "Network Device Compliance"
               field_groups:
-                - name: "inventoryAllData"
+                - field_group_name: "Compliance"
+                  field_group_display_name: "Compliance"
+                  fields:
+                    - name: "deviceName"
+                      display_name: "Device Name"
               format:
                 format_type: "CSV"
               filters: []
@@ -1098,9 +1185,11 @@ EXAMPLES = r'''
                 format_type: "JSON"
               filters:
                 - name: "Location"
+                  display_name: "Location"
                   filter_type: "MULTI_SELECT_TREE"
                   value:
                     - value: "Global/India"
+                      display_value: "Routers"
 
 - name: Schedule a report for later execution
   cisco.dnac.reports_workflow_manager:
@@ -1169,10 +1258,11 @@ EXAMPLES = r'''
             view:
               view_name: "Network Device Availability"
               field_groups:
-                - name: "deviceInfo"
+                - field_group_name: "deviceInfo"
+                  field_group_display_name: "Device Information"
                   fields:
                     - name: "hostname"
-                    - name: "ipAddress"
+                      display_name: "host name"
               format:
                 format_type: "CSV"
               filters:
@@ -1217,7 +1307,49 @@ EXAMPLES = r'''
                 - name: "Time Range"
                   filter_type: "TIME_RANGE"
                   value:
-                    value: "LAST_30_DAYS"
+                    time_range_option: "LAST_30_DAYS"
+
+- name: Create monthly report with time range CUSTOM filter
+  cisco.dnac.reports_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    state: merged
+    config_verify: true
+    config:
+      - generate_report:
+          - name: "monthly_client_report"
+            new_report: false
+            view_group_name: "Client"
+            tags: ["monthly", "clients"]
+            deliveries:
+              - delivery_type: "DOWNLOAD"
+                file_path: "/home/reports/monthly"
+            schedule:
+              schedule_type: "SCHEDULE_RECURRENCE"
+              date_time: "2025-09-01 06:00 AM"
+              time_zone: "Asia/Calcutta"
+              recurrence:
+                recurrence_type: "MONTHLY"
+                last_day_of_month: true
+            view:
+              view_name: "Client Detail"
+              field_groups: []
+              format:
+                format_type: "JSON"
+              filters:
+                - name: "Time Range"
+                  filter_type: "TIME_RANGE"
+                  value:
+                    time_range_option: "CUSTOM"
+                    start_date_time: "2025-10-09 07:30 PM"
+                    end_date_time: "2025-10-31 11:59 PM"
+                    time_zone: "Asia/Calcutta"
 
 - name: Delete a report from Catalyst Center
   cisco.dnac.reports_workflow_manager:
@@ -1476,6 +1608,7 @@ class Reports(DnacBase):
                 "required": True,
                 # fields for each generate_report item
                 "name": {"type": "str", "required": False},
+                "new_report": {"type": "bool", "required": False, "default": True},
                 "view_group_name": {
                     "type": "str",
                     "required": False,
@@ -1533,27 +1666,27 @@ class Reports(DnacBase):
                         "elements": "dict",
                         "required": False,
                         "email_addresses": {"type": "list", "elements": "str", "required": False},
-                        "email_attach": {"type": "bool", "required": False, "default": False},
-                        "notify": {
-                            "type": "list",
-                            "elements": "str",
-                            "required": False,
-                            "choices": [["IN_QUEUE"],
-                                        ["IN_PROGRESS"],
-                                        ["COMPLETED"],
-                                        ["IN_QUEUE", "IN_PROGRESS"],
-                                        ["IN_PROGRESS", "IN_QUEUE"],
-                                        ["IN_QUEUE", "COMPLETED"],
-                                        ["COMPLETED", "IN_QUEUE"],
-                                        ["IN_PROGRESS", "COMPLETED"],
-                                        ["COMPLETED", "IN_PROGRESS"],
-                                        ["IN_QUEUE", "IN_PROGRESS", "COMPLETED"],
-                                        ["IN_QUEUE", "COMPLETED", "IN_PROGRESS"],
-                                        ["IN_PROGRESS", "IN_QUEUE", "COMPLETED"],
-                                        ["IN_PROGRESS", "COMPLETED", "IN_QUEUE"],
-                                        ["COMPLETED", "IN_QUEUE", "IN_PROGRESS"],
-                                        ["COMPLETED", "IN_PROGRESS", "IN_QUEUE"]],
-                        },
+                    },
+                    "email_attach": {"type": "bool", "required": False, "default": False},
+                    "notify": {
+                        "type": "list",
+                        "elements": "str",
+                        "required": False,
+                        "choices": [["IN_QUEUE"],
+                                    ["IN_PROGRESS"],
+                                    ["COMPLETED"],
+                                    ["IN_QUEUE", "IN_PROGRESS"],
+                                    ["IN_PROGRESS", "IN_QUEUE"],
+                                    ["IN_QUEUE", "COMPLETED"],
+                                    ["COMPLETED", "IN_QUEUE"],
+                                    ["IN_PROGRESS", "COMPLETED"],
+                                    ["COMPLETED", "IN_PROGRESS"],
+                                    ["IN_QUEUE", "IN_PROGRESS", "COMPLETED"],
+                                    ["IN_QUEUE", "COMPLETED", "IN_PROGRESS"],
+                                    ["IN_PROGRESS", "IN_QUEUE", "COMPLETED"],
+                                    ["IN_PROGRESS", "COMPLETED", "IN_QUEUE"],
+                                    ["COMPLETED", "IN_QUEUE", "IN_PROGRESS"],
+                                    ["COMPLETED", "IN_PROGRESS", "IN_QUEUE"]],
                     },
                     "webhook_name": {"type": "str", "required": False},
                 },
@@ -1566,12 +1699,14 @@ class Reports(DnacBase):
                         "type": "list",
                         "elements": "dict",
                         "required": False,
-                        "name": {"type": "str", "required": True},
+                        "field_group_name": {"type": "str", "required": False},
+                        "field_group_display_name": {"type": "str", "required": False},
                         "fields": {
                             "type": "list",
                             "elements": "dict",
                             "required": False,
                             "name": {"type": "str", "required": False},
+                            "display_name": {"type": "str", "required": False},
                         },
                     },
                     "format": {
@@ -1587,14 +1722,14 @@ class Reports(DnacBase):
                         "type": "list",
                         "elements": "dict",
                         "name": {"type": "str", "required": False},
+                        "display_name": {"type": "str", "required": False},
                         "filter_type": {
                             "type": "str",
                             "required": False,
                             "choices": ["MULTI_SELECT", "MULTI_SELECT_TREE", "SINGLE_SELECT_ARRAY", "TIME_RANGE"],
                         },
                         "value": {
-                            "type": "list",
-                            "value": {"type": "str", "required": False},
+                            "type": "raw",
                             "required": False
                         },
                     },
@@ -2252,7 +2387,107 @@ class Reports(DnacBase):
                 if not self._process_location_filter(filter_entry, filter_index):
                     return False
 
+            # Process time range filters
+            if filter_entry.get("name") == "Time Range":
+                if not self._process_time_range_filter(filter_entry, filter_index):
+                    return False
+
         self.log("View configuration validation completed successfully", "DEBUG")
+        return True
+
+    def _process_time_range_filter(self, filter_entry, filter_index):
+        """Validate and process the 'Time Range' filter by converting date strings to epoch milliseconds.
+
+        This method:
+        - Validates the presence and format of `start_date_time`, `end_date_time`, and `time_zone`.
+        - Converts readable date strings (e.g., "2025-10-09 07:30 PM") to epoch milliseconds.
+        - Updates the filter value to match the format expected by the DNAC API.
+
+        Parameters:
+            filter_entry (dict): Filter configuration containing 'value' with date/time fields.
+            filter_index (int): Index of the filter being processed (for logging context).
+
+        Returns:
+            bool: True if successful; False if validation or conversion fails.
+        """
+        self.log(
+            f"Processing time range filter {filter_index + 1} with filter entry: {self.pprint(filter_entry)}",
+            "DEBUG"
+        )
+
+        filter_value = filter_entry.get("value")
+        if not filter_value:
+            self.log("No time range provided, please provide a valid time range.", "DEBUG")
+            self.msg = "No time range provided in 'Time Range' filter."
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return False
+
+        # Expecting a single dict, not a list
+        item = filter_value[0] if isinstance(filter_value, list) else filter_value
+        time_range_option = item.get("time_range_option")
+        if not time_range_option:
+            self.msg = "Missing required field 'time_range_option' in 'Time Range' filter."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        if time_range_option in ["LAST_7_DAYS", "LAST_24_HOURS", "LAST_3_HOURS"]:
+            updated_value = {
+                "timeRangeOption": item.get("time_range_option", "Custom"),
+                "displayValue": filter_entry.get("display_value", filter_entry["name"]),
+            }
+            filter_entry["value"] = updated_value
+            self.log(f"Time range option '{time_range_option}' does not require further processing.", "DEBUG")
+            return True  # No further processing needed for these options
+
+        required_fields = ["start_date_time", "end_date_time", "time_zone"]
+        for field in required_fields:
+            if field not in item or not item[field]:
+                self.msg = f"Missing required field '{field}' in 'Time Range' filter."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+        # Validate timezone
+        time_zone = item["time_zone"]
+        if time_zone not in pytz.all_timezones:
+            self.msg = (
+                f"Invalid time_zone '{time_zone}'. "
+                "Please use a valid IANA timezone (e.g., 'Asia/Calcutta')."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # Convert dates to epoch
+        start_str, end_str = item["start_date_time"], item["end_date_time"]
+        self.log(f"Converting time range: start={start_str}, end={end_str}", "DEBUG")
+
+        start_epoch = self.convert_to_epoch(start_str)
+        end_epoch = self.convert_to_epoch(end_str)
+
+        if start_epoch is None or end_epoch is None:
+            self.msg = (
+                "Invalid date format in 'Time Range' filter. "
+                "Expected 'YYYY-MM-DD HH:MM AM/PM'."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # Prepare final structure
+        display_value = f"{start_str} to {end_str}"
+        updated_value = {
+            "timeRangeOption": item.get("time_range_option", "Custom"),
+            "startDateTime": start_epoch,
+            "endDateTime": end_epoch,
+            "timeZone": time_zone,
+            "displayValue": display_value,
+        }
+
+        filter_entry["value"] = updated_value
+        filter_entry["display_value"] = filter_entry.get("display_value", filter_entry["name"])
+
+        self.log(
+            f"Successfully processed time range filter: start={start_epoch}, end={end_epoch}, zone={time_zone}",
+            "DEBUG"
+        )
         return True
 
     def _process_location_filter(self, filter_entry, filter_index):
@@ -2957,11 +3192,11 @@ class Reports(DnacBase):
 
     def create_n_schedule_reports(self, generate_report):
         """
-        Create or schedule reports based on the provided configuration.
+        Create or schedule reports using two-phase parallel processing approach.
 
-        This method processes a list of report configurations and creates or schedules each
-        report in Cisco Catalyst Center. It handles existing report detection, payload
-        preparation, API calls, and automatic report downloading for DOWNLOAD delivery types.
+        This method processes report configurations in two distinct phases:
+        Phase 1: Trigger all report creation/scheduling operations in parallel
+        Phase 2: Handle downloads only for reports requiring immediate download
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
@@ -2971,24 +3206,39 @@ class Reports(DnacBase):
             self: The current instance of the class with updated 'result' attribute.
 
         Description:
-            - Validates required fields for each report configuration
-            - Checks for existing reports to avoid duplicates
-            - Transforms configuration to API-compatible format
-            - Creates or schedules reports via Catalyst Center API
-            - Automatically downloads reports for DOWNLOAD delivery types
-            - Logs all major decision points and API interactions for traceability
+            - Phase 1: Creates or schedules all reports via non-blocking API calls
+            - Handles existing report detection without triggering downloads
+            - Phase 2: Processes downloads only for DOWNLOAD delivery with SCHEDULE_NOW
+            - Provides significant performance improvement for multiple report scenarios
+            - Maintains proper error handling and validation throughout both phases
+            - Logs phase separation and batch operation progress for traceability
         """
-        self.log("Creating or scheduling reports with configuration: {0}".format(self.pprint(generate_report)), "DEBUG")
+        self.log(
+            "Starting parallel report creation workflow with {0} reports using two-phase approach".format(
+                len(generate_report) if generate_report else 0
+            ),
+            "DEBUG"
+        )
         if not generate_report:
             self.msg = "The 'generate_report' field is missing or empty in the configuration."
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
+        # Phase 1: Create/Schedule all reports (parallel processing)
+        created_entries = []    # list of tuples: (report_entry, report_id)
+        pending_downloads = []  # same shape for both newly created and existing entries that require download
+
+        self.log(
+            "Phase 1: Starting parallel report creation for {0} reports".format(
+                len(generate_report)
+            ),
+            "INFO"
+        )
         try:
             for report_index, report_entry in enumerate(generate_report):
                 report_name = report_entry.get("name", "unnamed")
                 self.log(
-                    "Processing report {0}/{1}: '{2}'".format(
+                    "Processing report {0}/{1}: '{2}' (phase 1 - trigger)".format(
                         report_index + 1, len(generate_report), report_name
                     ),
                     "DEBUG"
@@ -2996,24 +3246,187 @@ class Reports(DnacBase):
 
                 # Validate required fields
                 if not self._validate_report_entry_fields(report_entry):
+                    self.log(
+                        "Phase 1: Field validation failed for report '{0}' - terminating workflow".format(
+                            report_name
+                        ),
+                        "ERROR"
+                    )
                     return self
 
-                # Handle existing reports
-                if report_entry.get("exists"):
-                    if not self._handle_existing_report(report_entry):
-                        return self
+                self.log(
+                    "Phase 1: Field validation successful for report '{0}'".format(report_name),
+                    "DEBUG"
+                )
+
+                # Handle existing reports (do NOT trigger download here)
+                if report_entry.get("exists") and report_entry.get("new_report") is False:
+                    self.log(
+                        "Phase 1: Processing existing report '{0}' without immediate download".format(
+                            report_name
+                        ),
+                        "INFO"
+                    )
+                    # Build same result structure as _handle_existing_report but DO NOT download yet
+                    report_id = report_entry.get("report_id")
+                    result = {
+                        "response": {
+                            "report_id": report_id,
+                            "view_group_id": report_entry.get("view_group_id"),
+                            "view_id": report_entry.get("view", {}).get("view_id"),
+                        },
+                        "msg": "Report '{0}' already exists.".format(report_name),
+                    }
+                    self.result["response"].append({"create_report": result})
+                    self.log(
+                        "Phase 1: Existing report '{0}' added to results with ID: {1}".format(
+                            report_name, report_id
+                        ),
+                        "DEBUG"
+                    )
+                    # If download requested and immediate, schedule download in phase 2
+                    if (self._is_download_requested(report_entry) and
+                       self._should_download_immediately(report_entry)):
+                        pending_downloads.append((report_entry, report_id))
+                        self.log(
+                            "Phase 1: Existing report '{0}' scheduled for Phase 2 download".format(
+                                report_name
+                            ),
+                            "INFO"
+                        )
+                    else:
+                        self.log(
+                            "Phase 1: No immediate download required for existing report '{0}'".format(
+                                report_name
+                            ),
+                            "DEBUG"
+                        )
+
                     continue
 
-                # Create new report
-                if not self._create_new_report(report_entry):
+                # Create new report (non-blocking API call)
+                self.log(
+                    "Phase 1: Creating new report '{0}' via API call".format(report_name),
+                    "INFO"
+                )
+                report_id = self._create_new_report(report_entry)
+                if not report_id:
+                    # _create_new_report already set error msg and status
+                    self.log(
+                        "Phase 1: Report creation failed for '{0}' - error already logged by creation method".format(
+                            report_name
+                        ),
+                        "ERROR"
+                    )
+                    self.log(
+                        "Phase 1: Terminating workflow due to report creation failure",
+                        "ERROR"
+                    )
                     return self
 
+                self.log(
+                    "Phase 1: Successfully created report '{0}' with ID: {1}".format(
+                        report_name, report_id
+                    ),
+                    "INFO"
+                )
+
+                # Collect for potential download in phase 2
+                created_entries.append((report_entry, report_id))
+                self.log(
+                    "Phase 1: Report '{0}' added to created entries for Phase 2 processing".format(
+                        report_name
+                    ),
+                    "DEBUG"
+                )
+
             self.log(
-                "Completed report creation and scheduling workflow successfully for {0} reports".format(
-                    len(generate_report)
+                "Phase 1 completed successfully: {0} reports created, {1} existing reports processed, {2} pending downloads".format(
+                    len(created_entries), len(generate_report) - len(created_entries), len(pending_downloads)
                 ),
                 "INFO"
             )
+
+            # Phase 2: perform downloads only for those needing immediate download
+            all_download_candidates = created_entries + pending_downloads
+            self.log(
+                "Phase 2: Starting download processing for {0} total candidates".format(
+                    len(all_download_candidates)
+                ),
+                "INFO"
+            )
+
+            if not all_download_candidates:
+                self.log("Phase 2: No download candidates found - skipping download phase", "DEBUG")
+
+            download_count = 0
+            # Combine created entries and pending existing reports
+            for candidate_index, (entry, report_id) in enumerate(all_download_candidates):
+                report_name = entry.get("name", "unnamed")
+                self.log(
+                    "Phase 2: Processing download candidate {0}/{1}: '{2}' (report_id={3})".format(
+                        candidate_index + 1, len(all_download_candidates), report_name, report_id
+                    ),
+                    "DEBUG"
+                )
+                try:
+                    if not self._should_download_immediately(entry):
+                        self.log(
+                            "Phase 2: No immediate download required for report '{0}' - skipping".format(
+                                report_name
+                            ),
+                            "DEBUG"
+                        )
+
+                        continue
+
+                    self.log(
+                        "Phase 2: Immediate download required for report '{0}' - initiating download".format(
+                            report_name
+                        ),
+                        "DEBUG"
+                    )
+                    success = self._download_report_if_needed(entry, report_id)
+                    if not success:
+                        # _download_report_if_needed sets error and result already
+                        self.log(
+                            "Phase 2: Download failed for report '{0}' - error already logged by download method".format(
+                                report_name
+                            ),
+                            "ERROR"
+                        )
+                        self.log(
+                            "Phase 2: Terminating workflow due to download failure",
+                            "ERROR"
+                        )
+                        return self
+                    download_count += 1
+                    self.log(
+                        "Phase 2: Download completed successfully for report '{0}'".format(
+                            report_name
+                        ),
+                        "INFO"
+                    )
+
+                except Exception as e:
+                    self.msg = "Exception during post-create download handling for report '{0}': {1}".format(entry.get("name"), str(e))
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    self.log("Exception during phase 2 downloads: {0}".format(str(e)), "ERROR")
+                    return self
+
+                self.log(
+                    "Phase 2 completed: {0} downloads processed successfully".format(
+                        download_count
+                    ),
+                    "INFO"
+                )
+
+                self.log(
+                    "Completed report creation and scheduling workflow successfully for {0} reports".format(
+                        len(generate_report)
+                    ),
+                    "INFO"
+                )
 
         except Exception as e:
             self.msg = "An error occurred while creating or scheduling reports: {0}".format(str(e))
@@ -3022,6 +3435,7 @@ class Reports(DnacBase):
                 "Exception during report creation workflow: {0}".format(str(e)),
                 "ERROR"
             )
+            return self
 
         return self
 
@@ -3065,6 +3479,17 @@ class Reports(DnacBase):
         """
         report_name = report_entry.get("name")
         self.log("Creating new report: '{0}'".format(report_name), "DEBUG")
+        if report_entry.get("exists") and report_entry.get("new_report", True) is True:
+            # Append timestamp to make the name unique
+            timestamp_suffix = datetime.now().strftime("%Y%m%dT%H%M%S")
+            new_report_name = f"{report_name}_{timestamp_suffix}"
+            self.log(
+                f"Report with name '{report_name}' already exists. "
+                f"Updating name to '{new_report_name}' to ensure uniqueness.",
+                "DEBUG"
+            )
+            report_entry["name"] = new_report_name
+            report_name = report_entry.get("name")
 
         # Prepare API payload
         report_payload = self._prepare_report_payload(report_entry)
@@ -3167,6 +3592,40 @@ class Reports(DnacBase):
                 if "viewName" in view_data:
                     view_data["name"] = view_data.pop("viewName")
 
+            if "view" in report_payload and "filters" in report_payload["view"]:
+                fixed_filters = []
+                for flt in report_payload["view"]["filters"]:
+
+                    # ensure camelCase fields exist
+                    flt["displayName"] = flt.get("displayName", flt.get("name"))
+                    flt["type"] = flt.get("type", flt.get("filterType"))
+
+                    # Normalize value entries
+                    new_values = []
+                    raw_values = flt.get("value", [])
+
+                    # TIME_RANGE uses dict, not list → keep as is
+                    if isinstance(raw_values, dict):
+                        new_values = raw_values
+                    else:
+                        for v in raw_values:
+                            if isinstance(v, dict):
+                                new_values.append({
+                                    "value": v.get("value"),
+                                    "displayValue": v.get("displayValue", v.get("value"))
+                                })
+                            else:
+                                # simple value like "Global"
+                                new_values.append({
+                                    "value": v,
+                                    "displayValue": v
+                                })
+
+                    flt["value"] = new_values
+
+                    fixed_filters.append(flt)
+            report_payload["view"]["filters"] = fixed_filters
+
             self.log(
                 "Prepared API payload for report '{0}'".format(report_entry.get("name")),
                 "DEBUG"
@@ -3187,9 +3646,8 @@ class Reports(DnacBase):
         Parameters:
             report_entry (dict): The original report entry.
             response (dict): The API response from report creation.
-
         Returns:
-            bool: True if processing succeeds, False if processing fails.
+            report_id (str): The ID of the created report.
         """
         report_name = report_entry.get("name")
         report_id = response.get("reportId")
@@ -3203,24 +3661,17 @@ class Reports(DnacBase):
             "msg": "Successfully created or scheduled report '{0}'.".format(report_name)
         }
 
+        # Append to overall result list
         self.result["response"].append({"create_report": result})
         self.log("Successfully created report '{0}' with ID: {1}".format(
             report_name, report_id), "INFO")
 
+        # mark success/change
         self.status = "success"
         self.result["changed"] = True
 
-        # Handle download for immediate execution reports
-        if self._should_download_immediately(report_entry):
-            self.log(
-                "Download requested for new report '{0}' - proceeding to download".format(
-                    report_name
-                ),
-                "DEBUG"
-            )
-            return self._download_report_if_needed(report_entry, report_id)
-
-        return True
+        # Note: do NOT trigger download here. Return report_id so caller can decide to download later.
+        return report_id
 
     def _is_download_requested(self, report_entry):
         """Check if download is requested for the report."""

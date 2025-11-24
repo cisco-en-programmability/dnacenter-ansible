@@ -213,6 +213,14 @@ options:
               - Determines what data types are included in backup operations.
             type: str
             choices: ["CISCO_DNA_DATA_WITH_ASSURANCE", "CISCO_DNA_DATA_WITHOUT_ASSURANCE"]
+          backup_task_timeout:
+            description:
+              - Maximum time in seconds to wait for backup creation task to complete.
+              - Controls timeout duration for monitoring backup operation progress and completion.
+              - If timeout is exceeded, the operation may still continue on Catalyst Center backend.
+              - Recommended values are 1200-3600 seconds depending on backup scope and data size.
+            type: int
+            default: 1200
           delete_all_backup:
             description:
               - Set to C(true) to delete all existing backups from Cisco Catalyst Center.
@@ -252,6 +260,15 @@ options:
               - Passphrase for decrypting backup data during restore operations.
               - Must match the passphrase used during backup creation.
             type: str
+          restore_task_timeout:
+            description:
+              - Maximum time in seconds to wait for restore operation task to complete.
+              - Controls timeout duration for monitoring backup restoration progress and completion.
+              - Restore operations typically require more time than backup creation due to data validation and system recovery processes.
+              - If timeout is exceeded, the operation may still continue on Catalyst Center backend.
+              - Recommended values are 3600-7200 seconds (1-2 hours) depending on backup size and system performance.
+            type: int
+            default: 3600
 
 requirements:
 - dnacentersdk >= 2.9.3
@@ -842,7 +859,6 @@ class BackupRestore(DnacBase):
         super().__init__(module)
         self.supported_states = ["merged", "deleted"]
         self.total_response = []
-        self.max_timeout = self.params.get('dnac_api_task_timeout')
         self.created_nfs_config = []
         self.already_exists_nfs_config = []
         self.deleted_nfs_config = []
@@ -900,6 +916,12 @@ class BackupRestore(DnacBase):
         config_data = self.config
 
         for config_index, config_item in enumerate(self.config):
+            self.log(
+                "Processing configuration item {0}/{1} with {2} sections".format(
+                    config_index + 1, len(self.config), len(config_item.keys())
+                ),
+                "DEBUG"
+            )
             if not isinstance(config_item, dict):
                 self.msg = "Configuration item {0} must be dictionary structure, found type: {1}".format(
                     config_index + 1, type(config_item).__name__)
@@ -991,6 +1013,10 @@ class BackupRestore(DnacBase):
                         "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
                     ]
                 },
+                "backup_task_timeout": {
+                    "type": "int",
+                    "default": 1200
+                },
                 "generate_new_backup": {
                     "type": "bool",
                     "default": False
@@ -1010,12 +1036,114 @@ class BackupRestore(DnacBase):
                     "type": "str",
                     "required": True
                 },
+                "restore_task_timeout": {
+                    "type": "int",
+                    "default": 3600
+                },
                 "encryption_passphrase": {
                     "type": "str",
                     "required": True
                 }
             }
         }
+
+        allowed_fields = {
+            "nfs_configuration": {
+                "server_ip", "source_path", "nfs_port", "nfs_version", "nfs_portmapper_port"
+            },
+            "backup_storage_configuration": {
+                "server_type", "nfs_details", "data_retention_period", "encryption_passphrase"
+            },
+            "backup": {
+                "name", "scope", "backup_task_timeout", "generate_new_backup",
+                "delete_all_backup", "backup_retention_days"
+            },
+            "restore_operations": {
+                "name", "encryption_passphrase", "restore_task_timeout"
+            }
+        }
+
+        nfs_details_allowed_fields = {
+            "server_ip", "source_path", "nfs_port", "nfs_version", "nfs_portmapper_port"
+        }
+
+        for config_index, config_item in enumerate(self.config):
+            self.log(
+                "Processing configuration item {0}/{1} with {2} sections".format(
+                    config_index + 1, len(self.config), len(config_item.keys())
+                ),
+                "DEBUG"
+            )
+            for section_name, section_data in config_item.items():
+                self.log("Validating section '{0}' in configuration item {1}".format(
+                    section_name, config_index + 1), "DEBUG")
+
+                if section_name in config_spec and section_data is None:
+                    self.log("Section '{0}' in configuration item {1} has None value - converting to empty list".format(
+                        section_name, config_index + 1), "DEBUG")
+                    config_item[section_name] = []
+                    continue
+
+                if section_name not in allowed_fields:
+                    self.log("Section '{0}' is not recognized".format(section_name), "DEBUG")
+                    continue
+
+                if section_data and isinstance(section_data, list):
+                    self.log("Validating fields for section '{0}' with {1} items".format(
+                        section_name, len(section_data)), "DEBUG")
+
+                    for item_index, item in enumerate(section_data):
+                        if not isinstance(item, dict):
+                            self.msg = (
+                                "Item {0} in section '{1}' must be a dictionary, "
+                                "found type: {2}"
+                            ).format(item_index + 1, section_name, type(item).__name__)
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                        self.log("Validating item {0} in section '{1}'".format(item_index + 1, section_name), "DEBUG")
+
+                        item_fields = set(item.keys())
+                        allowed_section_fields = allowed_fields[section_name]
+                        invalid_fields = item_fields - allowed_section_fields
+
+                        if invalid_fields:
+                            self.msg = (
+                                "Invalid fields {0} found in '{1}'. "
+                                "Allowed fields: {2}"
+                            ).format(
+                                list(invalid_fields), section_name,
+                                sorted(list(allowed_section_fields))
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                        if section_name == "backup_storage_configuration" and "nfs_details" in item:
+                            nfs_details = item["nfs_details"]
+                            if not isinstance(nfs_details, dict):
+                                self.msg = (
+                                    "Field 'nfs_details' in backup_storage_configuration item {0} "
+                                    "must be a dictionary, found type: {1}"
+                                ).format(item_index + 1, type(nfs_details).__name__)
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                            nfs_details_fields = set(nfs_details.keys())
+                            invalid_nfs_fields = nfs_details_fields - nfs_details_allowed_fields
+
+                            if invalid_nfs_fields:
+                                self.msg = (
+                                    "Invalid fields {0} found in 'nfs_details' of backup_storage_configuration item {1}. "
+                                    "Allowed fields: {2}"
+                                ).format(
+                                    list(invalid_nfs_fields), item_index + 1,
+                                    list(nfs_details_allowed_fields)
+                                )
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                        self.log(
+                            "Field validation passed for '{0}' section item {1}".format(
+                                section_name, item_index + 1
+                            ),
+                            "DEBUG"
+                        )
 
         try:
             valid_config, invalid_params = validate_list_of_dicts(self.config, config_spec)
@@ -1816,7 +1944,7 @@ class BackupRestore(DnacBase):
             self.log("Received API response from 'create_backup_configuration': {0}".format(response), "DEBUG")
             self.updated_backup_config.append(source_path)
 
-            if response is None:
+            if response or response is None:
                 self.msg = "Backup configuration updated successfully"
                 self.set_operation_result("success", True, self.msg, "INFO")
                 return self
@@ -1857,7 +1985,6 @@ class BackupRestore(DnacBase):
             name = backup_details.get("name")
             scope = backup_details.get("scope")
             generate_new_backup = backup_details.get("generate_new_backup", False)
-            self.log(generate_new_backup)
 
             if not name or not scope:
                 self.msg = (
@@ -1926,7 +2053,6 @@ class BackupRestore(DnacBase):
             self.log("No restore operations specified - skipping restoration processing", "DEBUG")
             return self
 
-        # Process each restore request for validation and execution
         for restore_index, restore_detail in enumerate(expected_restore_details):
             backup_name = restore_detail.get("name")
             encryption_passphrase = restore_detail.get("encryption_passphrase")
@@ -2084,7 +2210,7 @@ class BackupRestore(DnacBase):
             self.log("Received API response from 'create_backup_configuration': {0}".format(response), "DEBUG")
             self.created_backup_config.append(source_path)
 
-            if response is None:
+            if response or response is None:
                 self.msg = "Backup configuration created successfully for {0}".format(server_ip)
                 self.set_operation_result("success", True, self.msg, "INFO")
                 return self
@@ -2174,7 +2300,7 @@ class BackupRestore(DnacBase):
             self.log("Received API response from 'create_n_f_s_configuration': {0}".format(response), "DEBUG")
             self.created_nfs_config.append(nfs_config_details["source_path"])
 
-            if response is None:
+            if response or response is None:
                 self.msg = (
                     "NFS configuration created successfully for server {0} "
                     "with source_path {1}".format(
@@ -2267,6 +2393,13 @@ class BackupRestore(DnacBase):
             self.log("Received API response from 'create_backup': {0}".format(response), "DEBUG")
 
             task_id = self.get_backup_task_id_from_response(response, "create_backup")
+
+            backup_ops = self.want.get("backup", [])
+            self.log("Backup operations from input: {0}".format(backup_ops), "DEBUG")
+            if backup_ops:
+                self.backup_task_timeout = backup_ops[0].get("backup_task_timeout", 1200)
+                self.log("Backup task timeout set to: {0} seconds".format(self.backup_task_timeout), "DEBUG")
+
             status = self.get_backup_status_by_task_id(task_id)
 
             if status not in ["FAILED", "CANCELLED", "IN_PROGRESS"]:
@@ -2345,7 +2478,7 @@ class BackupRestore(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             payload = {
-                "encryption_passphrase": encryption_passphrase
+                "encryptionPassphrase": encryption_passphrase
             }
 
             self.log("Payload for restore operation: {0}".format(json.dumps(payload, indent=4)), "DEBUG")
@@ -2362,6 +2495,11 @@ class BackupRestore(DnacBase):
                 self.restored_backup.append(name)
 
                 task_id = self.get_backup_task_id_from_response(response, "restore_backup")
+
+                if restore_operations:
+                    self.restore_task_timeout = restore_operations[0].get("restore_task_timeout", 3600)
+                    self.log("Restore task timeout set to: {0} seconds".format(self.restore_task_timeout), "DEBUG")
+
                 status = self.get_backup_status_by_task_id(task_id)
 
                 if status not in ["FAILED", "CANCELLED", "IN_PROGRESS"]:
@@ -2439,6 +2577,21 @@ class BackupRestore(DnacBase):
             return "UNKNOWN"
 
         start_time = time.time()
+        if self.config.get("state") == "merged":
+            if self.backup_task_timeout:
+                self.log("Using backup task timeout: {0} seconds".format(self.backup_task_timeout), "DEBUG")
+                self.max_timeout = self.backup_task_timeout
+                self.log("Task timeout set to backup_task_timeout: {0} seconds".format(self.max_timeout), "DEBUG")
+            elif self.restore_task_timeout:
+                self.log("Using restore task timeout: {0} seconds".format(self.restore_task_timeout), "DEBUG")
+                self.max_timeout = self.restore_task_timeout
+                self.log("Task timeout set to restore_task_timeout: {0} seconds".format(self.max_timeout), "DEBUG")
+            else:
+                self.log("No specific task timeout provided. Using default of 1200 seconds.", "DEBUG")
+                self.max_timeout = 1200
+                self.log("Task timeout set to: {0} seconds".format(self.max_timeout), "DEBUG")
+
+        self.log("Task timeout set to: {0} seconds".format(self.max_timeout), "DEBUG")
 
         while True:
             elapsed_time = time.time() - start_time
@@ -2570,7 +2723,7 @@ class BackupRestore(DnacBase):
                 )
                 self.deleted_nfs_config.append(source_path)
 
-                if response:
+                if response or response is None:
                     self.msg = "NFS configuration deleted successfully for {0}:{1}".format(server_ip, source_path)
                     self.set_operation_result("success", True, self.msg, "INFO")
                     return self

@@ -55,7 +55,7 @@ options:
     description:
       - Limit query parameter. Maximum number of records
         to return.
-    type: float
+    type: int
   offset:
     description:
       - >
@@ -63,7 +63,7 @@ options:
         point within all records returned by the API.
         It's one based offset. The starting value is
         1.
-    type: float
+    type: int
   sortBy:
     description:
       - SortBy query parameter. A field within the response

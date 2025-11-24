@@ -260,6 +260,47 @@ options:
               - A description of the port assignment
                 interface.
             type: str
+          native_vlan_id:
+            description:
+              - Specifies the Native VLAN ID for the
+                trunk port.
+              - Native VLAN carries untagged traffic on trunk links between
+                switches, access points, and other network devices.
+              - This parameter is applicable only when
+                the connected_device_type is set to
+                "TRUNKING_DEVICE".
+              - Must be an integer between 1 and 4094, adhering to IEEE 802.1Q
+                standard VLAN ID ranges.
+              - If not set when connected_device_type
+                is "TRUNKING_DEVICE", the default value
+                will be 1.
+              - The native VLAN should match on both sides of the trunk link
+                to prevent VLAN hopping security vulnerabilities.
+            type: int
+            default: 1
+            required: false
+          allowed_vlan_ranges:
+            description:
+                - Specifies the allowed VLAN ranges for trunk port traffic filtering.
+                - Controls which VLANs are permitted to traverse the trunk link,
+                  providing security and traffic segmentation capabilities.
+                - This parameter is applicable only when the connected_device_type is set to "TRUNKING_DEVICE".
+                - Accepts string containing comma-separated VLAN IDs, ranges, or 'all'.
+                - VLAN IDs must be between 1 and 4094 per IEEE 802.1Q specification.
+                - Ranges use hyphen notation (e.g., "100-200" includes VLANs 100-200).
+                - The keyword 'all' permits all VLANs 1-4094 on the trunk link.
+                - Restricting VLAN ranges improves security by limiting VLAN scope.
+                - Examples
+                    - "100,200,300-400" - Specific VLANs and range
+                    - "1-100,200-300" - Multiple ranges
+                    - "all" - All VLANs (default, use with caution in production)
+                    - "10,20,30-40,100-200" - Mixed individual and range specifications
+                - Native VLAN should NOT be included in allowed ranges
+                  to prevent VLAN hopping attacks. Native VLAN handles untagged traffic
+                  separately from tagged VLAN ranges.
+            type: str
+            default: 'all'
+            required: false
       port_channels:
         description:
           - A list containing configuration details
@@ -350,6 +391,46 @@ options:
             description:
               - A description of the port channel.
             type: str
+          native_vlan_id:
+            description:
+              - Specifies the Native VLAN ID for the
+                trunk port channel.
+              - Native VLAN carries untagged traffic on trunk links between
+                switches, access points, and other network devices.
+              - This parameter is applicable only when
+                the connected_device_type is set to
+                "TRUNK".
+              - Must be an integer between 1 and 4094, adhering to IEEE 802.1Q
+                standard VLAN ID ranges.
+              - If not set when connected_device_type
+                is "TRUNK", the default value will be 1.
+              - The native VLAN should match on both sides of the trunk link
+                to prevent VLAN hopping security vulnerabilities.
+            type: int
+            default: 1
+            required: false
+          allowed_vlan_ranges:
+            description:
+              - Specifies the allowed VLAN ranges for trunk port traffic filtering.
+              - Controls which VLANs are permitted to traverse the trunk link,
+                providing security and traffic segmentation capabilities.
+              - This parameter is applicable only when the connected_device_type is set to "TRUNK".
+              - Accepts string containing comma-separated VLAN IDs, ranges, or 'all'.
+              - VLAN IDs must be between 1 and 4094 per IEEE 802.1Q specification.
+              - Ranges use hyphen notation (e.g., "100-200" includes VLANs 100-200).
+              - The keyword 'all' permits all VLANs 1-4094 on the trunk link.
+              - Restricting VLAN ranges improves security by limiting VLAN scope.
+              - Examples
+                  - "100,200,300-400" - Specific VLANs and range
+                  - "1-100,200-300" - Multiple ranges
+                  - "all" - All VLANs (default, use with caution in production)
+                  - "10,20,30-40,100-200" - Mixed individual and range specifications
+              - Native VLAN should NOT be included in allowed ranges
+                to prevent VLAN hopping attacks. Native VLAN handles untagged traffic
+                separately from tagged VLAN ranges.
+            type: str
+            default: 'all'
+            required: false
       wireless_ssids:
         description:
           - A list containing configuration details
@@ -439,6 +520,19 @@ notes:
     - PUT /dna/intent/api/v1/sda/portChannels - DELETE
     /dna/intent/api/v1/sda/portChannels - PUT /dna/intent/api/v1/sda/fabrics/${fabricId}/vlanToSsids
     - GET /dna/intent/api/v1/sda/fabrics/${fabricId}/vlanToSsids
+  - Newly introduced parameters native_vlan_id and allowed_vlan_ranges in the
+    port_assignments and port_channels suboptions provide enhanced VLAN
+    configuration control for trunk ports connected to trunking devices.
+  - These VLAN configuration parameters (native_vlan_id and allowed_vlan_ranges)
+    are supported starting from Cisco Catalyst Center version 3.1.3.0 onwards.
+  - The native_vlan_id parameter enables native VLAN specification for trunk
+    ports, while allowed_vlan_ranges provides granular control over which VLANs
+    are permitted on trunk links for improved network security and segmentation.
+  - When connected_device_type is set to "TRUNKING_DEVICE", these parameters
+    enable advanced trunk port configuration with security-focused VLAN filtering.
+  - Native VLAN should NOT be included in allowed ranges
+    to prevent VLAN hopping attacks. Native VLAN handles untagged traffic
+    separately from tagged VLAN ranges.
 """
 EXAMPLES = r"""
 ---
@@ -457,8 +551,7 @@ EXAMPLES = r"""
     state: merged
     config:
       - ip_address: "204.1.2.2"
-        fabric_site_name_hierarchy: "Global/USA/San
-          Jose/BLDG23"
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
         port_assignments:
           # Create TRUNKING DEVICE
           - interface_name: "FortyGigabitEthernet1/1/1"
@@ -519,6 +612,7 @@ EXAMPLES = r"""
             ssid_details:
               - ssid_name: "ent_ssid_1_wpa3"
                 security_group_name: "Developers"
+
 - name: Update port assignments, port channels and wireless
     ssids for a specific fabric site
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
@@ -534,8 +628,7 @@ EXAMPLES = r"""
     state: merged
     config:
       - hostname: "DC-T-9300.cisco.local"
-        fabric_site_name_hierarchy: "Global/USA/San
-          Jose/BLDG23"
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
         port_assignments:
           # update - add interface_description
           - interface_name: "FortyGigabitEthernet1/1/1"
@@ -594,6 +687,123 @@ EXAMPLES = r"""
           - vlan_name: "IAC-VLAN-3"
             ssid_details:
               - ssid_name: "ent_ssid_1_wpa3"
+
+- name: Configure trunking device with native VLAN and allowed ranges
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - ip_address: "204.1.2.2"
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+        port_assignments:
+          # Trunking device with specific native VLAN and allowed ranges
+          - interface_name: "FortyGigabitEthernet1/1/1"
+            connected_device_type: "TRUNKING_DEVICE"
+            native_vlan_id: 100
+            allowed_vlan_ranges: "200,300-400"
+            authentication_template_name: "No Authentication"
+            interface_description: "Trunk port with VLAN restrictions"
+          # Trunking device with default native VLAN and specific ranges
+          - interface_name: "FortyGigabitEthernet1/1/2"
+            connected_device_type: "TRUNKING_DEVICE"
+            allowed_vlan_ranges: "5,10-20,100-200"
+            interface_description: "Trunk port with management and data VLANs"
+          # Trunking device with custom native VLAN and all VLANs allowed
+          - interface_name: "FortyGigabitEthernet1/1/3"
+            connected_device_type: "TRUNKING_DEVICE"
+            native_vlan_id: 999
+            allowed_vlan_ranges: "all"
+            interface_description: "Trunk port with isolated native VLAN"
+
+- name: Configure port channels with native VLAN and allowed ranges
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - ip_address: "204.1.2.2"
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+        port_channels:
+          # Port channel for trunk with specific native VLAN and allowed ranges
+          - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38"]
+            connected_device_type: "TRUNK"
+            native_vlan_id: 100
+            allowed_vlan_ranges: "200-300,400-500"
+            protocol: "LACP"
+            port_channel_description: "Trunk port channel with VLAN filtering"
+          # Port channel with management with native VLAN and allowed ranges
+          - interface_names: ["TenGigabitEthernet1/0/45", "TenGigabitEthernet1/0/46"]
+            connected_device_type: "TRUNK"
+            native_vlan_id: 10
+            allowed_vlan_ranges: "100-200"
+            protocol: "LACP"
+            port_channel_description: "Management and data VLAN trunk"
+
+- name: Update existing trunk configuration with new VLAN settings
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - hostname: "DC-T-9300.cisco.local"
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+        port_assignments:
+          # Update existing trunk to restrict VLAN access
+          - interface_name: "FortyGigabitEthernet1/1/1"
+            connected_device_type: "TRUNKING_DEVICE"
+            native_vlan_id: 1
+            allowed_vlan_ranges: "100-110,200-210"
+            interface_description: "Updated trunk with security restrictions"
+
+- name: Add or Update port channels
+    for a specific fabric site (IP/Hostname required)
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - ip_address: "204.1.2.8"
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+        port_channels:
+          # Default protocol is ON for TRUNK
+          - interface_names: ["GigabitEthernet1/0/5", "GigabitEthernet1/0/6", "GigabitEthernet1/0/7"]
+            connected_device_type: "TRUNK"
+            native_vlan_id: 44
+
+          - interface_names: ["TenGigabitEthernet1/1/1", "TenGigabitEthernet1/1/2"]
+            connected_device_type: "TRUNK"
+            protocol: "ON"
+            allowed_vlan_ranges: "250-300"
+
 - name: Add or Update just wireless ssid mappings for
     a specific fabric site (IP/Hostname not required)
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
@@ -608,8 +818,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-      - fabric_site_name_hierarchy: "Global/USA/San
-          Jose/BLDG23"
+      - fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
         wireless_ssids:
           - vlan_name: "IAC-VLAN-1"
             ssid_details:
@@ -619,6 +828,7 @@ EXAMPLES = r"""
             ssid_details:
               - ssid_name: "guest_ssid_1"
                 security_group_name: "Guests"
+
 - name: Delete ALL port assignments, port channels and
     wireless SSID mappings from a fabric site
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
@@ -634,8 +844,8 @@ EXAMPLES = r"""
     state: deleted
     config:
       - hostname: "DC-T-9300.cisco.local"
-        fabric_site_name_hierarchy: "Global/USA/San
-          Jose/BLDG23"
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+
 - name: Delete ALL port assignments, port channels and
     wireless SSID mappings from a fabric site
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
@@ -651,8 +861,8 @@ EXAMPLES = r"""
     state: deleted
     config:
       - ip_address: "204.1.2.2"
-        fabric_site_name_hierarchy: "Global/USA/San
-          Jose/BLDG23"
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+
 - name: Delete just ALL wireless SSIDs mappings from
     a fabric site
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
@@ -667,8 +877,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
     config:
-      - fabric_site_name_hierarchy: "Global/USA/San
-          Jose/BLDG23"
+      - fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+
 - name: Delete specific port assignments, port channels
     and wireless SSID mappings
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
@@ -684,8 +894,7 @@ EXAMPLES = r"""
     state: deleted
     config:
       - ip_address: "204.1.2.2"
-        fabric_site_name_hierarchy: "Global/USA/San
-          Jose/BLDG23"
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
         port_assignments:
           - interface_name: "FortyGigabitEthernet2/1/2"
             connected_device_type: "ACCESS_POINT"
@@ -704,6 +913,7 @@ EXAMPLES = r"""
             ssid_details:
               - ssid_name: "open1-iac"
                 security_group_name: "Guests"
+
 - name: Delete specific port assignments, port channels
     and wireless SSID mappings
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
@@ -719,8 +929,7 @@ EXAMPLES = r"""
     state: deleted
     config:
       - ip_address: "204.1.2.2"
-        fabric_site_name_hierarchy: "Global/USA/San
-          Jose/BLDG23"
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
         port_assignments:
           - interface_name: "FortyGigabitEthernet1/1/1"
           - interface_name: "FortyGigabitEthernet1/1/2"
@@ -738,6 +947,7 @@ EXAMPLES = r"""
           - vlan_name: "IAC-VLAN-3"
             ssid_details:
               - ssid_name: "ent_ssid_1_wpa3"
+
 - name: Delete all wireless SSIDs mapped to specific
     VLANs
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
@@ -753,11 +963,11 @@ EXAMPLES = r"""
     state: deleted
     config:
       - ip_address: "204.1.2.2"
-        fabric_site_name_hierarchy: "Global/USA/San
-          Jose/BLDG23"
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
         wireless_ssids:
           - vlan_name: "IAC-VLAN-1"
           - vlan_name: "IAC-VLAN-3"
+
 - name: Delete specific wireless SSIDs mapped to a VLAN
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -772,8 +982,7 @@ EXAMPLES = r"""
     state: deleted
     config:
       - ip_address: "204.1.2.2"
-        fabric_site_name_hierarchy: "Global/USA/San
-          Jose/BLDG23"
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
         wireless_ssids:
           - vlan_name: "IAC-VLAN-1"
             ssid_details:
@@ -782,6 +991,7 @@ EXAMPLES = r"""
             ssid_details:
               - ssid_name: "guest_ssid_1"
               - ssid_name: "ent-ssid-2-wpa2"
+
 - name: Skip collection status check when add/update port assignments, port channels and wireless ssids for a
     specific fabric site
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
@@ -814,6 +1024,7 @@ EXAMPLES = r"""
           - vlan_name: "IAC-VLAN-1"
             ssid_details:
               - ssid_name: "open1-iac"
+
 - name: Skip device collection stat when Deleting specific port assignments, port channels
     and wireless SSID mappings
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
@@ -933,6 +1144,8 @@ class SDAHostPortOnboarding(DnacBase):
                     "security_group_name": {"type": "str"},
                     "authentication_template_name": {"type": "str"},
                     "interface_description": {"type": "str"},
+                    "native_vlan_id": {"type": "int"},
+                    "allowed_vlan_ranges": {"type": "str"},
                 },
             },
             "port_channels": {
@@ -945,6 +1158,8 @@ class SDAHostPortOnboarding(DnacBase):
                     "protocol": {"type": "str"},
                     "port_channel_description": {"type": "str"},
                     "port_channel_name": {"type": "str"},
+                    "native_vlan_id": {"type": "int"},
+                    "allowed_vlan_ranges": {"type": "str"},
                 },
             },
             "wireless_ssids": {
@@ -1303,6 +1518,10 @@ class SDAHostPortOnboarding(DnacBase):
             "authentication_template_name",
             "interface_description",
         }
+        if self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0:
+            valid_params.add("allowed_vlan_ranges")
+            valid_params.add("native_vlan_id")
+
         provided_params = set(port_assignment.keys())
         invalid_params = provided_params - valid_params
 
@@ -1542,6 +1761,292 @@ class SDAHostPortOnboarding(DnacBase):
         self.log(
             "Finished validation for device type '{0}'.".format(connected_device_type),
             "DEBUG",
+        )
+
+    def validate_native_vlan_and_ranges_for_port_assignment(self, port_assignment):
+        """
+        Validates the VLAN IDs and ranges for a trunking device in a port assignment.
+        Args:
+            port_assignment (dict): The port assignment details containing parameters to be validated.
+        Returns:
+            None: This method does not return a value. It updates the instance attributes:
+                - self.msg: A message describing the validation result.
+                - self.status: The status of the validation (either "success" or "failed").
+        Description:
+            This method validates the VLAN IDs and ranges for devices of type 'TRUNKING_DEVICE' in a port assignment.
+            It checks if the 'native_vlan_id' is an integer between 1 and 4094, and if the 'allowed_vlan_ranges'
+            are valid VLAN IDs or ranges. If any parameter is invalid, it logs an error message and sets the validation
+            status to "failed". If all parameters are valid, it logs a success message.
+        """
+
+        connected_device_type = port_assignment.get("connected_device_type")
+        connected_device_type_upper = connected_device_type.upper()
+        interface_name = port_assignment.get("interface_name")
+        self.log(
+            "Validating VLAN parameters for port assignment: interface_name={0}, connected_device_type={1}".format(
+                interface_name, connected_device_type
+            ),
+            "DEBUG"
+        )
+
+        if not connected_device_type or connected_device_type.upper() != "TRUNKING_DEVICE":
+            self.log(
+                "Interface {0}: VLAN parameter validation skipped - not a TRUNKING_DEVICE (type: {1})".format(
+                    interface_name, connected_device_type
+                ),
+                "DEBUG"
+            )
+            return
+
+        native_vlan_id = port_assignment.get("native_vlan_id")
+        if native_vlan_id is not None:
+            self.log(
+                "Interface {0}: Validating native VLAN ID: {1}".format(interface_name, native_vlan_id),
+                "DEBUG"
+            )
+            self.validate_native_vlan(native_vlan_id, interface_name)
+            self.log(
+                "Interface {0}: Native VLAN ID validation completed successfully".format(interface_name),
+                "DEBUG"
+            )
+
+        allowed_vlan_ranges = port_assignment.get("allowed_vlan_ranges")
+        if allowed_vlan_ranges is not None:
+            self.log(
+                "Interface {0}: Validating allowed VLAN ranges: {1}".format(interface_name, allowed_vlan_ranges),
+                "DEBUG"
+            )
+            self.validate_allowed_vlan_ranges_format(allowed_vlan_ranges, interface_name)
+            self.log(
+                "Interface {0}: Allowed VLAN ranges validation completed successfully".format(interface_name),
+                "DEBUG"
+            )
+
+    def validate_native_vlan(self, native_vlan_id, interface_name=None):
+        """
+        Validates the native VLAN ID.
+        Args:
+            native_vlan_id (int): The native VLAN ID to be validated.
+            interface_name (str, optional): The name of the interface for logging purposes.
+                Defaults to None.
+        Returns:
+            None: This method does not return a value. It updates the instance attributes:
+                - self.msg: A message describing the validation result.
+                - self.status: The status of the validation (either "success" or "failed").
+        Description:
+            This method checks if the provided `native_vlan_id` is an integer between 1 and 4094.
+            If the value is invalid, it logs an error message and sets the validation status to "failed".
+            If the value is valid, it logs a success message.
+        """
+        self.log(
+            "Interface {0}: Validating native VLAN ID parameter: {1} (type: {2})".format(
+                interface_name, native_vlan_id, type(native_vlan_id).__name__
+            ),
+            "DEBUG"
+        )
+        if not isinstance(native_vlan_id, int):
+            self.msg = (
+                "Interface {0}: Native VLAN ID must be an integer. "
+                "Provided value: {1} (type: {2})"
+            ).format(interface_name, native_vlan_id, type(native_vlan_id).__name__)
+            self.fail_and_exit(self.msg)
+
+        self.log(
+            "Interface {0}: Native VLAN ID type validation passed: {1}".format(
+                interface_name, native_vlan_id
+            ),
+            "DEBUG"
+        )
+
+        if not (1 <= native_vlan_id <= 4094):
+            self.msg = (
+                "Interface {0}: Native VLAN ID must be between 1 and 4094. "
+                "Provided value: {1}"
+            ).format(interface_name, native_vlan_id)
+            self.fail_and_exit(self.msg)
+
+        self.log(
+            "Interface {0}: Native VLAN ID range validation passed: {1}".format(
+                interface_name, native_vlan_id
+            ),
+            "DEBUG"
+        )
+        self.log(
+            "Interface {0}: Finished native VLAN ID validation successfully".format(interface_name),
+            "DEBUG"
+        )
+
+    def validate_allowed_vlan_ranges_format(self, allowed_vlan_ranges, interface_name=None):
+        """
+        Validates the format of allowed VLAN ranges.
+        Args:
+            allowed_vlan_ranges (str): The allowed VLAN ranges to be validated.
+            interface_name (str, optional): The interface name for context in error messages.
+        Returns:
+            None: This method does not return a value. It updates the instance attributes:
+                - self.msg: A message describing the validation result.
+                - self.status: The status of the validation (either "success" or "failed").
+        Description:
+            This method checks if the provided `allowed_vlan_ranges` is in a valid format. It accepts either
+            the string 'all' or a comma-separated list of VLAN IDs and ranges (e.g., '10,20-30,40'). Each VLAN ID
+            must be an integer between 1 and 4094, and each range must consist of two integers within this range,
+            separated by a hyphen. If the format is invalid, it logs an error message and sets the validation status
+            to "failed". If the format is valid, it logs a success message.
+        """
+        self.log(
+            "Interface {0}: Validating allowed VLAN ranges format: '{1}' (type: {2})".format(
+                interface_name, allowed_vlan_ranges, type(allowed_vlan_ranges).__name__
+            ),
+            "DEBUG"
+        )
+        if allowed_vlan_ranges.lower() == 'all':
+            self.log(
+                "Interface {0}: Allowed VLAN ranges set to 'all' - permitting all VLANs 1-4094".format(interface_name),
+                "DEBUG"
+            )
+            self.log(
+                "Interface {0}: Allowed VLAN ranges format validation completed successfully".format(interface_name),
+                "INFO"
+            )
+            return
+
+        # Split by comma and validate each part
+        vlan_parts = [part.strip() for part in allowed_vlan_ranges.split(',')]
+        self.log(
+            "Interface {0}: Parsed VLAN parts for validation: {1}".format(interface_name, vlan_parts),
+            "DEBUG"
+        )
+
+        for part in vlan_parts:
+            if not part:  # Skip empty parts
+                self.msg = (
+                    "Interface {0}: Allowed VLAN ranges contains empty values. "
+                    "Provided value: '{1}'"
+                ).format(interface_name, allowed_vlan_ranges)
+                self.fail_and_exit(self.msg)
+
+            if '-' in part:
+                self.log(
+                    "Interface {0}: Validating VLAN range: '{1}'".format(interface_name, part),
+                    "DEBUG"
+                )
+                try:
+                    start, end = part.split('-', 1)
+                    start_vlan = int(start.strip())
+                    end_vlan = int(end.strip())
+
+                    if not (1 <= start_vlan <= 4094 and 1 <= end_vlan <= 4094 and start_vlan < end_vlan):
+                        self.msg = (
+                            "Interface {0}: Invalid VLAN range '{1}'. "
+                            "VLAN IDs must be between 1 and 4094, and start must be less than end. "
+                            "Provided value: '{2}'"
+                        ).format(interface_name, part, allowed_vlan_ranges)
+                        self.fail_and_exit(self.msg)
+
+                except ValueError:
+                    self.msg = (
+                        "Interface {0}: Invalid VLAN range format: '{1}'. "
+                        "Range must contain valid integers separated by hyphen. Provided value: '{2}'"
+                    ).format(interface_name, part, allowed_vlan_ranges)
+                    self.fail_and_exit(self.msg)
+            else:
+                self.log(
+                    "Interface {0}: Validating single VLAN ID: '{1}'".format(interface_name, part),
+                    "DEBUG"
+                )
+                try:
+                    vlan_num = int(part)
+                    if not (1 <= vlan_num <= 4094):
+                        self.msg = (
+                            "Interface {0}: Invalid VLAN ID '{1}'. "
+                            "VLAN IDs must be between 1 and 4094. Provided value: '{2}'"
+                        ).format(interface_name, part, allowed_vlan_ranges)
+                        self.fail_and_exit(self.msg)
+                except ValueError:
+                    self.msg = (
+                        "Interface {0}: Invalid VLAN ID format: '{1}'. "
+                        "VLAN ID must be a valid integer. Provided value: '{2}'"
+                    ).format(interface_name, part, allowed_vlan_ranges)
+                    self.fail_and_exit(self.msg)
+
+        self.log(
+            "Interface {0}: Allowed VLAN ranges format validation completed successfully".format(interface_name),
+            "DEBUG"
+        )
+
+    def validate_native_vlan_and_ranges_for_port_channel(self, port_channel):
+        """
+        Validates the VLAN IDs and ranges for a trunking device in a port channel.
+        Args:
+            port_channel (dict): The port channel details containing parameters to be validated.
+        Returns:
+            None: This method does not return a value. It updates the instance attributes:
+                - self.msg: A message describing the validation result.
+                - self.status: The status of the validation (either "success" or "failed").
+        Description:
+            This method validates the VLAN IDs and ranges for devices of type 'TRUNK' in a port channel.
+            It checks if the 'native_vlan_id' is an integer between 1 and 4094, and if the 'allowed_vlan_ranges'
+            are valid VLAN IDs or ranges. If any parameter is invalid, it logs an error message and sets the validation
+            status to "failed". If all parameters are valid, it logs a success message.
+        """
+        interface_names = port_channel.get("interface_names", [])
+        connected_device_type = port_channel.get("connected_device_type")
+        native_vlan_id = port_channel.get("native_vlan_id")
+        allowed_vlan_ranges = port_channel.get("allowed_vlan_ranges")
+        # Create logical port channel context - this should reference the port channel, not members
+        # Note: We don't have port channel name yet (it's created by the system),
+        # so we reference it by its member interfaces for identification
+        port_channel_context = "Port Channel with members: {0}".format(", ".join(interface_names))
+        self.log(
+            "Validating VLAN parameters for {0}: connected_device_type={1}, "
+            "native_vlan_id={2}, allowed_vlan_ranges={3}".format(
+                port_channel_context, connected_device_type, native_vlan_id, allowed_vlan_ranges
+            ),
+            "DEBUG"
+        )
+        if not connected_device_type or connected_device_type.upper() != "TRUNK":
+            self.log(
+                "{0}: VLAN parameter validation skipped - not a TRUNK device (type: {1})".format(
+                    port_channel_context, connected_device_type
+                ),
+                "WARNING"
+            )
+            return
+
+        self.log(
+            "{0}: Validating VLAN parameters for TRUNK device".format(port_channel_context),
+            "DEBUG"
+        )
+
+        if native_vlan_id is not None:
+            self.log(
+                "{0}: Validating native VLAN ID: {1}".format(port_channel_context, native_vlan_id),
+                "DEBUG"
+            )
+            self.validate_native_vlan(native_vlan_id, port_channel_context)
+            self.log(
+                "{0}: Native VLAN ID validation completed successfully".format(port_channel_context),
+                "DEBUG"
+            )
+
+        if allowed_vlan_ranges is not None:
+            self.log(
+                "{0}: Validating allowed VLAN ranges: {1}".format(
+                    port_channel_context, allowed_vlan_ranges
+                ),
+                "DEBUG"
+            )
+            self.validate_allowed_vlan_ranges_format(allowed_vlan_ranges, port_channel_context)
+            self.log(
+                "{0}: Allowed VLAN ranges validation completed successfully".format(port_channel_context),
+                "DEBUG"
+            )
+
+        self.log(
+            "{0}: VLAN parameter validation completed successfully for port channel logical interface".format(
+                port_channel_context
+            ),
+            "DEBUG"
         )
 
     def validate_port_channel_params(self, port_channel):
@@ -1909,6 +2414,9 @@ class SDAHostPortOnboarding(DnacBase):
                         interface_name, connected_device_type
                     )
                     self.validate_device_specific_params(interface)
+                    if self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0:
+                        self.log("Validating native VLAN and ranges.", "DEBUG")
+                        self.validate_native_vlan_and_ranges_for_port_assignment(interface)
 
             # Validate parameters for add/update in port channels
             if port_channel_details:
@@ -1923,6 +2431,9 @@ class SDAHostPortOnboarding(DnacBase):
                     self.validate_port_channel_connected_device_type(port_channel)
                     self.validate_port_channel_protocol(port_channel)
                     self.validate_port_channel_interfaces(port_channel)
+                    if self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0:
+                        self.log("Validating native VLAN and ranges.", "DEBUG")
+                        self.validate_native_vlan_and_ranges_for_port_channel(port_channel)
 
             if wireless_ssids_details:
                 self.log("Validating Wireless SSIDs Details.", "INFO")
@@ -2495,7 +3006,15 @@ class SDAHostPortOnboarding(DnacBase):
             ("interfaceDescription", "interface_description"),
             ("securityGroupName", "security_group_name"),
         ]
+        if self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0:
+            new_fields = [
+                ("nativeVlanId", "native_vlan_id"),
+                ("allowedVlanRanges", "allowed_vlan_ranges"),
+            ]
+            self.log("Including nativeVlanId and allowedVlanRanges in comparison for version {0}".format(self.current_version), "DEBUG")
+            comparison_fields.extend(new_fields)
 
+        self.log("Comparing existing port: {0} with requested port: {1}".format(existing_port, requested_port), "DEBUG")
         for existing_field, requested_field in comparison_fields:
             if existing_field == "authenticateTemplateName":
                 if existing_port.get(
@@ -2532,8 +3051,14 @@ class SDAHostPortOnboarding(DnacBase):
                     and requested_field in requested_port
                 ):
                     if existing_port[existing_field] != requested_port[requested_field]:
+                        self.log(
+                            "Difference found in field '{0}': existing value '{1}' vs requested value '{2}'."
+                            .format(existing_field, existing_port[existing_field], requested_port[requested_field]),
+                            "DEBUG"
+                        )
                         return True
-                else:
+                elif requested_field in requested_port and existing_port[existing_field] is None:
+                    self.log("Field '{0}' is None in existing port but has value in requested port.".format(existing_field), "DEBUG")
                     return True
 
         return False
@@ -2822,6 +3347,17 @@ class SDAHostPortOnboarding(DnacBase):
                 if interface.get(parameter_name):
                     interface_params[parameter] = interface.get(parameter_name)
 
+            device_type = interface.get("connected_device_type")
+            if self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0 and device_type == "TRUNKING_DEVICE":
+                interface_params["nativeVlanId"] = interface.get("native_vlan_id", 1)
+                interface_params["allowedVlanRanges"] = interface.get("allowed_vlan_ranges", "all")
+                self.log("Current CCC version supports new parameters for TRUNKING_DEVICE: {0}".format(
+                    {
+                        "native_vlan_id": interface_params["nativeVlanId"],
+                        "allowed_vlan_ranges": interface_params["allowedVlanRanges"]
+                    }
+                ), "DEBUG")
+
             # if interface.get("connected_device_type") == "TRUNKING_DEVICE" and not interface.get("authentication_template_name"):
             if not interface.get("authentication_template_name"):
                 interface_params["authenticateTemplateName"] = "No Authentication"
@@ -2885,6 +3421,17 @@ class SDAHostPortOnboarding(DnacBase):
                 if interface.get(parameter_name):
                     interface_params[parameter] = interface.get(parameter_name)
 
+            device_type = interface.get("connected_device_type")
+            if self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0 and device_type == "TRUNKING_DEVICE":
+                interface_params["nativeVlanId"] = interface.get("native_vlan_id") or self.have.get("nativeVlanId")
+                interface_params["allowedVlanRanges"] = interface.get("allowed_vlan_ranges") or self.have.get("allowedVlanRanges")
+                self.log("Current CCC version supports new parameters for TRUNKING_DEVICE: {0}".format(
+                    {
+                        "native_vlan_id": interface_params["nativeVlanId"],
+                        "allowed_vlan_ranges": interface_params["allowedVlanRanges"]
+                    }
+                ), "DEBUG")
+
             self.log(
                 "Updated parameters with VLAN and security info for interface {0}: {1}".format(
                     interface.get("interface_name"), interface_params
@@ -2892,7 +3439,7 @@ class SDAHostPortOnboarding(DnacBase):
                 "DEBUG",
             )
 
-            if interface.get("connected_device_type") == "TRUNKING_DEVICE":
+            if device_type == "TRUNKING_DEVICE":
                 interface_params["authenticateTemplateName"] = "No Authentication"
                 self.log(
                     "TRUNKING_DEVICE detected for interface: {0}. Setting 'No Authentication'.".format(
@@ -3031,6 +3578,13 @@ class SDAHostPortOnboarding(DnacBase):
             ("protocol", "protocol"),
             ("description", "port_channel_description"),
         ]
+        if self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0:
+            new_fields = [
+                ("nativeVlanId", "native_vlan_id"),
+                ("allowedVlanRanges", "allowed_vlan_ranges"),
+            ]
+            self.log("Including nativeVlanId and allowedVlanRanges in comparison for version {0}".format(self.current_version), "DEBUG")
+            comparison_fields.extend(new_fields)
 
         value_options = ["", "None", None]
 
@@ -3152,6 +3706,24 @@ class SDAHostPortOnboarding(DnacBase):
                                 "DEBUG",
                             )
                             continue
+                        elif req_value not in value_options and existing_value in value_options:
+                            self.log(
+                                "Update needed for {0} - Existing value is empty or None, Requested: {1}".format(
+                                    req_field, req_value
+                                ),
+                                "DEBUG",
+                            )
+                            update_needed = True
+                            updated_channel[req_field] = req_value
+                        elif req_value in value_options and existing_value not in value_options:
+                            self.log(
+                                "No update needed for {0} - Requested value is empty or None, Existing: {1}".format(
+                                    req_field, existing_value
+                                ),
+                                "DEBUG",
+                            )
+                            updated_channel[req_field] = existing_value
+                            continue
 
                         if req_value != existing_value:
                             self.log(
@@ -3160,8 +3732,16 @@ class SDAHostPortOnboarding(DnacBase):
                                 ),
                                 "DEBUG",
                             )
-                            updated_channel[existing_field] = req_value
+                            updated_channel[req_field] = req_value
                             update_needed = True
+                        else:
+                            self.log(
+                                "No update needed for {0} - Both values match: {1}".format(
+                                    req_field, req_value
+                                ),
+                                "DEBUG",
+                            )
+                            updated_channel[req_field] = existing_value
 
                     if update_needed:
                         # Ensure all necessary fields are included in the updated_channel dictionary
@@ -3329,6 +3909,16 @@ class SDAHostPortOnboarding(DnacBase):
             if port_channel_description:
                 port_channel_params["description"] = port_channel_description
 
+            if self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0 and connected_device_type.upper() == "TRUNK":
+                port_channel_params["nativeVlanId"] = port_channel.get("native_vlan_id", 1)
+                port_channel_params["allowedVlanRanges"] = port_channel.get("allowed_vlan_ranges", "all")
+                self.log("Current CCC version supports new parameters for TRUNKING_DEVICE: {0}".format(
+                    {
+                        "native_vlan_id": port_channel_params["nativeVlanId"],
+                        "allowed_vlan_ranges": port_channel_params["allowedVlanRanges"]
+                    }
+                ), "DEBUG")
+            # Append the constructed parameters to the list
             port_channels_params_list.append(port_channel_params)
             self.log(
                 "Constructed parameters for port channel: {0}".format(
@@ -3378,6 +3968,16 @@ class SDAHostPortOnboarding(DnacBase):
             # Add description if available
             if port_channel_description:
                 port_channel_params["description"] = port_channel_description
+
+            if self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0 and connected_device_type.upper() == "TRUNK":
+                port_channel_params["nativeVlanId"] = port_channel.get("native_vlan_id") or self.have.get("nativeVlanId")
+                port_channel_params["allowedVlanRanges"] = port_channel.get("allowed_vlan_ranges") or self.have.get("allowedVlanRanges")
+                self.log("Current CCC version supports new parameters for TRUNKING_DEVICE: {0}".format(
+                    {
+                        "native_vlan_id": port_channel_params["nativeVlanId"],
+                        "allowed_vlan_ranges": port_channel_params["allowedVlanRanges"]
+                    }
+                ), "DEBUG")
 
             port_channels_params_list.append(port_channel_params)
             self.log(
@@ -4451,6 +5051,107 @@ class SDAHostPortOnboarding(DnacBase):
         # Retrieve and return the task status using the provided task ID
         return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
 
+    def get_no_update_port_assignments_details(self, no_update_port_assignments):
+        """
+        Retrieves details of port assignments that do not require any updates.
+        Args:
+            no_update_port_assignments (list): List of port assignments that do not require updates.
+        Returns:
+            dict: A message indicating the interfaces that do not require any updates.
+        Description:
+            This method constructs a message indicating the interfaces for which no port assignment updates are needed.
+            It logs the details of these port assignments and returns a dictionary with the relevant information.
+        """
+        self.log(
+            "Processing no-update port assignments with interface details: {0}".format(
+                no_update_port_assignments
+            ),
+            "DEBUG",
+        )
+        msg = {}
+        interface_list = [
+            interface.get("interfaceName")
+            for interface in no_update_port_assignments
+        ]
+        msg["Port assignment does not needs any update for following interface(s)"] = {
+            "success_count": len(interface_list),
+            "port_assignments_no_update_needed": interface_list,
+        }
+        self.log(
+            "Successfully compiled port assignment no-update details for {0} interface(s)".format(
+                len(interface_list)
+            ),
+            "INFO"
+        )
+        return msg
+
+    def get_no_update_port_channels_details(self, no_update_port_channels):
+        """
+        Retrieves details of port channels that do not require any updates.
+        Args:
+            no_update_port_channels (list): List of port channels that do not require updates.
+        Returns:
+            dict: A message indicating the port channels that do not require any updates.
+        Description:
+            This method constructs a message indicating the port channels for which no updates are needed.
+            It logs the details of these port channels and returns a dictionary with the relevant information.
+        """
+        self.log(
+            "Processing no-update port channels with channel details: {0}".format(
+                no_update_port_channels
+            ),
+            "DEBUG",
+        )
+        msg = {}
+        port_channels_list = [
+            channel.get("portChannelName") for channel in no_update_port_channels
+        ]
+        msg["Port channel does not needs any update for following port channel(s)"] = {
+            "success_count": len(port_channels_list),
+            "port_channels_no_update_needed": port_channels_list,
+        }
+        self.log(
+            "Successfully compiled port channel no-update details for {0} channel(s)".format(
+                len(port_channels_list)
+            ),
+            "INFO"
+        )
+        return msg
+
+    def get_no_update_vlans_and_ssids_mapped_to_vlans_details(self, no_update_vlans_and_ssids_mapped_to_vlans):
+        """
+        Retrieves details of VLANs and SSIDs that do not require any updates.
+        Args:
+            no_update_vlans_and_ssids_mapped_to_vlans (dict): Dictionary of VLANs and SSIDs that do not require updates.
+        Returns:
+            dict: A message indicating the VLANs and SSIDs that do not require any updates.
+        Description:
+            This method constructs a message indicating the VLANs and SSIDs for which no updates are needed.
+            It logs the details of these VLANs and SSIDs and returns a dictionary with the relevant information.
+        """
+        self.log(
+            "Retrieving no update VLANs and SSIDs details with parameters: {0}".format(
+                no_update_vlans_and_ssids_mapped_to_vlans
+            ),
+            "DEBUG",
+        )
+        msg = {}
+        vlan_ssid_list = []
+        for vlan, ssids in no_update_vlans_and_ssids_mapped_to_vlans.items():
+            ssid_names = [ssid["ssid_name"] for ssid in ssids]
+            vlan_ssid_list.append(f"{vlan}: {', '.join(ssid_names)}")
+        msg["VLANs and SSIDs does not needs any update for following VLAN(s) and SSID(s)"] = {
+            "success_count": len(vlan_ssid_list),
+            "vlan_ssids_no_update_needed": vlan_ssid_list,
+        }
+        self.log(
+            "Successfully compiled VLAN-SSID no-update details for {0} mapping(s)".format(
+                len(vlan_ssid_list)
+            ),
+            "INFO"
+        )
+        return msg
+
     def get_delete_port_channels_task_status(
         self, task_id, task_name, port_channels_list
     ):
@@ -5309,6 +6010,174 @@ class SDAHostPortOnboarding(DnacBase):
                 "WARNING",
             )
 
+    def compare_port_assignments_already_deleted(self, input_port_assignment_details, deleted_port_assignments):
+        """
+        Compares the input port assignment details with the already deleted port assignments.
+        Args:
+            input_port_assignment_details (list): List of port assignment details provided in the configuration.
+            deleted_port_assignments (list): List of port assignments that have already been deleted.
+        Returns:
+            list: A list of port assignment details that are already deleted.
+        """
+
+        self.log(
+            "Starting comparison of {0} input port assignments against already deleted assignments".format(
+                len(input_port_assignment_details)
+            ),
+            "DEBUG"
+        )
+        self.log(
+            "Comparing input port assignments: {0} with deleted assignments: {1}".format(
+                input_port_assignment_details, deleted_port_assignments
+            ),
+            "DEBUG"
+        )
+        absent_interfaces_list, deleted_interface_list = [], []
+
+        # Collect already deleted interfaces from to_be_deleted_port_assignments
+        if deleted_port_assignments:
+            for v in deleted_port_assignments.values():
+                interface_name = v["delete_port_assignment_params"]["interface_name"]
+                self.log("Found already deleted interface: {0}".format(interface_name), "DEBUG")
+                deleted_interface_list.append(interface_name)
+
+        self.log("Deleted interfaces list: {0}".format(deleted_interface_list), "DEBUG")
+        for port in input_port_assignment_details:
+            interface_name = port.get("interface_name")
+            if interface_name not in deleted_interface_list:
+                self.log(
+                    "Port '{0}' is already deleted - adding to absent list".format(
+                        interface_name
+                    ),
+                    "DEBUG",
+                )
+                absent_interfaces_list.append(interface_name)
+
+        self.log(
+            "Comparison completed - found {0} already deleted ports: {1}".format(
+                len(absent_interfaces_list), absent_interfaces_list
+            ),
+            "INFO"
+        )
+
+        return absent_interfaces_list
+
+    def compare_port_channels_already_deleted(self, input_port_channel_details):
+        """
+        Compares the input port channel details with the already deleted port channels.
+        Args:
+            input_port_channel_details (list): List of port channel details provided in the configuration.
+            deleted_port_channels (list): List of port channels that have already been deleted.
+        Returns:
+            list: A list of port channel names that are already deleted.
+        """
+
+        self.log(
+            "Starting comparison of {0} input port channels against already deleted channels".format(
+                len(input_port_channel_details)
+            ),
+            "DEBUG"
+        )
+        self.log(
+            "Comparing input port channels: {0} with deleted channels.".format(
+                input_port_channel_details
+            ),
+            "DEBUG"
+        )
+        absent_channels_list = []
+        channel_interfaces_list, input_interfaces_list = [], []
+        get_port_channels_params = {}
+        channel_details = self.get_port_channels(get_port_channels_params)
+
+        for channel in channel_details:
+            self.log("Existing channel details: {0}".format(channel), "DEBUG")
+            interface_names = channel.get("interfaceNames")
+            self.log("Interface names in existing channel: {0}".format(interface_names), "DEBUG")
+            channel_interfaces_list.append(interface_names)
+
+        channel_interfaces_tuple = {tuple(sorted(x)) for x in channel_interfaces_list}
+
+        for channel in input_port_channel_details:
+            interfaces_names = channel.get("interface_names")
+            input_interfaces_list.append(interfaces_names)
+            self.log("Input channel interface names: {0}".format(interfaces_names), "DEBUG")
+
+        # Sort input interfaces before comparing
+        for interface in input_interfaces_list:
+            if tuple(sorted(interface)) not in channel_interfaces_tuple:
+                self.log(
+                    "The port channel for interface '{0}' is already deleted.".format(
+                        interface
+                    ),
+                    "DEBUG",
+                )
+                absent_channels_list.append(interface)
+
+        self.log(
+            "Comparison completed - found {0} already deleted port channels: {1}".format(
+                len(absent_channels_list), absent_channels_list
+            ),
+            "DEBUG"
+        )
+
+        return absent_channels_list
+
+    def compare_vlans_and_ssids_mapped_to_vlans_already_deleted(self, input_wireless_ssids_details, deleted_vlans_and_ssids_mapped_to_vlans):
+        """
+        Compares the input wireless SSIDs details with the already deleted VLANs and SSIDs mapped to VLANs.
+        Args:
+            input_wireless_ssids_details (list): List of wireless SSIDs details provided in the configuration.
+            deleted_vlans_and_ssids_mapped_to_vlans (dict): Dictionary of VLANs and SSIDs that have already been deleted.
+        Returns:
+            list: A list of VLAN names that are already deleted.
+        """
+
+        self.log(
+            "Starting comparison of {0} input wireless SSIDs against already deleted VLANs and SSIDs".format(
+                len(input_wireless_ssids_details)
+            ),
+            "DEBUG"
+        )
+        self.log(
+            "Comparing input wireless SSIDs: {0} with deleted VLANs: {1}".format(
+                input_wireless_ssids_details, deleted_vlans_and_ssids_mapped_to_vlans
+            ),
+            "DEBUG"
+        )
+        absent_vlans_list = []
+        deleted_vlan_list = []
+
+        # Collect already deleted VLANs from deleted_vlans_and_ssids_mapped_to_vlans
+        if deleted_vlans_and_ssids_mapped_to_vlans:
+            for vlan in deleted_vlans_and_ssids_mapped_to_vlans.keys():
+                self.log("Found already deleted VLAN: {0}".format(vlan), "DEBUG")
+                deleted_vlan_list.append(vlan)
+
+        self.log(
+            "Collected {0} deleted VLANs: {1}".format(
+                len(deleted_vlan_list), deleted_vlan_list
+            ),
+            "DEBUG"
+        )
+
+        for ssid_detail in input_wireless_ssids_details:
+            vlan_name = ssid_detail.get("vlan_name")
+            if vlan_name not in deleted_vlan_list:
+                self.log(
+                    "VLAN '{0}' is already deleted - adding to absent list".format(vlan_name),
+                    "DEBUG",
+                )
+                absent_vlans_list.append(vlan_name)
+
+        self.log(
+            "Comparison completed - found {0} already deleted VLANs: {1}".format(
+                len(absent_vlans_list), absent_vlans_list
+            ),
+            "DEBUG"
+        )
+
+        return absent_vlans_list
+
     def get_have(self, config, state):
         """
         Gathers the current state of the network device and fabric based on the provided configuration and state.
@@ -5325,6 +6194,7 @@ class SDAHostPortOnboarding(DnacBase):
             the requirements for deleting port assignments and channels. The method logs the current state and
             returns the instance.
         """
+        self.log("Current Catalyst version: {0}".format(self.current_version), "DEBUG")
         # Validate the provided configuration parameters
         self.validate_params(config, state)
 
@@ -5692,6 +6562,7 @@ class SDAHostPortOnboarding(DnacBase):
             execution of the actions.
         """
         self.log("Starting 'get_diff_merged' operation.", "INFO")
+        self.log("Current Catalyst version: {0}".format(self.current_version), "DEBUG")
         result_details = {}
 
         action_map = {
@@ -5716,12 +6587,6 @@ class SDAHostPortOnboarding(DnacBase):
                 self.get_create_update_vlans_and_ssids_mapped_to_vlans_task_status,
             ),
         }
-
-        # Check if all action_map keys are missing in self.want
-        if not any(action_param in self.want for action_param in action_map.keys()):
-            self.msg = "Host Onboarding(Add/Update) operation(s) are not required for the provided input parameters in the Cisco Catalyst Center."
-            self.set_operation_result("ok", False, self.msg, "INFO")
-            return self
 
         final_status_list = []
         result_details = {}
@@ -5753,6 +6618,79 @@ class SDAHostPortOnboarding(DnacBase):
                 result = self.msg
                 result_details.update(result)
                 final_status_list.append(self.status)
+
+        no_update_port_assignments = self.have.get("no_update_port_assignments")
+        if no_update_port_assignments:
+            self.log(
+                "Processing {0} port assignments interfaces that require no updates"
+                " in Cisco Catalyst Center".format(
+                    len(no_update_port_assignments)
+                ),
+                "DEBUG"
+            )
+            self.log(
+                "Generating no-update details for port assignment interface(s): {0}".format(
+                    no_update_port_assignments
+                ),
+                "DEBUG"
+            )
+            no_update_port_assignments_details = self.get_no_update_port_assignments_details(
+                no_update_port_assignments
+            )
+            result_details["no_update_port_assignments"] = no_update_port_assignments_details
+            final_status_list.append("ok")
+            self.log(
+                "Successfully processed no-update port channels summary",
+                "DEBUG"
+            )
+
+        no_update_port_channels = self.have.get("no_update_port_channels")
+        if no_update_port_channels:
+            self.log(
+                "Processing {0} port channels that require no updates in Cisco Catalyst Center".format(
+                    len(no_update_port_channels)
+                ),
+                "DEBUG"
+            )
+            self.log(
+                "Generating no-update details for port channels: {0}".format(
+                    no_update_port_channels
+                ),
+                "DEBUG"
+            )
+            no_update_port_channels_details = self.get_no_update_port_channels_details(
+                no_update_port_channels
+            )
+            result_details["no_update_port_channels"] = no_update_port_channels_details
+            final_status_list.append("ok")
+            self.log(
+                "Successfully processed no-update port channels summary",
+                "DEBUG"
+            )
+
+        no_update_vlans_and_ssids_mapped_to_vlans = self.have.get(
+            "no_update_vlans_and_ssids_mapped_to_vlans"
+        )
+        if no_update_vlans_and_ssids_mapped_to_vlans:
+            self.log(
+                "Processing {0} VLAN-SSID mappings that require no updates in Cisco Catalyst Center".format(
+                    len(no_update_vlans_and_ssids_mapped_to_vlans)
+                ),
+                "INFO",
+            )
+            no_update_vlans_and_ssids_mapped_to_vlans_details = (
+                self.get_no_update_vlans_and_ssids_mapped_to_vlans_details(
+                    no_update_vlans_and_ssids_mapped_to_vlans
+                )
+            )
+            result_details["no_update_vlans_and_ssids_mapped_to_vlans"] = (
+                no_update_vlans_and_ssids_mapped_to_vlans_details
+            )
+            final_status_list.append("ok")
+            self.log(
+                "Successfully processed no-update VLAN-SSID mappings summary",
+                "DEBUG"
+            )
 
         final_status, is_changed = self.process_final_result(final_status_list)
         self.msg = result_details
@@ -5792,8 +6730,60 @@ class SDAHostPortOnboarding(DnacBase):
             result_details.update(result)
             final_status_list.append(self.status)
 
+        if self.config[0].get('port_assignments'):
+            self.log("Checking for already deleted port assignments.", "INFO")
+            self.log(
+                "Comparing input port assignments: {0} with deleted assignments: {1}".format(
+                    self.config[0].get('port_assignments'), delete_port_assignments_params
+                ),
+                "DEBUG"
+            )
+            already_deleted_port_assignments = self.compare_port_assignments_already_deleted(
+                self.config[0].get('port_assignments'), delete_port_assignments_params
+            )
+            if already_deleted_port_assignments:
+                self.log(
+                    "Found {0} port assignments that were already deleted: {1}".format(
+                        len(already_deleted_port_assignments), already_deleted_port_assignments
+                    ),
+                    "INFO",
+                )
+                result_details["Already deleted port assignments for the following interface(s): "] = {
+                    "success_count": len(already_deleted_port_assignments),
+                    "success_interfaces": already_deleted_port_assignments,
+                }
+                final_status_list.append("ok")
+
         # Process deletion of port channels if required
         delete_port_channels_params_list = self.want.get("delete_port_channels_params")
+        if self.config[0].get('port_channels'):
+            self.log("Checking for already deleted port channels.", "INFO")
+            self.log(
+                "Comparing input port channels: {0} with deleted channels".format(
+                    self.config[0].get('port_channels')
+                ),
+                "DEBUG"
+            )
+            already_deleted_port_channels = self.compare_port_channels_already_deleted(
+                self.config[0].get('port_channels')
+            )
+            if already_deleted_port_channels:
+                self.log(
+                    "Found {0} port channels that were already deleted: {1}".format(
+                        len(already_deleted_port_channels), already_deleted_port_channels
+                    ),
+                    "INFO"
+                )
+                result_details["Already deleted port channels for the following interface(s): "] = {
+                    "success_count": len(already_deleted_port_channels),
+                    "already_deleted_port_channels_interfaces": already_deleted_port_channels,
+                }
+                final_status_list.append("ok")
+                self.log(
+                    "Successfully processed already deleted port channels summary",
+                    "DEBUG"
+                )
+
         if delete_port_channels_params_list:
             self.log("Processing deletion of port channels.", "INFO")
             self.process_delete_port_channels(
@@ -5820,6 +6810,34 @@ class SDAHostPortOnboarding(DnacBase):
             result = self.msg
             result_details.update(result)
             final_status_list.append(self.status)
+
+        if self.config[0].get('wireless_ssids'):
+            self.log("Checking for already deleted vlans and ssids mapped to vlans.", "INFO")
+            self.log(
+                "Comparing input wireless SSIDs: {0} with deleted VLANs and SSIDs: {1}".format(
+                    self.config[0].get('wireless_ssids'), delete_vlans_and_ssids_mapped_to_vlans_params
+                ),
+                "DEBUG"
+            )
+            already_deleted_vlans_and_ssids = self.compare_vlans_and_ssids_mapped_to_vlans_already_deleted(
+                self.config[0].get('wireless_ssids'), delete_vlans_and_ssids_mapped_to_vlans_params
+            )
+            if already_deleted_vlans_and_ssids:
+                self.log(
+                    "Found {0} VLANs and SSIDs that were already deleted: {1}".format(
+                        len(already_deleted_vlans_and_ssids), already_deleted_vlans_and_ssids
+                    ),
+                    "INFO"
+                )
+                result_details["Already deleted vlans and ssids mapped to vlans: "] = {
+                    "success_count": len(already_deleted_vlans_and_ssids),
+                    "already_deleted_vlan_ssids": already_deleted_vlans_and_ssids,
+                }
+                final_status_list.append("ok")
+                self.log(
+                    "Successfully processed already deleted VLANs and SSIDs summary",
+                    "DEBUG"
+                )
 
         self.log("Final Statuses = {0}".format(final_status_list), "DEBUG")
 
@@ -5993,10 +7011,10 @@ def main():
 
     # Initialize the NetworkCompliance object with the module
     ccc_sda_host_port_onboarding = SDAHostPortOnboarding(module)
-
+    ccc_sda_host_port_onboarding.current_version = ccc_sda_host_port_onboarding.get_ccc_version()
     if (
         ccc_sda_host_port_onboarding.compare_dnac_versions(
-            ccc_sda_host_port_onboarding.get_ccc_version(), "2.3.7.6"
+            ccc_sda_host_port_onboarding.current_version, "2.3.7.6"
         )
         < 0
     ):
@@ -6004,7 +7022,7 @@ def main():
             "The specified version '{0}' does not support the SDA Host Port Onboarding feature. Supported versions start "
             "  from '2.3.7.6' onwards. Version '2.3.7.6' introduces APIs for creating, updating and deleting the "
             "Port Assignments, Port Channels and Wireless SSIDs.".format(
-                ccc_sda_host_port_onboarding.get_ccc_version()
+                ccc_sda_host_port_onboarding.current_version
             )
         )
         ccc_sda_host_port_onboarding.set_operation_result(

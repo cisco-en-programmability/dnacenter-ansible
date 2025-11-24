@@ -58,6 +58,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
     playbook_no_backup_todelete = test_data.get("playbook_no_backup_todelete")
     playbook_generate_new_backup = test_data.get("playbook_generate_new_backup")
     playbook_mountpath_notfound = test_data.get("playbook_mountpath_notfound")
+    playbook_restore = test_data.get("playbook_restore")
 
     def setUp(self):
         super(TestDnacApplicationPolicyWorkflowManager, self).setUp()
@@ -246,6 +247,15 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 self.test_data.get("create_backup"),
                 self.test_data.get("get_backup_and_restore_execution39"),
                 self.test_data.get("get_backup_and_restore_execution40"),
+            ]
+
+        elif "playbook_restore" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_all_n_f_s_configurations50"),
+                self.test_data.get("get_all_backup50"),
+                self.test_data.get("restore_backup"),
+                self.test_data.get("get_backup_and_restore_execution60"),
+                self.test_data.get("get_backup_and_restore_execution61"),
             ]
 
     def test_backup_and_restore_workflow_manager_playbook_create_schedule_backup(self):
@@ -733,9 +743,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Configuration validation failed with invalid parameters: "
-            "['name : Required parameter not found', "
-            "'encryption_passphrase : Required parameter not found']"
+            "Invalid fields ['names'] found in 'restore_operations'. Allowed fields: ['encryption_passphrase', 'name', 'restore_task_timeout']"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_restore_exception(self):
@@ -860,7 +868,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Backup(s) 'ENTERPRISE_DAILY_BACKUP' deleted successfully from Cisco Catalyst Center."
+            "Backup(s) 'BACKUP_Without_Assurance' deleted successfully from Cisco Catalyst Center."
         )
 
     def test_backup_and_restore_workflow_manager_playbook_delete_all_backup(self):
@@ -935,4 +943,28 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
             "An error occurred while creating backup: "
             "{'msg': \"Creation of backup 'BACKUP05_10' failed\", "
             "'response': \"Creation of backup 'BACKUP05_10' failed\", 'failed': True}"
+        )
+
+    def test_backup_and_restore_workflow_manager_playbook_restore(self):
+        """
+        Test case for successful backup restoration operation in Cisco Catalyst Center.
+        Verifies that the workflow manager correctly restores backup 'BACKUP29_09' with proper encryption passphrase.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="3.1.3.0",
+                config=self.playbook_restore
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "Backup(s) 'BACKUP29_09' restored successfully in Cisco Catalyst Center."
         )

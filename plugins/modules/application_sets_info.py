@@ -23,11 +23,11 @@ options:
   offset:
     description:
       - Offset query parameter.
-    type: float
+    type: int
   limit:
     description:
       - Limit query parameter.
-    type: float
+    type: int
   name:
     description:
       - Name query parameter.

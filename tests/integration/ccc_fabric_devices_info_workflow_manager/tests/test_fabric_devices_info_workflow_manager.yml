@@ -26,7 +26,7 @@
   - name: Fabric Devices Info
     cisco.dnac.fabric_devices_info_workflow_manager:
       <<: *dnac_login
-      state: merged
+      state: gathered
       config:
           - "{{ item }}"
     loop: "{{ vars_map.fabric_devices_info }}"
