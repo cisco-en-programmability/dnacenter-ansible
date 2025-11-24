@@ -916,6 +916,12 @@ class BackupRestore(DnacBase):
         config_data = self.config
 
         for config_index, config_item in enumerate(self.config):
+            self.log(
+                "Processing configuration item {0}/{1} with {2} sections".format(
+                    config_index + 1, len(self.config), len(config_item.keys())
+                ),
+                "DEBUG"
+            )
             if not isinstance(config_item, dict):
                 self.msg = "Configuration item {0} must be dictionary structure, found type: {1}".format(
                     config_index + 1, type(config_item).__name__)
