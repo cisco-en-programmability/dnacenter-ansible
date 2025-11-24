@@ -1068,6 +1068,12 @@ class BackupRestore(DnacBase):
         }
 
         for config_index, config_item in enumerate(self.config):
+            self.log(
+                "Processing configuration item {0}/{1} with {2} sections".format(
+                    config_index + 1, len(self.config), len(config_item.keys())
+                ),
+                "DEBUG"
+            )
             for section_name, section_data in config_item.items():
                 self.log("Validating section '{0}' in configuration item {1}".format(
                     section_name, config_index + 1), "DEBUG")
