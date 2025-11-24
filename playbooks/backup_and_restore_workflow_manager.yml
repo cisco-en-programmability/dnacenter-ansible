@@ -60,9 +60,9 @@
         state: merged
         config:
           - backup:
-              - name: BACKUP29_09
+              - name: BACKUP24_09
                 scope: CISCO_DNA_DATA_WITHOUT_ASSURANCE
-                backup_task_timeout: 1100
+                backup_task_timeout: 1500
       tags: backup_creation
 
     - name: Restore backup
