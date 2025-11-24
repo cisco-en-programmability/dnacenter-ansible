@@ -17,10 +17,10 @@ description:
 - Generates YAML configurations compatible with the `network_settings_workflow_manager`
   module, reducing the effort required to manually create Ansible playbooks and
   enabling programmatic modifications.
-- The YAML configurations generated represent the global pools, reserve pools, network 
-  management settings, device controllability settings, and AAA settings configured 
+- The YAML configurations generated represent the global pools, reserve pools, network
+  management settings, device controllability settings, and AAA settings configured
   on the Cisco Catalyst Center.
-- Supports extraction of Global IP Pools, Reserve IP Pools, Network Management, 
+- Supports extraction of Global IP Pools, Reserve IP Pools, Network Management,
   Device Controllability, and AAA Settings configurations.
 version_added: 6.17.0
 extends_documentation_fragment:
@@ -117,14 +117,14 @@ options:
           components_list:
             description:
             - List of components to include in the YAML configuration file.
-            - Valid values are ["global_pool_details", "reserve_pool_details", "network_management_details", 
+            - Valid values are ["global_pool_details", "reserve_pool_details", "network_management_details",
               "device_controllability_details", "aaa_settings"]
             - If not specified, all supported components are included.
             - Example ["global_pool_details", "reserve_pool_details", "network_management_details"]
             type: list
             elements: str
             required: false
-            choices: ["global_pool_details", "reserve_pool_details", "network_management_details", 
+            choices: ["global_pool_details", "reserve_pool_details", "network_management_details",
                      "device_controllability_details", "aaa_settings"]
           global_pool_details:
             description:
@@ -221,7 +221,7 @@ notes:
 - SDK Methods used are
     - sites.Sites.get_site
     - network_settings.NetworkSettings.retrieves_global_ip_address_pools
-    - network_settings.NetworkSettings.retrieves_ip_address_subpools  
+    - network_settings.NetworkSettings.retrieves_ip_address_subpools
     - network_settings.NetworkSettings.get_network_v2
     - network_settings.NetworkSettings.get_device_credential_details
     - network_settings.NetworkSettings.get_network_v2_aaa
@@ -249,8 +249,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-      - global_filters:
-          site_name_list: ["Global/India/Mumbai"]
+      - component_specific_filters:
+          components_list: ["reserve_pool_details"]
 
 - name: Generate YAML Configuration for specific sites
   cisco.dnac.brownfield_network_settings_playbook_generator:
@@ -266,8 +266,8 @@ EXAMPLES = r"""
     state: merged
     config:
       - file_path: "/tmp/network_settings_config.yml"
-        global_filters:
-          site_name_list: ["Global/India/Mumbai", "Global/India/Delhi", "Global/USA/NewYork"]
+        component_specific_filters:
+          components_list: ["reserve_pool_details"]
 
 - name: Generate YAML Configuration using explicit components list
   cisco.dnac.brownfield_network_settings_playbook_generator:
@@ -286,7 +286,7 @@ EXAMPLES = r"""
         global_filters:
           site_name_list: ["Global/India/Mumbai", "Global/India/Delhi"]
         component_specific_filters:
-          components_list: ["global_pool_details", "reserve_pool_details", "network_management_details"]
+          components_list: ["network_management_details"]
 
 - name: Generate YAML Configuration for global pools with no filters
   cisco.dnac.brownfield_network_settings_playbook_generator:
@@ -377,14 +377,14 @@ response_2:
       "msg": "No configurations or components to process for module 'network_settings_workflow_manager'. Verify input filters or configuration."
     }
 
-# Case_3: Error Scenario  
+# Case_3: Error Scenario
 response_3:
   description: A dictionary with error details when YAML generation fails
   returned: always
   type: dict
   sample: >
     {
-      "response": 
+      "response":
         {
           "message": "YAML config generation failed for module 'network_settings_workflow_manager'.",
           "file_path": "/tmp/network_settings_config.yml",
@@ -441,6 +441,7 @@ if HAS_YAML:
 else:
     OrderedDumper = None
 
+
 class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
     """
     A class for generating playbook files for network settings deployed within the Cisco Catalyst Center using the GET APIs.
@@ -469,7 +470,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Initialize generate_all_configurations as class-level parameter
         self.generate_all_configurations = False
-        
+
         # Add state mapping
         self.get_diff_state_apply = {
             "merged": self.get_diff_merged,
@@ -477,12 +478,24 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def validate_input(self):
         """
-        Validates the input configuration parameters for the playbook.
+        Validates the input configuration parameters for the brownfield network settings playbook.
+
+        This method performs comprehensive validation of all module configuration parameters
+        including global filters, component-specific filters, file paths, and authentication
+        credentials to ensure they meet the required format and constraints before processing.
+
+        Validation Steps:
+            1. Verifies required configuration parameters are present
+            2. Validates global filter formats (site_name_list, pool_name_list, etc.)
+            3. Checks component-specific filter constraints
+            4. Validates file path permissions and directory accessibility
+            5. Ensures authentication parameters are properly configured
+
         Returns:
             object: An instance of the class with updated attributes:
-                self.msg: A message describing the validation result.
-                self.status: The status of the validation (either "success" or "failed").
-                self.validated_config: If successful, a validated version of the "config" parameter.
+                self.msg (str): A message describing the validation result.
+                self.status (str): The status of the validation ("success" or "failed").
+                self.validated_config (dict): If successful, a validated version of the config.
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
@@ -519,20 +532,42 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def validate_params(self, config):
         """
-        Validates the configuration parameters.
+        Validates individual configuration parameters for brownfield network settings generation.
+
+        This method performs detailed validation of configuration parameters including
+        file path accessibility, directory creation permissions, and component filter
+        validation against supported network elements schema.
+
         Args:
-            config (dict): Configuration parameters to validate
+            config (dict): Configuration parameters containing:
+                - file_path (str, optional): Target YAML file output path
+                - global_filters (dict, optional): Site, pool, and type filtering criteria
+                - component_specific_filters (dict, optional): Component-level filtering
+                - generate_all_configurations (bool, optional): Generate all components flag
+
         Returns:
-            self: Returns self with validation status
+            self: Current instance with validation status updated.
+                 On failure: self.status = "failed", self.msg contains error details
+                 On success: self.status = "success"
+
+        Validation Checks:
+            - File path validity and write permissions
+            - Directory creation capabilities for output path
+            - Component names against supported network elements
+            - Filter parameter format compliance
+            - Cross-parameter dependency validation
+
+        Raises:
+            None: All validation errors are captured in instance status
         """
         self.log("Starting validation of configuration parameters", "DEBUG")
-        
+
         # Check for required parameters
         if not config:
             self.msg = "Configuration cannot be empty"
             self.status = "failed"
             return self
-        
+
         # Validate file_path if provided
         file_path = config.get("file_path")
         if file_path:
@@ -552,7 +587,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         if component_filters:
             components_list = component_filters.get("components_list", [])
             supported_components = list(self.module_schema.get("network_elements", {}).keys())
-            
+
             for component in components_list:
                 if component not in supported_components:
                     self.msg = "Unsupported component: {0}. Supported components: {1}".format(
@@ -637,7 +672,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "elements": "str"
                 },
                 "pool_name_list": {
-                    "type": "list", 
+                    "type": "list",
                     "required": False,
                     "elements": "str"
                 },
@@ -659,7 +694,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             dict: Reverse mapping specification for global pool details
         """
         self.log("Generating reverse mapping specification for global pools.", "DEBUG")
-        
+
         return OrderedDict({
             "name": {"type": "str", "source_key": "name"},
             "pool_type": {"type": "str", "source_key": "poolType"},
@@ -672,7 +707,27 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def transform_ipv6_to_address_space(self, ipv6_value):
         """
-        Transforms ipv6 boolean to address space string.
+        Transforms IPv6 boolean configuration to address space string representation.
+
+        This transformation function converts IPv6 boolean flags from Catalyst Center API
+        responses into human-readable address space strings for YAML configuration output.
+
+        Args:
+            ipv6_value (bool or None): IPv6 configuration flag from API response.
+                - True: IPv6 is enabled/configured
+                - False: IPv4 only (IPv6 disabled)
+                - None: No address space configuration
+
+        Returns:
+            str or None: Address space string representation:
+                - "IPv6": When IPv6 is enabled (ipv6_value is True)
+                - "IPv4": When IPv4 only is configured (ipv6_value is False)
+                - None: When no configuration is available (ipv6_value is None)
+
+        Examples:
+            transform_ipv6_to_address_space(True) -> "IPv6"
+            transform_ipv6_to_address_space(False) -> "IPv4"
+            transform_ipv6_to_address_space(None) -> None
         """
         if ipv6_value is True:
             return "IPv6"
@@ -680,10 +735,81 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             return "IPv4"
         return None
 
+    def transform_to_boolean(self, value):
+        """
+        Transforms various value types to boolean for YAML configuration compatibility.
+
+        This transformation function handles conversion of different data types from
+        Catalyst Center API responses to proper boolean values suitable for Ansible
+        YAML configurations, ensuring consistent boolean representation.
+
+        Args:
+            value: The value to convert to boolean. Supported types:
+                - bool: Returned as-is
+                - str: Evaluated based on common true/false representations
+                - int/float: Standard Python truthy/falsy evaluation
+                - None: Returns False
+                - Other types: Standard Python bool() evaluation
+
+        Returns:
+            bool: Converted boolean value:
+                - True for truthy values and string representations of true
+                - False for falsy values, None, and string representations of false
+
+        String Evaluation Rules:
+            - Case-insensitive matching
+            - True: 'true', 'yes', 'on', '1', 'enabled'
+            - False: 'false', 'no', 'off', '0', 'disabled', empty string
+
+        Examples:
+            transform_to_boolean(True) -> True
+            transform_to_boolean('true') -> True
+            transform_to_boolean('FALSE') -> False
+            transform_to_boolean(1) -> True
+            transform_to_boolean(0) -> False
+            transform_to_boolean(None) -> False
+            transform_to_boolean('yes') -> True
+        """
+        if value is None:
+            return False
+        return bool(value)
+
     def transform_cidr(self, pool_details):
         """
-        Transforms subnet and prefix to CIDR format.
+        Transforms subnet and prefix length information into standard CIDR notation.
+
+        This transformation function extracts subnet and prefix length information from
+        Catalyst Center API pool details and formats them into standard CIDR notation
+        (subnet/prefix) for network configuration representation.
+
+        Args:
+            pool_details (dict or None): Pool configuration details containing:
+                - addressSpace (dict): Address space configuration with:
+                    - subnet (str): Network subnet address (e.g., "192.168.1.0", "2001:db8::")
+                    - prefixLength (int): Network prefix length (e.g., 24, 64)
+
+        Returns:
+            str or None: CIDR notation string or None:
+                - "subnet/prefix": Valid CIDR format (e.g., "192.168.1.0/24", "2001:db8::/64")
+                - None: When pool_details is None, invalid format, or missing required fields
+
+        Data Structure Expected:
+            {
+                "addressSpace": {
+                    "subnet": "192.168.1.0",
+                    "prefixLength": 24
+                }
+            }
+
+        Examples:
+            IPv4: {"addressSpace": {"subnet": "192.168.1.0", "prefixLength": 24}} -> "192.168.1.0/24"
+            IPv6: {"addressSpace": {"subnet": "2001:db8::", "prefixLength": 64}} -> "2001:db8::/64"
+            Invalid: None -> None
+            Missing data: {"addressSpace": {}} -> None
         """
+        if pool_details is None:
+            return None
+
         if isinstance(pool_details, dict):
             address_space = pool_details.get("addressSpace", {})
             subnet = address_space.get("subnet")
@@ -692,10 +818,130 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 return "{0}/{1}".format(subnet, prefix_length)
         return None
 
+    def transform_preserve_empty_list(self, data, field_path):
+        """
+        Transform function to preserve empty lists for DHCP/DNS servers.
+        The helper function filters out empty lists, but for network config,
+        empty DHCP/DNS lists are valid and should be preserved.
+        """
+        if data is None:
+            return []
+
+        if isinstance(data, dict):
+            # Navigate the field path (e.g., "ipV4AddressSpace.dhcpServers")
+            current = data
+            for field in field_path.split('.'):
+                current = current.get(field)
+                if current is None:
+                    return []
+
+            # If we found the field, return it (even if empty list)
+            if isinstance(current, list):
+                return current
+            elif current is None:
+                return []
+
+        return []
+
+    def transform_ipv4_dhcp_servers(self, data):
+        """
+        Transform IPv4 DHCP servers configuration while preserving empty lists.
+
+        This transformation function specifically handles IPv4 DHCP server configurations
+        from Catalyst Center API responses, ensuring that empty DHCP server lists are
+        preserved in the output (unlike the default helper behavior that filters them out).
+
+        Args:
+            data (dict or None): Pool or network management data containing IPv4 DHCP configuration.
+
+        Returns:
+            list: IPv4 DHCP server addresses, or empty list if none configured.
+                 Empty lists are explicitly preserved to indicate "no DHCP servers configured".
+        """
+        return self.transform_preserve_empty_list(data, "ipV4AddressSpace.dhcpServers")
+
+    def transform_ipv4_dns_servers(self, data):
+        """
+        Transform IPv4 DNS servers configuration while preserving empty lists.
+
+        This transformation function specifically handles IPv4 DNS server configurations
+        from Catalyst Center API responses, ensuring that empty DNS server lists are
+        preserved in the output to maintain semantic meaning.
+
+        Args:
+            data (dict or None): Pool or network management data containing IPv4 DNS configuration.
+
+        Returns:
+            list: IPv4 DNS server addresses, or empty list if none configured.
+                 Empty lists are explicitly preserved to indicate "no DNS servers configured".
+        """
+        return self.transform_preserve_empty_list(data, "ipV4AddressSpace.dnsServers")
+
+    def transform_ipv6_dhcp_servers(self, data):
+        """
+        Transform IPv6 DHCP servers configuration while preserving empty lists.
+
+        This transformation function specifically handles IPv6 DHCP server configurations
+        from Catalyst Center API responses, ensuring that empty DHCP server lists are
+        preserved in the output for proper network configuration representation.
+
+        Args:
+            data (dict or None): Pool or network management data containing IPv6 DHCP configuration.
+
+        Returns:
+            list: IPv6 DHCP server addresses, or empty list if none configured.
+                 Empty lists are explicitly preserved to indicate "no DHCPv6 servers configured".
+        """
+        return self.transform_preserve_empty_list(data, "ipV6AddressSpace.dhcpServers")
+
+    def transform_ipv6_dns_servers(self, data):
+        """
+        Transform IPv6 DNS servers configuration while preserving empty lists.
+
+        This transformation function specifically handles IPv6 DNS server configurations
+        from Catalyst Center API responses, ensuring that empty DNS server lists are
+        preserved in the output for accurate network configuration representation.
+
+        Args:
+            data (dict or None): Pool or network management data containing IPv6 DNS configuration.
+
+        Returns:
+            list: IPv6 DNS server addresses, or empty list if none configured.
+                 Empty lists are explicitly preserved to indicate "no IPv6 DNS servers configured".
+        """
+        return self.transform_preserve_empty_list(data, "ipV6AddressSpace.dnsServers")
+
     def reserve_pool_reverse_mapping_function(self, requested_components=None):
         """
-        Reverse mapping for Reserve Pool Details — converts API response fields
-        into Ansible-friendly config keys as per reserve_pool_details schema.
+        Generate reverse mapping specification for Reserve Pool Details transformation.
+
+        This function creates a comprehensive mapping specification that converts
+        Catalyst Center API response fields for reserve pools into Ansible-friendly
+        configuration keys compatible with the network_settings_workflow_manager module.
+
+        The mapping includes field transformations, type conversions, and special handling
+        for complex data structures like IPv4/IPv6 address spaces, server configurations,
+        and pool relationships.
+
+        Args:
+            requested_components (list, optional): Specific components to include in mapping.
+                                                  If None, includes all reserve pool components.
+
+        Returns:
+            OrderedDict: Comprehensive field mapping specification containing:
+                - Field mappings from API keys to Ansible config keys
+                - Type specifications for each field
+                - Transform functions for data conversion
+                - Special handling flags for complex transformations
+                - Optional field indicators
+
+        Mapping Categories:
+            - Basic pool information (name, type, site)
+            - IPv4 address space (subnet, gateway, DHCP/DNS servers)
+            - IPv6 address space (subnet, gateway, DHCP/DNS servers)
+            - Pool relationships (parent pools, reserved ranges)
+            - Statistics (total hosts, assigned addresses)
+            - Configuration flags (SLAAC support, prefix settings)
         """
         self.log("Generating reverse mapping specification for reserve pools.", "DEBUG")
 
@@ -714,7 +960,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "ipv6_address_space": {
                 "type": "bool",
                 "source_key": "ipV6AddressSpace",
-                "transform": lambda x: bool(x),
+                "transform": self.transform_to_boolean,
             },
 
             # IPv4 address space
@@ -722,13 +968,21 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "ipv4_prefix": {
                 "type": "bool",
                 "source_key": "ipV4AddressSpace.prefixLength",
-                "transform": lambda x: True if x else False,
+                "transform": self.transform_to_boolean,
             },
             "ipv4_prefix_length": {"type": "int", "source_key": "ipV4AddressSpace.prefixLength"},
             "ipv4_subnet": {"type": "str", "source_key": "ipV4AddressSpace.subnet"},
             "ipv4_gateway": {"type": "str", "source_key": "ipV4AddressSpace.gatewayIpAddress"},
-            "ipv4_dhcp_servers": {"type": "list", "source_key": "ipV4AddressSpace.dhcpServers"},
-            "ipv4_dns_servers": {"type": "list", "source_key": "ipV4AddressSpace.dnsServers"},
+            "ipv4_dhcp_servers": {
+                "type": "list",
+                "special_handling": True,
+                "transform": self.transform_ipv4_dhcp_servers
+            },
+            "ipv4_dns_servers": {
+                "type": "list",
+                "special_handling": True,
+                "transform": self.transform_ipv4_dns_servers
+            },
             "ipv4_total_host": {"type": "int", "source_key": "ipV4AddressSpace.totalAddresses"},
             "ipv4_unassignable_addresses": {"type": "int", "source_key": "ipV4AddressSpace.unassignableAddresses"},
             "ipv4_assigned_addresses": {"type": "int", "source_key": "ipV4AddressSpace.assignedAddresses"},
@@ -739,13 +993,21 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "ipv6_prefix": {
                 "type": "bool",
                 "source_key": "ipV6AddressSpace.prefixLength",
-                "transform": lambda x: True if x else False,
+                "transform": self.transform_to_boolean,
             },
             "ipv6_prefix_length": {"type": "int", "source_key": "ipV6AddressSpace.prefixLength"},
             "ipv6_subnet": {"type": "str", "source_key": "ipV6AddressSpace.subnet"},
             "ipv6_gateway": {"type": "str", "source_key": "ipV6AddressSpace.gatewayIpAddress"},
-            "ipv6_dhcp_servers": {"type": "list", "source_key": "ipV6AddressSpace.dhcpServers"},
-            "ipv6_dns_servers": {"type": "list", "source_key": "ipV6AddressSpace.dnsServers"},
+            "ipv6_dhcp_servers": {
+                "type": "list",
+                "special_handling": True,
+                "transform": self.transform_ipv6_dhcp_servers
+            },
+            "ipv6_dns_servers": {
+                "type": "list",
+                "special_handling": True,
+                "transform": self.transform_ipv6_dns_servers
+            },
             "ipv6_total_host": {"type": "int", "source_key": "ipV6AddressSpace.totalAddresses"},
             "ipv6_unassignable_addresses": {"type": "int", "source_key": "ipV6AddressSpace.unassignableAddresses"},
             "ipv6_assigned_addresses": {"type": "int", "source_key": "ipV6AddressSpace.assignedAddresses"},
@@ -936,14 +1198,183 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             }
         })
 
-    def modify_network_parameters(self, params):
+    def modify_network_parameters(self, reverse_mapping_spec, data_list):
+        """
+        Apply reverse mapping specification to transform data from DNAC API format to Ansible playbook format.
+
+        This method transforms raw API response data from Cisco Catalyst Center into
+        Ansible-compatible configuration format using a comprehensive mapping specification.
+        It handles field mapping, type conversion, and applies custom transformation functions.
+
+        Args:
+            reverse_mapping_spec (OrderedDict): Specification dictionary containing:
+                - target_key (str): Target field name in Ansible config
+                - mapping_rule (dict): Transformation rules including:
+                    - source_key (str): Source field path in API response
+                    - type (str): Expected data type for validation
+                    - transform (callable, optional): Custom transformation function
+                    - optional (bool, optional): Whether field is optional
+                    - special_handling (bool, optional): Requires special processing
+
+            data_list (list): List of data objects from DNAC API responses to transform.
+
+        Returns:
+            list: Transformed data list suitable for Ansible playbook configuration.
+                 Each item is transformed according to the mapping specification with:
+                 - Field names converted to Ansible-compatible format
+                 - Data types properly converted and validated
+                 - Optional fields handled appropriately
+                 - Custom transformations applied where specified
+
+        Transformation Process:
+            1. Iterates through each data item in the input list
+            2. Applies each mapping rule from the specification
+            3. Extracts nested values using dot-notation source keys
+            4. Applies custom transform functions when specified
+            5. Validates and sanitizes values based on expected types
+            6. Handles optional fields and missing data gracefully
+            7. Preserves semantic meaning (e.g., empty lists for server configs)
+
+        Error Handling:
+            - Logs warnings for transformation errors
+            - Skips invalid data items with detailed logging
+            - Handles missing nested fields gracefully
+            - Preserves partial transformations when possible
+
+        Examples:
+            API Response -> Ansible Config transformation:
+            {'siteName': 'Global/USA/NYC'} -> {'site_name': 'Global/USA/NYC'}
+            {'ipV4AddressSpace': {'subnet': '192.168.1.0'}} -> {'ipv4_subnet': '192.168.1.0'}
+        """
+        if not data_list or not reverse_mapping_spec:
+            return []
+
+        transformed_data = []
+
+        for data_item in data_list:
+            transformed_item = {}
+
+            # Apply each mapping rule from the specification
+            for target_key, mapping_rule in reverse_mapping_spec.items():
+                source_key = mapping_rule.get("source_key")
+                transform_func = mapping_rule.get("transform")
+
+                if not source_key:
+                    continue
+
+                # Extract value using dot notation if needed
+                value = self._extract_nested_value(data_item, source_key)
+
+                # Apply transformation function if specified (only if value is not None)
+                if transform_func and callable(transform_func) and value is not None:
+                    value = transform_func(value)
+
+                # Sanitize the value
+                value = self._sanitize_value(value, mapping_rule.get("type", "str"))
+
+                transformed_item[target_key] = value
+
+            transformed_data.append(transformed_item)
+
+        return transformed_data
+
+    def _extract_nested_value(self, data_item, key_path):
+        """
+        Extract a value from nested dictionary structure using dot notation key path.
+
+        This utility function safely navigates nested dictionary structures to extract
+        values at arbitrary depth levels. It uses dot-separated key paths to traverse
+        the nested structure and handles missing keys gracefully.
+
+        Args:
+            data_item (dict or None): The source dictionary to extract values from.
+                                     Can be None or empty dict.
+            key_path (str): Dot-separated path to the target value.
+                           Examples: 'settings.dns.servers', 'ipV4AddressSpace.subnet'
+
+        Returns:
+            any or None: The value at the specified key path, or None if:
+                        - key_path is empty or None
+                        - data_item is None or not a dictionary
+                        - Any key in the path doesn't exist
+                        - Path traversal encounters non-dict value
+
+        Examples:
+            data = {'settings': {'dns': {'servers': ['8.8.8.8']}}}
+            _extract_nested_value(data, 'settings.dns.servers') -> ['8.8.8.8']
+            _extract_nested_value(data, 'settings.ntp.servers') -> None
+            _extract_nested_value(data, 'missing.key') -> None
+        """
+        if not key_path or not data_item:
+            return None
+
+        keys = key_path.split('.')
+        value = data_item
+
+        for key in keys:
+            if isinstance(value, dict) and key in value:
+                value = value[key]
+            else:
+                return None
+
+        return value
+
+    def _sanitize_value(self, value, value_type):
+        """
+        Sanitize and normalize a value based on its expected type for YAML output.
+
+        This utility function performs type validation, conversion, and normalization
+        to ensure values are properly formatted for Ansible YAML configurations.
+        It handles type coercion and provides sensible defaults for missing values.
+
+        Args:
+            value: The raw value to sanitize. Can be any type.
+            value_type (str): Expected target type for the value:
+                             - "str": String type with special boolean/numeric handling
+                             - "list": List type with singleton conversion
+                             - "dict": Dictionary type
+                             - "int": Integer type
+                             - "bool": Boolean type
+                             - Other: Pass-through with minimal processing
+
+        Returns:
+            Sanitized value of the appropriate type:
+            - For None input: Returns appropriate empty value ([], {}, "")
+            - For type mismatches: Attempts conversion or wrapping
+            - For strings: Handles boolean/numeric conversion
+            - For lists: Ensures list format, converts singletons
+        """
+        if value is None:
+            if value_type == "list":
+                return []
+            elif value_type == "dict":
+                return {}
+            else:
+                return ""
+
+        if value_type == "list" and not isinstance(value, list):
+            return [value] if value else []
+
+        if value_type == "str":
+            if isinstance(value, bool):
+                return str(value).lower()
+            elif isinstance(value, (int, float)):
+                return str(value)
+            elif isinstance(value, str):
+                return value
+            else:
+                return str(value)
+
+        return value
+
+    def modify_network_parameters_old(self, params):
         """
         Safely sanitize and normalize config parameters BEFORE reverse-mapping.
         Prevents errors like:
             - "expected str but got NoneType"
             - reverse mapping crash if a key is missing or None
             - AAA settings failing when values are not strings
-        
+
         This function makes sure:
             - None becomes "" (or [] for list or {} for dict)
             - Integers become strings
@@ -962,7 +1393,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             # 1. Handle nested dictionaries
             # ------------------------------
             if isinstance(value, dict):
-                normalized[key] = self.modify_network_parameters(value)
+                normalized[key] = self.modify_network_parameters_old(value)
                 continue
 
             # ------------------------------
@@ -1019,59 +1450,99 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             dict: Reverse mapping specification for device controllability details
         """
         self.log("Generating reverse mapping specification for device controllability settings.", "DEBUG")
-        
+
         return OrderedDict({
-            # "site_name": {
-            #     "type": "str",
-            #     "special_handling": True,
-            #     "transform": self.transform_site_location,
-            # },
             "device_controllability": {"type": "bool", "source_key": "deviceControllability"},
             "autocorrect_telemetry_config": {"type": "bool", "source_key": "autocorrectTelemetryConfig"},
         })
 
-    def aaa_settings_reverse_mapping_function(self, requested_components=None):
+    def transform_site_location(self, site_name_or_pool_details):
         """
-        Returns the reverse mapping specification for AAA settings configurations.
-        Args:
-            requested_components (list, optional): List of specific components to include
-        Returns:
-            dict: Reverse mapping specification for AAA settings details
-        """
-        self.log("Generating reverse mapping specification for AAA settings.", "DEBUG")
-        
-        return OrderedDict({
-            "network": {"type": "str", "source_key": "network"},
-            "protocol": {"type": "str", "source_key": "protocol"},
-            "servers": {"type": "str", "source_key": "servers"},
-            "server_type": {"type": "str", "source_key": "serverType"},
-            "shared_secret": {"type": "str", "source_key": "sharedSecret"},
-        })
+        Transform site location information to hierarchical site name format for brownfield configurations.
 
-    def transform_site_location(self, pool_details):
-        """
-        Transforms site location information for a given pool by extracting and mapping
-        the site hierarchy based on the site ID.
+        This transformation function handles conversion of site information from various
+        formats (site ID, site name, pool details) into consistent hierarchical site
+        name format required for Ansible playbook configurations.
+
         Args:
-            pool_details (dict): A dictionary containing pool-specific information, including the 'siteId' key.
+            site_name_or_pool_details (str, dict, or None): Site information in various formats:
+                - str: Direct site name (returned as-is)
+                - dict: Pool details containing site information:
+                    - siteName (str, optional): Direct site name
+                    - siteId (str, optional): Site ID requiring lookup
+                - None: No site information available
+
         Returns:
-            str: The hierarchical name of the site (e.g., "Global/Site/Building").
+            str or None: Hierarchical site name format or None:
+                - "Global/Country/State/City/Building": Complete site hierarchy
+                - None: When site information cannot be determined
+
+        Transformation Logic:
+            1. None input -> None (with debug logging)
+            2. String input -> Return as-is (already site name)
+            3. Dict input -> Extract siteName if available
+            4. Dict with siteId only -> Lookup name via site mapping
+
+        Site ID Mapping:
+            - Uses cached site_id_name_dict for efficient lookups
+            - Creates mapping via get_site_id_name_mapping() if needed
+            - Maps site UUIDs to hierarchical names
+
+        Examples:
+            transform_site_location("Global/USA/NYC") -> "Global/USA/NYC"
+            transform_site_location({"siteName": "Global/USA/NYC"}) -> "Global/USA/NYC"
+            transform_site_location({"siteId": "uuid-123"}) -> "Global/USA/NYC" (via lookup)
+            transform_site_location(None) -> None
         """
-        self.log("Transforming site location for pool details: {0}".format(pool_details), "DEBUG")
-        site_id = pool_details.get("siteId")
-        if not site_id:
+        self.log("Transforming site location for input: {0}".format(site_name_or_pool_details), "DEBUG")
+
+        # Handle None input
+        if site_name_or_pool_details is None:
+            self.log("Input is None, returning None for site location", "DEBUG")
             return None
-            
-        # Create site ID to name mapping if not exists
-        if not hasattr(self, 'site_id_name_dict'):
-            self.site_id_name_dict = self.get_site_id_name_mapping()
-            
-        site_name_hierarchy = self.site_id_name_dict.get(site_id, None)
-        return site_name_hierarchy
+
+        # If it's already a string (site name), return it as is
+        if isinstance(site_name_or_pool_details, str):
+            self.log("Input is already a string (site name): {0}".format(site_name_or_pool_details), "DEBUG")
+            return site_name_or_pool_details
+
+        # If it's a dictionary (pool details), extract the site information
+        if isinstance(site_name_or_pool_details, dict):
+            site_id = site_name_or_pool_details.get("siteId")
+            site_name = site_name_or_pool_details.get("siteName")
+
+            # If we have a site name, use it directly
+            if site_name:
+                self.log("Using siteName from pool details: {0}".format(site_name), "DEBUG")
+                return site_name
+
+            # If we only have site ID, try to map it to name
+            if site_id:
+                # Create site ID to name mapping if not exists
+                if not hasattr(self, 'site_id_name_dict'):
+                    self.site_id_name_dict = self.get_site_id_name_mapping()
+
+                site_name_hierarchy = self.site_id_name_dict.get(site_id, None)
+                self.log("Mapped site ID {0} to hierarchy: {1}".format(site_id, site_name_hierarchy), "DEBUG")
+                return site_name_hierarchy
+
+        # If we can't process it, return None
+        self.log("Unable to process input for site location transformation", "WARNING")
+        return None
 
     def reset_operation_tracking(self):
         """
-        Resets the operation tracking variables for a new operation.
+        Reset operation tracking variables for a new brownfield configuration generation operation.
+
+        This method initializes or resets the tracking variables used to monitor the progress
+        and results of network settings extraction operations. It ensures clean state for
+        each new generation workflow.
+
+        Tracking Variables Reset:
+            - operation_successes (list): Successful site/component operations
+            - operation_failures (list): Failed site/component operations
+            - total_sites_processed (int): Count of sites processed
+            - total_components_processed (int): Count of components processed
         """
         self.log("Resetting operation tracking variables for new operation", "DEBUG")
         self.operation_successes = []
@@ -1082,11 +1553,22 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def add_success(self, site_name, component, additional_info=None):
         """
-        Adds a successful operation to the tracking list.
+        Record a successful operation for site/component processing in operation tracking.
+
+        This method adds a successful operation entry to the tracking system, recording
+        which site and component were successfully processed during brownfield network
+        settings extraction. Used for generating comprehensive operation summaries.
+
         Args:
-            site_name (str): Site name that succeeded.
-            component (str): Component name that succeeded.
-            additional_info (dict): Additional information about the success.
+            site_name (str): Full hierarchical site name that was successfully processed.
+                           Example: "Global/USA/SAN-FRANCISCO/SF_BLD1"
+            component (str): Network settings component that was successfully processed.
+                           Examples: "reserve_pool_details", "network_management_details"
+            additional_info (dict, optional): Extra information about the successful operation:
+                - pools_processed (int): Number of pools processed for this site
+                - settings_extracted (list): List of settings successfully extracted
+                - processing_time (float): Time taken for processing
+                - Any other relevant success metrics
         """
         self.log("Creating success entry for site {0}, component {1}".format(site_name, component), "DEBUG")
         success_entry = {
@@ -1105,11 +1587,23 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def add_failure(self, site_name, component, error_info):
         """
-        Adds a failed operation to the tracking list.
+        Record a failed operation for site/component processing in operation tracking.
+
+        This method adds a failed operation entry to the tracking system, recording
+        which site and component failed during brownfield network settings extraction
+        along with detailed error information for troubleshooting.
+
         Args:
-            site_name (str): Site name that failed.
-            component (str): Component name that failed.
-            error_info (dict): Error information containing error details.
+            site_name (str): Full hierarchical site name that failed processing.
+                           Example: "Global/USA/SAN-FRANCISCO/SF_BLD1"
+            component (str): Network settings component that failed processing.
+                           Examples: "reserve_pool_details", "network_management_details"
+            error_info (dict): Detailed error information containing:
+                - error_message (str): Human-readable error description
+                - error_code (str, optional): Specific error code if available
+                - api_response (dict, optional): Raw API error response
+                - stack_trace (str, optional): Exception stack trace
+                - retry_attempted (bool, optional): Whether retry was attempted
         """
         self.log("Creating failure entry for site {0}, component {1}".format(site_name, component), "DEBUG")
         failure_entry = {
@@ -1184,17 +1678,17 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting to retrieve global pools with network element: {0} and filters: {1}".format(
             network_element, filters), "DEBUG")
-        
+
         final_global_pools = []
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
-        
+
         self.log("Getting global pools using family '{0}' and function '{1}'.".format(
             api_family, api_function), "INFO")
 
         params = {}
         component_specific_filters = filters.get("component_specific_filters", {}).get("global_pool_details", [])
-        
+
         if component_specific_filters:
             for filter_param in component_specific_filters:
                 for key, value in filter_param.items():
@@ -1204,7 +1698,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         params["ipPoolType"] = value
                     else:
                         self.log("Ignoring unsupported filter parameter: {0}".format(key), "DEBUG")
-                        
+
                 global_pool_details = self.execute_get_with_pagination(api_family, api_function, params)
                 self.log("Retrieved global pool details: {0}".format(len(global_pool_details)), "INFO")
                 final_global_pools.extend(global_pool_details)
@@ -1222,10 +1716,10 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Apply reverse mapping
         reverse_mapping_function = network_element.get("reverse_mapping_function")
         reverse_mapping_spec = reverse_mapping_function()
-        
-        # Transform using modify_network_parameters
-        pools_details = self.modify_network_parameters(reverse_mapping_spec, final_global_pools)
-        
+
+        # Transform using inherited modify_parameters function (with OrderedDict spec)
+        pools_details = self.modify_parameters(reverse_mapping_spec, final_global_pools)
+
         return {
             "global_pool_details": {
                 "settings": {
@@ -1372,8 +1866,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "nm_components_processed": len(nm_details)
             })
 
-        self.log("Completed NM retrieval for all targeted sites. Total sites processed: {0}".format(self.pprint(final_nm_details)), "INFO")
-        self.log(self.pprint(nm_details), "DEBUG")
+        self.log("Completed NM retrieval for all targeted sites. Total sites processed: {0}".format(len(final_nm_details)), "INFO")
 
         # === APPLY UNIFIED NM REVERSE MAPPING BEFORE RETURN ===
         try:
@@ -1386,9 +1879,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 site_name = entry.get("site_name")
 
                 # ---- Clean / normalize DNAC response ----
-                # entry = self.modify_parameters(entry)
                 entry = self.clean_nm_entry(entry)
-
 
                 # ---- Apply unified reverse mapping ----
                 transformed_entry = self.prune_empty({
@@ -1470,7 +1961,6 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             return [i for i in cleaned_list if i not in ("", None, [], {})]
 
         return data
-
 
     def extract_network_aaa(self, entry):
         data = entry.get("aaaNetwork", {})
@@ -1559,7 +2049,6 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "ip_addresses": syslog.get("externalSyslogServers", []),
         }
 
-
     def get_reserve_pools(self, network_element, filters):
         """
         Retrieves reserve IP pools based on the provided network element and filters.
@@ -1571,31 +2060,31 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting to retrieve reserve pools with network element: {0} and filters: {1}".format(
             network_element, filters), "DEBUG")
-        
+
         final_reserve_pools = []
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
-        
+
         self.log("Getting reserve pools using family '{0}' and function '{1}'.".format(
             api_family, api_function), "INFO")
 
         # Get global filters
         global_filters = filters.get("global_filters", {})
         component_specific_filters = filters.get("component_specific_filters", {}).get("reserve_pool_details", [])
-        
+
         # Process site-based filtering first
         target_sites = []
         site_name_list = global_filters.get("site_name_list", [])
-        
+
         if site_name_list:
             self.log("Processing site name list: {0}".format(site_name_list), "DEBUG")
             # Get site ID to name mapping
             if not hasattr(self, 'site_id_name_dict'):
                 self.site_id_name_dict = self.get_site_id_name_mapping()
-            
+
             # Create reverse mapping (name to ID)
             site_name_to_id_dict = {v: k for k, v in self.site_id_name_dict.items()}
-            
+
             for site_name in site_name_list:
                 site_id = site_name_to_id_dict.get(site_name)
                 if site_id:
@@ -1614,7 +2103,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("No specific sites targeted, processing all sites", "DEBUG")
             if not hasattr(self, 'site_id_name_dict'):
                 self.site_id_name_dict = self.get_site_id_name_mapping()
-            
+
             for site_id, site_name in self.site_id_name_dict.items():
                 target_sites.append({"site_name": site_name, "site_id": site_id})
 
@@ -1622,18 +2111,18 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         for site_info in target_sites:
             site_name = site_info["site_name"]
             site_id = site_info["site_id"]
-            
+
             self.log("Processing reserve pools for site: {0} (ID: {1})".format(site_name, site_id), "DEBUG")
-            
+
             try:
                 # Base parameters for API call
                 params = {"siteId": site_id}
-                
+
                 # Execute API call to get reserve pools for this site
                 reserve_pool_details = self.execute_get_with_pagination(api_family, api_function, params)
                 self.log("Retrieved {0} reserve pools for site {1}".format(
                     len(reserve_pool_details), site_name), "INFO")
-                
+
                 # Apply component-specific filters
                 if component_specific_filters:
                     filtered_pools = []
@@ -1642,26 +2131,26 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         filter_site_name = filter_param.get("site_name")
                         if filter_site_name and filter_site_name != site_name:
                             continue  # Skip this filter as it's for a different site
-                        
+
                         # Apply other filters
                         for pool in reserve_pool_details:
                             matches_filter = True
-                            
+
                             # Check pool name filter
                             if "pool_name" in filter_param:
                                 if pool.get("groupName") != filter_param["pool_name"]:
                                     matches_filter = False
                                     continue
-                            
+
                             # Check pool type filter
                             if "pool_type" in filter_param:
                                 if pool.get("type") != filter_param["pool_type"]:
                                     matches_filter = False
                                     continue
-                            
+
                             if matches_filter:
                                 filtered_pools.append(pool)
-                    
+
                     # Use filtered results if filters were applied
                     if filtered_pools:
                         reserve_pool_details = filtered_pools
@@ -1674,18 +2163,18 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     filtered_pools = []
                     pool_name_list = global_filters.get("pool_name_list", [])
                     pool_type_list = global_filters.get("pool_type_list", [])
-                    
+
                     for pool in reserve_pool_details:
                         # Check pool name filter
                         if pool_name_list and pool.get("groupName") not in pool_name_list:
                             continue
-                        
+
                         # Check pool type filter (note: pool_type_list might contain Management, but API uses different values)
                         if pool_type_list and pool.get("type") not in pool_type_list:
                             continue
-                        
+
                         filtered_pools.append(pool)
-                    
+
                     reserve_pool_details = filtered_pools
                     self.log("Applied global filters, remaining pools: {0}".format(len(filtered_pools)), "DEBUG")
 
@@ -1696,7 +2185,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.add_success(site_name, "reserve_pool_details", {
                     "pools_processed": len(reserve_pool_details)
                 })
-                
+
             except Exception as e:
                 self.log("Error retrieving reserve pools for site {0}: {1}".format(site_name, str(e)), "ERROR")
                 self.add_failure(site_name, "reserve_pool_details", {
@@ -1709,21 +2198,32 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Remove duplicates based on pool ID or unique combination
         unique_pools = []
         seen_pools = set()
-        
+
         for pool in final_reserve_pools:
             # Create unique identifier based on site ID, group name, and type
             pool_identifier = "{0}_{1}_{2}".format(
-                pool.get("siteId", ""), 
-                pool.get("groupName", ""), 
+                pool.get("siteId", ""),
+                pool.get("groupName", ""),
                 pool.get("type", "")
             )
-            
+
             if pool_identifier not in seen_pools:
                 seen_pools.add(pool_identifier)
                 unique_pools.append(pool)
 
         final_reserve_pools = unique_pools
         self.log("After deduplication, total reserve pools: {0}".format(len(final_reserve_pools)), "INFO")
+
+        # Debug: Log detailed information about each pool that will be processed
+        for i, pool in enumerate(final_reserve_pools):
+            pool_name = pool.get('name', 'Unknown')
+            site_name = pool.get('siteName', 'Unknown')
+            pool_type = pool.get('poolType', 'Unknown')
+            self.log("Pool {0}/{1}: '{2}' from site '{3}' (type: {4})".format(
+                i + 1, len(final_reserve_pools), pool_name, site_name, pool_type), "DEBUG")
+
+        pool_names = [pool.get('name', 'Unknown') for pool in final_reserve_pools]
+        self.log("Pool names to be processed: {0}".format(pool_names), "DEBUG")
 
         if not final_reserve_pools:
             self.log("No reserve pools found matching the specified criteria", "INFO")
@@ -1735,10 +2235,31 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Apply reverse mapping
         reverse_mapping_function = network_element.get("reverse_mapping_function")
         reverse_mapping_spec = reverse_mapping_function()
-        
-        # Transform using modify_network_parameters
-        pools_details = self.modify_network_parameters(reverse_mapping_spec, final_reserve_pools)
-        
+
+        self.log("Starting transformation of {0} reserve pools using modify_parameters".format(len(final_reserve_pools)), "INFO")
+
+        # Transform using inherited modify_parameters function (with OrderedDict spec)
+        pools_details = self.modify_parameters(reverse_mapping_spec, final_reserve_pools)
+
+        self.log("Transformation completed. Result contains {0} individual pool configurations".format(len(pools_details)), "INFO")
+
+        # Debug: Log detailed information about each transformed pool
+        for i, pool in enumerate(pools_details):
+            pool_name = pool.get('name', 'Unknown')
+            site_name = pool.get('site_name', 'Unknown')
+            self.log("Transformed pool {0}/{1}: '{2}' from site '{3}' - each pool gets its own configuration entry".format(
+                i + 1, len(pools_details), pool_name, site_name), "DEBUG")
+
+        transformed_pool_names = [pool.get('name', 'Unknown') for pool in pools_details]
+        self.log("Pool names after transformation: {0}".format(transformed_pool_names), "DEBUG")
+
+        # Verify that we have individual configurations for each pool
+        if len(pools_details) == len(final_reserve_pools):
+            self.log("✓ SUCCESS: Each of the {0} pools has its own individual configuration entry".format(len(pools_details)), "INFO")
+        else:
+            self.log("⚠ WARNING: Pool count mismatch - input: {0}, output: {1}".format(
+                len(final_reserve_pools), len(pools_details)), "WARNING")
+
         # Return in the correct format - note the structure difference from global pools
         return {
             "reserve_pool_details": pools_details,
@@ -1751,7 +2272,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             api_function = "retrieve_aaa_settings_for_a_site"
             params = {"id": site_id}
 
-             # Execute the API call
+            # Execute the API call
             aaa_network_response = self.dnac._exec(
                 family=api_family,
                 function=api_function,
@@ -2244,11 +2765,6 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "operation_summary": self.get_operation_summary(),
         }
 
-    def get_aaa_settings(self, network_element, filters):
-        """Placeholder for AAA settings implementation"""
-        self.log("AAA settings retrieval not yet implemented", "WARNING")
-        return {"aaa_settings": [], "operation_summary": self.get_operation_summary()}
-
     def yaml_config_generator(self, yaml_config_generator):
         """
         Generates a YAML configuration file based on the provided parameters.
@@ -2325,8 +2841,12 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             # Always add details if the component key exists, even if it's empty
             if details and component in details:
+                component_details = details[component]
+
+                # Add the component details as a single entry (no individual pool separation)
                 final_list.extend([details])
-                self.log("Added component {0} to final list (including empty results)".format(component), "DEBUG")
+                self.log("Added component {0} to final list with {1} entries (including empty results)".format(
+                    component, len(component_details) if isinstance(component_details, list) else 1), "DEBUG")
             else:
                 self.log("Component {0} returned no valid details structure".format(component), "WARNING")
 
@@ -2398,7 +2918,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         start_time = time.time()
         self.log("Starting 'get_diff_merged' operation.", "DEBUG")
-        
+
         operations = [
             ("yaml_config_generator", "YAML Config Generator", self.yaml_config_generator)
         ]
@@ -2406,7 +2926,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         for index, (param_key, operation_name, operation_func) in enumerate(operations, start=1):
             self.log("Iteration {0}: Checking parameters for {1} operation with param_key '{2}'.".format(
                 index, operation_name, param_key), "DEBUG")
-                
+
             params = self.want.get(param_key)
             if params:
                 self.log("Iteration {0}: Parameters found for {1}. Starting processing.".format(
@@ -2419,6 +2939,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         end_time = time.time()
         self.log("Completed 'get_diff_merged' operation in {0:.2f} seconds.".format(end_time - start_time), "DEBUG")
         return self
+
 
 def main():
     """main entry point for module execution"""
@@ -2445,10 +2966,10 @@ def main():
 
     # Initialize the Ansible module
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
-    
+
     # Initialize the NetworkSettingsPlaybookGenerator object
     ccc_network_settings_playbook_generator = NetworkSettingsPlaybookGenerator(module)
-    
+
     # Version check
     if (ccc_network_settings_playbook_generator.compare_dnac_versions(
             ccc_network_settings_playbook_generator.get_ccc_version(), "2.3.7.9") < 0):
@@ -2482,6 +3003,7 @@ def main():
         ccc_network_settings_playbook_generator.get_diff_state_apply[state]().check_return_status()
 
     module.exit_json(**ccc_network_settings_playbook_generator.result)
+
 
 if __name__ == "__main__":
     main()
