@@ -2397,8 +2397,8 @@ class BackupRestore(DnacBase):
             backup_ops = self.want.get("backup", [])
             self.log("Backup operations from input: {0}".format(backup_ops), "DEBUG")
             if backup_ops:
-                self.max_timeout = backup_ops[0].get("backup_task_timeout", 1200)
-                self.log("Backup task timeout set to: {0} seconds".format(self.max_timeout), "DEBUG")
+                self.backup_task_timeout = backup_ops[0].get("backup_task_timeout", 1200)
+                self.log("Backup task timeout set to: {0} seconds".format(self.backup_task_timeout), "DEBUG")
 
             status = self.get_backup_status_by_task_id(task_id)
 
@@ -2497,8 +2497,8 @@ class BackupRestore(DnacBase):
                 task_id = self.get_backup_task_id_from_response(response, "restore_backup")
 
                 if restore_operations:
-                    self.max_timeout = restore_operations[0].get("restore_task_timeout", 3600)
-                    self.log("Restore task timeout set to: {0} seconds".format(self.max_timeout), "DEBUG")
+                    self.restore_task_timeout = restore_operations[0].get("restore_task_timeout", 3600)
+                    self.log("Restore task timeout set to: {0} seconds".format(self.restore_task_timeout), "DEBUG")
 
                 status = self.get_backup_status_by_task_id(task_id)
 
@@ -2577,6 +2577,19 @@ class BackupRestore(DnacBase):
             return "UNKNOWN"
 
         start_time = time.time()
+        if self.config.get("state") == "merged":
+            if self.backup_task_timeout:
+                self.log("Using backup task timeout: {0} seconds".format(self.backup_task_timeout), "DEBUG")
+                self.max_timeout = self.backup_task_timeout
+                self.log("Task timeout set to backup_task_timeout: {0} seconds".format(self.max_timeout), "DEBUG")
+            elif self.restore_task_timeout:
+                self.log("Using restore task timeout: {0} seconds".format(self.restore_task_timeout), "DEBUG")
+                self.max_timeout = self.restore_task_timeout
+                self.log("Task timeout set to restore_task_timeout: {0} seconds".format(self.max_timeout), "DEBUG")
+            else:
+                self.log("No specific task timeout provided. Using default of 1200 seconds.", "DEBUG")
+                self.max_timeout = 1200
+                self.log("Task timeout set to: {0} seconds".format(self.max_timeout), "DEBUG")
 
         self.log("Task timeout set to: {0} seconds".format(self.max_timeout), "DEBUG")
 
