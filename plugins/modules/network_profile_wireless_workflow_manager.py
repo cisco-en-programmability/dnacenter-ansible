@@ -2586,12 +2586,21 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 )
                 existing_profile = copy.deepcopy(self.have.get("wireless_profile", {}).get("profile_info"))
                 self.log(
-                    "Existing wireless profile data: {0}".format(
-                        self.pprint(payload_data)
-                    ), "DEBUG"
+                    "Starting profile data merge operation with {0} existing components "
+                    "and {1} new components".format(
+                        len(existing_profile.keys()) if existing_profile else 0,
+                        len(payload_data.keys()) if payload_data else 0
+                    ),
+                    "DEBUG"
                 )
                 self.parse_with_existing_profile_data(existing_profile, payload_data)
-
+                self.log(
+                    "Profile data merge completed successfully - merged configuration "
+                    "contains {0} components".format(
+                        len(payload_data.keys()) if payload_data else 0
+                    ),
+                    "INFO"
+                )
             self.log(
                 "Parsed payload data: {0}".format(self.pprint(payload_data)), "INFO"
             )
@@ -2612,15 +2621,42 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         Returns:
             No return, parse the input data and load the parsed data to the payload_data
         """
+        self.log(
+            "Starting merged profile data processing for wireless network profile management",
+            "INFO"
+        )
+
+        self.log(
+            "Processing profile data merge with existing profile components: {0} and new payload size: {1}".format(
+                len(existing_profile.keys()) if existing_profile else 0,
+                len(payload_data.keys()) if payload_data else 0
+            ),
+            "DEBUG"
+        )
+
+        # Statistics tracking for merge operations
+        merge_stats = {
+            'ssids_preserved': 0,
+            'ap_zones_preserved': 0,
+            'feature_templates_preserved': 0,
+            'interfaces_preserved': 0,
+            'components_processed': 0
+        }
 
         # SSID details from existing profile data
         existing_ssids = existing_profile.get("ssidDetails", [])
         if existing_ssids:
             # Initialize ssidDetails if not present
-            if "ssidDetails" not in payload_data:
-                payload_data["ssidDetails"] = []
+            merge_stats['components_processed'] += 1
+            payload_data.setdefault("ssidDetails", [])
 
-            # Track SSIDs to add for logging
+            self.log(
+                "Processing SSID merge operation - existing SSIDs: {0}, new SSIDs: {1}".format(
+                    len(existing_ssids), len(payload_data.get("ssidDetails", []))
+                ),
+                "DEBUG"
+            )
+
             ssids_preserved = []
 
             for existing_ssid in existing_ssids:
@@ -2639,6 +2675,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     )
                     payload_data["ssidDetails"].append(existing_ssid)
                     ssids_preserved.append(ssid_name)
+                    merge_stats['ssids_preserved'] += 1
                 else:
                     self.log(
                         "SSID '{0}' already exists in new configuration - using new configuration".format(ssid_name),
@@ -2657,8 +2694,15 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         # AP Zones details from existing profile data
         existing_ap_zones = existing_profile.get("apZones", [])
         if existing_ap_zones:
+            merge_stats['components_processed'] += 1
             payload_data.setdefault("apZones", [])
             zones_preserved = []
+            self.log(
+                "Processing AP Zones merge operation - existing zones: {0}, new zones: {1}".format(
+                    len(existing_ap_zones), len(payload_data.get("apZones", []))
+                ),
+                "DEBUG"
+            )
 
             for existing_apzone in existing_ap_zones:
                 apzone_name = existing_apzone.get("apZoneName")
@@ -2674,6 +2718,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     )
                     payload_data["apZones"].append(existing_apzone)
                     zones_preserved.append(apzone_name)
+                    merge_stats['ap_zones_preserved'] += 1
                 else:
                     self.log(
                         "AP Zone '{0}' being updated with new configuration".format(apzone_name),
@@ -2693,6 +2738,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         if existing_feature_templates:
             payload_data.setdefault("featureTemplates", [])
             templates_preserved = []
+            self.log(
+                "Processing feature templates merge operation - existing templates: {0}, new templates: {1}".format(
+                    len(existing_feature_templates), len(payload_data.get("featureTemplates", []))
+                ),
+                "DEBUG"
+            )
 
             for existing_template in existing_feature_templates:
                 template_id = existing_template.get("id")
@@ -2714,6 +2765,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     )
                     payload_data["featureTemplates"].append(existing_template)
                     templates_preserved.append(template_name)
+                    merge_stats['feature_templates_preserved'] += 1
                 else:
                     self.log(
                         "Feature template '{0}' being updated with new configuration".format(template_name),
@@ -2733,6 +2785,13 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         if existing_interfaces:
             payload_data.setdefault("additionalInterfaces", [])
             interfaces_preserved = []
+            merge_stats['components_processed'] += 1
+            self.log(
+                "Processing additional interfaces merge operation - existing interfaces: {0}, new interfaces: {1}".format(
+                    len(existing_interfaces), len(payload_data.get("additionalInterfaces", []))
+                ),
+                "DEBUG"
+            )
 
             for existing_interface in existing_interfaces:
                 if existing_interface and existing_interface not in payload_data["additionalInterfaces"]:
@@ -2744,6 +2803,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     )
                     payload_data["additionalInterfaces"].append(existing_interface)
                     interfaces_preserved.append(existing_interface)
+                    merge_stats['interfaces_preserved'] += 1
                 elif existing_interface:
                     self.log(
                         "Interface '{0}' already in new configuration".format(existing_interface),
@@ -2757,6 +2817,33 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     ),
                     "INFO"
                 )
+
+        total_preserved = (
+            merge_stats['ssids_preserved'] +
+            merge_stats['ap_zones_preserved'] +
+            merge_stats['feature_templates_preserved'] +
+            merge_stats['interfaces_preserved']
+        )
+
+        self.log(
+            "Profile data merge completed - processed {0} component types, preserved {1} total items".format(
+                merge_stats['components_processed'], total_preserved
+            ),
+            "INFO"
+        )
+
+        if total_preserved > 0:
+            self.log(
+                "Merge statistics - SSIDs: {0}, AP Zones: {1}, Feature Templates: {2}, Interfaces: {3}".format(
+                    merge_stats['ssids_preserved'],
+                    merge_stats['ap_zones_preserved'],
+                    merge_stats['feature_templates_preserved'],
+                    merge_stats['interfaces_preserved']
+                ),
+                "INFO"
+            )
+
+        return
 
     def create_update_wireless_profile(self, wireless_data, profile_id=None):
         """
