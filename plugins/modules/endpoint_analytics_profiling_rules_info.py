@@ -58,12 +58,12 @@ options:
         will be fetched by default. To fetch all the
         records in the system, provide a large value
         for this parameter.
-    type: float
+    type: int
   offset:
     description:
       - Offset query parameter. Record offset to start
         data fetch at. Offset starts at zero.
-    type: float
+    type: int
   sortBy:
     description:
       - >

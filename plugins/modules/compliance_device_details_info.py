@@ -45,14 +45,14 @@ options:
   offset:
     description:
       - Offset query parameter. Offset/starting row.
-    type: float
+    type: int
   limit:
     description:
       - >
         Limit query parameter. The number of records
         to be retrieved defaults to 500 if not specified,
         with a maximum allowed limit of 500.
-    type: float
+    type: int
 requirements:
   - dnacentersdk >= 2.10.1
   - python >= 3.5
