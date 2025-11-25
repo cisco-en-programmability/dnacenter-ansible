@@ -453,10 +453,16 @@ options:
               - Performs normal device compliance validation before distribution
               - Only distributes images to devices that are marked as NON_COMPLIANT
               - Follows standard SWIM workflow
+              - Follows standard SWIM workflow with full validation
 
               Use Cases:
               - Converting access points or switches to operate as Wireless LAN Controllers
               - Scenarios where compliance checks should be bypassed for specific device transformations
+              - Forced image distribution for WLC conversion processes
+
+              Security Note:
+              Use this parameter with caution as it bypasses standard compliance
+              checks. Ensure device compatibility before enabling this option.
             type: bool
             default: false
           site_name:
@@ -1187,6 +1193,7 @@ class Swim(DnacBase):
         self.supported_states = ["merged", "deleted"]
         self.images_to_import, self.existing_images = [], []
         self.state = self.params.get("state")
+
     def validate_input(self):
         """
         Validate the fields provided in the playbook.
@@ -3555,14 +3562,29 @@ class Swim(DnacBase):
             device_id = distribution_device_id
 
             if not convert_to_wlc:
-                self.log("Checking compliance for image '{0}' on device {1}".format(image_name, device_ip), "DEBUG")
+                self.log(
+                    "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                        image_name, device_ip
+                    ),
+                    "DEBUG"
+                )
                 self.log("Convert to WLC is set to False", "DEBUG")
                 elg_device_ip, device_id = self.check_device_compliance(
                     distribution_device_id, image_name
                 )
+                if elg_device_ip:
+                    self.log(
+                        "Device {0} passed compliance validation for image '{1}'".format(
+                            elg_device_ip, image_name
+                        ),
+                        "INFO"
+                    )
             else:
-                self.log("Convert to WLC is set to True", "DEBUG")
-                self.log("We will skip compliance check for image '{0}' on device {1}".format(image_name, device_ip), "DEBUG")
+                self.log(
+                    "WLC conversion mode enabled - bypassing compliance validation "
+                    "for image '{0}' on device {1}".format(image_name, device_ip),
+                    "WARNING"
+                )
                 # When convert_to_wlc is True, skip compliance check and use the device as eligible
                 elg_device_ip = device_ip
                 device_id = distribution_device_id
@@ -3803,12 +3825,20 @@ class Swim(DnacBase):
                     device_id = device_uuid
 
                     if not convert_to_wlc:
-                        self.log("Checking compliance for image '{0}' on device {1}".format(img_name, device_ip), "DEBUG")
+                        self.log(
+                            "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                                image_name, device_ip
+                            ),
+                            "DEBUG"
+                        )
                         self.log("Convert to WLC is set to False", "DEBUG")
                         elg_device_ip, device_id = self.check_device_compliance(device_uuid, img_name)
                     else:
-                        self.log("Convert to WLC is set to True", "DEBUG")
-                        self.log("We will skip compliance check for image '{0}' on device {1}".format(img_name, device_ip), "DEBUG")
+                        self.log(
+                            "WLC conversion mode enabled - bypassing compliance validation "
+                            "for image '{0}' on device {1}".format(image_name, device_ip),
+                            "WARNING"
+                        )
                         # When convert_to_wlc is True, skip compliance check and use the device as eligible
                         elg_device_ip = device_ip
                         device_id = device_uuid
@@ -3864,12 +3894,20 @@ class Swim(DnacBase):
                 elg_device_uuid = device_uuid
 
                 if not convert_to_wlc:
-                    self.log("Checking compliance for device {0}".format(device_ip), "DEBUG")
+                    self.log(
+                        "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                            image_name, device_ip
+                        ),
+                        "DEBUG"
+                    )
                     self.log("Convert to WLC is set to False", "DEBUG")
                     elg_device_ip, elg_device_uuid = self.check_device_compliance(device_uuid)
                 else:
-                    self.log("Convert to WLC is set to True", "DEBUG")
-                    self.log("We will skip compliance check for device {0}".format(device_ip), "DEBUG")
+                    self.log(
+                        "WLC conversion mode enabled - bypassing compliance validation "
+                        "for image '{0}' on device {1}".format(image_name, device_ip),
+                        "WARNING"
+                    )
                     # When convert_to_wlc is True, skip compliance check and use the device as eligible
                     elg_device_ip = device_ip
                     elg_device_uuid = device_uuid
@@ -4174,14 +4212,22 @@ class Swim(DnacBase):
             device_id = activation_device_id
 
             if not convert_to_wlc:
-                self.log("Checking compliance for image '{0}' on device {1}".format(image_name, device_ip), "DEBUG")
+                self.log(
+                    "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                        image_name, device_ip
+                    ),
+                    "DEBUG"
+                )
                 self.log("Convert to WLC is set to False", "DEBUG")
                 elg_device_ip, device_id = self.check_device_compliance(
                     self.have.get("activation_device_id"), image_name
                 )
             else:
-                self.log("Convert to WLC is set to True", "DEBUG")
-                self.log("We will skip compliance check for image '{0}' on device {1}".format(image_name, device_ip), "DEBUG")
+                self.log(
+                    "WLC conversion mode enabled - bypassing compliance validation "
+                    "for image '{0}' on device {1}".format(image_name, device_ip),
+                    "WARNING"
+                )
                 # When convert_to_wlc is True, skip compliance check and use the device as eligible
                 elg_device_ip = device_ip
                 device_id = self.have.get("activation_device_id")
@@ -4214,7 +4260,7 @@ class Swim(DnacBase):
                             "deviceUpgradeMode": activation_details.get("device_upgrade_mode"),
                             "distributeIfNeeded": activation_details.get("distribute_if_needed"),
                             "deviceUuid": self.have.get("activation_device_id"),
-                            "imageUuidList": [image_id],
+                            "imageUuidList": [image_id] if image_id else [],
                         }
                     ]
 
@@ -4386,12 +4432,20 @@ class Swim(DnacBase):
                     device_id = device_uuid
 
                     if not convert_to_wlc:
-                        self.log("Checking compliance for image '{0}' on device {1}".format(image_name, device_ip), "DEBUG")
+                        self.log(
+                            "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                                image_name, device_ip
+                            ),
+                            "DEBUG"
+                        )
                         self.log("Convert to WLC is set to False", "DEBUG")
                         elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
                     else:
-                        self.log("Convert to WLC is set to True", "DEBUG")
-                        self.log("We will skip compliance check for image '{0}' on device {1}".format(image_name, device_ip), "DEBUG")
+                        self.log(
+                            "WLC conversion mode enabled - bypassing compliance validation "
+                            "for image '{0}' on device {1}".format(image_name, device_ip),
+                            "WARNING"
+                        )
                         # When convert_to_wlc is True, skip compliance check and use the device as eligible
                         elg_device_ip = device_ip
                         device_id = device_uuid
@@ -4501,12 +4555,20 @@ class Swim(DnacBase):
                 device_id = device_uuid
 
                 if not convert_to_wlc:
-                    self.log("Checking compliance for image '{0}' on device {1}".format(image_name, device_ip), "DEBUG")
+                    self.log(
+                        "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                            image_name, device_ip
+                        ),
+                        "DEBUG"
+                    )
                     self.log("Convert to WLC is set to False", "DEBUG")
                     elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
                 else:
-                    self.log("Convert to WLC is set to True", "DEBUG")
-                    self.log("We will skip compliance check for image '{0}' on device {1}".format(image_name, device_ip), "DEBUG")
+                    self.log(
+                        "WLC conversion mode enabled - bypassing compliance validation "
+                        "for image '{0}' on device {1}".format(image_name, device_ip),
+                        "WARNING"
+                    )
                     # When convert_to_wlc is True, skip compliance check and use the device as eligible
                     elg_device_ip = device_ip
                     device_id = device_uuid
@@ -4932,6 +4994,8 @@ class Swim(DnacBase):
         """
 
         image_id = self.have.get("distribution_image_id")
+        image_name = None
+
         if image_id:
             image_name = self.get_image_name_from_id(image_id)
 
@@ -5002,6 +5066,8 @@ class Swim(DnacBase):
         """
 
         image_id = self.have.get("activation_image_id")
+        image_name = None
+
         if image_id:
             image_name = self.get_image_name_from_id(image_id)
 
@@ -5176,7 +5242,7 @@ class Swim(DnacBase):
         if failed_deletions:
             failed_list = "', '".join(failed_deletions)
             status_parts.append("Failed to delete image(s): '{0}'".format(failed_list))
-        
+
         if non_existent_images:
             non_existent_list = "', '".join(non_existent_images)
             status_parts.append("Image(s) not found and could not be deleted: '{0}'".format(non_existent_list))
