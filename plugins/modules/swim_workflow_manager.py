@@ -452,7 +452,6 @@ options:
               When set to False (default):
               - Performs normal device compliance validation before distribution
               - Only distributes images to devices that are marked as NON_COMPLIANT
-              - Follows standard SWIM workflow
               - Follows standard SWIM workflow with full validation
 
               Use Cases:
@@ -627,11 +626,16 @@ options:
               When set to False (default):
               - Performs normal device compliance validation before activation
               - Only activates images on devices that are marked as NON_COMPLIANT
-              - Follows standard SWIM workflow
+              - Follows standard SWIM workflow with full validation
 
               Use Cases:
               - Converting access points or switches to operate as Wireless LAN Controllers
               - Scenarios where compliance checks should be bypassed for specific device transformations
+              - Forced image activation for WLC conversion processes
+
+              Security Note:
+              Use this parameter with caution as it bypasses standard compliance
+              checks. Ensure device compatibility before enabling this option.
             type: bool
             default: false
           image_name:
