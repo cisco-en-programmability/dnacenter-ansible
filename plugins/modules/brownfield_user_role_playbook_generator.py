@@ -38,66 +38,66 @@ options:
     default: merged
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `user_role_workflow_manager`
-      module.
-    - Filters specify which components to include in the YAML configuration file.
-    - If "components_list" is specified, only those components are included, regardless of the filters.
+      - A list of filters for generating YAML playbook compatible with the `user_role_workflow_manager`
+        module.
+      - Filters specify which components to include in the YAML configuration file.
+      - If "components_list" is specified, only those components are included, regardless of the filters.
     type: list
     elements: dict
     required: true
     suboptions:
       file_path:
         description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name  "<module_name>_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "user_role_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
+          - Path where the YAML configuration file will be saved.
+          - If not provided, the file will be saved in the current working directory with
+            a default file name  "<module_name>_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
+          - For example, "user_role_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
         type: str
       component_specific_filters:
         description:
-        - Filters to specify which components to include in the YAML configuration
-          file.
-        - If "components_list" is specified, only those components are included,
-          regardless of other filters.
+          - Filters to specify which components to include in the YAML configuration
+            file.
+          - If "components_list" is specified, only those components are included,
+            regardless of other filters.
         type: dict
         suboptions:
           components_list:
             description:
-            - List of components to include in the YAML configuration file.
-            - Valid values are
-              - User Details "user_details"
-              - Role Details "role_details"
-            - If not specified, all components are included.
-            - For example, ["user_details", "role_details"].
+              - List of components to include in the YAML configuration file.
+              - Valid values are
+                - User Details "user_details"
+                - Role Details "role_details"
+              - If not specified, all components are included.
+              - For example, ["user_details", "role_details"].
             type: list
             elements: str
           user_details:
             description:
-            - User details to filter users by username, email, or role.
+              - User details to filter users by username, email, or role.
             type: list
             elements: dict
             suboptions:
               username:
                 description:
-                - Username to filter users by username.
+                  - Username to filter users by username.
                 type: str
               email:
                 description:
-                - Email to filter users by email address.
+                  - Email to filter users by email address.
                 type: str
               role_name:
                 description:
-                - Role name to filter users by assigned role.
+                  - Role name to filter users by assigned role.
                 type: str
           role_details:
             description:
-            - Role details to filter roles by role name.
+              - Role details to filter roles by role name.
             type: list
             elements: dict
             suboptions:
               role_name:
                 description:
-                - Role name to filter roles by role name.
+                  - Role name to filter roles by role name.
                 type: str
 requirements:
 - dnacentersdk >= 2.7.2
@@ -222,27 +222,36 @@ EXAMPLES = r"""
 RETURN = r"""
 # Case_1: Success Scenario
 response_1:
-  description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
+  description: A dictionary with the response returned by the Cisco Catalyst Center
   returned: always
   type: dict
   sample: >
     {
-      "response":
-        {
-          "response": String,
-          "version": String
-        },
-      "msg": String
+      "msg": {
+        "YAML config generation Task succeeded for module 'user_role_workflow_manager'.": {
+            "file_path": "/Users/priyadharshini/Downloads/specific_userrole_details_info"
+        }
+    },
+    "response": {
+        "YAML config generation Task succeeded for module 'user_role_workflow_manager'.": {
+            "file_path": "/Users/priyadharshini/Downloads/specific_userrole_details_info"
+        }
     }
 # Case_2: Error Scenario
 response_2:
-  description: A string with the response returned by the Cisco Catalyst Center Python SDK
+  description: A string with the response returned by the Cisco Catalyst Center
   returned: always
   type: list
   sample: >
-    {
-      "response": [],
-      "msg": String
+    "msg": {
+        "YAML config generation Task failed for module 'user_role_workflow_manager'.": {
+            "file_path": "/Users/priyadharshini/Downloads/specific_userrole_details_info"
+        }
+    },
+    "response": {
+        "YAML config generation Task failed for module 'user_role_workflow_manager'.": {
+            "file_path": "/Users/priyadharshini/Downloads/specific_userrole_details_info"
+        }
     }
 """
 
@@ -426,10 +435,10 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_role_name_by_id(self, role_id):
         """
         Gets role name by role ID.
-        
+
         Args:
             role_id (str): The role ID to lookup.
-            
+
         Returns:
             str: The role name corresponding to the role ID.
         """
@@ -445,7 +454,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                 roles = roles_response.get("response", {}).get("roles", [])
                 for role in roles:
                     self._role_cache[role.get("roleId")] = role.get("name")
-            
+
             return self._role_cache.get(role_id, role_id)
         except Exception as e:
             self.log("Error getting role name for ID {0}: {1}".format(role_id, str(e)), "ERROR")
@@ -454,19 +463,19 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
     def transform_role_resource_types(self, role_details):
         """
         Transforms role resource types into a more readable format for the playbook.
-        
+
         Args:
             role_details (dict): Role details containing resourceTypes.
-            
+
         Returns:
             dict: Transformed role permissions structure.
         """
         self.log("Transforming role resource types for role: {0}".format(role_details.get("name")), "DEBUG")
-        
+
         resource_types = role_details.get("resourceTypes", [])
         if not resource_types:
             return {}
-        
+
         # Initialize the structure for all categories
         transformed_permissions = {
             "assurance": {},
@@ -479,7 +488,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             "system": {},
             "utilities": {}
         }
-        
+
         for resource in resource_types:
             resource_type = resource.get("type", "")
             operations = resource.get("operations", [])
@@ -495,10 +504,10 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                 permission = "read"
             else:
                 permission = "write"
-            
+
             # Parse resource type and create nested structure
             parts = resource_type.split(".")
-            
+
             if len(parts) == 1:
                 # Top-level category (e.g., "Assurance", "Network Design")
                 category = self.normalize_category_name(parts[0])
@@ -506,21 +515,21 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                     # Don't override if we already have subcategories
                     if not transformed_permissions[category]:
                         transformed_permissions[category]["overall"] = permission
-                        
+
             elif len(parts) == 2:
                 # Category with subcategory (e.g., "Network Design.Advanced Network Settings")
                 category = self.normalize_category_name(parts[0])
                 subcategory = self.normalize_subcategory_name(parts[1])
-                
+
                 if category in transformed_permissions:
                     transformed_permissions[category][subcategory] = permission
-                    
+
             elif len(parts) == 3:
                 # Nested subcategory (e.g., "Network Provision.Inventory Management.Device Configuration")
                 category = self.normalize_category_name(parts[0])
                 parent_subcategory = self.normalize_subcategory_name(parts[1])
                 nested_subcategory = self.normalize_subcategory_name(parts[2])
-                
+
                 if category in transformed_permissions:
                     # Create nested structure
                     if parent_subcategory not in transformed_permissions[category]:
@@ -528,9 +537,9 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                     elif not isinstance(transformed_permissions[category][parent_subcategory], dict):
                         # If it was a simple permission, convert to dict
                         transformed_permissions[category][parent_subcategory] = {}
-                        
+
                     transformed_permissions[category][parent_subcategory][nested_subcategory] = permission
-        
+
         # Convert to the expected list format for YAML generation
         final_structure = {}
         for category, permissions in transformed_permissions.items():
@@ -545,27 +554,27 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                         if isinstance(inventory_mgmt, dict):
                             # Convert inventory_management to list format
                             permissions["inventory_management"] = [inventory_mgmt]
-                    
+
                     final_structure[category] = [permissions]
             else:
                 # Empty category
                 final_structure[category] = [{}]
-        
+
         return final_structure
 
     def normalize_category_name(self, category):
         """
         Normalizes category names to match expected format.
-        
+
         Args:
             category (str): Original category name from API.
-            
+
         Returns:
             str: Normalized category name.
         """
         category_mapping = {
             "Assurance": "assurance",
-            "Network Analytics": "network_analytics", 
+            "Network Analytics": "network_analytics",
             "Network Design": "network_design",
             "Network Provision": "network_provision",
             "Network Services": "network_services",
@@ -579,10 +588,10 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
     def normalize_subcategory_name(self, subcategory):
         """
         Normalizes subcategory names to match expected format.
-        
+
         Args:
             subcategory (str): Original subcategory name from API.
-            
+
         Returns:
             str: Normalized subcategory name.
         """
@@ -594,7 +603,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             "Data Access": "data_access",
             "Advanced Network Settings": "advanced_network_settings",
             "Image Repository": "image_repository",
-            "Network Hierarchy": "network_hierarchy", 
+            "Network Hierarchy": "network_hierarchy",
             "Network Profiles": "network_profiles",
             "Network Settings": "network_settings",
             "Virtual Network": "virtual_network",
@@ -623,7 +632,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             "Scheduler": "scheduler",
             "Search": "search"
         }
-        
+
         return name_mapping.get(subcategory, subcategory.lower().replace(" ", "_").replace("-", "_"))
 
     def role_details_temp_spec(self):
@@ -651,7 +660,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             },
             "network_design": {
                 "type": "list",
-                "special_handling": True, 
+                "special_handling": True,
                 "transform": lambda x: self.transform_role_resource_types(x).get("network_design", [{}]),
             },
             "network_provision": {
@@ -665,7 +674,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "transform": lambda x: self.transform_role_resource_types(x).get("network_services", [{}]),
             },
             "platform": {
-                "type": "list", 
+                "type": "list",
                 "special_handling": True,
                 "transform": lambda x: self.transform_role_resource_types(x).get("platform", [{}]),
             },
@@ -734,7 +743,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             },
             "network_design": {
                 "type": "list",
-                "special_handling": True, 
+                "special_handling": True,
                 "transform": lambda x: self.transform_role_resource_types(x).get("network_design", [{}]),
             },
             "network_provision": {
@@ -794,7 +803,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         final_users = []
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
-        
+
         self.log(
             "Getting users using family '{0}' and function '{1}'.".format(
                 api_family, api_function
@@ -830,10 +839,10 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                                 if value not in user_role_names:
                                     match = False
                                     break
-                        
+
                         if match and user not in filtered_users:
                             filtered_users.append(user)
-                
+
                 final_users = filtered_users
             else:
                 final_users = users
@@ -845,7 +854,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         # Modify user details using temp_spec
         user_details_temp_spec = self.user_details_temp_spec()
         user_details = self.modify_parameters(user_details_temp_spec, final_users)
-        
+
         modified_user_details = {"user_details": user_details}
         self.log("Modified user details: {0}".format(modified_user_details), "INFO")
 
@@ -875,7 +884,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         final_roles = []
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
-        
+
         self.log(
             "Getting roles using family '{0}' and function '{1}'.".format(
                 api_family, api_function
@@ -902,16 +911,16 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                         if role_type in ["default", "system"]:
                             self.log("Skipping {0} role: {1}".format(role_type, role.get("name")), "DEBUG")
                             continue
-                            
+
                         match = True
                         for key, value in filter_param.items():
                             if key == "role_name" and role.get("name", "") != value:
                                 match = False
                                 break
-                        
+
                         if match and role not in filtered_roles:
                             filtered_roles.append(role)
-                
+
                 final_roles = filtered_roles
             else:
                 # Exclude system default roles and roles with type "default" or "system"
@@ -919,19 +928,21 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                 for role in roles:
                     role_name = role.get("name", "")
                     role_type = role.get("type", "").lower()
-                    
+
                     # Skip system default roles by name
-                    if (role_name.startswith("SUPER-ADMIN") or 
-                        role_name.startswith("NETWORK-ADMIN") or 
-                        role_name.startswith("OBSERVER")):
+                    if (
+                        role_name.startswith("SUPER-ADMIN") or
+                        role_name.startswith("NETWORK-ADMIN") or
+                        role_name.startswith("OBSERVER")
+                    ):
                         self.log("Skipping system default role: {0}".format(role_name), "DEBUG")
                         continue
-                    
+
                     # Skip roles with type "default" or "system"
                     if role_type in ["default", "system"]:
                         self.log("Skipping {0} role: {1}".format(role_type, role_name), "DEBUG")
                         continue
-                    
+
                     final_roles.append(role)
 
         except Exception as e:
@@ -941,7 +952,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         # Modify role details using temp_spec
         role_details_temp_spec = self.role_details_temp_spec()
         role_details = self.modify_parameters(role_details_temp_spec, final_roles)
-        
+
         modified_role_details = {"role_details": role_details}
         self.log("Modified role details: {0}".format(modified_role_details), "INFO")
 
@@ -965,7 +976,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             ),
             "DEBUG",
         )
-        
+
         file_path = yaml_config_generator.get("file_path")
         if not file_path:
             self.log("No file_path provided by user, generating default filename", "DEBUG")
@@ -994,7 +1005,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Create the structured configuration
         config_dict = {}
-        
+
         for component in components_list:
             network_element = module_supported_network_elements.get(component)
             if not network_element:
@@ -1008,14 +1019,14 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "global_filters": yaml_config_generator.get("global_filters", {}),
                 "component_specific_filters": component_specific_filters
             }
-            
+
             operation_func = network_element.get("get_function_name")
             if callable(operation_func):
                 details = operation_func(network_element, filters)
                 self.log(
                     "Details retrieved for {0}: {1}".format(component, details), "DEBUG"
                 )
-                
+
                 # Add the component data to the config dictionary
                 if component in details and details[component]:
                     config_dict[component] = details[component]
@@ -1026,12 +1037,8 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             )
             self.set_operation_result("success", False, self.msg, "INFO")
             return self
-        
-        # Changed: Create single config item with all components as direct keys
-        # Instead of separate list items for each component
-        # final_config = [config_dict]  # Put all components in one dictionary
 
-        final_dict = {"config": config_dict} 
+        final_dict = {"config": config_dict}
         self.log("Final dictionary created: {0}".format(final_dict), "DEBUG")
 
         if self.write_dict_to_yaml(final_dict, file_path):
@@ -1054,7 +1061,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_want(self, config, state):
         """
         Creates parameters for API calls based on the specified state.
-        
+
         Args:
             config (dict): The configuration data for the user/role elements.
             state (str): The desired state ('merged').
@@ -1064,20 +1071,20 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         self.validate_params(config)
-        
+
         component_specific_filters = config.get("component_specific_filters", {})
         components_list = component_specific_filters.get("components_list", [])
-        
+
         if components_list:
             # Define allowed components
             allowed_components = ["user_details", "role_details"]
             invalid_components = []
-            
+
             # Check each component in the list
             for component in components_list:
                 if component not in allowed_components:
                     invalid_components.append(component)
-            
+
             # If invalid components found, return error
             if invalid_components:
                 self.msg = (
@@ -1110,7 +1117,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         start_time = time.time()
         self.log("Starting 'get_diff_merged' operation.", "DEBUG")
-        
+
         operations = [
             (
                 "yaml_config_generator",
@@ -1183,10 +1190,10 @@ def main():
 
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
-    
+
     # Initialize the UserRolePlaybookGenerator object with the module
     ccc_user_role_playbook_generator = UserRolePlaybookGenerator(module)
-    
+
     # Check version compatibility
     if (
         ccc_user_role_playbook_generator.compare_dnac_versions(
@@ -1218,7 +1225,7 @@ def main():
     # Validate the input parameters and check the return status
     ccc_user_role_playbook_generator.validate_input().check_return_status()
     config = ccc_user_role_playbook_generator.validated_config
-    
+
     if len(config) == 1 and config[0].get("component_specific_filters") is None:
         ccc_user_role_playbook_generator.msg = (
             "No valid configurations found in the provided parameters."
