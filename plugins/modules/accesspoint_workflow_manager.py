@@ -243,7 +243,10 @@ options:
             type: str
             required: true
       2.4ghz_radio:
-        description: Configuration options for the 2.4GHz radio interface.
+        description: |
+          Configuration options for the 2.4GHz radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
         type: dict
         required: false
         suboptions:
@@ -316,7 +319,10 @@ options:
             type: int
             required: false
       5ghz_radio:
-        description: Configuration options for the 5GHz radio interface.
+        description: >
+          Configuration options for the 5GHz radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
         type: dict
         required: false
         suboptions:
@@ -397,7 +403,10 @@ options:
             type: int
             required: false
       6ghz_radio:
-        description: Configuration options for the 6GHz radio interface.
+        description: |
+          Configuration options for the 6GHz radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
         type: dict
         required: false
         suboptions:
@@ -480,7 +489,10 @@ options:
             type: int
             required: false
       xor_radio:
-        description: Configuration options for the XOR radio interface.
+        description: |
+          Configuration options for the XOR radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
         type: dict
         required: false
         suboptions:
@@ -590,7 +602,10 @@ options:
             type: int
             required: false
       tri_radio:
-        description: Configuration options for the TRI radio interface.
+        description: |
+          Configuration options for the TRI radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
         type: dict
         required: false
         suboptions:
@@ -915,7 +930,10 @@ options:
                     type: str
                     required: false
               2.4ghz_radio:
-                description: Configuration options for the 2.4GHz radio interface.
+                description: |
+                  Configuration options for the 2.4GHz radio interface.
+                  Note: Updating access point radio configuration varies based on each model.
+                  Refer to the respective access point documentation before updating the radio configuration.
                 type: dict
                 required: false
                 suboptions:
@@ -988,7 +1006,10 @@ options:
                     type: int
                     required: false
               5ghz_radio:
-                description: Configuration options for the 5GHz radio interface.
+                description: |
+                  Configuration options for the 5GHz radio interface.
+                  Note: Updating access point radio configuration varies based on each model.
+                  Refer to the respective access point documentation before updating the radio configuration.
                 type: dict
                 required: false
                 suboptions:
@@ -1064,7 +1085,10 @@ options:
                     type: int
                     required: false
               6ghz_radio:
-                description: Configuration options for the 6GHz radio interface.
+                description: |
+                  Configuration options for the 6GHz radio interface.
+                  Note: Updating access point radio configuration varies based on each model.
+                  Refer to the respective access point documentation before updating the radio configuration.
                 type: dict
                 required: false
                 suboptions:
@@ -1141,7 +1165,10 @@ options:
                     type: int
                     required: false
               xor_radio:
-                description: Configuration options for the XOR radio interface.
+                description: |
+                  Configuration options for the XOR radio interface.
+                  Note: Updating access point radio configuration varies based on each model.
+                  Refer to the respective access point documentation before updating the radio configuration.
                 type: dict
                 required: false
                 suboptions:
@@ -1251,7 +1278,10 @@ options:
                     type: int
                     required: false
               tri_radio:
-                description: Configuration options for the TRI radio interface.
+                description: |
+                  Configuration options for the TRI radio interface.
+                  Note: Updating access point radio configuration varies based on each model.
+                  Refer to the respective access point documentation before updating the radio configuration.
                 type: dict
                 required: false
                 suboptions:
