@@ -163,8 +163,12 @@ options:
                 default: 111
           data_retention_period:
             description:
-              - Number of days to retain backup before cleanup.
-              - Range must be between 3 and 60 days.
+              - Number of backup copies to retain before cleanup.
+              - Range must be between 3 and 60 backup copies.
+              - When the number of backups exceeds this retention setting,
+                the oldest backups are automatically removed to free up storage space.
+              - Defines how many past backup versions the system will store
+                before triggering automatic cleanup of older backup copies.
             type: int
             required: true
           encryption_passphrase:
@@ -872,6 +876,13 @@ class BackupRestore(DnacBase):
         self.delete_backup_failed = []
         self.already_backup_exists = []
         self.restored_backup = []
+        self.state = self.params.get("state")
+
+        self.backup_task_timeout = 1200
+        self.restore_task_timeout = 3600
+        self.is_backup_task_timeout_set = False
+        self.is_restore_task_timeout_set = False
+        self.max_timeout = 1200
 
     def validate_input(self):
         """
@@ -2398,6 +2409,7 @@ class BackupRestore(DnacBase):
             self.log("Backup operations from input: {0}".format(backup_ops), "DEBUG")
             if backup_ops:
                 self.backup_task_timeout = backup_ops[0].get("backup_task_timeout", 1200)
+                self.is_backup_task_timeout_set = True
                 self.log("Backup task timeout set to: {0} seconds".format(self.backup_task_timeout), "DEBUG")
 
             status = self.get_backup_status_by_task_id(task_id)
@@ -2498,6 +2510,7 @@ class BackupRestore(DnacBase):
 
                 if restore_operations:
                     self.restore_task_timeout = restore_operations[0].get("restore_task_timeout", 3600)
+                    self.is_restore_task_timeout_set = True
                     self.log("Restore task timeout set to: {0} seconds".format(self.restore_task_timeout), "DEBUG")
 
                 status = self.get_backup_status_by_task_id(task_id)
@@ -2577,12 +2590,13 @@ class BackupRestore(DnacBase):
             return "UNKNOWN"
 
         start_time = time.time()
-        if self.config.get("state") == "merged":
-            if self.backup_task_timeout:
+
+        if self.state == "merged":
+            if self.is_backup_task_timeout_set:
                 self.log("Using backup task timeout: {0} seconds".format(self.backup_task_timeout), "DEBUG")
                 self.max_timeout = self.backup_task_timeout
                 self.log("Task timeout set to backup_task_timeout: {0} seconds".format(self.max_timeout), "DEBUG")
-            elif self.restore_task_timeout:
+            elif self.is_restore_task_timeout_set:
                 self.log("Using restore task timeout: {0} seconds".format(self.restore_task_timeout), "DEBUG")
                 self.max_timeout = self.restore_task_timeout
                 self.log("Task timeout set to restore_task_timeout: {0} seconds".format(self.max_timeout), "DEBUG")
@@ -2592,6 +2606,8 @@ class BackupRestore(DnacBase):
                 self.log("Task timeout set to: {0} seconds".format(self.max_timeout), "DEBUG")
 
         self.log("Task timeout set to: {0} seconds".format(self.max_timeout), "DEBUG")
+
+        retry_start_time = None
 
         while True:
             elapsed_time = time.time() - start_time
@@ -2627,8 +2643,27 @@ class BackupRestore(DnacBase):
                     time.sleep(5)
 
             except Exception as e:
-                self.msg = "Error while retrieving status for task ID '{0}': {1}".format(task_id, str(e))
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                if retry_start_time is None:
+                    retry_start_time = time.time()
+
+                elapsed = time.time() - retry_start_time
+
+                if elapsed >= 60:
+                    self.msg = (
+                        "Unable to retrieve backup status for task ID '{0}' "
+                        "even after retrying for 60 seconds."
+                    ).format(task_id)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    return "FAILED"
+
+                self.log(
+                    "Error retrieving status for task ID '{0}'. Retrying in 10 seconds... "
+                    "(elapsed {1}/60 seconds)"
+                    .format(task_id, int(elapsed)),
+                    "WARNING"
+                )
+                time.sleep(10)
+                continue
 
             self.log("Backup status polling for task ID '{0}' completed.".format(task_id), "DEBUG")
 
