@@ -6,7 +6,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ("Karthick S N", "Madhan Sankaranarayanan")
+__author__ = ("Karthick S N", "Priyadharshini B", "Madhan Sankaranarayanan")
 
 DOCUMENTATION = r"""
 ---
@@ -34,6 +34,7 @@ extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
   - Karthick S N (@karthick-s-n)
+  - Priyadharshini B (@pbalaku2)
   - Madhan Sankaranarayanan (@madhansansel)
 
 options:
