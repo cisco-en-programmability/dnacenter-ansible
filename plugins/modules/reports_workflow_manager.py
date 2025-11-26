@@ -3628,18 +3628,46 @@ class Reports(DnacBase):
             report_payload["view"]["filters"] = fixed_filters
 
             # NEW SECTION — FIELD GROUP NORMALIZATION (REQUESTED)
+            self.log(
+                "Starting field group normalization for report payload API compatibility",
+                "DEBUG"
+            )
             fixed_field_groups = []
             if "view" in report_payload and "fieldGroups" in report_payload["view"]:
-                for fg in report_payload["view"]["fieldGroups"]:
-                    # Auto-populate group display name
+                field_groups = report_payload["view"]["fieldGroups"]
+
+                self.log(
+                    "Processing {0} field groups for display name normalization".format(
+                        len(field_groups)
+                    ),
+                    "DEBUG"
+                )
+
+                for fg in field_groups:
+                    if not isinstance(fg, dict):
+                        self.log(
+                            "Skipping invalid field group - expected dict, got {0}".format(
+                                type(fg).__name__
+                            ),
+                            "WARNING"
+                        )
+                        continue
+
+                    # Auto-populate group display name from group name if missing
                     fg["fieldGroupDisplayName"] = fg.get(
                         "fieldGroupDisplayName",
                         fg.get("fieldGroupName")
                     )
 
-                    # Normalize fields list
+                    # Normalize fields list with display name population
                     fixed_fields = []
                     fields = fg.get("fields", [])
+                    self.log(
+                        "Normalizing {0} fields in group '{1}'".format(
+                            len(fields), fg.get("fieldGroupName", "Unknown")
+                        ),
+                        "DEBUG"
+                    )
 
                     for f in fields:
                         f["displayName"] = f.get("displayName", f.get("name"))
@@ -3649,6 +3677,12 @@ class Reports(DnacBase):
                     fixed_field_groups.append(fg)
 
                 report_payload["view"]["fieldGroups"] = fixed_field_groups
+                self.log(
+                    "Field group normalization completed - processed {0} groups".format(
+                        len(fixed_field_groups)
+                    ),
+                    "DEBUG"
+                )
 
             self.log(
                 "Prepared API payload for report '{0}'".format(report_entry.get("name")),
