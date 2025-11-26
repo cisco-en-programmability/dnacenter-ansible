@@ -225,7 +225,8 @@ options:
               - Must be a list containing exactly one delivery configuration.
               - Supports three delivery methods DOWNLOAD, NOTIFICATION (email),
                 and WEBHOOK.
-            type: dict
+            type: list
+            elements: dict
             required: true
             suboptions:
               delivery_type:
@@ -266,27 +267,27 @@ options:
                     type: list
                     elements: str
                     required: false
-                  email_attach:
-                    description:
-                    - Whether the report should be attached in the notification email.
-                    type: bool
-                    required: false
-                    default: false
-                  notify:
-                    description:
-                    - List of report execution statuses that will trigger
-                      a notification.
-                    - If not specified, notifications are sent for all statuses.
-                    - C(IN_QUEUE) notifies when report is queued for execution.
-                    - C(IN_PROGRESS) notifies when report execution starts.
-                    - C(COMPLETED) notifies when report execution finishes.
-                    choices:
-                        - C(IN_QUEUE)
-                        - C(IN_PROGRESS)
-                        - C(COMPLETED)
-                    type: list
-                    elements: str
-                    required: false
+              email_attach:
+                description:
+                - Whether the report should be attached in the notification email.
+                type: bool
+                required: false
+                default: false
+              notify:
+                description:
+                - List of report execution statuses that will trigger
+                    a notification.
+                - If not specified, notifications are sent for all statuses.
+                - C(IN_QUEUE) notifies when report is queued for execution.
+                - C(IN_PROGRESS) notifies when report execution starts.
+                - C(COMPLETED) notifies when report execution finishes.
+                choices:
+                    - C(IN_QUEUE)
+                    - C(IN_PROGRESS)
+                    - C(COMPLETED)
+                type: list
+                elements: str
+                required: false
               webhook_name:
                 description:
                   - The name of the webhook to be triggered for the report.
@@ -1214,8 +1215,8 @@ EXAMPLES = r'''
                   - email_addresses:
                       - "admin@company.com"
                       - "reports@company.com"
-                    email_attach: true
-                    notify: ["COMPLETED"]
+                email_attach: true
+                notify: ["COMPLETED"]
             schedule:
               schedule_type: "SCHEDULE_LATER"
               date_time: "2025-12-25 09:00 AM"
@@ -3625,6 +3626,63 @@ class Reports(DnacBase):
 
                     fixed_filters.append(flt)
             report_payload["view"]["filters"] = fixed_filters
+
+            # NEW SECTION — FIELD GROUP NORMALIZATION (REQUESTED)
+            self.log(
+                "Starting field group normalization for report payload API compatibility",
+                "DEBUG"
+            )
+            fixed_field_groups = []
+            if "view" in report_payload and "fieldGroups" in report_payload["view"]:
+                field_groups = report_payload["view"]["fieldGroups"]
+
+                self.log(
+                    "Processing {0} field groups for display name normalization".format(
+                        len(field_groups)
+                    ),
+                    "DEBUG"
+                )
+
+                for fg in field_groups:
+                    if not isinstance(fg, dict):
+                        self.log(
+                            "Skipping invalid field group - expected dict, got {0}".format(
+                                type(fg).__name__
+                            ),
+                            "WARNING"
+                        )
+                        continue
+
+                    # Auto-populate group display name from group name if missing
+                    fg["fieldGroupDisplayName"] = fg.get(
+                        "fieldGroupDisplayName",
+                        fg.get("fieldGroupName")
+                    )
+
+                    # Normalize fields list with display name population
+                    fixed_fields = []
+                    fields = fg.get("fields", [])
+                    self.log(
+                        "Normalizing {0} fields in group '{1}'".format(
+                            len(fields), fg.get("fieldGroupName", "Unknown")
+                        ),
+                        "DEBUG"
+                    )
+
+                    for f in fields:
+                        f["displayName"] = f.get("displayName", f.get("name"))
+                        fixed_fields.append(f)
+
+                    fg["fields"] = fixed_fields
+                    fixed_field_groups.append(fg)
+
+                report_payload["view"]["fieldGroups"] = fixed_field_groups
+                self.log(
+                    "Field group normalization completed - processed {0} groups".format(
+                        len(fixed_field_groups)
+                    ),
+                    "DEBUG"
+                )
 
             self.log(
                 "Prepared API payload for report '{0}'".format(report_entry.get("name")),
