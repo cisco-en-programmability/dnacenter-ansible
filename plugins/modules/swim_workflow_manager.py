@@ -440,7 +440,30 @@ options:
               default: 1800
               type: int
               version_added: 3.1.3.0
+          convert_to_wlc:
+            description: |
+              Flag to indicate device conversion to Wireless LAN Controller (WLC) during image distribution.
 
+              When set to True:
+              - Skips the device compliance check for image distribution
+              - Treats the device as eligible for image distribution regardless of current state
+              - Useful for scenarios where converting a device to WLC mode requires non-compliant image operations
+
+              When set to False (default):
+              - Performs normal device compliance validation before distribution
+              - Only distributes images to devices that are marked as NON_COMPLIANT
+              - Follows standard SWIM workflow with full validation
+
+              Use Cases:
+              - Converting access points or switches to operate as Wireless LAN Controllers
+              - Scenarios where compliance checks should be bypassed for specific device transformations
+              - Forced image distribution for WLC conversion processes
+
+              Security Note:
+              Use this parameter with caution as it bypasses standard compliance
+              checks. Ensure device compatibility before enabling this option.
+            type: bool
+            default: false
           site_name:
             description: Used to get device details
               associated to this site.
@@ -591,6 +614,30 @@ options:
             description: Enable the distribute_if_needed
               option when activating the SWIM image.
             type: bool
+          convert_to_wlc:
+            description: |
+              Flag to indicate device conversion to Wireless LAN Controller (WLC) during image activation.
+
+              When set to True:
+              - Skips the device compliance check for image activation
+              - Treats the device as eligible for image activation regardless of current state
+              - Useful for scenarios where converting a device to WLC mode requires non-compliant image operations
+
+              When set to False (default):
+              - Performs normal device compliance validation before activation
+              - Only activates images on devices that are marked as NON_COMPLIANT
+              - Follows standard SWIM workflow with full validation
+
+              Use Cases:
+              - Converting access points or switches to operate as Wireless LAN Controllers
+              - Scenarios where compliance checks should be bypassed for specific device transformations
+              - Forced image activation for WLC conversion processes
+
+              Security Note:
+              Use this parameter with caution as it bypasses standard compliance
+              checks. Ensure device compatibility before enabling this option.
+            type: bool
+            default: false
           image_name:
             description: Specifies the name of the SWIM
               image to be activated.
@@ -1049,6 +1096,45 @@ EXAMPLES = r"""
     config:
       - sync_cco: true
 
+- name: Distribute WLC image with convert_to_wlc flag to skip compliance check
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: true
+    config:
+      - image_distribution_details:
+          sub_package_images:
+            - C9800-SW-iosxe-wlc.17.12.01.SPA.bin
+          convert_to_wlc: true
+          site_name: Global/a_swim
+
+- name: Activate WLC image with convert_to_wlc flag to skip compliance check
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: true
+    config:
+      - image_activation_details:
+          sub_package_images:
+            - C9800-SW-iosxe-wlc.17.12.01.SPA.bin
+          convert_to_wlc: true
+          site_name: Global/a_swim
+          activate_lower_image_version: true
+          distribute_if_needed: true
+          schedule_validate: false
+
 - name: Delete image from Cisco Catalyst Center for v3.1.3.0.
   cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -1110,6 +1196,7 @@ class Swim(DnacBase):
         super().__init__(module)
         self.supported_states = ["merged", "deleted"]
         self.images_to_import, self.existing_images = [], []
+        self.state = self.params.get("state")
 
     def validate_input(self):
         """
@@ -1989,7 +2076,7 @@ class Swim(DnacBase):
         """
         self.log("Retrieving and storing software image and device details from Cisco Catalyst Center", "DEBUG")
 
-        if self.want.get("image_name"):
+        if self.want.get("image_name") and self.state == "merged":
             self.log("Processing bulk image names for ID resolution", "DEBUG")
             have = {}
             names = self.want.get("image_name")
@@ -3388,6 +3475,7 @@ class Swim(DnacBase):
         device_role = distribution_details.get("device_role", "ALL")
         device_series_name = distribution_details.get("device_series_name")
         self.max_timeout = distribution_details.get("image_distribution_timeout", 1800)
+        convert_to_wlc = distribution_details.get("convert_to_wlc", False)
         self.log(
             "Fetching device UUIDs for site '{0}', family '{1}', role '{2}', and series '{3}'.".format(
                 site_name, device_family, device_role, device_series_name
@@ -3473,9 +3561,38 @@ class Swim(DnacBase):
                 "INFO",
             )
 
-            elg_device_ip, device_id = self.check_device_compliance(
-                distribution_device_id, image_name
-            )
+            # Initialize variables
+            elg_device_ip = None
+            device_id = distribution_device_id
+
+            if not convert_to_wlc:
+                self.log(
+                    "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                        image_name, device_ip
+                    ),
+                    "DEBUG"
+                )
+                self.log("Convert to WLC is set to False", "DEBUG")
+                elg_device_ip, device_id = self.check_device_compliance(
+                    distribution_device_id, image_name
+                )
+                if elg_device_ip:
+                    self.log(
+                        "Device {0} passed compliance validation for image '{1}'".format(
+                            elg_device_ip, image_name
+                        ),
+                        "INFO"
+                    )
+            else:
+                self.log(
+                    "WLC conversion mode enabled - bypassing compliance validation "
+                    "for image '{0}' on device {1}".format(image_name, device_ip),
+                    "WARNING"
+                )
+                # When convert_to_wlc is True, skip compliance check and use the device as eligible
+                elg_device_ip = device_ip
+                device_id = distribution_device_id
+
             self.log(
                 "Device compliance check completed. IP: {0}, Device ID: {1}".format(
                     elg_device_ip, device_id
@@ -3707,8 +3824,28 @@ class Swim(DnacBase):
                 distributed = False
 
                 for img_name, img_id in image_ids.items():
-                    self.log("Checking compliance for image '{0}' on device {1}".format(img_name, device_ip), "DEBUG")
-                    elg_device_ip, device_id = self.check_device_compliance(device_uuid, img_name)
+                    # Initialize variables
+                    elg_device_ip = None
+                    device_id = device_uuid
+
+                    if not convert_to_wlc:
+                        self.log(
+                            "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                                image_name, device_ip
+                            ),
+                            "DEBUG"
+                        )
+                        self.log("Convert to WLC is set to False", "DEBUG")
+                        elg_device_ip, device_id = self.check_device_compliance(device_uuid, img_name)
+                    else:
+                        self.log(
+                            "WLC conversion mode enabled - bypassing compliance validation "
+                            "for image '{0}' on device {1}".format(image_name, device_ip),
+                            "WARNING"
+                        )
+                        # When convert_to_wlc is True, skip compliance check and use the device as eligible
+                        elg_device_ip = device_ip
+                        device_id = device_uuid
 
                     if not elg_device_ip:
                         device_ip_for_not_elg_list.append(device_ip)
@@ -3756,7 +3893,28 @@ class Swim(DnacBase):
                 self.log("Processing device: {0}".format(device_ip), "DEBUG")
                 device_distributed_images = []
 
-                elg_device_ip, elg_device_uuid = self.check_device_compliance(device_uuid)
+                # Initialize variables
+                elg_device_ip = None
+                elg_device_uuid = device_uuid
+
+                if not convert_to_wlc:
+                    self.log(
+                        "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                            image_name, device_ip
+                        ),
+                        "DEBUG"
+                    )
+                    self.log("Convert to WLC is set to False", "DEBUG")
+                    elg_device_ip, elg_device_uuid = self.check_device_compliance(device_uuid)
+                else:
+                    self.log(
+                        "WLC conversion mode enabled - bypassing compliance validation "
+                        "for image '{0}' on device {1}".format(image_name, device_ip),
+                        "WARNING"
+                    )
+                    # When convert_to_wlc is True, skip compliance check and use the device as eligible
+                    elg_device_ip = device_ip
+                    elg_device_uuid = device_uuid
 
                 if not elg_device_ip:
                     device_ip_for_not_elg_list.append(device_ip)
@@ -3966,6 +4124,7 @@ class Swim(DnacBase):
         device_series_name = activation_details.get("device_series_name")
         device_tag = activation_details.get("device_tag")
         self.max_timeout = activation_details.get("image_activation_timeout", 1800)
+        convert_to_wlc = activation_details.get("convert_to_wlc", False)
 
         self.log(
             "Fetching device UUIDs for site '{0}', family '{1}', role '{2}', and series '{3}'.".format(
@@ -4052,9 +4211,30 @@ class Swim(DnacBase):
                 "INFO",
             )
 
-            elg_device_ip, device_id = self.check_device_compliance(
-                self.have.get("activation_device_id"), image_name
-            )
+            # Initialize variables
+            elg_device_ip = None
+            device_id = activation_device_id
+
+            if not convert_to_wlc:
+                self.log(
+                    "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                        image_name, device_ip
+                    ),
+                    "DEBUG"
+                )
+                self.log("Convert to WLC is set to False", "DEBUG")
+                elg_device_ip, device_id = self.check_device_compliance(
+                    self.have.get("activation_device_id"), image_name
+                )
+            else:
+                self.log(
+                    "WLC conversion mode enabled - bypassing compliance validation "
+                    "for image '{0}' on device {1}".format(image_name, device_ip),
+                    "WARNING"
+                )
+                # When convert_to_wlc is True, skip compliance check and use the device as eligible
+                elg_device_ip = device_ip
+                device_id = self.have.get("activation_device_id")
 
             if not elg_device_ip:
                 self.msg = "The image '{0}' has already been activated on the device '{1}'.".format(
@@ -4084,7 +4264,7 @@ class Swim(DnacBase):
                             "deviceUpgradeMode": activation_details.get("device_upgrade_mode"),
                             "distributeIfNeeded": activation_details.get("distribute_if_needed"),
                             "deviceUuid": self.have.get("activation_device_id"),
-                            "imageUuidList": [image_id],
+                            "imageUuidList": [image_id] if image_id else [],
                         }
                     ]
 
@@ -4241,13 +4421,38 @@ class Swim(DnacBase):
 
         # OLD FLOW (for DNAC <= 2.3.7.9)
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+            self.log(
+                "Using old version of SWIM API for image activation (<= 2.3.7.9)",
+                "INFO",
+            )
             for device_uuid in device_uuid_list:
                 device_ip = self.get_device_ip_from_id(device_uuid)
                 activated = False
                 self.log("Checking compliance for device {0}".format(device_ip), "INFO")
 
                 for image_name, image_id in image_ids.items():
-                    elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
+                    # Initialize variables
+                    elg_device_ip = None
+                    device_id = device_uuid
+
+                    if not convert_to_wlc:
+                        self.log(
+                            "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                                image_name, device_ip
+                            ),
+                            "DEBUG"
+                        )
+                        self.log("Convert to WLC is set to False", "DEBUG")
+                        elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
+                    else:
+                        self.log(
+                            "WLC conversion mode enabled - bypassing compliance validation "
+                            "for image '{0}' on device {1}".format(image_name, device_ip),
+                            "WARNING"
+                        )
+                        # When convert_to_wlc is True, skip compliance check and use the device as eligible
+                        elg_device_ip = device_ip
+                        device_id = device_uuid
 
                     if not elg_device_ip:
                         device_ip_for_not_elg = self.get_device_ip_from_id(device_uuid)
@@ -4266,7 +4471,7 @@ class Swim(DnacBase):
                             deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
                             distributeIfNeeded=activation_details.get("distribute_if_needed"),
                             deviceUuid=device_id,
-                            imageUuidList=[image_id],
+                            imageUuidList=[image_id] if image_id else [],
                         )
                     ]
 
@@ -4349,7 +4554,28 @@ class Swim(DnacBase):
                     if sid:
                         installed_image_ids.add(sid)
 
-                elg_device_ip, device_id = self.check_device_compliance(device_uuid)
+                # Initialize variables
+                elg_device_ip = None
+                device_id = device_uuid
+
+                if not convert_to_wlc:
+                    self.log(
+                        "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                            image_name, device_ip
+                        ),
+                        "DEBUG"
+                    )
+                    self.log("Convert to WLC is set to False", "DEBUG")
+                    elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
+                else:
+                    self.log(
+                        "WLC conversion mode enabled - bypassing compliance validation "
+                        "for image '{0}' on device {1}".format(image_name, device_ip),
+                        "WARNING"
+                    )
+                    # When convert_to_wlc is True, skip compliance check and use the device as eligible
+                    elg_device_ip = device_ip
+                    device_id = device_uuid
 
                 if not elg_device_ip:
                     self.log("Device not eligible for activation: {0}".format(device_ip), "INFO")
@@ -4364,11 +4590,11 @@ class Swim(DnacBase):
 
                 activation_payload["installedImages"] = [{"id": iid} for iid in installed_image_ids]
 
-                compatible_features = activation_details.get("compatible_features")
+                compatible_features = activation_details.get("compatible_features") or []
                 if compatible_features:
                     activation_payload["compatibleFeatures"] = compatible_features
 
-                network_validation_ids = activation_details.get("network_validation_ids")
+                network_validation_ids = activation_details.get("network_validation_ids") or []
                 if network_validation_ids:
                     activation_payload["networkValidationIds"] = network_validation_ids
 
@@ -4772,6 +4998,8 @@ class Swim(DnacBase):
         """
 
         image_id = self.have.get("distribution_image_id")
+        image_name = None
+
         if image_id:
             image_name = self.get_image_name_from_id(image_id)
 
@@ -4842,6 +5070,8 @@ class Swim(DnacBase):
         """
 
         image_id = self.have.get("activation_image_id")
+        image_name = None
+
         if image_id:
             image_name = self.get_image_name_from_id(image_id)
 
@@ -4958,14 +5188,15 @@ class Swim(DnacBase):
         results = []
         success_deletions = []
         failed_deletions = []
+        non_existent_images = []
 
         for image_name in image_names:
             self.log("Processing deletion request for image: '{0}'".format(image_name), "DEBUG")
-            image_id = self.get_image_id(image_name)
+            image_id = self.get_image_id_v1(image_name)
 
             if not image_id:
                 msg = "Image '{0}' does not exist in Cisco Catalyst Center.".format(image_name)
-                failed_deletions.append(image_name)
+                non_existent_images.append(image_name)
                 results.append({"image": image_name, "status": "failed", "message": msg})
                 continue
 
@@ -4973,13 +5204,13 @@ class Swim(DnacBase):
                 self.log("Attempting to delete image '{0}' with ID '{1}'.".format(image_name, image_id), "INFO")
                 response = self.dnac._exec(
                     family="software_image_management_swim",
-                    function='delete_image_v1',
+                    function='delete_image',
                     op_modifies=True,
                     params={"id": image_id}
                 )
 
-                self.check_tasks_response_status(response, "delete_image_v1")
-                self.log("Received API response from 'delete_image_v1': {0}".format(str(response)), "DEBUG")
+                self.check_tasks_response_status(response, "delete_image")
+                self.log("Received API response from 'delete_image': {0}".format(str(response)), "DEBUG")
 
                 if self.status not in ["failed", "exited"]:
                     msg = "Image '{0}' deleted successfully.".format(image_name)
@@ -5016,21 +5247,32 @@ class Swim(DnacBase):
             failed_list = "', '".join(failed_deletions)
             status_parts.append("Failed to delete image(s): '{0}'".format(failed_list))
 
+        if non_existent_images:
+            non_existent_list = "', '".join(non_existent_images)
+            status_parts.append("Image(s) not found and could not be deleted: '{0}'".format(non_existent_list))
+
         final_message = ". ".join(status_parts) + "."
 
         # Determine final operation status
-        if success_deletions and not failed_deletions:
+        if success_deletions and not failed_deletions and not non_existent_images:
             # All deletions successful
             self.msg = final_message
             self.log("All image deletion operations completed successfully", "INFO")
             self.set_operation_result("success", True, self.msg, "INFO")
             return self
 
-        if success_deletions and failed_deletions:
+        if success_deletions and (failed_deletions or non_existent_images):
             # Partial success
             self.msg = final_message
             self.log("Image deletion completed with partial success", "WARNING")
             self.set_operation_result("success", True, self.msg, "WARNING")
+            return self
+
+        if not success_deletions and non_existent_images and not failed_deletions:
+            # Only non-existent images (nothing to delete)
+            self.msg = final_message
+            self.log("No images were deleted as all specified images do not exist", "WARNING")
+            self.set_operation_result("success", False, self.msg, "WARNING")
             return self
 
         # All deletions failed
@@ -5063,7 +5305,7 @@ class Swim(DnacBase):
         for image_name in image_names:
             self.log("Verifying deletion status for image: '{0}'".format(image_name), "DEBUG")
 
-            image_id = self.get_image_id(image_name)
+            image_id = self.get_image_id_v1(image_name)
 
             if not image_id:
                 self.log("Verification successful: Image '{0}' no longer exists in Cisco Catalyst Center".format(image_name), "INFO")
@@ -5100,20 +5342,17 @@ class Swim(DnacBase):
             # All deletions verified successfully
             self.msg = final_message
             self.log("All image deletion operations have been successfully verified", "INFO")
-            self.set_operation_result("success", True, self.msg, "INFO")
             return self
 
         if verified_deleted and still_existing:
             # Partial verification success
             self.msg = final_message
             self.log("Image deletion verification completed with partial success", "WARNING")
-            self.set_operation_result("success", True, self.msg, "WARNING")
             return self
 
         # All verifications failed (all images still exist)
         self.msg = final_message
         self.log("All image deletion verification attempts failed - no images were successfully deleted", "ERROR")
-        self.set_operation_result("failed", False, self.msg, "ERROR")
         return self
 
     def update_swim_profile_messages(self):
@@ -5197,7 +5436,12 @@ def main():
         )
         ccc_swims.status = "failed"
         ccc_swims.check_return_status()
-
+    if ccc_swims.compare_dnac_versions(ccc_swims.get_ccc_version(), "2.3.7.6") <= 0 and state == "deleted":
+        ccc_swims.msg = (
+            "The 'deleted' state is not supported in version '{0}' and earlier. "
+            "Please use version '2.3.7.9' or latest.".format(ccc_swims.get_ccc_version())
+        )
+        ccc_swims.set_operation_result("failed", False, ccc_swims.msg, "ERROR").check_return_status()
     if state not in ccc_swims.supported_states:
         ccc_swims.status = "invalid"
         ccc_swims.msg = "State {0} is invalid".format(state)
