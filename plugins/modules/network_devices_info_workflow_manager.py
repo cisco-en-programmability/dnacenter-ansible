@@ -6,7 +6,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ("Karthick S N", "Priyadharshini B" "Madhan Sankaranarayanan")
+__author__ = ("Karthick S N", "Priyadharshini B", "Madhan Sankaranarayanan")
 
 DOCUMENTATION = r"""
 ---
