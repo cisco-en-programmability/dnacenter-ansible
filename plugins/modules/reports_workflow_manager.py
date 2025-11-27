@@ -1065,6 +1065,398 @@ Note: The available format types are retrieved through the following API endpoin
 - GET /dna/intent/api/v1/data/view-groups (to get all view groups)
 - GET /dna/intent/api/v1/data/view-groups/{viewGroupId} (to get views for a view group)
 - GET /dna/intent/api/v1/data/view-groups/{viewGroupId}/views/{viewId} (to get view details including format options)
+
+COMPREHENSIVE FILTER AND FIELD REFERENCE:
+===========================================
+
+This section provides complete validation details for all supported view groups and their sub-views,
+including allowed filters, field groups, and supported formats.
+
+**IMPORTANT - REQUIRED FILTERS VERIFICATION:**
+The required filter information below is based on analysis of the actual validation functions in this module.
+Required filters are identified by searching for validation logic that:
+1. Checks for missing filters and returns errors like "Missing required filter"
+2. Enforces mandatory filters with loops like "for filter_name in expected_filters"
+3. Uses explicit required_filters sets that are validated for completeness
+
+Templates with [REQUIRED] filters will fail validation if those specific filters are not provided.
+Templates with "None - All filters are optional" use conditional validation (only validate if provided).
+
+**VERIFICATION METHOD:**
+To verify this information, search the code for:
+- "Missing required filter" error messages
+- Functions that loop through expected_filters without conditional checks
+- required_filters variables that are checked for completeness
+
+**REQUIRED FILTERS** are marked with [REQUIRED] and must be provided for report generation.
+**OPTIONAL FILTERS** can be omitted or provided as empty arrays.
+
+1. EXECUTIVE SUMMARY VIEW GROUP:
+   -------------------------------
+   View Name: "Executive Summary"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - TimeRange (TIME_RANGE): Date/time range for data collection
+     - SSID (MULTI_SELECT): Wireless network identifiers
+     - Band (MULTI_SELECT): Radio frequency bands (2.4GHz, 5GHz, 6GHz)
+     - GroupBy (SINGLE_SELECT_ARRAY): Data grouping options
+   Required Filters: None - All filters are optional
+   Field Groups: Not applicable for Executive Summary
+   Supported Formats: CSV, PDF, JSON
+
+2. SECURITY ADVISORIES VIEW GROUP:
+   --------------------------------
+   View Name: "Security Advisories Data"
+   Allowed Filters:
+     - DeviceType (MULTI_SELECT): Device categories (Switch, Router, AP, etc.)
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - Impact (MULTI_SELECT): Advisory impact levels (Critical, High, Medium, Low)
+   Required Filters: None - All filters are optional
+   Field Groups:
+     - psirtAllData:
+       Fields: deviceName, deviceIpAddress, deviceType, deviceSerialNumber,
+              deviceImageVersion, deviceSite, advisoryId, advisoryCvssScore,
+              advisoryImpact, advisoryMatchType, advisoryLastScanTime,
+              firstFixedVersion, scanCriteria, scanStatus
+   Supported Formats: CSV, PDF, TDE
+
+3. INVENTORY VIEW GROUP:
+   ----------------------
+
+   3.1 View Name: "All Data"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - DeviceFamily (MULTI_SELECT): Device family categories
+     - DeviceType (MULTI_SELECT): Device type classifications
+     - SoftwareVersion (MULTI_SELECT): Firmware/software versions
+   Required Filters: None - All filters are optional
+   Field Groups:
+     - inventoryAllData:
+       Fields: family, type, hostname, serialNumber, ipAddress, status,
+              softwareVersion, upTime, partNumber, site, numberofUsers,
+              numberofethernetports, timeSinceCodeUpgrade, licenseDnaLevel,
+              networkLicense, fabricRole
+   Supported Formats: CSV, PDF, TDE, JSON
+
+   3.2 View Name: "All Data Version 2.0"
+   Allowed Filters:
+     - Device Type (MULTI_SELECT): Device categories
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - Device Role (MULTI_SELECT): Device roles (Core, Distribution, Access, etc.)
+     - Product Family (MULTI_SELECT): Product family classifications
+     - Connectivity Status (MULTI_SELECT): Device connectivity states
+   Required Filters: None - All filters are optional
+   Field Groups:
+     - inventory:
+       Fields: hostName, ipAddress, deviceType, softwareVersion, platformId,
+              macAddress, upTime, serialNumber, deviceRoles, family,
+              deviceSeries, managementIpAddress, softwareType, lastUpdateTime,
+              lastBootTime, location, memorySize, connectivityStatus,
+              connectedInterface, apManagerIpAddress, deviceUuid, productFamily
+   Supported Formats: CSV, PDF, TDE, JSON
+
+   3.3 View Name: "Port Reclaim View"
+   Allowed Filters:
+     - family (REGULAR): Device family identifier
+     - hostname (REGULAR): Device hostname pattern
+   Required Filters: None - All filters are optional
+   Field Groups:
+     - PortReclaimFieldGroup:
+       Fields: rownum, hostname, family, type, managementIpAddress, portname,
+              description, macAddress, adminStatus, status, lastInput, lastOutput
+   Supported Formats: CSV, TDE
+
+4. ROGUE AND AWIPS VIEW GROUP:
+   ----------------------------
+
+   4.1 View Name: "New Threat"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - ThreatLevel (MULTI_SELECT): Threat severity levels
+     - ThreatType (MULTI_SELECT): Types of identified threats
+     - TimeRange (TIME_RANGE): Date/time range for threat data
+   Required Filters: TimeRange
+   Field Groups:
+     - rogue_details:
+       Fields: threatLevel, macAddress, threatType, apName, siteHierarchyName,
+              rssi, ssid, vendor, lastUpdated
+   Supported Formats: CSV, TDE, JSON
+
+   4.2 View Name: "Rogue Additional Detail"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - ThreatType (MULTI_SELECT): Threat classifications
+     - ThreatLevel (MULTI_SELECT): Severity assessments
+     - TimeRange (TIME_RANGE): Analysis time period
+   Required Filters: TimeRange
+   Field Groups:
+     - rogue_ap_bssid_details:
+       Fields: macAddress, lastUpdated, firstSeen, mldMacAddress, apName,
+              radioType, controllerIp, siteNameHierarchy, ssid, channelNumber,
+              channelWidth, threatLevel, containment, threatType, encryption,
+              switchIp, switchName, portDescription
+   Supported Formats: CSV, TDE, JSON
+
+   4.3 View Name: "Threat Detail"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - ThreatType (MULTI_SELECT): Threat categories
+     - ThreatLevel (MULTI_SELECT): Risk severity levels
+     - TimeRange (TIME_RANGE): Threat analysis timeframe
+   Required Filters: TimeRange
+   Field Groups: Varies based on threat type
+   Supported Formats: CSV, TDE, JSON
+
+5. ACCESS POINT VIEW GROUP:
+   -------------------------
+
+   5.1 View Name: "AP"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - Wlc (MULTI_SELECT): Wireless LAN Controllers
+     - AP (MULTI_SELECT): Access Point identifiers
+     - TimeRange (TIME_RANGE): Data collection period
+   Required Filters: Location, TimeRange
+   Field Groups:
+     - apDetailByAP:
+       Fields: macAddress, ethernetMac, nwDeviceName, managementIpAddress,
+              osVersion, nwDeviceType, platformId, serialNumber, deviceFamily,
+              siteHierarchy, upTime, mode, adminState, opState, overallScore,
+              clCount_avg, cpu, memory, clCount_max, wlcName, powerStatus,
+              regulatoryDomain, cdp, location, flexGroup, apGroup, siteTagName,
+              policyTagName, rfTagName, rxBytes, txBytes, rxRate, txRate
+   Supported Formats: CSV, TDE, JSON
+
+   5.2 View Name: "AP - Usage and Client Breakdown"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - Wlc (MULTI_SELECT): Controller selection
+     - AP (MULTI_SELECT): Access Point selection
+     - TimeRange (TIME_RANGE): Usage analysis period
+   Required Filters: Location, AP, TimeRange
+   Field Groups:
+     - apBreakdown:
+       Fields: apName, kpiType, kpiName, clientCount, clientPercentage,
+              traffic, trafficPercentage, ethernetMac, location
+   Supported Formats: CSV, TDE, JSON, PDF
+
+   5.3 View Name: "AP Radios"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - Wlc (MULTI_SELECT): Controller identifiers
+     - AP (MULTI_SELECT): Access Point names
+     - Band (MULTI_SELECT): Radio frequency bands
+     - SortBy (SINGLE_SELECT_ARRAY): Sorting criteria
+     - Limit (SINGLE_SELECT_ARRAY): Result count limit
+     - TimeRange (TIME_RANGE): Performance data period
+   Required Filters: Location, SortBy, Limit, TimeRange
+   Field Groups:
+     - apDetailByRadio:
+       Fields: ethernetMac, apMac, slot, name, radioMode, adminState, operState,
+              frequency, siteHierarchy, channels, txPower, memory, osVersion,
+              cpu, managementIpAddress, deviceModel, deviceFamily, platformId,
+              nwDeviceType, upTime, wlcName, wlcIpAddr, radioNoiseMax_max,
+              radioUtil_max, txUtilPct_max, rxUtilPct_max, radioIntf_max,
+              radioClientCount_max, radioClientCount_avg, txBytes_sum,
+              rxBytes_sum, radioAirQualMax_max, txUtil_avg, rxUtil_avg
+   Supported Formats: CSV
+
+   5.4 View Name: "AP RRM Events"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - Wlc (MULTI_SELECT): Controller selection
+     - AP (MULTI_SELECT): Access Point identifiers
+     - eventType (MULTI_SELECT): RRM event categories
+     - Band (MULTI_SELECT): Radio frequency bands
+     - TimeRange (TIME_RANGE): Event monitoring period
+   Required Filters: Location, TimeRange
+   Field Groups:
+     - apRRMEventsByAPMac:
+       Fields: time, eventTime, apName, ethernetMac, apMac, managementIpAddr,
+              slotId, wlcName, frequency, eventType, prevChannels, currChannels,
+              prevPower, currPower, oldWidthValue, newWidthValue, reasonType,
+              lastFailureReason, dcaReasonCode, location
+   Supported Formats: CSV
+
+   5.5 View Name: "Worst Interferers"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - Wlc (MULTI_SELECT): Controller identifiers
+     - AP (MULTI_SELECT): Access Point names
+     - Band (MULTI_SELECT): Radio frequency bands
+     - TimeRange (TIME_RANGE): Interference analysis period
+   Required Filters: Location, TimeRange
+   Field Groups:
+     - worstInterferers:
+       Fields: deviceType, severity, worstSevTime, deviceMac, rssi, dutyCycle,
+              affectedChannels, apName, slot, band, siteHierarchy, discoveredTime
+   Supported Formats: CSV, PDF
+
+6. NETWORK DEVICES VIEW GROUP:
+   ----------------------------
+
+   6.1 View Name: "Device CPU and Memory"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - DeviceFamily (MULTI_SELECT): Device family categories
+     - DeviceRole (MULTI_SELECT): Network device roles
+     - SortBy (SINGLE_SELECT_ARRAY): Result sorting options
+     - Limit (SINGLE_SELECT_ARRAY): Result count limits
+     - TimeRange (TIME_RANGE): Performance monitoring period
+   Required Filters: Location, SortBy, Limit, TimeRange
+   Field Groups:
+     - Device_Health_Details:
+       Fields: deviceName, ipAddr, deviceFamily, deviceRole, deviceModel,
+              minCPU, maxCPU, avgCPU, minMemory, maxMemory, avgMemory
+   Supported Formats: CSV, PDF
+
+   6.2 View Name: "Energy Management"
+   Allowed Filters:
+     - Locations (MULTI_SELECT_TREE): Network location hierarchy
+     - DeviceCategory (SINGLE_SELECT_ARRAY): Device category classification
+     - TimeRange (TIME_RANGE): Energy consumption analysis period
+   Required Filters: TimeRange
+   Field Groups:
+     - response:
+       Fields: timeVal, energyConsumed, carbonIntensity, estimatedEmission,
+              estimatedCost, measured
+   Supported Formats: CSV, PDF
+
+   6.3 View Name: "Network Device Availability"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - NwDeviceType (MULTI_SELECT): Network device classifications
+     - TimeRange (TIME_RANGE): Availability monitoring period
+   Required Filters: Location, TimeRange
+   Field Groups:
+     - response:
+       Fields: nwDeviceFamily, nwDeviceRole, nwDeviceName, managementIpAddr,
+              siteHierarchy, softwareVersion, availability
+   Supported Formats: CSV, PDF
+
+   6.4 View Name: "Network Interface Utilization"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - SortBy (SINGLE_SELECT_ARRAY): Data sorting criteria
+     - SortOrder (SINGLE_SELECT_ARRAY): Sort direction (ascending/descending)
+     - Limit (SINGLE_SELECT_ARRAY): Maximum result count
+     - TimeRange (TIME_RANGE): Interface monitoring period
+   Required Filters: [REQUIRED] All filters (Location, SortBy, SortOrder, Limit, TimeRange)
+   Field Groups:
+     - Interface_Utilization_Details:
+       Fields: deviceName, managementIpAddress, location, interfaceName,
+              minTx, maxTx, avgTx, txErrors, txPacketDrops, minRx, maxRx,
+              avgRx, rxErrors, rxPacketDrops
+   Supported Formats: CSV, PDF
+
+   6.5 View Name: "PoE"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+   Required Filters: [REQUIRED] Location
+   Field Groups:
+     - response:
+       Fields: managementIpAddr, nwDeviceName, date, site, powerBudget,
+              powerConsumed, powerConsumedPercentage, poeUsedPortCount,
+              fastPoeEnabledCount, perpetualPoeEnabledCount,
+              PolicePoeEnabledCount, poeOperPriorityHighCount
+   Supported Formats: CSV, PDF
+
+   6.6 View Name: "Port Capacity"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - DeviceFamily (MULTI_SELECT): Device family categories
+     - Devicerole (MULTI_SELECT): Device role classifications
+     - utilizationLevel (SINGLE_SELECT_ARRAY): Port utilization thresholds
+   Required Filters: utilizationLevel
+   Field Groups:
+     - Port Capacity:
+       Fields: deviceIp, deviceName, location, deviceFamily, deviceRole,
+              connectedPorts, freePorts, downPorts, totalPorts, usagePercentage
+   Supported Formats: CSV, PDF
+
+   6.7 View Name: "Transmit Power Change Count"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - Band (MULTI_SELECT): Radio frequency bands
+     - TimeRange (TIME_RANGE): Power change monitoring period
+   Required Filters: Location, TimeRange
+   Field Groups:
+     - response:
+       Fields: apName, apMac, slotId, frequency, upCount, downCount,
+              totalChangeCount, powerRange, location
+   Supported Formats: CSV, PDF
+
+   6.8 View Name: "Channel Change Count"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - Band (MULTI_SELECT): Radio frequency bands
+     - TimeRange (TIME_RANGE): Power change monitoring period
+   Required Filters: [REQUIRED] Location, TimeRange (Band is optional)
+   Field Groups:
+     - response:
+       Fields: apName, apMac, slotId, frequency, changeCount, location
+   Supported Formats: CSV, PDF
+
+   6.9 View Name: "VLAN"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - DeviceFamily (MULTI_SELECT): Device family categories
+     - DeviceType (MULTI_SELECT): Device type classifications
+   Required Filters: None - All filters are optional
+   Field Groups:
+     - VLAN Details:
+       Fields: ipAddress, deviceName, location, deviceFamily, deviceType,
+              vlanId, vlanName, interfacename, adminStatus, operStatus
+   Supported Formats: CSV, PDF
+
+   6.9 View Name: "Channel Change Count"
+   Allowed Filters:
+     - Location (MULTI_SELECT_TREE): Network location hierarchy
+     - Band (MULTI_SELECT): Radio frequency bands (optional)
+     - TimeRange (TIME_RANGE): Channel change monitoring period
+   Field Groups:
+     - response:
+       Fields: apName, apMac, slotId, frequency, DCA, DFS, ED-RRM,
+              totalChangeCount, channelsCount, location
+   Supported Formats: CSV, PDF
+
+FILTER TYPE SPECIFICATIONS:
+===========================
+
+MULTI_SELECT_TREE:
+  - Used for hierarchical data like network locations
+  - Supports nested selection of sites, buildings, floors
+  - Value format: List of dictionaries with 'value' and 'displayValue'
+
+MULTI_SELECT:
+  - Used for multiple item selection from a flat list
+  - Common for device types, software versions, etc.
+  - Value format: List of dictionaries with 'value' and 'displayValue'
+
+SINGLE_SELECT_ARRAY:
+  - Used for single selection from predefined options
+  - Common for sorting, limits, and grouping parameters
+  - Value format: List with single dictionary containing 'value' and 'displayValue'
+
+TIME_RANGE:
+  - Used for date/time range specifications
+  - Required keys: timeRangeOption, startDateTime, endDateTime, timeZoneId
+  - Supports both predefined ranges and custom date selections
+
+REGULAR:
+  - Used for text-based filtering
+  - Simple string pattern matching
+  - Value format: List of dictionaries with 'value' and 'displayValue'
+
+VALIDATION NOTES:
+================
+- All filters and field groups are optional unless explicitly marked as required
+- Empty arrays [] are valid for all filter and field parameters
+- Filter validation only occurs when filters are provided with actual values
+- Field group validation only occurs when field groups are provided with fields
+- DisplayName and displayValue are auto-populated if not provided
+- Boolean validation functions return True for success, False for failure
+- Error messages are set via self.set_operation_result() for consistent handling
 '''
 
 EXAMPLES = r'''
@@ -2356,13 +2748,15 @@ class Reports(DnacBase):
             - Updates the operation result with error messages if validation fails.
         """
         view = entry.get("view", {})
+        view_group_name = entry.get("view_group_name", "")
         if not isinstance(view, dict):
             self.msg = "'view' must be a dictionary."
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
         filters = view.get("filters", [])
-        if not filters:
+        field = view.get("field", [])
+        if not filters and not field:
             return True
 
         if not isinstance(filters, list):
@@ -2372,6 +2766,121 @@ class Reports(DnacBase):
 
         self.log("Processing {0} filter(s) for view configuration".format(
             len(filters)), "DEBUG")
+
+        view_name = view.get("view_name") or view.get("name")
+
+        # ----------------------------------------------------------------------
+        # 1. Call Executive Summary-specific validation
+        # ----------------------------------------------------------------------
+        if view_name == "Executive Summary":
+            if not self._validate_exec_summary_filters(filters):
+                return False
+
+        # ----------------------------------------------------------------------
+        # 2. Call Security Advisories-specific validation
+        # ----------------------------------------------------------------------
+        if view_name == "Security Advisories Data":
+            if not self._validate_security_advisories_filters(view):
+                return False
+
+        # ----------------------------------------------------------------------
+        # 3. Call Inventory → All Data validation
+        # ----------------------------------------------------------------------
+        if view_group_name == "Inventory":
+            if view_name == "All Data":
+                if not self._validate_inventory_all_data_filters(view):
+                    return False
+
+            if view_name == "All Data Version 2.0":
+                if not self._validate_inventory_all_data_v2_filters(view):
+                    return False
+
+            if view_name == "Port Reclaim View":
+                if not self._validate_inventory_port_reclaim_filters(view):
+                    return False
+
+        # --------------------------------------------------------------------
+        # 4. Rogue and aWIPS
+        # ----------------------------------------------------------------------
+        if view_group_name == "Rogue and aWIPS":
+            if view_name == "New Threat":
+                if not self._validate_rogue_awips_new_threat_filters(view):
+                    return False
+
+            if view_name == "Rogue Additional Detail":
+                return self._validate_rogue_additional_detail_filters(view)
+
+            if view_name == "Threat Detail":
+                return self._validate_threat_detail_filters(view)
+
+        # --------------------------------------------------------------------
+        # 5. Access Point
+        # ----------------------------------------------------------------------
+        if view_group_name == "Access Point":
+            if view_name == "AP":
+                if not self._validate_access_point_filters(view):
+                    return False
+
+            if view_name == "AP - Usage and Client Breakdown":
+                if not self._validate_ap_usage_client_breakdown_filters(view):
+                    return False
+
+            if view_name == "AP Radios":
+                if not self._validate_ap_radios_filters(view):
+                    return False
+
+            if view_name == "AP RRM Events":
+                if not self._validate_ap_rrm_events_filters(view):
+                    return False
+
+            if view_name == "Worst Interferers":
+                if not self._validate_worst_interferers_report(view):
+                    return False
+
+        # --------------------------------------------------------------------
+        # 6. Network Devices
+        # --------------------------------------------------------------------
+        if view_group_name == "Network Devices":
+
+            # Device CPU and Memory
+            if view_name == "Device CPU and Memory":
+                if not self._validate_network_devices_cpu_memory_filters(view):
+                    return False
+
+            # Energy Management
+            if view_name == "Energy Management":
+                if not self._validate_energy_management_filters(view):
+                    return False
+
+            # Network Device Availability
+            if view_name == "Network Device Availability":
+                if not self._validate_network_device_availability_filters(view):
+                    return False
+
+            # Network Interface Utilization
+            if view_name == "Network Interface Utilization":
+                if not self._validate_network_interface_utilization_filters(view):
+                    return False
+
+            # PoE
+            if view_name == "PoE":
+                if not self._validate_poe_filters(view):
+                    return False
+
+            # Port Capacity
+            if view_name == "Port Capacity":
+                if not self._validate_port_capacity_filters(view):
+                    return False
+
+            # Transmit Power Change Count
+            if view_name == "Transmit Power Change Count":
+                if not self._validate_transmit_power_change_count_filters(view):
+                    return False
+
+            # VLAN
+            if view_name == "VLAN":
+                if not self._validate_vlan_filters(view):
+                    return False
 
         for filter_index, filter_entry in enumerate(filters):
             if not isinstance(filter_entry, dict):
@@ -2394,6 +2903,2645 @@ class Reports(DnacBase):
                     return False
 
         self.log("View configuration validation completed successfully", "DEBUG")
+        return True
+
+    def _validate_exec_summary_filters(self, filters):
+        """Validate filters specifically for Executive Summary view."""
+
+        allowed_filters = {
+            "Location": "MULTI_SELECT_TREE",
+            "TimeRange": "TIME_RANGE",
+            "SSID": "MULTI_SELECT",
+            "Band": "MULTI_SELECT",
+            "GroupBy": "SINGLE_SELECT_ARRAY"
+        }
+
+        # Only validate if filters are provided and not empty
+        if not filters:
+            return True
+
+        for f in filters:
+            name = f.get("name")
+            ftype = f.get("type") or f.get("filter_type")
+
+            # Check if filter name is in allowed list
+            if name not in allowed_filters:
+                self.msg = (
+                    "Invalid filter '{0}' for Executive Summary. "
+                    "Allowed filters: {1}"
+                ).format(name, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Check if filter type matches expected type
+            expected_type = allowed_filters[name]
+            if ftype != expected_type:
+                self.msg = (
+                    "Invalid filter_type for '{0}'. Expected '{1}' but got '{2}'."
+                ).format(name, expected_type, ftype)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Validate filter value structure only if value is not empty
+            val = f.get("value")
+            if val:  # Only validate if value is provided and not empty
+                if name == "Location" and not isinstance(val, list):
+                    self.msg = "Location filter must contain a list of value entries."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                if name == "TimeRange":
+                    if not isinstance(val, dict) or "time_range_option" not in val:
+                        self.msg = "TimeRange filter must contain 'time_range_option'."
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+                if name in ["SSID", "Band", "GroupBy"] and not isinstance(val, list):
+                    self.msg = "{0} filter must contain a list of value entries.".format(name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+        self.log("Executive Summary filters validated successfully", "DEBUG")
+        return True
+
+    def _validate_security_advisories_filters(self, view_data):
+        """
+        Full validation for Security Advisories Data view.
+
+        Validates:
+            - Only allowed filters appear
+            - Required filters exist
+            - Correct filter types and value structure
+            - Only allowed fieldGroups appear
+            - Only allowed field names appear
+            - displayName auto-population
+        """
+
+        filters = view_data.get("filters", [])
+        field_groups = view_data.get("fieldGroups", [])
+
+        self.log("Validating Security Advisories filters and fieldGroups", "DEBUG")
+
+        # ----------------------------------------------------------------------
+        # Expected Filters (from UI)
+        # ----------------------------------------------------------------------
+        expected_filters = {
+            "DeviceType": ["MULTI_SELECT"],
+            "Location": ["MULTI_SELECT_TREE"],
+            "Impact": ["MULTI_SELECT"],  # allowed empty
+        }
+
+        # Mapping for easy access
+        filter_map = {flt.get("name"): flt for flt in filters}
+
+        # ----------------------------------------------------------------------
+        # 0. Reject unexpected filters only if filters are provided
+        # ----------------------------------------------------------------------
+        if filters:  # Only validate if filters are provided
+            unexpected = [f for f in filter_map if f not in expected_filters]
+            if unexpected:
+                self.msg = (
+                    "Unexpected filters for Security Advisories view: {0}. Allowed: {1}"
+                ).format(unexpected, list(expected_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+        # ----------------------------------------------------------------------
+        # 1. Validate filters if provided
+        # ----------------------------------------------------------------------
+        if filters:  # Only validate if filters are provided
+            for fname, allowed_types in expected_filters.items():
+                if fname in filter_map:
+                    f_entry = filter_map[fname]
+                    f_type = f_entry.get("type")
+
+                    # Validate type
+                    if f_type not in allowed_types:
+                        self.msg = (
+                            f"Invalid filter type '{f_type}' for '{fname}'. "
+                            f"Allowed types: {allowed_types}"
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+                    # Auto-fill display name
+                    f_entry.setdefault("displayName", fname)
+
+                    # Validate values only if provided and not empty
+                    value = f_entry.get("value", [])
+                    if value:  # Only validate if value is provided and not empty
+                        if f_type in ("MULTI_SELECT", "MULTI_SELECT_TREE"):
+                            if not isinstance(value, list):
+                                self.msg = f"Filter '{fname}' value must be a list."
+                                self.set_operation_result("failed", False, self.msg, "ERROR")
+                                return False
+
+                            for v in value:
+                                if not isinstance(v, dict):
+                                    self.msg = f"Invalid value entry in filter '{fname}'. Expected dict."
+                                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                                    return False
+
+                                v.setdefault("displayValue", v.get("value"))
+
+        # ----------------------------------------------------------------------
+        # Expected Field Groups (from UI)
+        # ----------------------------------------------------------------------
+        allowed_field_groups = {
+            "psirtAllData": [
+                "deviceName",
+                "deviceIpAddress",
+                "deviceType",
+                "deviceSerialNumber",
+                "deviceImageVersion",
+                "deviceSite",
+                "advisoryId",
+                "advisoryCvssScore",
+                "advisoryImpact",
+                "advisoryMatchType",
+                "advisoryLastScanTime",
+                "firstFixedVersion",
+                "scanCriteria",
+                "scanStatus"
+            ]
+        }
+
+        # ----------------------------------------------------------------------
+        # 2. Validate fieldGroups structure only if provided
+        # ----------------------------------------------------------------------
+        if field_groups:  # Only validate if field_groups are provided
+            if not isinstance(field_groups, list):
+                self.msg = "'fieldGroups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for fg in field_groups:
+                fg_name = fg.get("fieldGroupName")
+
+                if fg_name not in allowed_field_groups:
+                    self.msg = (
+                        f"Unexpected fieldGroupName '{fg_name}' for Security Advisories. "
+                        f"Allowed: {list(allowed_field_groups.keys())}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                fg.setdefault("fieldGroupDisplayName", fg_name)
+
+                fields = fg.get("fields", [])
+                if fields and not isinstance(fields, list):  # Only validate if fields are provided
+                    self.msg = "fieldGroups -> fields must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                allowed_fields = allowed_field_groups[fg_name]
+
+                # Validate field names only if fields are provided and not empty
+                if fields:  # Only validate if fields are provided
+                    for fld in fields:
+                        f_name = fld.get("name")
+
+                        if f_name not in allowed_fields:
+                            self.msg = (
+                                f"Invalid field '{f_name}' in fieldGroup '{fg_name}'. "
+                                f"Allowed fields: {allowed_fields}"
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                        # Auto-fill displayName
+                        fld.setdefault("displayName", f_name)
+
+        # ----------------------------------------------------------------------
+        # SUCCESS
+        # ----------------------------------------------------------------------
+        self.log("Security Advisories filter & field validation successful", "DEBUG")
+        return True
+
+    def _validate_inventory_all_data_filters(self, view_data):
+        """
+        Validate filters and field groups for the 'Inventory - All Data' view.
+        """
+
+        self.log("Validating Inventory All Data filters and fieldGroups", "DEBUG")
+
+        filters = view_data.get("filters", [])
+        field_groups = view_data.get("fieldGroups", [])
+
+        # ----------------------------------------------------------------------
+        # Allowed filters for Inventory All Data
+        # ----------------------------------------------------------------------
+        expected_filters = {
+            "Location": "MULTI_SELECT_TREE",
+            "DeviceFamily": "MULTI_SELECT",
+            "DeviceType": "MULTI_SELECT",
+            "SoftwareVersion": "MULTI_SELECT",
+        }
+
+        # Allowed fields for Inventory All Data
+        allowed_fields = {
+            "family",
+            "type",
+            "hostname",
+            "serialNumber",
+            "ipAddress",
+            "status",
+            "softwareVersion",
+            "upTime",
+            "partNumber",
+            "site",
+            "numberofUsers",
+            "numberofethernetports",
+            "timeSinceCodeUpgrade",
+            "licenseDnaLevel",
+            "networkLicense",
+            "fabricRole",
+        }
+
+        # Expected field group name
+        expected_field_group_name = "inventoryAllData"
+
+        # ----------------------------------------------------------------------
+        # 1. VALIDATE FILTERS only if provided
+        # ----------------------------------------------------------------------
+        if filters:  # Only validate if filters are provided
+            filter_map = {flt.get("name"): flt for flt in filters}
+
+            # Check for unknown filters first
+            for flt_name in filter_map.keys():
+                if flt_name not in expected_filters:
+                    self.msg = (
+                        f"Unknown filter '{flt_name}' found in Inventory All Data view. "
+                        f"Allowed filters: {list(expected_filters.keys())}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+            # Validate provided filters
+            for filter_name, expected_type in expected_filters.items():
+                if filter_name in filter_map:
+                    entry = filter_map[filter_name]
+                    f_type = entry.get("type")
+
+                    # Validate type
+                    if f_type != expected_type:
+                        self.msg = (
+                            f"Invalid type '{f_type}' for filter '{filter_name}'. "
+                            f"Expected: '{expected_type}'."
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+                    # Validate value structure only if values are provided and not empty
+                    values = entry.get("value", [])
+                    if values:  # Only validate if values are provided and not empty
+                        if not isinstance(values, list):
+                            self.msg = f"Filter '{filter_name}' must contain a list of values."
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                        # Normalize dict values
+                        for v in values:
+                            if isinstance(v, dict):
+                                v.setdefault("displayValue", v.get("value"))
+                            else:
+                                self.msg = f"Invalid value in filter '{filter_name}'. Expected list of dicts."
+                                self.set_operation_result("failed", False, self.msg, "ERROR")
+                                return False
+
+                    # Auto populate displayName
+                    entry.setdefault("displayName", filter_name)
+
+        # ----------------------------------------------------------------------
+        # 2. VALIDATE FIELD GROUPS only if provided
+        # ----------------------------------------------------------------------
+        if field_groups:  # Only validate if field_groups are provided
+            if not isinstance(field_groups, list):
+                self.msg = "'fieldGroups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for fg in field_groups:
+
+                fg_name = fg.get("fieldGroupName")
+                if fg_name != expected_field_group_name:
+                    self.msg = (
+                        f"Invalid fieldGroupName '{fg_name}'. "
+                        f"Expected '{expected_field_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto populate group display name
+                fg.setdefault("fieldGroupDisplayName", fg_name)
+
+                fields = fg.get("fields", [])
+                if fields and not isinstance(fields, list):  # Only validate if fields are provided
+                    self.msg = "fieldGroups → fields must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Validate each field only if fields are provided
+                if fields:  # Only validate if fields are provided
+                    for fld in fields:
+                        fname = fld.get("name")
+
+                        # Check field is valid
+                        if fname not in allowed_fields:
+                            self.msg = (
+                                f"Invalid field '{fname}' in Inventory All Data view. "
+                                f"Allowed fields: {list(allowed_fields)}"
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                        # Auto populate displayName
+                        fld.setdefault("displayName", fname)
+
+        # ----------------------------------------------------------------------
+        # SUCCESS
+        # ----------------------------------------------------------------------
+        self.log("Inventory All Data validation successful", "DEBUG")
+        return True
+
+    def _validate_inventory_port_reclaim_filters(self, view_data):
+        """
+        Validate filters and fieldGroups for the 'Port Reclaim View'.
+
+        Ensures:
+            - Only expected filters appear
+            - Required filters exist
+            - Filter types match allowed definitions
+            - Values follow correct structure
+            - FieldGroups and fields are valid and normalized
+        """
+
+        filters = view_data.get("filters", [])
+        field_groups = view_data.get("fieldGroups", [])
+
+        self.log("Validating Inventory Port Reclaim View filters and fieldGroups", "DEBUG")
+
+        # ----------------------------------------------------------------------
+        # Expected Filters & Allowed Types
+        # ----------------------------------------------------------------------
+        expected_filters = {
+            "family": ["REGULAR"],     # Device Family
+            "hostname": ["REGULAR"],   # Device Name
+        }
+
+        # Only validate filters if provided
+        if filters:  # Only validate if filters are provided
+            filter_map = {flt.get("name"): flt for flt in filters}
+
+            # ----------------------------------------------------------------------
+            # Reject unexpected filters
+            # ----------------------------------------------------------------------
+            unexpected = [f for f in filter_map if f not in expected_filters]
+            if unexpected:
+                self.msg = (
+                    "Unexpected filters for Port Reclaim View: {0}. "
+                    "Allowed filters are: {1}"
+                ).format(unexpected, list(expected_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # ----------------------------------------------------------------------
+            # Validate provided filters
+            # ----------------------------------------------------------------------
+            for filter_name, allowed_types in expected_filters.items():
+
+                if filter_name in filter_map:
+                    flt = filter_map[filter_name]
+                    f_type = flt.get("type")
+
+                    # Validate filter type
+                    if f_type not in allowed_types:
+                        self.msg = (
+                            "Invalid filter type '{0}' for '{1}'. Allowed types: {2}"
+                        ).format(f_type, filter_name, allowed_types)
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+                    # Auto-populate displayName
+                    flt.setdefault("displayName", filter_name)
+
+                    # Validate list-of-dicts format only if values are provided
+                    value = flt.get("value", [])
+                    if value:  # Only validate if value is provided and not empty
+                        if not isinstance(value, list):
+                            self.msg = f"Filter '{filter_name}' must contain a list of values."
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                        for v in value:
+                            if not isinstance(v, dict):
+                                self.msg = (
+                                    f"Entries in filter '{filter_name}' must be dicts with value/displayValue."
+                                )
+                                self.set_operation_result("failed", False, self.msg, "ERROR")
+                                return False
+                            v.setdefault("displayValue", v.get("value"))
+
+        # ----------------------------------------------------------------------
+        # Validate FieldGroups only if provided
+        # ----------------------------------------------------------------------
+        if field_groups:  # Only validate if field_groups are provided
+            if not isinstance(field_groups, list):
+                self.msg = "'fieldGroups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Allowed field group
+            expected_field_group = "PortReclaimFieldGroup"
+
+            # Allowed fields inside this group
+            valid_fields = {
+                "rownum",
+                "hostname",
+                "family",
+                "type",
+                "managementIpAddress",
+                "portname",
+                "description",
+                "macAddress",
+                "adminStatus",
+                "status",
+                "lastInput",
+                "lastOutput",
+            }
+
+            for fg in field_groups:
+
+                fg_name = fg.get("fieldGroupName")
+                if fg_name != expected_field_group:
+                    self.msg = (
+                        f"Unexpected fieldGroup '{fg_name}'. Allowed: '{expected_field_group}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                fg.setdefault("fieldGroupDisplayName", fg_name)
+
+                fields = fg.get("fields", [])
+                if fields and not isinstance(fields, list):  # Only validate if fields are provided
+                    self.msg = "'fields' must be a list inside fieldGroups."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Only validate field names if fields are provided
+                if fields:  # Only validate if fields are provided
+                    field_names = [fld.get("name") for fld in fields]
+
+                    # --------------------------------------------------------------
+                    # Reject unexpected fields
+                    # --------------------------------------------------------------
+                    unexpected_fields = [f for f in field_names if f not in valid_fields]
+                    if unexpected_fields:
+                        self.msg = (
+                            f"Unexpected fields in Port Reclaim View: {unexpected_fields}. "
+                            f"Allowed fields are: {sorted(valid_fields)}"
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+                    # Auto populate displayName
+                    for fld in fields:
+                        fld.setdefault("displayName", fld.get("name"))
+
+        # ----------------------------------------------------------------------
+        # SUCCESS
+        # ----------------------------------------------------------------------
+        self.log("Port Reclaim View validation successful", "DEBUG")
+        return True
+
+    def _validate_rogue_awips_new_threat_filters(self, view_data):
+        """
+        Validate the filters and fieldGroups for:
+        Template: Rogue and aWIPS
+        Sub Template: New Threat
+
+        Ensures:
+            - Required filters exist
+            - Filter types match UI definition
+            - Values follow required structure
+            - FieldGroups and fields are valid
+        """
+
+        filters = view_data.get("filters", [])
+        field_groups = view_data.get("fieldGroups", [])
+
+        self.log("Validating Rogue & aWIPS - New Threat filters and fieldGroups", "DEBUG")
+
+        # ----------------------------------------------------------------------
+        # Expected Filters & Allowed Types
+        # ----------------------------------------------------------------------
+        expected_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "ThreatLevel": ["MULTI_SELECT"],
+            "ThreatType": ["MULTI_SELECT"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        # Only validate filters if provided
+        if filters:  # Only validate if filters are provided
+            filter_map = {flt.get("name"): flt for flt in filters}
+
+            # ----------------------------------------------------------------------
+            # Reject unexpected filters
+            # ----------------------------------------------------------------------
+            unexpected_filters = [f for f in filter_map if f not in expected_filters]
+            if unexpected_filters:
+                self.msg = (
+                    f"Unexpected filters for New Threat: {unexpected_filters}. "
+                    f"Allowed filters are: {list(expected_filters.keys())}"
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # ----------------------------------------------------------------------
+            # Validate provided filters
+            # ----------------------------------------------------------------------
+            for flt_name, allowed_types in expected_filters.items():
+                if flt_name in filter_map:
+                    flt = filter_map[flt_name]
+                    f_type = flt.get("type")
+
+                    if f_type not in allowed_types:
+                        self.msg = (
+                            f"Invalid filter type '{f_type}' for '{flt_name}'. "
+                            f"Allowed types: {allowed_types}"
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+                    # Ensure displayName exists
+                    flt.setdefault("displayName", flt_name)
+
+                    # --------------------------------------------------------------
+                    # Validate values based on filter type only if values provided
+                    # --------------------------------------------------------------
+                    if f_type in ["MULTI_SELECT", "MULTI_SELECT_TREE"]:
+                        val = flt.get("value", [])
+                        if val:  # Only validate if value is provided and not empty
+                            if not isinstance(val, list):
+                                self.msg = f"Filter '{flt_name}' must contain a list of values."
+                                self.set_operation_result("failed", False, self.msg, "ERROR")
+                                return False
+
+                            for v in val:
+                                if not isinstance(v, dict):
+                                    self.msg = f"Each entry in filter '{flt_name}' must be a dict."
+                                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                                    return False
+
+                                v.setdefault("displayValue", v.get("value"))
+
+                    elif f_type == "TIME_RANGE":
+                        val = flt.get("value", {})
+                        if val:  # Only validate if value is provided and not empty
+                            if not isinstance(val, dict):
+                                self.msg = "TimeRange filter must contain a dictionary value."
+                                self.set_operation_result("failed", False, self.msg, "ERROR")
+                                return False
+
+                            # Required keys (from UI)
+                            required_keys = {"timeRangeOption", "startDateTime", "endDateTime", "timeZoneId"}
+                            if not required_keys.issubset(val.keys()):
+                                self.msg = (
+                                    f"TimeRange filter missing required keys. "
+                                    f"Required: {required_keys}, Received: {val.keys()}"
+                                )
+                                self.set_operation_result("failed", False, self.msg, "ERROR")
+                                return False
+
+        # ----------------------------------------------------------------------
+        # Validate FieldGroups only if provided
+        # ----------------------------------------------------------------------
+        if field_groups:  # Only validate if field_groups are provided
+            if not isinstance(field_groups, list):
+                self.msg = "'fieldGroups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            expected_field_group = "rogue_details"
+
+            valid_fields = {
+                "threatLevel",
+                "macAddress",
+                "threatType",
+                "apName",
+                "siteHierarchyName",
+                "rssi",
+                "ssid",
+                "vendor",
+                "lastUpdated",
+            }
+
+            for fg in field_groups:
+
+                fg_name = fg.get("fieldGroupName")
+                if fg_name != expected_field_group:
+                    self.msg = (
+                        f"Unexpected fieldGroup '{fg_name}'. "
+                        f"Allowed fieldGroup: '{expected_field_group}'"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                fg.setdefault("fieldGroupDisplayName", fg_name)
+
+                fields = fg.get("fields", [])
+                if fields and not isinstance(fields, list):  # Only validate if fields are provided
+                    self.msg = "'fields' must be a list inside fieldGroups."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Only validate field names if fields are provided
+                if fields:  # Only validate if fields are provided
+                    field_names = [f.get("name") for f in fields]
+
+                    # Reject unexpected fields
+                    unexpected = [f for f in field_names if f not in valid_fields]
+                    if unexpected:
+                        self.msg = (
+                            f"Unexpected fields in New Threat view: {unexpected}. "
+                            f"Allowed fields: {sorted(valid_fields)}"
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+                    # Auto-displayName
+                    for fld in fields:
+                        fld.setdefault("displayName", fld.get("name"))
+
+        self.log("Rogue & aWIPS - New Threat validation successful", "DEBUG")
+        return True
+
+    def _validate_rogue_additional_detail_filters(self, view):
+        """
+        STRICT VALIDATION:
+        - Only allowed filters
+        - Only allowed filter types
+        - Only allowed filter values
+        - Only allowed field groups
+        - Only allowed fields
+        - Only allowed formats
+        - Only allowed schedule types
+        - Only allowed deliveries
+        """
+
+        # ============================================================
+        # 1. Allowed Filters (Optional)
+        # ============================================================
+        allowed_filters = {"Location", "ThreatType", "ThreatLevel", "TimeRange"}
+        filters = view.get("filters", [])
+
+        # Only validate filters if provided
+        if filters:
+            provided_filter_names = {f.get("name") for f in filters}
+
+            # Unknown filter → ERROR
+            unknown = provided_filter_names - allowed_filters
+            if unknown:
+                return f"Invalid filter(s) found: {', '.join(unknown)}. Allowed: {allowed_filters}"
+
+        # ============================================================
+        # 2. Allowed Filter Types & Allowed Values
+        # ============================================================
+        valid_filter_types = {
+            "Location": "MULTI_SELECT_TREE",
+            "ThreatType": "MULTI_SELECT",
+            "ThreatLevel": "MULTI_SELECT",
+            "TimeRange": "TIME_RANGE",
+        }
+
+        valid_threat_levels = {
+            "High", "Medium", "Low", "Critical", "Informational"
+        }
+
+        valid_threat_types = {
+            "AirDrop Session",
+            "Association Flood",
+            "Authentication Flood",
+            "Deauth Flood",
+            "Disassociation Flood",
+            "Impersonation",
+            "Malicious Broadcast",
+            "Rogue on Wire",
+            "Rogue AP",
+            "Spoofed Client",
+            "Spoofed AP",
+        }
+
+        # ============================================================
+        # 3. Validate filter schema + allowed-only values
+        # ============================================================
+        for flt in filters:
+            fname = flt.get("name")
+            ftype = flt.get("type")
+            fvalue = flt.get("value")
+
+            # STRICT TYPE CHECK
+            expected_type = valid_filter_types[fname]
+            if ftype != expected_type:
+                return f"Invalid type for '{fname}'. Allowed: '{expected_type}', got '{ftype}'"
+
+            # STRICT VALUE CHECKS
+            if fname == "Location":
+                if not isinstance(fvalue, list):
+                    return "Location must be a list of {value, displayValue}"
+                for entry in fvalue:
+                    if not {"value", "displayValue"} <= entry.keys():
+                        return "Location entries must contain 'value' and 'displayValue'"
+
+            elif fname == "ThreatLevel":
+                for entry in fvalue:
+                    if entry.get("value") not in valid_threat_levels:
+                        return (
+                            f"Invalid ThreatLevel '{entry.get('value')}'. "
+                            f"Allowed: {valid_threat_levels}"
+                        )
+
+            elif fname == "ThreatType":
+                for entry in fvalue:
+                    if entry.get("value") not in valid_threat_types:
+                        return (
+                            f"Invalid ThreatType '{entry.get('value')}'. "
+                            f"Allowed: {valid_threat_types}"
+                        )
+
+            elif fname == "TimeRange":
+                if not isinstance(fvalue, dict):
+                    return "TimeRange must be an object"
+                if "timeRangeOption" not in fvalue:
+                    return "TimeRange must include 'timeRangeOption'"
+
+        # ============================================================
+        # 4. Strict Field Group / Field Checks
+        # ============================================================
+        allowed_fieldgroups = {"rogue_ap_bssid_details"}
+
+        allowed_fields = {
+            "macAddress",
+            "lastUpdated",
+            "firstSeen",
+            "mldMacAddress",
+            "apName",
+            "radioType",
+            "controllerIp",
+            "siteNameHierarchy",
+            "ssid",
+            "channelNumber",
+            "channelWidth",
+            "threatLevel",
+            "containment",
+            "threatType",
+            "encryption",
+            "switchIp",
+            "switchName",
+            "portDescription",
+        }
+
+        # Only validate field groups if provided
+        if view.get("fieldGroups"):
+            for fg in view.get("fieldGroups", []):
+                fg_name = fg.get("fieldGroupName")
+
+                # STRICT FG NAME
+                if fg_name not in allowed_fieldgroups:
+                    return f"Invalid fieldGroup '{fg_name}'. Allowed: {allowed_fieldgroups}"
+
+                # STRICT FIELDS only if fields are provided
+                fields = fg.get("fields", [])
+                if fields:
+                    for fld in fields:
+                        if fld.get("name") not in allowed_fields:
+                            return (
+                                f"Invalid field '{fld.get('name')}' in fieldGroup '{fg_name}'. "
+                                f"Allowed: {allowed_fields}"
+                            )
+
+        # ============================================================
+        # 5. Strict Format Check
+        # ============================================================
+        allowed_formats = {"CSV", "TDE", "JSON"}
+        fmt = view.get("format", {}).get("formatType")
+
+        if fmt not in allowed_formats:
+            return f"Invalid format '{fmt}'. Allowed formats: {allowed_formats}"
+
+        # ============================================================
+        # 6. Strict Schedule Check
+        # ============================================================
+        schedule = view.get("schedule", {})
+        allowed_schedule_types = {"SCHEDULE_NOW", "SCHEDULE_ONCE", "SCHEDULE_RECURRING"}
+
+        sch_type = schedule.get("type")
+        if sch_type not in allowed_schedule_types:
+            return f"Invalid schedule type '{sch_type}'. Allowed: {allowed_schedule_types}"
+
+        if sch_type == "SCHEDULE_RECURRING":
+            allowed_recur = {"WEEKLY", "MONTHLY"}
+            recur_type = schedule.get("recurrence", {}).get("type")
+
+            if recur_type not in allowed_recur:
+                return f"Invalid recurrence type '{recur_type}'. Allowed: {allowed_recur}"
+
+        # ============================================================
+        # 7. Strict Deliveries Check
+        # ============================================================
+        allowed_delivery_types = {"EMAIL", "WEBHOOK", "DOWNLOAD"}
+
+        for d in view.get("deliveries", []):
+            if d.get("type") not in allowed_delivery_types:
+                return f"Invalid delivery type '{d.get('type')}'. Allowed: {allowed_delivery_types}"
+
+        return True
+
+    def _validate_threat_detail_filters(self, view):
+        """
+        Validation for:
+        Template: Rogue and aWIPS
+        Sub-template: Threat Detail
+
+        Filters: Location, ThreatType, ThreatLevel, TimeRange
+        Supported formats: CSV, TDE, JSON
+        Schedule: Now, Once, Recurring (Weekly/Monthly)
+        Notifications: Email, Webhook, Download
+        """
+
+        # Allowed definitions
+        allowed_filters = {"Location", "ThreatType", "ThreatLevel", "TimeRange"}
+
+        allowed_filter_value_types = {
+            "Location": "MULTI_SELECT_TREE",
+            "ThreatType": "MULTI_SELECT",
+            "ThreatLevel": "MULTI_SELECT",
+            "TimeRange": "TIME_RANGE",
+        }
+
+        allowed_formats = {"CSV", "TDE", "JSON"}
+
+        allowed_schedule_types = {"SCHEDULE_NOW", "SCHEDULE_ONCE", "SCHEDULE_RECURRING"}
+        allowed_recurring_types = {"WEEKLY", "MONTHLY"}
+
+        allowed_delivery_types = {"EMAIL", "WEBHOOK", "DOWNLOAD"}
+
+        # --------------------------
+        # Validate Filters Only if Provided
+        # --------------------------
+        filters = view.get("filters", [])
+        if filters:
+            provided_filters = {f["name"] for f in filters}
+
+            extra = provided_filters - allowed_filters
+            if extra:
+                return f"Invalid extra filters found: {', '.join(extra)}"
+
+            # --------------------------
+            # Validate Filter Types + Values only if provided
+            # --------------------------
+            for filt in filters:
+                fname = filt.get("name")
+                ftype = filt.get("type")
+
+                # Validate filter type strictly
+                expected_type = allowed_filter_value_types.get(fname)
+                if expected_type and ftype != expected_type:
+                    return (
+                        f"Invalid type for filter '{fname}'. "
+                        f"Expected '{expected_type}', got '{ftype}'"
+                    )
+
+                # Validate value only if provided
+                val = filt.get("value")
+                if val:  # Only validate if value is provided
+                    # Specific validation for TimeRange
+                    if fname == "TimeRange":
+                        if not isinstance(val, dict):
+                            return "TimeRange value must be an object"
+
+                        if "timeRangeOption" not in val:
+                            return "TimeRange filter missing 'timeRangeOption'"
+
+        # --------------------------
+        # Validate Format
+        # --------------------------
+        fmt = view.get("format", {}).get("formatType")
+        if fmt not in allowed_formats:
+            return f"Invalid format '{fmt}'. Allowed: {allowed_formats}"
+
+        # --------------------------
+        # Validate Schedule
+        # --------------------------
+        schedule = view.get("schedule", {})
+        sch_type = schedule.get("type")
+
+        if sch_type not in allowed_schedule_types:
+            return f"Invalid schedule type '{sch_type}'. Allowed: {allowed_schedule_types}"
+
+        # Recurring schedule validation
+        if sch_type == "SCHEDULE_RECURRING":
+            rec_type = schedule.get("recurrence", {}).get("type")
+            if rec_type not in allowed_recurring_types:
+                return f"Invalid recurring type '{rec_type}'. Allowed: {allowed_recurring_types}"
+
+        # --------------------------
+        # Validate Deliveries
+        # --------------------------
+        for d in view.get("deliveries", []):
+            dtype = d.get("type")
+            if dtype not in allowed_delivery_types:
+                return f"Invalid delivery type '{dtype}'. Allowed: {allowed_delivery_types}"
+
+        return True
+
+    def _validate_access_point_filters(self, view):
+        """
+        Validation for:
+        Template: Access Point
+        Sub-template: AP
+
+        Filters: Location, Wlc, AP, TimeRange
+        Supported formats: CSV, TDE, JSON
+        FieldGroup: apDetailByAP (strict)
+        """
+
+        # -------------------------------------
+        # Allowed Definitions
+        # -------------------------------------
+        allowed_filters = {"Location", "Wlc", "AP", "TimeRange"}
+
+        allowed_filter_types = {
+            "Location": "MULTI_SELECT_TREE",
+            "Wlc": "MULTI_SELECT",
+            "AP": "MULTI_SELECT",
+            "TimeRange": "TIME_RANGE",
+        }
+
+        allowed_formats = {"CSV", "TDE", "JSON"}
+        allowed_schedule_types = {"SCHEDULE_NOW", "SCHEDULE_ONCE", "SCHEDULE_RECURRING"}
+        allowed_recurring_types = {"WEEKLY", "MONTHLY"}
+        allowed_delivery_types = {"EMAIL", "WEBHOOK", "DOWNLOAD"}
+
+        # -------------------------------------
+        # Field Groups Allowed
+        # -------------------------------------
+        allowed_field_group_name = "apDetailByAP"
+
+        allowed_fields = {
+            "macAddress", "ethernetMac", "nwDeviceName", "managementIpAddress",
+            "osVersion", "nwDeviceType", "platformId", "serialNumber",
+            "deviceFamily", "siteHierarchy", "upTime", "mode", "adminState",
+            "opState", "overallScore", "clCount_avg", "cpu", "memory",
+            "clCount_max", "wlcName", "powerStatus", "regulatoryDomain",
+            "cdp", "location", "flexGroup", "apGroup", "siteTagName",
+            "policyTagName", "rfTagName", "rxBytes", "txBytes",
+            "rxRate", "txRate"
+        }
+
+        # -------------------------------------
+        # Validate Filters only if provided
+        # -------------------------------------
+        filters = view.get("filters", [])
+        if filters:
+            provided_filters = {f["name"] for f in filters}
+
+            extra = provided_filters - allowed_filters
+            if extra:
+                return f"Invalid extra filters found: {', '.join(extra)}"
+
+            # Validate filter types + values
+            for flt in filters:
+                fname = flt["name"]
+                ftype = flt.get("type")
+                expected_type = allowed_filter_types.get(fname)
+
+                if expected_type and ftype != expected_type:
+                    return f"Invalid type for filter '{fname}'. Expected '{expected_type}', got '{ftype}'"
+
+                # Only validate value if provided
+                if "value" in flt:
+                    val = flt["value"]
+                    if val:  # Only validate if value is not empty
+                        if fname == "TimeRange":
+                            if not isinstance(val, dict):
+                                return "TimeRange value must be an object"
+                            if "timeRangeOption" not in val:
+                                return "TimeRange filter missing 'timeRangeOption'"
+
+        # -------------------------------------
+        # Validate Format
+        # -------------------------------------
+        fmt = view.get("format", {}).get("formatType")
+        if fmt not in allowed_formats:
+            return f"Invalid format '{fmt}'. Allowed: {allowed_formats}"
+
+        # -------------------------------------
+        # Validate Schedule
+        # -------------------------------------
+        schedule = view.get("schedule", {})
+        sch_type = schedule.get("type")
+
+        if sch_type not in allowed_schedule_types:
+            return f"Invalid schedule type '{sch_type}'. Allowed: {allowed_schedule_types}"
+
+        if sch_type == "SCHEDULE_RECURRING":
+            rec_type = schedule.get("recurrence", {}).get("type")
+            if rec_type not in allowed_recurring_types:
+                return f"Invalid recurring type '{rec_type}'. Allowed: {allowed_recurring_types}"
+
+        # -------------------------------------
+        # Validate Deliveries
+        # -------------------------------------
+        for d in view.get("deliveries", []):
+            if d.get("type") not in allowed_delivery_types:
+                return f"Invalid delivery type '{d.get('type')}'. Allowed: {allowed_delivery_types}"
+
+        # -------------------------------------
+        # Validate FieldGroupName & Fields only if provided
+        # -------------------------------------
+        field_groups = view.get("fieldGroups", [])
+
+        if field_groups:
+            fg = field_groups[0]  # Only one in this template
+
+            fg_name = fg.get("fieldGroupName")
+            if fg_name != allowed_field_group_name:
+                return (
+                    f"Invalid fieldGroupName '{fg_name}'. "
+                    f"Allowed: '{allowed_field_group_name}'"
+                )
+
+            # Validate fields only if provided
+            fields = fg.get("fields", [])
+            if fields:
+                provided_field_names = {f["name"] for f in fields}
+
+                extra_fields = provided_field_names - allowed_fields
+                if extra_fields:
+                    return f"Invalid extra fields found: {', '.join(sorted(extra_fields))}"
+
+        return True
+
+    def _validate_ap_usage_client_breakdown_filters(self, view):
+        """
+        Validation for:
+        Template: Access Point
+        Sub-template: AP - Usage and Client Breakdown
+
+        Filters: Location, Wlc, AP, TimeRange
+        Supported Formats: CSV, TDE, JSON, PDF
+        Field Group: apBreakdown
+        """
+
+        # ------------------------------------------------------------
+        # Allowed Filter Definitions
+        # ------------------------------------------------------------
+        required_filters = {"Location", "Wlc", "AP", "TimeRange"}
+        allowed_filters = required_filters
+
+        allowed_filter_types = {
+            "Location": "MULTI_SELECT_TREE",
+            "Wlc": "MULTI_SELECT",
+            "AP": "MULTI_SELECT",
+            "TimeRange": "TIME_RANGE",
+        }
+
+        # Supported for this sub-template (PDF allowed)
+        allowed_formats = {"CSV", "TDE", "JSON", "PDF"}
+
+        allowed_schedule_types = {"SCHEDULE_NOW", "SCHEDULE_ONCE", "SCHEDULE_RECURRING"}
+        allowed_recurring_types = {"WEEKLY", "MONTHLY"}
+
+        allowed_delivery_types = {"EMAIL", "WEBHOOK", "DOWNLOAD"}
+
+        # ------------------------------------------------------------
+        # Field Group Validation
+        # ------------------------------------------------------------
+        allowed_field_group_name = "apBreakdown"
+
+        allowed_fields = {
+            "apName",
+            "kpiType",
+            "kpiName",
+            "clientCount",
+            "clientPercentage",
+            "traffic",
+            "trafficPercentage",
+            "ethernetMac",
+            "location"
+        }
+
+        # ------------------------------------------------------------
+        # Validate Filters only if provided
+        # ------------------------------------------------------------
+        filters = view.get("filters", [])
+        if filters:
+            provided_filters = {f.get("name") for f in filters}
+
+            # Extra filters
+            extra = provided_filters - allowed_filters
+            if extra:
+                return f"Invalid extra filters found: {', '.join(sorted(extra))}"
+
+            # Validate individual filter types + values
+            for flt in filters:
+                fname = flt.get("name")
+                ftype = flt.get("type")
+
+                expected_type = allowed_filter_types.get(fname)
+                if expected_type and ftype != expected_type:
+                    return f"Invalid type for filter '{fname}'. Expected '{expected_type}', got '{ftype}'"
+
+                # TimeRange structure check only if value provided
+                if fname == "TimeRange" and "value" in flt:
+                    val = flt["value"]
+                    if val:  # Only validate if value is not empty
+                        if not isinstance(val, dict):
+                            return "TimeRange value must be an object"
+                        if "timeRangeOption" not in val:
+                            return "TimeRange filter missing 'timeRangeOption'"
+
+        # ------------------------------------------------------------
+        # Validate Format
+        # ------------------------------------------------------------
+        fmt = view.get("format", {}).get("formatType")
+        if fmt not in allowed_formats:
+            return f"Invalid format '{fmt}'. Allowed: {allowed_formats}"
+
+        # ------------------------------------------------------------
+        # Validate Schedule
+        # ------------------------------------------------------------
+        schedule = view.get("schedule", {})
+        sch_type = schedule.get("type")
+
+        if sch_type not in allowed_schedule_types:
+            return f"Invalid schedule type '{sch_type}'. Allowed: {allowed_schedule_types}"
+
+        if sch_type == "SCHEDULE_RECURRING":
+            rec_type = schedule.get("recurrence", {}).get("type")
+            if rec_type not in allowed_recurring_types:
+                return f"Invalid recurring type '{rec_type}'. Allowed: {allowed_recurring_types}"
+
+        # ------------------------------------------------------------
+        # Validate Deliveries
+        # ------------------------------------------------------------
+        for d in view.get("deliveries", []):
+            dtype = d.get("type")
+            if dtype not in allowed_delivery_types:
+                return f"Invalid delivery type '{dtype}'. Allowed: {allowed_delivery_types}"
+
+        # ------------------------------------------------------------
+        # Validate Field Groups & Fields only if provided
+        # ------------------------------------------------------------
+        field_groups = view.get("fieldGroups", [])
+
+        if field_groups:
+            fg = field_groups[0]  # This template has exactly one field group
+
+            fg_name = fg.get("fieldGroupName")
+            if fg_name != allowed_field_group_name:
+                return (
+                    f"Invalid fieldGroupName '{fg_name}'. "
+                    f"Allowed: '{allowed_field_group_name}'"
+                )
+
+            # Validate fields only if provided
+            fields = fg.get("fields", [])
+            if fields:
+                provided_field_names = {f.get("name") for f in fields}
+
+                extra_fields = provided_field_names - allowed_fields
+                if extra_fields:
+                    return f"Invalid extra fields found: {', '.join(sorted(extra_fields))}"
+
+        return True
+
+    def _validate_ap_radio_filters(self, view):
+        """
+        Validation for:
+        Template: Access Point Reports
+        Sub-template: AP Radio
+
+        Validates:
+            - Filters: Location, Wlc, AP, Band, SortBy, Limit, TimeRange
+            - Format: CSV
+            - FieldGroups: apDetailByRadio (all fields required)
+            - Schedule
+            - Deliveries (empty allowed)
+        """
+
+        # ------------------------------------------------------------
+        # Allowed Filters
+        # ------------------------------------------------------------
+        allowed_filters = {
+            "Location",
+            "Wlc",
+            "AP",
+            "Band",
+            "SortBy",
+            "Limit",
+            "TimeRange"
+        }
+
+        # Only validate filters if provided
+        filters = view.get("filters", [])
+        if filters:
+            provided_filters = {f["name"] for f in filters}
+
+            # Invalid filters (extra unexpected filters)
+            invalid = provided_filters - allowed_filters
+            if invalid:
+                return f"Invalid filters provided: {', '.join(invalid)}"
+
+        # ------------------------------------------------------------
+        # Validate Format
+        # ------------------------------------------------------------
+        allowed_formats = {"CSV"}
+
+        fmt = view.get("format", {}).get("formatType")
+        if fmt not in allowed_formats:
+            return f"Invalid format '{fmt}'. Allowed format: {allowed_formats}"
+
+        # ------------------------------------------------------------
+        # Validate Schedule
+        # ------------------------------------------------------------
+        schedule = view.get("schedule", {})
+        allowed_schedule_types = {"SCHEDULE_NOW", "SCHEDULE_ONCE", "SCHEDULE_RECURRING"}
+
+        sch_type = schedule.get("type")
+        if sch_type not in allowed_schedule_types:
+            return f"Invalid schedule type '{sch_type}'. Allowed: {allowed_schedule_types}"
+
+        # Recurring type (only if recurring schedule)
+        if sch_type == "SCHEDULE_RECURRING":
+            allowed_recurring = {"WEEKLY", "MONTHLY"}
+            rec_type = schedule.get("recurrence", {}).get("type")
+            if rec_type not in allowed_recurring:
+                return f"Invalid recurring type '{rec_type}'. Allowed: {allowed_recurring}"
+
+        # ------------------------------------------------------------
+        # Validate FieldGroups only if provided
+        # ------------------------------------------------------------
+        allowed_field_group_name = "apDetailByRadio"
+
+        allowed_fields = {
+            "ethernetMac",
+            "apMac",
+            "slot",
+            "name",
+            "radioMode",
+            "adminState",
+            "operState",
+            "frequency",
+            "siteHierarchy",
+            "channels",
+            "txPower",
+            "memory",
+            "osVersion",
+            "cpu",
+            "managementIpAddress",
+            "deviceModel",
+            "deviceFamily",
+            "platformId",
+            "nwDeviceType",
+            "upTime",
+            "wlcName",
+            "wlcIpAddr",
+            "radioNoiseMax_max",
+            "radioUtil_max",
+            "txUtilPct_max",
+            "rxUtilPct_max",
+            "radioIntf_max",
+            "radioClientCount_max",
+            "radioClientCount_avg",
+            "txBytes_sum",
+            "rxBytes_sum",
+            "radioAirQualMax_max",
+            "txUtil_avg",
+            "rxUtil_avg"
+        }
+
+        fg_list = view.get("fieldGroups", [])
+        if fg_list:
+            if len(fg_list) != 1:
+                return "Exactly one fieldGroup 'apDetailByRadio' must be provided."
+
+            fg = fg_list[0]
+
+            if fg.get("fieldGroupName") != allowed_field_group_name:
+                return f"Invalid fieldGroupName '{fg.get('fieldGroupName')}'. Expected '{allowed_field_group_name}'."
+
+            fields = fg.get("fields", [])
+            if fields:
+                provided_fields = {f["name"] for f in fields}
+
+                invalid_fields = provided_fields - allowed_fields
+                if invalid_fields:
+                    return f"Invalid fields provided in fieldGroup: {', '.join(invalid_fields)}"
+
+        # ------------------------------------------------------------
+        # Deliveries (Optional)
+        # ------------------------------------------------------------
+        # For AP Radio, deliveries can be empty
+        for d in view.get("deliveries", []):
+            if d.get("type") not in {"EMAIL", "WEBHOOK", "DOWNLOAD"}:
+                return f"Invalid delivery type '{d.get('type')}'."
+
+        return True
+
+    def _validate_ap_rrm_events_filters(self, view):
+        """
+        Validation for:
+        Template: Access Point Reports
+        Sub-template: AP RRM Events
+
+        Validates:
+            - Filters
+            - Format
+            - Field Groups
+            - Schedule
+            - Deliveries
+        """
+
+        # ------------------------------------------------------------
+        # 1. Allowed Filters
+        # ------------------------------------------------------------
+        allowed_filters = {
+            "Location",
+            "Wlc",
+            "AP",
+            "eventType",
+            "Band",
+            "TimeRange"
+        }
+
+        # Only validate filters if provided
+        filters = view.get("filters", [])
+        if filters:
+            provided_filters = {f["name"] for f in filters}
+
+            extra = provided_filters - allowed_filters
+            if extra:
+                return f"Invalid filters provided: {', '.join(sorted(extra))}"
+
+        # ------------------------------------------------------------
+        # 2. Validate Format
+        # ------------------------------------------------------------
+        allowed_formats = {"CSV"}
+        fmt = view.get("format", {}).get("formatType")
+
+        if fmt not in allowed_formats:
+            return f"Invalid format '{fmt}'. Allowed formats: {allowed_formats}"
+
+        # ------------------------------------------------------------
+        # 3. Validate Schedule
+        # ------------------------------------------------------------
+        allowed_schedule_types = {"SCHEDULE_NOW", "SCHEDULE_ONCE", "SCHEDULE_RECURRING"}
+        schedule = view.get("schedule", {})
+        sch_type = schedule.get("type")
+
+        if sch_type not in allowed_schedule_types:
+            return f"Invalid schedule type '{sch_type}'. Allowed: {allowed_schedule_types}"
+
+        # Recurring schedule validation
+        if sch_type == "SCHEDULE_RECURRING":
+            allowed_recurring = {"WEEKLY", "MONTHLY"}
+            rec = schedule.get("recurrence", {}).get("type")
+            if rec not in allowed_recurring:
+                return f"Invalid recurring type '{rec}'. Allowed: {allowed_recurring}"
+
+        # ------------------------------------------------------------
+        # 4. Validate Deliveries (optional but must be valid)
+        # ------------------------------------------------------------
+        allowed_delivery_types = {"EMAIL", "WEBHOOK", "DOWNLOAD"}
+
+        for d in view.get("deliveries", []):
+            if d.get("type") not in allowed_delivery_types:
+                return (
+                    f"Invalid delivery type '{d.get('type')}'. "
+                    f"Allowed: {allowed_delivery_types}"
+                )
+
+        # ------------------------------------------------------------
+        # 5. Validate Field Groups & Fields only if provided
+        # ------------------------------------------------------------
+        allowed_field_groups = {
+            "apRRMEventsByAPMac"
+        }
+
+        field_groups = view.get("fieldGroups", [])
+        if field_groups:
+            provided_field_groups = {
+                fg.get("fieldGroupName") for fg in field_groups
+            }
+
+            extra_fg = provided_field_groups - allowed_field_groups
+            if extra_fg:
+                return f"Invalid field groups: {', '.join(sorted(extra_fg))}"
+
+            # ---- Allowed fields in apRRMEventsByAPMac ----
+            allowed_fields = {
+                "time",
+                "eventTime",
+                "apName",
+                "ethernetMac",
+                "apMac",
+                "managementIpAddr",
+                "slotId",
+                "wlcName",
+                "frequency",
+                "eventType",
+                "prevChannels",
+                "currChannels",
+                "prevPower",
+                "currPower",
+                "oldWidthValue",
+                "newWidthValue",
+                "reasonType",
+                "lastFailureReason",
+                "dcaReasonCode",
+                "location"
+            }
+
+            for fg in field_groups:
+                if fg["fieldGroupName"] == "apRRMEventsByAPMac":
+                    fields = fg.get("fields", [])
+                    if fields:
+                        provided_fields = {f.get("name") for f in fields}
+
+                        extra_fields = provided_fields - allowed_fields
+                        if extra_fields:
+                            return f"Invalid fields: {', '.join(sorted(extra_fields))}"
+
+        return True
+
+    def _validate_worst_interferers_report(self, payload):
+        """
+        Validates the Worst Interferers report payload.
+        Raises ValueError with clear messages on validation failure.
+        """
+
+        # -----------------------------
+        # Validate deliveries
+        # -----------------------------
+        deliveries = payload.get("deliveries", [])
+        allowed_delivery_types = ["WEBHOOK", "DOWNLOAD"]
+
+        for d in deliveries:
+            if "type" not in d:
+                raise ValueError("Each delivery entry must contain 'type'")
+            if d["type"] not in allowed_delivery_types:
+                raise ValueError(f"Invalid delivery type: {d['type']}")
+
+            if d["type"] == "WEBHOOK":
+                if "whUrl" not in d:
+                    raise ValueError("WEBHOOK delivery must include whUrl")
+
+        # -----------------------------
+        #  Validate view
+        # -----------------------------
+        if "view" not in payload:
+            raise ValueError("Missing 'view' section in payload")
+
+        view = payload["view"]
+        for key in ["name", "description", "format", "filters", "fieldGroups"]:
+            if key not in view:
+                raise ValueError(f"Missing view field: {key}")
+
+        # -----------------------------
+        # Validate format
+        # -----------------------------
+        format_data = view["format"]
+        required_format = ["name", "formatType"]
+
+        for key in required_format:
+            if key not in format_data:
+                raise ValueError(f"Missing format field: {key}")
+
+        if format_data["formatType"] not in ["CSV", "PDF"]:
+            raise ValueError("format.formatType must be CSV or PDF")
+
+        # -----------------------------
+        # Validate alloweds filters
+        # -----------------------------
+        allowed_filters = {
+            "Location",
+            "Wlc",
+            "AP",
+            "Band",
+            "TimeRange"
+        }
+
+        for f in view["filters"]:
+            fname = f.get("name")
+            if fname not in allowed_filters:
+                raise ValueError(f"Invalid filter name: {fname}")
+
+        # -----------------------------
+        # 7. Validate TimeRange filter
+        # -----------------------------
+        for f in view["filters"]:
+            if f["name"] == "TimeRange":
+                tr = f.get("value")
+                if not tr:
+                    raise ValueError("TimeRange filter missing value object")
+
+                required_tr = ["timeRangeOption", "startDateTime", "endDateTime", "timeZoneId"]
+
+                for key in required_tr:
+                    if key not in tr:
+                        raise ValueError(f"TimeRange missing field: {key}")
+
+        # -----------------------------
+        # 8. Validate fieldGroups
+        # -----------------------------
+        field_groups = view["fieldGroups"]
+        if len(field_groups) != 1:
+            raise ValueError("Exactly one fieldGroup must be present")
+
+        fg = field_groups[0]
+
+        if fg["fieldGroupName"] != "worstInterferers":
+            raise ValueError("Only fieldGroupName 'worstInterferers' is allowed")
+
+        # Allowed fields in this fieldGroup
+        allowed_fields = {
+            "deviceType",
+            "severity",
+            "worstSevTime",
+            "deviceMac",
+            "rssi",
+            "dutyCycle",
+            "affectedChannels",
+            "apName",
+            "slot",
+            "band",
+            "siteHierarchy",
+            "discoveredTime"
+        }
+
+        for field in fg["fields"]:
+            fname = field.get("name")
+            if fname not in allowed_fields:
+                raise ValueError(f"Invalid field in worstInterferers: {fname}")
+
+        return True
+
+    def _validate_channel_change_count_filters(self, view):
+        """
+        Validation for:
+        Template  : Network Devices Report
+        Sub-Template: Channel Change Count
+
+        Validates allowed filters and allowed fields.
+        """
+        # ----------------------------------------------------------
+        # Allowed Filters
+        # ----------------------------------------------------------
+        allowed_filters = {
+            "Location",
+            "Band",
+            "TimeRange"
+        }
+
+        required_filters = {
+            "Location",
+            "TimeRange"
+        }
+
+        filters = view.get("filters", [])
+        found_filters = set()
+
+        # ----------------------------------------------------------
+        # Validate filters
+        # ----------------------------------------------------------
+        for flt in filters:
+            name = flt.get("name")
+
+            if name not in allowed_filters:
+                raise ValueError(
+                    f"[Channel Change Count] Invalid filter '{name}'. "
+                    f"Allowed filters: {sorted(allowed_filters)}"
+                )
+
+            found_filters.add(name)
+
+            # ---- Individual filter validation ----
+
+            if name == "Location":
+                if flt.get("type") != "MULTI_SELECT_TREE":
+                    raise ValueError("[Channel Change Count] 'Location' must be MULTI_SELECT_TREE")
+                if not isinstance(flt.get("value", []), list):
+                    raise ValueError("[Channel Change Count] 'Location' filter value must be list")
+
+            if name == "Band":
+                if flt.get("type") != "MULTI_SELECT":
+                    raise ValueError("[Channel Change Count] 'Band' must be MULTI_SELECT")
+                if not isinstance(flt.get("value", []), list):
+                    raise ValueError("[Channel Change Count] 'Band' filter value must be list")
+
+            if name == "TimeRange":
+                if flt.get("type") != "TIME_RANGE":
+                    raise ValueError("[Channel Change Count] 'TimeRange' must be TIME_RANGE")
+                tr_val = flt.get("value", {})
+                if "timeRangeOption" not in tr_val:
+                    raise ValueError("[Channel Change Count] 'TimeRange' missing timeRangeOption")
+
+        # ----------------------------------------------------------
+        # Ensure mandatory filters
+        # ----------------------------------------------------------
+        missing = required_filters - found_filters
+        if missing:
+            raise ValueError(f"[Channel Change Count] Missing required filters: {', '.join(missing)}")
+
+        # ----------------------------------------------------------
+        # Validate field group
+        # ----------------------------------------------------------
+        field_groups = view.get("fieldGroups", [])
+
+        if len(field_groups) != 1:
+            raise ValueError("[Channel Change Count] Must contain exactly one fieldGroup")
+
+        fg = field_groups[0]
+
+        if fg.get("fieldGroupName") != "response":
+            raise ValueError(
+                "[Channel Change Count] fieldGroupName must be 'response'"
+            )
+
+        # ----------------------------------------------------------
+        # Allowed Fields
+        # ----------------------------------------------------------
+        allowed_fields = {
+            "apName",
+            "apMac",
+            "slotId",
+            "frequency",
+            "DCA",
+            "DFS",
+            "ED-RRM",
+            "totalChangeCount",
+            "channelsCount",
+            "location",
+        }
+
+        for field in fg.get("fields", []):
+            fname = field.get("name")
+            if fname not in allowed_fields:
+                raise ValueError(
+                    f"[Channel Change Count] Invalid field '{fname}'. "
+                    f"Allowed fields: {sorted(allowed_fields)}"
+                )
+
+        return True
+
+    def _validate_network_devices_cpu_memory_filters(self, view_data):
+        """
+        Validate filters and fieldGroups for:
+        Template: Network Devices
+        Sub-template: Device CPU and Memory Utilization
+
+        Ensures:
+            - Only allowed filters appear
+            - Allowed types are correct
+            - Values have correct structure
+            - fieldGroups and fields are valid
+            - displayNames auto-populated where missing
+
+        Returns:
+            True  -> valid
+            False -> invalid
+        """
+
+        filters = view_data.get("filters", [])
+        field_groups = view_data.get("fieldGroups", [])
+
+        self.log("Validating Network Devices → Device CPU & Memory Utilization", "DEBUG")
+
+        # ----------------------------------------------------------------------
+        # Expected Filters & Allowed Types
+        # ----------------------------------------------------------------------
+        expected_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "DeviceFamily": ["MULTI_SELECT"],
+            "DeviceRole": ["MULTI_SELECT"],
+            "SortBy": ["SINGLE_SELECT_ARRAY"],
+            "Limit": ["SINGLE_SELECT_ARRAY"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        filter_map = {flt.get("name"): flt for flt in filters}
+
+        # ----------------------------------------------------------------------
+        # Reject unexpected filters
+        # ----------------------------------------------------------------------
+        unexpected = [f for f in filter_map if f not in expected_filters]
+        if unexpected:
+            self.msg = (
+                "Unexpected filters for Device CPU & Memory Utilization: {0}. "
+                "Allowed filters are: {1}"
+            ).format(unexpected, list(expected_filters.keys()))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # ----------------------------------------------------------------------
+        # Validate expected filters
+        # ----------------------------------------------------------------------
+        for filter_name, allowed_types in expected_filters.items():
+
+            if filter_name not in filter_map:
+                self.msg = f"Missing required filter '{filter_name}' for Device CPU & Memory Utilization."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            flt = filter_map[filter_name]
+            f_type = flt.get("type")
+
+            # Validate filter type
+            if f_type not in allowed_types:
+                self.msg = (
+                    "Invalid filter type '{0}' for '{1}'. Allowed types: {2}"
+                ).format(f_type, filter_name, allowed_types)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Auto-populate displayName
+            flt.setdefault("displayName", filter_name)
+
+            value = flt.get("value")
+
+            # Type-specific validation
+            if f_type in ["MULTI_SELECT", "MULTI_SELECT_TREE", "SINGLE_SELECT_ARRAY"]:
+                if not isinstance(value, list):
+                    self.msg = f"Filter '{filter_name}' must contain a list of values."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                for v in value:
+                    if not isinstance(v, dict):
+                        self.msg = (
+                            f"Entries in filter '{filter_name}' must be dicts with value/displayValue."
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+                    v.setdefault("displayValue", v.get("value"))
+
+            if f_type == "TIME_RANGE":
+                if not isinstance(value, dict):
+                    self.msg = f"Filter '{filter_name}' TimeRange must be an object."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Required keys inside TimeRange
+                required_tr_keys = ["timeRangeOption", "startDateTime", "endDateTime", "timeZoneId"]
+                missing_tr = [k for k in required_tr_keys if k not in value]
+                if missing_tr:
+                    self.msg = f"TimeRange missing keys: {missing_tr}"
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+        # ----------------------------------------------------------------------
+        # Validate FieldGroups
+        # ----------------------------------------------------------------------
+        if not isinstance(field_groups, list):
+            self.msg = "'fieldGroups' must be a list."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        expected_field_group = "Device_Health_Details"
+
+        valid_fields = {
+            "deviceName",
+            "ipAddr",
+            "deviceFamily",
+            "deviceRole",
+            "deviceModel",
+            "minCPU",
+            "maxCPU",
+            "avgCPU",
+            "minMemory",
+            "maxMemory",
+            "avgMemory",
+        }
+
+        for fg in field_groups:
+
+            fg_name = fg.get("fieldGroupName")
+            if fg_name != expected_field_group:
+                self.msg = (
+                    f"Unexpected fieldGroup '{fg_name}'. Allowed: '{expected_field_group}'."
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            fg.setdefault("fieldGroupDisplayName", fg_name)
+
+            fields = fg.get("fields", [])
+            if not isinstance(fields, list):
+                self.msg = "'fields' must be a list inside fieldGroups."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            field_names = [fld.get("name") for fld in fields]
+
+            # Reject unexpected fields
+            unexpected_fields = [f for f in field_names if f not in valid_fields]
+            if unexpected_fields:
+                self.msg = (
+                    f"Unexpected fields in Device CPU & Memory Utilization View: {unexpected_fields}. "
+                    f"Allowed fields are: {sorted(valid_fields)}"
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Auto populate displayName
+            for fld in fields:
+                fld.setdefault("displayName", fld.get("name"))
+
+        # ----------------------------------------------------------------------
+        # SUCCESS
+        # ----------------------------------------------------------------------
+        self.log("Device CPU & Memory Utilization validation successful", "DEBUG")
+        return True
+
+    def _validate_energy_management_filters(self, view_data):
+        """
+        Validate filters and fieldGroups for the 'Energy Management' view.
+
+        Ensures:
+            - Only expected filters appear
+            - Required filters exist
+            - Filter types match allowed definitions
+            - Values follow correct structure
+            - FieldGroups and fields are valid
+        """
+
+        self.log("Validating Energy Management View filters and fieldGroups", "DEBUG")
+
+        filters = view_data.get("filters", [])
+        field_groups = view_data.get("fieldGroups", [])
+
+        # ----------------------------------------------------------------------
+        # Expected Filters & Allowed Types
+        # ----------------------------------------------------------------------
+        expected_filters = {
+            "Locations": ["MULTI_SELECT_TREE"],
+            "DeviceCategory": ["SINGLE_SELECT_ARRAY"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        filter_map = {flt.get("name"): flt for flt in filters}
+
+        # ----------------------------------------------------------------------
+        # Reject unexpected filters
+        # ----------------------------------------------------------------------
+        unexpected = [f for f in filter_map if f not in expected_filters]
+        if unexpected:
+            self.msg = (
+                "Unexpected filters for Energy Management View: {0}. "
+                "Allowed filters are: {1}"
+            ).format(unexpected, list(expected_filters.keys()))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # ----------------------------------------------------------------------
+        # Validate expected filters
+        # ----------------------------------------------------------------------
+        for filter_name, allowed_types in expected_filters.items():
+
+            if filter_name not in filter_map:
+                self.msg = f"Missing required filter '{filter_name}' for Energy Management View."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            flt = filter_map[filter_name]
+            f_type = flt.get("type")
+
+            # Validate filter type
+            if f_type not in allowed_types:
+                self.msg = (
+                    "Invalid filter type '{0}' for '{1}'. Allowed types: {2}"
+                ).format(f_type, filter_name, allowed_types)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Auto-populate displayName
+            flt.setdefault("displayName", filter_name)
+
+            # ------------------------------------------------------------------
+            # Validate specific filters
+            # ------------------------------------------------------------------
+            if filter_name == "Locations":
+                value = flt.get("value", [])
+                if not isinstance(value, list):
+                    self.msg = "Filter 'Locations' must contain a list of values."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                for v in value:
+                    if not isinstance(v, dict):
+                        self.msg = (
+                            "Entries in filter 'Locations' must be dicts with value/displayValue."
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+                    v.setdefault("displayValue", v.get("value"))
+
+            elif filter_name == "DeviceCategory":
+                value = flt.get("value", [])
+                if not isinstance(value, list):
+                    self.msg = "Filter 'DeviceCategory' must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+            elif filter_name == "TimeRange":
+                value = flt.get("value", {})
+                required_keys = {"timeRangeOption", "startDateTime", "endDateTime", "timeZoneId"}
+
+                if not isinstance(value, dict) or not required_keys.issubset(value.keys()):
+                    self.msg = (
+                        "Filter 'TimeRange' must contain "
+                        "timeRangeOption, startDateTime, endDateTime, timeZoneId."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+        # ----------------------------------------------------------------------
+        # Validate FieldGroups
+        # ----------------------------------------------------------------------
+        if not isinstance(field_groups, list):
+            self.msg = "'fieldGroups' must be a list."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        expected_field_group = "response"
+
+        valid_fields = {
+            "timeVal",
+            "energyConsumed",
+            "carbonIntensity",
+            "estimatedEmission",
+            "estimatedCost",
+            "measured",
+        }
+
+        for fg in field_groups:
+
+            fg_name = fg.get("fieldGroupName")
+            if fg_name != expected_field_group:
+                self.msg = (
+                    f"Unexpected fieldGroup '{fg_name}'. Allowed: '{expected_field_group}'."
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            fg.setdefault("fieldGroupDisplayName", fg_name)
+
+            fields = fg.get("fields", [])
+            if not isinstance(fields, list):
+                self.msg = "'fields' must be a list inside fieldGroups."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            field_names = [fld.get("name") for fld in fields]
+
+            # Reject unexpected fields
+            unexpected_fields = [f for f in field_names if f not in valid_fields]
+            if unexpected_fields:
+                self.msg = (
+                    f"Unexpected fields in Energy Management View: {unexpected_fields}. "
+                    f"Allowed fields are: {sorted(valid_fields)}"
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Auto populate displayName
+            for fld in fields:
+                fld.setdefault("displayName", fld.get("name"))
+
+        # ----------------------------------------------------------------------
+        # SUCCESS
+        # ----------------------------------------------------------------------
+        self.log("Energy Management View validation successful", "DEBUG")
+        return True
+
+    def _validate_network_device_availability_filters(self, view_data):
+        """
+        Validate filters and fieldGroups for the 'Network Device Availability' view.
+
+        Validation includes:
+            - Allowed filters and their types
+            - Required filter structure and values
+            - Allowed field groups and fields
+        """
+
+        self.log("Validating Network Device Availability View filters and fieldGroups", "DEBUG")
+
+        filters = view_data.get("filters", [])
+        field_groups = view_data.get("fieldGroups", [])
+
+        # ----------------------------------------------------------------------
+        # Expected Filters + Allowed Types
+        # ----------------------------------------------------------------------
+        expected_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "NwDeviceType": ["MULTI_SELECT"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        filter_map = {f.get("name"): f for f in filters}
+
+        # ----------------------------------------------------------------------
+        # Reject unexpected filters
+        # ----------------------------------------------------------------------
+        unexpected = [f for f in filter_map if f not in expected_filters]
+        if unexpected:
+            self.msg = (
+                "Unexpected filters for Network Device Availability View: {0}. "
+                "Allowed filters: {1}"
+            ).format(unexpected, list(expected_filters.keys()))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # ----------------------------------------------------------------------
+        # Validate each expected filter
+        # ----------------------------------------------------------------------
+        for filter_name, allowed_types in expected_filters.items():
+
+            if filter_name not in filter_map:
+                self.msg = f"Missing required filter '{filter_name}' for Network Device Availability View."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            flt = filter_map[filter_name]
+            f_type = flt.get("type")
+
+            # Validate type
+            if f_type not in allowed_types:
+                self.msg = (
+                    "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                ).format(f_type, filter_name, allowed_types)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            flt.setdefault("displayName", filter_name)
+
+            # -----------------------------
+            # Validate specific filters
+            # -----------------------------
+
+            # ---- Location ----
+            if filter_name == "Location":
+                value = flt.get("value", [])
+                if not isinstance(value, list):
+                    self.msg = "Filter 'Location' must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                for entry in value:
+                    if not isinstance(entry, dict) or "value" not in entry:
+                        self.msg = (
+                            "Each entry in 'Location' must be a dict containing 'value' and optionally 'displayValue'."
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+                    entry.setdefault("displayValue", entry.get("value"))
+
+            # ---- NwDeviceType ----
+            elif filter_name == "NwDeviceType":
+                value = flt.get("value", [])
+                if not isinstance(value, list):
+                    self.msg = "Filter 'NwDeviceType' must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+            # ---- TimeRange ----
+            elif filter_name == "TimeRange":
+                value = flt.get("value", {})
+                required_time_keys = {
+                    "timeRangeOption",
+                    "startDateTime",
+                    "endDateTime",
+                    "timeZoneId"
+                }
+
+                if not isinstance(value, dict) or not required_time_keys.issubset(value.keys()):
+                    self.msg = (
+                        "Filter 'TimeRange' must contain keys: "
+                        "timeRangeOption, startDateTime, endDateTime, timeZoneId."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+        # ----------------------------------------------------------------------
+        # Validate FieldGroups
+        # ----------------------------------------------------------------------
+        if not isinstance(field_groups, list):
+            self.msg = "'fieldGroups' must be a list."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        expected_group = "response"
+
+        # Allowed fields:
+        valid_fields = {
+            "nwDeviceFamily",
+            "nwDeviceRole",
+            "nwDeviceName",
+            "managementIpAddr",
+            "siteHierarchy",
+            "softwareVersion",
+            "availability",
+        }
+
+        for group in field_groups:
+
+            fg_name = group.get("fieldGroupName")
+            if fg_name != expected_group:
+                self.msg = (
+                    f"Unexpected fieldGroup '{fg_name}'. Allowed: '{expected_group}'."
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            group.setdefault("fieldGroupDisplayName", fg_name)
+
+            fields = group.get("fields", [])
+            if not isinstance(fields, list):
+                self.msg = "'fields' inside fieldGroups must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            field_names = [f.get("name") for f in fields]
+
+            # Reject unexpected fields
+            unexpected_fields = [f for f in field_names if f not in valid_fields]
+            if unexpected_fields:
+                self.msg = (
+                    f"Unexpected fields in Network Device Availability View: {unexpected_fields}. "
+                    f"Allowed fields: {sorted(valid_fields)}"
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Auto-fill displayName
+            for fld in fields:
+                fld.setdefault("displayName", fld.get("name"))
+
+        # ----------------------------------------------------------------------
+        # SUCCESS
+        # ----------------------------------------------------------------------
+        self.log("Network Device Availability validation successful", "DEBUG")
+        return True
+
+    def _validate_network_interface_utilization_filters(self, view):
+        """
+        Validation for:
+            Template: Network Devices
+            Sub template: Network Interface Utilization
+        """
+        self.msg = ""
+
+        # --------------------------------------------------------------------
+        # 1. Required Filters
+        # --------------------------------------------------------------------
+        required_filters = {
+            "Location": "MULTI_SELECT_TREE",
+            "SortBy": "SINGLE_SELECT_ARRAY",
+            "SortOrder": "SINGLE_SELECT_ARRAY",
+            "Limit": "SINGLE_SELECT_ARRAY",
+            "TimeRange": "TIME_RANGE",
+        }
+
+        # Validate presence of filters
+        filters = view.get("filters", [])
+        filter_map = {f.get("name"): f for f in filters}
+
+        for fname, ftype in required_filters.items():
+            if fname not in filter_map:
+                self.msg = f"Missing required filter '{fname}' in Network Interface Utilization report"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            if filter_map[fname].get("type") != ftype:
+                self.msg = (
+                    f"Filter '{fname}' must be of type '{ftype}' "
+                    f"but found '{filter_map[fname].get('type')}'"
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+        # --------------------------------------------------------------------
+        # 2. Validate Field Groups
+        # --------------------------------------------------------------------
+        expected_group_name = "Interface_Utilization_Details"
+        expected_fields = [
+            "deviceName",
+            "managementIpAddress",
+            "location",
+            "interfaceName",
+            "minTx",
+            "maxTx",
+            "avgTx",
+            "txErrors",
+            "txPacketDrops",
+            "minRx",
+            "maxRx",
+            "avgRx",
+            "rxErrors",
+            "rxPacketDrops",
+        ]
+
+        field_groups = view.get("fieldGroups", [])
+        if not field_groups:
+            self.msg = "Missing 'fieldGroups' in Network Interface Utilization report"
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        fg = field_groups[0]
+
+        # Validate fieldGroupName
+        if fg.get("fieldGroupName") != expected_group_name:
+            self.msg = (
+                f"Invalid fieldGroupName '{fg.get('fieldGroupName')}'. "
+                f"Expected '{expected_group_name}'"
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # Validate fields
+        present_fields = [f.get("name") for f in fg.get("fields", [])]
+
+        missing_fields = [f for f in expected_fields if f not in present_fields]
+        if missing_fields:
+            self.msg = (
+                "Missing required fields for Network Interface Utilization report: "
+                + ", ".join(missing_fields)
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # --------------------------------------------------------------------
+        # 3. All validations successful
+        # --------------------------------------------------------------------
+        return True
+
+    def _validate_poe_filters(self, view):
+        """
+        Validation for:
+            Template: Network Devices
+            Sub template: PoE
+        """
+        self.msg = ""
+
+        # -------------------------------------------------------------
+        # 1. Required Filters
+        # -------------------------------------------------------------
+        required_filters = {
+            "Location": "MULTI_SELECT_TREE",
+        }
+
+        filters = view.get("filters", [])
+        filter_map = {f.get("name"): f for f in filters}
+
+        for fname, ftype in required_filters.items():
+            if fname not in filter_map:
+                self.msg = f"Missing required filter '{fname}' in PoE report"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            if filter_map[fname].get("type") != ftype:
+                self.msg = (
+                    f"Filter '{fname}' must be of type '{ftype}', "
+                    f"but found '{filter_map[fname].get('type')}'"
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+        # -------------------------------------------------------------
+        # 2. Field Group Validation
+        # -------------------------------------------------------------
+        expected_group_name = "response"
+        expected_fields = [
+            "managementIpAddr",
+            "nwDeviceName",
+            "date",
+            "site",
+            "powerBudget",
+            "powerConsumed",
+            "powerConsumedPercentage",
+            "poeUsedPortCount",
+            "fastPoeEnabledCount",
+            "perpetualPoeEnabledCount",
+            "PolicePoeEnabledCount",
+            "poeOperPriorityHighCount",
+        ]
+
+        field_groups = view.get("fieldGroups", [])
+        if not field_groups:
+            self.msg = "Missing 'fieldGroups' in PoE report"
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        fg = field_groups[0]
+
+        # Validate group name
+        if fg.get("fieldGroupName") != expected_group_name:
+            self.msg = (
+                f"Invalid fieldGroupName '{fg.get('fieldGroupName')}'. "
+                f"Expected '{expected_group_name}'"
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # Validate fields presence
+        present_fields = [f.get("name") for f in fg.get("fields", [])]
+
+        missing_fields = [f for f in expected_fields if f not in present_fields]
+        if missing_fields:
+            self.msg = (
+                "Missing required fields for PoE report: " +
+                ", ".join(missing_fields)
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # -------------------------------------------------------------
+        # 3. All validations passed
+        # -------------------------------------------------------------
+        return True
+
+    def _validate_port_capacity_filters(self, view):
+        """
+        Validation for:
+            Template: Network Devices
+            Sub template: Port Capacity
+        """
+
+        self.msg = ""
+
+        # -------------------------------------------------------------
+        # 1. Required Filters
+        # -------------------------------------------------------------
+        required_filters = {
+            "Location": "MULTI_SELECT_TREE",
+            "DeviceFamily": "MULTI_SELECT",
+            "Devicerole": "MULTI_SELECT",
+            "utilizationLevel": "SINGLE_SELECT_ARRAY"
+        }
+
+        filters = view.get("filters", [])
+        filter_map = {f.get("name"): f for f in filters}
+
+        for fname, ftype in required_filters.items():
+            if fname not in filter_map:
+                self.msg = f"Missing required filter '{fname}' in Port Capacity report"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            if filter_map[fname].get("type") != ftype:
+                self.msg = (
+                    f"Filter '{fname}' must be of type '{ftype}', "
+                    f"but found '{filter_map[fname].get('type')}'"
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+        # -------------------------------------------------------------
+        # 2. Field Group Validation
+        # -------------------------------------------------------------
+        expected_group_name = "Port Capacity"
+        expected_fields = [
+            "deviceIp",
+            "deviceName",
+            "location",
+            "deviceFamily",
+            "deviceRole",
+            "connectedPorts",
+            "freePorts",
+            "downPorts",
+            "totalPorts",
+            "usagePercentage"
+        ]
+
+        field_groups = view.get("fieldGroups", [])
+        if not field_groups:
+            self.msg = "Missing 'fieldGroups' in Port Capacity report"
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        fg = field_groups[0]
+
+        # Validate group name
+        if fg.get("fieldGroupName") != expected_group_name:
+            self.msg = (
+                f"Invalid fieldGroupName '{fg.get('fieldGroupName')}'. "
+                f"Expected '{expected_group_name}'"
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # Validate required fields
+        present_fields = [f.get("name") for f in fg.get("fields", [])]
+        missing = [f for f in expected_fields if f not in present_fields]
+
+        if missing:
+            self.msg = (
+                "Missing required fields for Port Capacity report: " +
+                ", ".join(missing)
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # -------------------------------------------------------------
+        # 3. All validations passed
+        # -------------------------------------------------------------
+        return True
+
+    def _validate_transmit_power_change_count_filters(self, view):
+        """
+        Validation for:
+            Template: Network Devices
+            Sub template: Transmit Power Change Count
+        """
+
+        self.msg = ""
+
+        # -------------------------------------------------------------
+        # 1. Required Filters
+        # -------------------------------------------------------------
+        required_filters = {
+            "Location": "MULTI_SELECT_TREE",
+            "Band": "MULTI_SELECT",
+            "TimeRange": "TIME_RANGE"
+        }
+
+        filters = view.get("filters", [])
+        filter_map = {f.get("name"): f for f in filters}
+
+        for fname, ftype in required_filters.items():
+            if fname not in filter_map:
+                self.msg = f"Missing required filter '{fname}' in Transmit Power Change Count report"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            if filter_map[fname].get("type") != ftype:
+                self.msg = (
+                    f"Filter '{fname}' must be of type '{ftype}', "
+                    f"but found '{filter_map[fname].get('type')}'"
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+        # -------------------------------------------------------------
+        # 2. Field Group Validation
+        # -------------------------------------------------------------
+        expected_group_name = "response"
+        expected_fields = [
+            "apName",
+            "apMac",
+            "slotId",
+            "frequency",
+            "upCount",
+            "downCount",
+            "totalChangeCount",
+            "powerRange",
+            "location"
+        ]
+
+        field_groups = view.get("fieldGroups", [])
+        if not field_groups:
+            self.msg = "Missing 'fieldGroups' in Transmit Power Change Count report"
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        fg = field_groups[0]
+
+        # Validate group name
+        if fg.get("fieldGroupName") != expected_group_name:
+            self.msg = (
+                f"Invalid fieldGroupName '{fg.get('fieldGroupName')}'. "
+                f"Expected '{expected_group_name}'"
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # Validate required fields
+        present_fields = [f.get("name") for f in fg.get("fields", [])]
+        missing = [f for f in expected_fields if f not in present_fields]
+
+        if missing:
+            self.msg = (
+                "Missing required fields for Transmit Power Change Count report: "
+                + ", ".join(missing)
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # -------------------------------------------------------------
+        # 3. All validations passed
+        # -------------------------------------------------------------
+        return True
+
+    def _validate_vlan_filters(self, view):
+        """
+        Validate filter and fieldGroup parameters for:
+        Template: Network Devices
+        Sub template: VLAN
+        """
+        self.log("Validating Network Devices → VLAN report filters and field groups", "DEBUG")
+
+        # --------------------------------------------------------------------
+        # VALID FILTERS FOR VLAN REPORT
+        # --------------------------------------------------------------------
+        allowed_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "DeviceFamily": ["MULTI_SELECT"],
+            "DeviceType": ["MULTI_SELECT"]
+        }
+
+        # Extract filters list from view
+        filters = view.get("filters", [])
+
+        # --------------------------------------------------------------------
+        # 1. Validate filter names and types
+        # --------------------------------------------------------------------
+        for flt in filters:
+            name = flt.get("name")
+            ftype = flt.get("type")
+
+            # Unknown filter name
+            if name not in allowed_filters:
+                self.msg = f"Invalid filter '{name}' provided for VLAN report. Allowed filters: {list(allowed_filters.keys())}"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Invalid type for known filter
+            if ftype not in allowed_filters[name]:
+                self.msg = f"Invalid type '{ftype}' for filter '{name}'. Allowed types: {allowed_filters[name]}"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+        # --------------------------------------------------------------------
+        # 2. Validate fieldGroups
+        # --------------------------------------------------------------------
+        field_groups = view.get("fieldGroups", [])
+
+        allowed_field_group_name = "VLAN Details"
+
+        allowed_fields = {
+            "ipAddress",
+            "deviceName",
+            "location",
+            "deviceFamily",
+            "deviceType",
+            "vlanId",
+            "vlanName",
+            "interfacename",
+            "adminStatus",
+            "operStatus",
+        }
+
+        # Must have exactly one group
+        if len(field_groups) != 1:
+            self.msg = "VLAN report must contain exactly one fieldGroup named 'VLAN Details'."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        field_group = field_groups[0]
+
+        # Validate fieldGroupName
+        if field_group.get("fieldGroupName") != allowed_field_group_name:
+            self.msg = (
+                f"Invalid fieldGroupName '{field_group.get('fieldGroupName')}'. "
+                f"Allowed: '{allowed_field_group_name}'."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # Validate fields inside the group
+        fields = field_group.get("fields", [])
+
+        for fld in fields:
+            fname = fld.get("name")
+
+            if fname not in allowed_fields:
+                self.msg = (
+                    f"Invalid field '{fname}' in VLAN report. "
+                    f"Allowed fields: {sorted(list(allowed_fields))}"
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+        # --------------------------------------------------------------------
+        # ALL VALIDATIONS PASSED
+        # --------------------------------------------------------------------
+        self.log("Validation successful for Network Devices → VLAN report", "DEBUG")
         return True
 
     def _process_time_range_filter(self, filter_entry, filter_index):
