@@ -452,6 +452,8 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                     op_modifies=False,
                 )
                 roles = roles_response.get("response", {}).get("roles", [])
+                self.log("Received API response for roles: {0}".format(roles_response), "DEBUG")
+
                 for role in roles:
                     self._role_cache[role.get("roleId")] = role.get("name")
 
@@ -820,6 +822,8 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                 params={"invoke_source": "external"},
             )
             users = response.get("response", {}).get("users", [])
+            self.log("Received API response for users: {0}".format(response), "DEBUG")
+
             self.log("Retrieved {0} users from Catalyst Center".format(len(users)), "INFO")
 
             if user_filters:
@@ -900,6 +904,8 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
             )
             roles = response.get("response", {}).get("roles", [])
+            self.log("Received API response for roles: {0}".format(response), "DEBUG")
+
             self.log("Retrieved {0} roles from Catalyst Center".format(len(roles)), "INFO")
 
             if role_filters:
