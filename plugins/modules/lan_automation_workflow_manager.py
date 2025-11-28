@@ -1648,8 +1648,12 @@ class LanAutomation(DnacBase):
                         "DEBUG",
                     )
                     self.msg = (
-                        f"No existing Port Channel configuration found with the provided port_channel_number: {port_channel_number}. "
-                        "If you want to create a new Port Channel, please remove the port_channel_number parameter from your playbook configuration and try again."
+                        "No existing Port Channel configuration found with the provided "
+                        f"port_channel_number: {port_channel_number}. When both port_channel_number and links "
+                        "are specified, an existing Port Channel is expected for update. "
+                        "If you want to create a new Port Channel, please remove the "
+                        "port_channel_number parameter from your playbook configuration "
+                        "and try again."
                     )
                     self.fail_and_exit(self.msg)
 
