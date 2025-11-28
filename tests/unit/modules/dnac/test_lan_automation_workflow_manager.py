@@ -402,6 +402,11 @@ class TestDnacLanAutomationWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
-            "No existing Port Channel configuration found with the provided port_channel_number: 11. If you want to create a new Port Channel, please remove the port_channel_number parameter from your playbook configuration and try again.",
+            "No existing Port Channel configuration found with the provided "
+            f"port_channel_number: 11. When both port_channel_number and links "
+            "are specified, an existing Port Channel is expected for update. "
+            "If you want to create a new Port Channel, please remove the "
+            "port_channel_number parameter from your playbook configuration "
+            "and try again.",
             result.get("msg"),
         )
