@@ -46,6 +46,16 @@ options:
     elements: dict
     required: true
     suboptions:
+      generate_all_configurations:
+        description:
+          - When set to True, automatically generates YAML configurations for all users and roles.
+          - This mode discovers all users and custom roles in Cisco Catalyst Center and extracts all configurations.
+          - When enabled, the component_specific_filters parameter becomes optional and will use default values if not provided.
+          - A default filename will be generated automatically if file_path is not specified.
+          - This is useful for complete brownfield user and role discovery and documentation.
+        type: bool
+        required: false
+        default: false
       file_path:
         description:
           - Path where the YAML configuration file will be saved.
@@ -322,6 +332,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         # Expected schema for configuration parameters
         temp_spec = {
             "file_path": {"type": "str", "required": False},
+            "generate_all_configurations": {"type": "bool", "required": False, "default": False},
             "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
@@ -1078,6 +1089,17 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.validate_params(config)
 
+        generate_all = config.get("generate_all_configurations", False)
+        self.log("Generate all configurations mode: {0}".format(generate_all), "INFO")
+
+        if generate_all:
+            self.log("Generate all configurations is enabled - will retrieve all users and custom roles", "INFO")
+            if not config.get("component_specific_filters"):
+                config["component_specific_filters"] = {
+                    "components_list": ["user_details", "role_details"]
+                }
+                self.log("No component_specific_filters provided - using default: all components", "INFO")
+
         component_specific_filters = config.get("component_specific_filters", {})
         components_list = component_specific_filters.get("components_list", [])
 
@@ -1232,17 +1254,28 @@ def main():
     ccc_user_role_playbook_generator.validate_input().check_return_status()
     config = ccc_user_role_playbook_generator.validated_config
 
-    if len(config) == 1 and config[0].get("component_specific_filters") is None:
-        ccc_user_role_playbook_generator.msg = (
-            "No valid configurations found in the provided parameters."
-        )
-        ccc_user_role_playbook_generator.validated_config = [
-            {
-                'component_specific_filters': {
-                    'components_list': ["user_details", "role_details"]
+    if len(config) == 1:
+        config_item = config[0]
+
+        # Check if generate_all_configurations is enabled
+        if config_item.get("generate_all_configurations", False):
+            ccc_user_role_playbook_generator.log("Generate all configurations mode enabled - setting default components", "INFO")
+            if not config_item.get("component_specific_filters"):
+                config_item["component_specific_filters"] = {
+                    "components_list": ["user_details", "role_details"]
                 }
-            }
-        ]
+        elif not config_item.get("component_specific_filters"):
+            # Default behavior for normal mode
+            ccc_user_role_playbook_generator.msg = (
+                "No valid configurations found in the provided parameters."
+            )
+            ccc_user_role_playbook_generator.validated_config = [
+                {
+                    'component_specific_filters': {
+                        'components_list': ["user_details", "role_details"]
+                    }
+                }
+            ]
 
     # Iterate over the validated configuration parameters
     for config in ccc_user_role_playbook_generator.validated_config:

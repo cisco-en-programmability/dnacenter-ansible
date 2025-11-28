@@ -31,6 +31,11 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
     test_data = loadPlaybookData("brownfield_user_role_playbook_generator")
 
     playbook_user_role_details = test_data.get("playbook_user_role_details")
+    playbook_specific_user_details = test_data.get("playbook_specific_user_details")
+    playbook_specific_role_details = test_data.get("playbook_specific_role_details")
+    playbook_generate_all_configurations = test_data.get("playbook_generate_all_configurations")
+    playbook_invalid_components = test_data.get("playbook_invalid_components")
+    playbook_all_role_details = test_data.get("playbook_all_role_details")
 
     def setUp(self):
         super(TestDnacBrownfieldUserRolePlaybookGenerator, self).setUp()
@@ -61,6 +66,32 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
                 self.test_data.get("get_roles_1"),
             ]
 
+        elif "playbook_specific_user_details" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_users1"),
+                self.test_data.get("get_roles2"),
+            ]
+
+        elif "playbook_specific_role_details" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_roles3")
+            ]
+
+        elif "playbook_generate_all_configurations" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_users2"),
+                self.test_data.get("get_roles4"),
+                self.test_data.get("get_roles5")
+            ]
+
+        elif "playbook_invalid_components" in self._testMethodName:
+            pass
+
+        elif "playbook_all_role_details" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_roles6"),
+            ]
+
     def test_brownfield_user_role_playbook_generator_playbook_user_role_details(self):
         """
         Test the Application Policy Workflow Manager's profile creation process.
@@ -82,13 +113,166 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print("-------###########----------")
         print(result)
         self.assertEqual(
             result.get("response"),
                 {
                     "YAML config generation Task succeeded for module 'user_role_workflow_manager'.": {
                         "file_path": "/Users/priyadharshini/Downloads/specific_userrole_details_info"
+                    }
+                }
+        )
+
+    def test_brownfield_user_role_playbook_generator_playbook_specific_user_details(self):
+        """
+        Test the Application Policy Workflow Manager's profile creation process.
+
+        This test verifies that the workflow correctly handles the creation of a new
+        application policy profile, ensuring proper validation and expected behavior.
+        """
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="2.3.7.9",
+                config=self.playbook_specific_user_details
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+                {
+                    "YAML config generation Task succeeded for module 'user_role_workflow_manager'.": 
+                    {
+                        "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
+                    }
+                }
+        )
+
+    def test_brownfield_user_role_playbook_generator_playbook_specific_role_details(self):
+        """
+        Test the Application Policy Workflow Manager's profile creation process.
+
+        This test verifies that the workflow correctly handles the creation of a new
+        application policy profile, ensuring proper validation and expected behavior.
+        """
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="2.3.7.9",
+                config=self.playbook_specific_role_details
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+                {
+                    "YAML config generation Task succeeded for module 'user_role_workflow_manager'.": 
+                    {
+                        "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
+                    }
+                }
+        )
+
+    def test_brownfield_user_role_playbook_generator_playbook_generate_all_configurations(self):
+        """
+        Test the Application Policy Workflow Manager's profile creation process.
+
+        This test verifies that the workflow correctly handles the creation of a new
+        application policy profile, ensuring proper validation and expected behavior.
+        """
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="2.3.7.9",
+                config=self.playbook_generate_all_configurations
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+                {
+                    "YAML config generation Task succeeded for module 'user_role_workflow_manager'.": 
+                    {
+                        "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
+                    }
+                }
+        )
+
+    def test_brownfield_user_role_playbook_generator_playbook_invalid_components(self):
+        """
+        Test the Application Policy Workflow Manager's profile creation process.
+
+        This test verifies that the workflow correctly handles the creation of a new
+        application policy profile, ensuring proper validation and expected behavior.
+        """
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="2.3.7.9",
+                config=self.playbook_invalid_components
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+                "Invalid network components provided for module 'user_role_workflow_manager': ['role_detailss']. Valid components are: ['user_details', 'role_details']"
+        )
+
+    def test_brownfield_user_role_playbook_all_role_details(self):
+        """
+        Test the Application Policy Workflow Manager's profile creation process.
+
+        This test verifies that the workflow correctly handles the creation of a new
+        application policy profile, ensuring proper validation and expected behavior.
+        """
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="2.3.7.9",
+                config=self.playbook_all_role_details
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+                {
+                    "YAML config generation Task succeeded for module 'user_role_workflow_manager'.": {
+                        "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
                     }
                 }
         )
