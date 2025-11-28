@@ -1638,7 +1638,7 @@ class PnP(DnacBase):
         # Check the device already added and claimed for idempotent or import devices
         if self.want.get("pnp_params"):
             devices_exists, devices_not_exist, reset_devices = [], [], []
-            device_updated_list = []
+            device_updated_list, devices_reclaimed = [], []
             site = self.want.get("site_name")
             template_name = self.want.get("template_name")
             image_name = self.want.get("image_params", {}).get("image_name")
@@ -1760,6 +1760,39 @@ class PnP(DnacBase):
                                 "DEBUG",
                             )
 
+                    if claim_stat in ("Claimed", "Planned") and site:
+                        device_site = device_info.get("siteName")
+                        if site != device_site:
+                            self.log(
+                                "Device '{0}' site mismatch: expected '{1}', got '{2}'. Updating site.".format(
+                                    serial_number, site, device_site
+                                ),
+                                "DEBUG",
+                            )
+                            self.log(
+                                "Device '{0}' is eligible for reclaiming (State: '{1}').".format(
+                                    serial_number, claim_stat
+                                ),
+                                "DEBUG",
+                            )
+                            claim_params = self.get_claim_params()
+                            claim_response = self.claim_device_site(claim_params)
+                            self.log(
+                                "Response from API 'claim a device to a site' for a single claiming: {0}".format(
+                                    str(claim_response)
+                                ),
+                                "DEBUG",
+                            )
+
+                            if claim_response.get("response") == "Device Claimed":
+                                self.log(
+                                    "Device '{0}' reclaimed successfully to site '{1}'.".format(
+                                        serial_number, site
+                                    ),
+                                    "INFO",
+                                )
+                                devices_reclaimed.append(serial_number)
+
                     if claim_stat in ("Provisioned", "Claimed", "Planned") or (
                         claim_stat in ("Unclaimed", "Error") and not site
                     ):
@@ -1803,6 +1836,10 @@ class PnP(DnacBase):
                 if device_updated_list:
                     changed = True
                     self.msg += " and Device information updated successfully."
+
+                if devices_reclaimed:
+                    changed = True
+                    self.msg += " and Devices reclaimed successfully to the new site."
 
                 self.set_operation_result(
                     "success", changed, self.msg, "INFO", devices_exists
