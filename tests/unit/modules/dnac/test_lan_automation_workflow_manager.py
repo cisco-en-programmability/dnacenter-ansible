@@ -386,7 +386,8 @@ class TestDnacLanAutomationWorkflow(TestDnacModule):
 
     def test_update_port_channel_negative_testcase_playbook_case_9(self):
         # Test Description: Update port channel by specifying port_channel_number that does not exist.
-        # Expected Result: Module should fail with appropriate error message indicating the port channel number does not exist and suggesting to remove the parameter to create a new port channel.
+        # Expected Result: Module should fail with appropriate error message indicating the port channel
+        # number does not exist and suggesting to remove the parameter to create a new port channel.
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
