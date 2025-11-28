@@ -1359,7 +1359,7 @@ class LanAutomation(DnacBase):
                 "Source device management IP address is required to fetch Port Channel configurations.",
                 "ERROR",
             )
-            return None
+            return []
 
         if not self.is_valid_ipv4(source_device_management_ip_address):
             self.msg = (
@@ -1432,7 +1432,7 @@ class LanAutomation(DnacBase):
                     f"Destination IP: '{destination_device_management_ip_address}', Response is empty."
                 )
                 self.log(self.msg, "DEBUG")
-                return None
+                return []
 
             port_channel_info = response.get("response")
 
@@ -1465,7 +1465,7 @@ class LanAutomation(DnacBase):
                     f"Destination IP: '{destination_device_management_ip_address}', Port Channel Number: '{port_channel_number}'."
                 )
                 self.log(self.msg, "DEBUG")
-                return None
+                return []
 
             self.log(
                 f"Filtered Port Channel configurations: {self.pprint(filtered_info)}",
@@ -1635,18 +1635,31 @@ class LanAutomation(DnacBase):
                 port_channel_number,
             )
 
+            want_links = port_channel_config.get("links")
             if not fetched_port_channel_configs:
                 self.log(
                     f"No matching port channel configurations found in Catalyst Center for [Config {idx}].",
                     "INFO",
                 )
+                if want_links and port_channel_number:
+                    #  Port channel number and links both are provided, i.e. expecting to update, so fail if existing is not found.
+                    self.log(
+                        f"[Config {idx}] No existing Port Channel config found with provided port_channel_number.",
+                        "DEBUG",
+                    )
+                    self.msg = (
+                        "No existing Port Channel configuration found with the provided "
+                        f"port_channel_number: {port_channel_number}. When both port_channel_number and links "
+                        "are specified, an existing Port Channel is expected for update. "
+                        "If you want to create a new Port Channel, please remove the "
+                        "port_channel_number parameter from your playbook configuration "
+                        "and try again."
+                    )
+                    self.fail_and_exit(self.msg)
+
                 have_port_channel_configs.append(None)
                 continue
 
-            self.log(
-                f"[Config {idx}] Retrieved {len(fetched_port_channel_configs)} raw configs.",
-                "DEBUG",
-            )
             self.log(
                 f"Retrieved {len(fetched_port_channel_configs)} raw port channel configurations from Catalyst Center for [Config {idx}]",
                 "DEBUG",
@@ -1654,7 +1667,6 @@ class LanAutomation(DnacBase):
             formatted_port_channel_config_list = self.format_port_channels_have_configs(
                 fetched_port_channel_configs
             )
-            want_links = port_channel_config.get("links")
 
             if want_links:
                 self.log(
