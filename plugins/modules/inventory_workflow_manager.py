@@ -6697,7 +6697,7 @@ class Inventory(DnacBase):
                         is_schedule_type_change = self.is_recurrence_type_changed(
                             maintenance_config, schedule_details
                         )
-                        if is_schedule_type_change:
+                        if is_schedule_type_change or status == "IN_PROGRESS":
                             self.log(
                                 "Maintenance schedule type has been changed so need to delete the current schedule "
                                 "and create the new device maintenance schedule.",
