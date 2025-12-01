@@ -564,6 +564,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
+                dnac_log_level="DEBUG",
                 config=self.playbook_update_network
             )
         )
