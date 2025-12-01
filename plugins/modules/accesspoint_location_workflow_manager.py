@@ -280,7 +280,7 @@ EXAMPLES = r"""
             access_points:
               - accesspoint_name: AP687D.B402.1614-AP-location_Test6
                 action: assign_planned_ap  # Optional assign_planned_ap, manage_real_ap
-                mac_address: a4:88:73:d4:dd:80 # Required while assigning planned access point
+                mac_address: a4:88:73:d4:dd:80  # Required while assigning planned access point
 
     # Update planned access point position to the access points
     - name: Update planned access point position to the access points
