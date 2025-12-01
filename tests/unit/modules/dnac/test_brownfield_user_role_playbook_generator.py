@@ -116,11 +116,12 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
+            {
+                "YAML config generation Task succeeded for module 'user_role_workflow_manager'.":
                 {
-                    "YAML config generation Task succeeded for module 'user_role_workflow_manager'.": {
-                        "file_path": "/Users/priyadharshini/Downloads/specific_userrole_details_info"
-                    }
+                    "file_path": "/Users/priyadharshini/Downloads/specific_userrole_details_info"
                 }
+            }
         )
 
     def test_brownfield_user_role_playbook_generator_playbook_specific_user_details(self):
@@ -147,12 +148,12 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
+            {
+                "YAML config generation Task succeeded for module 'user_role_workflow_manager'.":
                 {
-                    "YAML config generation Task succeeded for module 'user_role_workflow_manager'.": 
-                    {
-                        "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
-                    }
+                    "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
                 }
+            }
         )
 
     def test_brownfield_user_role_playbook_generator_playbook_specific_role_details(self):
@@ -179,12 +180,12 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
+            {
+                "YAML config generation Task succeeded for module 'user_role_workflow_manager'.":
                 {
-                    "YAML config generation Task succeeded for module 'user_role_workflow_manager'.": 
-                    {
-                        "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
-                    }
+                    "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
                 }
+            }
         )
 
     def test_brownfield_user_role_playbook_generator_playbook_generate_all_configurations(self):
@@ -211,12 +212,12 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
+            {
+                "YAML config generation Task succeeded for module 'user_role_workflow_manager'.":
                 {
-                    "YAML config generation Task succeeded for module 'user_role_workflow_manager'.": 
-                    {
-                        "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
-                    }
+                    "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
                 }
+            }
         )
 
     def test_brownfield_user_role_playbook_generator_playbook_invalid_components(self):
@@ -243,7 +244,8 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-                "Invalid network components provided for module 'user_role_workflow_manager': ['role_detailss']. Valid components are: ['user_details', 'role_details']"
+            "Invalid network components provided for module 'user_role_workflow_manager': "
+            "['role_detailss']. Valid components are: ['user_details', 'role_details']"
         )
 
     def test_brownfield_user_role_playbook_all_role_details(self):
@@ -270,9 +272,10 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
+            {
+                "YAML config generation Task succeeded for module 'user_role_workflow_manager'.":
                 {
-                    "YAML config generation Task succeeded for module 'user_role_workflow_manager'.": {
-                        "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
-                    }
+                    "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
                 }
+            }
         )
