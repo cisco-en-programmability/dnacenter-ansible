@@ -2119,7 +2119,7 @@ class Reports(DnacBase):
                         "filter_type": {
                             "type": "str",
                             "required": False,
-                            "choices": ["MULTI_SELECT", "MULTI_SELECT_TREE", "SINGLE_SELECT_ARRAY", "TIME_RANGE"],
+                            "choices": ["MULTI_SELECT", "MULTI_SELECT_TREE", "SINGLE_SELECT_ARRAY", "TIME_RANGE", "REGULAR"],
                         },
                         "value": {
                             "type": "raw",
@@ -3013,7 +3013,7 @@ class Reports(DnacBase):
             for fname, allowed_types in expected_filters.items():
                 if fname in filter_map:
                     f_entry = filter_map[fname]
-                    f_type = f_entry.get("type")
+                    f_type = f_entry.get("filter_type")
 
                     # Validate type
                     if f_type not in allowed_types:
@@ -3076,7 +3076,7 @@ class Reports(DnacBase):
                 return False
 
             for fg in field_groups:
-                fg_name = fg.get("fieldGroupName")
+                fg_name = fg.get("field_group_name")
 
                 if fg_name not in allowed_field_groups:
                     self.msg = (
@@ -3182,7 +3182,7 @@ class Reports(DnacBase):
             for filter_name, expected_type in expected_filters.items():
                 if filter_name in filter_map:
                     entry = filter_map[filter_name]
-                    f_type = entry.get("type")
+                    f_type = entry.get("filter_type")
 
                     # Validate type
                     if f_type != expected_type:
@@ -3224,7 +3224,7 @@ class Reports(DnacBase):
 
             for fg in field_groups:
 
-                fg_name = fg.get("fieldGroupName")
+                fg_name = fg.get("field_group_name")
                 if fg_name != expected_field_group_name:
                     self.msg = (
                         f"Invalid fieldGroupName '{fg_name}'. "
@@ -3263,6 +3263,164 @@ class Reports(DnacBase):
         # SUCCESS
         # ----------------------------------------------------------------------
         self.log("Inventory All Data validation successful", "DEBUG")
+        return True
+
+    def _validate_inventory_all_data_v2_filters(self, view):
+        """
+        Validate Inventory V2 report filters and field groups.
+
+        Applies to templates under:
+            Template: Inventory
+            Sub-templates: Network Devices, Interfaces, Modules, Power Supply, Fan, etc.
+
+        Returns:
+            True if valid, otherwise sets operation result to failed and returns False.
+        """
+
+        # ----------------------------
+        # 1. Allowed filter definitions
+        # ----------------------------
+        allowed_filters = {
+            "Location": {
+                "type": "MULTI_SELECT_TREE",
+                "value_type": "list"
+            },
+            "DeviceFamily": {
+                "type": "MULTI_SELECT",
+                "value_type": "list"
+            },
+            "DeviceType": {
+                "type": "MULTI_SELECT",
+                "value_type": "list"
+            },
+            "PlatformId": {
+                "type": "MULTI_SELECT",
+                "value_type": "list"
+            },
+            "SoftwareType": {
+                "type": "MULTI_SELECT",
+                "value_type": "list"
+            },
+            "SoftwareVersion": {
+                "type": "MULTI_SELECT",
+                "value_type": "list"
+            },
+            "ModuleType": {
+                "type": "MULTI_SELECT",
+                "value_type": "list"
+            },
+            "ModuleName": {
+                "type": "MULTI_SELECT",
+                "value_type": "list"
+            },
+            "InterfaceType": {
+                "type": "MULTI_SELECT",
+                "value_type": "list"
+            },
+            "AdminStatus": {
+                "type": "MULTI_SELECT",
+                "value_type": "list"
+            },
+            "OperStatus": {
+                "type": "MULTI_SELECT",
+                "value_type": "list"
+            }
+        }
+
+        # ----------------------------
+        # 2. Allowed field groups + fields
+        # ----------------------------
+        allowed_field_groups = {
+            "Network Device": [
+                "deviceIp", "deviceName", "location",
+                "deviceFamily", "deviceType", "platformId",
+                "softwareType", "softwareVersion",
+                "role", "collectionStatus"
+            ],
+
+            "Interface Details": [
+                "deviceIp", "deviceName", "location",
+                "interfaceName", "adminStatus", "operStatus",
+                "speed", "duplex", "macAddress", "type"
+            ],
+
+            "Module Details": [
+                "deviceIp", "deviceName", "location",
+                "moduleName", "moduleType", "serialNumber",
+                "partNumber", "status"
+            ],
+
+            "Power Supply Details": [
+                "deviceIp", "deviceName", "location",
+                "psuName", "status", "capacity", "model"
+            ],
+
+            "Fan Details": [
+                "deviceIp", "deviceName", "location",
+                "fanName", "status", "model"
+            ]
+        }
+
+        # ----------------------------
+        # 3. Validate filters
+        # ----------------------------
+        filters = view.get("filters", [])
+
+        for f in filters:
+            fname = f.get("name")
+            ftype = f.get("filter_type")
+
+            # Missing filter name
+            if not fname:
+                self.msg = "Inventory V2 filter is missing 'name' field"
+                return self.set_operation_result("failed", False, self.msg, "ERROR")
+
+            # Unknown filter
+            if fname not in allowed_filters:
+                self.msg = f"Invalid Inventory V2 filter '{fname}'. Allowed: {list(allowed_filters.keys())}"
+                return self.set_operation_result("failed", False, self.msg, "ERROR")
+
+            allowed_type = allowed_filters[fname]["type"]
+
+            if ftype != allowed_type:
+                self.msg = f"Invalid type for filter '{fname}'. Expected '{allowed_type}', found '{ftype}'"
+                return self.set_operation_result("failed", False, self.msg, "ERROR")
+
+            # Validate values
+            fvalue = f.get("value")
+
+            if allowed_filters[fname]["value_type"] == "list" and not isinstance(fvalue, list):
+                self.msg = f"Filter '{fname}' must have list value"
+                return self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        # ----------------------------
+        # 4. Validate field groups
+        # ----------------------------
+        field_groups = view.get("field_groups", [])
+
+        if field_groups:
+            for fg in field_groups:
+                fg_name = fg.get("field_group_name")
+                fields = fg.get("fields", [])
+
+                if fg_name not in allowed_field_groups:
+                    self.msg = f"Invalid Inventory V2 fieldGroup '{fg_name}'. Allowed: {list(allowed_field_groups.keys())}"
+                    return self.set_operation_result("failed", False, self.msg, "ERROR")
+
+                allowed_fields = allowed_field_groups[fg_name]
+
+                for fld in fields:
+                    fname = fld.get("name")
+                    if fname not in allowed_fields:
+                        self.msg = (
+                            f"Invalid field '{fname}' in fieldGroup '{fg_name}'. "
+                            f"Allowed fields: {allowed_fields}"
+                        )
+                        return self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        # ----------------------------
+        # 5. All validations passed
+        # ----------------------------
         return True
 
     def _validate_inventory_port_reclaim_filters(self, view_data):
@@ -3313,7 +3471,7 @@ class Reports(DnacBase):
 
                 if filter_name in filter_map:
                     flt = filter_map[filter_name]
-                    f_type = flt.get("type")
+                    f_type = flt.get("filter_type")
 
                     # Validate filter type
                     if f_type not in allowed_types:
@@ -3465,7 +3623,7 @@ class Reports(DnacBase):
             for flt_name, allowed_types in expected_filters.items():
                 if flt_name in filter_map:
                     flt = filter_map[flt_name]
-                    f_type = flt.get("type")
+                    f_type = flt.get("filter_type")
 
                     if f_type not in allowed_types:
                         self.msg = (
@@ -3502,16 +3660,6 @@ class Reports(DnacBase):
                         if val:  # Only validate if value is provided and not empty
                             if not isinstance(val, dict):
                                 self.msg = "TimeRange filter must contain a dictionary value."
-                                self.set_operation_result("failed", False, self.msg, "ERROR")
-                                return False
-
-                            # Required keys (from UI)
-                            required_keys = {"timeRangeOption", "startDateTime", "endDateTime", "timeZoneId"}
-                            if not required_keys.issubset(val.keys()):
-                                self.msg = (
-                                    f"TimeRange filter missing required keys. "
-                                    f"Required: {required_keys}, Received: {val.keys()}"
-                                )
                                 self.set_operation_result("failed", False, self.msg, "ERROR")
                                 return False
 
@@ -3706,7 +3854,7 @@ class Reports(DnacBase):
         # Only validate field groups if provided
         if view.get("fieldGroups"):
             for fg in view.get("fieldGroups", []):
-                fg_name = fg.get("fieldGroupName")
+                fg_name = fg.get("field_group_name")
 
                 # STRICT FG NAME
                 if fg_name not in allowed_fieldgroups:
@@ -3962,12 +4110,12 @@ class Reports(DnacBase):
         # -------------------------------------
         # Validate FieldGroupName & Fields only if provided
         # -------------------------------------
-        field_groups = view.get("fieldGroups", [])
+        field_groups = view.get("field_groups", [])
 
         if field_groups:
             fg = field_groups[0]  # Only one in this template
 
-            fg_name = fg.get("fieldGroupName")
+            fg_name = fg.get("field_group_name")
             if fg_name != allowed_field_group_name:
                 return (
                     f"Invalid fieldGroupName '{fg_name}'. "
@@ -4096,12 +4244,12 @@ class Reports(DnacBase):
         # ------------------------------------------------------------
         # Validate Field Groups & Fields only if provided
         # ------------------------------------------------------------
-        field_groups = view.get("fieldGroups", [])
+        field_groups = view.get("field_groups", [])
 
         if field_groups:
             fg = field_groups[0]  # This template has exactly one field group
 
-            fg_name = fg.get("fieldGroupName")
+            fg_name = fg.get("field_group_name")
             if fg_name != allowed_field_group_name:
                 return (
                     f"Invalid fieldGroupName '{fg_name}'. "
@@ -4231,8 +4379,8 @@ class Reports(DnacBase):
 
             fg = fg_list[0]
 
-            if fg.get("fieldGroupName") != allowed_field_group_name:
-                return f"Invalid fieldGroupName '{fg.get('fieldGroupName')}'. Expected '{allowed_field_group_name}'."
+            if (fg.get("fieldGroupName") or fg.get("field_group_name")) != allowed_field_group_name:
+                return f"Invalid fieldGroupName '{fg.get('fieldGroupName') or fg.get('field_group_name')}'. Expected '{allowed_field_group_name}'."
 
             fields = fg.get("fields", [])
             if fields:
@@ -4332,10 +4480,10 @@ class Reports(DnacBase):
             "apRRMEventsByAPMac"
         }
 
-        field_groups = view.get("fieldGroups", [])
+        field_groups = view.get("field_groups", [])
         if field_groups:
             provided_field_groups = {
-                fg.get("fieldGroupName") for fg in field_groups
+                fg.get("fieldGroupName") or fg.get("field_group_name") for fg in field_groups
             }
 
             extra_fg = provided_field_groups - allowed_field_groups
@@ -4367,7 +4515,9 @@ class Reports(DnacBase):
             }
 
             for fg in field_groups:
-                if fg["fieldGroupName"] == "apRRMEventsByAPMac":
+                # Handle both camelCase and snake_case
+                fg_name = fg.get("field_group_name")
+                if fg_name == "apRRMEventsByAPMac":
                     fields = fg.get("fields", [])
                     if fields:
                         provided_fields = {f.get("name") for f in fields}
@@ -4378,55 +4528,23 @@ class Reports(DnacBase):
 
         return True
 
-    def _validate_worst_interferers_report(self, payload):
+    def _validate_worst_interferers_report(self, view):
         """
-        Validates the Worst Interferers report payload.
-        Raises ValueError with clear messages on validation failure.
+        Validation for:
+        Template: Access Point Reports
+        Sub-template: Worst Interferers
+
+        Validates:
+            - Filters: Location, Wlc, AP, Band, TimeRange
+            - Format: CSV, PDF
+            - FieldGroups: worstInterferers (specific fields required)
+            - Schedule
+            - Deliveries
         """
 
-        # -----------------------------
-        # Validate deliveries
-        # -----------------------------
-        deliveries = payload.get("deliveries", [])
-        allowed_delivery_types = ["WEBHOOK", "DOWNLOAD"]
-
-        for d in deliveries:
-            if "type" not in d:
-                raise ValueError("Each delivery entry must contain 'type'")
-            if d["type"] not in allowed_delivery_types:
-                raise ValueError(f"Invalid delivery type: {d['type']}")
-
-            if d["type"] == "WEBHOOK":
-                if "whUrl" not in d:
-                    raise ValueError("WEBHOOK delivery must include whUrl")
-
-        # -----------------------------
-        #  Validate view
-        # -----------------------------
-        if "view" not in payload:
-            raise ValueError("Missing 'view' section in payload")
-
-        view = payload["view"]
-        for key in ["name", "description", "format", "filters", "fieldGroups"]:
-            if key not in view:
-                raise ValueError(f"Missing view field: {key}")
-
-        # -----------------------------
-        # Validate format
-        # -----------------------------
-        format_data = view["format"]
-        required_format = ["name", "formatType"]
-
-        for key in required_format:
-            if key not in format_data:
-                raise ValueError(f"Missing format field: {key}")
-
-        if format_data["formatType"] not in ["CSV", "PDF"]:
-            raise ValueError("format.formatType must be CSV or PDF")
-
-        # -----------------------------
-        # Validate alloweds filters
-        # -----------------------------
+        # ------------------------------------------------------------
+        # 1. Allowed Filters
+        # ------------------------------------------------------------
         allowed_filters = {
             "Location",
             "Wlc",
@@ -4435,72 +4553,85 @@ class Reports(DnacBase):
             "TimeRange"
         }
 
-        for f in view["filters"]:
-            fname = f.get("name")
-            if fname not in allowed_filters:
-                raise ValueError(f"Invalid filter name: {fname}")
+        # Only validate filters if provided
+        filters = view.get("filters", [])
+        if filters:
+            provided_filters = {f["name"] for f in filters}
 
-        # -----------------------------
-        # 7. Validate TimeRange filter
-        # -----------------------------
-        for f in view["filters"]:
-            if f["name"] == "TimeRange":
-                tr = f.get("value")
-                if not tr:
-                    raise ValueError("TimeRange filter missing value object")
+            extra = provided_filters - allowed_filters
+            if extra:
+                self.msg = f"Invalid filters provided: {', '.join(sorted(extra))}"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
 
-                required_tr = ["timeRangeOption", "startDateTime", "endDateTime", "timeZoneId"]
-
-                for key in required_tr:
-                    if key not in tr:
-                        raise ValueError(f"TimeRange missing field: {key}")
-
-        # -----------------------------
-        # 8. Validate fieldGroups
-        # -----------------------------
-        field_groups = view["fieldGroups"]
-        if len(field_groups) != 1:
-            raise ValueError("Exactly one fieldGroup must be present")
-
-        fg = field_groups[0]
-
-        if fg["fieldGroupName"] != "worstInterferers":
-            raise ValueError("Only fieldGroupName 'worstInterferers' is allowed")
-
-        # Allowed fields in this fieldGroup
-        allowed_fields = {
-            "deviceType",
-            "severity",
-            "worstSevTime",
-            "deviceMac",
-            "rssi",
-            "dutyCycle",
-            "affectedChannels",
-            "apName",
-            "slot",
-            "band",
-            "siteHierarchy",
-            "discoveredTime"
+        # ------------------------------------------------------------
+        # 2. Validate Field Groups & Fields only if provided
+        # ------------------------------------------------------------
+        allowed_field_groups = {
+            "worstInterferers"
         }
 
-        for field in fg["fields"]:
-            fname = field.get("name")
-            if fname not in allowed_fields:
-                raise ValueError(f"Invalid field in worstInterferers: {fname}")
+        field_groups = view.get("field_groups", [])
+        if field_groups:
+            provided_field_groups = {
+                fg.get("fieldGroupName") or fg.get("field_group_name") for fg in field_groups
+            }
+
+            extra_fg = provided_field_groups - allowed_field_groups
+            if extra_fg:
+                self.msg = f"Invalid field groups: {', '.join(sorted(extra_fg))}"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # ---- Allowed fields in worstInterferers ----
+            allowed_fields = {
+                "deviceType",
+                "severity",
+                "worstSevTime",
+                "deviceMac",
+                "rssi",
+                "dutyCycle",
+                "affectedChannels",
+                "apName",
+                "slot",
+                "band",
+                "siteHierarchy",
+                "discoveredTime"
+            }
+
+            for fg in field_groups:
+                # Handle both camelCase and snake_case
+                fg_name = fg.get("field_group_name")
+                if fg_name == "worstInterferers":
+                    fields = fg.get("fields", [])
+                    if fields:
+                        provided_fields = {f.get("name") for f in fields}
+
+                        extra_fields = provided_fields - allowed_fields
+                        if extra_fields:
+                            self.msg = f"Invalid fields: {', '.join(sorted(extra_fields))}"
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
 
         return True
 
     def _validate_channel_change_count_filters(self, view):
         """
         Validation for:
-        Template  : Network Devices Report
-        Sub-Template: Channel Change Count
+        Template: Network Devices Reports
+        Sub-template: Channel Change Count
 
-        Validates allowed filters and allowed fields.
+        Validates:
+            - Filters: Location, Band, TimeRange
+            - Format: CSV
+            - FieldGroups: response (specific fields required)
+            - Schedule
+            - Deliveries
         """
-        # ----------------------------------------------------------
-        # Allowed Filters
-        # ----------------------------------------------------------
+
+        # ------------------------------------------------------------
+        # 1. Allowed Filters
+        # ------------------------------------------------------------
         allowed_filters = {
             "Location",
             "Band",
@@ -4512,89 +4643,106 @@ class Reports(DnacBase):
             "TimeRange"
         }
 
+        # Only validate filters if provided
         filters = view.get("filters", [])
         found_filters = set()
 
-        # ----------------------------------------------------------
-        # Validate filters
-        # ----------------------------------------------------------
-        for flt in filters:
-            name = flt.get("name")
+        if filters:
+            for flt in filters:
+                name = flt.get("name")
 
-            if name not in allowed_filters:
-                raise ValueError(
-                    f"[Channel Change Count] Invalid filter '{name}'. "
-                    f"Allowed filters: {sorted(allowed_filters)}"
-                )
+                if name not in allowed_filters:
+                    self.msg = f"Invalid filter '{name}' for Channel Change Count. Allowed filters: {sorted(allowed_filters)}"
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
 
-            found_filters.add(name)
+                found_filters.add(name)
 
-            # ---- Individual filter validation ----
+                # Individual filter validation
+                if name == "Location":
+                    if flt.get("filter_type") != "MULTI_SELECT_TREE":
+                        self.msg = "Channel Change Count 'Location' filter must be MULTI_SELECT_TREE"
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+                    if not isinstance(flt.get("value", []), list):
+                        self.msg = "Channel Change Count 'Location' filter value must be a list"
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
 
-            if name == "Location":
-                if flt.get("type") != "MULTI_SELECT_TREE":
-                    raise ValueError("[Channel Change Count] 'Location' must be MULTI_SELECT_TREE")
-                if not isinstance(flt.get("value", []), list):
-                    raise ValueError("[Channel Change Count] 'Location' filter value must be list")
+                elif name == "Band":
+                    if flt.get("filter_type") != "MULTI_SELECT":
+                        self.msg = "Channel Change Count 'Band' filter must be MULTI_SELECT"
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+                    if not isinstance(flt.get("value", []), list):
+                        self.msg = "Channel Change Count 'Band' filter value must be a list"
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
 
-            if name == "Band":
-                if flt.get("type") != "MULTI_SELECT":
-                    raise ValueError("[Channel Change Count] 'Band' must be MULTI_SELECT")
-                if not isinstance(flt.get("value", []), list):
-                    raise ValueError("[Channel Change Count] 'Band' filter value must be list")
+                elif name == "TimeRange":
+                    if flt.get("filter_type") != "TIME_RANGE":
+                        self.msg = "Channel Change Count 'TimeRange' filter must be TIME_RANGE"
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+                    tr_val = flt.get("value", {})
+                    if "time_range_option" not in tr_val:
+                        self.msg = "Channel Change Count 'TimeRange' missing time_range_option"
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
 
-            if name == "TimeRange":
-                if flt.get("type") != "TIME_RANGE":
-                    raise ValueError("[Channel Change Count] 'TimeRange' must be TIME_RANGE")
-                tr_val = flt.get("value", {})
-                if "timeRangeOption" not in tr_val:
-                    raise ValueError("[Channel Change Count] 'TimeRange' missing timeRangeOption")
+            # Check for missing required filters
+            missing = required_filters - found_filters
+            if missing:
+                self.msg = f"Channel Change Count missing required filters: {', '.join(missing)}"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
 
-        # ----------------------------------------------------------
-        # Ensure mandatory filters
-        # ----------------------------------------------------------
-        missing = required_filters - found_filters
-        if missing:
-            raise ValueError(f"[Channel Change Count] Missing required filters: {', '.join(missing)}")
-
-        # ----------------------------------------------------------
-        # Validate field group
-        # ----------------------------------------------------------
-        field_groups = view.get("fieldGroups", [])
-
-        if len(field_groups) != 1:
-            raise ValueError("[Channel Change Count] Must contain exactly one fieldGroup")
-
-        fg = field_groups[0]
-
-        if fg.get("fieldGroupName") != "response":
-            raise ValueError(
-                "[Channel Change Count] fieldGroupName must be 'response'"
-            )
-
-        # ----------------------------------------------------------
-        # Allowed Fields
-        # ----------------------------------------------------------
-        allowed_fields = {
-            "apName",
-            "apMac",
-            "slotId",
-            "frequency",
-            "DCA",
-            "DFS",
-            "ED-RRM",
-            "totalChangeCount",
-            "channelsCount",
-            "location",
+        # ------------------------------------------------------------
+        # 2. Validate Field Groups & Fields only if provided
+        # ------------------------------------------------------------
+        allowed_field_groups = {
+            "response"
         }
 
-        for field in fg.get("fields", []):
-            fname = field.get("name")
-            if fname not in allowed_fields:
-                raise ValueError(
-                    f"[Channel Change Count] Invalid field '{fname}'. "
-                    f"Allowed fields: {sorted(allowed_fields)}"
-                )
+        field_groups = view.get("field_groups", [])
+        if field_groups:
+            if len(field_groups) != 1:
+                self.msg = "Channel Change Count must contain exactly one fieldGroup"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            fg = field_groups[0]
+
+            # Handle both camelCase and snake_case
+            fg_name = fg.get("field_group_name")
+            if fg_name not in allowed_field_groups:
+                self.msg = f"Invalid field group '{fg_name}'. Allowed: {allowed_field_groups}"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # ---- Allowed fields in response ----
+            allowed_fields = {
+                "apName",
+                "apMac",
+                "slotId",
+                "frequency",
+                "DCA",
+                "DFS",
+                "ED-RRM",
+                "totalChangeCount",
+                "channelsCount",
+                "location"
+            }
+
+            fields = fg.get("fields", [])
+            if fields:
+                provided_fields = {f.get("name") for f in fields}
+
+                extra_fields = provided_fields - allowed_fields
+                if extra_fields:
+                    self.msg = f"Invalid fields in Channel Change Count: {', '.join(sorted(extra_fields))}"
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
 
         return True
 
@@ -4658,7 +4806,7 @@ class Reports(DnacBase):
                 return False
 
             flt = filter_map[filter_name]
-            f_type = flt.get("type")
+            f_type = flt.get("filter_type")
 
             # Validate filter type
             if f_type not in allowed_types:
@@ -4729,7 +4877,7 @@ class Reports(DnacBase):
 
         for fg in field_groups:
 
-            fg_name = fg.get("fieldGroupName")
+            fg_name = fg.get("field_group_name")
             if fg_name != expected_field_group:
                 self.msg = (
                     f"Unexpected fieldGroup '{fg_name}'. Allowed: '{expected_field_group}'."
@@ -4793,32 +4941,32 @@ class Reports(DnacBase):
             "TimeRange": ["TIME_RANGE"],
         }
 
-        filter_map = {flt.get("name"): flt for flt in filters}
+        # Only validate filters if provided
+        if filters:
+            filter_map = {flt.get("name"): flt for flt in filters}
 
-        # ----------------------------------------------------------------------
-        # Reject unexpected filters
-        # ----------------------------------------------------------------------
-        unexpected = [f for f in filter_map if f not in expected_filters]
-        if unexpected:
-            self.msg = (
-                "Unexpected filters for Energy Management View: {0}. "
-                "Allowed filters are: {1}"
-            ).format(unexpected, list(expected_filters.keys()))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
-
-        # ----------------------------------------------------------------------
-        # Validate expected filters
-        # ----------------------------------------------------------------------
-        for filter_name, allowed_types in expected_filters.items():
-
-            if filter_name not in filter_map:
-                self.msg = f"Missing required filter '{filter_name}' for Energy Management View."
+            # ----------------------------------------------------------------------
+            # Reject unexpected filters
+            # ----------------------------------------------------------------------
+            unexpected = [f for f in filter_map if f not in expected_filters]
+            if unexpected:
+                self.msg = (
+                    "Unexpected filters for Energy Management View: {0}. "
+                    "Allowed filters are: {1}"
+                ).format(unexpected, list(expected_filters.keys()))
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
+            # ----------------------------------------------------------------------
+            # Validate provided filters
+            # ----------------------------------------------------------------------
+            for filter_name, allowed_types in expected_filters.items():
+
+                if filter_name not in filter_map:
+                    continue  # Skip validation if filter not provided
+
             flt = filter_map[filter_name]
-            f_type = flt.get("type")
+            f_type = flt.get("filter_type")
 
             # Validate filter type
             if f_type not in allowed_types:
@@ -4858,70 +5006,59 @@ class Reports(DnacBase):
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return False
 
-            elif filter_name == "TimeRange":
-                value = flt.get("value", {})
-                required_keys = {"timeRangeOption", "startDateTime", "endDateTime", "timeZoneId"}
+        # ----------------------------------------------------------------------
+        # Validate FieldGroups only if provided
+        # ----------------------------------------------------------------------
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'fieldGroups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
 
-                if not isinstance(value, dict) or not required_keys.issubset(value.keys()):
+            expected_field_group = "response"
+
+            valid_fields = {
+                "timeVal",
+                "energyConsumed",
+                "carbonIntensity",
+                "estimatedEmission",
+                "estimatedCost",
+                "measured",
+            }
+
+            for fg in field_groups:
+
+                fg_name = fg.get("fieldGroupName")
+                if fg_name != expected_field_group:
                     self.msg = (
-                        "Filter 'TimeRange' must contain "
-                        "timeRangeOption, startDateTime, endDateTime, timeZoneId."
+                        f"Unexpected fieldGroup '{fg_name}'. Allowed: '{expected_field_group}'."
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return False
 
-        # ----------------------------------------------------------------------
-        # Validate FieldGroups
-        # ----------------------------------------------------------------------
-        if not isinstance(field_groups, list):
-            self.msg = "'fieldGroups' must be a list."
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
+                fg.setdefault("fieldGroupDisplayName", fg_name)
 
-        expected_field_group = "response"
+                fields = fg.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' must be a list inside fieldGroups."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
 
-        valid_fields = {
-            "timeVal",
-            "energyConsumed",
-            "carbonIntensity",
-            "estimatedEmission",
-            "estimatedCost",
-            "measured",
-        }
+                field_names = [fld.get("name") for fld in fields]
 
-        for fg in field_groups:
+                # Reject unexpected fields
+                unexpected_fields = [f for f in field_names if f not in valid_fields]
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in Energy Management View: {unexpected_fields}. "
+                        f"Allowed fields are: {sorted(valid_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
 
-            fg_name = fg.get("fieldGroupName")
-            if fg_name != expected_field_group:
-                self.msg = (
-                    f"Unexpected fieldGroup '{fg_name}'. Allowed: '{expected_field_group}'."
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return False
-
-            fg.setdefault("fieldGroupDisplayName", fg_name)
-
-            fields = fg.get("fields", [])
-            if not isinstance(fields, list):
-                self.msg = "'fields' must be a list inside fieldGroups."
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return False
-
-            field_names = [fld.get("name") for fld in fields]
-
-            # Reject unexpected fields
-            unexpected_fields = [f for f in field_names if f not in valid_fields]
-            if unexpected_fields:
-                self.msg = (
-                    f"Unexpected fields in Energy Management View: {unexpected_fields}. "
-                    f"Allowed fields are: {sorted(valid_fields)}"
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return False
-
-            # Auto populate displayName
-            for fld in fields:
-                fld.setdefault("displayName", fld.get("name"))
+                # Auto populate displayName
+                for fld in fields:
+                    fld.setdefault("displayName", fld.get("name"))
 
         # ----------------------------------------------------------------------
         # SUCCESS
@@ -4953,32 +5090,32 @@ class Reports(DnacBase):
             "TimeRange": ["TIME_RANGE"],
         }
 
-        filter_map = {f.get("name"): f for f in filters}
+        # Only validate filters if provided
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
 
-        # ----------------------------------------------------------------------
-        # Reject unexpected filters
-        # ----------------------------------------------------------------------
-        unexpected = [f for f in filter_map if f not in expected_filters]
-        if unexpected:
-            self.msg = (
-                "Unexpected filters for Network Device Availability View: {0}. "
-                "Allowed filters: {1}"
-            ).format(unexpected, list(expected_filters.keys()))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
-
-        # ----------------------------------------------------------------------
-        # Validate each expected filter
-        # ----------------------------------------------------------------------
-        for filter_name, allowed_types in expected_filters.items():
-
-            if filter_name not in filter_map:
-                self.msg = f"Missing required filter '{filter_name}' for Network Device Availability View."
+            # ----------------------------------------------------------------------
+            # Reject unexpected filters
+            # ----------------------------------------------------------------------
+            unexpected = [f for f in filter_map if f not in expected_filters]
+            if unexpected:
+                self.msg = (
+                    "Unexpected filters for Network Device Availability View: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected, list(expected_filters.keys()))
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
+            # ----------------------------------------------------------------------
+            # Validate each provided filter
+            # ----------------------------------------------------------------------
+            for filter_name, allowed_types in expected_filters.items():
+
+                if filter_name not in filter_map:
+                    continue  # Skip validation if filter not provided
+
             flt = filter_map[filter_name]
-            f_type = flt.get("type")
+            f_type = flt.get("filter_type")
 
             # Validate type
             if f_type not in allowed_types:
@@ -4997,20 +5134,21 @@ class Reports(DnacBase):
             # ---- Location ----
             if filter_name == "Location":
                 value = flt.get("value", [])
-                if not isinstance(value, list):
-                    self.msg = "Filter 'Location' must be a list."
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return False
-
-                for entry in value:
-                    if not isinstance(entry, dict) or "value" not in entry:
-                        self.msg = (
-                            "Each entry in 'Location' must be a dict containing 'value' and optionally 'displayValue'."
-                        )
+                if value:
+                    if not isinstance(value, list):
+                        self.msg = "Filter 'Location' must be a list."
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return False
 
-                    entry.setdefault("displayValue", entry.get("value"))
+                    for entry in value:
+                        if not isinstance(entry, dict) or "value" not in entry:
+                            self.msg = (
+                                "Each entry in 'Location' must be a dict containing 'value' and optionally 'displayValue'."
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                        entry.setdefault("displayValue", entry.get("value"))
 
             # ---- NwDeviceType ----
             elif filter_name == "NwDeviceType":
@@ -5020,78 +5158,62 @@ class Reports(DnacBase):
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return False
 
-            # ---- TimeRange ----
-            elif filter_name == "TimeRange":
-                value = flt.get("value", {})
-                required_time_keys = {
-                    "timeRangeOption",
-                    "startDateTime",
-                    "endDateTime",
-                    "timeZoneId"
-                }
+        # ----------------------------------------------------------------------
+        # Validate FieldGroups only if provided
+        # ----------------------------------------------------------------------
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'fieldGroups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
 
-                if not isinstance(value, dict) or not required_time_keys.issubset(value.keys()):
+            expected_group = "response"
+
+            # Allowed fields:
+            valid_fields = {
+                "nwDeviceFamily",
+                "nwDeviceRole",
+                "nwDeviceName",
+                "managementIpAddr",
+                "siteHierarchy",
+                "softwareVersion",
+                "availability",
+            }
+
+            for group in field_groups:
+
+                # Handle both camelCase and snake_case
+                fg_name = group.get("fieldGroupName") or group.get("field_group_name")
+                if fg_name != expected_group:
                     self.msg = (
-                        "Filter 'TimeRange' must contain keys: "
-                        "timeRangeOption, startDateTime, endDateTime, timeZoneId."
+                        f"Unexpected fieldGroup '{fg_name}'. Allowed: '{expected_group}'."
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return False
 
-        # ----------------------------------------------------------------------
-        # Validate FieldGroups
-        # ----------------------------------------------------------------------
-        if not isinstance(field_groups, list):
-            self.msg = "'fieldGroups' must be a list."
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
+                group.setdefault("fieldGroupDisplayName", fg_name)
 
-        expected_group = "response"
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside fieldGroups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
 
-        # Allowed fields:
-        valid_fields = {
-            "nwDeviceFamily",
-            "nwDeviceRole",
-            "nwDeviceName",
-            "managementIpAddr",
-            "siteHierarchy",
-            "softwareVersion",
-            "availability",
-        }
+                field_names = [f.get("name") for f in fields]
 
-        for group in field_groups:
+                # Reject unexpected fields
+                unexpected_fields = [f for f in field_names if f not in valid_fields]
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in Network Device Availability View: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(valid_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
 
-            fg_name = group.get("fieldGroupName")
-            if fg_name != expected_group:
-                self.msg = (
-                    f"Unexpected fieldGroup '{fg_name}'. Allowed: '{expected_group}'."
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return False
-
-            group.setdefault("fieldGroupDisplayName", fg_name)
-
-            fields = group.get("fields", [])
-            if not isinstance(fields, list):
-                self.msg = "'fields' inside fieldGroups must be a list."
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return False
-
-            field_names = [f.get("name") for f in fields]
-
-            # Reject unexpected fields
-            unexpected_fields = [f for f in field_names if f not in valid_fields]
-            if unexpected_fields:
-                self.msg = (
-                    f"Unexpected fields in Network Device Availability View: {unexpected_fields}. "
-                    f"Allowed fields: {sorted(valid_fields)}"
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return False
-
-            # Auto-fill displayName
-            for fld in fields:
-                fld.setdefault("displayName", fld.get("name"))
+                # Auto-fill displayName
+                for fld in fields:
+                    fld.setdefault("displayName", fld.get("name"))
 
         # ----------------------------------------------------------------------
         # SUCCESS
@@ -5105,7 +5227,7 @@ class Reports(DnacBase):
             Template: Network Devices
             Sub template: Network Interface Utilization
         """
-        self.msg = ""
+        self.log("Validating Network Interface Utilization report filters and field groups", "DEBUG")
 
         # --------------------------------------------------------------------
         # 1. Required Filters
@@ -5128,10 +5250,10 @@ class Reports(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
-            if filter_map[fname].get("type") != ftype:
+            if filter_map[fname].get("filter_type") != ftype:
                 self.msg = (
                     f"Filter '{fname}' must be of type '{ftype}' "
-                    f"but found '{filter_map[fname].get('type')}'"
+                    f"but found '{filter_map[fname].get('filter_type')}'"
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
@@ -5157,34 +5279,37 @@ class Reports(DnacBase):
             "rxPacketDrops",
         ]
 
-        field_groups = view.get("fieldGroups", [])
-        if not field_groups:
-            self.msg = "Missing 'fieldGroups' in Network Interface Utilization report"
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
+        field_groups = view.get("field_groups", [])
 
-        fg = field_groups[0]
+        if field_groups:
+            if len(field_groups) != 1:
+                self.msg = "Network Interface Utilization must contain exactly one fieldGroup"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
 
-        # Validate fieldGroupName
-        if fg.get("fieldGroupName") != expected_group_name:
-            self.msg = (
-                f"Invalid fieldGroupName '{fg.get('fieldGroupName')}'. "
-                f"Expected '{expected_group_name}'"
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
+            fg = field_groups[0]
 
-        # Validate fields
-        present_fields = [f.get("name") for f in fg.get("fields", [])]
+            # Validate fieldGroupName (handle both camelCase and snake_case)
+            fg_name = fg.get("field_group_name")
+            if fg_name != expected_group_name:
+                self.msg = (
+                    f"Invalid fieldGroupName '{fg_name}'. "
+                    f"Expected '{expected_group_name}'"
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
 
-        missing_fields = [f for f in expected_fields if f not in present_fields]
-        if missing_fields:
-            self.msg = (
-                "Missing required fields for Network Interface Utilization report: "
-                + ", ".join(missing_fields)
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
+            # Validate fields
+            present_fields = [f.get("name") for f in fg.get("fields", [])]
+
+            missing_fields = [f for f in expected_fields if f not in present_fields]
+            if missing_fields:
+                self.msg = (
+                    "Missing required fields for Network Interface Utilization report: "
+                    + ", ".join(missing_fields)
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
 
         # --------------------------------------------------------------------
         # 3. All validations successful
@@ -5197,7 +5322,7 @@ class Reports(DnacBase):
             Template: Network Devices
             Sub template: PoE
         """
-        self.msg = ""
+        self.log("Validating PoE report filters and field groups", "DEBUG")
 
         # -------------------------------------------------------------
         # 1. Required Filters
@@ -5207,21 +5332,23 @@ class Reports(DnacBase):
         }
 
         filters = view.get("filters", [])
-        filter_map = {f.get("name"): f for f in filters}
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
 
-        for fname, ftype in required_filters.items():
-            if fname not in filter_map:
-                self.msg = f"Missing required filter '{fname}' in PoE report"
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return False
+            for fname, ftype in required_filters.items():
+                if fname not in filter_map:
+                    self.msg = f"Missing required filter '{fname}' in PoE report"
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
 
-            if filter_map[fname].get("type") != ftype:
-                self.msg = (
-                    f"Filter '{fname}' must be of type '{ftype}', "
-                    f"but found '{filter_map[fname].get('type')}'"
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return False
+                actual_type = filter_map[fname].get("filter_type")
+                if actual_type != ftype:
+                    self.log(f"Actual type for filter '{fname}': {actual_type}", "DEBUG")
+                    self.msg = (
+                        f"Filter '{fname}' must be of type '{ftype}' but found '{actual_type}'"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
 
         # -------------------------------------------------------------
         # 2. Field Group Validation
@@ -5242,34 +5369,37 @@ class Reports(DnacBase):
             "poeOperPriorityHighCount",
         ]
 
-        field_groups = view.get("fieldGroups", [])
-        if not field_groups:
-            self.msg = "Missing 'fieldGroups' in PoE report"
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
+        field_groups = view.get("field_groups", [])
+        if field_groups:
+            if len(field_groups) != 1:
+                self.msg = "PoE report must contain exactly one fieldGroup"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
 
-        fg = field_groups[0]
+            fg = field_groups[0]
 
-        # Validate group name
-        if fg.get("fieldGroupName") != expected_group_name:
-            self.msg = (
-                f"Invalid fieldGroupName '{fg.get('fieldGroupName')}'. "
-                f"Expected '{expected_group_name}'"
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
+            # Validate group name (handle both camelCase and snake_case)
+            fg_name = fg.get("field_group_name")
+            if fg_name != expected_group_name:
+                self.msg = (
+                    f"Invalid fieldGroupName '{fg_name}'. "
+                    f"Expected '{expected_group_name}'"
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
 
-        # Validate fields presence
-        present_fields = [f.get("name") for f in fg.get("fields", [])]
-
-        missing_fields = [f for f in expected_fields if f not in present_fields]
-        if missing_fields:
-            self.msg = (
-                "Missing required fields for PoE report: " +
-                ", ".join(missing_fields)
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
+            # Validate fields presence only if fields are provided
+            fields = fg.get("fields", [])
+            if fields:
+                present_fields = [f.get("name") for f in fields]
+                invalid_fields = [f for f in present_fields if f not in expected_fields]
+                if invalid_fields:
+                    self.msg = (
+                        "Invalid fields for PoE report: " +
+                        ", ".join(invalid_fields)
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
 
         # -------------------------------------------------------------
         # 3. All validations passed
@@ -5283,7 +5413,7 @@ class Reports(DnacBase):
             Sub template: Port Capacity
         """
 
-        self.msg = ""
+        self.log("Validating Port Capacity report filters and field groups", "DEBUG")
 
         # -------------------------------------------------------------
         # 1. Required Filters
@@ -5296,20 +5426,21 @@ class Reports(DnacBase):
         }
 
         filters = view.get("filters", [])
-        filter_map = {f.get("name"): f for f in filters}
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
 
-        for fname, ftype in required_filters.items():
-            if fname not in filter_map:
-                self.msg = f"Missing required filter '{fname}' in Port Capacity report"
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return False
+            for fname, ftype in required_filters.items():
+                if fname not in filter_map:
+                    self.msg = f"Missing required filter '{fname}' in Port Capacity report"
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
 
-            if filter_map[fname].get("type") != ftype:
-                self.msg = (
-                    f"Filter '{fname}' must be of type '{ftype}', "
-                    f"but found '{filter_map[fname].get('type')}'"
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
+                if filter_map[fname].get("filter_type") != ftype:
+                    self.msg = (
+                        f"Filter '{fname}' must be of type '{ftype}', "
+                        f"but found '{filter_map[fname].get('filter_type')}'"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
         # -------------------------------------------------------------
@@ -5329,34 +5460,36 @@ class Reports(DnacBase):
             "usagePercentage"
         ]
 
-        field_groups = view.get("fieldGroups", [])
-        if not field_groups:
-            self.msg = "Missing 'fieldGroups' in Port Capacity report"
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
+        field_groups = view.get("field_groups", [])
+        if field_groups:
+            if len(field_groups) != 1:
+                self.msg = "Port Capacity report must contain exactly one fieldGroup"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
 
-        fg = field_groups[0]
+            fg = field_groups[0]
 
-        # Validate group name
-        if fg.get("fieldGroupName") != expected_group_name:
-            self.msg = (
-                f"Invalid fieldGroupName '{fg.get('fieldGroupName')}'. "
-                f"Expected '{expected_group_name}'"
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
+            # Validate group name
+            if fg.get("fieldGroupName") != expected_group_name:
+                self.msg = (
+                    f"Invalid fieldGroupName '{fg.get('fieldGroupName')}'. "
+                    f"Expected '{expected_group_name}'"
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
 
-        # Validate required fields
-        present_fields = [f.get("name") for f in fg.get("fields", [])]
-        missing = [f for f in expected_fields if f not in present_fields]
-
-        if missing:
-            self.msg = (
-                "Missing required fields for Port Capacity report: " +
-                ", ".join(missing)
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
+            # Validate fields only if provided
+            fields = fg.get("fields", [])
+            if fields:
+                present_fields = [f.get("name") for f in fields]
+                invalid_fields = [f for f in present_fields if f not in expected_fields]
+                if invalid_fields:
+                    self.msg = (
+                        "Invalid fields for Port Capacity report: " +
+                        ", ".join(invalid_fields)
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
 
         # -------------------------------------------------------------
         # 3. All validations passed
@@ -5370,7 +5503,7 @@ class Reports(DnacBase):
             Sub template: Transmit Power Change Count
         """
 
-        self.msg = ""
+        self.log("Validating Transmit Power Change Count report filters and field groups", "DEBUG")
 
         # -------------------------------------------------------------
         # 1. Required Filters
@@ -5382,21 +5515,22 @@ class Reports(DnacBase):
         }
 
         filters = view.get("filters", [])
-        filter_map = {f.get("name"): f for f in filters}
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
 
-        for fname, ftype in required_filters.items():
-            if fname not in filter_map:
-                self.msg = f"Missing required filter '{fname}' in Transmit Power Change Count report"
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return False
+            for fname, ftype in required_filters.items():
+                if fname not in filter_map:
+                    self.msg = f"Missing required filter '{fname}' in Transmit Power Change Count report"
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
 
-            if filter_map[fname].get("type") != ftype:
-                self.msg = (
-                    f"Filter '{fname}' must be of type '{ftype}', "
-                    f"but found '{filter_map[fname].get('type')}'"
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return False
+                if filter_map[fname].get("filter_type") != ftype:
+                    self.msg = (
+                        f"Filter '{fname}' must be of type '{ftype}', "
+                        f"but found '{filter_map[fname].get('filter_type')}'"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
 
         # -------------------------------------------------------------
         # 2. Field Group Validation
@@ -5414,34 +5548,37 @@ class Reports(DnacBase):
             "location"
         ]
 
-        field_groups = view.get("fieldGroups", [])
-        if not field_groups:
-            self.msg = "Missing 'fieldGroups' in Transmit Power Change Count report"
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
+        field_groups = view.get("field_groups", [])
+        if field_groups:
+            if len(field_groups) != 1:
+                self.msg = "Transmit Power Change Count report must contain exactly one fieldGroup"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
 
-        fg = field_groups[0]
+            fg = field_groups[0]
 
-        # Validate group name
-        if fg.get("fieldGroupName") != expected_group_name:
-            self.msg = (
-                f"Invalid fieldGroupName '{fg.get('fieldGroupName')}'. "
-                f"Expected '{expected_group_name}'"
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
+            # Validate group name (handle both camelCase and snake_case)
+            fg_name = fg.get("field_group_name")
+            if fg_name != expected_group_name:
+                self.msg = (
+                    f"Invalid fieldGroupName '{fg_name}'. "
+                    f"Expected '{expected_group_name}'"
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
 
-        # Validate required fields
-        present_fields = [f.get("name") for f in fg.get("fields", [])]
-        missing = [f for f in expected_fields if f not in present_fields]
-
-        if missing:
-            self.msg = (
-                "Missing required fields for Transmit Power Change Count report: "
-                + ", ".join(missing)
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
+            # Validate fields only if provided
+            fields = fg.get("fields", [])
+            if fields:
+                present_fields = [f.get("name") for f in fields]
+                invalid_fields = [f for f in present_fields if f not in expected_fields]
+                if invalid_fields:
+                    self.msg = (
+                        "Invalid fields for Transmit Power Change Count report: "
+                        + ", ".join(invalid_fields)
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
 
         # -------------------------------------------------------------
         # 3. All validations passed
@@ -5469,74 +5606,77 @@ class Reports(DnacBase):
         filters = view.get("filters", [])
 
         # --------------------------------------------------------------------
-        # 1. Validate filter names and types
+        # 1. Validate filter names and types only if filters are provided
         # --------------------------------------------------------------------
-        for flt in filters:
-            name = flt.get("name")
-            ftype = flt.get("type")
+        if filters:
+            for flt in filters:
+                name = flt.get("name")
+                ftype = flt.get("filter_type")
 
-            # Unknown filter name
-            if name not in allowed_filters:
-                self.msg = f"Invalid filter '{name}' provided for VLAN report. Allowed filters: {list(allowed_filters.keys())}"
+                # Unknown filter name
+                if name not in allowed_filters:
+                    self.msg = f"Invalid filter '{name}' provided for VLAN report. Allowed filters: {list(allowed_filters.keys())}"
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Invalid type for known filter
+                if ftype not in allowed_filters[name]:
+                    self.msg = f"Invalid type '{ftype}' for filter '{name}'. Allowed types: {allowed_filters[name]}"
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+        # --------------------------------------------------------------------
+        # 2. Validate fieldGroups only if provided
+        # --------------------------------------------------------------------
+        field_groups = view.get("field_groups", [])
+
+        if field_groups:
+            allowed_field_group_name = "VLAN Details"
+
+            allowed_fields = {
+                "ipAddress",
+                "deviceName",
+                "location",
+                "deviceFamily",
+                "deviceType",
+                "vlanId",
+                "vlanName",
+                "interfacename",
+                "adminStatus",
+                "operStatus",
+            }
+
+            # Must have exactly one group
+            if len(field_groups) != 1:
+                self.msg = "VLAN report must contain exactly one fieldGroup named 'VLAN Details'."
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
-            # Invalid type for known filter
-            if ftype not in allowed_filters[name]:
-                self.msg = f"Invalid type '{ftype}' for filter '{name}'. Allowed types: {allowed_filters[name]}"
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return False
+            field_group = field_groups[0]
 
-        # --------------------------------------------------------------------
-        # 2. Validate fieldGroups
-        # --------------------------------------------------------------------
-        field_groups = view.get("fieldGroups", [])
-
-        allowed_field_group_name = "VLAN Details"
-
-        allowed_fields = {
-            "ipAddress",
-            "deviceName",
-            "location",
-            "deviceFamily",
-            "deviceType",
-            "vlanId",
-            "vlanName",
-            "interfacename",
-            "adminStatus",
-            "operStatus",
-        }
-
-        # Must have exactly one group
-        if len(field_groups) != 1:
-            self.msg = "VLAN report must contain exactly one fieldGroup named 'VLAN Details'."
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
-
-        field_group = field_groups[0]
-
-        # Validate fieldGroupName
-        if field_group.get("fieldGroupName") != allowed_field_group_name:
-            self.msg = (
-                f"Invalid fieldGroupName '{field_group.get('fieldGroupName')}'. "
-                f"Allowed: '{allowed_field_group_name}'."
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return False
-
-        # Validate fields inside the group
-        fields = field_group.get("fields", [])
-
-        for fld in fields:
-            fname = fld.get("name")
-
-            if fname not in allowed_fields:
+            # Validate fieldGroupName (handle both camelCase and snake_case)
+            fg_name = field_group.get("fieldGroupName") or field_group.get("field_group_name")
+            if fg_name != allowed_field_group_name:
                 self.msg = (
-                    f"Invalid field '{fname}' in VLAN report. "
-                    f"Allowed fields: {sorted(list(allowed_fields))}"
+                    f"Invalid fieldGroupName '{fg_name}'. "
+                    f"Allowed: '{allowed_field_group_name}'."
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
+
+            # Validate fields inside the group only if fields are provided
+            fields = field_group.get("fields", [])
+            if fields:
+                for fld in fields:
+                    fname = fld.get("name")
+
+                    if fname not in allowed_fields:
+                        self.msg = (
+                            f"Invalid field '{fname}' in VLAN report. "
+                            f"Allowed fields: {sorted(list(allowed_fields))}"
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
 
         # --------------------------------------------------------------------
         # ALL VALIDATIONS PASSED
