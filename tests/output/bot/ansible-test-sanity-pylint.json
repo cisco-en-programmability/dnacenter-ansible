@@ -1,0 +1,10 @@
+{
+    "docs": "https://docs.ansible.com/ansible-core/2.15/dev_guide/testing/sanity/pylint.html", 
+    "results": [
+        {
+            "message": "The test `ansible-test sanity --test pylint` [[explain](https://docs.ansible.com/ansible-core/2.15/dev_guide/testing/sanity/pylint.html)] failed with 1 error:", 
+            "output": "plugins/modules/brownfield_backup_and_restore_playbook_generator.py:583:29: unnecessary-lambda: Lambda may not be necessary"
+        }
+    ], 
+    "verified": false
+}

@@ -1,0 +1,41 @@
+---
+- nfs_configuration:
+  - server_ip: 172.27.17.90
+    source_path: /home/nfsshare/backups/TB29
+    nfs_port: 2049
+    nfs_version: nfs4
+    nfs_portmapper_port: 111
+  - server_ip: 172.27.17.90
+    source_path: /home/nfsshare/backups/TB23
+    nfs_port: 2049
+    nfs_version: nfs4
+    nfs_portmapper_port: 111
+  - server_ip: 172.27.17.90
+    source_path: /home/nfsshare/backups/TB18
+    nfs_port: 2049
+    nfs_version: nfs4
+    nfs_portmapper_port: 111
+  - server_ip: 172.27.17.90
+    source_path: /home/nfsshare/backups/TB24
+    nfs_port: 2049
+    nfs_version: nfs4
+    nfs_portmapper_port: 111
+  - server_ip: 10.195.189.95
+    source_path: /data/nfsshare/iac
+    nfs_port: 2049
+    nfs_version: nfs4
+    nfs_portmapper_port: 111
+  - server_ip: 172.27.17.90
+    source_path: /home/nfsshare/backups/TB19
+    nfs_port: 2049
+    nfs_version: nfs4
+    nfs_portmapper_port: 111
+- backup_storage_configuration:
+  - server_type: NFS
+    nfs_details:
+      server_ip: 172.27.17.90
+      source_path: /home/nfsshare/backups/TB18
+      nfs_port: 2049
+      nfs_version: nfs4
+      nfs_portmapper_port: 111
+    data_retention_period: 3

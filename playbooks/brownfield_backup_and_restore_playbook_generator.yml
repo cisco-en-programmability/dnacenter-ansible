@@ -1,0 +1,33 @@
+---
+- name: Generate YAML Configuration for NFS server details for storing backups
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Generate YAML Configuration for NFS server details for storing backups
+      cisco.dnac.brownfield_backup_and_restore_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          - generate_all_configurations: true
+          # - file_path: "/Users/priyadharshini/Downloads/specific_userrole_details_info"
+          #   component_specific_filters:
+          #     components_list: ["role_details","user_details"]
+          #     user_details:
+          #       - username: "admin"
+          #     role_details:
+          #       - role_name: "TestRole"
+
