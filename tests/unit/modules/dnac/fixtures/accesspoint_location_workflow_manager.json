@@ -9,7 +9,7 @@
             "position": {"x_position": 30, "y_position": 20, "z_position": 8},
             "radios": [
                 {
-                "bands": "2.4GHz",
+                "bands": ["2.4"],
                 "channel": 10,
                 "tx_power": 5,
                 "antenna": {
@@ -19,7 +19,7 @@
                 }
                 },
                 {
-                "bands": "5GHz",
+                "bands": ["5"],
                 "channel": 40,
                 "tx_power": 6,
                 "antenna": {
@@ -217,7 +217,7 @@
             "position": {"x_position": 30, "y_position": 20, "z_position": 8},
             "radios": [
                 {
-                "bands": "2.4GHz",
+                "bands": ["2.4"],
                 "channel": 10,
                 "tx_power": 5,
                 "antenna": {
@@ -227,7 +227,7 @@
                 }
                 },
                 {
-                "bands": "5GHz",
+                "bands": ["5"],
                 "channel": 44,
                 "tx_power": 6,
                 "antenna": {
@@ -307,7 +307,7 @@
             "position": {"x_position": 30, "y_position": 20, "z_position": 8},
             "radios": [
                 {
-                "bands": "2.4GHz",
+                "bands": ["2.4"],
                 "channel": 10,
                 "tx_power": 5,
                 "antenna": {
@@ -317,7 +317,7 @@
                 }
                 },
                 {
-                "bands": "5GHz",
+                "bands": ["5"],
                 "channel": 40,
                 "tx_power": 6,
                 "antenna": {

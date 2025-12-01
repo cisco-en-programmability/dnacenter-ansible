@@ -64,7 +64,6 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_site_floor_response"),
                 self.test_data.get("ap_antenna_patterns_response"),
-                self.test_data.get("get_ap_device_details"),
                 self.test_data.get("get_planned_location_not_exist"),
                 self.test_data.get("get_planned_location_not_exist"),
                 self.test_data.get("create_planned_location_task_id"),
@@ -75,7 +74,6 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_site_floor_response"),
                 self.test_data.get("ap_antenna_patterns_response"),
-                self.test_data.get("get_ap_device_details"),
                 self.test_data.get("get_planned_location_exist"),
                 self.test_data.get("create_planned_location_task_id"),
                 self.test_data.get("create_planned_location_task_details"),
@@ -85,7 +83,6 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_site_floor_response"),
                 self.test_data.get("ap_antenna_patterns_response"),
-                self.test_data.get("get_ap_device_details"),
                 self.test_data.get("get_planned_location_exist"),
                 self.test_data.get("create_planned_location_task_id"),
                 self.test_data.get("create_planned_location_task_details"),
@@ -95,9 +92,9 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_site_floor_response"),
                 self.test_data.get("ap_antenna_patterns_response"),
+                self.test_data.get("get_planned_location_not_exist"),
+                self.test_data.get("get_planned_location_not_exist"),
                 self.test_data.get("get_ap_device_details"),
-                self.test_data.get("get_planned_location_not_exist"),
-                self.test_data.get("get_planned_location_not_exist"),
                 self.test_data.get("create_planned_location_task_id"),
                 self.test_data.get("create_planned_location_task_details"),
                 self.test_data.get("create_planned_location_task_stats"),
@@ -122,7 +119,7 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "Planned Access Point position created successfully",
+            "Planned/Real Access Point position created successfully",
             result.get('msg')
         )
 
@@ -177,8 +174,8 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
                 config=self.playbook_config_create_assign_ap_location,
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=False, failed=True)
         self.assertIn(
-            "Planned Access Point position created successfully",
+            "Given accesspoint name not available in planned positions",
             result.get('msg')
         )

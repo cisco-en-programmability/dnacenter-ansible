@@ -72,23 +72,25 @@ options:
               This field is only required when assigning or deleting real access point to/from an existing planned position.
               It is not required when creating, updating, or deleting a planned access point position itself.
             type: str
-            required: true
+            required: false
             choices:
               - C(assign_planned_ap)
               - C(manage_real_ap)
           mac_address:
             description: |
-              The MAC address used to identify the access point.
+              The MAC address used to identify the real access point.
+              This field is required when mapping a planned access point to an actual access point.
             type: str
             required: false
           accesspoint_model:
-            description: Model of the access point.
+            description: Model of the access point. Model is required when creating planned access point position.
             type: str
-            required: true
+            required: false
           position:
             description: |
               The X,Y and Z coordinates representing the access point's position on the floor plan.
             type: dict
+            required: false
             suboptions:
               x_position:
                 description: >
@@ -110,21 +112,23 @@ options:
               List of radio details for the access point.
             type: list
             elements: dict
-            required: true
+            required: false
             suboptions:
               bands:
                 description: |
                   Radio band supported by the access point.
-                type: str
+                type: list
+                elements: str
                 required: true
                 choices:
-                  - C(2.4GHz)
-                  - C(5GHz)
-                  - C(6GHz)
+                  - C(2.4)
+                  - C(5)
+                  - C(6)
               channel:
                 description: |
                   The channel number for the radio interface.
-                  - For C(2.4GHz): valid values are 1 to 14.
+                  in case of dual bands, channel should be the maximum band channel.
+                  - For C(2.4GHz): valid values are 1, 6 and 11.
                   - For C(5GHz): valid values are
                     36, 40, 44, 48, 52, 56, 60, 64,
                     100, 104, 108, 112, 116, 120, 124,
@@ -224,32 +228,39 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:  # Minimum 1; Maximum 100 config hierarchy
-          - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
+          - floor_site_hierarchy: "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1"
             access_points:
-              - accesspoint_name: IAC-TB4-SJ-AP1
-                mac_address: 54:8a:ba:22:eb:c0  # Optional
-                accesspoint_model: CW9172H
+              - accesspoint_name: AP687D.B402.1614-AP-location_Test6
+                accesspoint_model: AP9120E
                 position:
                   x_position: 30  # x-axis: from 0 to 100
-                  y_position: 20  # y-axis: from 0 to 88
+                  y_position: 30  # y-axis: from 0 to 88
                   z_position: 8  # height: from 3.0 to 10
                 radios:  # Minimum Items: 1; Maximum Items: 4
-                  - bands: 2.4GHz  # can be 5Ghz and 6GHz
-                    channel: 10
+                  - bands: ["2.4"]  # can be 2.4, 5 and 6
+                    channel: 11
                     tx_power: 5  # Decibel milliwatts (dBm)
                     antenna:
-                      antenna_name: Internal-CW9172H-x-2.4GHz
-                      azimuth: 1  # support upto 360
+                      antenna_name: AIR-ANT2524DB-R-2.4GHz
+                      azimuth: 30  # support upto 360
                       elevation: 30  # support -90 upto 90
-                  - bands: 5GHz  # can be 5Ghz and 6GHz
-                    channel: 40
+                  - bands: ["5"]  # can be 2.4, 5 and 6
+                    channel: 44
                     tx_power: 6  # Decibel milliwatts (dBm)
                     antenna:
-                      antenna_name: Internal-CW9172H-x-5GHz
-                      azimuth: 1  # support upto 360
+                      antenna_name: AIR-ANT2524DB-R-5GHz
+                      azimuth: 30  # support upto 360
+                      elevation: 30  # support -90 upto 90
+                  - bands: ["2.4", "5"]  # can be 2.4, 5 and 6
+                    channel: 48
+                    tx_power: 6  # Decibel milliwatts (dBm)
+                    antenna:
+                      antenna_name: AIR-ANT2524DB-R
+                      azimuth: 30  # support upto 360
                       elevation: 30  # support -90 upto 90
 
-    - name: Create planned access point position and assign the real access points
+    # Assign planned access point position and assign the real access points
+    - name: Assign planned access point position and assign the real access points
       cisco.dnac.accesspoint_location_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -265,32 +276,13 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:  # Minimum 1; Maximum 100 config hierarchy
-          - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
+          - floor_site_hierarchy: "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1"
             access_points:
-              - accesspoint_name: IAC-TB4-SJ-AP1
-                action: assign_planned_ap  # Assign the planned position to the access point
-                mac_address: 54:8a:ba:22:eb:c0  # Optional
-                accesspoint_model: CW9172H
-                position:
-                  x_position: 30  # x-axis: from 0 to 100
-                  y_position: 20  # y-axis: from 0 to 88
-                  z_position: 8  # height: from 3.0 to 10
-                radios:  # Minimum Items: 1; Maximum Items: 4
-                  - bands: 2.4GHz  # can be 5Ghz and 6GHz
-                    channel: 10
-                    tx_power: 5  # Decibel milliwatts (dBm)
-                    antenna:
-                      antenna_name: Internal-CW9172H-x-2.4GHz
-                      azimuth: 1  # support upto 360
-                      elevation: 30  # support -90 upto 90
-                  - bands: 5GHz  # can be 5Ghz and 6GHz
-                    channel: 40
-                    tx_power: 6  # Decibel milliwatts (dBm)
-                    antenna:
-                      antenna_name: Internal-CW9172H-x-5GHz
-                      azimuth: 1  # support upto 360
-                      elevation: 30  # support -90 upto 90
+              - accesspoint_name: AP687D.B402.1614-AP-location_Test6
+                action: assign_planned_ap  # Optional assign_planned_ap, manage_real_ap
+                mac_address: a4:88:73:d4:dd:80 # Required while assigning planned access point
 
+    # Update planned access point position to the access points
     - name: Update planned access point position to the access points
       cisco.dnac.accesspoint_location_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -310,26 +302,32 @@ EXAMPLES = r"""
           - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
             access_points:
               - accesspoint_name: IAC-TB4-SJ-AP1
-                mac_address: 54:8a:ba:22:eb:c0  # Optional
-                accesspoint_model: CW9172H
+                accesspoint_model: AP9120E
                 position:
                   x_position: 30  # x-axis: from 0 to 100
-                  y_position: 20  # y-axis: from 0 to 88
+                  y_position: 30  # y-axis: from 0 to 88
                   z_position: 8  # height: from 3.0 to 10
                 radios:  # Minimum Items: 1; Maximum Items: 4
-                  - bands: 2.4GHz  # can be 5Ghz and 6GHz
-                    channel: 10
+                  - bands: ["2.4"]  # can be 2.4, 5 and 6
+                    channel: 11
                     tx_power: 5  # Decibel milliwatts (dBm)
                     antenna:
-                      antenna_name: Internal-CW9172H-x-2.4GHz
-                      azimuth: 10  # support upto 360
-                      elevation: 30  # support -90 upto 90
-                  - bands: 5GHz  # can be 5Ghz and 6GHz
-                    channel: 40
+                      antenna_name: AIR-ANT2524DB-R-2.4GHz
+                      azimuth: 20  # support upto 360
+                      elevation: 20  # support -90 upto 90
+                  - bands: ["5"]  # can be 2.4, 5 and 6
+                    channel: 44
                     tx_power: 6  # Decibel milliwatts (dBm)
                     antenna:
-                      antenna_name: Internal-CW9172H-x-5GHz
-                      azimuth: 10  # support upto 360
+                      antenna_name: AIR-ANT2524DB-R-5GHz
+                      azimuth: 30  # support upto 360
+                      elevation: 30  # support -90 upto 90
+                  - bands: ["2.4", "5"]  # can be 2.4, 5 and 6
+                    channel: 48
+                    tx_power: 6  # Decibel milliwatts (dBm)
+                    antenna:
+                      antenna_name: AIR-ANT2524DB-R
+                      azimuth: 30  # support upto 360
                       elevation: 30  # support -90 upto 90
 
     # Delete planned access point position for the planned access points
@@ -349,12 +347,12 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: deleted
         config:  # Minimum 1; Maximum 100 config hierarchy
-          - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
+          - floor_site_hierarchy: "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1"
             access_points:
-              - accesspoint_name: IAC-TB4-SJ-AP1
+              - accesspoint_name: AP687D.B402.1614-AP-location_Test6
 
-    # Assign the real access point to existing planned accesspoint position.
-    - name: Assign the access point to existing access points planned position.
+    # Create the real AP position with real access point.
+    - name: Create the real AP position with real access point
       cisco.dnac.accesspoint_location_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -370,34 +368,78 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:  # Minimum 1; Maximum 100 config hierarchy
-          - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
+          - floor_site_hierarchy: "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1"
             access_points:
-              - accesspoint_name: IAC-TB4-SJ-AP1
-                action: assign_planned_ap  # Assign the planned position to the real access point
-                mac_address: 54:8a:ba:22:eb:c0  # Optional
-                accesspoint_model: CW9172H
+              - accesspoint_name: AP687D.B402.1614-AP-location_Test6
+                mac_address: a4:88:73:d4:dd:80  # Required for real access point creation
+                accesspoint_model: AP9120E
                 position:
-                  x_position: 30  # x-axis: from 0 to 100
-                  y_position: 20  # y-axis: from 0 to 88
+                  x_position: 20  # x-axis: from 0 to 100
+                  y_position: 30  # y-axis: from 0 to 88
                   z_position: 8  # height: from 3.0 to 10
                 radios:  # Minimum Items: 1; Maximum Items: 4
-                  - bands: 2.4GHz  # can be 5Ghz and 6GHz
-                    channel: 10
+                  - bands: ["2.4"]  # can be 2.4, 5 and 6
+                    channel: 11
                     tx_power: 5  # Decibel milliwatts (dBm)
                     antenna:
-                      antenna_name: Internal-CW9172H-x-2.4GHz
-                      azimuth: 1  # support upto 360
+                      antenna_name: AIR-ANT2524DB-R-2.4GHz
+                      azimuth: 20  # support upto 360
                       elevation: 30  # support -90 upto 90
-                  - bands: 5GHz  # can be 5Ghz and 6GHz
-                    channel: 40
+                  - bands: ["5"]  # can be 2.4, 5 and 6
+                    channel: 44
                     tx_power: 6  # Decibel milliwatts (dBm)
                     antenna:
-                      antenna_name: Internal-CW9172H-x-5GHz
-                      azimuth: 1  # support upto 360
+                      antenna_name: AIR-ANT2524DB-R-5GHz
+                      azimuth: 20  # support upto 360
+                      elevation: 30  # support -90 upto 90
+                  - bands: ["2.4", "5"]  # can be 2.4, 5 and 6
+                    channel: 48
+                    tx_power: 6  # Decibel milliwatts (dBm)
+                    antenna:
+                      antenna_name: AIR-ANT2524DB-R
+                      azimuth: 30  # support upto 360
+                      elevation: 30  # support -90 upto 90
+
+    # Update the real AP position with real access point.
+    - name: Update the real AP position with real access point.
+      cisco.dnac.accesspoint_location_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:  # Minimum 1; Maximum 100 config hierarchy
+          - floor_site_hierarchy: "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1"
+            access_points:
+              - accesspoint_name: AP687D.B402.1614-AP-location_Test6
+                mac_address: a4:88:73:d4:dd:80  # Required for real access point creation
+                accesspoint_model: AP9120E
+                position:
+                  x_position: 20  # x-axis: from 0 to 100
+                  y_position: 30  # y-axis: from 0 to 88
+                  z_position: 8  # height: from 3.0 to 10
+                radios:  # Minimum Items: 1; Maximum Items: 4
+                  - bands: ["2.4"]  # can be 2.4, 5 and 6
+                    antenna:
+                      antenna_name: AIR-ANT2524DB-R-2.4GHz
+                      azimuth: 20  # support upto 360
+                      elevation: 30  # support -90 upto 90
+                  - bands: ["5"]  # can be 2.4, 5 and 6
+                    antenna:
+                      antenna_name: AIR-ANT2524DB-R-5GHz
+                      azimuth: 20  # support upto 360
                       elevation: 30  # support -90 upto 90
 
     # Delete assigned access point from the real floor position
-    - name: Unassign the access point from the real floor position
+    - name: Delete assigned access point from the real floor position
       cisco.dnac.accesspoint_location_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -431,31 +473,31 @@ response_create:
   type: dict
   sample: >
     {
-        "msg": "Planned Access Point Position created successfully for 'Global/USA/California/SAN JOSE/BLD24/Floor3'.",
+        "msg": "Planned/Real Access Point position created successfully for 'Global/USA/SAN JOSE/SJ_BLD23/FLOOR1'.",
         "response": [
             [
-                "IAC-TB4-SJ-AP1"
+                "AP687D.B402.1614-AP-location_Test6"
             ]
         ],
         "status": "success"
     }
 
-# Case 2: Create planned access point floor position and assign the access points
-response_create_assign:
+# Case 2: Assign planned access point position
+response_assign_planned_position:
   description: >
     A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK
-    when a access point planned position is successfully created and assigned. The response confirms
-    the successful creation of the planned position and provides details about the status,
+    when a access point planned position is successfully assigned. The response confirms
+    the successful assignment of the planned position and provides details about the status,
     including its access point name and status.
   returned: always
   type: dict
   sample: >
     {
-        "msg": "Planned Access Point Position created successfully for 'Global/USA/California/SAN JOSE/BLD24/Floor3'.
-                Following real Access Point(s) assigned to planned location(s): '['IAC-TB4-SJ-AP1']'.",
+        "msg": "Planned Access Point position assigned successfully for '[['AP687D.B402.1614-AP-location_Test6']]'.
+                Following real Access Point(s) assigned to planned position(s): '['AP687D.B402.1614-AP-location_Test6']'.",
         "response": [
             [
-                "IAC-TB4-SJ-AP1"
+                "AP687D.B402.1614-AP-location_Test6"
             ]
         ],
         "status": "success"
@@ -471,8 +513,7 @@ response_create_idempotent:
   type: dict
   sample: >
     {
-        "msg": "No Changes required, planned Access Point position(s) already exist.
-          Following planned Access Point Position(s): 'IAC-TB4-SJ-AP1' already exist.",
+        "msg": "No Changes required, Planned/Real Access Point position(s) already exist.",
         "response": [],
         "status": "success"
     }
@@ -487,10 +528,10 @@ response_update_position:
   type: dict
   sample: >
     {
-        "msg": "Access Point position updated successfully for 'Global/USA/California/SAN JOSE/BLD24/Floor3'.",
+        "msg": "Planned/Real Access Point position updated successfully for 'Global/USA/SAN JOSE/SJ_BLD23/FLOOR1'.",
         "response": [
             [
-                "IAC-TB4-SJ-AP1"
+                "AP687D.B402.1614-AP-location_Test6"
             ]
         ],
         "status": "success"
@@ -506,9 +547,9 @@ response_delete_planned_position:
   type: dict
   sample: >
     {
-        "msg": "Planned Access Point position(s) deleted and verified successfully for '['IAC-TB4-SJ-AP1']'.",
+        "msg": "Planned/Real Access Point position(s) deleted and verified successfully for '['AP687D.B402.1614-AP-location_Test6']'.",
         "response": [
-            "IAC-TB4-SJ-AP1"
+            "AP687D.B402.1614-AP-location_Test6"
         ],
         "status": "success"
     }
@@ -523,8 +564,8 @@ response_unassign_idempotent:
   type: dict
   sample: >
     {
-        "msg": "No Changes required, planned Access Point position(s) already deleted
-                and verified successfully for '['IAC-TB4-SJ-AP1']'.",
+        "msg": "No Changes required, planned/real Access Point position(s) already deleted
+                and verified successfully for '['AP687D.B402.1614-AP-location_Test6']'.",
         "response": [],
         "status": "success"
     }
@@ -547,7 +588,27 @@ response_create_assign_idempotent:
         "status": "success"
     }
 
-# Case 8: Unassign the access point from existing access points real position.
+# Case 8: Update the real AP position with real access point.
+response_update_real_position:
+  description: >
+    A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK
+    when a real access point position is successfully updated. The response confirms
+    the successful update of the real position and provides details about the status,
+    including its access point name and status.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Planned/Real Access Point position updated successfully for 'Global/USA/SAN JOSE/SJ_BLD23/FLOOR1'.",
+        "response": [
+            [
+                "AP687D.B402.1614-AP-Test6"
+            ]
+        ],
+        "status": "success"
+    }
+
+# Case 9: Unassign the access point from existing access points real position.
 response_unassign_real_position:
   description: >
     A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK
@@ -640,21 +701,21 @@ class AccessPointLocation(DnacBase):
                 "accesspoint_model": {"type": "str", "required": False},
                 "position": {
                     "type": "dict",
-                    "x_position": {"type": "int", "required": True},
-                    "y_position": {"type": "int", "required": True},
-                    "z_position": {"type": "int", "required": True},
+                    "x_position": {"type": "int", "required": False},
+                    "y_position": {"type": "int", "required": False},
+                    "z_position": {"type": "int", "required": False},
                 },
                 "radios": {
                     "type": "list",
                     "elements": "dict",
-                    "bands": {"type": "str", "required": True},
-                    "channel": {"type": "int", "required": True},
-                    "tx_power": {"type": "int", "required": True},
+                    "bands": {"type": "list", "elements": "str", "required": False},
+                    "channel": {"type": "int", "required": False},
+                    "tx_power": {"type": "int", "required": False},
                     "antenna": {
                         "type": "dict",
-                        "antenna_name": {"type": "str", "required": True},
-                        "azimuth": {"type": "int", "required": True},
-                        "elevation": {"type": "int", "required": True},
+                        "antenna_name": {"type": "str", "required": False},
+                        "azimuth": {"type": "int", "required": False},
+                        "elevation": {"type": "int", "required": False},
                     },
                 },
             },
@@ -743,6 +804,11 @@ class AccessPointLocation(DnacBase):
                 param_spec = dict(type="str", length_max=200)
                 validate_str(serial_number, param_spec, "serial_number", errormsg)
 
+            if each_access_point.get("action") == "assign_planned_ap":
+                if not mac_address:
+                    errormsg.append("mac_address: MAC Address required for assign planned access point in playbook.")
+                continue
+
             accesspoint_model = each_access_point.get("accesspoint_model")
             if accesspoint_model:
                 param_spec = dict(type="str", length_max=50)
@@ -774,7 +840,7 @@ class AccessPointLocation(DnacBase):
             if not radios:
                 errormsg.append("radios: Radios is missing in playbook.")
             elif radios and isinstance(radios, list):
-                self.validate_radios(radios, errormsg)
+                self.validate_radios(radios, each_access_point, errormsg)
 
         if errormsg:
             self.msg = f"Invalid parameters in playbook config: {' '.join(errormsg)}"
@@ -785,13 +851,14 @@ class AccessPointLocation(DnacBase):
         self.log(msg, "INFO")
         return self
 
-    def validate_radios(self, radios_param, errormsg):
+    def validate_radios(self, radios_param, each_access_point, errormsg):
         """
         Validate the radio configuration parameters.
 
         Parameters:
             self (object): An instance of a class for interacting with Cisco Catalyst Center.
             radios_param (list): A list of radio configuration dictionaries.
+            each_access_point (dict): A dictionary representing an access point.
             errormsg (list): A list to collect error messages.
 
         Returns:
@@ -810,13 +877,14 @@ class AccessPointLocation(DnacBase):
 
         for radio in radios_param:
             bands = radio.get("bands")
-            if bands:
-                param_spec = dict(type="str", length_max=6)
-                validate_str(bands, param_spec, "bands", errormsg)
-                if bands not in ["2.4GHz", "5GHz", "6GHz"]:
-                    errormsg.append(
-                        "bands: Bands must be one of '2.4GHz', '5GHz' or '6GHz'."
-                    )
+            if bands and isinstance(bands, list):
+                for band in bands:
+                    param_spec = dict(type="str", length_max=6)
+                    validate_str(str(band), param_spec, "bands", errormsg)
+                    if band not in ["2.4", "5", "6"]:
+                        errormsg.append(
+                            "bands: Bands list must be '2.4', '5', or '6'."
+                        )
             else:
                 errormsg.append("bands: Bands is missing in playbook.")
 
@@ -827,22 +895,26 @@ class AccessPointLocation(DnacBase):
                 [149, 153, 157, 161, 165, 169, 173]
             )
             channel_6ghz = list(range(1, 234, 4))
-            if channel is None:
+            if channel is None and each_access_point.get("action") != "manage_real_ap":
                 errormsg.append("channel: Channel is missing in playbook.")
             elif channel and isinstance(channel, int):
-                if bands == "2.4GHz" and not (0 < channel < 15):
+                channel_band = radio.get("bands")
+                if bands and isinstance(bands, list):
+                    channel_band = max(bands, key=float)
+
+                if channel_band == "2.4" and not (0 < channel < 15):
                     errormsg.append("channel: Channel must be between 1 and 14 for 2.4GHz band.")
-                elif bands == "5GHz" and channel not in channel_5ghz:
+                elif channel_band == "5" and channel not in channel_5ghz:
                     errormsg.append(
                         f"channel: Channel must be one of '{channel_5ghz}' for 5GHz band."
                     )
-                elif bands == "6GHz" and channel not in channel_6ghz:
+                elif channel_band == "6" and channel not in channel_6ghz:
                     errormsg.append(
                         f"channel: Channel must be one of '{channel_6ghz}' for 6GHz band."
                     )
 
             tx_power = radio.get("tx_power")
-            if tx_power is None:
+            if tx_power is None and each_access_point.get("action") != "manage_real_ap":
                 errormsg.append("tx_power: Tx Power is missing in playbook.")
             elif tx_power and isinstance(tx_power, int) and not (0 < tx_power < 101):
                 errormsg.append("tx_power: Tx Power must be between 0 and 100.")
@@ -932,7 +1004,6 @@ class AccessPointLocation(DnacBase):
         have = {
             "site_id": site["id"],
             "site_name": config.get("floor_site_hierarchy"),
-            "antenna_patterns": self.get_map_supported_ap_antenna_patterns(),
             "selected_ap_model": [],
         }
         for access_point in config.get("access_points", []):
@@ -941,6 +1012,11 @@ class AccessPointLocation(DnacBase):
                 self.log(f"Access point marked for deletion: {access_point}", "INFO")
                 continue
 
+            if access_point.get("action") == "assign_planned_ap":
+                self.log(f"Access point marked for Assign Planned AP: {access_point}", "INFO")
+                continue
+
+            have["antenna_patterns"] = self.get_map_supported_ap_antenna_patterns()
             selected_ap_model = self.find_dict_by_key_value(
                 have["antenna_patterns"], "apType", access_point.get("accesspoint_model")
             )
@@ -952,7 +1028,9 @@ class AccessPointLocation(DnacBase):
 
             radios = access_point.get("radios")
             for radio in radios:
-                band = radio.get("bands").split("GHz")[0]
+                band = radio.get("bands")
+                if band and isinstance(band, list):
+                    band = max(band, key=float)
                 antenna_name = radio.get("antenna", {}).get("antenna_name")
 
                 self.log(f"Finding radio band exist on supported AP model for: {band}", "INFO")
@@ -960,13 +1038,19 @@ class AccessPointLocation(DnacBase):
                     selected_ap_model.get("antennaPatterns"), "band", band
                 )
                 if not band_exist:
-                    msg = f"No supported antenna pattern band found for: {band} {antenna_name}"
+                    msg = f"No supported antenna pattern band found for: {radio.get('bands')} {antenna_name}"
                     self.log(msg, "WARNING")
                     self.fail_and_exit(msg)
                 self.log(f"Band exist: {self.pprint(band_exist)}", "DEBUG")
 
-                self.log(f"Finding antenna name exist on supported AP model for: {antenna_name}", "INFO")
-                if antenna_name not in band_exist.get("names"):
+                self.log(f"Finding antenna name exist on supported AP model for: {antenna_name}.", "INFO")
+                if len(radio.get("bands", [])) > 1:
+                    antenna_exist = any(name.startswith(antenna_name) for name in band_exist.get("names", []))
+                    if not antenna_exist:
+                        msg = f"No supported antenna name found for dual band: {antenna_exist}"
+                        self.log(msg, "WARNING")
+                        self.fail_and_exit(msg)
+                elif antenna_name not in band_exist.get("names"):
                     msg = f"No supported antenna name found for: {antenna_name}"
                     self.log(msg, "WARNING")
                     self.fail_and_exit(msg)
@@ -975,20 +1059,11 @@ class AccessPointLocation(DnacBase):
             have["selected_ap_model"].append(selected_ap_model)
 
         accesspoint_exists, new_accesspoint, update_accesspoint = [], [], []
-        assigned_accesspoint = []
+        assign_accesspoint, assigned_accesspoint = [], []
         access_point_devices = []
         delete_accesspoint = []
         update_real_accesspoint = []
         for access_point in config.get("access_points", []):
-
-            self.log(f"Retrieving accesspoint details for {access_point.get('accesspoint_name')}", "INFO")
-            ap_device_details = self.get_accesspoint_details(access_point.get("accesspoint_name"))
-            if not ap_device_details:
-                msg = f"No device details found for access point: {access_point.get('accesspoint_name')}"
-                self.log(msg, "WARNING")
-                self.fail_and_exit(msg)
-            access_point_devices.append(ap_device_details)
-
             # Check if access point exist in the planned position
             ap_details = self.get_accesspoint_position(
                 have["site_id"], have["site_name"], access_point
@@ -999,12 +1074,12 @@ class AccessPointLocation(DnacBase):
                     have["site_id"], have["site_name"], access_point, True
                 )
                 if ap_details:
-                    self.log(f"Access point planned position found for deletion: {access_point.get('accesspoint_name')}", "INFO")
+                    self.log(f"Access point real position found for deletion: {access_point.get('accesspoint_name')}", "INFO")
                     if self.params.get("state") == "deleted":
                         ap_details[0]["action"] = access_point.get("action")
                         delete_accesspoint.append(ap_details[0])
                     else:
-                        self.log(f"Access point planned position already exist: {access_point.get('accesspoint_name')}", "INFO")
+                        self.log(f"Access point real position already exist: {access_point.get('accesspoint_name')}", "INFO")
                         assigned_accesspoint.append(ap_details[0])
                     continue
 
@@ -1013,6 +1088,21 @@ class AccessPointLocation(DnacBase):
                     self.log(f"Access point marked for deletion: {access_point}", "INFO")
                     ap_details[0]["action"] = access_point.get("action")
                     delete_accesspoint.append(ap_details[0])
+                    continue
+
+                if access_point.get("action") == "assign_planned_ap":
+                    self.log(f"Access point marked for Assign Planned AP: {access_point}", "INFO")
+                    ap_details[0]["action"] = access_point.get("action")
+                    ap_details[0]["mac_address"] = access_point.get("mac_address")
+                    assign_accesspoint.append(ap_details[0])
+
+                    self.log(f"Retrieving accesspoint details for MAC Address: {access_point.get('mac_address')}", "INFO")
+                    ap_device_details = self.get_accesspoint_details(access_point.get("mac_address"))
+                    if not ap_device_details:
+                        msg = f"No device details found for access point: {access_point.get('mac_address')}"
+                        self.log(msg, "WARNING")
+                        self.fail_and_exit(msg)
+                    access_point_devices.append(ap_device_details)
                     continue
 
                 ap_status, ap_update = self.compare_accesspoint_position_details(
@@ -1038,6 +1128,7 @@ class AccessPointLocation(DnacBase):
             "update_real_accesspoint": update_real_accesspoint,
             "existing_accesspoint": accesspoint_exists,
             "delete_accesspoint": delete_accesspoint,
+            "assign_accesspoint": assign_accesspoint,
             "already_assigned_accesspoint": assigned_accesspoint,
         })
         self.have = have
@@ -1089,7 +1180,7 @@ class AccessPointLocation(DnacBase):
             dict - Planned access point position information
         """
         self.log(
-            f"Collecting planned access point position for: {floor_name}",
+            f"Collecting planned access point position for site: {floor_name} and access point: {ap_details}",
             "INFO",
         )
 
@@ -1150,7 +1241,8 @@ class AccessPointLocation(DnacBase):
         un_matched_value = []
         # Compare relevant fields
         for key in ["accesspoint_name", "mac_address", "accesspoint_model"]:
-            self.log(f"Comparing access point field '{key}': {access_point.get(key)} with {ap_details.get(self.keymap[key])}", "DEBUG")
+            self.log(f"Comparing access point field '{key}': {access_point.get(key)} with {ap_details.get(self.keymap[key])}",
+                     "DEBUG")
 
             if access_point.get(key) != ap_details.get(self.keymap[key]):
                 self.log(f"Access point details do not match for key: {key}", "INFO")
@@ -1178,13 +1270,14 @@ class AccessPointLocation(DnacBase):
 
         for radio in radios:
             for exist_radio in exist_radios:
-                band = float(radio.get("bands").split("GHz")[0])
+                band = [float(b) for b in radio.get("bands", [])]
+                existing_band = [float(b) for b in exist_radio.get("bands", [])]
                 self.log(
-                    f"Finding radio band '{band}' exist on existing AP for: {exist_radio.get('bands', [])}",
+                    f"Finding radio band '{band}' exist on existing AP for: {exist_radio.get('bands')}",
                     "INFO"
                 )
 
-                if band in exist_radio.get("bands", []):
+                if band == existing_band:
                     radio["id"] = exist_radio.get("id")
                     for key in ["channel", "tx_power", "antenna"]:
                         self.log(f"Comparing access point radio field '{key}': {radio.get(key)} with {exist_radio.get(self.keymap[key])}", "DEBUG")
@@ -1197,8 +1290,6 @@ class AccessPointLocation(DnacBase):
                                 if ant_key == "azimuth":
                                     current_azimuth = int(radio.get("antenna", {}).get(ant_key))
                                     existing_azimuth = int(exist_radio.get(self.keymap[key], {}).get(self.keymap[ant_key]))
-                                    if band == 2.4:
-                                        existing_azimuth = existing_azimuth + 1
 
                                     if current_azimuth != existing_azimuth:
                                         self.log(f"Access point antenna azimuth details do not match: {radio}", "INFO")
@@ -1237,20 +1328,20 @@ class AccessPointLocation(DnacBase):
         self.log(f"Access point position details match for: {access_point}", "INFO")
         return compare_state, un_matched_value
 
-    def get_accesspoint_details(self, accesspoint_name):
+    def get_accesspoint_details(self, mac_address):
         """
         Retrieves the current details of an device in Cisco Catalyst Center.
 
         Parameters:
             self (object): An instance of the class containing the method.
-            accesspoint_name (str): The name of the access point to retrieve details for.
+            mac_address (str): The MAC address of the access point to retrieve details for.
 
         Returns:
             dict: A dictionary containing the current details of the access point, or an error message.
 
         """
         input_param = {
-            "hostname": accesspoint_name
+            "macAddress": mac_address
         }
 
         try:
@@ -1306,7 +1397,7 @@ class AccessPointLocation(DnacBase):
         radios = accesspoint.get("radios", [])
         for radio in radios:
             radio_payload = {
-                "bands": [radio.get("bands").split("GHz")[0]],
+                "bands": radio.get("bands"),
                 "channel": radio.get("channel"),
                 "txPower": radio.get("tx_power"),
                 "antenna": {
@@ -1395,13 +1486,24 @@ class AccessPointLocation(DnacBase):
         collect_ap_list = []
 
         if self.have.get("new_accesspoint"):
+            non_created_positions = []
             for access_point in self.have.get("new_accesspoint"):
+                if access_point.get("action") == "assign_planned_ap":
+                    self.log(f"Skipping creation for access point marked for Assign Planned AP: {self.pprint(access_point)}",
+                             "INFO")
+                    non_created_positions.append(access_point.get("accesspoint_name"))
+                    continue
                 self.log(f"Processing new access point: {self.pprint(access_point)}", "INFO")
                 parsed_ap_details = self.parse_planned_accesspoint(access_point)
 
                 create_payload.append(parsed_ap_details)
                 self.log(f"Parsed planned Access Point Payload: {self.pprint(parsed_ap_details)}", "DEBUG")
                 collect_ap_list.append(access_point.get("accesspoint_name"))
+
+            if non_created_positions:
+                self.msg = f"Given accesspoint name not available in planned positions to assign: {non_created_positions}"
+                self.log(self.msg, "WARNING")
+                self.fail_and_exit(self.msg)
 
             self.log(
                 f"Creating planned Access Point position with payload: {self.pprint(create_payload)}",
@@ -1430,6 +1532,14 @@ class AccessPointLocation(DnacBase):
             for access_point in self.have.get("update_accesspoint"):
                 self.log(f"Processing update planned access point: {self.pprint(access_point)}", "INFO")
                 parsed_ap_details = self.parse_planned_accesspoint(access_point)
+
+                # Validate the payload before adding to update list
+                is_valid, validation_errors = self.validate_update_payload(parsed_ap_details, "update")
+                if not is_valid:
+                    error_msg = f"Invalid update payload for AP '{access_point.get('accesspoint_name')}': {'; '.join(validation_errors)}"
+                    self.log(error_msg, "ERROR")
+                    self.fail_and_exit(error_msg)
+
                 update_payload.append(parsed_ap_details)
                 self.log(f"Parsed Planned Access Point Payload: {self.pprint(parsed_ap_details)}", "DEBUG")
                 collect_ap_list.append(access_point.get("accesspoint_name"))
@@ -1492,6 +1602,36 @@ class AccessPointLocation(DnacBase):
 
         return self
 
+    def validate_update_payload(self, payload, operation="update"):
+        """
+        Validate update payload to ensure it contains all required fields.
+
+        Parameters:
+            payload (dict): The payload to validate
+            operation (str): The operation type (update/create)
+
+        Returns:
+            tuple: (is_valid, error_messages)
+        """
+        errors = []
+
+        if operation == "update":
+            # For updates, ensure AP has an ID
+            if not payload.get("id"):
+                errors.append("Update operation requires 'id' field")
+
+            # Ensure all radios have IDs for updates
+            radios = payload.get("radios", [])
+            for idx, radio in enumerate(radios):
+                if not radio.get("id"):
+                    errors.append(
+                        f"Radio at index {idx} (bands: {radio.get('bands')}) "
+                        f"is missing required 'id' field for update operation"
+                    )
+
+        is_valid = len(errors) == 0
+        return is_valid, errors
+
     def assign_accesspoint_to_position(self):
         """
         Assign an access point to a specific planned position.
@@ -1504,22 +1644,19 @@ class AccessPointLocation(DnacBase):
         """
         self.log(f"Assigning access point to planned position for: {self.have.get('site_name')}", "INFO")
 
-        if (self.have.get("new_accesspoint") or self.have.get("update_accesspoint")
-           or self.have.get("existing_accesspoint")):
-            access_point_devices = self.have.get("accesspoint_devices", [])
+        if self.have.get("assign_accesspoint"):
+            access_point_devices_details = self.have.get("accesspoint_devices", [])
             assign_payload = []
             collect_ap_list = []
-            for access_point in (self.have.get("new_accesspoint", []) +
-                                 self.have.get("update_accesspoint", []) +
-                                 self.have.get("existing_accesspoint", [])):
+            for access_point in self.have.get("assign_accesspoint", []):
                 if access_point.get("action") != "assign_planned_ap":
                     continue
 
                 self.log(f"Processing assign access point to planned position: {self.pprint(access_point)}",
                          "INFO")
                 ap_device = self.find_dict_by_key_value(
-                    access_point_devices, "hostname",
-                    access_point.get("accesspoint_name", access_point.get("name"))
+                    access_point_devices_details, "macAddress",
+                    access_point.get("mac_address", access_point.get("name"))
                 )
                 if not ap_device:
                     msg = f"No device details found for access point: {access_point.get('accesspoint_name')}"
@@ -1535,17 +1672,17 @@ class AccessPointLocation(DnacBase):
                     ap_details = self.get_accesspoint_position(
                         self.have["site_id"], self.have["site_name"], access_point, True)
                     if ap_details:
-                        self.log(f"Access point planned position found for assignment: {access_point.get('accesspoint_name')}", "INFO")
-                        collect_ap_list.append(access_point.get("accesspoint_name"))
-                        self.location_assigned.append(collect_ap_list)
-                        return self
+                        self.log(f"Access point real position found: {access_point.get('accesspoint_name')}",
+                                 "INFO")
+                        self.location_already_assigned.append(access_point.get("accesspoint_name"))
+                        continue
 
                 ap_payload = {
                     "accessPointId": ap_device.get("id"),
                     "plannedAccessPointId": ap_details[0].get("id")
                 }
                 assign_payload.append(ap_payload)
-                collect_ap_list.append(access_point.get("accesspoint_name"))
+                collect_ap_list.append(access_point.get("name"))
 
             if not assign_payload:
                 self.log("No valid access points found for assignment.", "DEBUG")
@@ -1675,10 +1812,10 @@ class AccessPointLocation(DnacBase):
                 self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
-        if self.location_created or self.location_updated or self.location_exist:
+        if self.have.get("assign_accesspoint"):
             assign_response = self.assign_accesspoint_to_position()
-            all_status_msg = str(self.location_created + self.location_updated + self.location_exist)
-            self.msg = f"Planned Access Point position assigned successfully for '{all_status_msg}'."
+            status_msg = str(self.location_assigned)
+            self.msg = f"Planned Access Point position assigned successfully for '{status_msg}'."
             self.log(self.msg, "INFO")
             self.changed = True
             self.status = "success"
@@ -1719,7 +1856,7 @@ class AccessPointLocation(DnacBase):
         self.changed = False
         if (self.location_created
            and len(self.location_created) == len(config.get("access_points", []))):
-            self.msg = f"Planned Access Point position created successfully for '{config.get('floor_site_hierarchy')}'."
+            self.msg = f"Planned/Real Access Point position created successfully for '{config.get('floor_site_hierarchy')}'."
             self.log(self.msg, "INFO")
             self.changed = True
             self.status = "success"
