@@ -149,42 +149,6 @@ EXAMPLES = r"""
         component_specific_filters:
           device_families: ["UNIFIED_AP", "ROUTER"]
 
-- name: Generate YAML Configuration for specific KPIs
-  cisco.dnac.brownfield_assurance_device_health_score_settings_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: merged
-    config:
-      - file_path: "/tmp/assurance_health_score_settings.yml"
-        component_specific_filters:
-          device_families: ["UNIFIED_AP"]
-          kpi_names: ["Interference 6 GHz", "Signal Quality"]
-
-- name: Generate YAML Configuration with comprehensive filtering
-  cisco.dnac.brownfield_assurance_device_health_score_settings_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: merged
-    config:
-      - file_path: "/tmp/filtered_health_score_settings.yml"
-        component_specific_filters:
-          device_families: ["UNIFIED_AP", "ROUTER", "SWITCH"]
-          kpi_names: ["Interference 6 GHz", "Link Error", "CPU Utilization"]
-
 - name: Generate YAML Configuration with default file path
   cisco.dnac.brownfield_assurance_device_health_score_settings_playbook_generator:
     dnac_host: "{{dnac_host}}"
@@ -332,7 +296,7 @@ else:
     OrderedDumper = None
 
 
-class AssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
+class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
     """
     A class for generator playbook files for assurance device health score settings configured within the Cisco Catalyst Center using the GET APIs.
     """
@@ -356,7 +320,6 @@ class AssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, BrownFieldHe
         self.operation_successes = []
         self.operation_failures = []
         self.total_device_families_processed = 0
-        self.total_kpis_processed = 0
 
         # Initialize generate_all_configurations as class-level parameter
         self.generate_all_configurations = False
@@ -384,6 +347,7 @@ class AssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, BrownFieldHe
             "generate_all_configurations": {"type": "bool", "required": False, "default": False},
             "file_path": {"type": "str", "required": False},
             "component_specific_filters": {"type": "dict", "required": False},
+            "global_filters": {"type": "dict", "required": False},
         }
 
         # Import validate_list_of_dicts function here to avoid circular imports
@@ -420,11 +384,6 @@ class AssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, BrownFieldHe
                             "required": False,
                             "elements": "str"
                         },
-                        "kpi_names": {
-                            "type": "list",
-                            "required": False,
-                            "elements": "str"
-                        }
                     },
                     "reverse_mapping_function": self.device_health_score_settings_reverse_mapping_function,
                     "api_function": "get_all_health_score_definitions_for_given_filters",
@@ -600,22 +559,44 @@ class AssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, BrownFieldHe
         api_params = {}
         component_specific_filters = filters.get("component_specific_filters", {})
         
-        # Fix: Look for device_families in the correct nested structure
-        health_score_filters = component_specific_filters.get("device_health_score_settings", {})
-        device_families = health_score_filters.get("device_families", component_specific_filters.get("device_families", []))
+        # Support both global_filters and component_specific_filters structures
+        device_families = []
         
-        if device_families:
-            # Note: The actual API parameter name may be different - adjust as needed
-            api_params["deviceType"] = device_families
-            self.log("Added device families filter to API params: {0}".format(api_params["deviceType"]), "DEBUG")
+        # Check for global_filters structure
+        global_filters = component_specific_filters.get("global_filters", {})
+        if global_filters.get("device_families"):
+            device_families = global_filters["device_families"]
+            self.log("Found device families in global_filters: {0}".format(device_families), "DEBUG")
+        
+        # Check for nested device_health_score_settings structure
+        health_score_filters = component_specific_filters.get("device_health_score_settings", {})
+        if not device_families and health_score_filters.get("device_families"):
+            device_families = health_score_filters["device_families"]
+            self.log("Found device families in device_health_score_settings: {0}".format(device_families), "DEBUG")
+        
+        # Check for components_list - if present, get all device families
+        components_list = component_specific_filters.get("components_list", [])
+        if "device_health_score_settings" in components_list and not device_families:
+            self.log("components_list contains device_health_score_settings - will retrieve all device families", "DEBUG")
+            # Don't set any device family filter - get all
+        elif device_families:
+            # Note: API doesn't filter by device family, so we'll filter after retrieval
+            self.log("Device families to filter: {0}".format(device_families), "DEBUG")
 
         try:
             self.log("Executing GET request for device health score settings", "DEBUG")
+            self.log("API parameters being sent: {0}".format(api_params), "DEBUG")
             response = self.execute_get_request(api_family, api_function, api_params)
+            self.log("Raw API response: {0}".format(response), "DEBUG")
 
             if response and response.get("response"):
                 self.log("API response received successfully", "DEBUG")
                 response_data = response.get("response", [])
+                self.log("Response data type: {0}, length: {1}".format(type(response_data), len(response_data)), "DEBUG")
+
+                # Log first few items for debugging
+                if response_data and len(response_data) > 0:
+                    self.log("Sample response data item: {0}".format(response_data[0] if response_data else {}), "DEBUG")
 
                 self.log("Processing {0} health score definitions from API".format(len(response_data)), "DEBUG")
 
@@ -651,8 +632,13 @@ class AssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, BrownFieldHe
                         [{"response": filtered_data}]
                     )
 
+                    # Extract the device_health_score list from the transformed data
+                    device_health_score_list = []
+                    if transformed_data and len(transformed_data) > 0:
+                        device_health_score_list = transformed_data[0].get("device_health_score", [])
+
                     final_result = {
-                        "device_health_score_settings": transformed_data[0] if transformed_data else [],
+                        "device_health_score_settings": device_health_score_list,
                         "operation_summary": self.get_operation_summary()
                     }
 
@@ -689,6 +675,8 @@ class AssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, BrownFieldHe
             list: Filtered device health score settings data.
         """
         self.log("Starting health score settings filtering process", "DEBUG")
+        self.log("Input response_data count: {0}".format(len(response_data) if response_data else 0), "DEBUG")
+        self.log("Component specific filters: {0}".format(component_specific_filters), "DEBUG")
 
         if not response_data:
             self.log("No response data to filter", "DEBUG")
@@ -697,11 +685,27 @@ class AssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, BrownFieldHe
         filtered_data = response_data[:]
         original_count = len(filtered_data)
 
-        # Fix: Look for filters in the correct nested structure
-        health_score_filters = component_specific_filters.get("device_health_score_settings", {})
+        # Support both global_filters and component_specific_filters structures
+        device_families = []
         
-        # Apply device families filter
-        device_families = health_score_filters.get("device_families", component_specific_filters.get("device_families", []))
+        # Check for global_filters structure
+        global_filters = component_specific_filters.get("global_filters", {})
+        if global_filters.get("device_families"):
+            device_families = global_filters["device_families"]
+            self.log("Found device families in global_filters: {0}".format(device_families), "DEBUG")
+        
+        # Check for nested device_health_score_settings structure
+        health_score_filters = component_specific_filters.get("device_health_score_settings", {})
+        if not device_families and health_score_filters.get("device_families"):
+            device_families = health_score_filters["device_families"]
+            self.log("Found device families in device_health_score_settings: {0}".format(device_families), "DEBUG")
+        
+        # Check for components_list - if present, get all device families
+        components_list = component_specific_filters.get("components_list", [])
+        if "device_health_score_settings" in components_list and not device_families:
+            self.log("components_list contains device_health_score_settings - no filtering by device family", "DEBUG")
+        
+        self.log("Final device families filter: {0}".format(device_families), "DEBUG")
         if device_families:
             self.log("Applying device families filter: {0}".format(device_families), "DEBUG")
             filtered_data = [
@@ -761,6 +765,13 @@ class AssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, BrownFieldHe
         else:
             # Use provided filters or default to empty
             component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
+            
+            # Also check for global_filters at the top level
+            global_filters = yaml_config_generator.get("global_filters")
+            if global_filters and not component_specific_filters:
+                component_specific_filters = {"global_filters": global_filters}
+            
+            self.log("Component specific filters received: {0}".format(component_specific_filters), "DEBUG")
 
         self.log("Retrieving supported network elements schema for the module", "DEBUG")
         module_supported_network_elements = self.module_schema.get("network_elements", {})
@@ -786,6 +797,7 @@ class AssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, BrownFieldHe
 
         if network_element:
             self.log("Preparing component-specific filter configuration", "DEBUG")
+            # Pass the component_specific_filters directly to match the expected structure
             component_filters = {
                 "component_specific_filters": component_specific_filters
             }
@@ -810,7 +822,13 @@ class AssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, BrownFieldHe
 
         self.log("Creating final dictionary structure with operation summary", "DEBUG")
         final_dict = OrderedDict()
-        final_dict["config"] = final_list
+        
+        # Format the configuration properly according to the required structure
+        # Changed to match expected format: config: device_health_score: [list]
+        if final_list:
+            final_dict["config"] = {"device_health_score": final_list}
+        else:
+            final_dict["config"] = {"device_health_score": []}
 
         if not final_list:
             self.log("No configurations found to process, setting appropriate result", "WARNING")
@@ -1035,51 +1053,50 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
 
-    # Initialize the AssuranceDeviceHealthScoreSettingsPlaybookGenerator object with the module
-    ccc_assurance_device_health_score_settings_playbook_generator = AssuranceDeviceHealthScoreSettingsPlaybookGenerator(module)
+    # Initialize the BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator object with the module
+    ccc_brownfield_assurance_device_health_score_settings_playbook_generator = BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(module)
 
     if (
-        ccc_assurance_device_health_score_settings_playbook_generator.compare_dnac_versions(
-            ccc_assurance_device_health_score_settings_playbook_generator.get_ccc_version(), "2.3.7.9"
+        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.compare_dnac_versions(
+            ccc_brownfield_assurance_device_health_score_settings_playbook_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0
     ):
-        ccc_assurance_device_health_score_settings_playbook_generator.msg = (
+        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
             "for ASSURANCE_DEVICE_HEALTH_SCORE_SETTINGS Module. Supported versions start from '2.3.7.9' onwards. ".format(
-                ccc_assurance_device_health_score_settings_playbook_generator.get_ccc_version()
+                ccc_brownfield_assurance_device_health_score_settings_playbook_generator.get_ccc_version()
             )
         )
-        ccc_assurance_device_health_score_settings_playbook_generator.set_operation_result(
-            "failed", False, ccc_assurance_device_health_score_settings_playbook_generator.msg, "ERROR"
+        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.set_operation_result(
+            "failed", False, ccc_brownfield_assurance_device_health_score_settings_playbook_generator.msg, "ERROR"
         ).check_return_status()
 
     # Get the state parameter from the provided parameters
-    state = ccc_assurance_device_health_score_settings_playbook_generator.params.get("state")
+    state = ccc_brownfield_assurance_device_health_score_settings_playbook_generator.params.get("state")
 
     # Check if the state is valid
-    if state not in ccc_assurance_device_health_score_settings_playbook_generator.supported_states:
-        ccc_assurance_device_health_score_settings_playbook_generator.status = "invalid"
-        ccc_assurance_device_health_score_settings_playbook_generator.msg = "State {0} is invalid".format(
+    if state not in ccc_brownfield_assurance_device_health_score_settings_playbook_generator.supported_states:
+        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.status = "invalid"
+        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.msg = "State {0} is invalid".format(
             state
         )
-        ccc_assurance_device_health_score_settings_playbook_generator.check_return_status()
+        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.check_return_status()
 
     # Validate the input parameters and check the return status
-    ccc_assurance_device_health_score_settings_playbook_generator.validate_input().check_return_status()
+    ccc_brownfield_assurance_device_health_score_settings_playbook_generator.validate_input().check_return_status()
 
     # Iterate over the validated configuration parameters
-    for config in ccc_assurance_device_health_score_settings_playbook_generator.validated_config:
-        ccc_assurance_device_health_score_settings_playbook_generator.reset_values()
-        ccc_assurance_device_health_score_settings_playbook_generator.get_want(
+    for config in ccc_brownfield_assurance_device_health_score_settings_playbook_generator.validated_config:
+        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.reset_values()
+        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.get_want(
             config, state
         ).check_return_status()
-        ccc_assurance_device_health_score_settings_playbook_generator.get_diff_state_apply[
+        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.get_diff_state_apply[
             state
         ]().check_return_status()
 
-    module.exit_json(**ccc_assurance_device_health_score_settings_playbook_generator.result)
-
+    module.exit_json(**ccc_brownfield_assurance_device_health_score_settings_playbook_generator.result)
 
 if __name__ == "__main__":
     main()
