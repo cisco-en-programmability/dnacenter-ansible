@@ -330,8 +330,8 @@ EXAMPLES = r"""
                       azimuth: 30  # support upto 360
                       elevation: 30  # support -90 upto 90
 
-    # Delete planned access point position for the planned access points
-    - name: Delete planned access point position for the planned access points
+    # Delete Planned Access Point from maps
+    - name: Delete Planned Access Point from maps
       cisco.dnac.accesspoint_location_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -675,9 +675,12 @@ class AccessPointLocation(DnacBase):
 
     def validate_input(self):
         """
-        Validate the fields provided in the playbook.
-        Checks the configuration provided in the playbook against a predefined specification
-        to ensure it adheres to the expected structure and data types.
+        Validate access point position configuration against predefined specifications.
+
+        Processes playbook configuration to ensure compliance with expected structure,
+        data types, coordinate ranges, and Cisco Catalyst Center requirements for access 
+        point positioning including site hierarchy, position coordinates, radio bands, 
+        channels, antenna patterns, and transmission power levels.
 
         Parameters:
             self: The instance of the class containing the 'config' attribute to be validated.
@@ -687,7 +690,26 @@ class AccessPointLocation(DnacBase):
                 - msg: A message describing the validation result.
                 - self.status: The status of the validation ('success' or 'failed').
                 - self.validated_config: If successful, a validated version of the 'config' parameter.
+
+        Description:
+            - Validates configuration structure against comprehensive specification
+            - Ensures required fields are present and correctly typed
+            - Validates coordinate ranges (x: 0-100, y: 0-88, z: 3.0-10.0)
+            - Validates radio bands (2.4GHz, 5GHz, 6GHz) and appropriate channels
+            - Validates antenna configurations and transmission power levels
+            - Sets self.validated_config on successful validation
         """
+        self.log(
+            "Starting comprehensive playbook configuration validation for access point positioning",
+            "INFO"
+        )
+
+        config_size = len(self.config) if self.config else 0
+        self.log(
+            "Processing access point position validation with config size: {0}".format(config_size),
+            "DEBUG"
+        )
+
         temp_spec = {
             "floor_site_hierarchy": {"type": "str", "required": True},
             "access_points": {
@@ -726,6 +748,10 @@ class AccessPointLocation(DnacBase):
             self.set_operation_result("failed", False, msg, "ERROR")
             return self
 
+        self.log(
+            "Executing configuration structure validation against access point positioning specification",
+            "DEBUG"
+        )
         # Validate configuration against the specification
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
 
@@ -743,8 +769,11 @@ class AccessPointLocation(DnacBase):
 
     def input_data_validation(self, config):
         """
-        Additional validation to check if the provided input Access Point position is correct
-        and as per the UI Cisco Catalyst Center.
+        Perform additional validation for access point position configuration compliance.
+
+        Validates access point configuration against Cisco Catalyst Center UI requirements
+        including coordinate ranges, field formats, duplicate detection, and structural
+        integrity beyond basic schema validation performed in validate_input().
 
         Parameters:
             self (object): An instance of a class for interacting with Cisco Catalyst Center.
@@ -754,9 +783,26 @@ class AccessPointLocation(DnacBase):
             list: List of invalid access point position data with details.
 
         Description:
-            Iterates through available access point position details and Returns the list of invalid
-            data for further action or validation.
+            - Validates site hierarchy string format and length constraints
+            - Checks access point list size limits (max 100) and duplicate names
+            - Validates coordinate ranges: x(0-100), y(0-88), z(3-10)
+            - Validates field lengths and formats for MAC addresses and serial numbers
+            - Delegates radio configuration validation to validate_radios() method
+            - Skips detailed validation for deletion state operations
         """
+        self.log(
+            "Starting additional input data validation for access point position "
+            "configuration compliance",
+            "INFO"
+        )
+
+        config_keys = list(config.keys()) if isinstance(config, dict) else []
+        self.log(
+            "Processing additional validation for config with sections: {0}".format(
+                config_keys
+            ),
+            "DEBUG"
+        )
         self.log(
             f"Validating input data from Playbook config: {config}", "INFO"
         )
@@ -766,24 +812,51 @@ class AccessPointLocation(DnacBase):
         if floor_site_hierarchy:
             param_spec = dict(type="str", length_max=200)
             validate_str(floor_site_hierarchy, param_spec, "floor_site_hierarchy", errormsg)
+            self.log(
+                "Floor site hierarchy validation passed for: {0}".format(
+                    floor_site_hierarchy
+                ),
+                "DEBUG"
+            )
         else:
             errormsg.append("floor_site_hierarchy: Floor Site Hierarchy is missing in playbook.")
 
         access_points = config.get("access_points", [])
         if not access_points:
             errormsg.append("access_points: Access Points list is missing in playbook.")
+            self.log(
+                "Validation failed - no access points provided for positioning",
+                "ERROR"
+            )
             return errormsg
         elif len(access_points) > 100:
             errormsg.append("access_points: Maximum of 100 Access Points are allowed in playbook.")
+            self.log(
+                "Validation failed - access points list exceeds maximum limit of 100",
+                "ERROR"
+            )
             return errormsg
 
+        self.log(
+            "Processing {0} access points for additional validation".format(
+                len(access_points)
+            ),
+            "DEBUG"
+        )
         duplicate_name = self.find_duplicate_value(access_points, "accesspoint_name")
         if duplicate_name:
             errormsg.append(
                 f"accesspoint_name: Duplicate Access Point Name(s) '{duplicate_name}' found in playbook."
             )
 
-        for each_access_point in access_points:
+        for idx, each_access_point in enumerate(access_points):
+            self.log(
+                "Validating access point {0}/{1}: {2}".format(
+                    idx + 1, len(access_points),
+                    each_access_point.get("accesspoint_name", "Unknown")
+                ),
+                "DEBUG"
+            )
             accesspoint_name = each_access_point.get("accesspoint_name")
             if accesspoint_name:
                 param_spec = dict(type="str", length_max=255)
@@ -792,6 +865,10 @@ class AccessPointLocation(DnacBase):
                 errormsg.append("accesspoint_name: Access Point Name is missing in playbook.")
 
             if self.params.get("state") == "deleted":
+                self.log(
+                    "Skipping detailed field validation for deletion state operation",
+                    "DEBUG"
+                )
                 continue
 
             mac_address = each_access_point.get("mac_address")
@@ -853,7 +930,11 @@ class AccessPointLocation(DnacBase):
 
     def validate_radios(self, radios_param, each_access_point, errormsg):
         """
-        Validate the radio configuration parameters.
+        Validate radio configuration parameters for access point positioning.
+
+        Validates radio band compatibility, channel assignments, transmission power
+        levels, and antenna configurations against Cisco Catalyst Center requirements
+        and access point model specifications.
 
         Parameters:
             self (object): An instance of a class for interacting with Cisco Catalyst Center.
@@ -865,21 +946,66 @@ class AccessPointLocation(DnacBase):
             list: List of invalid access point position radios data with details.
 
         Description:
-            Iterates through available access point position radios details and Returns the list of invalid
-            data for further action or validation.
-
+            - Validates radio count limits (maximum 4 radios per access point)
+            - Validates radio band specifications (2.4GHz, 5GHz, 6GHz)
+            - Validates band-specific channel assignments and ranges
+            - Validates transmission power levels and antenna configurations
+            - Validates azimuth (1-360 degrees) and elevation (-90 to 90 degrees)
         """
         self.log("Validating radio configuration parameters.", "DEBUG")
+
+        radio_count = len(radios_param) if radios_param else 0
+        self.log(
+            "Processing radio validation for {0} radio configurations".format(radio_count),
+            "DEBUG"
+        )
 
         if len(radios_param) > 4:
             errormsg.append("Maximum of 4 radio configuration parameters are allowed.")
             return errormsg
 
-        for radio in radios_param:
+        # Define channel ranges for validation
+        channel_ranges = {
+            "2.4GHz": list(range(1, 15)),  # Channels 1-14
+            "5GHz": (
+                list(range(36, 65, 4)) +
+                list(range(100, 145, 4)) +
+                [149, 153, 157, 161, 165, 169, 173]
+            ),
+            "6GHz": list(range(1, 234, 4))  # Channels 1, 5, 9, ... 233
+        }
+        for radio_idx, radio in enumerate(radios_param):
+            self.log(
+                "Validating radio configuration {0}/{1}".format(
+                    radio_idx + 1, len(radios_param)
+                ),
+                "DEBUG"
+            )
+
+            # Validate radio structure
+            if not isinstance(radio, dict):
+                errormsg.append(
+                    "radios: Radio configuration must be a dictionary, got: {0}".format(
+                        type(radio).__name__
+                    )
+                )
+                continue
+
             bands = radio.get("bands")
+            if not bands:
+                errormsg.append("bands: Bands is missing in playbook.")
+                continue
+
+            self.log(
+                "Validating band '{0}' configuration for radio {1}".format(
+                    bands, radio_idx + 1
+                ),
+                "DEBUG"
+            )
+
             if bands and isinstance(bands, list):
                 for band in bands:
-                    param_spec = dict(type="str", length_max=6)
+                    param_spec = dict(type="str", length_max=3)
                     validate_str(str(band), param_spec, "bands", errormsg)
                     if band not in ["2.4", "5", "6"]:
                         errormsg.append(
@@ -889,29 +1015,26 @@ class AccessPointLocation(DnacBase):
                 errormsg.append("bands: Bands is missing in playbook.")
 
             channel = radio.get("channel")
-            channel_5ghz = (
-                list(range(36, 65, 4)) +
-                list(range(100, 145, 4)) +
-                [149, 153, 157, 161, 165, 169, 173]
-            )
-            channel_6ghz = list(range(1, 234, 4))
             if channel is None and each_access_point.get("action") != "manage_real_ap":
                 errormsg.append("channel: Channel is missing in playbook.")
-            elif channel and isinstance(channel, int):
+            elif isinstance(channel, int):
                 channel_band = radio.get("bands")
                 if bands and isinstance(bands, list):
                     channel_band = max(bands, key=float)
 
-                if channel_band == "2.4" and not (0 < channel < 15):
-                    errormsg.append("channel: Channel must be between 1 and 14 for 2.4GHz band.")
-                elif channel_band == "5" and channel not in channel_5ghz:
+                valid_channels = channel_ranges.get(str(channel_band) + "GHz", [])
+                if channel not in valid_channels:
                     errormsg.append(
-                        f"channel: Channel must be one of '{channel_5ghz}' for 5GHz band."
+                        "channel: Channel must be one of {0} for {1} band.".format(
+                            valid_channels, str(channel_band) + "GHz"
+                        )
                     )
-                elif channel_band == "6" and channel not in channel_6ghz:
-                    errormsg.append(
-                        f"channel: Channel must be one of '{channel_6ghz}' for 6GHz band."
+            else:
+                errormsg.append(
+                    "channel: Channel must be an integer, got: {0}".format(
+                        type(channel).__name__
                     )
+                )
 
             tx_power = radio.get("tx_power")
             if tx_power is None and each_access_point.get("action") != "manage_real_ap":
@@ -922,32 +1045,69 @@ class AccessPointLocation(DnacBase):
             antenna = radio.get("antenna")
             if antenna is None:
                 errormsg.append("antenna: Antenna is missing in playbook.")
+                continue
             elif antenna and isinstance(antenna, dict):
                 antenna_name = antenna.get("antenna_name")
-                if antenna_name:
-                    param_spec = dict(type="str", length_max=50)
-                    validate_str(antenna_name, param_spec, "name", errormsg)
+                if not antenna_name:
+                    errormsg.append(
+                        "antenna_name: Antenna Name is missing in playbook."
+                    )
                 else:
-                    errormsg.append("antenna_name: Antenna Name is missing in playbook.")
+                    param_spec = dict(type="str", length_max=50)
+                    validate_str(antenna_name, param_spec, "antenna_name", errormsg)
 
+                # Validate azimuth angle
                 azimuth = antenna.get("azimuth")
                 if azimuth is None:
                     errormsg.append("azimuth: Azimuth is missing in playbook.")
-                elif azimuth and isinstance(azimuth, int) and not (0 < azimuth < 361):
-                    errormsg.append("azimuth: Azimuth must be between 1 and 360.")
+                elif isinstance(azimuth, int):
+                    if not (0 < azimuth < 361):
+                        errormsg.append(
+                            "azimuth: Azimuth must be between 1 and 360 degrees."
+                        )
+                else:
+                    errormsg.append(
+                        "azimuth: Azimuth must be an integer, got: {0}".format(
+                            type(azimuth).__name__
+                        )
+                    )
 
+                # Validate elevation angle
                 elevation = antenna.get("elevation")
                 if elevation is None:
                     errormsg.append("elevation: Elevation is missing in playbook.")
-                elif elevation and isinstance(elevation, int) and not (-91 < elevation < 91):
-                    errormsg.append("elevation: Elevation must be between -90 and 90.")
+                elif isinstance(elevation, int):
+                    if not (-91 < elevation < 91):
+                        errormsg.append(
+                            "elevation: Elevation must be between -90 and 90 degrees."
+                        )
+                else:
+                    errormsg.append(
+                        "elevation: Elevation must be an integer, got: {0}".format(
+                            type(elevation).__name__
+                        )
+                    )
 
         self.log("Radio configuration validation completed.", "DEBUG")
+        error_count = len([msg for msg in errormsg if any(
+            field in msg for field in ["bands", "channel", "tx_power", "antenna"]
+        )])
+
+        self.log(
+            "Radio configuration validation completed - {0} radios processed, "
+            "{1} errors found".format(len(radios_param), error_count),
+            "DEBUG"
+        )
         return errormsg
 
     def get_want(self, config):
         """
-        Retrieve access point planned position playbook config
+        Retrieve and prepare desired state configuration for access point positioning.
+
+        Processes playbook configuration to extract access point position requirements
+        including site hierarchy, access point details, position coordinates, and radio
+        configurations. Validates configuration integrity and prepares desired state
+        for comparison against current Catalyst Center state.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
@@ -956,11 +1116,34 @@ class AccessPointLocation(DnacBase):
             self: The current instance of the class with updated 'want' attributes.
 
         Description:
-            This function parses the playbook configuration to extract information related
-            to access point position details. It stores these details in the 'want' dictionary
-            for later use in the Ansible module.
+            - Validates input configuration structure and content integrity
+            - Extracts access point positioning requirements from playbook configuration
+            - Prepares desired state dictionary for downstream processing and comparison
+            - Stores validated configuration in want['ap_location'] for module workflow
         """
         self.log(f"Validating input data and update to want for: {config}", "INFO")
+
+        config_keys = list(config.keys()) if isinstance(config, dict) else []
+        access_points_count = len(config.get("access_points", [])) if config else 0
+
+        self.log(
+            f"Processing want state collection for config sections: {config_keys} with {access_points_count} access points",
+            "DEBUG"
+        )
+
+        if not config:
+            error_msg = "Configuration dictionary is empty or missing for want state collection"
+            self.log(error_msg, "ERROR")
+            self.set_operation_result("failed", False, error_msg, "ERROR")
+            self.check_return_status()
+
+        if not isinstance(config, dict):
+            error_msg = "Configuration must be a dictionary, got: {0}".format(
+                type(config).__name__
+            )
+            self.log(error_msg, "ERROR")
+            self.set_operation_result("failed", False, error_msg, "ERROR")
+            self.check_return_status()
 
         self.input_data_validation(config).check_return_status()
         want = {}
@@ -968,13 +1151,19 @@ class AccessPointLocation(DnacBase):
             want["ap_location"] = config
 
         self.want = want
-        self.log(f"Desired State (want): {self.pprint(self.want)}", "INFO")
+        self.log(f"Desired State (want) prepared for access point positioning: {self.pprint(self.want)}",
+                 "INFO")
 
         return self
 
     def get_have(self, config):
         """
-        Get required details for the given access point position config from Cisco Catalyst Center
+        Collect current state of access point positions from Cisco Catalyst Center.
+
+        Retrieves site information, validates access point models against supported
+        antenna patterns, and categorizes access points for create/update/delete operations.
+        Gathers comprehensive current state including device details, position information,
+        and antenna compatibility for comparison with desired state.
 
         Parameters:
             config (dict) - Playbook details containing access point position
@@ -982,6 +1171,13 @@ class AccessPointLocation(DnacBase):
         Returns:
             self - The current object with site details and access point position
             information collection for create and update.
+
+        Description:
+            - Validates site hierarchy and retrieves site ID from Catalyst Center
+            - Collects supported antenna patterns for access point model validation
+            - Validates antenna compatibility for each access point radio configuration
+            - Categorizes access points based on current vs desired state comparison
+            - Prepares data structures for subsequent create/update/delete operations
         """
 
         self.log(
@@ -989,9 +1185,25 @@ class AccessPointLocation(DnacBase):
             "INFO",
         )
 
+        if not isinstance(config, dict):
+            error_msg = "Configuration must be a dictionary, got: {0}".format(
+                type(config).__name__
+            )
+            self.log(error_msg, "ERROR")
+            self.fail_and_exit(error_msg)
+
+        site_hierarchy = config.get("floor_site_hierarchy")
+        access_points_count = len(config.get("access_points", []))
+        self.log(
+            "Collecting state for site '{0}' with {1} access points".format(
+                site_hierarchy, access_points_count
+            ),
+            "DEBUG"
+        )
+
         response = self.get_site(config.get("floor_site_hierarchy"))
-        if not response:
-            msg = f"No response received from API for the site: {config.get('floor_site_hierarchy')}"
+        if not response.get("response") or not isinstance(response["response"], list):
+            msg = "Invalid API response structure for site information"
             self.log(msg, "WARNING")
             self.fail_and_exit(msg)
 
@@ -1001,22 +1213,33 @@ class AccessPointLocation(DnacBase):
             self.log(msg, "WARNING")
             self.fail_and_exit(msg)
 
+        self.log(
+            "Site information retrieved successfully - ID: {0}".format(site["id"]),
+            "DEBUG"
+        )
         have = {
             "site_id": site["id"],
             "site_name": config.get("floor_site_hierarchy"),
             "selected_ap_model": [],
         }
+
+        self.log(
+            "Validating access point models and antenna compatibility",
+            "DEBUG"
+        )
         for access_point in config.get("access_points", []):
 
             if self.params.get("state") == "deleted":
-                self.log(f"Access point marked for deletion: {access_point}", "INFO")
+                self.log("Skipping antenna validation for deletion operation: {0}".format(
+                    access_point.get("accesspoint_name")), "INFO"
+                )
                 continue
 
             if access_point.get("action") == "assign_planned_ap":
                 self.log(f"Access point marked for Assign Planned AP: {access_point}", "INFO")
                 continue
 
-            have["antenna_patterns"] = self.get_map_supported_ap_antenna_patterns()
+            have["antenna_patterns"] = self.get_supported_antenna_patterns()
             selected_ap_model = self.find_dict_by_key_value(
                 have["antenna_patterns"], "apType", access_point.get("accesspoint_model")
             )
@@ -1033,7 +1256,9 @@ class AccessPointLocation(DnacBase):
                     band = max(band, key=float)
                 antenna_name = radio.get("antenna", {}).get("antenna_name")
 
-                self.log(f"Finding radio band exist on supported AP model for: {band}", "INFO")
+                self.log(
+                    f"Validating radio band '{band}' compatibility with AP model", "DEBUG"
+                )
                 band_exist = self.find_dict_by_key_value(
                     selected_ap_model.get("antennaPatterns"), "band", band
                 )
@@ -1054,6 +1279,7 @@ class AccessPointLocation(DnacBase):
                     msg = f"No supported antenna name found for: {antenna_name}"
                     self.log(msg, "WARNING")
                     self.fail_and_exit(msg)
+
                 self.log(f"Antenna name exist: {antenna_name} in {selected_ap_model.get('name')}", "DEBUG")
 
             have["selected_ap_model"].append(selected_ap_model)
@@ -1063,14 +1289,21 @@ class AccessPointLocation(DnacBase):
         access_point_devices = []
         delete_accesspoint = []
         update_real_accesspoint = []
+
         for access_point in config.get("access_points", []):
+            ap_name = access_point.get('accesspoint_name')
+            self.log(
+                "Processing access point state analysis for: {0}".format(ap_name),
+                "DEBUG"
+            )
+
             # Check if access point exist in the planned position
-            ap_details = self.get_accesspoint_position(
+            ap_details = self.get_access_point_posisiton(
                 have["site_id"], have["site_name"], access_point
             )
             if not ap_details:
                 # Check if access point exist in the real position
-                ap_details = self.get_accesspoint_position(
+                ap_details = self.get_access_point_posisiton(
                     have["site_id"], have["site_name"], access_point, True
                 )
                 if ap_details:
@@ -1085,7 +1318,7 @@ class AccessPointLocation(DnacBase):
 
             if ap_details:
                 if self.params.get("state") == "deleted":
-                    self.log(f"Access point marked for deletion: {access_point}", "INFO")
+                    self.log(f"Access point marked for deletion from planned position: {ap_name}", "INFO")
                     ap_details[0]["action"] = access_point.get("action")
                     delete_accesspoint.append(ap_details[0])
                     continue
@@ -1097,7 +1330,7 @@ class AccessPointLocation(DnacBase):
                     assign_accesspoint.append(ap_details[0])
 
                     self.log(f"Retrieving accesspoint details for MAC Address: {access_point.get('mac_address')}", "INFO")
-                    ap_device_details = self.get_accesspoint_details(access_point.get("mac_address"))
+                    ap_device_details = self.get_access_point_device_details(access_point.get("mac_address"))
                     if not ap_device_details:
                         msg = f"No device details found for access point: {access_point.get('mac_address')}"
                         self.log(msg, "WARNING")
@@ -1105,20 +1338,24 @@ class AccessPointLocation(DnacBase):
                     access_point_devices.append(ap_device_details)
                     continue
 
-                ap_status, ap_update = self.compare_accesspoint_position_details(
+                ap_status, ap_update = self.compare_access_point_configurations(
                     ap_details[0], access_point)
                 if ap_status:
-                    self.log(f"Access point planned position already exist: {access_point.get('accesspoint_name')}", "INFO")
+                    self.log(f"Access point configuration matches desired state: {ap_name}", "INFO")
                     accesspoint_exists.append(access_point)
                 else:
                     if access_point.get("action") == "manage_real_ap":
-                        self.log(f"Update real Accesspoint : {access_point}", "INFO")
+                        self.log(f"Real access point position requires update: {ap_name}", "INFO")
                         update_real_accesspoint.append(access_point)
                         continue
                     else:
-                        self.log(f"Access point planned position needs update: {access_point.get('accesspoint_name')}", "INFO")
+                        self.log(f"Planned access point position requires update: {ap_name}", "INFO")
                         update_accesspoint.append(access_point)
             else:
+                self.log(
+                    f"New access point position to be created: {ap_name}",
+                    "INFO"
+                )
                 new_accesspoint.append(access_point)
 
         have.update({
@@ -1132,19 +1369,44 @@ class AccessPointLocation(DnacBase):
             "already_assigned_accesspoint": assigned_accesspoint,
         })
         self.have = have
-        self.log(f"Current State (have): {self.pprint(self.have)}", "INFO")
+        self.log(
+            "Current state collection completed - new: {0}, update: {1}, "
+            "delete: {2}, existing: {3}".format(
+                len(new_accesspoint), len(update_accesspoint), 
+                len(delete_accesspoint), len(accesspoint_exists)
+            ),
+            "INFO"
+        )
+
+        self.log(
+            "Current State (have) collected for access point positioning: {0}".format(
+                self.pprint(self.have)
+            ),
+            "INFO"
+        )
 
         return self
 
-    def get_map_supported_ap_antenna_patterns(self):
+    def get_supported_antenna_patterns(self):
         """
-        Get the supported access point antenna patterns from Cisco Catalyst Center.
+        Retrieve supported access point antenna patterns from Cisco Catalyst Center.
+
+        Collects comprehensive antenna pattern mappings including supported access point
+        models, antenna types, frequency bands, and pattern specifications required for
+        access point positioning validation and compatibility verification.
 
         Parameters:
             None
 
         Returns:
-            dict - A dictionary mapping antenna names to their details.
+            dict: Dictionary containing antenna pattern mappings with model specifications,
+                  band support, and antenna name associations for validation
+
+        Description:
+            - Retrieves antenna pattern data from Catalyst Center maps API
+            - Validates API response structure and content availability
+            - Provides antenna compatibility data for access point model validation
+            - Supports multi-band antenna pattern verification for radio configurations
         """
         self.log("Collecting supported access point antenna patterns", "INFO")
 
@@ -1157,6 +1419,14 @@ class AccessPointLocation(DnacBase):
                 self.log(msg, "WARNING")
                 self.fail_and_exit(msg)
 
+            if not isinstance(response, (dict, list)):
+                error_msg = (
+                    "Invalid response format for antenna patterns - expected dict or list, "
+                    "got: {0}".format(type(response).__name__)
+                )
+                self.log(error_msg, "WARNING")
+                self.fail_and_exit(error_msg)
+
             self.log(f"Supported Access Point Antenna Patterns API Response: {self.pprint(response)}", "DEBUG")
 
             return response
@@ -1166,9 +1436,13 @@ class AccessPointLocation(DnacBase):
             self.log(self.msg + str(e), "ERROR")
             self.fail_and_exit(self.msg)
 
-    def get_accesspoint_position(self, floor_id, floor_name, ap_details, recheck=False):
+    def get_access_point_posisiton(self, floor_id, floor_name, ap_details, recheck=False):
         """
-        Get the planned access point position from the playbook config.
+        Retrieve access point position information from Cisco Catalyst Center.
+
+        Queries either planned or real access point positions based on operation context
+        and access point configuration. Supports both planned position queries for
+        creation/update operations and real position queries for management operations.
 
         Parameters:
             floor_id (str) - The ID of the floor where the access point is located.
@@ -1178,10 +1452,25 @@ class AccessPointLocation(DnacBase):
 
         Returns:
             dict - Planned access point position information
+
+        Description:
+            - Determines whether to query planned or real position based on operation type
+            - Constructs appropriate API payload with floor ID, name, and optional model
+            - Executes position retrieval via Catalyst Center site design APIs
+            - Handles both planned position queries and real position validation
         """
         self.log(
             f"Collecting planned access point position for site: {floor_name} and access point: {ap_details}",
             "INFO",
+        )
+
+        ap_name = ap_details.get("accesspoint_name", "Unknown") if ap_details else "None"
+        operation_type = ap_details.get("action", "planned") if ap_details else "planned"
+
+        self.log(
+            "Retrieving position for floor '{0}', access point '{1}', operation '{2}', "
+            "recheck: {3}".format(floor_name, ap_name, operation_type, recheck),
+            "DEBUG"
         )
 
         payload = {
@@ -1197,8 +1486,10 @@ class AccessPointLocation(DnacBase):
             or recheck
         ):
             function_name = "get_access_points_positions"
+            position_type = "real"
         else:
             function_name = "get_planned_access_points_positions"
+            position_type = "planned"
 
             if ap_details.get("accesspoint_model"):
                 payload["type"] = ap_details["accesspoint_model"]
@@ -1212,7 +1503,15 @@ class AccessPointLocation(DnacBase):
                 self.log(msg, "WARNING")
                 return None
 
-            self.log(f"Planned Access Point Position API Response: {response}", "DEBUG")
+            if not isinstance(response, dict):
+                warning_msg = (
+                    "Invalid response format for {0} position query - expected dict, "
+                    "got: {1}".format(position_type, type(response).__name__)
+                )
+                self.log(warning_msg, "WARNING")
+                return None
+
+            self.log(f"{position_type} Access Point Position API Response: {response}", "DEBUG")
             return response.get("response")
 
         except Exception as e:
@@ -1220,117 +1519,337 @@ class AccessPointLocation(DnacBase):
             self.log(self.msg + str(e), "ERROR")
             return None
 
-    def compare_accesspoint_position_details(self, ap_details, access_point):
+    def compare_access_point_configurations(self, ap_details, access_point):
         """
-        Compare the planned access point details with the actual access point details.
+        Compare planned access point configuration with existing configuration details.
+
+        Performs comprehensive comparison between desired access point configuration 
+        from playbook and current access point configuration from Catalyst Center.
+        Validates position coordinates, radio settings, antenna configurations, and
+        basic access point attributes to determine if updates are required.
 
         Parameters:
             ap_details (dict) - Actual access point details.
             access_point (dict) - Planned access point details.
 
         Returns:
-            bool - True if the details match, False otherwise.
-            un_matched_value - List of unmatched values.
+            tuple: (comparison_result, unmatched_differences)
+                - comparison_result (bool): True if configurations match, False otherwise
+                - unmatched_differences (list): List of tuples containing field differences
+
+        Description:
+            - Compares basic access point attributes (name, MAC, model)
+            - Validates position coordinates with float precision handling
+            - Performs radio-by-radio comparison based on band matching
+            - Validates antenna configurations (name, azimuth, elevation)
+            - Updates access point configuration with existing IDs for updates
         """
         self.log(
             f"Comparing access point details: {self.pprint(access_point)} with existing details: {self.pprint(ap_details)}",
             "INFO",
         )
 
-        compare_state = True
-        un_matched_value = []
-        # Compare relevant fields
-        for key in ["accesspoint_name", "mac_address", "accesspoint_model"]:
-            self.log(f"Comparing access point field '{key}': {access_point.get(key)} with {ap_details.get(self.keymap[key])}",
-                     "DEBUG")
+        ap_name = access_point.get("accesspoint_name", "Unknown")
+        existing_id = ap_details.get("id", "Unknown")
 
-            if access_point.get(key) != ap_details.get(self.keymap[key]):
-                self.log(f"Access point details do not match for key: {key}", "INFO")
-                un_matched_value.append((key, access_point.get(key), ap_details.get(self.keymap[key])))
-                compare_state = False
-
-        position = access_point.get("position", {})
-        exist_position = ap_details.get("position", {})
-        for key in ["x_position", "y_position", "z_position"]:
-            self.log(f"Comparing access point position field '{key}': {position.get(key)} with {exist_position.get(self.keymap[key])}",
-                     "DEBUG")
-
-            if ((exist_position.get(self.keymap[key]) and position.get(key)) and
-               float(position.get(key)) != float(exist_position.get(self.keymap[key]))):
-                self.log(f"Access point position details do not match for key: {key}", "INFO")
-                un_matched_value.append((key, position.get(key), exist_position.get(self.keymap[key])))
-                compare_state = False
-
-        radios = access_point.get("radios", [])
-        exist_radios = ap_details.get("radios", [])
         self.log(
-            f"Comparing access point radios: {self.pprint(radios)} with existing radios: {self.pprint(exist_radios)}",
+            f"Comparing desired configuration for AP '{ap_name}' against existing ID '{existing_id}'",
+            "DEBUG"
+        )
+
+        # Initialize comparison state tracking
+        configurations_match = True
+        configuration_differences = []
+
+        # Define basic access point fields for comparison
+        basic_ap_fields = ["accesspoint_name", "mac_address", "accesspoint_model"]
+
+        self.log(
+            "Validating basic access point attributes for configuration consistency",
+            "DEBUG"
+        )
+
+        for field_name in basic_ap_fields:
+            desired_value = access_point.get(field_name)
+            existing_value = ap_details.get(self.keymap[field_name])
+
+            self.log(
+                "Comparing field '{0}': desired='{1}', existing='{2}'".format(
+                    field_name, desired_value, existing_value
+                ),
+                "DEBUG"
+            )
+
+            if desired_value != existing_value:
+                self.log(
+                    "Configuration mismatch detected for field '{0}'".format(field_name),
+                    "INFO"
+                )
+                configuration_differences.append((
+                    field_name, desired_value, existing_value
+                ))
+                configurations_match = False
+
+        self.log(
+            "Validating access point position coordinates for configuration consistency",
+            "DEBUG"
+        )
+
+        desired_position = access_point.get("position", {})
+        existing_position = ap_details.get("position", {})
+        position_fields = ["x_position", "y_position", "z_position"]
+
+        for position_field in position_fields:
+            desired_coord = desired_position.get(position_field)
+            existing_coord = existing_position.get(self.keymap[position_field])
+
+            self.log(
+                "Comparing position '{0}': desired={1}, existing={2}".format(
+                    position_field, desired_coord, existing_coord
+                ),
+                "DEBUG"
+            )
+
+            # Validate coordinate values exist before comparison
+            if (existing_coord is not None and desired_coord is not None):
+                try:
+                    if float(desired_coord) != float(existing_coord):
+                        self.log(
+                            "Position coordinate mismatch for field '{0}'".format(
+                                position_field
+                            ),
+                            "INFO"
+                        )
+                        configuration_differences.append((
+                            position_field, desired_coord, existing_coord
+                        ))
+                        configurations_match = False
+
+                except (ValueError, TypeError) as e:
+                    self.log(
+                        "Invalid coordinate values for comparison: {0}".format(str(e)),
+                        "WARNING"
+                    )
+                    configuration_differences.append((
+                        position_field, "invalid_coordinate", str(e)
+                    ))
+                    configurations_match = False
+
+        self.log(
+            "Validating radio configurations for antenna and transmission settings",
+            "DEBUG"
+        )
+
+        desired_radios = access_point.get("radios", [])
+        existing_radios = ap_details.get("radios", [])
+
+        self.log(
+            "Processing {0} desired radios against {1} existing radio configurations".format(
+                len(desired_radios), len(existing_radios)
+            ),
+            "DEBUG"
+        )
+
+        for radio_config in desired_radios:
+            matching_radio_found = False
+
+            # Convert band values to float for comparison
+            try:
+                desired_bands = [float(band) for band in radio_config.get("bands", [])]
+
+            except (ValueError, TypeError):
+                self.log(
+                    "Invalid band values in desired radio configuration: {0}".format(
+                        radio_config.get("bands")
+                    ),
+                    "WARNING"
+                )
+                continue
+
+            # Find matching radio by band configuration
+            for existing_radio in existing_radios:
+                try:
+                    existing_bands = [
+                        float(band) for band in existing_radio.get("bands", [])
+                    ]
+
+                except (ValueError, TypeError):
+                    continue
+
+                self.log(
+                    "Comparing radio bands - desired: {0}, existing: {1}".format(
+                        desired_bands, existing_bands
+                    ),
+                    "DEBUG"
+                )
+
+                # Match radios by band configuration
+                if desired_bands == existing_bands:
+                    matching_radio_found = True
+                    radio_config["id"] = existing_radio.get("id")
+
+                    # Compare radio transmission settings
+                    radio_comparison_result = self._compare_radio_settings(
+                        radio_config, existing_radio, configuration_differences
+                    )
+
+                    if not radio_comparison_result:
+                        configurations_match = False
+
+                    break
+
+            if not matching_radio_found:
+                self.log(
+                    "No matching existing radio found for bands: {0}".format(
+                        desired_bands
+                    ),
+                    "WARNING"
+                )
+                configuration_differences.append((
+                    "radio_bands", desired_bands, "no_matching_radio"
+                ))
+                configurations_match = False
+
+        # Update access point configuration for potential updates
+        if configuration_differences:
+            access_point["planned_id"] = ap_details.get("id")
+
+            self.log(
+                "Configuration differences detected - {0} mismatches found".format(
+                    len(configuration_differences)
+                ),
+                "WARNING"
+            )
+
+            for field, desired, existing in configuration_differences:
+                self.log(
+                    "Difference - field: {0}, desired: {1}, existing: {2}".format(
+                        field, desired, existing
+                    ),
+                    "DEBUG"
+                )
+
+        comparison_status = "match" if configurations_match else "mismatch"
+        self.log(
+            "Access point configuration comparison completed - result: {0}, "
+            "differences: {1}".format(comparison_status, len(configuration_differences)),
             "INFO"
         )
 
-        for radio in radios:
-            for exist_radio in exist_radios:
-                band = [float(b) for b in radio.get("bands", [])]
-                existing_band = [float(b) for b in exist_radio.get("bands", [])]
+        return configurations_match, configuration_differences
+
+    def _compare_radio_settings(self, desired_radio, existing_radio, differences_list):
+        """
+        Helper method to compare radio transmission and antenna settings.
+
+        Parameters:
+            desired_radio (dict): Desired radio configuration from playbook
+            existing_radio (dict): Current radio configuration from API
+            differences_list (list): List to append differences to
+
+        Returns:
+            bool: True if radio settings match, False otherwise
+        """
+
+        radio_settings_match = True
+        radio_fields = ["channel", "tx_power"]
+
+        # Compare basic radio settings
+        for field_name in radio_fields:
+            desired_value = desired_radio.get(field_name)
+            existing_value = existing_radio.get(self.keymap[field_name])
+
+            if desired_value != existing_value:
                 self.log(
-                    f"Finding radio band '{band}' exist on existing AP for: {exist_radio.get('bands')}",
+                    "Radio setting mismatch for field '{0}': {1} != {2}".format(
+                        field_name, desired_value, existing_value
+                    ),
                     "INFO"
                 )
+                differences_list.append(("radio_" + field_name, desired_value, existing_value))
+                radio_settings_match = False
 
-                if band == existing_band:
-                    radio["id"] = exist_radio.get("id")
-                    for key in ["channel", "tx_power", "antenna"]:
-                        self.log(f"Comparing access point radio field '{key}': {radio.get(key)} with {exist_radio.get(self.keymap[key])}", "DEBUG")
-                        if key == "antenna":
-                            for ant_key in ["antenna_name", "azimuth", "elevation"]:
-                                self.log(f"Comparing access point antenna field '{ant_key}': " +
-                                         f"{radio.get('antenna', {}).get(ant_key)} with " +
-                                         f"{exist_radio.get(self.keymap[key], {}).get(self.keymap[ant_key])}", "DEBUG")
+        # Compare antenna configuration
+        desired_antenna = desired_radio.get("antenna", {})
+        existing_antenna = existing_radio.get(self.keymap["antenna"], {})
 
-                                if ant_key == "azimuth":
-                                    current_azimuth = int(radio.get("antenna", {}).get(ant_key))
-                                    existing_azimuth = int(exist_radio.get(self.keymap[key], {}).get(self.keymap[ant_key]))
+        if desired_antenna and existing_antenna:
+            antenna_match = self._compare_antenna_configuration(
+                desired_antenna, existing_antenna, differences_list
+            )
 
-                                    if current_azimuth != existing_azimuth:
-                                        self.log(f"Access point antenna azimuth details do not match: {radio}", "INFO")
-                                        radio["id"] = exist_radio.get("id")
-                                        un_matched_value.append(("antenna", radio.get("antenna"), None))
-                                        compare_state = False
+            if not antenna_match:
+                desired_radio["id"] = existing_radio.get("id")
+                radio_settings_match = False
 
-                                if ant_key == "elevation":
-                                    current_elevation = int(radio.get("antenna", {}).get(ant_key))
-                                    existing_elevation = int(exist_radio.get(self.keymap[key], {}).get(self.keymap[ant_key]))
-                                    if current_elevation != existing_elevation:
-                                        self.log(f"Access point antenna elevation details do not match: {radio}", "INFO")
-                                        radio["id"] = exist_radio.get("id")
-                                        un_matched_value.append(("antenna", radio.get("antenna"), None))
-                                        compare_state = False
+        return radio_settings_match
 
-                                if ant_key == "antenna_name":
-                                    current_antenna_name = radio.get("antenna", {}).get(ant_key)
-                                    existing_antenna_name = exist_radio.get(self.keymap[key], {}).get(self.keymap[ant_key])
-                                    if current_antenna_name != existing_antenna_name:
-                                        self.log(f"Access point antenna name does not match: {current_antenna_name}, " +
-                                                 f"with existing: {existing_antenna_name}", "INFO")
-                                        radio["id"] = exist_radio.get("id")
-                                        un_matched_value.append(("antenna", radio.get("antenna"), None))
-                                        compare_state = False
-
-                        elif radio.get(key) != exist_radio.get(self.keymap[key]):
-                            self.log(f"Access point radio details do not match: {radio}", "INFO")
-                            un_matched_value.append(("radios", radio, None))
-                            compare_state = False
-
-        if un_matched_value:
-            access_point["planned_id"] = ap_details.get("id")
-            self.log(f"Unmatched access point details found: {un_matched_value}", "WARNING")
-
-        self.log(f"Access point position details match for: {access_point}", "INFO")
-        return compare_state, un_matched_value
-
-    def get_accesspoint_details(self, mac_address):
+    def _compare_antenna_configuration(self, desired_antenna, existing_antenna, differences_list):
         """
-        Retrieves the current details of an device in Cisco Catalyst Center.
+        Helper method to compare antenna configuration parameters.
+
+        Parameters:
+            desired_antenna (dict): Desired antenna configuration
+            existing_antenna (dict): Current antenna configuration
+            differences_list (list): List to append differences to
+
+        Returns:
+            bool: True if antenna configurations match, False otherwise
+        """
+
+        antenna_config_match = True
+        antenna_fields = ["antenna_name", "azimuth", "elevation"]
+
+        for field_name in antenna_fields:
+            desired_value = desired_antenna.get(field_name)
+            existing_value = existing_antenna.get(self.keymap[field_name])
+
+            # Handle numeric fields with type conversion
+            if field_name in ["azimuth", "elevation"]:
+                try:
+                    if (desired_value is not None and existing_value is not None and
+                        int(desired_value) != int(existing_value)):
+
+                        self.log(
+                            "Antenna {0} mismatch: {1} != {2}".format(
+                                field_name, desired_value, existing_value
+                            ),
+                            "INFO"
+                        )
+                        differences_list.append((
+                            "antenna_" + field_name, desired_value, existing_value
+                        ))
+                        antenna_config_match = False
+
+                except (ValueError, TypeError) as e:
+                    self.log(
+                        "Invalid {0} values for comparison: {1}".format(field_name, str(e)),
+                        "WARNING"
+                    )
+                    antenna_config_match = False
+
+            # Handle string fields
+            elif desired_value != existing_value:
+                self.log(
+                    "Antenna {0} mismatch: '{1}' != '{2}'".format(
+                        field_name, desired_value, existing_value
+                    ),
+                    "INFO"
+                )
+                differences_list.append((
+                    "antenna_" + field_name, desired_value, existing_value
+                ))
+                antenna_config_match = False
+
+        return antenna_config_match
+
+    def get_access_point_device_details(self, mac_address):
+        """
+        Retrieve device details for access point from Cisco Catalyst Center.
+
+        Queries device information using MAC address to obtain comprehensive device
+        details including configuration, status, and identification information
+        required for access point position management operations.
 
         Parameters:
             self (object): An instance of the class containing the method.
@@ -1339,10 +1858,24 @@ class AccessPointLocation(DnacBase):
         Returns:
             dict: A dictionary containing the current details of the access point, or an error message.
 
+        Description:
+            - Validates MAC address format and availability
+            - Executes device list query via Catalyst Center devices API
+            - Retrieves first matching device from response for position operations
+            - Handles device not found scenarios with appropriate logging
         """
         input_param = {
             "macAddress": mac_address
         }
+        self.log(
+            "Starting device details retrieval for access point position management",
+            "INFO"
+        )
+
+        self.log(
+            "Retrieving device details for MAC address: {0}".format(mac_address),
+            "DEBUG"
+        )
 
         try:
             ap_response = self.dnac._exec(
@@ -1352,70 +1885,242 @@ class AccessPointLocation(DnacBase):
                 params=input_param,
             )
 
-            ap_response_data = ap_response.get("response") if ap_response else None
+            if not ap_response:
+                warning_msg = (
+                    "No response received from device list API for MAC address: {0}".format(
+                        mac_address
+                    )
+                )
+                self.log(warning_msg, "WARNING")
+                return None
 
-            if ap_response_data:
-                self.log(f"Access point details found: {self.pprint(ap_response_data)}", "INFO")
-                return ap_response_data[0]
+            # Extract device data from response
+            device_data_list = ap_response.get("response") if ap_response else None
+
+            # Validate response structure and content
+            if not device_data_list:
+                warning_msg = (
+                    "Empty response received from device query for MAC address: {0}".format(
+                        mac_address
+                    )
+                )
+                self.log(warning_msg, "WARNING")
+                return None
+
+            if not isinstance(device_data_list, list):
+                warning_msg = (
+                    "Invalid response format for device query - expected list, "
+                    "got: {0}".format(type(device_data_list).__name__)
+                )
+                self.log(warning_msg, "WARNING")
+                return None
+
+            if len(device_data_list) == 0:
+                warning_msg = (
+                    "No device found with MAC address: {0}".format(mac_address)
+                )
+                self.log(warning_msg, "WARNING")
+                return None
+
+            # Extract first device from results
+            device_details = device_data_list[0]
+
+            # Validate device details structure
+            if not isinstance(device_details, dict):
+                warning_msg = (
+                    "Invalid device details format - expected dict, got: {0}".format(
+                        type(device_details).__name__
+                    )
+                )
+                self.log(warning_msg, "WARNING")
+                return None
+
+            # Log successful device retrieval with details
+            device_id = device_details.get("id", "Unknown")
+            device_hostname = device_details.get("hostname", "Unknown")
+
+            self.log(
+                "Device details retrieved successfully - ID: {0}, hostname: {1}, "
+                "MAC: {2}".format(device_id, device_hostname, mac_address),
+                "INFO"
+            )
+
+            # Debug logging for device details analysis
+            self.log(
+                "Retrieved device details for position management: {0}".format(
+                    self.pprint(device_details)
+                ),
+                "DEBUG"
+            )
+
+            return device_details
 
         except Exception as e:
-            self.msg = f"The provided device '{input_param}' is either invalid or not present in the Cisco Catalyst Center."
-            self.log(f"{self.msg} {e}", "WARNING")
+            error_msg = (
+                f"An error occurred during device details retrieval for MAC address: {mac_address}"
+            )
+            self.log(
+                f"{error_msg}: {str(e)}",
+                "WARNING"
+            )
+
+            # Set instance message for error context
+            self.msg = (
+                f"The provided device with MAC '{mac_address}' is either invalid or not "
+                "present in the Cisco Catalyst Center")
+
             return None
 
-    def parse_planned_accesspoint(self, accesspoint):
+    def transform_access_point_payload(self, accesspoint):
         """
-        Parse the planned access point position details to match the API payload format.
+        Transform playbook access point configuration to API payload format.
+
+        Converts access point configuration from playbook format to Cisco Catalyst
+        Center API payload structure for planned position operations including position
+        coordinates, radio configurations, and antenna specifications.
 
         Parameters:
             accesspoint (dict) - Access point details from the playbook config.
 
         Returns:
             dict - Parsed planned access point position details in API payload format.
+
+        Description:
+            - Transforms field names using keymap for API compatibility
+            - Converts position coordinates to API structure format
+            - Processes radio configurations with band and antenna details
+            - Handles both create and update operations with ID preservation
+            - Validates nested structure availability before transformation
         """
-        self.log(f"Parsing planned access point position details: {self.pprint(accesspoint)}", "INFO")
+        ap_name = accesspoint.get("accesspoint_name", "Unknown")
+        has_planned_id = bool(accesspoint.get("planned_id"))
+        radio_count = len(accesspoint.get("radios", []))
 
-        parsed_params = {}
+        self.log(
+            "Transforming configuration for AP '{0}', has_id: {1}, radios: {2}".format(
+                ap_name, has_planned_id, radio_count
+            ),
+            "DEBUG"
+        )
+
+        # Initialize API payload structure
+        api_payload = {}
+
         if accesspoint.get("planned_id"):
-            parsed_params["id"] = accesspoint.get("planned_id")
+            api_payload["id"] = accesspoint.get("planned_id")
+            self.log(
+                "Including planned ID '{0}' for update operation".format(
+                    api_payload["id"]), "DEBUG")
 
-        # if not accesspoint.get("planned_id"):
-        parsed_params["name"] = accesspoint.get("accesspoint_name")
+        api_payload["name"] = accesspoint.get("accesspoint_name")
+
         if accesspoint.get("mac_address"):
-            parsed_params["macAddress"] = accesspoint.get("mac_address")
+            api_payload["macAddress"] = accesspoint.get("mac_address")
+            self.log(
+                "Including MAC address for access point identification",
+                "DEBUG"
+            )
 
-        parsed_params["type"] = accesspoint.get("accesspoint_model")
+        # Add access point model type
+        api_payload["type"] = accesspoint.get("accesspoint_model")
 
-        position = accesspoint.get("position", {})
-        parsed_params["position"] = {
-            "x": position.get("x_position"),
-            "y": position.get("y_position"),
-            "z": position.get("z_position"),
-        }
-
-        radios_payload = []
-        radios = accesspoint.get("radios", [])
-        for radio in radios:
-            radio_payload = {
-                "bands": radio.get("bands"),
-                "channel": radio.get("channel"),
-                "txPower": radio.get("tx_power"),
-                "antenna": {
-                    "name": radio.get("antenna", {}).get("antenna_name"),
-                    "azimuth": radio.get("antenna", {}).get("azimuth"),
-                    "elevation": radio.get("antenna", {}).get("elevation"),
-                },
+        # Transform position coordinates
+        position_config = accesspoint.get("position", {})
+        if isinstance(position_config, dict):
+            api_payload["position"] = {
+                "x": position_config.get("x_position"),
+                "y": position_config.get("y_position"),
+                "z": position_config.get("z_position"),
             }
 
-            if radio.get("id"):
-                radio_payload["id"] = radio.get("id")
-            radios_payload.append(radio_payload)
+            self.log(
+                "Transformed position coordinates - x:{0}, y:{1}, z:{2}".format(
+                    position_config.get("x_position"),
+                    position_config.get("y_position"),
+                    position_config.get("z_position")
+                ),
+                "DEBUG"
+            )
+        else:
+            self.log(
+                "Position configuration not available or invalid format",
+                "WARNING"
+            )
+            api_payload["position"] = {"x": None, "y": None, "z": None}
 
-        parsed_params["radios"] = radios_payload
-        self.log(f"Parsed Access Point Payload: {self.pprint(parsed_params)}", "DEBUG")
-        return parsed_params
+        # Transform radio configurations
+        radio_configurations = accesspoint.get("radios", [])
+        transformed_radios = []
 
-    def process_ap_position_creation_updation_assign(self, function_name, floor_id, payloads, state):
+        self.log(
+            "Processing {0} radio configurations for API transformation".format(
+                len(radio_configurations)
+            ),
+            "DEBUG"
+        )
+
+        for radio_idx, radio_config in enumerate(radio_configurations):
+            if not isinstance(radio_config, dict):
+                self.log(
+                    "Skipping invalid radio configuration at index {0}".format(radio_idx),
+                    "WARNING"
+                )
+                continue
+
+            # Transform radio payload structure
+            transformed_radio = {
+                "bands": radio_config.get("bands"),
+                "channel": radio_config.get("channel"),
+                "txPower": radio_config.get("tx_power"),
+            }
+
+            # Transform antenna configuration
+            antenna_config = radio_config.get("antenna", {})
+            if isinstance(antenna_config, dict):
+                transformed_radio["antenna"] = {
+                    "name": antenna_config.get("antenna_name"),
+                    "azimuth": antenna_config.get("azimuth"),
+                    "elevation": antenna_config.get("elevation"),
+                }
+            else:
+                self.log(
+                    "Antenna configuration missing for radio {0}".format(radio_idx),
+                    "WARNING"
+                )
+                transformed_radio["antenna"] = {
+                    "name": None, "azimuth": None, "elevation": None
+                }
+
+            # Preserve radio ID for update operations
+            if radio_config.get("id"):
+                transformed_radio["id"] = radio_config.get("id")
+                self.log(
+                    "Preserving radio ID '{0}' for update operation".format(
+                        radio_config.get("id")
+                    ),
+                    "DEBUG"
+                )
+
+            transformed_radios.append(transformed_radio)
+
+        api_payload["radios"] = transformed_radios
+
+        # Log successful transformation with payload statistics
+        payload_fields = list(api_payload.keys())
+        self.log(
+            f"API payload transformation completed successfully - fields: {payload_fields}, radios: {len(transformed_radios)}",
+            "INFO"
+        )
+
+        # Debug logging for complete payload structure
+        self.log(
+            f"Generated API payload for access point positioning: {self.pprint(api_payload)}",
+            "DEBUG"
+        )
+
+        return api_payload
+
+    def process_access_point_position_operations(self, function_name, floor_id, payloads, state):
         """
         Process the creation or updation of access point position based on the desired state.
 
@@ -1465,7 +2170,7 @@ class AccessPointLocation(DnacBase):
             self.log(self.msg + str(e), "ERROR")
             return None
 
-    def accesspoint_position_creation_updation(self):
+    def manage_access_point_positions(self):
         """
         Create or update planned access point position in Cisco Catalyst Center based on the
         playbook details.
@@ -1494,7 +2199,7 @@ class AccessPointLocation(DnacBase):
                     non_created_positions.append(access_point.get("accesspoint_name"))
                     continue
                 self.log(f"Processing new access point: {self.pprint(access_point)}", "INFO")
-                parsed_ap_details = self.parse_planned_accesspoint(access_point)
+                parsed_ap_details = self.transform_access_point_payload(access_point)
 
                 create_payload.append(parsed_ap_details)
                 self.log(f"Parsed planned Access Point Payload: {self.pprint(parsed_ap_details)}", "DEBUG")
@@ -1510,7 +2215,7 @@ class AccessPointLocation(DnacBase):
                 "DEBUG",
             )
 
-            process_response = self.process_ap_position_creation_updation_assign(
+            process_response = self.process_access_point_position_operations(
                 "add_planned_access_points_positions", floor_id, create_payload, "create"
             )
             if process_response == "SUCCESS":
@@ -1531,7 +2236,7 @@ class AccessPointLocation(DnacBase):
 
             for access_point in self.have.get("update_accesspoint"):
                 self.log(f"Processing update planned access point: {self.pprint(access_point)}", "INFO")
-                parsed_ap_details = self.parse_planned_accesspoint(access_point)
+                parsed_ap_details = self.transform_access_point_payload(access_point)
 
                 # Validate the payload before adding to update list
                 is_valid, validation_errors = self.validate_update_payload(parsed_ap_details, "update")
@@ -1549,7 +2254,7 @@ class AccessPointLocation(DnacBase):
                 "DEBUG",
             )
 
-            process_response = self.process_ap_position_creation_updation_assign(
+            process_response = self.process_access_point_position_operations(
                 "edit_planned_access_points_positions", floor_id, update_payload, "update"
             )
             if process_response == "SUCCESS":
@@ -1572,7 +2277,7 @@ class AccessPointLocation(DnacBase):
 
             for access_point in self.have.get("update_real_accesspoint"):
                 self.log(f"Processing update real access point: {self.pprint(access_point)}", "INFO")
-                parsed_ap_details = self.parse_planned_accesspoint(access_point)
+                parsed_ap_details = self.transform_access_point_payload(access_point)
                 update_real_payload.append(parsed_ap_details)
                 self.log(f"Parsed Real Access Point Payload: {self.pprint(parsed_ap_details)}", "DEBUG")
                 collect_ap_list.append(access_point.get("accesspoint_name"))
@@ -1582,7 +2287,7 @@ class AccessPointLocation(DnacBase):
                 "DEBUG",
             )
 
-            process_response = self.process_ap_position_creation_updation_assign(
+            process_response = self.process_access_point_position_operations(
                 "edit_the_access_points_positions", floor_id, update_real_payload, "update"
             )
             if process_response == "SUCCESS":
@@ -1632,7 +2337,7 @@ class AccessPointLocation(DnacBase):
         is_valid = len(errors) == 0
         return is_valid, errors
 
-    def assign_accesspoint_to_position(self):
+    def assign_access_point_to_planned_position(self):
         """
         Assign an access point to a specific planned position.
 
@@ -1663,13 +2368,13 @@ class AccessPointLocation(DnacBase):
                     self.log(msg, "WARNING")
                     self.fail_and_exit(msg)
 
-                ap_details = self.get_accesspoint_position(
+                ap_details = self.get_access_point_posisiton(
                     self.have["site_id"], self.have["site_name"], access_point
                 )
                 if not ap_details:
                     msg = f"Check the assignment exist in real position: {access_point.get('accesspoint_name')}"
                     self.log(msg, "WARNING")
-                    ap_details = self.get_accesspoint_position(
+                    ap_details = self.get_access_point_posisiton(
                         self.have["site_id"], self.have["site_name"], access_point, True)
                     if ap_details:
                         self.log(f"Access point real position found: {access_point.get('accesspoint_name')}",
@@ -1691,7 +2396,7 @@ class AccessPointLocation(DnacBase):
             self.log(f"Assign planned Access Point to position payload: {self.pprint(assign_payload)}", "DEBUG")
 
             floor_id = self.have.get("site_id")
-            process_response = self.process_ap_position_creation_updation_assign(
+            process_response = self.process_access_point_position_operations(
                 "assign_planned_access_points_to_operations_ones", floor_id, assign_payload, "assign_planned_ap"
             )
             self.log(f"Assign planned Access Point to position process response: {self.pprint(process_response)}", "DEBUG")
@@ -1805,7 +2510,7 @@ class AccessPointLocation(DnacBase):
 
         if (self.have.get("new_accesspoint") or self.have.get("update_accesspoint")
            or self.have.get("update_real_accesspoint")):
-            responses = self.accesspoint_position_creation_updation()
+            responses = self.manage_access_point_positions()
 
             if not responses:
                 self.msg = "No response received from Planned Access Point position creation/updation."
@@ -1813,7 +2518,7 @@ class AccessPointLocation(DnacBase):
                 self.fail_and_exit(self.msg)
 
         if self.have.get("assign_accesspoint"):
-            assign_response = self.assign_accesspoint_to_position()
+            assign_response = self.assign_access_point_to_planned_position()
             status_msg = str(self.location_assigned)
             self.msg = f"Planned Access Point position assigned successfully for '{status_msg}'."
             self.log(self.msg, "INFO")

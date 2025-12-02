@@ -63,7 +63,7 @@
     assert:
       that:
         - item.changed == true
-        - "'Access Point Location created successfully' in item.msg"
+        - "'Planned/Real Access Point position created successfully' in item.msg"
     loop: "{{ result_create_accesspoint_location.results }}"
     when: result_create_accesspoint_location is defined
 
@@ -91,7 +91,7 @@
     assert:
       that:
         - item.changed == true
-        - "'Access Point Location updated successfully' in item.msg"
+        - "'Planned/Real Access Point position updated successfully' in item.msg"
     loop: "{{ result_update_accesspoint_location.results }}"
     when: result_update_accesspoint_location is defined
 
@@ -147,7 +147,7 @@
     assert:
       that:
         - item.changed == true
-        - "'Access Point Location created successfully for 'Global/USA/California/SAN JOSE/BLD24/Floor3'.
+        - "'Planned Access Point position assigned successfully for '[['IAC-TB4-SJ-AP1']]'.
             Following Access Point(s) assigned to planned location(s): '['IAC-TB4-SJ-AP1']'.' in item.msg"
     loop: "{{ result_assign_accesspoint_to_location.results }}"
     when: result_assign_accesspoint_to_location is defined
