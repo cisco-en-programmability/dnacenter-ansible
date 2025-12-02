@@ -21,6 +21,9 @@ description:
   configured within the Cisco Catalyst Center.
 - Supports extraction of device family KPI settings including thresholds, overall health inclusion,
   and issue threshold synchronization settings.
+- Uses multiple API calls with includeForOverallHealth parameter (both true and false) to ensure complete data extraction.
+- When device families are specified, makes separate API calls for each device family for optimal filtering.
+- When no device families are specified, retrieves all available device health score settings from the system.
 version_added: 6.40.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
@@ -73,31 +76,53 @@ options:
         type: dict
         required: false
         suboptions:
+          components_list:
+            description:
+              - List of components to extract. Currently supports "device_health_score_settings".
+              - When specified, determines which components to process.
+              - If only components_list is provided without device_health_score_settings filters, all device families will be extracted.
+            type: list
+            elements: str
+            required: false
+          device_health_score_settings:
+            description:
+              - Specific filters for device health score settings extraction.
+              - Allows fine-grained control over device families and KPI settings to extract.
+            type: dict
+            required: false
+            suboptions:
+              device_families:
+                description:
+                  - List of specific device families to extract KPI settings for.
+                  - Valid values include device family names like "UNIFIED_AP", "ROUTER", "SWITCH_AND_HUB", "WIRELESS_CONTROLLER", etc.
+                  - If not specified, all device families with configured KPI settings will be extracted.
+                  - Example ["UNIFIED_AP", "ROUTER", "SWITCH_AND_HUB"]
+                type: list
+                elements: str
+                required: false
+              kpi_names:
+                description:
+                  - List of specific KPI names to extract from device families.
+                  - If not specified, all KPI settings for the selected device families will be extracted.
+                  - Example ["Interference 6 GHz", "Link Error", "CPU Utilization"]
+                type: list
+                elements: str
+                required: false
           device_families:
             description:
-              - List of specific device families to extract KPI settings for.
-              - Valid values include device family names like "UNIFIED_AP", "ROUTER", "SWITCH", etc.
-              - If not specified, all device families with configured KPI settings will be extracted.
-              - Example ["UNIFIED_AP", "ROUTER", "SWITCH"]
+              - Legacy support - List of specific device families to extract KPI settings for.
+              - It's recommended to use device_health_score_settings.device_families instead.
+              - Valid values include device family names like "UNIFIED_AP", "ROUTER", "SWITCH_AND_HUB", etc.
             type: list
             elements: str
             required: false
-          kpi_names:
-            description:
-              - List of specific KPI names to extract from device families.
-              - If not specified, all KPI settings for the selected device families will be extracted.
-              - Example ["Interference 6 GHz", "Link Error", "CPU Utilization"]
-            type: list
-            elements: str
-            required: false
+
 requirements:
 - dnacentersdk >= 2.10.10
 - python >= 3.9
 notes:
-- SDK Methods used are
-  - devices.Devices.get_all_health_score_definitions_for_given_filters
-- Paths used are
-  - GET /dna/intent/api/v1/device-health/health-score/definitions
+- SDK Method used is devices.Devices.get_all_health_score_definitions_for_given_filters
+- Path used is GET /dna/intent/api/v1/device-health/health-score/definitions
 """
 
 EXAMPLES = r"""
@@ -132,7 +157,7 @@ EXAMPLES = r"""
     config:
       - file_path: "/tmp/assurance_health_score_settings.yml"
 
-- name: Generate YAML Configuration for specific device families
+- name: Generate YAML Configuration for all device health score components
   cisco.dnac.brownfield_assurance_device_health_score_settings_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -147,9 +172,9 @@ EXAMPLES = r"""
     config:
       - file_path: "/tmp/assurance_health_score_settings.yml"
         component_specific_filters:
-          device_families: ["UNIFIED_AP", "ROUTER"]
+          components_list: ["device_health_score_settings"]
 
-- name: Generate YAML Configuration with default file path
+- name: Generate YAML Configuration for specific device families
   cisco.dnac.brownfield_assurance_device_health_score_settings_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -162,8 +187,49 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-      - component_specific_filters:
-          device_families: ["UNIFIED_AP"]
+      - file_path: "/tmp/specific_device_health_score_settings.yml"
+        component_specific_filters:
+          components_list: ["device_health_score_settings"]
+          device_health_score_settings:
+            device_families: ["UNIFIED_AP", "ROUTER", "SWITCH_AND_HUB", "WIRELESS_CONTROLLER"]
+
+- name: Generate YAML Configuration for specific device families and KPIs
+  cisco.dnac.brownfield_assurance_device_health_score_settings_playbook_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - file_path: "/tmp/filtered_device_health_score_settings.yml"
+        component_specific_filters:
+          components_list: ["device_health_score_settings"]
+          device_health_score_settings:
+            device_families: ["UNIFIED_AP", "ROUTER"]
+            kpi_names: ["Interference 6 GHz", "Link Error", "CPU Utilization"]
+
+- name: Generate YAML Configuration using legacy filter format
+  cisco.dnac.brownfield_assurance_device_health_score_settings_playbook_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - file_path: "/tmp/legacy_device_health_score_settings.yml"
+        component_specific_filters:
+          device_families: ["UNIFIED_AP", "ROUTER"]
+
 """
 
 RETURN = r"""
@@ -274,7 +340,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 import time
 try:
@@ -558,98 +623,130 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
         # Prepare API parameters
         api_params = {}
         component_specific_filters = filters.get("component_specific_filters", {})
-        
+
         # Support both global_filters and component_specific_filters structures
         device_families = []
-        
-        # Check for global_filters structure
-        global_filters = component_specific_filters.get("global_filters", {})
-        if global_filters.get("device_families"):
-            device_families = global_filters["device_families"]
-            self.log("Found device families in global_filters: {0}".format(device_families), "DEBUG")
-        
+
         # Check for nested device_health_score_settings structure
         health_score_filters = component_specific_filters.get("device_health_score_settings", {})
-        if not device_families and health_score_filters.get("device_families"):
+        if health_score_filters.get("device_families"):
             device_families = health_score_filters["device_families"]
             self.log("Found device families in device_health_score_settings: {0}".format(device_families), "DEBUG")
-        
-        # Check for components_list - if present, get all device families
+
+        # Check for components_list - if only components_list is present without device_families
         components_list = component_specific_filters.get("components_list", [])
-        if "device_health_score_settings" in components_list and not device_families:
-            self.log("components_list contains device_health_score_settings - will retrieve all device families", "DEBUG")
-            # Don't set any device family filter - get all
-        elif device_families:
-            # Note: API doesn't filter by device family, so we'll filter after retrieval
-            self.log("Device families to filter: {0}".format(device_families), "DEBUG")
+        if "device_health_score_settings" in components_list:
+            if not device_families:
+                self.log("components_list contains device_health_score_settings without device families - will retrieve all device families", "DEBUG")
+            else:
+                self.log("components_list contains device_health_score_settings with device families: {0}".format(device_families), "DEBUG")
 
         try:
-            self.log("Executing GET request for device health score settings", "DEBUG")
-            self.log("API parameters being sent: {0}".format(api_params), "DEBUG")
-            response = self.execute_get_request(api_family, api_function, api_params)
-            self.log("Raw API response: {0}".format(response), "DEBUG")
+            # Collect all response data from multiple API calls
+            all_response_data = []
 
-            if response and response.get("response"):
-                self.log("API response received successfully", "DEBUG")
-                response_data = response.get("response", [])
-                self.log("Response data type: {0}, length: {1}".format(type(response_data), len(response_data)), "DEBUG")
+            # Determine if device families are specified
+            has_device_families = bool(device_families)
 
-                # Log first few items for debugging
-                if response_data and len(response_data) > 0:
-                    self.log("Sample response data item: {0}".format(response_data[0] if response_data else {}), "DEBUG")
+            # Loop through includeForOverallHealth values
+            for include_for_overall_health in [True, False]:
+                self.log("Processing includeForOverallHealth: {0}".format(include_for_overall_health), "DEBUG")
 
-                self.log("Processing {0} health score definitions from API".format(len(response_data)), "DEBUG")
+                if has_device_families:
+                    # If device families are specified, make API calls for each device family
+                    for device_family in device_families:
+                        self.log("Making API call for device family: {0}, includeForOverallHealth: {1}".format(
+                            device_family, include_for_overall_health), "DEBUG")
 
-                # Apply component-specific filters
-                filtered_data = self.apply_health_score_filters(response_data, component_specific_filters)
+                        api_params = {
+                            "deviceType": device_family,
+                            "includeForOverallHealth": include_for_overall_health,
+                        }
 
-                self.log("Filtered data contains {0} health score settings".format(len(filtered_data)), "DEBUG")
+                        self.log("API parameters being sent: {0}".format(api_params), "DEBUG")
+                        response = self.execute_get_request(api_family, api_function, api_params)
+                        self.log("API response received for device family {0}: {1}".format(
+                            device_family, self.pprint(response)), "DEBUG")
 
-                if filtered_data:
-                    # Track statistics
-                    device_families = set()
-                    for item in filtered_data:
-                        device_families.add(item.get("deviceFamily"))
-                        self.add_success(
-                            item.get("deviceFamily"),
-                            item.get("kpiName"),
-                            {
-                                "threshold_value": item.get("thresholdValue"),
-                                "include_for_overall_health": item.get("includeForOverallHealth")
-                            }
-                        )
+                        if response and response.get("response"):
+                            response_data = response.get("response", [])
+                            all_response_data.extend(response_data)
+                            self.log("Added {0} items from device family {1}, includeForOverallHealth={2}".format(
+                                len(response_data), device_family, include_for_overall_health), "DEBUG")
+                else:
+                    # If no device families specified, make API call without deviceType filter
+                    self.log("Making API call without device family filter, includeForOverallHealth: {0}".format(
+                        include_for_overall_health), "DEBUG")
 
-                    self.total_device_families_processed = len(device_families)
-                    self.total_kpis_processed = len(filtered_data)
-
-                    # Apply reverse mapping
-                    reverse_mapping_function = network_element.get("reverse_mapping_function")
-                    reverse_mapping_spec = reverse_mapping_function()
-
-                    self.log("Applying reverse mapping to transform API data to user format", "DEBUG")
-                    transformed_data = self.modify_parameters(
-                        reverse_mapping_spec,
-                        [{"response": filtered_data}]
-                    )
-
-                    # Extract the device_health_score list from the transformed data
-                    device_health_score_list = []
-                    if transformed_data and len(transformed_data) > 0:
-                        device_health_score_list = transformed_data[0].get("device_health_score", [])
-
-                    final_result = {
-                        "device_health_score_settings": device_health_score_list,
-                        "operation_summary": self.get_operation_summary()
+                    api_params = {
+                        "includeForOverallHealth": include_for_overall_health,
                     }
 
-                    self.log("Device health score settings retrieval completed successfully", "INFO")
-                    return final_result
+                    self.log("API parameters being sent: {0}".format(api_params), "DEBUG")
+                    response = self.execute_get_request(api_family, api_function, api_params)
 
-                else:
-                    self.log("No health score settings found after filtering", "WARNING")
+                    if response and response.get("response"):
+                        response_data = response.get("response", [])
+                        all_response_data.extend(response_data)
+                        self.log("Added {0} items from API call with includeForOverallHealth={1}".format(
+                            len(response_data), include_for_overall_health), "DEBUG")
+
+            self.log("Total response data collected: {0} items".format(len(all_response_data)), "DEBUG")
+
+            # Log first few items for debugging
+            if all_response_data and len(all_response_data) > 0:
+                self.log("Sample response data item: {0}".format(all_response_data[0] if all_response_data else {}), "DEBUG")
+
+            self.log("Processing {0} health score definitions from API".format(len(all_response_data)), "DEBUG")
+
+            # Update response_data to use collected data
+            response_data = all_response_data
+
+            # Since API returns filtered data based on parameters, no additional filtering needed
+            self.log("Using API response data directly: {0} health score settings".format(len(response_data)), "DEBUG")
+
+            if response_data:
+                # Track statistics
+                device_families = set()
+                for item in response_data:
+                    device_families.add(item.get("deviceFamily"))
+                    self.add_success(
+                        item.get("deviceFamily"),
+                        item.get("kpiName"),
+                        {
+                            "threshold_value": item.get("thresholdValue"),
+                            "include_for_overall_health": item.get("includeForOverallHealth")
+                        }
+                    )
+
+                self.total_device_families_processed = len(device_families)
+                self.total_kpis_processed = len(response_data)
+
+                # Apply reverse mapping
+                reverse_mapping_function = network_element.get("reverse_mapping_function")
+                reverse_mapping_spec = reverse_mapping_function()
+
+                self.log("Applying reverse mapping to transform API data to user format", "DEBUG")
+                transformed_data = self.modify_parameters(
+                    reverse_mapping_spec,
+                    [{"response": response_data}]
+                )
+
+                # Extract the device_health_score list from the transformed data
+                device_health_score_list = []
+                if transformed_data and len(transformed_data) > 0:
+                    device_health_score_list = transformed_data[0].get("device_health_score", [])
+
+                final_result = {
+                    "device_health_score_settings": device_health_score_list,
+                    "operation_summary": self.get_operation_summary()
+                }
+
+                self.log("Device health score settings retrieval completed successfully", "INFO")
+                return final_result
 
             else:
-                self.log("No response data received from API", "WARNING")
+                self.log("No health score settings found from API response", "WARNING")
 
         except Exception as e:
             error_msg = "Exception occurred while retrieving device health score settings: {0}".format(str(e))
@@ -687,24 +784,24 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
 
         # Support both global_filters and component_specific_filters structures
         device_families = []
-        
+
         # Check for global_filters structure
         global_filters = component_specific_filters.get("global_filters", {})
         if global_filters.get("device_families"):
             device_families = global_filters["device_families"]
             self.log("Found device families in global_filters: {0}".format(device_families), "DEBUG")
-        
+
         # Check for nested device_health_score_settings structure
         health_score_filters = component_specific_filters.get("device_health_score_settings", {})
         if not device_families and health_score_filters.get("device_families"):
             device_families = health_score_filters["device_families"]
             self.log("Found device families in device_health_score_settings: {0}".format(device_families), "DEBUG")
-        
+
         # Check for components_list - if present, get all device families
         components_list = component_specific_filters.get("components_list", [])
         if "device_health_score_settings" in components_list and not device_families:
             self.log("components_list contains device_health_score_settings - no filtering by device family", "DEBUG")
-        
+
         self.log("Final device families filter: {0}".format(device_families), "DEBUG")
         if device_families:
             self.log("Applying device families filter: {0}".format(device_families), "DEBUG")
@@ -765,12 +862,12 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
         else:
             # Use provided filters or default to empty
             component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
-            
+
             # Also check for global_filters at the top level
             global_filters = yaml_config_generator.get("global_filters")
             if global_filters and not component_specific_filters:
                 component_specific_filters = {"global_filters": global_filters}
-            
+
             self.log("Component specific filters received: {0}".format(component_specific_filters), "DEBUG")
 
         self.log("Retrieving supported network elements schema for the module", "DEBUG")
@@ -822,7 +919,7 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
 
         self.log("Creating final dictionary structure with operation summary", "DEBUG")
         final_dict = OrderedDict()
-        
+
         # Format the configuration properly according to the required structure
         # Changed to match expected format: config: device_health_score: [list]
         if final_list:
@@ -921,7 +1018,7 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
         self.msg = "Successfully collected all parameters from the playbook for Assurance Device Health Score Settings operations."
         self.status = "success"
         return self
-    
+
     def validate_params(self, config):
         """
         Validates the parameters provided for the playbook configuration.
@@ -963,8 +1060,8 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
         try:
             with open(file_path, 'w') as yaml_file:
                 if HAS_YAML and OrderedDumper:
-                    yaml.dump(data_dict, yaml_file, Dumper=OrderedDumper, 
-                             default_flow_style=False, indent=2)
+                    yaml.dump(data_dict, yaml_file, Dumper=OrderedDumper,
+                              default_flow_style=False, indent=2)
                 else:
                     yaml.dump(data_dict, yaml_file, default_flow_style=False, indent=2)
             self.log("Successfully wrote YAML configuration to: {0}".format(file_path), "INFO")
@@ -1097,6 +1194,7 @@ def main():
         ]().check_return_status()
 
     module.exit_json(**ccc_brownfield_assurance_device_health_score_settings_playbook_generator.result)
+
 
 if __name__ == "__main__":
     main()
