@@ -434,7 +434,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Get site details from device
         site_id = device_details.get("siteId")
         self.log("Device {0} has siteId: {1}".format(device_id, site_id), "DEBUG")
-        
+
         # If we have a site ID, try to get site name from mapping
         if site_id:
             site_name_hierarchy = self.site_id_name_dict.get(site_id, None)
@@ -459,15 +459,15 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 device_info = response.get("response", {})
                 location = device_info.get("location")
                 site_hierarchy_graph_id = device_info.get("siteHierarchyGraphId")
-                
+
                 self.log("Device detail - location: {0}, siteHierarchyGraphId: {1}".format(
                     location, site_hierarchy_graph_id), "DEBUG")
-                
+
                 # Try location field first
                 if location and location.strip():
                     self.log("Using location field for site hierarchy: {0}".format(location), "DEBUG")
                     return location
-                
+
                 # Try to extract from siteHierarchyGraphId
                 if site_hierarchy_graph_id:
                     # The siteHierarchyGraphId contains path like: /id1/id2/id3/
@@ -480,7 +480,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                         if site_name:
                             self.log("Found site hierarchy from siteHierarchyGraphId: {0}".format(site_name), "DEBUG")
                             return site_name
-                
+
             except Exception as e:
                 self.log("Error getting device details for site hierarchy: {0}".format(str(e)), "WARNING")
 
@@ -502,7 +502,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                     if provision_site_hierarchy:
                         self.log("Got site hierarchy from provision status: {0}".format(provision_site_hierarchy), "DEBUG")
                         return provision_site_hierarchy
-                        
+
             except Exception as e:
                 self.log("Error getting site hierarchy from provision status: {0}".format(str(e)), "WARNING")
 
@@ -539,15 +539,15 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
             device_info = response.get("response", {})
             # FIXED: Use nwDeviceFamily instead of family
             device_family = device_info.get("nwDeviceFamily")
-            
+
             # Log additional device info for debugging
             device_type = device_info.get("nwDeviceType")
             device_name = device_info.get("nwDeviceName")
             management_ip = device_info.get("managementIpAddr")
-            
+
             self.log("Device details - ID: {0}, Name: {1}, IP: {2}, Family: {3}, Type: {4}".format(
                 device_id, device_name, management_ip, device_family, device_type), "INFO")
-            
+
             return device_family
 
         except Exception as e:
@@ -622,21 +622,21 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 params={"network_device_id": device_id},
             )
             self.log("Recived API response: {0}".format(primary_response), "DEBUG")
-            
+
             # FIXED: Handle the response structure correctly
             if "response" in primary_response:
                 response_data = primary_response.get("response", {})
                 # The actual data is in managedApLocations array
                 managed_ap_locations = response_data.get("managedApLocations", [])
-                
+
                 if managed_ap_locations:
                     self.log("Found {0} primary AP locations for device {1}".format(len(managed_ap_locations), device_id), "INFO")
                     for i, location in enumerate(managed_ap_locations):
                         site_id = location.get("siteId")
-                        site_name_hierarchy = location.get("siteNameHierarchy")  # Direct from API response
-                        
-                        self.log("Primary location {0}: siteId={1}, siteNameHierarchy={2}".format(i+1, site_id, site_name_hierarchy), "DEBUG")
-                        
+                        site_name_hierarchy = location.get("siteNameHierarchy")
+
+                        self.log("Primary location {0}: siteId={1}, siteNameHierarchy={2}".format(i + 1, site_id, site_name_hierarchy), "DEBUG")
+
                         if site_name_hierarchy:
                             # Use the siteNameHierarchy directly from the API response
                             primary_ap_locations.append(site_name_hierarchy)
@@ -665,21 +665,21 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
                 params={"network_device_id": device_id},
             )
-            self.log("Recived API response: {0}".format(secondary_response), "DEBUG")            
+            self.log("Received API response: {0}".format(secondary_response), "DEBUG")
             # FIXED: Handle the response structure correctly
             if "response" in secondary_response:
                 response_data = secondary_response.get("response", {})
                 # The actual data is in managedApLocations array
                 managed_ap_locations = response_data.get("managedApLocations", [])
-                
+
                 if managed_ap_locations:
                     self.log("Found {0} secondary AP locations for device {1}".format(len(managed_ap_locations), device_id), "INFO")
                     for i, location in enumerate(managed_ap_locations):
                         site_id = location.get("siteId")
                         site_name_hierarchy = location.get("siteNameHierarchy")  # Direct from API response
-                        
-                        self.log("Secondary location {0}: siteId={1}, siteNameHierarchy={2}".format(i+1, site_id, site_name_hierarchy), "DEBUG")
-                        
+
+                        self.log("Secondary location {0}: siteId={1}, siteNameHierarchy={2}".format(i + 1, site_id, site_name_hierarchy), "DEBUG")
+
                         if site_name_hierarchy:
                             # Use the siteNameHierarchy directly from the API response
                             secondary_ap_locations.append(site_name_hierarchy)
@@ -703,12 +703,12 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("=== AP LOCATIONS SUMMARY for {0} ===".format(device_id), "INFO")
         self.log("Primary AP locations ({0}): {1}".format(len(primary_ap_locations), primary_ap_locations), "INFO")
         self.log("Secondary AP locations ({0}): {1}".format(len(secondary_ap_locations), secondary_ap_locations), "INFO")
-        
+
         # Validation: For provisioned WLCs, primary should typically have locations
         if len(primary_ap_locations) == 0:
             self.log("WARNING: Provisioned wireless controller {0} has no primary AP locations configured".format(device_id), "WARNING")
             self.log("This could mean: 1) No APs are assigned yet, 2) WLC is newly provisioned, 3) Configuration pending", "WARNING")
-        
+
         return primary_ap_locations, secondary_ap_locations
 
     def provisioned_devices_temp_spec(self):
@@ -752,27 +752,27 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_primary_managed_ap_locations_for_device(self, device_details):
         """
         Gets primary managed AP locations for a specific device.
-        
+
         Args:
             device_details (dict): Device details containing network device ID.
-            
+
         Returns:
             list: Primary managed AP locations as site hierarchies.
         """
-        primary_locations, _ = self.get_wireless_ap_locations(device_details)
+        primary_locations, x = self.get_wireless_ap_locations(device_details)
         return primary_locations
 
     def get_secondary_managed_ap_locations_for_device(self, device_details):
         """
         Gets secondary managed AP locations for a specific device.
-        
+
         Args:
             device_details (dict): Device details containing network device ID.
-            
+
         Returns:
             list: Secondary managed AP locations as site hierarchies.
         """
-        _, secondary_locations = self.get_wireless_ap_locations(device_details)
+        x, secondary_locations = self.get_wireless_ap_locations(device_details)
         return secondary_locations
 
     def non_provisioned_devices_temp_spec(self):
@@ -842,7 +842,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             # WORKAROUND: Check for missing wireless controllers
             self.log("=== CHECKING FOR MISSING WIRELESS CONTROLLERS ===", "INFO")
-            
+
             # Get all devices and check which wireless controllers are provisioned
             all_devices_response = self.dnac._exec(
                 family="devices",
@@ -851,18 +851,18 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
             self.log("Recived API response: {0}".format(all_devices_response), "DEBUG")
             all_devices = all_devices_response.get("response", [])
-            
+
             wireless_controllers_found = []
             sda_device_ids = {device.get("networkDeviceId") for device in sda_devices}
-            
+
             for device in all_devices:
                 device_id = device.get("id")
                 management_ip = device.get("managementIpAddress")
-                
+
                 # Skip if already in SDA list
                 if device_id in sda_device_ids:
                     continue
-                
+
                 try:
                     # Check if this is a wireless controller
                     device_detail_response = self.dnac._exec(
@@ -875,11 +875,11 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                     device_info = device_detail_response.get("response", {})
                     device_family = device_info.get("nwDeviceFamily")
                     device_name = device_info.get("nwDeviceName")
-                    
+
                     # If it's a wireless controller, check if it's provisioned
                     if device_family == "Wireless Controller":
                         self.log("Found wireless controller: {0} ({1})".format(device_name, management_ip), "INFO")
-                        
+
                         try:
                             # Check provision status using the provision status API
                             provision_response = self.dnac._exec(
@@ -891,27 +891,27 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                             self.log("Recived API response: {0}".format(provision_response), "DEBUG")
                             if provision_response.get("status") == "success":
                                 self.log("Wireless controller {0} IS provisioned - adding to device list".format(management_ip), "INFO")
-                                
+
                                 # Create a mock provisioned device entry compatible with SDA format
                                 mock_device = {
                                     "networkDeviceId": device_id,
                                     "siteId": device.get("siteId"),
                                     "deviceType": "WirelessController"
                                 }
-                                
+
                                 # Add to our devices list
                                 sda_devices.append(mock_device)
                                 wireless_controllers_found.append(management_ip)
-                                
+
                             else:
                                 self.log("Wireless controller {0} is not provisioned".format(management_ip), "DEBUG")
-                                
+
                         except Exception as e:
                             self.log("Error checking provision status for {0}: {1}".format(management_ip, str(e)), "WARNING")
-                            
+
                 except Exception as e:
                     self.log("Error checking device {0}: {1}".format(device_id, str(e)), "DEBUG")
-            
+
             self.log("Found {0} additional provisioned wireless controllers: {1}".format(
                 len(wireless_controllers_found), wireless_controllers_found), "INFO")
             self.log("Total devices after wireless controller check: {0}".format(len(sda_devices)), "INFO")
@@ -948,16 +948,16 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
             valid_device_details = []
             wireless_count = 0
             wired_count = 0
-            
+
             for device in final_devices:
                 device_id = device.get("networkDeviceId")
-                
+
                 # Get basic device info
                 management_ip = self.transform_device_management_ip(device)
                 if not management_ip:
                     self.log("Skipping device without management IP: {0}".format(device_id), "WARNING")
                     continue
-                    
+
                 site_hierarchy = self.transform_device_site_hierarchy(device)
                 if not site_hierarchy:
                     self.log("Skipping device without site hierarchy: {0} (IP: {1})".format(device_id, management_ip), "WARNING")
@@ -967,15 +967,15 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                     if site_id and site_id in self.site_id_name_dict:
                         self.log("Site ID {0} maps to: {1}".format(site_id, self.site_id_name_dict[site_id]), "WARNING")
                     continue
-                    
+
                 # Get device family
                 device_family = self.transform_device_family_info(device)
                 self.log("Processing device {0} with family: {1}".format(management_ip, device_family), "INFO")
-                
+
                 # Check if wireless
                 is_wireless = device_family == "Wireless Controller"
                 self.log("Device {0} is wireless: {1}".format(management_ip, is_wireless), "INFO")
-                
+
                 # Create device configuration
                 device_config = {
                     "management_ip_address": management_ip,
@@ -983,22 +983,22 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "provisioning": True,
                     "force_provisioning": False
                 }
-                
+
                 # Handle wireless-specific fields
                 if is_wireless:
                     wireless_count += 1
                     self.log("PROCESSING WIRELESS CONTROLLER: {0}".format(management_ip), "INFO")
-                    
+
                     primary_locations, secondary_locations = self.get_wireless_ap_locations(device)
                     device_config["primary_managed_ap_locations"] = primary_locations if primary_locations else []
                     device_config["secondary_managed_ap_locations"] = secondary_locations if secondary_locations else []
-                    
+
                     self.log("Wireless controller {0} - Primary: {1}, Secondary: {2}".format(
                         management_ip, primary_locations, secondary_locations), "INFO")
                 else:
                     wired_count += 1
                     self.log("Wired device: {0}".format(management_ip), "DEBUG")
-                
+
                 valid_device_details.append(device_config)
 
             # Summary
@@ -1006,12 +1006,12 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Total devices processed: {0}".format(len(valid_device_details)), "INFO")
             self.log("Wireless controllers: {0}".format(wireless_count), "INFO")
             self.log("Wired devices: {0}".format(wired_count), "INFO")
-            
+
             if wireless_count > 0:
                 self.log("SUCCESS: Found {0} wireless controller(s) in final output!".format(wireless_count), "INFO")
             else:
                 self.log("WARNING: No wireless controllers found in final output", "WARNING")
-            
+
             return valid_device_details
 
         except Exception as e:
@@ -1049,16 +1049,16 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log("Recived API response: {0}".format(provisioned_response), "DEBUG")
                 provisioned_devices = provisioned_response.get("response", [])
                 provisioned_device_ids = {device.get("networkDeviceId") for device in provisioned_devices}
-                
+
                 # ALSO exclude provisioned wireless controllers found via workaround
                 # Get all devices and check for provisioned wireless controllers
                 for device in all_devices:
                     device_id = device.get("id")
                     management_ip = device.get("managementIpAddress")
-                    
+
                     if device_id in provisioned_device_ids:
                         continue
-                        
+
                     try:
                         # Check if this is a wireless controller
                         device_detail_response = self.dnac._exec(
@@ -1070,7 +1070,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                         self.log("Recived API response: {0}".format(device_detail_response), "DEBUG")
                         device_info = device_detail_response.get("response", {})
                         device_family = device_info.get("nwDeviceFamily")
-                        
+
                         # If it's a wireless controller, check if it's provisioned
                         if device_family == "Wireless Controller":
                             try:
@@ -1085,15 +1085,15 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                                     # This wireless controller is provisioned, exclude it
                                     provisioned_device_ids.add(device_id)
                                     self.log("Excluding provisioned wireless controller: {0}".format(management_ip), "INFO")
-                                    
+
                             except Exception as e:
                                 pass  # Continue if provision check fails
-                                
+
                     except Exception as e:
                         pass  # Continue if device detail check fails
-                
+
                 self.log("STEP 2: Found {0} total provisioned devices to exclude (including wireless controllers)".format(len(provisioned_device_ids)), "INFO")
-                
+
             except Exception as e:
                 self.log("STEP 2 WARNING: Could not get provisioned devices: {0}".format(str(e)), "WARNING")
                 provisioned_device_ids = set()
@@ -1132,15 +1132,15 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                     device_info = device_detail_response.get("response", {})
                     device_family = device_info.get("nwDeviceFamily")
                     device_type = device_info.get("nwDeviceType")
-                    
+
                     # SKIP ACCESS POINTS
                     if device_family in ["Unified AP", "Access Points"] or "Access Point" in str(device_type):
                         self.log("  -> SKIPPED: Access Point - {0} (Family: {1}, Type: {2})".format(
                             management_ip, device_family, device_type), "DEBUG")
                         continue
-                        
+
                     self.log("  -> Device family: {0}, type: {1}".format(device_family, device_type), "DEBUG")
-                    
+
                 except Exception as e:
                     self.log("  -> WARNING: Could not get device family for {0}: {1}".format(management_ip, str(e)), "WARNING")
 
