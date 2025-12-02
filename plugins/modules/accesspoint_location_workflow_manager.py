@@ -678,8 +678,8 @@ class AccessPointLocation(DnacBase):
         Validate access point position configuration against predefined specifications.
 
         Processes playbook configuration to ensure compliance with expected structure,
-        data types, coordinate ranges, and Cisco Catalyst Center requirements for access 
-        point positioning including site hierarchy, position coordinates, radio bands, 
+        data types, coordinate ranges, and Cisco Catalyst Center requirements for access
+        point positioning including site hierarchy, position coordinates, radio bands,
         channels, antenna patterns, and transmission power levels.
 
         Parameters:
@@ -1372,7 +1372,7 @@ class AccessPointLocation(DnacBase):
         self.log(
             "Current state collection completed - new: {0}, update: {1}, "
             "delete: {2}, existing: {3}".format(
-                len(new_accesspoint), len(update_accesspoint), 
+                len(new_accesspoint), len(update_accesspoint),
                 len(delete_accesspoint), len(accesspoint_exists)
             ),
             "INFO"
@@ -1523,7 +1523,7 @@ class AccessPointLocation(DnacBase):
         """
         Compare planned access point configuration with existing configuration details.
 
-        Performs comprehensive comparison between desired access point configuration 
+        Performs comprehensive comparison between desired access point configuration
         from playbook and current access point configuration from Catalyst Center.
         Validates position coordinates, radio settings, antenna configurations, and
         basic access point attributes to determine if updates are required.
@@ -1807,8 +1807,9 @@ class AccessPointLocation(DnacBase):
             # Handle numeric fields with type conversion
             if field_name in ["azimuth", "elevation"]:
                 try:
-                    if (desired_value is not None and existing_value is not None and
-                        int(desired_value) != int(existing_value)):
+                    if (desired_value is not None and
+                       existing_value is not None and
+                       int(desired_value) != int(existing_value)):
 
                         self.log(
                             "Antenna {0} mismatch: {1} != {2}".format(
