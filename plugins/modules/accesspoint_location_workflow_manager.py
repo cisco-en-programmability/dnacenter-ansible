@@ -2549,7 +2549,7 @@ class AccessPointLocation(DnacBase):
                 )
                 continue
 
-            ap_name = access_point_config.get("accesspoint_name", "Unknown")
+            ap_name = access_point_config.get("name", "Unknown")
             mac_address = access_point_config.get("mac_address")
 
             self.log(
