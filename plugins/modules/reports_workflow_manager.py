@@ -2755,7 +2755,7 @@ class Reports(DnacBase):
             return False
 
         filters = view.get("filters", [])
-        field = view.get("field", [])
+        field = view.get("field_groups", [])
         if not filters and not field:
             return True
 
@@ -2978,7 +2978,7 @@ class Reports(DnacBase):
         """
 
         filters = view_data.get("filters", [])
-        field_groups = view_data.get("fieldGroups", [])
+        field_groups = view_data.get("field_groups", [])
 
         self.log("Validating Security Advisories filters and fieldGroups", "DEBUG")
 
