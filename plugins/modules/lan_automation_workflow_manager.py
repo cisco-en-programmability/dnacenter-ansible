@@ -1529,7 +1529,9 @@ class LanAutomation(DnacBase):
                 "destinationDeviceManagementIPAddress": port_channel_config.get(
                     "device2ManagementIPAddress"
                 ),
-                "portChannelNumber": port_channel_config.get("portChannelNumber"),
+                "portChannelNumber": port_channel_config.get(
+                    "device1PortChannelNumber"
+                ),
                 "id": port_channel_config.get("id"),
             }
             self.log(
