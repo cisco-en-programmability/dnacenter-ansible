@@ -36,8 +36,8 @@ options:
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
-    choices: [merged]
-    default: merged
+    choices: [gathered]
+    default: gathered
   config:
     description:
     - A list of filters for generating YAML playbook compatible with the `provision_workflow_manager`
@@ -144,7 +144,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/catc_provision_config.yaml"
 
@@ -159,7 +159,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/catc_provision_config.yaml"
         component_specific_filters:
@@ -176,7 +176,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/catc_provision_config.yaml"
         component_specific_filters:
@@ -196,7 +196,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/catc_provision_config.yaml"
         component_specific_filters:
@@ -215,7 +215,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/catc_provision_config.yaml"
         component_specific_filters:
@@ -232,7 +232,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/catc_non_provisioned_config.yaml"
         component_specific_filters:
@@ -249,7 +249,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/catc_all_devices_config.yaml"
         component_specific_filters:
@@ -266,7 +266,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/catc_site_non_provisioned_config.yaml"
         component_specific_filters:
@@ -342,7 +342,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             The method does not return a value.
         """
-        self.supported_states = ["merged"]
+        self.supported_states = ["gathered"]
         super().__init__(module)
         self.module_name = "provision_workflow_manager"
         self.module_schema = self.provision_workflow_manager_mapping()
@@ -1351,7 +1351,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Args:
             config (dict): The configuration data for the provision elements.
-            state (str): The desired state ('merged').
+            state (str): The desired state ('gathered').
         """
         self.log(
             "Creating Parameters for API Calls with state: {0}".format(state), "INFO"
@@ -1374,12 +1374,12 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.status = "success"
         return self
 
-    def get_diff_merged(self):
+    def get_diff_gathered(self):
         """
         Executes the merge operations for provision configurations in the Cisco Catalyst Center.
         """
         start_time = time.time()
-        self.log("Starting 'get_diff_merged' operation.", "DEBUG")
+        self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
 
         operations = [
             (
@@ -1419,7 +1419,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         end_time = time.time()
         self.log(
-            "Completed 'get_diff_merged' operation in {0:.2f} seconds.".format(
+            "Completed 'get_diff_gathered' operation in {0:.2f} seconds.".format(
                 end_time - start_time
             ),
             "DEBUG",
@@ -1505,7 +1505,7 @@ def main():
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
-        "state": {"default": "merged", "choices": ["merged"]},
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with the provided argument specifications
