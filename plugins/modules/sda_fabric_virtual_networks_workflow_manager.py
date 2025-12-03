@@ -1783,7 +1783,7 @@ class VirtualNetwork(DnacBase):
         desired_traffic_type = desired_vlan_config.get("traffic_type")
         current_traffic_type = current_vlan_config.get("trafficType")
 
-        if desired_traffic_type and desired_traffic_type != current_traffic_type:
+        if desired_traffic_type and desired_traffic_type.upper() != current_traffic_type:
             self.log(
                 "Traffic type needs update: desired='{0}', current='{1}'".format(
                     desired_traffic_type, current_traffic_type
