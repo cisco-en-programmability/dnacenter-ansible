@@ -723,21 +723,21 @@ class AccessPointLocation(DnacBase):
                 "accesspoint_model": {"type": "str", "required": False},
                 "position": {
                     "type": "dict",
-                    "x_position": {"type": "int", "required": False},
-                    "y_position": {"type": "int", "required": False},
-                    "z_position": {"type": "int", "required": False},
+                    "x_position": {"type": "int", "required": False},  # 0-100 range
+                    "y_position": {"type": "int", "required": False},  # 0-88 range
+                    "z_position": {"type": "int", "required": False},  # 3.0-10.0 range
                 },
                 "radios": {
                     "type": "list",
                     "elements": "dict",
-                    "bands": {"type": "list", "elements": "str", "required": False},
-                    "channel": {"type": "int", "required": False},
-                    "tx_power": {"type": "int", "required": False},
+                    "bands": {"type": "list", "elements": "str", "required": False},  # 2.4, 5, 6
+                    "channel": {"type": "int", "required": False},  # Band-specific channels
+                    "tx_power": {"type": "int", "required": False},  # Transmission power (dBm)
                     "antenna": {
                         "type": "dict",
-                        "antenna_name": {"type": "str", "required": False},
-                        "azimuth": {"type": "int", "required": False},
-                        "elevation": {"type": "int", "required": False},
+                        "antenna_name": {"type": "str", "required": False},  # Model-specific antenna
+                        "azimuth": {"type": "int", "required": False},  # 1-360 degrees
+                        "elevation": {"type": "int", "required": False},  # -90 to 90 degrees
                     },
                 },
             },
@@ -1039,8 +1039,17 @@ class AccessPointLocation(DnacBase):
             tx_power = radio.get("tx_power")
             if tx_power is None and each_access_point.get("action") != "manage_real_ap":
                 errormsg.append("tx_power: Tx Power is missing in playbook.")
-            elif tx_power and isinstance(tx_power, int) and not (0 < tx_power < 101):
-                errormsg.append("tx_power: Tx Power must be between 0 and 100.")
+            elif isinstance(tx_power, int):
+                if not (0 < tx_power < 101):
+                    errormsg.append(
+                        "tx_power: Tx Power must be between 1 and 100 dBm."
+                    )
+            else:
+                errormsg.append(
+                    "tx_power: Tx Power must be an integer, got: {0}".format(
+                        type(tx_power).__name__
+                    )
+                )
 
             antenna = radio.get("antenna")
             if antenna is None:
@@ -1307,12 +1316,12 @@ class AccessPointLocation(DnacBase):
                     have["site_id"], have["site_name"], access_point, True
                 )
                 if ap_details:
-                    self.log(f"Access point real position found for deletion: {access_point.get('accesspoint_name')}", "INFO")
+                    self.log(f"Access point found in real position for analysis: {ap_name}", "INFO")
                     if self.params.get("state") == "deleted":
                         ap_details[0]["action"] = access_point.get("action")
                         delete_accesspoint.append(ap_details[0])
                     else:
-                        self.log(f"Access point real position already exist: {access_point.get('accesspoint_name')}", "INFO")
+                        self.log(f"Access point already assigned to real position: {ap_name}", "INFO")
                         assigned_accesspoint.append(ap_details[0])
                     continue
 
@@ -2123,7 +2132,9 @@ class AccessPointLocation(DnacBase):
 
     def process_access_point_position_operations(self, function_name, floor_id, payloads, state):
         """
-        Process the creation or updation of access point position based on the desired state.
+        Executes create, update, or assignment operations for access point positions through
+        the Catalyst Center site design API with comprehensive task status monitoring and
+        error handling for operation validation and completion verification.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
@@ -2133,7 +2144,14 @@ class AccessPointLocation(DnacBase):
             state (str): The desired state of create/update/assign for the access point position.
 
         Returns:
-            self - The current object with message and response information.
+            str: Operation result - "SUCCESS" for completed operations, "FAILURE" for
+                failed operations, None for API communication errors
+
+        Description:
+            - Initiates access point position operations through Catalyst Center APIs
+            - Monitors task execution status with comprehensive error handling
+            - Tracks operation results in appropriate location tracking lists
+            - Provides detailed logging for debugging and operational visibility
         """
         self.log(
             f"Processing access point position creation/updation for: {self.have.get('site_name')}",
@@ -2188,6 +2206,11 @@ class AccessPointLocation(DnacBase):
         )
 
         floor_id = self.have.get("site_id")
+        if not floor_id or not isinstance(floor_id, str):
+            error_msg = "Floor ID must be a non-empty string for position operations"
+            self.log(error_msg, "ERROR")
+            return None
+
         create_payload, update_payload, update_real_payload = [], [], []
         collect_ap_list = []
 
@@ -2310,139 +2333,436 @@ class AccessPointLocation(DnacBase):
 
     def validate_update_payload(self, payload, operation="update"):
         """
-        Validate update payload to ensure it contains all required fields.
+        Performs comprehensive validation of access point configuration payload to ensure
+        all required fields are present for successful API operations including ID validation
+        for update operations, radio configuration completeness, and payload structure integrity.
 
         Parameters:
             payload (dict): The payload to validate
             operation (str): The operation type (update/create)
 
         Returns:
-            tuple: (is_valid, error_messages)
+            tuple: (validation_result, error_messages)
+                - validation_result (bool): True if payload is valid, False otherwise
+                - error_messages (list): List of validation error descriptions
+
+        Description:
+            - Validates payload structure and required field presence
+            - Ensures update operations contain necessary ID fields for existing entities
+            - Validates radio configurations have proper identification for updates
+            - Provides detailed error messages for troubleshooting payload issues
         """
-        errors = []
+        self.log(
+            "Starting payload validation for access point API operation requirements",
+            "INFO"
+        )
+
+        payload_fields = list(payload.keys()) if isinstance(payload, dict) else []
+        radio_count = len(payload.get("radios", [])) if isinstance(payload, dict) else 0
+
+        self.log(
+            "Validating payload for operation '{0}' with fields: {1}, radios: {2}".format(
+                operation, payload_fields, radio_count
+            ),
+            "DEBUG"
+        )
+        validation_errors = []
 
         if operation == "update":
+            self.log(
+                "Validating update operation requirements for access point payload",
+                "DEBUG"
+            )
+
             # For updates, ensure AP has an ID
             if not payload.get("id"):
-                errors.append("Update operation requires 'id' field")
+                validation_errors.append("Update operation requires 'id' field")
+                self.log(
+                    "Missing access point ID for update operation - validation failed",
+                    "WARNING"
+                )
+            else:
+                self.log(
+                    "Access point ID '{0}' validated for update operation".format(
+                        payload.get("id")
+                    ),
+                    "DEBUG"
+                )
 
-            # Ensure all radios have IDs for updates
-            radios = payload.get("radios", [])
-            for idx, radio in enumerate(radios):
-                if not radio.get("id"):
-                    errors.append(
-                        f"Radio at index {idx} (bands: {radio.get('bands')}) "
-                        f"is missing required 'id' field for update operation"
+            # Validate radio configurations for update operations
+            radio_configurations = payload.get("radios", [])
+
+            if not isinstance(radio_configurations, list):
+                validation_errors.append(
+                    "Radio configurations must be a list for payload validation"
+                )
+                self.log(
+                    "Invalid radio configuration format - expected list, got: {0}".format(
+                        type(radio_configurations).__name__
+                    ),
+                    "WARNING"
+                )
+            else:
+                self.log(
+                    "Validating {0} radio configurations for update operation".format(
+                        len(radio_configurations)
+                    ),
+                    "DEBUG"
+                )
+
+                # Validate each radio configuration
+                for radio_index, radio_config in enumerate(radio_configurations):
+                    if not isinstance(radio_config, dict):
+                        validation_errors.append(
+                            "Radio at index {0} must be a dictionary".format(radio_index)
+                        )
+                        continue
+
+                    radio_bands = radio_config.get("bands", "Unknown")
+
+                    # Validate radio ID for update operations
+                    if not radio_config.get("id"):
+                        error_message = (
+                            "Radio at index {0} (bands: {1}) is missing required "
+                            "'id' field for update operation".format(radio_index, radio_bands)
+                        )
+                        validation_errors.append(error_message)
+
+                        self.log(
+                            "Radio validation failed - missing ID for radio {0} with bands {1}".format(
+                                radio_index, radio_bands
+                            ),
+                            "WARNING"
+                        )
+                    else:
+                        self.log(
+                            "Radio ID '{0}' validated for bands '{1}' at index {2}".format(
+                                radio_config.get("id"), radio_bands, radio_index
+                            ),
+                            "DEBUG"
+                        )
+        elif operation == "create":
+            self.log(
+                "Validating create operation requirements for access point payload",
+                "DEBUG"
+            )
+
+            # Validate required fields for create operations
+            required_create_fields = ["name", "type", "position", "radios"]
+
+            for required_field in required_create_fields:
+                if not payload.get(required_field):
+                    validation_errors.append(
+                        "Create operation requires '{0}' field".format(required_field)
                     )
 
-        is_valid = len(errors) == 0
-        return is_valid, errors
+            self.log(
+                "Create operation field validation completed with {0} errors".format(
+                    len([e for e in validation_errors if "Create operation requires" in e])
+                ),
+                "DEBUG"
+            )
+
+        # Determine validation result
+        payload_is_valid = len(validation_errors) == 0
+
+        validation_status = "valid" if payload_is_valid else "invalid"
+        self.log(
+            "Payload validation completed - result: {0}, errors: {1}".format(
+                validation_status, len(validation_errors)
+            ),
+            "INFO"
+        )
+
+        if validation_errors:
+            self.log(
+                "Payload validation errors detected: {0}".format(
+                    "; ".join(validation_errors)
+                ),
+                "DEBUG"
+            )
+        else:
+            self.log(
+                "Payload validation successful - all required fields present for '{0}' operation".format(
+                    operation
+                ),
+                "DEBUG"
+            )
+
+        return payload_is_valid, validation_errors
 
     def assign_access_point_to_planned_position(self):
         """
-        Assign an access point to a specific planned position.
+        Processes assignment operations by matching real access point devices with their
+        corresponding planned positions through device MAC addresses and planned position IDs.
+        Executes assignment via Catalyst Center APIs with comprehensive validation and
+        error handling for operational reliability.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
 
         Returns:
             self - The current object with message and response information.
+
+        Description:
+            - Validates access point assignment requirements and device availability
+            - Matches real devices with planned positions using MAC address lookup
+            - Constructs assignment payloads with device and planned position identifiers
+            - Executes assignments through Catalyst Center site design APIs
+            - Tracks assignment results for operational reporting and validation
         """
         self.log(f"Assigning access point to planned position for: {self.have.get('site_name')}", "INFO")
+        site_name = self.have.get('site_name', 'Unknown')
+        assignment_count = len(self.have.get("assign_accesspoint", []))
 
-        if self.have.get("assign_accesspoint"):
-            access_point_devices_details = self.have.get("accesspoint_devices", [])
-            assign_payload = []
-            collect_ap_list = []
-            for access_point in self.have.get("assign_accesspoint", []):
-                if access_point.get("action") != "assign_planned_ap":
+        self.log(
+            "Processing {0} access point assignments for site '{1}'".format(
+                assignment_count, site_name
+            ),
+            "DEBUG"
+        )
+
+        if not self.have.get("assign_accesspoint"):
+            self.log(
+                "No access point assignments found for processing - operation complete",
+                "INFO"
+            )
+            return self
+
+        access_point_devices_details = self.have.get("accesspoint_devices", [])
+        assignment_payloads = []
+        processed_ap_list = []
+        self.log(
+            "Processing access point assignment operations with {0} device details available".format(
+                len(access_point_devices_details)
+            ),
+            "DEBUG"
+        )
+
+        for access_point_config in self.have.get("assign_accesspoint", []):
+            if access_point_config.get("action") != "assign_planned_ap":
+                self.log(
+                    "Skipping non-assignment action for AP: {0}".format(
+                        access_point_config.get("accesspoint_name", "Unknown")
+                    ),
+                    "DEBUG"
+                )
+                continue
+
+            ap_name = access_point_config.get("accesspoint_name", "Unknown")
+            mac_address = access_point_config.get("mac_address")
+
+            self.log(
+                "Processing assignment operation for AP '{0}' with MAC '{1}'".format(
+                    ap_name, mac_address
+                ),
+                "DEBUG"
+            )
+
+            # Input validation for security
+            if not mac_address:
+                error_msg = (
+                    "MAC address is required for assignment operation: {0}".format(ap_name)
+                )
+                self.log(error_msg, "WARNING")
+                self.fail_and_exit(error_msg)
+
+            self.log(f"Processing assign access point to planned position: {self.pprint(access_point_config)}",
+                     "INFO")
+            # Find matching device details using MAC address
+            matching_device = self.find_dict_by_key_value(
+                access_point_devices_details, "macAddress",
+                access_point_config.get("mac_address", access_point_config.get("name"))
+            )
+
+            if not matching_device:
+                error_msg = (
+                    "No device details found for access point '{0}' with MAC '{1}'".format(
+                        ap_name, mac_address
+                    )
+                )
+                self.log(error_msg, "WARNING")
+                self.fail_and_exit(error_msg)
+
+            self.log(
+                "Device details located for AP '{0}' with device ID '{1}'".format(
+                    ap_name, matching_device.get("id", "Unknown")
+                ),
+                "DEBUG"
+            )
+
+            ap_details = self.get_access_point_posisiton(
+                self.have["site_id"], self.have["site_name"], access_point_config
+            )
+            if not ap_details:
+                msg = f"Check the assignment exist in real position: {ap_name}"
+                self.log(msg, "WARNING")
+                ap_details = self.get_access_point_posisiton(
+                    self.have["site_id"], self.have["site_name"], access_point_config, True)
+                if ap_details:
+                    self.log(f"Access point real position found: {ap_name}",
+                                "INFO")
+                    self.location_already_assigned.append(ap_name)
                     continue
 
-                self.log(f"Processing assign access point to planned position: {self.pprint(access_point)}",
-                         "INFO")
-                ap_device = self.find_dict_by_key_value(
-                    access_point_devices_details, "macAddress",
-                    access_point.get("mac_address", access_point.get("name"))
-                )
-                if not ap_device:
-                    msg = f"No device details found for access point: {access_point.get('accesspoint_name')}"
-                    self.log(msg, "WARNING")
-                    self.fail_and_exit(msg)
+            ap_payload = {
+                "accessPointId": matching_device.get("id"),
+                "plannedAccessPointId": ap_details[0].get("id")
+            }
+            assignment_payloads.append(ap_payload)
+            processed_ap_list.append(ap_name)
 
-                ap_details = self.get_access_point_posisiton(
-                    self.have["site_id"], self.have["site_name"], access_point
-                )
-                if not ap_details:
-                    msg = f"Check the assignment exist in real position: {access_point.get('accesspoint_name')}"
-                    self.log(msg, "WARNING")
-                    ap_details = self.get_access_point_posisiton(
-                        self.have["site_id"], self.have["site_name"], access_point, True)
-                    if ap_details:
-                        self.log(f"Access point real position found: {access_point.get('accesspoint_name')}",
-                                 "INFO")
-                        self.location_already_assigned.append(access_point.get("accesspoint_name"))
-                        continue
-
-                ap_payload = {
-                    "accessPointId": ap_device.get("id"),
-                    "plannedAccessPointId": ap_details[0].get("id")
-                }
-                assign_payload.append(ap_payload)
-                collect_ap_list.append(access_point.get("name"))
-
-            if not assign_payload:
-                self.log("No valid access points found for assignment.", "DEBUG")
-                return self
-
-            self.log(f"Assign planned Access Point to position payload: {self.pprint(assign_payload)}", "DEBUG")
-
-            floor_id = self.have.get("site_id")
-            process_response = self.process_access_point_position_operations(
-                "assign_planned_access_points_to_operations_ones", floor_id, assign_payload, "assign_planned_ap"
+        if not assignment_payloads:
+            self.log(
+                "No valid access point assignments found for processing - operation complete",
+                "INFO"
             )
-            self.log(f"Assign planned Access Point to position process response: {self.pprint(process_response)}", "DEBUG")
+            return self
 
-            if process_response == "SUCCESS":
-                self.msg = f"Planned Access Point position assigned successfully for: {self.have.get('site_name')}"
-                self.log(self.msg , "INFO")
-                self.location_assigned.append(collect_ap_list)
+        self.log(
+            "Executing {0} access point assignment operations via Catalyst Center API".format(
+                len(assignment_payloads)
+            ),
+            "INFO"
+        )
 
-            elif process_response == "FAILURE":
-                self.msg = f"Failed to assign Planned Access Point position for: {self.have.get('site_name')}"
-                self.log(self.msg, "ERROR")
-                self.location_not_assigned.append(collect_ap_list)
-            else:
-                self.msg = f"Unable to process Planned Access Point position assignment for: {self.have.get('site_name')}"
-                self.log(self.msg, "ERROR")
-                self.location_not_assigned.append(collect_ap_list)
+        self.log(
+            "Assignment operation payload: {0}".format(self.pprint(assignment_payloads)),
+            "DEBUG"
+        )
+
+        floor_id = self.have.get("site_id")
+        assignment_response = self.process_access_point_position_operations(
+            "assign_planned_access_points_to_operations_ones",
+            floor_id, assignment_payloads, "assign_planned_ap"
+        )
+
+        self.log(
+            "Assignment operation API response received: {0}".format(
+                self.pprint(assignment_response)
+            ),
+            "DEBUG"
+        )
+
+        if assignment_response == "SUCCESS":
+            success_msg = (
+                "Access point assignments completed successfully for site '{0}'".format(
+                    site_name
+                )
+            )
+            self.log(success_msg, "INFO")
+            self.msg = success_msg
+            self.location_assigned.append(processed_ap_list)
+
+        elif assignment_response == "FAILURE":
+            failure_msg = (
+                "Access point assignment operations failed for site '{0}'".format(
+                    site_name
+                )
+            )
+            self.log(failure_msg, "ERROR")
+            self.msg = failure_msg
+            self.location_not_assigned.append(processed_ap_list)
+
+        else:
+            error_msg = (
+                "Unable to process access point assignment operations for site '{0}'".format(
+                    site_name
+                )
+            )
+            self.log(error_msg, "ERROR")
+            self.msg = error_msg
+            self.location_not_assigned.append(processed_ap_list)
+
+        assigned_count = len(self.location_assigned[-1]) if self.location_assigned else 0
+        failed_count = len(self.location_not_assigned[-1]) if self.location_not_assigned else 0
+        already_assigned_count = len(self.location_already_assigned)
+
+        self.log(
+            "Assignment operations completed - assigned: {0}, failed: {1}, "
+            "already_assigned: {2}".format(
+                assigned_count, failed_count, already_assigned_count
+            ),
+            "INFO"
+        )
 
         return self
 
-    def delete_planned_accesspoints_position(self):
+    def delete_access_point_positions(self):
         """
-        Delete planned access point positions for a specific site.
+        Remove planned and real access point positions from Cisco Catalyst Center.
+
+        Processes deletion operations for both planned position removal and real access
+        point unassignment based on operation type. Executes appropriate API calls for
+        position cleanup with comprehensive task monitoring and error handling for
+        operational reliability and validation.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
 
         Returns:
             self - The current object with message and response information.
+
+        Description:
+            - Processes planned position deletions using site design APIs
+            - Handles real access point unassignment via device management APIs
+            - Monitors task execution status with comprehensive error handling
+            - Tracks deletion results for operational reporting and validation
+            - Supports both individual and batch deletion operations
         """
         self.log(f"Deleting planned access point positions for: {self.have.get('site_name')}", "INFO")
+        site_name = self.have.get('site_name', 'Unknown')
+        deletion_count = len(self.have.get("delete_accesspoint", []))
 
-        for access_point in self.have.get("delete_accesspoint", []):
-            self.log(f"Processing delete access point: {self.pprint(access_point)}", "INFO")
+        self.log(
+            "Processing {0} access point deletions for site '{1}'".format(
+                deletion_count, site_name
+            ),
+            "DEBUG"
+        )
+
+        # Process each access point for deletion operations
+        for access_point_config in self.have.get("delete_accesspoint", []):
+            ap_name = access_point_config.get("name", "Unknown")
+            operation_type = access_point_config.get("action", "planned")
+
+            self.log(
+                "Processing deletion operation for AP '{0}' with type '{1}'".format(
+                    ap_name, operation_type
+                ),
+                "DEBUG"
+            )
+
+            if not access_point_config.get("id"):
+                error_msg = (
+                    f"Access point ID is required for deletion operation: {ap_name}"
+                )
+                self.log(error_msg, "WARNING")
+                self.location_not_deleted.append(ap_name)
+                continue
 
             delete_payload = {}
             family_name = "site_design"
             function_name = "delete_planned_access_points_position"
 
-            if access_point.get("action") == "manage_real_ap":
-                delete_payload["deviceIds"] = [access_point.get("id")]
+            if access_point_config.get("action") == "manage_real_ap":
+                delete_payload["deviceIds"] = [access_point_config.get("id")]
                 function_name = "unassign_network_devices_from_sites"
+                self.log(
+                    "Configured real access point unassignment for device ID: {0}".format(
+                        access_point_config.get("id")
+                    ),
+                    "DEBUG"
+                )
             else:
                 delete_payload["floor_id"] = self.have.get("site_id")
-                delete_payload["id"] = access_point.get("id")
+                delete_payload["id"] = access_point_config.get("id")
+                self.log(
+                    "Configured planned position deletion for floor ID: {0}, position ID: {1}".format(
+                        self.have.get("site_id"), access_point_config.get("id")
+                    ),
+                    "DEBUG"
+                )
 
             self.log(f"Deleting planned access point position Payload: {self.pprint(delete_payload)}",
                      "DEBUG")
@@ -2452,100 +2772,263 @@ class AccessPointLocation(DnacBase):
                     family_name, function_name, delete_payload
                 )
                 if not task_id:
-                    msg = f"No response received from API for deleting Access Point Planned Location: {self.have.get('site_name')}"
+                    msg = f"No task ID received from API for deletion operation on site '{site_name}', AP '{ap_name}'"
                     self.log(msg, "WARNING")
-                    self.location_not_deleted.append(access_point.get("name"))
+                    self.location_not_deleted.append(ap_name)
                     continue
 
                 self.log(
-                    f"Delete planned Access Point delete location API Response: {task_id}",
+                    f"Deletion task '{task_id}' initiated successfully for AP '{ap_name}' - monitoring status",
                     "DEBUG",
                 )
 
                 self.get_task_status_from_tasks_by_id(task_id, function_name, "SUCCESS")
                 if self.msg == "SUCCESS":
                     self.log(f"Task '{task_id}' completed successfully.", "INFO")
-                    self.location_deleted.append(access_point.get("name"))
+                    self.location_deleted.append(ap_name)
                 else:
                     self.log(f"Task '{task_id}' failed.", "ERROR")
-                    self.location_not_deleted.append(access_point.get("name"))
+                    self.location_not_deleted.append(ap_name)
 
             except Exception as e:
                 self.msg = 'An error occurred during get task details. '
                 self.log(self.msg + str(e), "ERROR")
-                self.location_not_deleted.append(access_point.get("name"))
+                self.location_not_deleted.append(ap_name)
                 continue
 
+        deleted_count = len(self.location_deleted)
+        failed_count = len(self.location_not_deleted)
+
+        self.log(
+            "Access point deletion operations completed - deleted: {0}, failed: {1}".format(
+                deleted_count, failed_count
+            ),
+            "INFO"
+        )
+
+        if self.location_deleted:
+            self.log(
+                "Successfully deleted access points: {0}".format(", ".join(self.location_deleted)),
+                "INFO"
+            )
+
+        if self.location_not_deleted:
+            self.log(
+                "Failed to delete access points: {0}".format(
+                    ", ".join(self.location_not_deleted)
+                ),
+                "WARNING"
+            )
         return self
 
     def get_diff_merged(self, config):
         """
-        Create/Update planned access points position and assign access points to the planned position
+        Processes create, update, and assignment operations for access point positions
+        based on current state analysis. Coordinates planned position management,
+        real position updates, and assignment operations with comprehensive status
+        tracking and operational validation.
 
         Parameters:
             config (list of dict) - Playbook details containing planned access point position information.
 
         Returns:
             self - The current object with message and created/updated/assigned response information.
+
+        Description:
+            - Processes existing position validation and skip logic for idempotent operations
+            - Executes create/update operations for new and modified access point positions
+            - Handles assignment operations for planned to real position mapping
+            - Tracks operation results with detailed success/failure categorization
+            - Provides comprehensive status reporting for operational visibility
         """
         self.log(
             f"Starting to create/update planned or real access point position for: {config}", "INFO"
         )
 
+        site_hierarchy = config.get("floor_site_hierarchy", "Unknown")
+        access_points_count = len(config.get("access_points", []))
+
+        self.log(
+            "Processing merge operations for site '{0}' with {1} access point configurations".format(
+                site_hierarchy, access_points_count
+            ),
+            "DEBUG"
+        )
+
+        if not isinstance(config, dict):
+            error_msg = "Configuration must be a dictionary for merge operations"
+            self.log(error_msg, "ERROR")
+            self.fail_and_exit(error_msg)
+
+        if not config.get("access_points"):
+            error_msg = "Access points configuration is required for merge operations"
+            self.log(error_msg, "ERROR")
+            self.fail_and_exit(error_msg)
+
         self.changed = False
         self.status = "failed"
+        operations_performed = []
 
+        # Handle existing access point positions (idempotent behavior)
         if self.have.get("existing_accesspoint"):
-            for access_point in self.have.get("existing_accesspoint", []):
-                self.location_exist.append(access_point.get("name"))
-            self.msg = "No Changes required, Planned Access Point position(s) already exist."
-            self.changed = False
-            self.status = "success"
+            existing_count = 0
+            for access_point_config in self.have.get("existing_accesspoint", []):
+                if isinstance(access_point_config, dict):
+                    ap_name = access_point_config.get("name", "Unknown")
+                    self.location_exist.append(ap_name)
+                    existing_count += 1
+
+            if existing_count > 0:
+                self.log(
+                    "Found {0} existing access point positions - no changes required".format(
+                        existing_count
+                    ),
+                    "INFO"
+                )
+
+                self.msg = (
+                    "No changes required - planned access point positions already exist"
+                )
+                self.changed = False
+                self.status = "success"
+                operations_performed.append("existing_validation")
 
         if self.have.get("already_assigned_accesspoint"):
-            for access_point in self.have.get("already_assigned_accesspoint", []):
-                self.location_exist.append(access_point.get("name"))
-            self.msg = "No Changes required, Planned Access Point position(s) already assigned."
-            self.changed = False
-            self.status = "success"
+            assigned_count = 0
+            for access_point_config in self.have.get("already_assigned_accesspoint", []):
+                if isinstance(access_point_config, dict):
+                    ap_name = access_point_config.get("name", "Unknown")
+                    self.location_exist.append(ap_name)
+                    assigned_count += 1
 
-        if (self.have.get("new_accesspoint") or self.have.get("update_accesspoint")
-           or self.have.get("update_real_accesspoint")):
-            responses = self.manage_access_point_positions()
+            if assigned_count > 0:
+                self.log(
+                    f"Found {assigned_count} already assigned access point positions - no changes required",
+                    "INFO"
+                )
 
-            if not responses:
-                self.msg = "No response received from Planned Access Point position creation/updation."
-                self.log(self.msg, "ERROR")
-                self.fail_and_exit(self.msg)
+                self.msg = (
+                    "No changes required - access point positions already assigned"
+                )
+                self.changed = False
+                self.status = "success"
+                operations_performed.append("assignment_validation")
 
+        # Process create/update operations
+        creation_update_required = (
+            self.have.get("new_accesspoint") or
+            self.have.get("update_accesspoint") or
+            self.have.get("update_real_accesspoint")
+        )
+        if creation_update_required:
+            new_count = len(self.have.get("new_accesspoint", []))
+            update_planned_count = len(self.have.get("update_accesspoint", []))
+            update_real_count = len(self.have.get("update_real_accesspoint", []))
+
+            self.log(
+                "Executing position operations - new: {0}, update_planned: {1}, "
+                "update_real: {2}".format(
+                    new_count, update_planned_count, update_real_count
+                ),
+                "INFO"
+            )
+
+            creation_update_response = self.manage_access_point_positions()
+
+            if not creation_update_response:
+                error_msg = (
+                    "No response received from access point position creation/update operations"
+                )
+                self.log(error_msg, "ERROR")
+                self.fail_and_exit(error_msg)
+
+            operations_performed.append("create_update_operations")
+            self.log(
+                "Position creation/update operations completed successfully",
+                "DEBUG"
+            )
+
+        # Process assignment operations
         if self.have.get("assign_accesspoint"):
-            assign_response = self.assign_access_point_to_planned_position()
-            status_msg = str(self.location_assigned)
-            self.msg = f"Planned Access Point position assigned successfully for '{status_msg}'."
-            self.log(self.msg, "INFO")
-            self.changed = True
-            self.status = "success"
+            assignment_count = len(self.have.get("assign_accesspoint", []))
 
+            self.log(
+                "Executing {0} access point assignment operations".format(assignment_count),
+                "INFO"
+            )
+
+            assignment_response = self.assign_access_point_to_planned_position()
+
+            # Process assignment results
+            if self.location_assigned:
+                assigned_list = [str(item) for item in self.location_assigned]
+                success_msg = (
+                    "Access point positions assigned successfully for: {0}".format(
+                        assigned_list
+                    )
+                )
+                self.log(success_msg, "INFO")
+                self.msg = success_msg
+                self.changed = True
+                self.status = "success"
+                operations_performed.append("assignment_operations")
+
+        # Handle operation failures and error conditions
         if self.location_not_created:
-            not_created_msg = ', '.join(map(str, self.location_not_created))
-            self.msg += f" Unable to process the following Planned Access Point position(s): '{not_created_msg}'."
-            self.msg += " They may not have been created or already exist."
-            self.log(self.msg, "DEBUG")
+            failed_creations = [str(item) for item in self.location_not_created]
+            failed_msg = (
+                "Unable to process the following access point positions: {0}. "
+                "They may not have been created or already exist.".format(
+                    ", ".join(failed_creations)
+                )
+            )
+
+            self.log(failed_msg, "WARNING")
+
+            if hasattr(self, 'msg'):
+                self.msg += " " + failed_msg
+            else:
+                self.msg = failed_msg
+
             self.changed = False
             self.status = "failed"
+            operations_performed.append("creation_failures")
 
-        locations = str(self.location_created + self.location_updated)
-        self.log(self.msg, "INFO")
+        # Prepare operation results for response
+        processed_locations = self.location_created + self.location_updated
+        location_results = [str(item) for item in processed_locations]
+
+        self.log(
+            "Merge operation completed - operations: {0}, processed: {1}, "
+            "existing: {2}, failed: {3}".format(
+                operations_performed,
+                len(location_results),
+                len(self.location_exist),
+                len(self.location_not_created)
+            ),
+            "INFO"
+        )
+
+        if hasattr(self, 'msg'):
+            self.log(self.msg, "INFO")
+        else:
+            self.msg = "Access point position merge operations completed"
+            self.log(self.msg, "INFO")
+
         self.set_operation_result(
-            self.status, self.changed, self.msg, "INFO", locations
+            self.status, self.changed, self.msg, "INFO", location_results
         ).check_return_status()
 
         return self
 
     def verify_diff_merged(self, config):
         """
-        Validating the Cisco Catalyst Center configuration with the playbook details
-        when state is merged (Create/Update).
+        Validate access point position operations against Cisco Catalyst Center state.
+
+        Performs comprehensive verification of merge operation results by comparing
+        expected outcomes with actual system state. Validates creation, update, and
+        assignment operations to ensure configuration consistency and operational
+        reliability for access point position management.
 
         Parameters:
             config (dict) - Playbook details containing access point planned location
@@ -2553,155 +3036,546 @@ class AccessPointLocation(DnacBase):
 
         Returns:
             self - The current object with message and response information.
+
+        Description:
+            - Validates successful creation operations against expected access point count
+            - Verifies update operations completed successfully for modified positions
+            - Confirms assignment operations for planned to real position mapping
+            - Tracks verification failures and provides detailed error reporting
+            - Ensures idempotent behavior for existing configurations
         """
         self.log(
             f"Starting to verify created/updated Access Point Location(s) for: {config}",
             "INFO",
         )
 
+        site_hierarchy = config.get("floor_site_hierarchy", "Unknown")
+        expected_ap_count = len(config.get("access_points", []))
+
+        self.log(
+            "Verifying merge operations for site '{0}' with {1} expected access points".format(
+                site_hierarchy, expected_ap_count
+            ),
+            "DEBUG"
+        )
+
         self.changed = False
-        if (self.location_created
-           and len(self.location_created) == len(config.get("access_points", []))):
-            self.msg = f"Planned/Real Access Point position created successfully for '{config.get('floor_site_hierarchy')}'."
-            self.log(self.msg, "INFO")
+        verification_operations = []
+
+        # Collect operation statistics for verification
+        created_count = len(self.location_created)
+        updated_count = len(self.location_updated)
+        existing_count = len(self.location_exist)
+        assigned_count = len(self.location_assigned)
+        failed_creation_count = len(self.location_not_created)
+        failed_update_count = len(self.location_not_updated)
+        failed_assignment_count = len(self.location_not_assigned)
+
+        self.log(
+            "Operation statistics - created: {0}, updated: {1}, existing: {2}, "
+            "assigned: {3}, failed_creation: {4}, failed_update: {5}, "
+            "failed_assignment: {6}".format(
+                created_count, updated_count, existing_count, assigned_count,
+                failed_creation_count, failed_update_count, failed_assignment_count
+            ),
+            "DEBUG"
+        )
+
+        # Verify creation operations
+        if self.location_created and created_count == expected_ap_count:
+            success_msg = (
+                "Access point positions created successfully for site '{0}'".format(
+                    site_hierarchy
+                )
+            )
+            self.log(success_msg, "INFO")
+            self.msg = success_msg
             self.changed = True
             self.status = "success"
+            verification_operations.append("creation_verification")
 
-        if (self.location_exist and not self.location_created and not self.location_updated
-           and len(self.location_exist) == len(config.get("access_points", []))):
-            self.msg = "No Changes required, Planned/Real Access Point position(s) already exist."
+        # Verify idempotent behavior for existing positions
+        elif (self.location_exist and not self.location_created and
+            not self.location_updated and existing_count == expected_ap_count):
+            idempotent_msg = (
+                "No changes required - access point positions already exist"
+            )
+            self.log(idempotent_msg, "INFO")
+            self.msg = idempotent_msg
             self.changed = False
             self.status = "success"
+            verification_operations.append("idempotent_verification")
 
-        if (self.location_updated
-           and len(self.location_updated) == len(config.get("access_points", []))):
-            self.msg = f"Planned/Real Access Point position updated successfully for '{config.get('floor_site_hierarchy')}'."
-            self.log(self.msg, "INFO")
+        # Verify update operations
+        elif self.location_updated and updated_count == expected_ap_count:
+            update_msg = (
+                "Access point positions updated successfully for site '{0}'".format(
+                    site_hierarchy
+                )
+            )
+            self.log(update_msg, "INFO")
+            self.msg = update_msg
             self.changed = True
             self.status = "success"
+            verification_operations.append("update_verification")
 
-        if (self.location_created and self.location_updated
-           and len(self.location_created) + len(self.location_updated) == len(config.get("access_points", []))):
-            self.msg = f"Planned Access Point position created/updated successfully for '{str(self.location_created + self.location_updated)}'."
-            self.log(self.msg, "INFO")
+        # Verify mixed create/update operations
+        elif (self.location_created and self.location_updated and
+            (created_count + updated_count) == expected_ap_count):
+            combined_operations = self.location_created + self.location_updated
+            mixed_msg = (
+                "Access point positions created/updated successfully for: {0}".format(
+                    str(combined_operations)
+                )
+            )
+            self.log(mixed_msg, "INFO")
+            self.msg = mixed_msg
             self.changed = True
             self.status = "success"
+            verification_operations.append("mixed_operations_verification")
 
+        # Handle assignment operation results
         if self.location_assigned:
-            status_msg = ", ".join(map(str, self.location_assigned))
-            self.msg += f" Following real Access Point(s) assigned to planned position(s): '{status_msg}'."
+            assigned_list = [str(item) for item in self.location_assigned]
+            assignment_msg = (
+                " Following access points assigned to planned positions: {0}.".format(
+                    ", ".join(assigned_list)
+                )
+            )
+
+            if hasattr(self, 'msg'):
+                self.msg += assignment_msg
+            else:
+                self.msg = "Assignment operations completed." + assignment_msg
+
             self.changed = True
-            self.log(self.msg, "DEBUG")
+            self.log(
+                "Assignment verification completed successfully with {0} assignments".format(
+                    assigned_count
+                ),
+                "DEBUG"
+            )
+            verification_operations.append("assignment_verification")
 
+        # Handle assignment failures
         if self.location_not_assigned:
-            status_msg = ", ".join(map(str, self.location_not_assigned))
-            self.msg += f" Following real Access Point(s) not assigned to planned position(s): '{status_msg}'."
-            self.log(self.msg, "DEBUG")
+            not_assigned_list = [str(item) for item in self.location_not_assigned]
+            assignment_failure_msg = (
+                " Following access points not assigned to planned positions: {0}.".format(
+                    ", ".join(not_assigned_list)
+                )
+            )
 
+            if hasattr(self, 'msg'):
+                self.msg += assignment_failure_msg
+            else:
+                self.msg = "Assignment failures detected." + assignment_failure_msg
+
+            self.log(
+                "Assignment verification detected {0} failures".format(
+                    failed_assignment_count
+                ),
+                "DEBUG"
+            )
+            verification_operations.append("assignment_failure_tracking")
+
+        # Handle update operation failures
         if self.location_not_updated:
-            status_msg = ", ".join(map(str, self.location_not_updated))
-            self.msg += f" Unable to update the following planned Access Point position(s): '{status_msg}'."
-            self.status = "failed"
+            not_updated_list = [str(item) for item in self.location_not_updated]
+            update_failure_msg = (
+                " Unable to update the following access point positions: {0}.".format(
+                    ", ".join(not_updated_list)
+                )
+            )
 
-        if self.location_not_created:
-            status_msg = ", ".join(map(str, self.location_not_created))
-            self.msg += f" Unable to create the following planned Access Point position(s): '{status_msg}'."
+            if hasattr(self, 'msg'):
+                self.msg += update_failure_msg
+            else:
+                self.msg = "Update failures detected." + update_failure_msg
+
             self.status = "failed"
+            self.log(
+                "Update verification detected {0} failures".format(failed_update_count),
+                "WARNING"
+            )
+            verification_operations.append("update_failure_tracking")
+
+        # Handle creation operation failures
+        if self.location_not_created:
+            not_created_list = [str(item) for item in self.location_not_created]
+            creation_failure_msg = (
+                " Unable to create the following access point positions: {0}.".format(
+                    ", ".join(not_created_list)
+                )
+            )
+
+            if hasattr(self, 'msg'):
+                self.msg += creation_failure_msg
+            else:
+                self.msg = "Creation failures detected." + creation_failure_msg
+
+            self.status = "failed"
+            self.log(
+                "Creation verification detected {0} failures".format(
+                    failed_creation_count
+                ),
+                "WARNING"
+            )
+            verification_operations.append("creation_failure_tracking")
 
         self.log(self.msg, "INFO")
-        unique_list = [list(t) for t in set(map(
-            tuple, self.location_created + self.location_updated + self.location_assigned))]
+        successful_operations = (
+            self.location_created + self.location_updated + self.location_assigned
+        )
+        unique_operations = [
+            list(operation) for operation in set(map(tuple, successful_operations))
+        ]
+
+        verification_status = getattr(self, 'status', 'unknown')
+        self.log(
+            "Merge verification completed - status: {0}, operations: {1}, "
+            "successful: {2}, unique_results: {3}".format(
+                verification_status, verification_operations,
+                len(successful_operations), len(unique_operations)
+            ),
+            "INFO"
+        )
+
+        if hasattr(self, 'msg'):
+            self.log(self.msg, "INFO")
+        else:
+            self.msg = "Access point position verification completed"
+            self.log(self.msg, "INFO")
+
         self.set_operation_result(
-            self.status, self.changed, self.msg, "INFO", unique_list
+            self.status, self.changed, self.msg, "INFO", unique_operations
         ).check_return_status()
+
         return self
 
     def get_diff_deleted(self, config):
         """
-        Delete planned Access Point position(s) from the Cisco Catalyst Center
-        based on playbook details.
+        Execute access point position deletion workflow for Cisco Catalyst Center.
+
+        Processes deletion operations for both planned and real access point positions
+        based on current state analysis. Handles idempotent behavior for non-existent
+        positions and coordinates actual deletion operations with comprehensive status
+        tracking and operational validation.
 
         Parameters:
             config (list of dict) - Playbook configuration details
 
         Returns:
             self - The current object with planned Access Point position deletion message and response information.
+
+        Description:
+            - Validates deletion requirements based on current position state
+            - Implements idempotent behavior for positions that don't exist
+            - Executes deletion operations for existing planned/real positions
+            - Tracks deletion results with detailed success/failure categorization
+            - Provides comprehensive status reporting for operational visibility
         """
         self.log(f"Starting to delete planned Access Point position(s) for: {config}", "INFO")
+        site_hierarchy = config.get("floor_site_hierarchy", "Unknown")
+        access_points_count = len(config.get("access_points", []))
+
+        self.log(
+            "Processing deletion operations for site '{0}' with {1} access point configurations".format(
+                site_hierarchy, access_points_count
+            ),
+            "DEBUG"
+        )
+        self.changed = False
+        self.status = "failed"
+        deletion_operations = []
 
         if self.have.get("new_accesspoint") and not self.have.get("delete_accesspoint"):
-            for access_point in self.have.get("new_accesspoint", []):
-                self.location_already_deleted.append(access_point.get("accesspoint_name"))
-            self.msg = "No Changes required, Planned Access Point position(s) do not exist to delete."
-            self.changed = False
-            self.status = "success"
-            self.log(self.msg, "INFO")
+            non_existent_count = 0
+            for access_point_config in self.have.get("new_accesspoint", []):
+                if isinstance(access_point_config, dict):
+                    ap_name = access_point_config.get("accesspoint_name", "Unknown")
+                    self.location_already_deleted.append(ap_name)
+                    non_existent_count += 1
 
+            if non_existent_count > 0:
+                self.log(
+                    "Found {0} non-existent access point positions - no deletion required".format(
+                        non_existent_count
+                    ),
+                    "INFO"
+                )
+
+                idempotent_msg = (
+                    "No changes required - access point positions do not exist for deletion"
+                )
+                self.log(idempotent_msg, "INFO")
+                self.msg = idempotent_msg
+                self.changed = False
+                self.status = "success"
+                deletion_operations.append("idempotent_validation")
+
+        # Process actual deletion operations for existing positions
         if self.have.get("delete_accesspoint"):
-            responses = self.delete_planned_accesspoints_position()
+            deletion_targets_count = len(self.have.get("delete_accesspoint", []))
+
+            self.log(
+                "Executing {0} access point position deletion operations".format(
+                    deletion_targets_count
+                ),
+                "INFO"
+            )
+
+            deletion_response = self.delete_access_point_positions()
+
+            # Initialize deletion processing status
             self.changed = False
             self.status = "failed"
-            if not responses:
-                self.msg = "No response received from planned Access Point position deletion."
-                self.log(self.msg, "ERROR")
-                self.fail_and_exit(self.msg)
 
+            # Validate deletion operation response
+            if not deletion_response:
+                error_msg = (
+                    "No response received from access point position deletion operations"
+                )
+                self.log(error_msg, "ERROR")
+                self.fail_and_exit(error_msg)
+
+            deletion_operations.append("deletion_execution")
+
+            # Process successful deletions
             if self.location_deleted:
-                self.msg = f"Planned Access Point position deleted successfully for '{self.location_deleted}'."
-                self.log(self.msg, "INFO")
+                deleted_count = len(self.location_deleted)
+                success_msg = (
+                    "Access point positions deleted successfully: {0}".format(
+                        self.location_deleted
+                    )
+                )
+                self.log(success_msg, "INFO")
+                self.msg = success_msg
                 self.changed = True
                 self.status = "success"
+                deletion_operations.append("successful_deletions")
 
+            # Handle deletion failures
             if self.location_not_deleted:
-                self.msg += f" Unable to delete the following planned Access Point position(s): '{self.location_not_deleted}'."
-                self.log(self.msg, "DEBUG")
+                failed_deletions = [str(item) for item in self.location_not_deleted]
+                failure_msg = (
+                    " Unable to delete the following access point positions: {0}.".format(
+                        ", ".join(failed_deletions)
+                    )
+                )
+
+                if hasattr(self, 'msg'):
+                    self.msg += failure_msg
+                else:
+                    self.msg = "Deletion failures detected." + failure_msg
+
+                self.log(
+                    "Deletion operation failed for {0} positions".format(
+                        len(failed_deletions)
+                    ),
+                    "DEBUG"
+                )
                 self.changed = False
                 self.status = "failed"
+                deletion_operations.append("deletion_failures")
 
+            # Handle already deleted positions
             if self.location_already_deleted:
-                self.msg += f" Planned Access Point position(s) already deleted for '{self.location_already_deleted}'."
-                self.changed = False
-                self.status = "success"
+                already_deleted_list = [str(item) for item in self.location_already_deleted]
+                already_deleted_msg = (
+                    " Access point positions already deleted: {0}.".format(
+                        ", ".join(already_deleted_list)
+                    )
+                )
 
-        self.set_operation_result(self.status, self.changed, self.msg, "INFO").check_return_status()
+                if hasattr(self, 'msg'):
+                    self.msg += already_deleted_msg
+                else:
+                    self.msg = "Previously deleted positions found." + already_deleted_msg
+
+                # Don't change status to failed if some positions were already deleted
+                if not self.location_not_deleted:
+                    self.changed = False
+                    self.status = "success"
+
+                deletion_operations.append("already_deleted_tracking")
+
+        deleted_count = len(self.location_deleted)
+        failed_count = len(self.location_not_deleted)
+        already_deleted_count = len(self.location_already_deleted)
+
+        self.log(
+            "Deletion workflow completed - operations: {0}, deleted: {1}, "
+            "failed: {2}, already_deleted: {3}".format(
+                deletion_operations, deleted_count, failed_count, already_deleted_count
+            ),
+            "INFO"
+        )
+
+        if hasattr(self, 'msg'):
+            self.log(self.msg, "INFO")
+        else:
+            self.msg = "Access point position deletion workflow completed"
+            self.log(self.msg, "INFO")
+
+        self.set_operation_result(
+            self.status, self.changed, self.msg, "INFO"
+        ).check_return_status()
+
         return self
 
     def verify_diff_deleted(self, config):
         """
-        Validates that the planned or real Access Point position(s) in Cisco Catalyst Center have been deleted
-        based on the playbook details.
+        Performs comprehensive verification of deletion operation results by confirming
+        the removal of access point positions from the system. Validates both planned
+        and real position deletions to ensure configuration consistency and operational
+        reliability for access point position cleanup.
 
         Parameters:
             config (dict) - Playbook details containing Access Point position information.
 
         Returns:
             self - The current object with message and response.
+
+        Description:
+            - Validates successful deletion operations against expected access point count
+            - Confirms idempotent behavior for positions that don't exist for deletion
+            - Tracks deletion failures and provides detailed error reporting
+            - Ensures complete removal of access point positions from system state
         """
         self.log(
             f"Starting to verify the deleted planned or real Access Point position(s) for: {config}",
             "INFO",
         )
 
-        if len(self.location_not_deleted) > 0:
-            self.msg += f" Unable to delete below planned/real Access Point position(s) '{self.location_not_deleted}'."
+        site_hierarchy = config.get("floor_site_hierarchy", "Unknown")
+        expected_deletion_count = len(config.get("access_points", []))
+
+        self.log(
+            "Verifying deletion operations for site '{0}' with {1} expected deletions".format(
+                site_hierarchy, expected_deletion_count
+            ),
+            "DEBUG"
+        )
+
+        # Initialize message attribute if not present
+        if not hasattr(self, 'msg'):
+            self.msg = ""
+
+        # Collect deletion operation statistics for verification
+        deleted_count = len(self.location_deleted)
+        failed_deletion_count = len(self.location_not_deleted)
+        already_deleted_count = len(self.location_already_deleted)
+
+        self.log(
+            "Deletion statistics - deleted: {0}, failed: {1}, already_deleted: {2}".format(
+                deleted_count, failed_deletion_count, already_deleted_count
+            ),
+            "DEBUG"
+        )
+
+        # Handle deletion failures
+        if failed_deletion_count > 0:
+            failed_list = [str(item) for item in self.location_not_deleted]
+            failure_msg = (
+                "Unable to delete the following access point positions: {0}".format(
+                    ", ".join(failed_list)
+                )
+            )
+
+            if self.msg:
+                self.msg += " " + failure_msg
+            else:
+                self.msg = failure_msg
+
             self.changed = False
             self.status = "failed"
 
-        if len(self.location_already_deleted) == len(config.get("access_points", [])):
-            self.msg = "No Changes required, planned/real Access Point position(s) already deleted and verified successfully "
-            self.msg += f"for '{self.location_already_deleted}'."
+            self.log(
+                "Deletion verification failed - {0} positions could not be deleted".format(
+                    failed_deletion_count
+                ),
+                "WARNING"
+            )
+
+        # Verify idempotent behavior for non-existent positions
+        elif already_deleted_count == expected_deletion_count:
+            already_deleted_list = [str(item) for item in self.location_already_deleted]
+            idempotent_msg = (
+                "No changes required - access point positions already deleted and "
+                "verified successfully: {0}".format(", ".join(already_deleted_list))
+            )
+
+            self.log(
+                "Deletion verification confirmed idempotent behavior for {0} positions".format(
+                    already_deleted_count
+                ),
+                "INFO"
+            )
+
+            self.msg = idempotent_msg
             self.changed = False
             self.status = "success"
 
-        if len(self.location_deleted) == len(config.get("access_points", [])):
-            self.msg = f"Planned/Real Access Point position(s) deleted and verified successfully for '{self.location_deleted}'."
+        # Verify successful deletion operations
+        elif deleted_count == expected_deletion_count:
+            deleted_list = [str(item) for item in self.location_deleted]
+            success_msg = (
+                "Access point positions deleted and verified successfully: {0}".format(
+                    ", ".join(deleted_list)
+                )
+            )
+
+            self.log(
+                "Deletion verification confirmed successful removal of {0} positions".format(
+                    deleted_count
+                ),
+                "INFO"
+            )
+
+            self.msg = success_msg
             self.changed = True
             self.status = "success"
 
+        else:
+            # Handle partial deletion scenarios
+            partial_msg = (
+                "Partial deletion verification completed - deleted: {0}, "
+                "already_deleted: {1}, expected: {2}".format(
+                    deleted_count, already_deleted_count, expected_deletion_count
+                )
+            )
+
+            self.log(partial_msg, "WARNING")
+
+            self.msg = (
+                "Deletion verification completed with mixed results - some positions "
+                "may require additional cleanup operations"
+            )
+            self.status = "failed"
+
         self.log(self.msg, "INFO")
+        verification_status = getattr(self, 'status', 'unknown')
+        self.log(
+            "Deletion verification completed - status: {0}, deleted: {1}, "
+            "failed: {2}, already_deleted: {3}".format(
+                verification_status, deleted_count, failed_deletion_count,
+                already_deleted_count
+            ),
+            "INFO"
+        )
+
+        if self.msg:
+            self.log(self.msg, "INFO")
+        else:
+            self.msg = "Access point position deletion verification completed"
+            self.log(self.msg, "INFO")
+
+        # Set verification results and validate return status
         self.set_operation_result(
             self.status, self.changed, self.msg, "INFO", self.location_deleted
         ).check_return_status()
+
         return self
 
 
