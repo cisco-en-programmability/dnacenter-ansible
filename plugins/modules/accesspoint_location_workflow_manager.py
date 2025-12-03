@@ -2600,8 +2600,7 @@ class AccessPointLocation(DnacBase):
                 ap_details = self.get_access_point_posisiton(
                     self.have["site_id"], self.have["site_name"], access_point_config, True)
                 if ap_details:
-                    self.log(f"Access point real position found: {ap_name}",
-                                "INFO")
+                    self.log(f"Access point real position found: {ap_name}", "INFO")
                     self.location_already_assigned.append(ap_name)
                     continue
 
@@ -3096,7 +3095,7 @@ class AccessPointLocation(DnacBase):
 
         # Verify idempotent behavior for existing positions
         elif (self.location_exist and not self.location_created and
-            not self.location_updated and existing_count == expected_ap_count):
+             not self.location_updated and existing_count == expected_ap_count):
             idempotent_msg = (
                 "No changes required - access point positions already exist"
             )
@@ -3121,7 +3120,7 @@ class AccessPointLocation(DnacBase):
 
         # Verify mixed create/update operations
         elif (self.location_created and self.location_updated and
-            (created_count + updated_count) == expected_ap_count):
+             (created_count + updated_count) == expected_ap_count):
             combined_operations = self.location_created + self.location_updated
             mixed_msg = (
                 "Access point positions created/updated successfully for: {0}".format(
