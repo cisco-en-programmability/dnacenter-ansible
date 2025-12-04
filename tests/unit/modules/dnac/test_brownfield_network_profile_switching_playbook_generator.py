@@ -14,7 +14,7 @@
 
 # Authors:
 #   A Mohamed Rafeek <mabdulk2@cisco.com>
-#.  Madhan Sankaranarayanan <madhansansel@cisco.com>
+#   Madhan Sankaranarayanan <madhansansel@cisco.com>
 #
 # Description:
 #   Unit tests for the Ansible module `brownfield_network_profile_switching_playbook_generator`.
