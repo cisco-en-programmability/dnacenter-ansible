@@ -724,7 +724,8 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
 
         self.log(
-            f"Starting to retrieve tag membership configuration with network element: {network_element} and component-specific filters: {component_specific_filters}",
+            f"Starting to retrieve tag membership configuration with network element: {network_element} and "
+            f"component-specific filters: {component_specific_filters}",
             "DEBUG",
         )
         # Extract API family and function from network_element
@@ -836,7 +837,8 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         api_family, api_function, params
                     )
                     self.log(
-                        f"Network device members retrieved for tag '{tag_name}': {len(network_device_members) if network_device_members else 0} member(s) found",
+                        f"Network device members retrieved for tag '{tag_name}': {len(network_device_members) if network_device_members else 0} "
+                        "member(s) found",
                         "INFO",
                     )
                     self.log(
