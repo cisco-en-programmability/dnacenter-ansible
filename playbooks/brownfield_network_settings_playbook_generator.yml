@@ -1,26 +1,185 @@
 ---
-- name: Configure reports on Cisco Catalyst Center
-  hosts: dnac_servers
+# ==============================================================================
+# BROWNFIELD NETWORK SETTINGS PLAYBOOK GENERATOR - EXAMPLES
+# ==============================================================================
+
+# Example 1: Auto-discovery (Extract all available network settings)
+- name: Auto-discovery - Extract all network settings
+  hosts: localhost
   vars_files:
     - credentials.yml
   gather_facts: false
   connection: local
   tasks:
-    - name: Generate YAML Configuration using explicit components list
+    - name: Auto-discover all network settings
       cisco.dnac.brownfield_network_settings_playbook_generator:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
-        dnac_log_level: "{{dnac_log_level}}"
-        state: merged
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
         config:
-          # - file_path: "/tmp/network_settings_automation_config.yml"
-            # global_filters:
-            #   ip_address_list: ["192.168.1.10", "192.168.1.11"]
-          - component_specific_filters:
+          - generate_all_configurations: true
+
+    - name: Auto-discover all network settings
+      cisco.dnac.brownfield_network_settings_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        config:
+          - file_path: " /Users/tmp/Desktop/network_settings_playbook_generator.yml"
+
+# # Example 2: Individual Components
+- name: Individual Components - Extract specific components
+  hosts: localhost
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    # Task 1: Global Pool Details Only
+    - name: Extract global pool configurations
+      cisco.dnac.brownfield_network_settings_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        config:
+          -  component_specific_filters:
               components_list: ["global_pool_details"]
+
+    # Task 2: Reserve Pool Details Only
+    - name: Extract reserve pool configurations
+      cisco.dnac.brownfield_network_settings_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        config:
+          -  component_specific_filters:
+              components_list: ["reserve_pool_details"]
+
+    # Task 3: Network Management Settings Only
+    - name: Extract network management configurations
+      cisco.dnac.brownfield_network_settings_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        config:
+          - global_filters:
+              site_name_list: ["Global/USA"]
+            component_specific_filters:
+              components_list: ["network_management_details"]
+
+    # Task 4: Device Controllability Settings Only
+    - name: Extract device controllability configurations
+      cisco.dnac.brownfield_network_settings_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        config:
+          - file_path: "/Users/temp/Desktop/device_controllability_generator.yml"
+            component_specific_filters:
+              components_list: ["device_controllability_details"]
+
+# # Example 3: Multiple Components in Single Task
+- name: Multiple Components - Extract several components together
+  hosts: localhost
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Extract multiple network setting components
+      cisco.dnac.brownfield_network_settings_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        config:
+          - component_specific_filters:
+              components_list:
+                - "global_pool_details"
+                - "reserve_pool_details"
+                - "network"
+                - "device_controllability_details"
+
+# Example 4: Multiple Configuration Files in Single Task
+- name: Multiple Configurations - Generate multiple files in one task
+  hosts: localhost
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Generate multiple configuration files
+      cisco.dnac.brownfield_network_settings_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        config:
+          - file_path: "/Users/mekandar/Desktop/all_global_pools.yml"
+            component_specific_filters:
+              components_list: ["global_pool_details"]
+          - file_path: "/Users/mekandar/Desktop/reserve_pool.yml"
+            component_specific_filters:
+              components_list: ["reserve_pool_details"]
+              reserve_pool_details:
+                site_name_hierarchy: ["Global/US/California"]
+          - file_path: "/Users/mekandar/Desktop/production_network_mgmt.yml"
+            component_specific_filters:
+              components_list: ["network_management_details"]
+          - file_path: "/Users/mekandar/Desktop/device_controllability_settings.yml"
+            component_specific_filters:
+              components_list: ["device_controllability_details"]

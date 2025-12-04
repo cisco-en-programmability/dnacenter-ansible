@@ -37,8 +37,8 @@ options:
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
-    choices: [merged]
-    default: merged
+    choices: [gathered]
+    default: gathered
   config:
     description:
     - A list of filters for generating YAML playbook compatible with the `network_settings_workflow_manager`
@@ -247,7 +247,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - component_specific_filters:
           components_list: ["reserve_pool_details"]
@@ -263,7 +263,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/network_settings_config.yml"
         component_specific_filters:
@@ -280,7 +280,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/network_settings_config.yml"
         global_filters:
@@ -299,7 +299,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/network_settings_config.yml"
         component_specific_filters:
@@ -457,7 +457,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             The method does not return a value.
         """
-        self.supported_states = ["merged"]
+        self.supported_states = ["gathered"]
         super().__init__(module)
         self.module_schema = self.get_workflow_elements_schema()
         self.module_name = "network_settings_workflow_manager"
@@ -473,7 +473,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Add state mapping
         self.get_diff_state_apply = {
-            "merged": self.get_diff_merged,
+            "gathered": self.get_diff_gathered,
         }
 
     def validate_input(self):
@@ -698,8 +698,8 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return OrderedDict({
             "name": {"type": "str", "source_key": "name"},
             "pool_type": {"type": "str", "source_key": "poolType"},
-            "ip_address_space": {"type": "str", "source_key": "ipv6", "transform": self.transform_ipv6_to_address_space},
-            "cidr": {"type": "str", "source_key": "addressSpace.subnet", "transform": self.transform_cidr},
+            "ip_address_space": {"type": "str", "source_key": None, "transform": self.transform_pool_to_address_space},
+            "cidr": {"type": "str", "source_key": None, "transform": self.transform_cidr},
             "gateway": {"type": "str", "source_key": "addressSpace.gatewayIpAddress"},
             "dhcp_server_ips": {"type": "list", "source_key": "addressSpace.dhcpServers"},
             "dns_server_ips": {"type": "list", "source_key": "addressSpace.dnsServers"},
@@ -773,6 +773,62 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         if value is None:
             return False
         return bool(value)
+
+    def transform_pool_to_address_space(self, pool_details):
+        """
+        Determines the IP address space (IPv4 or IPv6) from the pool configuration.
+
+        This function analyzes the pool structure to determine whether it's configured
+        for IPv4 or IPv6 address space by examining various fields in the pool data.
+
+        Args:
+            pool_details (dict or None): Complete pool configuration object
+
+        Returns:
+            str or None: Address space identifier:
+                - "IPv4": For IPv4 address pools
+                - "IPv6": For IPv6 address pools
+                - None: When address space cannot be determined
+
+        Detection Logic:
+            1. Check for explicit ipv6 boolean field
+            2. Examine gateway address format (IPv6 contains ':')
+            3. Check subnet format in addressSpace
+            4. Look for IPv6-specific fields
+        """
+        if pool_details is None or not isinstance(pool_details, dict):
+            return None
+
+        # Method 1: Check explicit ipv6 field
+        if "ipv6" in pool_details:
+            return "IPv6" if pool_details["ipv6"] else "IPv4"
+
+        # Method 2: Check gateway format
+        address_space = pool_details.get("addressSpace", {})
+        gateway = address_space.get("gatewayIpAddress", "")
+        if gateway and ":" in gateway:
+            return "IPv6"
+        elif gateway:
+            return "IPv4"
+
+        # Method 3: Check subnet format
+        subnet = address_space.get("subnet", "")
+        if subnet:
+            if ":" in subnet:
+                return "IPv6"
+            else:
+                return "IPv4"
+
+        # Method 4: Check for poolType containing IPv6 indicators
+        pool_type = pool_details.get("poolType", "")
+        if "v6" in pool_type.lower() or "ipv6" in pool_type.lower():
+            return "IPv6"
+
+        # Default to IPv4 if we have any address space info but can't determine type
+        if address_space:
+            return "IPv4"
+
+        return None
 
     def transform_cidr(self, pool_details):
         """
@@ -911,6 +967,172 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         return self.transform_preserve_empty_list(data, "ipV6AddressSpace.dnsServers")
 
+    def get_global_pool_lookup(self):
+        """
+        Create a lookup mapping of global pool IDs to their CIDR and names.
+        This method caches the result to avoid multiple API calls.
+
+        Returns:
+            dict: Mapping of global pool IDs to their details:
+                  {
+                      "pool_id": {
+                          "cidr": "10.0.0.0/8",
+                          "name": "Global_Pool1",
+                          "ip_address_space": "IPv4"
+                      }
+                  }
+        """
+        if hasattr(self, '_global_pool_lookup'):
+            return self._global_pool_lookup
+
+        self.log("Creating global pool lookup mapping", "DEBUG")
+
+        try:
+            # Get global pools using the API
+            global_pools_response = self.execute_get_with_pagination(
+                "network_settings",
+                "retrieves_global_ip_address_pools",
+                {}
+            )
+
+            self._global_pool_lookup = {}
+
+            for pool in global_pools_response:
+                pool_id = pool.get('id')
+                if pool_id:
+                    # Determine CIDR from subnet and prefix length
+                    cidr = None
+                    address_space = pool.get('addressSpace', {})
+                    subnet = address_space.get('subnet')
+                    prefix_length = address_space.get('prefixLength')
+
+                    if subnet and prefix_length:
+                        cidr = f"{subnet}/{prefix_length}"
+
+                    # Determine IP address space (IPv4 or IPv6)
+                    ip_address_space = "IPv6" if ":" in str(subnet or "") else "IPv4"
+
+                    self._global_pool_lookup[pool_id] = {
+                        "cidr": cidr,
+                        "name": pool.get('name'),
+                        "ip_address_space": ip_address_space
+                    }
+
+            self.log(f"Created global pool lookup with {len(self._global_pool_lookup)} pools", "DEBUG")
+            return self._global_pool_lookup
+
+        except Exception as e:
+            self.log(f"Error creating global pool lookup: {str(e)}", "ERROR")
+            # Return empty dict to avoid breaking the process
+            self._global_pool_lookup = {}
+            return self._global_pool_lookup
+
+    def transform_global_pool_id_to_cidr(self, pool_data):
+        """
+        Transform global pool ID to CIDR notation.
+
+        Args:
+            pool_data (dict): Reserve pool data containing global pool ID references
+
+        Returns:
+            str: CIDR notation of the global pool or None if not found
+        """
+        try:
+            # Extract IPv4 global pool ID
+            ipv4_global_pool_id = None
+            if pool_data and isinstance(pool_data, dict):
+                ipv4_global_pool_id = pool_data.get('ipV4AddressSpace', {}).get('globalPoolId')
+
+            if not ipv4_global_pool_id:
+                self.log("No IPv4 global pool ID found in pool data", "DEBUG")
+                return None
+
+            lookup = self.get_global_pool_lookup()
+            pool_info = lookup.get(ipv4_global_pool_id, {})
+            cidr = pool_info.get('cidr')
+
+            self.log(f"IPv4 Global pool ID {ipv4_global_pool_id} mapped to CIDR: {cidr}", "DEBUG")
+            return cidr
+
+        except Exception as e:
+            self.log(f"Error transforming IPv4 global pool ID to CIDR: {str(e)}", "ERROR")
+            return None
+
+    def transform_global_pool_id_to_name(self, pool_data):
+        """
+        Transform global pool ID to pool name.
+
+        Args:
+            pool_data (dict): Reserve pool data containing global pool ID references
+
+        Returns:
+            str: Name of the global pool or None if not found
+        """
+        try:
+            # Extract IPv4 global pool ID
+            ipv4_global_pool_id = None
+            if pool_data and isinstance(pool_data, dict):
+                ipv4_global_pool_id = pool_data.get('ipV4AddressSpace', {}).get('globalPoolId')
+
+            if not ipv4_global_pool_id:
+                self.log("No IPv4 global pool ID found in pool data", "DEBUG")
+                return None
+
+            lookup = self.get_global_pool_lookup()
+            pool_info = lookup.get(ipv4_global_pool_id, {})
+            name = pool_info.get('name')
+
+            self.log(f"IPv4 Global pool ID {ipv4_global_pool_id} mapped to name: {name}", "DEBUG")
+            return name
+
+        except Exception as e:
+            self.log(f"Error transforming IPv4 global pool ID to name: {str(e)}", "ERROR")
+            return None
+
+    def transform_ipv6_global_pool_id_to_cidr(self, pool_data):
+        """
+        Transform IPv6 global pool ID to CIDR notation.
+
+        Args:
+            pool_data (dict): Reserve pool data containing global pool ID references
+
+        Returns:
+            str: CIDR notation of the IPv6 global pool or None if not found
+        """
+        # Extract IPv6 global pool ID
+        ipv6_global_pool_id = None
+        if pool_data and isinstance(pool_data, dict):
+            ipv6_global_pool_id = pool_data.get('ipV6AddressSpace', {}).get('globalPoolId')
+
+        if not ipv6_global_pool_id:
+            return None
+
+        lookup = self.get_global_pool_lookup()
+        pool_info = lookup.get(ipv6_global_pool_id, {})
+        return pool_info.get('cidr')
+
+    def transform_ipv6_global_pool_id_to_name(self, pool_data):
+        """
+        Transform IPv6 global pool ID to pool name.
+
+        Args:
+            pool_data (dict): Reserve pool data containing global pool ID references
+
+        Returns:
+            str: Name of the IPv6 global pool or None if not found
+        """
+        # Extract IPv6 global pool ID
+        ipv6_global_pool_id = None
+        if pool_data and isinstance(pool_data, dict):
+            ipv6_global_pool_id = pool_data.get('ipV6AddressSpace', {}).get('globalPoolId')
+
+        if not ipv6_global_pool_id:
+            return None
+
+        lookup = self.get_global_pool_lookup()
+        pool_info = lookup.get(ipv6_global_pool_id, {})
+        return pool_info.get('name')
+
     def reserve_pool_reverse_mapping_function(self, requested_components=None):
         """
         Generate reverse mapping specification for Reserve Pool Details transformation.
@@ -964,7 +1186,16 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             },
 
             # IPv4 address space
-            "ipv4_global_pool": {"type": "str", "source_key": "ipV4AddressSpace.globalPoolId"},
+            "ipv4_global_pool": {
+                "type": "str",
+                "source_key": None,
+                "transform": self.transform_global_pool_id_to_cidr
+            },
+            "ipv4_global_pool_name": {
+                "type": "str",
+                "source_key": None,
+                "transform": self.transform_global_pool_id_to_name
+            },
             "ipv4_prefix": {
                 "type": "bool",
                 "source_key": "ipV4AddressSpace.prefixLength",
@@ -989,7 +1220,16 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "ipv4_default_assigned_addresses": {"type": "int", "source_key": "ipV4AddressSpace.defaultAssignedAddresses"},
 
             # IPv6 address space
-            "ipv6_global_pool": {"type": "str", "source_key": "ipV6AddressSpace.globalPoolId"},
+            "ipv6_global_pool": {
+                "type": "str",
+                "source_key": None,
+                "transform": self.transform_ipv6_global_pool_id_to_cidr
+            },
+            "ipv6_global_pool_name": {
+                "type": "str",
+                "source_key": None,
+                "transform": self.transform_ipv6_global_pool_id_to_name
+            },
             "ipv6_prefix": {
                 "type": "bool",
                 "source_key": "ipV6AddressSpace.prefixLength",
@@ -1259,15 +1499,20 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 source_key = mapping_rule.get("source_key")
                 transform_func = mapping_rule.get("transform")
 
-                if not source_key:
+                # Handle case where source_key is None but transform function exists
+                if source_key is None and transform_func and callable(transform_func):
+                    # Pass entire data_item to transform function
+                    value = transform_func(data_item)
+                elif source_key:
+                    # Extract value using dot notation if needed
+                    value = self._extract_nested_value(data_item, source_key)
+
+                    # Apply transformation function if specified (only if value is not None)
+                    if transform_func and callable(transform_func) and value is not None:
+                        value = transform_func(value)
+                else:
+                    # Skip if no source_key and no transform function
                     continue
-
-                # Extract value using dot notation if needed
-                value = self._extract_nested_value(data_item, source_key)
-
-                # Apply transformation function if specified (only if value is not None)
-                if transform_func and callable(transform_func) and value is not None:
-                    value = transform_func(value)
 
                 # Sanitize the value
                 value = self._sanitize_value(value, mapping_rule.get("type", "str"))
@@ -2200,16 +2445,25 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         seen_pools = set()
 
         for pool in final_reserve_pools:
-            # Create unique identifier based on site ID, group name, and type
-            pool_identifier = "{0}_{1}_{2}".format(
-                pool.get("siteId", ""),
-                pool.get("groupName", ""),
-                pool.get("type", "")
-            )
+            # Create unique identifier based on pool ID (most reliable) or combination of site ID and pool name
+            pool_id = pool.get("id")
+            if pool_id:
+                # Use pool ID as primary identifier (most reliable for deduplication)
+                pool_identifier = pool_id
+            else:
+                # Fallback: Use combination of site ID, pool name, and subnet as unique identifier
+                pool_identifier = "{0}_{1}_{2}".format(
+                    pool.get("siteId", ""),
+                    pool.get("name", ""),  # Use 'name' instead of 'groupName'
+                    pool.get("ipV4AddressSpace", {}).get("subnet", "")  # Add subnet for uniqueness
+                )
 
             if pool_identifier not in seen_pools:
                 seen_pools.add(pool_identifier)
                 unique_pools.append(pool)
+            else:
+                self.log("Duplicate pool detected and removed: {0} (ID: {1})".format(
+                    pool.get('name', 'Unknown'), pool_identifier), "DEBUG")
 
         final_reserve_pools = unique_pools
         self.log("After deduplication, total reserve pools: {0}".format(len(final_reserve_pools)), "INFO")
@@ -2893,7 +3147,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Creates parameters for API calls based on the specified state.
         Args:
             config (dict): The configuration data for the network elements.
-            state (str): The desired state of the network elements ('merged').
+            state (str): The desired state of the network elements ('gathered').
         """
         self.log("Creating Parameters for API Calls with state: {0}".format(state), "INFO")
 
@@ -2912,12 +3166,12 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.status = "success"
         return self
 
-    def get_diff_merged(self):
+    def get_diff_gathered(self):
         """
         Executes the merge operations for various network configurations in the Cisco Catalyst Center.
         """
         start_time = time.time()
-        self.log("Starting 'get_diff_merged' operation.", "DEBUG")
+        self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
 
         operations = [
             ("yaml_config_generator", "YAML Config Generator", self.yaml_config_generator)
@@ -2937,7 +3191,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     index, operation_name), "WARNING")
 
         end_time = time.time()
-        self.log("Completed 'get_diff_merged' operation in {0:.2f} seconds.".format(end_time - start_time), "DEBUG")
+        self.log("Completed 'get_diff_gathered' operation in {0:.2f} seconds.".format(end_time - start_time), "DEBUG")
         return self
 
 
@@ -2961,7 +3215,7 @@ def main():
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
-        "state": {"default": "merged", "choices": ["merged"]},
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module
