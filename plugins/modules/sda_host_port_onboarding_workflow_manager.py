@@ -6,7 +6,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = "Rugvedi Kapse, Madhan Sankaranarayanan"
+__author__ = "Rugvedi Kapse, Madhan Sankaranarayanan, Abhishek Maheshwari"
 DOCUMENTATION = r"""
 ---
 module: sda_host_port_onboarding_workflow_manager
@@ -39,7 +39,7 @@ version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author: Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan
-  (@madhansansel)
+  (@madhansansel) Abhishek Maheshwari (@abmahesh)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst
@@ -53,6 +53,22 @@ options:
     type: str
     choices: [merged, deleted]
     default: merged
+  sda_fabric_port_channel_limit:
+    description: >
+      - Maximum number of port channels processed in a single API batch
+        for add and update operations on SD-Access fabric devices.
+      - When total port channels exceed this limit, operations are split
+        into sequential batches of the specified size for processing.
+      - Each batch completes successfully before the next batch starts,
+        ensuring data consistency and better error isolation.
+      - Sequential processing prevents API timeouts, reduces system load,
+        and improves reliability for large port channel configurations.
+      - Module provides detailed logging and status reporting for each
+        batch, enabling progress tracking and issue identification.
+      - Lower values (1-10) provide granular control but slower processing.
+      - Higher values (11-20) improve speed but may cause API timeouts.
+    type: int
+    default: 20
   config:
     description:
       - A list containing detailed configurations for
@@ -751,6 +767,32 @@ EXAMPLES = r"""
             connected_device_type: "TRUNK"
             native_vlan_id: 10
             allowed_vlan_ranges: "100-200"
+            protocol: "LACP"
+            port_channel_description: "Management and data VLAN trunk"
+
+- name: Configure port channels with port channel limit
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    sda_fabric_port_channel_limit: 10
+    state: merged
+    config:
+      - ip_address: "204.1.2.2"
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+        port_channels:
+          - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38"]
+            connected_device_type: "TRUNK"
+            protocol: "LACP"
+            port_channel_description: "Trunk port channel with VLAN filtering"
+          - interface_names: ["TenGigabitEthernet1/0/45", "TenGigabitEthernet1/0/46"]
+            connected_device_type: "TRUNK"
             protocol: "LACP"
             port_channel_description: "Management and data VLAN trunk"
 
@@ -4233,7 +4275,6 @@ class SDAHostPortOnboarding(DnacBase):
             return vlans_and_ssids_mapped_to_vlans
 
         except Exception as e:
-            # Log an error message and fail if an exception occurs
             self.msg = (
                 "An error occurred while retrieving VLANs and SSIDs mapped to VLANs "
                 "Details using SDA - 'retrieve_the_vlans_and_ssids_mapped_to_the_vlan_within_a_fabric_site' "
@@ -4742,16 +4783,181 @@ class SDAHostPortOnboarding(DnacBase):
             dict: The task ID from the API call.
         Description:
             This method initiates the task to add port channels using the provided parameters and returns the task ID.
+            The method processes port channels in batches based on sda_fabric_port_channel_limit (default 20) sequentially,
+            waiting for each batch to complete before proceeding to the next batch.
         """
         self.log(
-            "Initiating addition of port channels with parameters: {0}".format(
-                add_port_channels_params
+            "Starting bulk port channel addition with parameters: {0}".format(add_port_channels_params),
+            "DEBUG"
+        )
+        payload = add_port_channels_params.get("payload", [])
+        if not payload:
+            self.msg = "No port channels provided in payload for addition operation"
+            self.fail_and_exit(self.msg)
+
+        batch_size = self.params.get("sda_fabric_port_channel_limit", 20)
+        self.log(
+            "Using batch size of {0} for port channel processing (from sda_fabric_port_channel_limit parameter)".format(batch_size),
+            "DEBUG"
+        )
+
+        if batch_size <= 0:
+            self.msg = "Invalid sda_fabric_port_channel_limit value: {0}. Must be greater than 0".format(batch_size)
+            self.fail_and_exit(self.msg)
+
+        # If payload has 20 or fewer items, process normally
+        if len(payload) <= batch_size:
+            self.log(
+                "Processing {0} port channels in single batch (within limit of {1})".format(
+                    len(payload), batch_size
+                ),
+                "INFO",
+            )
+            return self.get_taskid_post_api_call(
+                "sda", "add_port_channels", add_port_channels_params
+            )
+
+        # Process in batches sequentially
+        total_batches = (len(payload) + batch_size - 1) // batch_size
+        self.log(
+            "Processing {0} port channels in {1} batches of {2} sequentially".format(
+                len(payload), total_batches, batch_size
+            ),
+            "INFO"
+        )
+
+        final_task_id = None
+        successful_batches = 0
+        failed_batches = []
+        processed_channels = 0
+
+        final_task_id = None
+        successful_batches = 0
+
+        self.log("Starting batch processing for port channel addition.", "DEBUG")
+        try:
+            for i in range(0, len(payload), batch_size):
+                batch = payload[i:i + batch_size]
+                batch_params = {"payload": batch}
+                batch_number = (i // batch_size) + 1
+                self.log(
+                    "Processing batch {0}/{1} with {2} port channels sequentially".format(
+                        batch_number, total_batches, len(batch)
+                    ),
+                    "DEBUG",
+                )
+                batch_interfaces = []
+                for channel in batch:
+                    interfaces = channel.get("interfaceNames", [])
+                    batch_interfaces.extend(interfaces)
+
+                self.log(
+                    "Batch {0} includes interfaces: {1}".format(
+                        batch_number, batch_interfaces[:5]
+                    ),
+                    "DEBUG"
+                )
+
+                task_id = self.get_taskid_post_api_call(
+                    "sda", "add_port_channels", batch_params
+                )
+
+                if not task_id:
+                    error_msg = "Failed to get task ID for batch {0}".format(batch_number)
+                    self.log(error_msg, "ERROR")
+                    failed_batches.append({
+                        "batch_number": batch_number,
+                        "error": error_msg,
+                        "channels_count": len(batch)
+                    })
+                    continue
+
+                self.log(
+                    "Batch {0} API call completed, Task ID: {1}. Waiting for task completion...".format(
+                        batch_number, task_id
+                    ),
+                    "INFO",
+                )
+
+                task_name = "Add Port Channel(s) Task - Batch {0}".format(batch_number)
+                batch_msg = "Batch {0} with {1} port channels has completed successfully.".format(
+                    batch_number, len(batch)
+                )
+
+                self.log("Checking task status for batch {0}.".format(batch_number), "DEBUG")
+                self.get_task_status_from_tasks_by_id(task_id, task_name, batch_msg)
+
+                if self.status == "success":
+                    successful_batches += 1
+                    processed_channels += len(batch)
+                    final_task_id = task_id
+                    self.log(
+                        "Batch {0}/{1} completed successfully. Processed {2} channels. "
+                        "Proceeding to next batch...".format(
+                            batch_number, total_batches, len(batch)
+                        ),
+                        "INFO",
+                    )
+                else:
+                    error_msg = "Batch {0} failed with status: {1}".format(batch_number, self.status)
+                    self.log(error_msg, "ERROR")
+                    failed_batches.append({
+                        "batch_number": batch_number,
+                        "error": error_msg,
+                        "channels_count": len(batch),
+                        "task_id": task_id
+                    })
+
+                    # Continue processing remaining batches instead of stopping
+                    self.log(
+                        "Continuing with remaining batches despite batch {0} failure".format(batch_number),
+                        "WARNING"
+                    )
+        except Exception as e:
+            self.log(
+                "Critical error during batch processing: {0}".format(str(e)),
+                "ERROR"
+            )
+            self.msg = "Bulk port channel addition failed due to critical error: {0}".format(str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return final_task_id
+
+        self.log(
+            "Sequential port channel addition completed. Successful batches: {0}".format(
+                successful_batches
             ),
             "INFO",
         )
-        return self.get_taskid_post_api_call(
-            "sda", "add_port_channels", add_port_channels_params
-        )
+        if failed_batches:
+            self.log(
+                "Failed batches details: {0}".format(failed_batches),
+                "WARNING"
+            )
+
+        # Set final status based on results
+        if successful_batches == total_batches:
+            self.log(
+                "All {0} batches completed successfully. Total port channels processed: {1}".format(
+                    total_batches, processed_channels
+                ),
+                "INFO"
+            )
+        elif successful_batches > 0:
+            self.log(
+                "Partial success: {0}/{1} batches completed successfully."
+                " {2} port channels processed, {3} failed".format(
+                    successful_batches, total_batches, processed_channels,
+                    sum(batch["channels_count"] for batch in failed_batches)
+                ),
+                "WARNING"
+            )
+        else:
+            self.log(
+                "All batches failed. No port channels were successfully processed",
+                "ERROR"
+            )
+
+        return final_task_id
 
     def update_port_channels(self, update_port_channels_params):
         """
@@ -4762,16 +4968,185 @@ class SDAHostPortOnboarding(DnacBase):
             dict: The task ID from the API call.
         Description:
             This method initiates the task to update port channels using the provided parameters and returns the task ID.
+            This method processes port channels in batches of 20 sequentially, waiting for each batch to complete.
         """
         self.log(
-            "Initiating update of port channels with parameters: {0}".format(
+            "Starting bulk port channel update operation with parameters: {0}".format(
                 update_port_channels_params
+            ),
+            "DEBUG"
+        )
+        payload = update_port_channels_params.get("payload", [])
+        if not payload:
+            self.msg = "No port channels provided in payload for update operation"
+            self.fail_and_exit(self.msg)
+
+        batch_size = self.params.get("sda_fabric_port_channel_limit", 20)
+        self.log(
+            "Using batch size of {0} for port channel processing (from "
+            "sda_fabric_port_channel_limit parameter)".format(batch_size),
+            "DEBUG"
+        )
+        if batch_size <= 0:
+            self.msg = (
+                "Invalid sda_fabric_port_channel_limit value: {0}. "
+                "Must be greater than 0".format(batch_size)
+            )
+            self.fail_and_exit(self.msg)
+
+        if len(payload) <= batch_size:
+            self.log(
+                "Processing {0} port channels in single batch".format(len(payload)),
+                "INFO",
+            )
+            return self.get_taskid_post_api_call(
+                "sda", "update_port_channels", update_port_channels_params
+            )
+        # Process in batches sequentially
+        total_batches = (len(payload) + batch_size - 1) // batch_size
+        self.log(
+            "Processing {0} port channels in {1} batches of {2} sequentially".format(
+                len(payload), total_batches, batch_size
+            ),
+            "INFO"
+        )
+
+        final_task_id = None
+        successful_batches = 0
+        failed_batches = []
+        processed_channels = 0
+
+        self.log("Starting sequential batch processing for port channel updates.", "DEBUG")
+        try:
+            for i in range(0, len(payload), batch_size):
+                batch = payload[i:i + batch_size]
+                batch_params = {"payload": batch}
+                batch_number = (i // batch_size) + 1
+
+                self.log(
+                    "Processing batch {0}/{1} with {2} port channels sequentially".format(
+                        batch_number, total_batches, len(batch)
+                    ),
+                    "INFO",
+                )
+                # Log batch details for debugging
+                batch_channels = []
+                for channel in batch:
+                    port_channel_name = channel.get("portChannelName", "Unknown")
+                    batch_channels.append(port_channel_name)
+
+                self.log(
+                    "Batch {0} includes port channels: {1}".format(
+                        batch_number, batch_channels[:5]  # Log first 5 channels
+                    ),
+                    "DEBUG"
+                )
+                # Execute the API call for this batch
+                task_id = self.get_taskid_post_api_call(
+                    "sda", "update_port_channels", batch_params
+                )
+                if not task_id:
+                    error_msg = "Failed to get task ID for batch {0}".format(batch_number)
+                    self.log(error_msg, "ERROR")
+                    failed_batches.append({
+                        "batch_number": batch_number,
+                        "error": error_msg,
+                        "channels_count": len(batch)
+                    })
+                    continue
+
+                self.log(
+                    "Batch {0} API call completed, Task ID: {1}. Waiting for task completion...".format(
+                        batch_number, task_id
+                    ),
+                    "INFO",
+                )
+
+                # Wait for this batch to complete before proceeding
+                task_name = "Update Port Channel(s) Task - Batch {0}".format(batch_number)
+                batch_msg = "Batch {0} with {1} port channels has completed successfully.".format(
+                    batch_number, len(batch)
+                )
+
+                self.log("Checking task status for batch {0}.".format(batch_number), "DEBUG")
+                self.get_task_status_from_tasks_by_id(task_id, task_name, batch_msg)
+
+                if self.status == "success":
+                    successful_batches += 1
+                    processed_channels += len(batch)
+                    final_task_id = task_id
+                    self.log(
+                        "Batch {0}/{1} completed successfully. Processed {2} "
+                        "channels. Proceeding to next batch...".format(
+                            batch_number, total_batches, len(batch)
+                        ),
+                        "INFO",
+                    )
+                else:
+                    error_msg = "Batch {0} failed with status: {1}".format(
+                        batch_number, self.status
+                    )
+                    self.log(error_msg, "ERROR")
+                    failed_batches.append({
+                        "batch_number": batch_number,
+                        "error": error_msg,
+                        "channels_count": len(batch),
+                        "task_id": task_id
+                    })
+
+                    # Continue processing remaining batches instead of stopping
+                    self.log(
+                        "Continuing with remaining batches despite batch {0} "
+                        "failure".format(batch_number),
+                        "WARNING"
+                    )
+        except Exception as e:
+            self.log(
+                "Critical error during batch processing: {0}".format(str(e)),
+                "ERROR"
+            )
+            self.msg = "Bulk port channel update failed due to critical error: {0}".format(
+                str(e)
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return final_task_id
+
+        self.log(
+            "Sequential port channel update completed. Total batches: {0}, "
+            "Successful: {1}, Failed: {2}".format(
+                total_batches, successful_batches, len(failed_batches)
             ),
             "INFO",
         )
-        return self.get_taskid_post_api_call(
-            "sda", "update_port_channels", update_port_channels_params
-        )
+        if failed_batches:
+            self.log(
+                "Failed batches details: {0}".format(failed_batches),
+                "WARNING"
+            )
+
+        # Set final status based on results
+        if successful_batches == total_batches:
+            self.log(
+                "All {0} batches completed successfully. Total port channels "
+                "processed: {1}".format(total_batches, processed_channels),
+                "INFO"
+            )
+        elif successful_batches > 0:
+            self.log(
+                "Partial success: {0}/{1} batches completed successfully. "
+                "{2} port channels processed, {3} failed".format(
+                    successful_batches, total_batches, processed_channels,
+                    sum(batch["channels_count"] for batch in failed_batches)
+                ),
+                "WARNING"
+            )
+        else:
+            self.log(
+                "All batches failed. No port channels were successfully processed",
+                "ERROR"
+            )
+
+        return final_task_id
 
     def delete_port_channels(self, delete_port_channel_param):
         """
@@ -4967,14 +5342,108 @@ class SDAHostPortOnboarding(DnacBase):
             This method constructs a message indicating the successful completion of the add port channels
             operation. It then retrieves the task status using the provided task ID. If the operation is
             successful, it fetches existing port channels and updates the message with the names of the
-            newly created port channels.
+            newly created port channels. Handles both single batch and sequential batch processing.
         """
+        self.log(
+            "Starting task status retrieval for add port channels operation with "
+            "task ID: {0}".format(task_id),
+            "DEBUG"
+        )
         task_name = "Add Port Channel(s) Task"
         add_port_channels_params = self.want["add_port_channels_params"]
-        msg = "{0} has completed successfully for params: {1}.".format(
-            task_name, add_port_channels_params["payload"]
+        payload = add_port_channels_params.get("payload", [])
+        batch_size = self.params.get("sda_fabric_port_channel_limit", 20)
+        self.log(
+            "Using batch size of {0} for port channel processing "
+            "(from sda_fabric_port_channel_limit parameter)".format(batch_size),
+            "DEBUG"
         )
 
+        if batch_size <= 0:
+            self.log(
+                "Invalid sda_fabric_port_channel_limit value: {0}. "
+                "Must be greater than 0".format(batch_size),
+                "WARNING"
+            )
+            batch_size = 20
+
+        if len(payload) > batch_size:
+            self.log(
+                "Processing sequential add port channels task status for {0} port channels".format(
+                    len(payload)
+                ),
+                "INFO",
+            )
+
+            if self.status == "success":
+                # Fetch existing port channels to get the names
+                existing_port_channels = self.get_port_channels(
+                    self.have.get("get_port_channels_params")
+                )
+                self.log(
+                    "Retrieved {0} existing port channels for name matching".format(
+                        len(existing_port_channels) if existing_port_channels else 0
+                    ),
+                    "DEBUG"
+                )
+
+                # Compare interface names and collect created port channel names
+                port_channels_names = []
+                matched_channels = 0
+                for port_channel in existing_port_channels:
+                    for payload_channel in payload:
+                        if set(payload_channel["interfaceNames"]) == set(
+                            port_channel["interfaceNames"]
+                        ):
+                            port_channels_names.append(port_channel["portChannelName"])
+                            matched_channels += 1
+                            break
+
+                self.log(
+                    "Successfully matched {0}/{1} port channels from single batch "
+                    "processing: {2}".format(
+                        matched_channels, len(payload), port_channels_names
+                    ),
+                    "DEBUG"
+                )
+
+                self.log(
+                    "Names of port_channels that were successfully created via sequential processing: {0}".format(
+                        port_channels_names
+                    ),
+                    "DEBUG",
+                )
+
+                updated_msg = {}
+                updated_msg[
+                    "{0} Succeeded for following port channel(s) (Sequential Processing)".format(task_name)
+                ] = {
+                    "success_count": len(port_channels_names),
+                    "success_port_channels": port_channels_names,
+                    "total_batches": (len(payload) + batch_size - 1) // batch_size,
+                    "batch_size": batch_size,
+                    "sequential_processing": True,
+                    "total_channels_requested": len(payload)
+                }
+                self.msg = updated_msg
+                self.log(
+                    "Sequential port channel processing completed with status: {0}".format(
+                        self.status
+                    ),
+                    "WARNING"
+                )
+
+            return self
+
+        msg = "{0} has completed successfully for params: {1}.".format(
+            task_name, payload
+        )
+        self.log(
+            "Executing task status check for single batch with task ID: {0}".format(
+                task_id
+            ),
+            "DEBUG"
+        )
         # Execute the task and get the status
         self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
 
@@ -4994,20 +5463,23 @@ class SDAHostPortOnboarding(DnacBase):
             )
 
             # Compare interface names and collect created port channel names
+            matched_count = 0
             port_channels_names = []
             for port_channel in existing_port_channels:
-                for payload_channel in add_port_channels_params["payload"]:
+                for payload_channel in payload:
                     if set(payload_channel["interfaceNames"]) == set(
                         port_channel["interfaceNames"]
                     ):
                         port_channels_names.append(port_channel["portChannelName"])
+                        matched_count += 1
                         break
 
             self.log(
-                "Names of port_channels that were successfully created: {0}".format(
-                    port_channels_names
+                "Successfully matched {0}/{1} port channels from single batch "
+                "processing: {2}".format(
+                    matched_count, len(payload), port_channels_names
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             updated_msg = {}
@@ -5033,20 +5505,86 @@ class SDAHostPortOnboarding(DnacBase):
         Description:
             This method constructs a message indicating the successful completion of the update port channels
             operation. It then retrieves the task status using the provided task ID and logs the relevant information.
+            Handles both single batch and sequential batch processing.
         """
+        self.log(
+            "Starting task status retrieval for update port channels operation with "
+            "task ID: {0}".format(task_id),
+            "DEBUG"
+        )
         task_name = "Update Port Channel(s) Task"
-        msg = {}
 
         # Retrieve the parameters for updating port channels
         update_port_channels_params = self.want.get("update_port_channels_params")
+        payload = update_port_channels_params.get("payload", [])
+        batch_size = self.params.get("sda_fabric_port_channel_limit", 20)
+        self.log(
+            "Using batch size of {0} for port channel processing "
+            "(from sda_fabric_port_channel_limit parameter)".format(batch_size),
+            "DEBUG"
+        )
+
+        if batch_size <= 0:
+            self.log(
+                "Invalid sda_fabric_port_channel_limit value: {0}. "
+                "Must be greater than 0".format(batch_size),
+                "WARNING"
+            )
+            batch_size = 20
+
         port_channels_list = [
             port.get("portChannelName")
-            for port in update_port_channels_params["payload"]
+            for port in payload
         ]
+
+        # Check if this was sequential processing (more than batch_size port channels)
+        if len(payload) > batch_size:
+            # For sequential processing, the task status was already checked during processing
+            # We just need to prepare the final message
+            self.log(
+                "Processing sequential update port channels task status for {0} port "
+                "channels in {1} batches".format(
+                    len(payload), (len(payload) + batch_size - 1) // batch_size
+                ),
+                "INFO",
+            )
+
+            if self.status == "success":
+                msg = {}
+                msg["{0} Succeeded for following port channel(s) (Sequential Processing)".format(task_name)] = {
+                    "success_count": len(port_channels_list),
+                    "success_port_channels": port_channels_list,
+                    "total_batches": (len(payload) + batch_size - 1) // batch_size,
+                    "batch_size": batch_size,
+                    "sequential_processing": True,
+                    "total_channels_requested": len(payload)
+                }
+                self.msg = msg
+                return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
+            else:
+                msg = {}
+                msg["{0} Failed during sequential processing".format(task_name)] = {
+                    "total_port_channels": len(port_channels_list),
+                    "port_channels": port_channels_list,
+                    "total_batches": (len(payload) + batch_size - 1) // batch_size,
+                    "batch_size": batch_size,
+                    "sequential_processing": True,
+                    "status": self.status
+                }
+                return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
+
+        msg = {}
         msg["{0} Succeeded for following port channel(s)".format(task_name)] = {
             "success_count": len(port_channels_list),
             "success_port_channels": port_channels_list,
+            "single_batch": True,
+            "total_channels_requested": len(payload)
         }
+
+        self.log(
+            "Completed task status retrieval for update port channels operation",
+            "DEBUG"
+        )
 
         # Retrieve and return the task status using the provided task ID
         return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
@@ -7000,6 +7538,7 @@ def main():
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
+        "sda_fabric_port_channel_limit": {"type": "int", "default": 20},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
