@@ -17,11 +17,7 @@
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        state: merged
+        state: gathered
         config:
           - component_specific_filters:
-              components_list: ["application_policy"]
-              # queuing_profile:
-              #   profile_names_list: ["Enterprise-QoS-Profile"]
-              application_policy:
-                policy_names_list: ["new_test"]
+              components_list: ["application_policy", "queuing_profile"]

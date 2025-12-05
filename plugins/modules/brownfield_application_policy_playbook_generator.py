@@ -34,8 +34,8 @@ options:
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
-    choices: [merged]
-    default: merged
+    choices: [gathered]
+    default: gathered
   config:
     description:
       - A list of filters for generating YAML playbook compatible with the 'application_policy_workflow_manager'
@@ -131,7 +131,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - generate_all_configurations: true
 
@@ -146,7 +146,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/app_policy_config.yml"
 
@@ -161,7 +161,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/queuing_profiles.yml"
         component_specific_filters:
@@ -180,7 +180,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/app_policies.yml"
         component_specific_filters:
@@ -199,7 +199,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/complete_app_policy_config.yml"
         component_specific_filters:
@@ -282,7 +282,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             None
         """
-        self.supported_states = ["merged"]
+        self.supported_states = ["gathered"]
         super().__init__(module)
         self.module_schema = self.get_workflow_elements_schema()
         self.module_name = "application_policy_workflow_manager"
@@ -433,15 +433,15 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             return None
 
         bandwidth_settings = {}
-        
+
         for clause in clause_data:
             if not isinstance(clause, dict):
                 continue
-                
+
             clause_type = clause.get("type")
             if clause_type in ["BANDWIDTH", "BANDWIDTH_CUSTOM"]:
                 bandwidth_settings["is_common_between_all_interface_speeds"] = (clause_type == "BANDWIDTH")
-                
+
                 # Extract interface speed bandwidth clauses if present
                 if "interfaceSpeedBandwidthClauses" in clause:
                     interface_clauses = clause.get("interfaceSpeedBandwidthClauses", [])
@@ -449,7 +449,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                         # Get the first interface speed clause (usually "ALL")
                         first_clause = interface_clauses[0]
                         tc_bandwidth_settings = first_clause.get("tcBandwidthSettings", [])
-                        
+
                         # Transform to the expected format
                         bandwidth_list = []
                         for tc_setting in tc_bandwidth_settings:
@@ -458,10 +458,10 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                                 "traffic_class": traffic_class,
                                 "bandwidth_percentage": tc_setting.get("bandwidthPercentage", 0)
                             })
-                        
+
                         if bandwidth_list:
                             bandwidth_settings["bandwidth_by_traffic_class"] = bandwidth_list
-                    
+
         return bandwidth_settings if bandwidth_settings else None
 
     def transform_dscp_settings(self, clause_data):
@@ -470,15 +470,15 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             return None
 
         dscp_settings = {}
-        
+
         for clause in clause_data:
             if not isinstance(clause, dict):
                 continue
-                
+
             if clause.get("type") == "DSCP_CUSTOMIZATION":
                 # Extract DSCP values for each traffic class
                 tc_dscp_settings = clause.get("tcDscpSettings", [])
-                
+
                 dscp_list = []
                 for tc_setting in tc_dscp_settings:
                     traffic_class = tc_setting.get("trafficClass", "").lower().replace("_", "-")
@@ -486,10 +486,10 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "traffic_class": traffic_class,
                         "dscp_value": tc_setting.get("dscp", "0")
                     })
-                
+
                 if dscp_list:
                     dscp_settings["dscp_by_traffic_class"] = dscp_list
-                    
+
         return dscp_settings if dscp_settings else None
 
     def transform_site_names(self, advanced_policy_scope):
@@ -499,10 +499,10 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         site_ids = []
         advanced_policy_scope_elements = advanced_policy_scope.get("advancedPolicyScopeElement", [])
-        
+
         if not isinstance(advanced_policy_scope_elements, list):
             return []
-        
+
         for element in advanced_policy_scope_elements:
             if not isinstance(element, dict):
                 continue
@@ -524,10 +524,10 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             return "wired"
 
         advanced_policy_scope_elements = advanced_policy_scope.get("advancedPolicyScopeElement", [])
-        
+
         if not isinstance(advanced_policy_scope_elements, list):
             return "wired"
-        
+
         for element in advanced_policy_scope_elements:
             if not isinstance(element, dict):
                 continue
@@ -542,10 +542,10 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             return None
 
         advanced_policy_scope_elements = advanced_policy_scope.get("advancedPolicyScopeElement", [])
-        
+
         if not isinstance(advanced_policy_scope_elements, list):
             return None
-        
+
         for element in advanced_policy_scope_elements:
             if not isinstance(element, dict):
                 continue
@@ -571,7 +571,8 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
                 params={"id": profile_id}
             )
-            
+            self.log("Received API response: {0}".format(response), "DEBUG")
+
             if response and response.get("response"):
                 profiles = response.get("response")
                 if profiles and len(profiles) > 0:
@@ -584,22 +585,23 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_application_set_name_from_id(self, app_set_id):
         """
         Get application set name from its ID.
-        
+
         Args:
             app_set_id (str): Application set ID
-            
+z
         Returns:
             str: Application set name or None if not found
         """
         try:
             self.log("Fetching application set name for ID: {0}".format(app_set_id), "DEBUG")
-            
+
             response = self.dnac._exec(
                 family="application_policy",
                 function="get_application_sets",
                 op_modifies=False
             )
-            
+            self.log("Received API response: {0}".format(response), "DEBUG")
+
             if response and response.get("response"):
                 app_sets = response.get("response", [])
                 for app_set in app_sets:
@@ -607,10 +609,10 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                         app_set_name = app_set.get("name")
                         self.log("Found application set: {0} -> {1}".format(app_set_id, app_set_name), "INFO")
                         return app_set_name
-            
+
             self.log("Application set not found for ID: {0}".format(app_set_id), "WARNING")
             return None
-            
+
         except Exception as e:
             self.log("Error fetching application set name for ID {0}: {1}".format(app_set_id, str(e)), "ERROR")
             return None
@@ -619,21 +621,21 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Transform policy data to clause format with relevance details.
         Extracts application sets from producer.scalableGroup and relevance from exclusiveContract.
-        
+
         Args:
             policy (dict): Full policy object from API
-            
+
         Returns:
             list: List containing clause dictionary with relevance details
         """
         self.log("Transforming clause data from policy: {0}".format(policy.get("policyScope")), "DEBUG")
-        
+
         if not policy or not isinstance(policy, dict):
             self.log("Policy data is None or not a dict", "WARNING")
             return []
 
         policy_name = policy.get("policyScope", "unknown")
-        
+
         # Check if this is a special policy type that shouldn't have application clauses
         name_lower = policy.get("name", "").lower()
         if any(x in name_lower for x in ["queuing_customization", "global_policy_configuration"]):
@@ -648,7 +650,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
         if not producer or not isinstance(producer, dict):
             self.log("No producer data found in policy '{0}'".format(policy_name), "DEBUG")
             return []
-        
+
         scalable_groups = producer.get("scalableGroup", [])
         if not scalable_groups or not isinstance(scalable_groups, list):
             self.log("No scalableGroup found in producer for policy '{0}'".format(policy_name), "DEBUG")
@@ -666,22 +668,22 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                     if clause.get("type") == "BUSINESS_RELEVANCE":
                         relevance_level = clause.get("relevanceLevel", "DEFAULT")
                         break
-        
+
         self.log("Relevance level for policy '{0}': {1}".format(policy_name, relevance_level), "INFO")
-        
+
         # Process each scalable group (app set)
         for group in scalable_groups:
             if not isinstance(group, dict):
                 continue
-            
+
             app_set_id = group.get("idRef")
             if not app_set_id:
                 self.log("No idRef found in scalable group", "DEBUG")
                 continue
-            
+
             # Get application set name from ID
             app_set_name = self.get_application_set_name_from_id(app_set_id)
-            
+
             if app_set_name:
                 if relevance_level not in relevance_map:
                     relevance_map[relevance_level] = []
@@ -720,33 +722,33 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             return []
 
         self.log("Starting transformation of {0} policies".format(len(policies)), "INFO")
-        
+
         # First, group policies by policyScope to consolidate them
         policy_groups = {}
         for policy in policies:
             if not isinstance(policy, dict):
                 continue
-            
+
             policy_scope = policy.get("policyScope")
             if not policy_scope:
                 continue
-            
+
             if policy_scope not in policy_groups:
                 policy_groups[policy_scope] = []
             policy_groups[policy_scope].append(policy)
-        
+
         self.log("Grouped into {0} unique policy scopes".format(len(policy_groups)), "INFO")
 
         transformed_policies = []
         seen_policies = set()
-        
+
         for policy_scope, policy_list in policy_groups.items():
             self.log("Processing policy scope: {0} with {1} entries".format(policy_scope, len(policy_list)), "INFO")
-            
+
             # Use the first policy as the base (they should all have same scope/site info)
             base_policy = policy_list[0]
             advanced_policy_scope = base_policy.get("advancedPolicyScope")
-            
+
             # Get site IDs for unique identification
             site_ids = []
             if advanced_policy_scope and isinstance(advanced_policy_scope, dict):
@@ -756,33 +758,33 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                         group_ids = element.get("groupId", [])
                         if isinstance(group_ids, list):
                             site_ids.extend(group_ids)
-            
+
             policy_identifier = (policy_scope, tuple(sorted(site_ids)))
-            
+
             if policy_identifier in seen_policies:
                 self.log("Skipping duplicate policy: {0}".format(policy_scope), "DEBUG")
                 continue
-            
+
             seen_policies.add(policy_identifier)
-            
+
             policy_data = OrderedDict()
             policy_data["name"] = policy_scope
-            
+
             delete_status = base_policy.get("deletePolicyStatus", "NONE")
             policy_data["policy_status"] = "deployed" if delete_status == "NONE" else delete_status.lower()
-            
+
             site_names = self.transform_site_names(advanced_policy_scope)
             if site_names:
                 policy_data["site_names"] = site_names
-            
+
             device_type = self.transform_device_type(advanced_policy_scope)
             policy_data["device_type"] = device_type
-            
+
             if device_type == "wireless":
                 ssid_name = self.transform_ssid_name(advanced_policy_scope)
                 if ssid_name:
                     policy_data["ssid_name"] = ssid_name
-            
+
             # Get queuing profile from the customization policy
             queuing_profile_name = None
             for policy in policy_list:
@@ -791,32 +793,32 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                     if contract and isinstance(contract, dict):
                         queuing_profile_name = self.get_queuing_profile_name_from_id(contract)
                         break
-            
+
             if queuing_profile_name:
                 policy_data["application_queuing_profile_name"] = queuing_profile_name
-            
+
             # Collect all application sets across all sub-policies by relevance
             all_relevance_map = {
                 "BUSINESS_RELEVANT": set(),
                 "BUSINESS_IRRELEVANT": set(),
                 "DEFAULT": set()
             }
-            
+
             for policy in policy_list:
                 # Skip special policy types
                 name_lower = policy.get("name", "").lower()
                 if any(x in name_lower for x in ["queuing_customization", "global_policy_configuration"]):
                     continue
-                
+
                 # Get app sets from this sub-policy
                 producer = policy.get("producer")
                 if not producer or not isinstance(producer, dict):
                     continue
-                
+
                 scalable_groups = producer.get("scalableGroup", [])
                 if not scalable_groups or not isinstance(scalable_groups, list):
                     continue
-                
+
                 # Get relevance level from exclusiveContract
                 relevance_level = "DEFAULT"
                 exclusive_contract = policy.get("exclusiveContract")
@@ -826,12 +828,12 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                         if clause.get("type") == "BUSINESS_RELEVANCE":
                             relevance_level = clause.get("relevanceLevel", "DEFAULT")
                             break
-                
+
                 # Add app sets to the relevance map
                 for group in scalable_groups:
                     if not isinstance(group, dict):
                         continue
-                    
+
                     app_set_id = group.get("idRef")
                     if app_set_id:
                         app_set_name = self.get_application_set_name_from_id(app_set_id)
@@ -839,7 +841,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                             all_relevance_map[relevance_level].add(app_set_name)
                             self.log("Added '{0}' to {1} for policy '{2}'".format(
                                 app_set_name, relevance_level, policy_scope), "DEBUG")
-            
+
             # Build clause if we have any application sets
             relevance_details = []
             for relevance in ["BUSINESS_RELEVANT", "BUSINESS_IRRELEVANT", "DEFAULT"]:
@@ -849,7 +851,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                         ("relevance", relevance),
                         ("application_set_name", app_sets)
                     ]))
-            
+
             if relevance_details:
                 policy_data["clause"] = [OrderedDict([
                     ("clause_type", "BUSINESS_RELEVANCE"),
@@ -859,7 +861,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                     policy_scope, len(relevance_details)), "INFO")
             else:
                 self.log("No clause data found for policy '{0}'".format(policy_scope), "INFO")
-            
+
             if policy_scope and site_names:
                 transformed_policies.append(policy_data)
                 self.log("Successfully transformed policy: {0} (has clause: {1})".format(
@@ -867,23 +869,23 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             else:
                 self.log("Skipping policy due to missing required fields: name={0}, sites={1}".format(
                     policy_scope, len(site_names) if site_names else 0), "WARNING")
-        
+
         self.log("Transformed {0} policies total".format(len(transformed_policies)), "INFO")
         return transformed_policies
 
     def get_detailed_application_policy(self, policy_name):
         """
         Fetch detailed application policy data including consumer information.
-        
+
         Args:
             policy_name (str): Name of the policy to fetch
-            
+
         Returns:
             dict: Detailed policy data or None if not found
         """
         try:
             self.log("Fetching detailed policy data for '{0}'".format(policy_name), "INFO")
-            
+
             # Try getting with policy scope parameter
             response = self.dnac._exec(
                 family="application_policy",
@@ -891,17 +893,18 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
                 params={"policyScope": policy_name}
             )
-            
+            self.log("Received API response: {0}".format(response), "DEBUG")
+
             if response and response.get("response"):
                 policies = response.get("response", [])
                 if policies and len(policies) > 0:
                     detailed_policy = policies[0]
                     self.log("Retrieved detailed policy data for '{0}'".format(policy_name), "INFO")
                     return detailed_policy
-            
+
             self.log("No detailed policy data found for '{0}'".format(policy_name), "WARNING")
             return None
-            
+
         except Exception as e:
             self.log("Error fetching detailed policy for '{0}': {1}".format(policy_name, str(e)), "ERROR")
             return None
@@ -921,6 +924,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                 function="get_application_policy",
                 op_modifies=False,
             )
+            self.log("Received API response: {0}".format(response), "DEBUG")
 
             if not response or not response.get("response"):
                 self.log("No application policies found in response", "WARNING")
@@ -948,7 +952,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             transformed_policies = self.transform_application_policies(policies)
 
             self.log("Successfully transformed {0} application policies".format(len(transformed_policies)), "INFO")
-            
+
             # Log summary of policies with/without clauses
             policies_with_clauses = sum(1 for p in transformed_policies if "clause" in p)
             policies_without_clauses = len(transformed_policies) - policies_with_clauses
@@ -970,47 +974,47 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             return []
 
         transformed_profiles = []
-        
+
         for profile in profiles:
             if not isinstance(profile, dict):
                 continue
-            
+
             profile_data = OrderedDict()
-            
+
             # Basic profile information
             profile_data["profile_name"] = profile.get("name")
             profile_data["profile_description"] = profile.get("description", "")
-            
+
             # Process clauses for bandwidth and DSCP settings
             clauses = profile.get("clause", [])
-            
+
             if clauses:
                 bandwidth_settings, dscp_settings = self.extract_settings_from_clauses(clauses)
-                
+
                 if bandwidth_settings:
                     profile_data["bandwidth_settings"] = bandwidth_settings
-                
+
                 if dscp_settings:
                     profile_data["dscp_settings"] = dscp_settings
-            
+
             transformed_profiles.append(profile_data)
             self.log("Transformed queuing profile: {0}".format(profile_data["profile_name"]), "INFO")
-        
+
         return transformed_profiles
 
     def extract_settings_from_clauses(self, clauses):
         """
         Extract bandwidth and DSCP settings from queuing profile clauses.
-        
+
         Args:
             clauses (list): List of clause dictionaries from the API response
-            
+
         Returns:
             tuple: (bandwidth_settings dict, dscp_settings dict)
         """
         bandwidth_settings = None
         dscp_settings = OrderedDict()
-        
+
         # Traffic class mapping for bandwidth percentages
         tc_map = {
             "BROADCAST_VIDEO": "broadcast_video",
@@ -1026,24 +1030,24 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             "BEST_EFFORT": "best_effort",
             "SCAVENGER": "scavenger"
         }
-        
+
         for clause in clauses:
             if not isinstance(clause, dict):
                 continue
-                
+
             clause_type = clause.get("type")
-            
+
             # Process bandwidth settings
             if clause_type == "BANDWIDTH":
                 is_common = clause.get("isCommonBetweenAllInterfaceSpeeds", False)
-                
+
                 # CRITICAL FIX: Get interfaceSpeedBandwidthClauses first
                 interface_speed_clauses = clause.get("interfaceSpeedBandwidthClauses", [])
-                
+
                 if not interface_speed_clauses:
                     self.log("No interfaceSpeedBandwidthClauses found in BANDWIDTH clause", "WARNING")
                     continue
-                
+
                 if is_common:
                     # Common bandwidth settings across all interface speeds
                     bandwidth_settings = OrderedDict([
@@ -1051,63 +1055,63 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                         ("interface_speed", "ALL"),
                         ("bandwidth_percentages", OrderedDict())
                     ])
-                    
+
                     # Get the first (and should be only) interface speed clause for "ALL"
                     if len(interface_speed_clauses) > 0:
                         first_speed_clause = interface_speed_clauses[0]
                         tc_bandwidth_settings = first_speed_clause.get("tcBandwidthSettings", [])
-                        
+
                         self.log("Found {0} traffic class bandwidth settings".format(len(tc_bandwidth_settings)), "DEBUG")
-                        
+
                         for tc_setting in tc_bandwidth_settings:
                             tc_name = tc_setting.get("trafficClass")
                             bandwidth_percent = tc_setting.get("bandwidthPercentage")
-                            
+
                             if tc_name in tc_map and bandwidth_percent is not None:
                                 playbook_tc_name = tc_map[tc_name]
                                 bandwidth_settings["bandwidth_percentages"][playbook_tc_name] = str(bandwidth_percent)
                                 self.log("Added bandwidth for {0}: {1}%".format(playbook_tc_name, bandwidth_percent), "DEBUG")
-                
+
                 else:
                     # Interface-specific bandwidth settings
                     bandwidth_settings = OrderedDict([
                         ("is_common_between_all_interface_speeds", False),
                         ("interface_speed_settings", [])
                     ])
-                    
+
                     for speed_clause in interface_speed_clauses:
                         interface_speed = speed_clause.get("interfaceSpeed")
                         tc_bandwidth_settings = speed_clause.get("tcBandwidthSettings", [])
-                        
+
                         speed_setting = OrderedDict([
                             ("interface_speed", interface_speed),
                             ("bandwidth_percentages", OrderedDict())
                         ])
-                        
+
                         for tc_setting in tc_bandwidth_settings:
                             tc_name = tc_setting.get("trafficClass")
                             bandwidth_percent = tc_setting.get("bandwidthPercentage")
-                            
+
                             if tc_name in tc_map and bandwidth_percent is not None:
                                 playbook_tc_name = tc_map[tc_name]
                                 speed_setting["bandwidth_percentages"][playbook_tc_name] = str(bandwidth_percent)
-                        
+
                         bandwidth_settings["interface_speed_settings"].append(speed_setting)
-            
+
             # Process DSCP settings
             elif clause_type == "DSCP_CUSTOMIZATION":
                 tc_dscp_settings = clause.get("tcDscpSettings", [])
-                
+
                 self.log("Found {0} traffic class DSCP settings".format(len(tc_dscp_settings)), "DEBUG")
-                
+
                 for tc_setting in tc_dscp_settings:
                     tc_name = tc_setting.get("trafficClass")
                     dscp_value = tc_setting.get("dscp")
-                    
+
                     if tc_name in tc_map and dscp_value is not None:
                         playbook_tc_name = tc_map[tc_name]
                         dscp_settings[playbook_tc_name] = str(dscp_value)
-        
+
         return bandwidth_settings, dscp_settings if dscp_settings else None
 
     def get_queuing_profiles(self, network_element, config):
@@ -1126,6 +1130,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                 function="get_application_policy_queuing_profile",
                 op_modifies=False,
             )
+            self.log("Received API response: {0}".format(response), "DEBUG")
 
             if not response or not response.get("response"):
                 self.log("No queuing profiles found", "WARNING")
@@ -1176,7 +1181,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             if component_name in self.module_schema["network_elements"]:
                 network_element = self.module_schema["network_elements"][component_name]
                 get_function = network_element["get_function_name"]
-                
+
                 component_data = get_function(network_element, config)
 
                 if component_data and component_data.get(component_name):
@@ -1205,13 +1210,12 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return self
 
-
     def get_want(self, config, state):
         """Get desired state from config."""
         self.log("Processing configuration for state: {0}".format(state), "INFO")
-        
+
         self.generate_all_configurations = config.get("generate_all_configurations", False)
-        
+
         self.want = {
             "file_path": config.get("file_path"),
             "component_specific_filters": config.get("component_specific_filters", {}),
@@ -1220,13 +1224,13 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return self
 
-    def get_diff_merged(self):
+    def get_diff_gathered(self):
         """Process merge state."""
-        self.log("Processing merged state", "INFO")
-        
+        self.log("Processing gathered state", "INFO")
+
         config = self.validated_config[0] if self.validated_config else {}
         self.yaml_config_generator(config)
-        
+
         return self
 
 
@@ -1249,7 +1253,7 @@ def main():
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
-        "state": {"default": "merged", "choices": ["merged"]},
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
@@ -1282,7 +1286,7 @@ def main():
     # Process configuration
     for config in app_policy_generator.validated_config:
         app_policy_generator.get_want(config, state).check_return_status()
-        app_policy_generator.get_diff_merged().check_return_status()
+        app_policy_generator.get_diff_state_apply[state]().check_return_status()
 
     module.exit_json(**app_policy_generator.result)
 
