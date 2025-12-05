@@ -1781,4 +1781,26 @@ releases:
         - Added 'authorize' attribute in network_profile_wireless_workflow_manager module
         - Added 'ap_authorization_list_name', 'authorize_mesh_and_non_mesh_aps', 'feature_template'  attributes in provision_workflow_manager module
         - Added 'image_name', sync_cco, image_distribution_timeout, device_tag, image_activation_timeout, compatible_devices in swim_workflow_manager module
-        - Added 'profile_names' in template_workflow_manager module  
+        - Added 'profile_names' in template_workflow_manager module 
+
+  6.43.0:
+    release_date: "2025-12-05"
+    changes:
+      release_summary: Enhancements in workflow manager modules
+      minor_changes:
+        - Changes in accesspoint_workflow_manager module
+        - Changes in backup_and_restore_workflow_manager module
+        - Changes in inventory_workflow_manager module
+        - Changes in lan_automation_workflow_manager module
+        - Changes in network_devices_info_workflow_manager module
+        - Changes in network_profile_wireless_workflow_manager module
+        - Changes in pnp_workflow_manager module
+        - Changes in reports_workflow_manager module
+        - Changes in sda_fabric_virtual_networks_workflow_manager module
+        - Changes in sda_host_port_onboarding_workflow_manager module
+        - Changes in swim_workflow_manager module
+        - Changes in wireless_design_workflow_manager module
+        - Added 'backup_task_timeout' and 'restore_task_timeout'  attributes in backup_and_restore_workflow_manager module
+        - Added 'sda_fabric_port_channel_limit'  attribute in sda_host_port_onboarding_workflow_manager module
+        - Added 'convert_to_wlc'  attribute in swim_workflow_manager module
+        - Added 'feature_template_config'  attribute in wireless_design_workflow_manager module
