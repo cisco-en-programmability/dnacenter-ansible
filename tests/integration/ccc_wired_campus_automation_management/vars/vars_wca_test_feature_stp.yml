@@ -1,0 +1,659 @@
+---
+# Common device information
+device_info: &device_info
+  ip_address: "204.1.2.3"
+  device_collection_status_check: false
+
+###################################################################################################################
+# Negative Validation Tests for STP
+
+#############################################
+#        STP Global Configuration Tests
+#############################################
+
+# Test invalid STP mode - invalid string value
+test_stp_global_mode_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_mode: "invalid_mode" # Invalid: not a valid STP mode
+
+# Test invalid STP mode - integer instead of string
+test_stp_global_mode_invalid_integer:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_mode: 123 # Invalid: integer instead of string
+
+# Test invalid STP portfast mode - invalid string value
+test_stp_portfast_mode_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_portfast_mode: "invalid_portfast_mode" # Invalid: not a valid portfast mode
+
+# Test invalid STP portfast mode - integer instead of string
+test_stp_portfast_mode_invalid_integer:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_portfast_mode: 123 # Invalid: integer instead of string
+
+# Test invalid STP BPDU guard - string instead of boolean
+test_stp_bpdu_guard_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_bpdu_guard: "true" # Invalid: string instead of boolean
+
+# Test invalid STP BPDU guard - integer instead of boolean
+test_stp_bpdu_guard_invalid_integer:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_bpdu_guard: 1 # Invalid: integer instead of boolean
+
+# Test invalid STP BPDU filter - string instead of boolean
+test_stp_bpdu_filter_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_bpdu_filter: "false" # Invalid: string instead of boolean
+
+# Test invalid STP BPDU filter - integer instead of boolean
+test_stp_bpdu_filter_invalid_integer:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_bpdu_filter: 0 # Invalid: integer instead of boolean
+
+# Test invalid STP backbonefast - string instead of boolean
+test_stp_backbonefast_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_backbonefast: "true" # Invalid: string instead of boolean
+
+# Test invalid STP backbonefast - integer instead of boolean
+test_stp_backbonefast_invalid_integer:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_backbonefast: 1 # Invalid: integer instead of boolean
+
+# Test invalid STP extended system ID - string instead of boolean
+test_stp_extended_system_id_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_extended_system_id: "true" # Invalid: string instead of boolean
+
+# Test invalid STP extended system ID - integer instead of boolean
+test_stp_extended_system_id_invalid_integer:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_extended_system_id: 1 # Invalid: integer instead of boolean
+
+# Test invalid STP logging - string instead of boolean
+test_stp_logging_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_logging: "false" # Invalid: string instead of boolean
+
+# Test invalid STP logging - integer instead of boolean
+test_stp_logging_invalid_integer:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_logging: 0 # Invalid: integer instead of boolean
+
+# Test invalid STP loopguard - string instead of boolean
+test_stp_loopguard_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_loopguard: "true" # Invalid: string instead of boolean
+
+# Test invalid STP loopguard - integer instead of boolean
+test_stp_loopguard_invalid_integer:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_loopguard: 1 # Invalid: integer instead of boolean
+
+# Test invalid STP transmit hold count - string instead of integer
+test_stp_transmit_hold_count_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_transmit_hold_count: "6" # Invalid: string instead of integer
+
+# Test invalid STP transmit hold count - below minimum range
+test_stp_transmit_hold_count_below_min:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_transmit_hold_count: 0 # Invalid: below minimum of 1
+
+# Test invalid STP transmit hold count - above maximum range
+test_stp_transmit_hold_count_above_max:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_transmit_hold_count: 21 # Invalid: above maximum of 20
+
+# Test invalid STP uplinkfast - string instead of boolean
+test_stp_uplinkfast_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_uplinkfast: "false" # Invalid: string instead of boolean
+
+# Test invalid STP uplinkfast - integer instead of boolean
+test_stp_uplinkfast_invalid_integer:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_uplinkfast: 0 # Invalid: integer instead of boolean
+
+# Test invalid STP uplinkfast max update rate - string instead of integer
+test_stp_uplinkfast_max_update_rate_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_uplinkfast_max_update_rate: "150" # Invalid: string instead of integer
+
+# Test invalid STP uplinkfast max update rate - below minimum range
+test_stp_uplinkfast_max_update_rate_below_min:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_uplinkfast_max_update_rate: -1 # Invalid: below minimum of 0
+
+# Test invalid STP uplinkfast max update rate - above maximum range
+test_stp_uplinkfast_max_update_rate_above_max:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_uplinkfast_max_update_rate: 32001 # Invalid: above maximum of 32000
+
+# Test invalid STP etherchannel guard - string instead of boolean
+test_stp_etherchannel_guard_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_etherchannel_guard: "true" # Invalid: string instead of boolean
+
+# Test invalid STP etherchannel guard - integer instead of boolean
+test_stp_etherchannel_guard_invalid_integer:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_etherchannel_guard: 1 # Invalid: integer instead of boolean
+
+#############################################
+#        STP Instance Configuration Tests
+#############################################
+
+# Test invalid STP instance VLAN ID - string instead of integer
+test_stp_instance_vlan_id_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: "98" # Invalid: string instead of integer
+          stp_instance_priority: 32768
+
+# Test invalid STP instance VLAN ID - below minimum range
+test_stp_instance_vlan_id_below_min:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 0 # Invalid: below minimum of 1
+          stp_instance_priority: 32768
+
+# Test invalid STP instance VLAN ID - above maximum range
+test_stp_instance_vlan_id_above_max:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 4095 # Invalid: above maximum of 4094
+          stp_instance_priority: 32768
+
+# Test missing required STP instance VLAN ID
+test_stp_instance_vlan_id_missing:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - # stp_instance_vlan_id is missing - should fail
+          stp_instance_priority: 32768
+
+# Test invalid STP instance priority - string instead of integer
+test_stp_instance_priority_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 99
+          stp_instance_priority: "32768" # Invalid: string instead of integer
+
+# Test invalid STP instance priority - below minimum range
+test_stp_instance_priority_below_min:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 400
+          stp_instance_priority: -1 # Invalid: below minimum of 0
+
+# Test invalid STP instance priority - above maximum range
+test_stp_instance_priority_above_max:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 401
+          stp_instance_priority: 61441 # Invalid: above maximum of 61440
+
+# Test invalid STP instance priority - not multiple of 4096
+test_stp_instance_priority_not_multiple:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 402
+          stp_instance_priority: 1000 # Invalid: not a multiple of 4096
+
+# Test invalid STP instance enable_stp - string instead of boolean
+test_stp_instance_enable_stp_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 202
+          enable_stp: "true" # Invalid: string instead of boolean
+
+# Test invalid STP instance enable_stp - integer instead of boolean
+test_stp_instance_enable_stp_invalid_integer:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 98
+          enable_stp: 1 # Invalid: integer instead of boolean
+
+# Test invalid STP instance max age timer - string instead of integer
+test_stp_instance_max_age_timer_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 99
+          stp_instance_max_age_timer: "20" # Invalid: string instead of integer
+
+# Test invalid STP instance max age timer - below minimum range
+test_stp_instance_max_age_timer_below_min:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 400
+          stp_instance_max_age_timer: 5 # Invalid: below minimum of 6
+
+# Test invalid STP instance max age timer - above maximum range
+test_stp_instance_max_age_timer_above_max:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 401
+          stp_instance_max_age_timer: 41 # Invalid: above maximum of 40
+
+# Test invalid STP instance hello interval timer - string instead of integer
+test_stp_instance_hello_interval_timer_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 402
+          stp_instance_hello_interval_timer: "2" # Invalid: string instead of integer
+
+# Test invalid STP instance hello interval timer - below minimum range
+test_stp_instance_hello_interval_timer_below_min:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 202
+          stp_instance_hello_interval_timer: 0 # Invalid: below minimum of 1
+
+# Test invalid STP instance hello interval timer - above maximum range
+test_stp_instance_hello_interval_timer_above_max:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 98
+          stp_instance_hello_interval_timer: 11 # Invalid: above maximum of 10
+
+# Test invalid STP instance forward delay timer - string instead of integer
+test_stp_instance_forward_delay_timer_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 99
+          stp_instance_forward_delay_timer: "15" # Invalid: string instead of integer
+
+# Test invalid STP instance forward delay timer - below minimum range
+test_stp_instance_forward_delay_timer_below_min:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 400
+          stp_instance_forward_delay_timer: 3 # Invalid: below minimum of 4
+
+# Test invalid STP instance forward delay timer - above maximum range
+test_stp_instance_forward_delay_timer_above_max:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 401
+          stp_instance_forward_delay_timer: 31 # Invalid: above maximum of 30
+
+#############################################
+#        Data Type and Structure Tests
+#############################################
+
+# Test invalid STP configuration - string instead of dictionary
+test_stp_invalid_dict_type:
+  <<: *device_info
+  layer2_configuration:
+    stp: "invalid_stp_string" # Invalid: string instead of dictionary
+
+# Test invalid STP instances - string instead of list
+test_stp_instances_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances: "invalid_instances_string" # Invalid: string instead of list
+
+# Test invalid STP instance item - string instead of dictionary
+test_stp_instance_invalid_dict_type:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - "invalid_instance_string" # Invalid: string instead of dictionary
+
+###################################################################################################################
+# Positive Validation Tests for STP
+
+#############################################
+#        POSITIVE TEST CASES - CREATE
+#############################################
+
+# Test STP configuration with global parameters only
+test_stp_create_global_only:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_mode: "MST"
+      stp_portfast_mode: "ENABLE"
+      stp_bpdu_guard: true
+      stp_bpdu_filter: false
+      stp_backbonefast: true
+      stp_extended_system_id: true
+      stp_logging: true
+      stp_loopguard: false
+      stp_transmit_hold_count: 6
+      stp_uplinkfast: false
+      stp_uplinkfast_max_update_rate: 150
+      stp_etherchannel_guard: true
+
+# Test STP configuration with instances only
+test_stp_create_instances_only:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 98
+          stp_instance_priority: 32768
+          enable_stp: true
+          stp_instance_max_age_timer: 20
+          stp_instance_hello_interval_timer: 2
+          stp_instance_forward_delay_timer: 15
+        - stp_instance_vlan_id: 99
+          stp_instance_priority: 16384
+          enable_stp: true
+          stp_instance_max_age_timer: 25
+          stp_instance_hello_interval_timer: 3
+          stp_instance_forward_delay_timer: 20
+
+# Test STP configuration with single instance
+test_stp_create_single_instance:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 400
+          stp_instance_priority: 8192
+          enable_stp: true
+
+# Test STP configuration with global and instances
+test_stp_create_global_and_instances:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_mode: "RSTP"
+      stp_portfast_mode: "ENABLE"
+      stp_bpdu_guard: true
+      stp_bpdu_filter: false
+      stp_backbonefast: false
+      stp_extended_system_id: true
+      stp_logging: false
+      stp_loopguard: true
+      stp_transmit_hold_count: 10
+      stp_uplinkfast: true
+      stp_uplinkfast_max_update_rate: 300
+      stp_etherchannel_guard: true
+      stp_instances:
+        - stp_instance_vlan_id: 401
+          stp_instance_priority: 4096
+          enable_stp: true
+          stp_instance_max_age_timer: 18
+          stp_instance_hello_interval_timer: 1
+          stp_instance_forward_delay_timer: 12
+        - stp_instance_vlan_id: 402
+          stp_instance_priority: 61440
+          enable_stp: false
+          stp_instance_max_age_timer: 30
+          stp_instance_hello_interval_timer: 5
+          stp_instance_forward_delay_timer: 25
+
+# Test STP configuration with minimal global parameters
+test_stp_create_minimal_global:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_mode: "PVST"
+
+# Test STP configuration with minimal instance parameters
+test_stp_create_minimal_instance:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 202
+
+#############################################
+#        POSITIVE TEST CASES - UPDATE
+#############################################
+
+# Test STP update - global parameters only
+test_stp_update_global_only:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_mode: "MST"
+      stp_portfast_mode: "ENABLE"
+      stp_bpdu_guard: false
+      stp_bpdu_filter: true
+      stp_backbonefast: true
+      stp_extended_system_id: true
+      stp_logging: true
+      stp_loopguard: false
+      stp_transmit_hold_count: 15
+      stp_uplinkfast: true
+      stp_uplinkfast_max_update_rate: 500
+      stp_etherchannel_guard: false
+
+# Test STP update - add new instances
+test_stp_update_add_instances:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 98
+          stp_instance_priority: 12288
+          enable_stp: true
+          stp_instance_max_age_timer: 22
+          stp_instance_hello_interval_timer: 3
+          stp_instance_forward_delay_timer: 18
+        - stp_instance_vlan_id: 99
+          stp_instance_priority: 20480
+          enable_stp: false
+          stp_instance_max_age_timer: 35
+          stp_instance_hello_interval_timer: 7
+          stp_instance_forward_delay_timer: 28
+
+# Test STP update - modify existing instances
+test_stp_update_modify_instances:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 98
+          stp_instance_priority: 8192 # Changed from 32768
+          enable_stp: false # Changed from true
+          stp_instance_max_age_timer: 30 # Changed from 20
+          stp_instance_hello_interval_timer: 5 # Changed from 2
+          stp_instance_forward_delay_timer: 25 # Changed from 15
+        - stp_instance_vlan_id: 99
+          stp_instance_priority: 4096 # Changed from 16384
+          enable_stp: true # Keep same
+          stp_instance_max_age_timer: 15 # Changed from 25
+          stp_instance_hello_interval_timer: 1 # Changed from 3
+          stp_instance_forward_delay_timer: 10 # Changed from 20
+
+# Test STP update - global and instances together
+test_stp_update_global_and_instances:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_mode: "PVST" # Changed from RSTP
+      stp_portfast_mode: "ENABLE" # Changed from EDGE
+      stp_bpdu_guard: false # Changed from true
+      stp_bpdu_filter: true # Changed from false
+      stp_backbonefast: true # Changed from false
+      stp_extended_system_id: true # Changed from true
+      stp_logging: true # Changed from false
+      stp_loopguard: false # Changed from true
+      stp_transmit_hold_count: 20 # Changed from 10
+      stp_uplinkfast: false # Changed from true
+      stp_uplinkfast_max_update_rate: 1000 # Changed from 300
+      stp_etherchannel_guard: false # Changed from true
+      stp_instances:
+        - stp_instance_vlan_id: 401
+          stp_instance_priority: 16384 # Changed from 4096
+          enable_stp: false # Changed from true
+          stp_instance_max_age_timer: 25 # Changed from 18
+          stp_instance_hello_interval_timer: 4 # Changed from 1
+          stp_instance_forward_delay_timer: 20 # Changed from 12
+        - stp_instance_vlan_id: 202 # New instance
+          stp_instance_priority: 28672
+          enable_stp: true
+          stp_instance_max_age_timer: 12
+          stp_instance_hello_interval_timer: 2
+          stp_instance_forward_delay_timer: 8
+
+# Test STP update - change STP mode only
+test_stp_update_change_mode:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_mode: "MST" # Changed from previous mode
+
+# Test STP update - modify single instance
+test_stp_update_single_instance:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 400
+          stp_instance_priority: 24576 # Changed from 8192
+          enable_stp: false # Changed from true
+
+#############################################
+#        POSITIVE TEST CASES - DELETE
+#############################################
+
+# Test STP delete - instances only (Type 3 - deletes only specified instances, preserves global)
+test_stp_delete_instances_only:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 98 # Delete this instance
+        - stp_instance_vlan_id: 99 # Delete this instance
+
+# Test STP delete - global and instances (Type 3 - deletes instances only, preserves global)
+test_stp_delete_global_and_instances:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_mode: "MST" # Global params ignored in delete state when instances present
+      stp_portfast_mode: "ENABLE"
+      stp_instances:
+        - stp_instance_vlan_id: 401 # Delete this instance
+        - stp_instance_vlan_id: 402 # Delete this instance
+
+# Test STP delete - global parameters only (Type 3 - resets global to defaults, deletes instances)
+test_stp_delete_global_only:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_mode: "PVST" # Global params provided but should reset to defaults in delete state
+      stp_portfast_mode: "ENABLE"
+      stp_bpdu_guard: true
+
+# Test STP delete - single instance (Type 3 - deletes only specified instance)
+test_stp_delete_single_instance:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 202 # Delete this instance only
+
+# Test STP delete - multiple specific instances
+test_stp_delete_multiple_instances:
+  <<: *device_info
+  layer2_configuration:
+    stp:
+      stp_instances:
+        - stp_instance_vlan_id: 98 # Delete this instance
+        - stp_instance_vlan_id: 99 # Delete this instance
+        - stp_instance_vlan_id: 400 # Delete this instance
+
+# Test STP delete - empty configuration (Type 3 - resets global to defaults, deletes all instances)
+test_stp_delete_empty:
+  <<: *device_info
+  layer2_configuration:
+    stp: {}
