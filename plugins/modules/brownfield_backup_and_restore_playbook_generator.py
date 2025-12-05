@@ -35,8 +35,8 @@ options:
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
-    choices: [merged]
-    default: merged
+    choices: [gathered]
+    default: gathered
   config:
     description:
     - A list of filters for generating YAML playbook compatible with the `backup_and_restore_workflow_manager`
@@ -128,7 +128,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/catc_backup_restore_config.yaml"
         component_specific_filters:
@@ -145,7 +145,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/catc_backup_storage_config.yaml"
         component_specific_filters:
@@ -164,14 +164,14 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/catc_backup_restore_config.yaml"
         component_specific_filters:
           components_list: ["nfs_configuration"]
           nfs_configuration:
             - server_ip: "172.27.17.90"
-            - source_path: "/home/nfsshare/backups/TB30"
+              source_path: "/home/nfsshare/backups/TB30"
 
 - name: Generate YAML Configuration for all configurations
   cisco.dnac.brownfield_backup_and_restore_playbook_generator:
@@ -184,7 +184,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/catc_backup_restore_config.yaml"
 """
@@ -257,7 +257,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             The method does not return a value.
         """
-        self.supported_states = ["merged"]
+        self.supported_states = ["gathered"]
         super().__init__(module)
         self.module_schema = self.backup_restore_workflow_manager_mapping()
         self.module_name = "backup_and_restore_workflow_manager"
@@ -283,6 +283,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         # Expected schema for configuration parameters
         temp_spec = {
             "file_path": {"type": "str", "required": False},
+            "generate_all_configurations": {"type": "bool", "required": False},
             "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
@@ -438,8 +439,8 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
             )
 
-            # Log the raw response to debug
-            self.log("Raw API response: {0}".format(response), "DEBUG")
+            # Log the received response to debug
+            self.log("Received API response: {0}".format(response), "DEBUG")
 
             # Handle different response structures
             if isinstance(response, dict):
@@ -467,25 +468,19 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
                         # Handle different possible structures
                         spec = config.get("spec", config)  # Fallback to config itself if no spec
+                        self.log(spec)
 
                         for key, value in filter_param.items():
                             config_value = None
                             if key == "server_ip":
                                 # Try different possible field names
                                 config_value = (
-                                    spec.get("server") or
-                                    spec.get("serverIp") or
-                                    spec.get("server_ip") or
-                                    config.get("serverIp") or
-                                    config.get("server")
+                                    spec.get("server")
                                 )
                             elif key == "source_path":
                                 # Try different possible field names
                                 config_value = (
-                                    spec.get("sourcePath") or
-                                    spec.get("source_path") or
-                                    config.get("sourcePath") or
-                                    config.get("source_path")
+                                    spec.get("sourcePath")
                                 )
 
                             if config_value != value:
@@ -521,15 +516,12 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 if value is None:
                     if key == "server_ip":
                         value = (
-                            config.get("spec", {}).get("server") or
-                            config.get("serverIp") or
-                            config.get("server")
+                            config.get("spec", {}).get("server")
                         )
                     elif key == "source_path":
                         value = (
                             config.get("spec", {}).get("sourcePath") or
-                            config.get("sourcePath") or
-                            config.get("source_path")
+                            config.get("sourcePath")
                         )
                     elif key == "nfs_port":
                         value = (
@@ -580,7 +572,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
             "nfs_details": {
                 "type": "dict",
                 "special_handling": True,
-                "transform": lambda x: self.transform_nfs_details(x),
+                "transform": self.transform_nfs_details
             },
             "data_retention_period": {"type": "int", "source_key": "dataRetention"},
             "encryption_passphrase": {"type": "str", "source_key": "encryptionPassphrase", "no_log": True},
@@ -638,15 +630,11 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 # Sometimes backup config contains NFS details directly
                 nfs_details.update({
                     "server_ip": (
-                        config.get("nfsServer") or
-                        config.get("serverIp") or
                         config.get("server") or
                         config.get("nfs", {}).get("server")
                     ),
                     "source_path": (
-                        config.get("nfsPath") or
                         config.get("sourcePath") or
-                        config.get("path") or
                         config.get("nfs", {}).get("sourcePath")
                     ),
                     "nfs_port": (
@@ -697,7 +685,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
             )
 
-            self.log("Raw backup API response received: {0}".format(response), "DEBUG")
+            self.log("Received API response: {0}".format(response), "DEBUG")
 
             if response is None:
                 self.log("API response is None - no backup configuration available", "WARNING")
@@ -730,7 +718,6 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                                 # Try multiple ways to get server IP
                                 config_value = (
                                     backup_config.get("nfsServer") or
-                                    backup_config.get("serverIp") or
                                     backup_config.get("server")
                                 )
 
@@ -746,9 +733,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                             elif key == "source_path":
                                 # Try multiple ways to get source path
                                 config_value = (
-                                    backup_config.get("nfsPath") or
-                                    backup_config.get("sourcePath") or
-                                    backup_config.get("path")
+                                    backup_config.get("sourcePath")
                                 )
 
                                 # If still not found, try to match with NFS configs
@@ -833,9 +818,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         try:
             # Try multiple possible API function names
             api_functions = [
-                "get_all_nfs_configurations",
                 "get_nfs_configurations",
-                "getAllNfsConfigurations",
                 "get_all_n_f_s_configurations"
             ]
 
@@ -851,7 +834,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                         op_modifies=False,
                     )
                     successful_function = api_function
-                    self.log("Successfully called API function: {0}".format(api_function), "INFO")
+                    self.log("Received API response using function {0}: {1}".format(api_function, response), "DEBUG")
                     break
                 except Exception as e:
                     self.log("API function {0} failed: {1}".format(api_function, str(e)), "DEBUG")
@@ -902,20 +885,35 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         component_specific_filters = (
             yaml_config_generator.get("component_specific_filters") or {}
         )
+
+        # Handle generate_all_configurations flag
+        generate_all_configurations = yaml_config_generator.get("generate_all_configurations", False)
+
         self.log(
             "Component-specific filters: {0}".format(component_specific_filters),
+            "DEBUG",
+        )
+        self.log(
+            "Generate all configurations: {0}".format(generate_all_configurations),
             "DEBUG",
         )
 
         # Retrieve the supported network elements for the module
         module_supported_network_elements = self.module_schema.get("network_elements", {})
-        components_list = component_specific_filters.get(
-            "components_list", list(module_supported_network_elements.keys())
-        )
+
+        # Determine which components to process
+        if generate_all_configurations:
+            components_list = list(module_supported_network_elements.keys())
+            self.log("Using all available components due to generate_all_configurations=True: {0}".format(components_list), "INFO")
+        else:
+            components_list = component_specific_filters.get(
+                "components_list", list(module_supported_network_elements.keys())
+            )
+
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
         # Create the structured configuration
-        config_list = []  # Change to list to hold multiple config items
+        config_list = []
         components_processed = 0
 
         for component in components_list:
@@ -957,9 +955,10 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                         self.log(
                             "No data found for component: {0}".format(component), "WARNING"
                         )
-                        # Add empty component for consistency
-                        component_dict = {component: []}
-                        config_list.append(component_dict)
+                        # Only add empty component if generate_all_configurations is True
+                        if generate_all_configurations:
+                            component_dict = {component: []}
+                            config_list.append(component_dict)
 
                 except Exception as e:
                     self.log(
@@ -968,11 +967,16 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     import traceback
                     self.log("Full traceback: {0}".format(traceback.format_exc()), "DEBUG")
-                    # Add empty component for failed components
-                    component_dict = {component: []}
-                    config_list.append(component_dict)
+                    # Only add empty component for failed components if generate_all_configurations is True
+                    if generate_all_configurations:
+                        component_dict = {component: []}
+                        config_list.append(component_dict)
             else:
                 self.log("No callable operation function for component: {0}".format(component), "ERROR")
+                # Add empty component if generate_all_configurations is True
+                if generate_all_configurations:
+                    component_dict = {component: []}
+                    config_list.append(component_dict)
 
         self.log("Processing summary: {0} components processed successfully out of {1}".format(
             components_processed, len(components_list)), "INFO")
@@ -1019,7 +1023,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Args:
             config (dict): The configuration data for the backup/restore elements.
-            state (str): The desired state ('merged').
+            state (str): The desired state ('gathered').
         """
         self.log(
             "Creating Parameters for API Calls with state: {0}".format(state), "INFO"
@@ -1042,12 +1046,12 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         self.status = "success"
         return self
 
-    def get_diff_merged(self):
+    def get_diff_gathered(self):
         """
         Executes the merge operations for backup and restore configurations in the Cisco Catalyst Center.
         """
         start_time = time.time()
-        self.log("Starting 'get_diff_merged' operation.", "DEBUG")
+        self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
 
         operations = [
             (
@@ -1087,7 +1091,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         end_time = time.time()
         self.log(
-            "Completed 'get_diff_merged' operation in {0:.2f} seconds.".format(
+            "Completed 'get_diff_gathered' operation in {0:.2f} seconds.".format(
                 end_time - start_time
             ),
             "DEBUG",
@@ -1116,7 +1120,7 @@ def main():
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
-        "state": {"default": "merged", "choices": ["merged"]},
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with the provided argument specifications
@@ -1157,22 +1161,31 @@ def main():
     ccc_backup_restore_playbook_generator.validate_input().check_return_status()
     config = ccc_backup_restore_playbook_generator.validated_config
 
-    if len(config) == 1 and config[0].get("component_specific_filters") is None:
-        ccc_backup_restore_playbook_generator.msg = (
-            "No component filters specified, defaulting to both nfs_configuration and backup_storage_configuration."
-        )
-        ccc_backup_restore_playbook_generator.validated_config = [
-            {
-                'component_specific_filters': {
-                    'components_list': ["nfs_configuration", "backup_storage_configuration"]
+    # Handle generate_all_configurations and set defaults
+    for config_item in config:
+        if config_item.get("generate_all_configurations"):
+            # Set default components when generate_all_configurations is True
+            if not config_item.get("component_specific_filters"):
+                config_item["component_specific_filters"] = {
+                    "components_list": ["nfs_configuration", "backup_storage_configuration"]
                 }
+                ccc_backup_restore_playbook_generator.log("Set default components for generate_all_configurations", "INFO")
+        elif config_item.get("component_specific_filters") is None:
+            # Existing fallback logic
+            ccc_backup_restore_playbook_generator.msg = (
+                "No component filters specified, defaulting to both nfs_configuration and backup_storage_configuration."
+            )
+            config_item["component_specific_filters"] = {
+                "components_list": ["nfs_configuration", "backup_storage_configuration"]
             }
-        ]
+
+    # Update validated config
+    ccc_backup_restore_playbook_generator.validated_config = config
 
     # Iterate over the validated configuration parameters
-    for config in ccc_backup_restore_playbook_generator.validated_config:
+    for config_item in ccc_backup_restore_playbook_generator.validated_config:
         ccc_backup_restore_playbook_generator.reset_values()
-        ccc_backup_restore_playbook_generator.get_want(config, state).check_return_status()
+        ccc_backup_restore_playbook_generator.get_want(config_item, state).check_return_status()
         ccc_backup_restore_playbook_generator.get_diff_state_apply[state]().check_return_status()
 
     module.exit_json(**ccc_backup_restore_playbook_generator.result)
