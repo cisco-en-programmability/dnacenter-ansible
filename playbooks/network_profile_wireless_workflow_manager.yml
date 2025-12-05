@@ -47,6 +47,14 @@
                 vlan_id: 22
             day_n_templates:
               - "WLC_Standard_Config"
+            feature_template_designs:
+              - design_type: CLEANAIR_CONFIGURATION
+                feature_templates:
+                  - Campus Wireless Profile Clean Air 5GHz
+                  - Campus Wireless Profile Clean Air 6GHz
+              - design_type: ADVANCED_SSID_CONFIGURATION
+                feature_templates:
+                  - Campus Wireless Profile design
 
           - profile_name: "Enterprise_Wireless_Profile"
             site_names:
@@ -75,4 +83,12 @@
                 vlan_id: 35
             day_n_templates:
               - WLC_Advanced_Config
+            feature_template_designs:
+              - design_type: ADVANCED_SSID_CONFIGURATION
+                feature_templates:
+                  - Enterprise Wireless Advanced SSID Design
+                applicability_ssids:
+                  - HQ_WiFi
+                  - Branch_Secure
+
       register: output_list

@@ -1,0 +1,54 @@
+---
+- debug: msg="Starting network devices info workflow manager test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name:  Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_network_devices_info_workflow_manager.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "10.22.40.214"
+        dnac_username: "admin"
+        dnac_password: "M@glev123"
+        dnac_verify: false
+        dnac_port: 443
+        dnac_version: "3.1.3.0"
+        dnac_debug: false
+        dnac_log: true
+        dnac_log_level: DEBUG
+
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+
+####################################################
+#            NETWORK DEVICES INFO RETRIEVAL       #
+####################################################
+
+  - name: Get Network Devices Info
+    cisco.dnac.network_devices_info_workflow_manager:
+      <<: *dnac_login
+      state: gathered
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.get_devices_info }}"
+    register: result_get_devices_info
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_application.results }}"
+  #   when: result_create_application is defined
+
+  - name: Assert Network Devices Info
+    assert:
+      that:
+        - item.changed == false
+        - "'The network devices filtered' in item.response[0]"
+    loop: "{{ result_get_devices_info.results }}"
+    when: result_get_devices_info is defined

@@ -12,6 +12,14 @@
       ]
     }
   ],
+  "get_network_device_by_ip_telemetry_none": {
+    "response": {
+        "errorCode": "Bad request",
+        "message": "Invalid input request",
+        "detail": "noneip address is not valid"
+    },
+    "version": "1.0"
+  },
   "get_network_device_by_ip_telemetry": {
     "response": {
       "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.4, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Tue 23-Jul-24 09:40 by mcpre netconf enabled",
