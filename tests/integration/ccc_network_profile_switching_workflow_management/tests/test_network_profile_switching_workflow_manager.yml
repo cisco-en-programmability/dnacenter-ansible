@@ -63,7 +63,7 @@
     assert:
       that:
         - item.changed == true
-        - "'Profile created/updated are verified successfully for '['test_sw_1']'.' in item.msg"
+        - "'Profile created/updated are verified successfully for '['DataCenter_Core_Switch']'.' in item.msg"
     loop: "{{ result_create_switch_profile.results }}"
     when: result_create_switch_profile is defined
 
@@ -91,7 +91,7 @@
     assert:
       that:
         - item.changed == true
-        - "'Profile created/updated are verified successfully for '['test_sw_1']'.' in item.msg"
+        - "'Profile created/updated are verified successfully for '['DataCenter_Core_Switch']'.' in item.msg"
     loop: "{{ result_update_switch_profile.results }}"
     when: result_update_switch_profile is defined
 
@@ -119,7 +119,7 @@
     assert:
       that:
         - item.changed == true
-        - "'Switch profile(s) deleted and verified successfully for '['test_sw_1']'.' in item.msg"
+        - "'Switch profile(s) deleted/unassigned and verified successfully for '['DataCenter_Core_Switch']'.' in item.msg"
     loop: "{{ result_delete_switch_profile.results }}"
     when: result_delete_switch_profile is defined
 

@@ -1,0 +1,23 @@
+---
+report_config:
+  - generate_report:
+      - name: "compliance_report"
+        view_group_name: "Compliance"
+        deliveries:
+          - type: "DOWNLOAD"
+            file_path: "/Users/mekandar/Desktop"
+        schedule:
+          type: "SCHEDULE_NOW"
+          time_zone: "Asia/Calcutta"
+        view:
+          view_name: "Network Device Compliance"
+          field_groups:
+            - name: "inventoryAllData"
+              display_name: "All Data"
+          format:
+            format_type: "CSV"
+          filters:
+            - name: "Location"
+              display_name: "Location"
+              type: "MULTI_SELECT_TREE"
+        tags: []

@@ -1,0 +1,88 @@
+---
+- debug: msg="Starting reports management test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name: Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_reports_management.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  - name: Clean up before test
+    cisco.dnac.reports_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.report_config }}"
+
+#############################################
+#            CREATE REPORTS                 #
+#############################################
+
+  - name: Create Compliance Report
+    cisco.dnac.reports_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.report_config }}"
+    register: result_update_kpi
+
+  - name: Debug item
+    debug:
+      var: item.response
+    loop: "{{ result_create.results }}"
+    when: result_create is defined
+
+  - name: Assert report creation
+    assert:
+      that:
+        - item.changed == true
+        - "'report created Successfully' in item.response[0]['create_report']['msg']"
+    loop: "{{ result_create.results }}"
+    when: result_create is defined
+
+#############################################
+#        DELETE REPORTS                     #
+#############################################
+
+  - name: Delete Compliance Report
+    cisco.dnac.reports_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.report_config }}"
+    register: result_delete_report
+
+  - name: Debug item
+    debug:
+      var: item.response
+    loop: "{{ result_delete_report.results }}"
+    when: result_delete_report is defined
+
+  - name: Assert report deletion
+    assert:
+      that:
+        - item.changed == true
+        - "'has been successfully deleted.' in item.response[0]['delete_report']['msg']"
+    loop: "{{ result_delete_report.results }}"
+    when: result_delete_report is defined
