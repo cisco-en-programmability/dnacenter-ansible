@@ -1,0 +1,1207 @@
+# ---
+# # ===================================================================================================
+# # STP (SPANNING TREE PROTOCOL) FEATURE TESTS SUMMARY
+# # ===================================================================================================
+# #
+# # This test suite validates STP (Spanning Tree Protocol) configuration functionality for Wired Campus Automation.
+# #
+# # TEST CATEGORIES:
+# #
+# # 1. NEGATIVE VALIDATION TESTS (Lines 130-950)
+# #    a) STP Global Configuration Tests
+# #       - STP Mode validation (invalid string values, integer instead of string)
+# #       - STP Portfast Mode validation (invalid string values, integer instead of string)
+# #       - STP Boolean Parameters validation (string/integer instead of boolean)
+# #       - STP Transmit Hold Count validation (string/range validation)
+# #       - STP Uplinkfast Max Update Rate validation (string/range validation)
+# #
+# #    b) STP Instance Configuration Tests
+# #       - Instance VLAN ID validation (string/negative/exceeds max/missing required)
+# #       - Instance Priority validation (string/not multiple of 4096/range)
+# #       - Instance Boolean Parameters validation (string/integer instead of boolean)
+# #       - Instance Timer validation (string/range validation)
+# #
+# #    c) Data Type and Structure Tests
+# #       - Invalid configuration structure validation
+# #       - Invalid instances list structure validation
+# #       - Invalid instance item structure validation
+# #
+# #    d) Duplicate and Conflict Tests
+# #       - Duplicate instance VLAN IDs validation
+# #
+# # 2. POSITIVE VALIDATION TESTS (Lines 950-1600)
+# #    a) STP Creation Tests (Merged State)
+# #       - Global parameters only configuration
+# #       - Instances only configuration
+# #       - Single instance configuration
+# #       - Global and instances combined configuration
+# #       - Minimal configurations
+# #
+# #    b) STP Update Tests (Merged State)
+# #       - Global parameters only updates
+# #       - Add new instances updates
+# #       - Modify existing instances updates
+# #       - Combined updates
+# #
+# #    c) STP Deletion Tests (Deleted State - Type 3)
+# #       - Empty configuration (resets global + deletes all instances)
+# #       - Global only (resets global + deletes instances)
+# #       - Instances only (deletes specified instances, preserves global)
+# #       - Global+instances (deletes instances only per Type 3 rule)
+# #       - Multiple instance deletion
+# #
+# #    d) Idempotency Tests
+# #       - Same configuration applied twice (first=changed, second=no change)
+# #
+# # VALIDATION RANGES:
+# # - STP Mode: string choices ["PVST", "RSTP", "MST"]
+# # - STP Portfast Mode: string choices ["ENABLE", "DISABLE", "EDGE", "NETWORK", "TRUNK"]
+# # - STP Boolean Parameters: boolean (true/false)
+# # - STP Transmit Hold Count: integer (1-20)
+# # - STP Uplinkfast Max Update Rate: integer (0-32000)
+# # - Instance VLAN ID: integer (1-4094)
+# # - Instance Priority: integer (0-61440, must be multiple of 4096)
+# # - Instance Timers: max_age (6-40), hello_interval (1-10), forward_delay (4-30)
+# #
+# # STP FUNCTIONALITY:
+# # - STP prevents loops in Layer 2 networks by blocking redundant paths
+# # - Global STP configuration affects the entire spanning tree domain
+# # - STP instances allow per-VLAN spanning tree configurations
+# # - Different STP modes provide various features and compatibility
+# #
+# # TYPE 3 DELETE BEHAVIOR:
+# # - Global only: resets global to defaults + deletes all instances
+# # - Instances only: deletes specified instances, preserves global config
+# # - Global+instances: deletes instances only (lowest level per Type 3 rule)
+# # - Empty config: resets global to defaults + deletes all instances
+# #
+# # EXPECTED BEHAVIORS:
+# # - Negative tests should fail with appropriate error messages
+# # - Positive tests should succeed with 'Successfully' in response
+# # - Idempotency: First run changes=true, second run changes=false
+# # - All tests include proper pause times for configuration settlement
+# #
+# # ===================================================================================================
+
+# - debug: msg="Starting STP (Spanning Tree Protocol) feature tests for Wired Campus Automation"
+# - debug: msg="Role Path {{ role_path }}"
+
+# - block:
+#     - name: Load STP test variables
+#       include_vars:
+#         file: "{{ role_path }}/vars/vars_wca_test_feature_stp.yml"
+#         name: stp_vars_map
+#       vars:
+#         dnac_login: &dnac_login
+#           dnac_host: "{{ dnac_host }}"
+#           dnac_username: "{{ dnac_username }}"
+#           dnac_password: "{{ dnac_password }}"
+#           dnac_verify: "{{ dnac_verify }}"
+#           dnac_port: "{{ dnac_port }}"
+#           dnac_version: "{{ dnac_version }}"
+#           dnac_debug: "{{ dnac_debug }}"
+#           dnac_log: true
+#           dnac_log_level: "DEBUG"
+#           config_verify: true
+#           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
+#           dnac_log_append: false
+
+#     # =============================================================================
+#     # Negative Validation Tests for STP
+#     # =============================================================================
+
+#     # #############################################
+#     #        STP Global Mode Tests
+#     # #############################################
+
+#     - name: Test STP mode validation - invalid string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_global_mode_invalid_string }}"
+#       register: result_stp_mode_invalid_string
+#       ignore_errors: true
+#       tags: [negative, stp, mode]
+
+#     - name: Assert STP mode invalid string validation failed
+#       assert:
+#         that:
+#           - result_stp_mode_invalid_string.failed == true
+#           - "'must be one of' in result_stp_mode_invalid_string.msg or 'invalid' in result_stp_mode_invalid_string.msg"
+#         fail_msg: "STP mode invalid string validation should have failed"
+#         success_msg: "STP mode invalid string validation correctly failed"
+#       tags: [negative, stp, mode]
+
+#     - name: Test STP mode validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_global_mode_invalid_integer }}"
+#       register: result_stp_mode_invalid_integer
+#       ignore_errors: true
+#       tags: [negative, stp, mode]
+
+#     - name: Assert STP mode integer validation failed
+#       assert:
+#         that:
+#           - result_stp_mode_invalid_integer.failed == true
+#           - "'must be of type string' in result_stp_mode_invalid_integer.msg"
+#         fail_msg: "STP mode integer validation should have failed"
+#         success_msg: "STP mode integer validation correctly failed"
+#       tags: [negative, stp, mode]
+
+#     # #############################################
+#     #        STP Portfast Mode Tests
+#     # #############################################
+
+#     - name: Test STP portfast mode validation - invalid string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_portfast_mode_invalid_string }}"
+#       register: result_stp_portfast_mode_invalid_string
+#       ignore_errors: true
+#       tags: [negative, stp, portfast_mode]
+
+#     - name: Assert STP portfast mode invalid string validation failed
+#       assert:
+#         that:
+#           - result_stp_portfast_mode_invalid_string.failed == true
+#           - "'must be one of' in result_stp_portfast_mode_invalid_string.msg"
+#         fail_msg: "STP portfast mode invalid string validation should have failed"
+#         success_msg: "STP portfast mode invalid string validation correctly failed"
+#       tags: [negative, stp, portfast_mode]
+
+#     - name: Test STP portfast mode validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_portfast_mode_invalid_integer }}"
+#       register: result_stp_portfast_mode_invalid_integer
+#       ignore_errors: true
+#       tags: [negative, stp, portfast_mode]
+
+#     - name: Assert STP portfast mode integer validation failed
+#       assert:
+#         that:
+#           - result_stp_portfast_mode_invalid_integer.failed == true
+#           - "'must be of type string' in result_stp_portfast_mode_invalid_integer.msg"
+#         fail_msg: "STP portfast mode integer validation should have failed"
+#         success_msg: "STP portfast mode integer validation correctly failed"
+#       tags: [negative, stp, portfast_mode]
+
+#     # #############################################
+#     #        STP Boolean Parameters Tests
+#     # #############################################
+
+#     - name: Test STP BPDU guard validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_bpdu_guard_invalid_string }}"
+#       register: result_stp_bpdu_guard_invalid_string
+#       ignore_errors: true
+#       tags: [negative, stp, bpdu_guard]
+
+#     - name: Assert STP BPDU guard string validation failed
+#       assert:
+#         that:
+#           - result_stp_bpdu_guard_invalid_string.failed == true
+#           - "'must be of type boolean' in result_stp_bpdu_guard_invalid_string.msg"
+#         fail_msg: "STP BPDU guard string validation should have failed"
+#         success_msg: "STP BPDU guard string validation correctly failed"
+#       tags: [negative, stp, bpdu_guard]
+
+#     - name: Test STP BPDU guard validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_bpdu_guard_invalid_integer }}"
+#       register: result_stp_bpdu_guard_invalid_integer
+#       ignore_errors: true
+#       tags: [negative, stp, bpdu_guard]
+
+#     - name: Assert STP BPDU guard integer validation failed
+#       assert:
+#         that:
+#           - result_stp_bpdu_guard_invalid_integer.failed == true
+#           - "'must be of type boolean' in result_stp_bpdu_guard_invalid_integer.msg"
+#         fail_msg: "STP BPDU guard integer validation should have failed"
+#         success_msg: "STP BPDU guard integer validation correctly failed"
+#       tags: [negative, stp, bpdu_guard]
+
+#     - name: Test STP BPDU filter validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_bpdu_filter_invalid_string }}"
+#       register: result_stp_bpdu_filter_invalid_string
+#       ignore_errors: true
+#       tags: [negative, stp, bpdu_filter]
+
+#     - name: Assert STP BPDU filter string validation failed
+#       assert:
+#         that:
+#           - result_stp_bpdu_filter_invalid_string.failed == true
+#           - "'must be of type boolean' in result_stp_bpdu_filter_invalid_string.msg"
+#         fail_msg: "STP BPDU filter string validation should have failed"
+#         success_msg: "STP BPDU filter string validation correctly failed"
+#       tags: [negative, stp, bpdu_filter]
+
+#     - name: Test STP BPDU filter validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_bpdu_filter_invalid_integer }}"
+#       register: result_stp_bpdu_filter_invalid_integer
+#       ignore_errors: true
+#       tags: [negative, stp, bpdu_filter]
+
+#     - name: Assert STP BPDU filter integer validation failed
+#       assert:
+#         that:
+#           - result_stp_bpdu_filter_invalid_integer.failed == true
+#           - "'must be of type boolean' in result_stp_bpdu_filter_invalid_integer.msg"
+#         fail_msg: "STP BPDU filter integer validation should have failed"
+#         success_msg: "STP BPDU filter integer validation correctly failed"
+#       tags: [negative, stp, bpdu_filter]
+
+#     - name: Test STP backbonefast validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_backbonefast_invalid_string }}"
+#       register: result_stp_backbonefast_invalid_string
+#       ignore_errors: true
+#       tags: [negative, stp, backbonefast]
+
+#     - name: Assert STP backbonefast string validation failed
+#       assert:
+#         that:
+#           - result_stp_backbonefast_invalid_string.failed == true
+#           - "'must be of type boolean' in result_stp_backbonefast_invalid_string.msg"
+#         fail_msg: "STP backbonefast string validation should have failed"
+#         success_msg: "STP backbonefast string validation correctly failed"
+#       tags: [negative, stp, backbonefast]
+
+#     - name: Test STP backbonefast validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_backbonefast_invalid_integer }}"
+#       register: result_stp_backbonefast_invalid_integer
+#       ignore_errors: true
+#       tags: [negative, stp, backbonefast]
+
+#     - name: Assert STP backbonefast integer validation failed
+#       assert:
+#         that:
+#           - result_stp_backbonefast_invalid_integer.failed == true
+#           - "'must be of type boolean' in result_stp_backbonefast_invalid_integer.msg"
+#         fail_msg: "STP backbonefast integer validation should have failed"
+#         success_msg: "STP backbonefast integer validation correctly failed"
+#       tags: [negative, stp, backbonefast]
+
+#     # #############################################
+#     #        STP Integer Parameters Tests
+#     # #############################################
+
+#     - name: Test STP transmit hold count validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_transmit_hold_count_invalid_string }}"
+#       register: result_stp_transmit_hold_count_invalid_string
+#       ignore_errors: true
+#       tags: [negative, stp, transmit_hold_count]
+
+#     - name: Assert STP transmit hold count string validation failed
+#       assert:
+#         that:
+#           - result_stp_transmit_hold_count_invalid_string.failed == true
+#           - "'must be of type integer' in result_stp_transmit_hold_count_invalid_string.msg"
+#         fail_msg: "STP transmit hold count string validation should have failed"
+#         success_msg: "STP transmit hold count string validation correctly failed"
+#       tags: [negative, stp, transmit_hold_count]
+
+#     - name: Test STP transmit hold count validation - below minimum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_transmit_hold_count_below_min }}"
+#       register: result_stp_transmit_hold_count_below_min
+#       ignore_errors: true
+#       tags: [negative, stp, transmit_hold_count]
+
+#     - name: Assert STP transmit hold count below minimum validation failed
+#       assert:
+#         that:
+#           - result_stp_transmit_hold_count_below_min.failed == true
+#           - "'must be within the range' in result_stp_transmit_hold_count_below_min.msg"
+#         fail_msg: "STP transmit hold count below minimum validation should have failed"
+#         success_msg: "STP transmit hold count below minimum validation correctly failed"
+#       tags: [negative, stp, transmit_hold_count]
+
+#     - name: Test STP transmit hold count validation - above maximum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_transmit_hold_count_above_max }}"
+#       register: result_stp_transmit_hold_count_above_max
+#       ignore_errors: true
+#       tags: [negative, stp, transmit_hold_count]
+
+#     - name: Assert STP transmit hold count above maximum validation failed
+#       assert:
+#         that:
+#           - result_stp_transmit_hold_count_above_max.failed == true
+#           - "'must be within the range' in result_stp_transmit_hold_count_above_max.msg"
+#         fail_msg: "STP transmit hold count above maximum validation should have failed"
+#         success_msg: "STP transmit hold count above maximum validation correctly failed"
+#       tags: [negative, stp, transmit_hold_count]
+
+#     - name: Test STP uplinkfast max update rate validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_uplinkfast_max_update_rate_invalid_string }}"
+#       register: result_stp_uplinkfast_max_update_rate_invalid_string
+#       ignore_errors: true
+#       tags: [negative, stp, uplinkfast_max_update_rate]
+
+#     - name: Assert STP uplinkfast max update rate string validation failed
+#       assert:
+#         that:
+#           - result_stp_uplinkfast_max_update_rate_invalid_string.failed == true
+#           - "'must be of type integer' in result_stp_uplinkfast_max_update_rate_invalid_string.msg"
+#         fail_msg: "STP uplinkfast max update rate string validation should have failed"
+#         success_msg: "STP uplinkfast max update rate string validation correctly failed"
+#       tags: [negative, stp, uplinkfast_max_update_rate]
+
+#     - name: Test STP uplinkfast max update rate validation - below minimum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_uplinkfast_max_update_rate_below_min }}"
+#       register: result_stp_uplinkfast_max_update_rate_below_min
+#       ignore_errors: true
+#       tags: [negative, stp, uplinkfast_max_update_rate]
+
+#     - name: Assert STP uplinkfast max update rate below minimum validation failed
+#       assert:
+#         that:
+#           - result_stp_uplinkfast_max_update_rate_below_min.failed == true
+#           - "'must be within the range' in result_stp_uplinkfast_max_update_rate_below_min.msg"
+#         fail_msg: "STP uplinkfast max update rate below minimum validation should have failed"
+#         success_msg: "STP uplinkfast max update rate below minimum validation correctly failed"
+#       tags: [negative, stp, uplinkfast_max_update_rate]
+
+#     - name: Test STP uplinkfast max update rate validation - above maximum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_uplinkfast_max_update_rate_above_max }}"
+#       register: result_stp_uplinkfast_max_update_rate_above_max
+#       ignore_errors: true
+#       tags: [negative, stp, uplinkfast_max_update_rate]
+
+#     - name: Assert STP uplinkfast max update rate above maximum validation failed
+#       assert:
+#         that:
+#           - result_stp_uplinkfast_max_update_rate_above_max.failed == true
+#           - "'must be within the range' in result_stp_uplinkfast_max_update_rate_above_max.msg"
+#         fail_msg: "STP uplinkfast max update rate above maximum validation should have failed"
+#         success_msg: "STP uplinkfast max update rate above maximum validation correctly failed"
+#       tags: [negative, stp, uplinkfast_max_update_rate]
+
+#     # #############################################
+#     #        STP Instance Configuration Tests
+#     # #############################################
+
+#     - name: Test STP instance VLAN ID validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_instance_vlan_id_invalid_string }}"
+#       register: result_stp_instance_vlan_id_invalid_string
+#       ignore_errors: true
+#       tags: [negative, stp, instance_vlan_id]
+
+#     - name: Assert STP instance VLAN ID string validation failed
+#       assert:
+#         that:
+#           - result_stp_instance_vlan_id_invalid_string.failed == true
+#           - "'must be of type integer' in result_stp_instance_vlan_id_invalid_string.msg"
+#         fail_msg: "STP instance VLAN ID string validation should have failed"
+#         success_msg: "STP instance VLAN ID string validation correctly failed"
+#       tags: [negative, stp, instance_vlan_id]
+
+#     - name: Test STP instance VLAN ID validation - below minimum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_instance_vlan_id_below_min }}"
+#       register: result_stp_instance_vlan_id_below_min
+#       ignore_errors: true
+#       tags: [negative, stp, instance_vlan_id]
+
+#     - name: Assert STP instance VLAN ID below minimum validation failed
+#       assert:
+#         that:
+#           - result_stp_instance_vlan_id_below_min.failed == true
+#           - "'must be within the range' in result_stp_instance_vlan_id_below_min.msg"
+#         fail_msg: "STP instance VLAN ID below minimum validation should have failed"
+#         success_msg: "STP instance VLAN ID below minimum validation correctly failed"
+#       tags: [negative, stp, instance_vlan_id]
+
+#     - name: Test STP instance VLAN ID validation - above maximum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_instance_vlan_id_above_max }}"
+#       register: result_stp_instance_vlan_id_above_max
+#       ignore_errors: true
+#       tags: [negative, stp, instance_vlan_id]
+
+#     - name: Assert STP instance VLAN ID above maximum validation failed
+#       assert:
+#         that:
+#           - result_stp_instance_vlan_id_above_max.failed == true
+#           - "'must be within the range' in result_stp_instance_vlan_id_above_max.msg"
+#         fail_msg: "STP instance VLAN ID above maximum validation should have failed"
+#         success_msg: "STP instance VLAN ID above maximum validation correctly failed"
+#       tags: [negative, stp, instance_vlan_id]
+
+#     - name: Test STP instance VLAN ID validation - missing required should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_instance_vlan_id_missing }}"
+#       register: result_stp_instance_vlan_id_missing
+#       ignore_errors: true
+#       tags: [negative, stp, instance_vlan_id]
+
+#     - name: Assert STP instance VLAN ID missing validation failed
+#       assert:
+#         that:
+#           - result_stp_instance_vlan_id_missing.failed == true
+#           - "'required' in result_stp_instance_vlan_id_missing.msg or 'stp_instance_vlan_id' in result_stp_instance_vlan_id_missing.msg"
+#         fail_msg: "STP instance VLAN ID missing validation should have failed"
+#         success_msg: "STP instance VLAN ID missing validation correctly failed"
+#       tags: [negative, stp, instance_vlan_id]
+
+#     - name: Test STP instance priority validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_instance_priority_invalid_string }}"
+#       register: result_stp_instance_priority_invalid_string
+#       ignore_errors: true
+#       tags: [negative, stp, instance_priority]
+
+#     - name: Assert STP instance priority string validation failed
+#       assert:
+#         that:
+#           - result_stp_instance_priority_invalid_string.failed == true
+#           - "'must be of type integer' in result_stp_instance_priority_invalid_string.msg"
+#         fail_msg: "STP instance priority string validation should have failed"
+#         success_msg: "STP instance priority string validation correctly failed"
+#       tags: [negative, stp, instance_priority]
+
+#     - name: Test STP instance priority validation - below minimum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_instance_priority_below_min }}"
+#       register: result_stp_instance_priority_below_min
+#       ignore_errors: true
+#       tags: [negative, stp, instance_priority]
+
+#     - name: Assert STP instance priority below minimum validation failed
+#       assert:
+#         that:
+#           - result_stp_instance_priority_below_min.failed == true
+#           - "'must be within the range' in result_stp_instance_priority_below_min.msg"
+#         fail_msg: "STP instance priority below minimum validation should have failed"
+#         success_msg: "STP instance priority below minimum validation correctly failed"
+#       tags: [negative, stp, instance_priority]
+
+#     - name: Test STP instance priority validation - above maximum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_instance_priority_above_max }}"
+#       register: result_stp_instance_priority_above_max
+#       ignore_errors: true
+#       tags: [negative, stp, instance_priority]
+
+#     - name: Assert STP instance priority above maximum validation failed
+#       assert:
+#         that:
+#           - result_stp_instance_priority_above_max.failed == true
+#           - "'must be within the range' in result_stp_instance_priority_above_max.msg"
+#         fail_msg: "STP instance priority above maximum validation should have failed"
+#         success_msg: "STP instance priority above maximum validation correctly failed"
+#       tags: [negative, stp, instance_priority]
+
+#     - name: Test STP instance priority validation - not multiple of 4096 should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_instance_priority_not_multiple }}"
+#       register: result_stp_instance_priority_not_multiple
+#       ignore_errors: true
+#       tags: [negative, stp, instance_priority]
+
+#     - name: Assert STP instance priority not multiple validation failed
+#       assert:
+#         that:
+#           - result_stp_instance_priority_not_multiple.failed == true
+#           - "'multiple of 4096' in result_stp_instance_priority_not_multiple.msg or 'priority' in result_stp_instance_priority_not_multiple.msg"
+#         fail_msg: "STP instance priority not multiple validation should have failed"
+#         success_msg: "STP instance priority not multiple validation correctly failed"
+#       tags: [negative, stp, instance_priority]
+
+#     # #############################################
+#     #        Data Type and Structure Tests
+#     # #############################################
+
+#     - name: Test STP structure validation - string instead of dict should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_invalid_dict_type }}"
+#       register: result_stp_invalid_dict_type
+#       ignore_errors: true
+#       tags: [negative, stp, structure]
+
+#     - name: Assert STP invalid dict type validation failed
+#       assert:
+#         that:
+#           - result_stp_invalid_dict_type.failed == true
+#           - "'must be of type dictionary' in result_stp_invalid_dict_type.msg"
+#         fail_msg: "STP invalid dict type validation should have failed"
+#         success_msg: "STP invalid dict type validation correctly failed"
+#       tags: [negative, stp, structure]
+
+#     - name: Test STP instances structure validation - string instead of list should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_instances_invalid_string }}"
+#       register: result_stp_instances_invalid_string
+#       ignore_errors: true
+#       tags: [negative, stp, instances_structure]
+
+#     - name: Assert STP instances invalid string validation failed
+#       assert:
+#         that:
+#           - result_stp_instances_invalid_string.failed == true
+#           - "'must be a list of dictionaries' in result_stp_instances_invalid_string.msg"
+#         fail_msg: "STP instances invalid string validation should have failed"
+#         success_msg: "STP instances invalid string validation correctly failed"
+#       tags: [negative, stp, instances_structure]
+
+#     - name: Test STP instance item structure validation - string instead of dict should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_instance_invalid_dict_type }}"
+#       register: result_stp_instance_invalid_dict_type
+#       ignore_errors: true
+#       tags: [negative, stp, instance_structure]
+
+#     - name: Assert STP instance invalid dict type validation failed
+#       assert:
+#         that:
+#           - result_stp_instance_invalid_dict_type.failed == true
+#           - "'must be a dictionary' in result_stp_instance_invalid_dict_type.msg"
+#         fail_msg: "STP instance invalid dict type validation should have failed"
+#         success_msg: "STP instance invalid dict type validation correctly failed"
+#       tags: [negative, stp, instance_structure]
+
+#     # =============================================================================
+#     # POSITIVE TEST CASES - STP CREATION (MERGED STATE)
+#     # =============================================================================
+
+#     # #############################################
+#     #        STP Configuration Tests
+#     # #############################################
+
+#     - name: Test STP configuration with global parameters only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_create_global_only }}"
+#       register: result_stp_create_global_only
+#       tags: [positive, stp, create, global_only]
+
+#     - name: Assert STP global only configuration succeeded
+#       assert:
+#         that:
+#           - result_stp_create_global_only.failed == false
+#           - result_stp_create_global_only.changed == true
+#           - "'Successfully' in result_stp_create_global_only.response"
+#         fail_msg: "STP global only configuration should have succeeded"
+#         success_msg: "STP global only configuration succeeded"
+#       tags: [positive, stp, create, global_only]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, stp, create]
+
+#     - name: Test STP configuration with instances only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_create_instances_only }}"
+#       register: result_stp_create_instances_only
+#       tags: [positive, stp, create, instances_only]
+
+#     - name: Assert STP instances only configuration succeeded
+#       assert:
+#         that:
+#           - result_stp_create_instances_only.failed == false
+#           - result_stp_create_instances_only.changed == true
+#           - "'Successfully' in result_stp_create_instances_only.response"
+#         fail_msg: "STP instances only configuration should have succeeded"
+#         success_msg: "STP instances only configuration succeeded"
+#       tags: [positive, stp, create, instances_only]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, stp, create]
+
+#     - name: Test STP configuration with single instance
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_create_single_instance }}"
+#       register: result_stp_create_single_instance
+#       tags: [positive, stp, create, single_instance]
+
+#     - name: Assert STP single instance configuration succeeded
+#       assert:
+#         that:
+#           - result_stp_create_single_instance.failed == false
+#           - result_stp_create_single_instance.changed == true
+#           - "'Successfully' in result_stp_create_single_instance.response"
+#         fail_msg: "STP single instance configuration should have succeeded"
+#         success_msg: "STP single instance configuration succeeded"
+#       tags: [positive, stp, create, single_instance]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, stp, create]
+
+#     - name: Test STP configuration with global and instances
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_create_global_and_instances }}"
+#       register: result_stp_create_global_and_instances
+#       tags: [positive, stp, create, global_and_instances]
+
+#     - name: Assert STP global and instances configuration succeeded
+#       assert:
+#         that:
+#           - result_stp_create_global_and_instances.failed == false
+#           - result_stp_create_global_and_instances.changed == true
+#           - "'Successfully' in result_stp_create_global_and_instances.response"
+#         fail_msg: "STP global and instances configuration should have succeeded"
+#         success_msg: "STP global and instances configuration succeeded"
+#       tags: [positive, stp, create, global_and_instances]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, stp, create]
+
+#     - name: Test STP configuration with minimal global parameters
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_create_minimal_global }}"
+#       register: result_stp_create_minimal_global
+#       tags: [positive, stp, create, minimal_global]
+
+#     - name: Assert STP minimal global configuration succeeded
+#       assert:
+#         that:
+#           - result_stp_create_minimal_global.failed == false
+#           - result_stp_create_minimal_global.changed == true
+#           - "'Successfully' in result_stp_create_minimal_global.response"
+#         fail_msg: "STP minimal global configuration should have succeeded"
+#         success_msg: "STP minimal global configuration succeeded"
+#       tags: [positive, stp, create, minimal_global]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, stp, create]
+
+#     - name: Test STP configuration with minimal instance parameters
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_create_minimal_instance }}"
+#       register: result_stp_create_minimal_instance
+#       tags: [positive, stp, create, minimal_instance]
+
+#     - name: Assert STP minimal instance configuration succeeded
+#       assert:
+#         that:
+#           - result_stp_create_minimal_instance.failed == false
+#           - result_stp_create_minimal_instance.changed == true
+#           - "'Successfully' in result_stp_create_minimal_instance.response"
+#         fail_msg: "STP minimal instance configuration should have succeeded"
+#         success_msg: "STP minimal instance configuration succeeded"
+#       tags: [positive, stp, create, minimal_instance]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, stp, create]
+
+#     # =============================================================================
+#     # POSITIVE TEST CASES - STP UPDATE (MERGED STATE)
+#     # =============================================================================
+
+#     # #############################################
+#     #        STP Update Tests
+#     # #############################################
+
+#     - name: Test STP update - global parameters only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_update_global_only }}"
+#       register: result_stp_update_global_only
+#       tags: [positive, stp, update, global_only]
+
+#     - name: Assert STP global only update succeeded
+#       assert:
+#         that:
+#           - result_stp_update_global_only.failed == false
+#           - result_stp_update_global_only.changed == true
+#           - "'Successfully' in result_stp_update_global_only.response"
+#         fail_msg: "STP global only update should have succeeded"
+#         success_msg: "STP global only update succeeded"
+#       tags: [positive, stp, update, global_only]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, stp, update]
+
+#     - name: Test STP update - add new instances
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_update_add_instances }}"
+#       register: result_stp_update_add_instances
+#       tags: [positive, stp, update, add_instances]
+
+#     - name: Assert STP add instances update succeeded
+#       assert:
+#         that:
+#           - result_stp_update_add_instances.failed == false
+#           - result_stp_update_add_instances.changed == true
+#           - "'Successfully' in result_stp_update_add_instances.response"
+#         fail_msg: "STP add instances update should have succeeded"
+#         success_msg: "STP add instances update succeeded"
+#       tags: [positive, stp, update, add_instances]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, stp, update]
+
+#     - name: Test STP update - modify existing instances
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_update_modify_instances }}"
+#       register: result_stp_update_modify_instances
+#       tags: [positive, stp, update, modify_instances]
+
+#     - name: Assert STP modify instances update succeeded
+#       assert:
+#         that:
+#           - result_stp_update_modify_instances.failed == false
+#           - result_stp_update_modify_instances.changed == true
+#           - "'Successfully' in result_stp_update_modify_instances.response"
+#         fail_msg: "STP modify instances update should have succeeded"
+#         success_msg: "STP modify instances update succeeded"
+#       tags: [positive, stp, update, modify_instances]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, stp, update]
+
+#     - name: Test STP update - global and instances together
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_update_global_and_instances }}"
+#       register: result_stp_update_global_and_instances
+#       tags: [positive, stp, update, global_and_instances]
+
+#     - name: Assert STP global and instances update succeeded
+#       assert:
+#         that:
+#           - result_stp_update_global_and_instances.failed == false
+#           - result_stp_update_global_and_instances.changed == true
+#           - "'Successfully' in result_stp_update_global_and_instances.response"
+#         fail_msg: "STP global and instances update should have succeeded"
+#         success_msg: "STP global and instances update succeeded"
+#       tags: [positive, stp, update, global_and_instances]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, stp, update]
+
+#     - name: Test STP update - change STP mode
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_update_change_mode }}"
+#       register: result_stp_update_change_mode
+#       tags: [positive, stp, update, change_mode]
+
+#     - name: Assert STP mode change update succeeded
+#       assert:
+#         that:
+#           - result_stp_update_change_mode.failed == false
+#           - result_stp_update_change_mode.changed == true
+#           - "'Successfully' in result_stp_update_change_mode.response"
+#         fail_msg: "STP mode change update should have succeeded"
+#         success_msg: "STP mode change update succeeded"
+#       tags: [positive, stp, update, change_mode]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, stp, update]
+
+#     - name: Test STP update - modify single instance
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ stp_vars_map.test_stp_update_single_instance }}"
+#       register: result_stp_update_single_instance
+#       tags: [positive, stp, update, single_instance]
+
+#     - name: Assert STP single instance update succeeded
+#       assert:
+#         that:
+#           - result_stp_update_single_instance.failed == false
+#           - result_stp_update_single_instance.changed == true
+#           - "'Successfully' in result_stp_update_single_instance.response"
+#         fail_msg: "STP single instance update should have succeeded"
+#         success_msg: "STP single instance update succeeded"
+#       tags: [positive, stp, update, single_instance]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, stp, update]
+
+#     # # =============================================================================
+#     # # POSITIVE TEST CASES - STP DELETION (DELETED STATE - TYPE 3)
+#     # # =============================================================================
+
+#     # # #############################################
+#     # #        STP Deletion Tests (Type 3)
+#     # # #############################################
+
+#     # - name: Test STP delete - instances only (Type 3 - deletes specified instances, preserves global)
+#     #   cisco.dnac.wired_campus_automation_workflow_manager:
+#     #     <<: *dnac_login
+#     #     state: deleted
+#     #     config:
+#     #       - "{{ stp_vars_map.test_stp_delete_instances_only }}"
+#     #   register: result_stp_delete_instances_only
+#     #   tags: [positive, stp, delete, instances_only]
+
+#     # - name: Assert STP instances only deletion succeeded
+#     #   assert:
+#     #     that:
+#     #       - result_stp_delete_instances_only.failed == false
+#     #       - result_stp_delete_instances_only.changed == true
+#     #       - "'Successfully' in result_stp_delete_instances_only.response"
+#     #     fail_msg: "STP instances only deletion should have succeeded"
+#     #     success_msg: "STP instances only deletion succeeded"
+#     #   tags: [positive, stp, delete, instances_only]
+
+#     # - name: Pause to allow configuration to settle
+#     #   pause:
+#     #     seconds: 10
+
+#     # - name: Test STP delete - global and instances (Type 3 - deletes instances only, preserves global)
+#     #   cisco.dnac.wired_campus_automation_workflow_manager:
+#     #     <<: *dnac_login
+#     #     state: deleted
+#     #     config:
+#     #       - "{{ stp_vars_map.test_stp_delete_global_and_instances }}"
+#     #   register: result_stp_delete_global_and_instances
+#     #   tags: [positive, stp, delete, global_and_instances]
+
+#     # - name: Assert STP global and instances deletion succeeded
+#     #   assert:
+#     #     that:
+#     #       - result_stp_delete_global_and_instances.failed == false
+#     #       - result_stp_delete_global_and_instances.changed == true
+#     #       - "'Successfully' in result_stp_delete_global_and_instances.response"
+#     #     fail_msg: "STP global and instances deletion should have succeeded"
+#     #     success_msg: "STP global and instances deletion succeeded"
+#     #   tags: [positive, stp, delete, global_and_instances]
+
+#     # - name: Pause to allow configuration to settle
+#     #   pause:
+#     #     seconds: 10
+#     #   tags: [positive, stp, delete]
+
+#     # - name: Test STP delete - global only (Type 3 - resets global + deletes instances)
+#     #   cisco.dnac.wired_campus_automation_workflow_manager:
+#     #     <<: *dnac_login
+#     #     state: deleted
+#     #     config:
+#     #       - "{{ stp_vars_map.test_stp_delete_global_only }}"
+#     #   register: result_stp_delete_global_only
+#     #   tags: [positive, stp, delete, global_only]
+
+#     # - name: Assert STP global only deletion succeeded
+#     #   assert:
+#     #     that:
+#     #       - result_stp_delete_global_only.failed == false
+#     #       - result_stp_delete_global_only.changed == true
+#     #       - "'Successfully' in result_stp_delete_global_only.response"
+#     #     fail_msg: "STP global only deletion should have succeeded"
+#     #     success_msg: "STP global only deletion succeeded"
+#     #   tags: [positive, stp, delete, global_only]
+
+#     #   - name: Pause to allow configuration to settle
+#     #     pause:
+#     #       seconds: 10
+#     #     tags: [positive, stp, delete]
+
+#     # - name: Test STP delete - empty configuration (Type 3 - resets global + deletes all instances)
+#     #   cisco.dnac.wired_campus_automation_workflow_manager:
+#     #     <<: *dnac_login
+#     #     state: deleted
+#     #     config:
+#     #       - "{{ stp_vars_map.test_stp_delete_empty }}"
+#     #   register: result_stp_delete_empty
+#     #   tags: [positive, stp, delete, empty]
+
+#     # - name: Assert STP empty deletion succeeded
+#     #   assert:
+#     #     that:
+#     #       - result_stp_delete_empty.failed == false
+#     #       - result_stp_delete_empty.changed == true
+#     #       - "'Successfully' in result_stp_delete_empty.response"
+#     #     fail_msg: "STP empty deletion should have succeeded"
+#     #     success_msg: "STP empty deletion succeeded"
+#     #   tags: [positive, stp, delete, empty]
+
+#     # - name: Pause to allow configuration to settle
+#     #   pause:
+#     #     seconds: 10
+#     #   tags: [positive, stp, delete]
+
+#     # # Setup configuration for deletion tests
+#     # - name: Setup STP configuration for deletion tests
+#     #   cisco.dnac.wired_campus_automation_workflow_manager:
+#     #     <<: *dnac_login
+#     #     state: merged
+#     #     config:
+#     #       - "{{ stp_vars_map.test_stp_create_global_and_instances }}"
+#     #   register: result_stp_setup_for_deletion
+#     #   tags: [positive, stp, delete, setup]
+
+#     # - name: Pause to allow configuration to settle
+#     #   pause:
+#     #     seconds: 15
+#     #   tags: [positive, stp, delete]
+
+#     # # Setup configuration again for instances-only deletion test
+#     # - name: Setup STP configuration for instances deletion test
+#     #   cisco.dnac.wired_campus_automation_workflow_manager:
+#     #     <<: *dnac_login
+#     #     state: merged
+#     #     config:
+#     #       - "{{ stp_vars_map.test_stp_create_global_and_instances }}"
+#     #   register: result_stp_setup_for_instances_deletion
+#     #   tags: [positive, stp, delete, setup]
+
+#     # - name: Pause to allow configuration to settle
+#     #   pause:
+#     #     seconds: 15
+#     #   tags: [positive, stp, delete]
+
+#     #   tags: [positive, stp, delete]
+
+#     # - name: Test STP delete - single instance
+#     #   cisco.dnac.wired_campus_automation_workflow_manager:
+#     #     <<: *dnac_login
+#     #     state: deleted
+#     #     config:
+#     #       - "{{ stp_vars_map.test_stp_delete_single_instance }}"
+#     #   register: result_stp_delete_single_instance
+#     #   tags: [positive, stp, delete, single_instance]
+
+#     # - name: Assert STP single instance deletion succeeded
+#     #   assert:
+#     #     that:
+#     #       - result_stp_delete_single_instance.failed == false
+#     #       - result_stp_delete_single_instance.changed == true
+#     #       - "'Successfully' in result_stp_delete_single_instance.response"
+#     #     fail_msg: "STP single instance deletion should have succeeded"
+#     #     success_msg: "STP single instance deletion succeeded"
+#     #   tags: [positive, stp, delete, single_instance]
+
+#     # - name: Pause to allow configuration to settle
+#     #   pause:
+#     #     seconds: 10
+#     #   tags: [positive, stp, delete]
+
+#     # # Setup configuration again for global+instances deletion test
+#     # - name: Setup STP configuration for global+instances deletion test
+#     #   cisco.dnac.wired_campus_automation_workflow_manager:
+#     #     <<: *dnac_login
+#     #     state: merged
+#     #     config:
+#     #       - "{{ stp_vars_map.test_stp_create_global_and_instances }}"
+#     #   register: result_stp_setup_for_global_instances_deletion
+#     #   tags: [positive, stp, delete, setup]
+
+#     # - name: Pause to allow configuration to settle
+#     #   pause:
+#     #     seconds: 15
+#     #   tags: [positive, stp, delete]
+
+#     # - name: Test STP delete - multiple specific instances
+#     #   cisco.dnac.wired_campus_automation_workflow_manager:
+#     #     <<: *dnac_login
+#     #     state: deleted
+#     #     config:
+#     #       - "{{ stp_vars_map.test_stp_delete_multiple_instances }}"
+#     #   register: result_stp_delete_multiple_instances
+#     #   tags: [positive, stp, delete, multiple_instances]
+
+#     # - name: Assert STP multiple instances deletion succeeded
+#     #   assert:
+#     #     that:
+#     #       - result_stp_delete_multiple_instances.failed == false
+#     #       - result_stp_delete_multiple_instances.changed == true
+#     #       - "'Successfully' in result_stp_delete_multiple_instances.response"
+#     #     fail_msg: "STP multiple instances deletion should have succeeded"
+#     #     success_msg: "STP multiple instances deletion succeeded"
+#     #   tags: [positive, stp, delete, multiple_instances]
+
+#     # - name: Pause to allow configuration to settle
+#     #   pause:
+#     #     seconds: 10
+#     #   tags: [positive, stp, delete]
+
+#     # # =============================================================================
+#     # # ADVANCED POSITIVE TEST SCENARIOS
+#     # # =============================================================================
+
+#     # # #############################################
+#     # #        Idempotency Tests
+#     # # #############################################
+
+#     # - name: Test STP Idempotency - Configure same STP settings twice
+#     #   cisco.dnac.wired_campus_automation_workflow_manager:
+#     #     <<: *dnac_login
+#     #     state: merged
+#     #     config:
+#     #       - "{{ stp_vars_map.test_stp_create_global_and_instances }}"
+#     #   register: result_stp_idempotency_first
+#     #   tags: [positive, stp, idempotency]
+
+#     # - name: Pause to allow configuration to settle
+#     #   pause:
+#     #     seconds: 40
+#     #   tags: [positive, stp, idempotency]
+
+#     # - name: Test STP Idempotency - Configure same STP settings again (should be idempotent)
+#     #   cisco.dnac.wired_campus_automation_workflow_manager:
+#     #     <<: *dnac_login
+#     #     state: merged
+#     #     config:
+#     #       - "{{ stp_vars_map.test_stp_create_global_and_instances }}"
+#     #   register: result_stp_idempotency_second
+#     #   tags: [positive, stp, idempotency]
+
+#     # - name: Assert STP Idempotency - Second configuration should not change
+#     #   assert:
+#     #     that:
+#     #       - result_stp_idempotency_second.failed == false
+#     #       - result_stp_idempotency_second.changed == false
+#     #     fail_msg: "STP idempotency test failed"
+#     #     success_msg: "STP idempotency test succeeded"
+#     #   tags: [positive, stp, idempotency]
+
+#     # # #############################################
+#     # #        Cleanup Test Configurations
+#     # # #############################################
+
+#     # - name: Cleanup - Reset STP to default configuration
+#     #   cisco.dnac.wired_campus_automation_workflow_manager:
+#     #     <<: *dnac_login
+#     #     state: deleted
+#     #     config:
+#     #       - ip_address: "204.1.2.3"
+#     #         device_collection_status_check: false
+#     #         layer2_configuration:
+#     #           stp: {}
+#     #   register: result_stp_cleanup
+#     #   ignore_errors: true
+#     #   tags: [cleanup, stp]

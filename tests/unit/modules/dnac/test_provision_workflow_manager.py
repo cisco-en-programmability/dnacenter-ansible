@@ -122,6 +122,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
 
         elif "playbook_application_telemetry_disable" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_network_device_by_ip_telemetry_none"),
                 self.test_data.get("get_network_device_by_ip_telemetry"),
                 self.test_data.get("get_network_device_by_ip_telemetry_1"),
                 self.test_data.get("get_network_device_by_ip_telemetry_2"),
@@ -132,6 +133,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
             ]
         elif "playbook_application_telemetry_enable" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_network_device_by_ip_telemetry_none"),
                 self.test_data.get("get_network_device_by_ip_telemetry_5"),
                 self.test_data.get("get_network_device_by_ip_telemetry_6"),
                 self.test_data.get("get_network_device_by_ip_telemetry_7"),
@@ -142,6 +144,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
             ]
         elif "playbook_enable" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
+                self.test_data.get("test_provision_workflow_manager_playbook_disable"),
                 self.test_data.get("get_network_device_by_ip_enable"),
                 self.test_data.get("get_network_device_by_ip_enable1"),
                 self.test_data.get("get_network_device_by_ip_enable2"),
@@ -153,6 +156,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
 
         elif "playbook_disable" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
+                self.test_data.get("test_provision_workflow_manager_playbook_disable"),
                 self.test_data.get("get_network_device_by_ip_enable3"),
                 self.test_data.get("get_network_device_by_ip_enable4"),
                 self.test_data.get("get_network_device_by_ip_enable5"),
@@ -198,7 +202,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "No device provisioning actions were performed."
+            "Wired device(s) '204.1.2.6' already provisioned."
         )
 
     def test_provision_workflow_manager_playbook_reprovision_wired_device(self):
