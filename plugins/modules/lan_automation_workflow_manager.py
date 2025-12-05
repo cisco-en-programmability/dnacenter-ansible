@@ -6311,13 +6311,13 @@ class LanAutomation(DnacBase):
 
         if our_source_ip == catc_device1_ip:
             self.log(
-                f"Source device IP matches Catalyst Center device1 IP. No swapping required.",
+                "Source device IP matches Catalyst Center device1 IP. No swapping required.",
                 "DEBUG",
             )
             return False
         elif our_source_ip == catc_device2_ip:
             self.log(
-                f"Source device IP matches Catalyst Center device2 IP. Swapping is required.",
+                "Source device IP matches Catalyst Center device2 IP. Swapping is required.",
                 "INFO",
             )
             return True
