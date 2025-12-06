@@ -1788,6 +1788,7 @@ releases:
     changes:
       release_summary: Enhancements in workflow manager modules
       minor_changes:
+        - New module 'accesspoint_location_workflow_manager' to manage Access point planned position in the floor
         - Changes in accesspoint_workflow_manager module
         - Changes in backup_and_restore_workflow_manager module
         - Changes in inventory_workflow_manager module
