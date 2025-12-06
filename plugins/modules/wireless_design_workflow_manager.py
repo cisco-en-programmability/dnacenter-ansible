@@ -3048,6 +3048,987 @@ options:
                   - True means it is managed by the
                     Network Controller.
                 type: bool
+      feature_template_config:
+        description:
+          - Configuration for wireless feature templates in Cisco Catalyst Center.
+          - Enables advanced wireless features and policies for specific design requirements.
+          - Each feature template can be applied to different designs and radio bands.
+          - Supports both creation and deletion of feature template configurations.
+        type: list
+        elements: dict
+        required: false
+        suboptions:
+          aaa_radius_attribute:
+            description:
+              - Configuration for AAA RADIUS attributes for wireless authentication.
+              - Defines RADIUS attributes sent during wireless client authentication.
+              - Used to customize authentication behavior and client identification.
+            type: list
+            elements: dict
+            required: false
+            suboptions:
+              design_name:
+                description:
+                  - Name of the wireless design to apply AAA RADIUS attribute configuration.
+                  - Must match an existing design in Cisco Catalyst Center.
+                  - Design name is case-sensitive and must be unique.
+                type: str
+                required: true
+              called_station_id:
+                description:
+                  - RADIUS Called-Station-Id attribute value.
+                  - Identifies the access point or SSID that the client is connecting to.
+                  - Commonly used for accounting and policy enforcement.
+                  - Format typically includes AP MAC address and SSID name.
+                type: str
+                required: true
+              unlocked_attributes:
+                description:
+                  - Set to true to unlock attributes for manual configuration.
+                  - When false, attributes are locked and managed by the template.
+                  - Allows flexibility in attribute configuration when needed.
+                type: bool
+                default: false
+          advanced_ssid:
+            description:
+              - Advanced SSID configuration parameters for enhanced wireless features.
+              - Provides fine-grained control over SSID behavior and performance.
+              - Includes settings for client management, power optimization, and advanced protocols.
+            type: list
+            elements: dict
+            required: false
+            suboptions:
+              design_name:
+                description:
+                  - Name of the wireless design to apply advanced SSID configuration.
+                  - Must correspond to an existing design in Cisco Catalyst Center.
+                type: str
+                required: true
+              feature_attributes:
+                description:
+                  - Collection of advanced SSID feature settings and parameters.
+                  - Controls various aspects of SSID operation and client behavior.
+                type: dict
+                required: false
+                suboptions:
+                  peer2peer_blocking:
+                    description:
+                      - Controls peer-to-peer communication between wireless clients.
+                      - DISABLE allows all peer-to-peer traffic.
+                      - DROP blocks all peer-to-peer communication.
+                      - FORWARD_UP forwards traffic to the wired network.
+                      - ALLOW_PVT_GROUP allows communication within private groups.
+                    type: str
+                    choices: ["DISABLE", "DROP", "FORWARD_UP", "ALLOW_PVT_GROUP"]
+                  passive_client:
+                    description:
+                      - Enable passive client detection for better roaming experience.
+                      - Helps identify clients that don't actively probe for networks.
+                    type: bool
+                    default: false
+                  prediction_optimization:
+                    description:
+                      - Enable predictive optimization for client connectivity.
+                      - Improves roaming decisions based on client behavior patterns.
+                    type: bool
+                    default: false
+                  dual_band_neighbor_list:
+                    description:
+                      - Enable dual-band neighbor list for 802.11k support.
+                      - Helps clients make better roaming decisions across bands.
+                    type: bool
+                    default: false
+                  radius_nac_state:
+                    description:
+                      - Enable RADIUS Network Access Control (NAC) state tracking.
+                      - Provides enhanced security and compliance monitoring.
+                    type: bool
+                    default: false
+                  dhcp_required:
+                    description:
+                      - Require DHCP for client IP address assignment.
+                      - Prevents clients from using static IP addresses.
+                    type: bool
+                    default: false
+                  dhcp_server:
+                    description:
+                      - IP address of the DHCP server for client assignments.
+                      - Must be reachable from the wireless infrastructure.
+                    type: str
+                  flex_local_auth:
+                    description:
+                      - Enable local authentication for FlexConnect deployments.
+                      - Allows authentication when WAN connectivity is unavailable.
+                    type: bool
+                    default: false
+                  target_wakeup_time:
+                    description:
+                      - Enable Target Wake Time (TWT) for power management.
+                      - Reduces power consumption for Wi-Fi 6 capable devices.
+                    type: bool
+                    default: false
+                  downlink_ofdma:
+                    description:
+                      - Enable downlink Orthogonal Frequency Division Multiple Access.
+                      - Improves efficiency in dense client environments (Wi-Fi 6).
+                    type: bool
+                    default: false
+                  uplink_ofdma:
+                    description:
+                      - Enable uplink OFDMA for improved upload performance.
+                      - Reduces latency and improves spectral efficiency (Wi-Fi 6).
+                    type: bool
+                    default: false
+                  downlink_mu_mimo:
+                    description:
+                      - Enable downlink Multi-User Multiple-Input Multiple-Output.
+                      - Allows simultaneous transmission to multiple clients.
+                    type: bool
+                    default: false
+                  uplink_mu_mimo:
+                    description:
+                      - Enable uplink MU-MIMO for improved upload capacity.
+                      - Multiple clients can transmit simultaneously.
+                    type: bool
+                    default: false
+                  dot11ax:
+                    description:
+                      - Enable 802.11ax (Wi-Fi 6) features and optimizations.
+                      - Activates Wi-Fi 6 specific enhancements.
+                    type: bool
+                    default: false
+                  aironet_ie_support:
+                    description:
+                      - Enable Cisco Aironet Information Element support.
+                      - Provides enhanced Cisco-specific wireless features.
+                    type: bool
+                    default: false
+                  load_balancing:
+                    description:
+                      - Enable client load balancing across access points.
+                      - Distributes clients evenly for optimal performance.
+                    type: bool
+                    default: false
+                  dtim_period_5ghz:
+                    description:
+                      - Delivery Traffic Indication Message period for 5GHz band.
+                      - Controls power save behavior for multicast/broadcast traffic.
+                      - Range typically 1-255 beacon intervals.
+                    type: int
+                  dtim_period_24ghz:
+                    description:
+                      - DTIM period for 2.4GHz band operations.
+                      - Lower values provide better responsiveness but higher power consumption.
+                    type: int
+                  scan_defer_time:
+                    description:
+                      - Time in milliseconds to defer scanning operations.
+                      - Helps reduce interference during active data transmission.
+                    type: int
+                  max_clients:
+                    description:
+                      - Maximum number of clients allowed on this SSID.
+                      - Helps control resource utilization and performance.
+                    type: int
+                  max_clients_per_radio:
+                    description:
+                      - Maximum clients allowed per radio interface.
+                      - Provides per-radio client density control.
+                    type: int
+                  max_clients_per_ap:
+                    description:
+                      - Maximum clients allowed per access point.
+                      - Overall client limit regardless of radio configuration.
+                    type: int
+                  wmm_policy:
+                    description:
+                      - Wi-Fi Multimedia (WMM) quality of service policy.
+                      - DISABLED turns off QoS prioritization.
+                      - ALLOWED permits QoS-capable clients to use prioritization.
+                      - REQUIRED mandates QoS support for client connectivity.
+                    type: str
+                    choices: ["DISABLED", "ALLOWED", "REQUIRED"]
+                  multicast_buffer:
+                    description:
+                      - Enable multicast frame buffering for power-save clients.
+                      - Improves delivery of multicast traffic to sleeping clients.
+                    type: bool
+                    default: false
+                  multicast_buffer_value:
+                    description:
+                      - Size of multicast buffer in number of frames.
+                      - Higher values improve delivery but use more memory.
+                    type: int
+                  media_stream_multicast_direct:
+                    description:
+                      - Enable direct multicast delivery for media streams.
+                      - Optimizes video and audio multicast performance.
+                    type: bool
+                    default: false
+                  mu_mimo_11ac:
+                    description:
+                      - Enable MU-MIMO support for 802.11ac clients.
+                      - Allows multiple 11ac clients to be served simultaneously.
+                    type: bool
+                    default: false
+                  wifi_to_cellular_steering:
+                    description:
+                      - Enable steering between Wi-Fi and cellular networks.
+                      - Helps optimize connectivity based on network conditions.
+                    type: bool
+                    default: false
+                  wifi_alliance_agile_multiband:
+                    description:
+                      - Enable Wi-Fi Alliance Agile Multiband features.
+                      - Improves band steering and roaming performance.
+                    type: bool
+                    default: false
+                  fastlane_asr:
+                    description:
+                      - Enable FastLane Automatic Speech Recognition optimization.
+                      - Prioritizes voice traffic for better call quality.
+                    type: bool
+                    default: false
+                  dot11v_bss_max_idle_protected:
+                    description:
+                      - Enable 802.11v BSS Max Idle Period protection.
+                      - Prevents premature client disconnection during idle periods.
+                    type: bool
+                    default: false
+                  universal_ap_admin:
+                    description:
+                      - Enable Universal AP Admin access capabilities.
+                      - Provides enhanced management access to access points.
+                    type: bool
+                    default: false
+                  opportunistic_key_caching:
+                    description:
+                      - Enable Opportunistic Key Caching for faster roaming.
+                      - Reduces authentication time during client roaming.
+                    type: bool
+                    default: false
+                  ip_source_guard:
+                    description:
+                      - Enable IP Source Guard to prevent IP spoofing.
+                      - Validates source IP addresses against DHCP bindings.
+                    type: bool
+                    default: false
+                  dhcp_opt82_remote_id_sub_option:
+                    description:
+                      - Enable DHCP Option 82 Remote ID sub-option.
+                      - Provides location information in DHCP requests.
+                    type: bool
+                    default: false
+                  vlan_central_switching:
+                    description:
+                      - Enable VLAN-based central switching mode.
+                      - Routes traffic through the wireless controller.
+                    type: bool
+                    default: false
+                  call_snooping:
+                    description:
+                      - Enable call snooping for voice optimization.
+                      - Monitors voice calls for quality improvements.
+                    type: bool
+                    default: false
+                  send_disassociate:
+                    description:
+                      - Send disassociate messages for call management.
+                      - Helps manage client connections during voice calls.
+                    type: bool
+                    default: false
+                  sent_486_busy:
+                    description:
+                      - Send SIP 486 Busy response for call control.
+                      - Manages voice call admission control.
+                    type: bool
+                    default: false
+                  ip_mac_binding:
+                    description:
+                      - Enable IP-MAC address binding for security.
+                      - Prevents MAC address spoofing attacks.
+                    type: bool
+                    default: false
+                  idle_threshold:
+                    description:
+                      - Idle timeout threshold in seconds for client management.
+                      - Disconnects inactive clients to free resources.
+                    type: int
+                  defer_priority_0:
+                    description:
+                      - Enable traffic deferral for priority 0 (background) traffic.
+                      - Delays low-priority traffic during congestion.
+                    type: bool
+                    default: false
+                  defer_priority_1:
+                    description:
+                      - Enable traffic deferral for priority 1 (best effort) traffic.
+                    type: bool
+                    default: false
+                  defer_priority_2:
+                    description:
+                      - Enable traffic deferral for priority 2 (excellent effort) traffic.
+                    type: bool
+                    default: false
+                  defer_priority_3:
+                    description:
+                      - Enable traffic deferral for priority 3 (critical applications) traffic.
+                    type: bool
+                    default: false
+                  defer_priority_4:
+                    description:
+                      - Enable traffic deferral for priority 4 (video) traffic.
+                    type: bool
+                    default: false
+                  defer_priority_5:
+                    description:
+                      - Enable traffic deferral for priority 5 (video) traffic.
+                    type: bool
+                    default: false
+                  defer_priority_6:
+                    description:
+                      - Enable traffic deferral for priority 6 (voice) traffic.
+                    type: bool
+                    default: false
+                  defer_priority_7:
+                    description:
+                      - Enable traffic deferral for priority 7 (network control) traffic.
+                    type: bool
+                    default: false
+                  share_data_with_client:
+                    description:
+                      - Enable sharing of network analytics data with clients.
+                      - Provides performance insights to client applications.
+                    type: bool
+                    default: false
+                  advertise_support:
+                    description:
+                      - Advertise support for advanced wireless features.
+                      - Informs clients about available capabilities.
+                    type: bool
+                    default: false
+                  advertise_pc_analytics_support:
+                    description:
+                      - Advertise support for PC analytics capabilities.
+                      - Enables enhanced analytics for computer clients.
+                    type: bool
+                    default: false
+                  send_beacon_on_association:
+                    description:
+                      - Send beacon frames immediately upon client association.
+                      - Improves initial connectivity experience.
+                    type: bool
+                    default: false
+                  send_beacon_on_roam:
+                    description:
+                      - Send beacon frames when clients roam between APs.
+                      - Facilitates faster roaming completion.
+                    type: bool
+                    default: false
+                  fast_transition_reassociation_timeout:
+                    description:
+                      - Timeout in milliseconds for fast transition reassociation.
+                      - Controls how long to wait for roaming completion.
+                    type: int
+                  mdns_mode:
+                    description:
+                      - Multicast DNS (mDNS) handling mode for service discovery.
+                      - MDNS_SD_BRIDGING bridges mDNS across network segments.
+                      - MDNS_SD_DROP blocks mDNS traffic.
+                      - MDNS_SD_GATEWAY provides mDNS gateway functionality.
+                    type: str
+                    choices: ["MDNS_SD_BRIDGING", "MDNS_SD_DROP", "MDNS_SD_GATEWAY"]
+              unlocked_attributes:
+                description:
+                  - List of attribute names that should be unlocked for manual configuration.
+                  - Attributes not in this list will be managed by the template.
+                  - Allows selective override of template-managed settings.
+                type: list
+                elements: str
+                required: false
+          clean_air_configuration:
+            description:
+              - Configuration for Cisco CleanAir spectrum intelligence and interference detection.
+              - Provides automatic RF interference detection and mitigation.
+              - Helps maintain optimal wireless performance in challenging RF environments.
+            type: list
+            elements: dict
+            required: false
+            suboptions:
+              design_name:
+                description:
+                  - Name of the wireless design to apply CleanAir configuration.
+                  - Must correspond to an existing design in Cisco Catalyst Center.
+                type: str
+                required: true
+              radio_band:
+                description:
+                  - Radio frequency band for CleanAir monitoring and interference detection.
+                  - 2_4GHZ monitors 2.4 GHz spectrum for interference sources.
+                  - 5GHZ monitors 5 GHz spectrum for interference sources.
+                  - 6GHZ monitors 6 GHz spectrum for interference sources.
+                type: str
+                required: true
+                choices: ["2_4GHZ", "5GHZ", "6GHZ"]
+              feature_attributes:
+                description:
+                  - CleanAir feature settings and interference detection parameters.
+                  - Controls spectrum monitoring and interference reporting behavior.
+                type: dict
+                required: false
+                suboptions:
+                  clean_air:
+                    description:
+                      - Enable CleanAir spectrum intelligence functionality.
+                      - Activates automatic interference detection and reporting.
+                    type: bool
+                    default: False
+                  clean_air_device_reporting:
+                    description:
+                      - Enable reporting of detected interference devices.
+                      - Provides detailed information about interference sources.
+                    type: bool
+                    default: False
+                  persistent_device_propagation:
+                    description:
+                      - Enable propagation of persistent interference device information.
+                      - Shares interference data across the wireless infrastructure.
+                    type: bool
+                    default: False
+                  description:
+                    description:
+                      - Optional description for the CleanAir configuration.
+                      - Provides context about the monitoring setup and purpose.
+                    type: str
+                  interferers_features:
+                    description:
+                      - Specific interference source detection and classification settings.
+                      - Controls which types of interference sources are monitored.
+                    type: dict
+                    required: false
+                    suboptions:
+                      ble_beacon:
+                        description:
+                          - Enable detection of Bluetooth Low Energy beacon interference.
+                        type: bool
+                        default: False
+                      bluetooth_paging_inquiry:
+                        description:
+                          - Enable detection of Bluetooth paging and inquiry interference.
+                        type: bool
+                        default: False
+                      bluetooth_sco_acl:
+                        description:
+                          - Enable detection of Bluetooth SCO/ACL traffic interference.
+                        type: bool
+                        default: False
+                      continuous_transmitter:
+                        description:
+                          - Enable detection of continuous transmitter interference.
+                        type: bool
+                        default: False
+                      generic_dect:
+                        description:
+                          - Enable detection of generic DECT phone interference.
+                        type: bool
+                        default: False
+                      generic_tdd:
+                        description:
+                          - Enable detection of generic Time Division Duplex interference.
+                        type: bool
+                        default: False
+                      jammer:
+                        description:
+                          - Enable detection of intentional jamming devices.
+                        type: bool
+                        default: False
+                      microwave_oven:
+                        description:
+                          - Enable detection of microwave oven interference.
+                        type: bool
+                        default: False
+                      motorola_canopy:
+                        description:
+                          - Enable detection of Motorola Canopy interference.
+                        type: bool
+                        default: False
+                      si_fhss:
+                        description:
+                          - Enable detection of Frequency Hopping Spread Spectrum interference.
+                        type: bool
+                        default: False
+                      spectrum80211_fh:
+                        description:
+                          - Enable detection of 802.11 frequency hopping interference.
+                        type: bool
+                        default: False
+                      spectrum80211_non_standard_channel:
+                        description:
+                          - Enable detection of 802.11 non-standard channel interference.
+                        type: bool
+                        default: False
+                      spectrum802154:
+                        description:
+                          - Enable detection of 802.15.4 (ZigBee) interference.
+                        type: bool
+                        default: False
+                      spectrum_inverted:
+                        description:
+                          - Enable detection of spectrum inverted interference.
+                        type: bool
+                        default: False
+                      super_ag:
+                        description:
+                          - Enable detection of Super AG interference.
+                        type: bool
+                        default: False
+                      video_camera:
+                        description:
+                          - Enable detection of wireless video camera interference.
+                        type: bool
+                        default: False
+                      wimax_fixed:
+                        description:
+                          - Enable detection of fixed WiMAX interference.
+                        type: bool
+                        default: False
+                      wimax_mobile:
+                        description:
+                          - Enable detection of mobile WiMAX interference.
+                        type: bool
+                        default: False
+                      xbox:
+                        description:
+                          - Enable detection of Xbox gaming console interference.
+                        type: bool
+                        default: False
+              unlocked_attributes:
+                description:
+                  - List of CleanAir attribute names unlocked for manual configuration.
+                  - Allows override of template-managed interference detection settings.
+                type: list
+                elements: str
+                required: false
+          dot11ax_configuration:
+            description:
+              - Configuration for 802.11ax (Wi-Fi 6) specific features and optimizations.
+              - Enables advanced Wi-Fi 6 capabilities for improved performance and efficiency.
+              - Includes settings for spatial reuse, BSS coloring, and target wake time.
+            type: list
+            elements: dict
+            required: false
+            suboptions:
+              design_name:
+                description:
+                  - Name of the wireless design to apply 802.11ax configuration.
+                  - Must correspond to an existing design in Cisco Catalyst Center.
+                type: str
+                required: true
+              feature_attributes:
+                description:
+                  - 802.11ax specific feature settings and optimization parameters.
+                  - Controls Wi-Fi 6 enhancements for better spectral efficiency.
+                type: dict
+                required: false
+                suboptions:
+                  radio_band:
+                    description:
+                      - Radio frequency band for 802.11ax feature application.
+                      - Specifies which band should use these Wi-Fi 6 settings.
+                    type: str
+                  bss_color:
+                    description:
+                      - Enable BSS (Basic Service Set) coloring for spatial reuse.
+                      - Helps distinguish between overlapping BSSs to reduce interference.
+                    type: bool
+                    default: False
+                  target_waketime_broadcast:
+                    description:
+                      - Enable broadcast Target Wake Time (TWT) announcements.
+                      - Coordinates sleep schedules for multiple clients simultaneously.
+                    type: bool
+                    default: False
+                  non_srg_obss_pd_max_threshold:
+                    description:
+                      - Maximum threshold for non-SRG OBSS Packet Detection in dBm.
+                      - Controls sensitivity for detecting overlapping BSS transmissions.
+                      - Range typically -82 to -62 dBm.
+                    type: int
+                  target_wakeup_time_11ax:
+                    description:
+                      - Enable Target Wake Time feature for 802.11ax clients.
+                      - Allows clients to negotiate sleep schedules to save power.
+                    type: bool
+                    default: False
+                  obss_pd:
+                    description:
+                      - Enable Overlapping BSS Packet Detection for spatial reuse.
+                      - Improves spectrum efficiency in dense deployments.
+                    type: bool
+                    default: False
+                  multiple_bssid:
+                    description:
+                      - Enable Multiple BSSID feature for 802.11ax.
+                      - Allows transmission of multiple SSID beacons efficiently.
+                    type: bool
+                    default: False
+              unlocked_attributes:
+                description:
+                  - List of 802.11ax attribute names unlocked for manual configuration.
+                  - Allows selective override of Wi-Fi 6 template settings.
+                type: list
+                elements: str
+                required: false
+          dot11be_configuration:
+            description:
+              - Configuration for 802.11be (Wi-Fi 7) features and capabilities.
+              - Enables next-generation Wi-Fi 7 enhancements for maximum performance.
+              - Provides settings for Wi-Fi 7 operation on different frequency bands.
+            type: list
+            elements: dict
+            required: false
+            suboptions:
+              design_name:
+                description:
+                  - Name of the wireless design to apply 802.11be configuration.
+                  - Must correspond to an existing design in Cisco Catalyst Center.
+                type: str
+                required: true
+              feature_attributes:
+                description:
+                  - 802.11be specific feature settings and optimization parameters.
+                  - Controls Wi-Fi 7 operation and performance enhancements.
+                type: dict
+                required: false
+                suboptions:
+                  dot11be_status:
+                    description:
+                      - Enable or disable 802.11be (Wi-Fi 7) operation.
+                      - Activates Wi-Fi 7 features and protocol enhancements.
+                    type: bool
+                    default: False
+                  radio_band:
+                    description:
+                      - Radio frequency band for 802.11be operation.
+                      - Specifies which band should support Wi-Fi 7 features.
+                      - 6GHz band provides optimal Wi-Fi 7 performance.
+                    type: str
+                    choices: ["2_4GHZ", "5GHZ", "6GHZ"]
+              unlocked_attributes:
+                description:
+                  - List of 802.11be attribute names unlocked for manual configuration.
+                  - Allows override of Wi-Fi 7 template-managed settings.
+                type: list
+                elements: str
+                required: false
+          event_driven_rrm_configuration:
+            description:
+              - Configuration for Event-Driven Radio Resource Management (RRM).
+              - Enables dynamic RF optimization based on real-time network conditions.
+              - Provides automatic channel and power adjustments for optimal performance.
+            type: list
+            elements: dict
+            required: false
+            suboptions:
+              design_name:
+                description:
+                  - Name of the wireless design to apply Event-Driven RRM configuration.
+                  - Must correspond to an existing design in Cisco Catalyst Center.
+                type: str
+                required: true
+              feature_attributes:
+                description:
+                  - Event-Driven RRM feature settings and threshold parameters.
+                  - Controls automatic RF optimization behavior and sensitivity.
+                type: dict
+                required: true
+                suboptions:
+                  radio_band:
+                    description:
+                      - Radio frequency band for Event-Driven RRM operation.
+                      - RRM algorithms will monitor and optimize this band.
+                      - Note - Currently, 6 GHz band is not supported for Event-Driven RRM
+                    type: str
+                    required: true
+                    choices: ["2_4GHZ", "5GHZ"]
+                  event_driven_rrm_enable:
+                    description:
+                      - Enable Event-Driven RRM for automatic RF optimization.
+                      - When enabled, system responds to interference and performance changes.
+                    type: bool
+                    default: False
+                    required: false
+                  event_driven_rrm_threshold_level:
+                    description:
+                      - Sensitivity level for triggering Event-Driven RRM actions.
+                      - LOW requires significant changes before RRM activation.
+                      - MEDIUM provides balanced sensitivity to network changes.
+                      - HIGH triggers RRM with minor network condition changes.
+                      - CUSTOM allows specification of custom threshold values.
+                    type: str
+                    required: false
+                    choices: ["LOW", "MEDIUM", "HIGH", "CUSTOM"]
+                  event_driven_rrm_custom_threshold_val:
+                    description:
+                      - Custom threshold value when threshold_level is set to CUSTOM.
+                      - Defines the specific sensitivity level for RRM activation.
+                      - Higher values require more significant changes to trigger RRM.
+                    type: int
+                    required: false
+              unlocked_attributes:
+                description:
+                  - List of Event-Driven RRM attribute names unlocked for manual configuration.
+                  - Allows override of template-managed RRM settings.
+                type: list
+                elements: str
+                required: false
+          flexconnect_configuration:
+            description:
+              - Configuration for FlexConnect deployment and local switching capabilities.
+              - Enables branch office wireless deployments with local data switching.
+              - Provides settings for overlay IP functionality and local survivability.
+            type: list
+            elements: dict
+            required: false
+            suboptions:
+              design_name:
+                description:
+                  - Name of the wireless design to apply FlexConnect configuration.
+                  - Must correspond to an existing design in Cisco Catalyst Center.
+                type: str
+                required: true
+              feature_attributes:
+                description:
+                  - FlexConnect feature settings and operational parameters.
+                  - Controls local switching and overlay IP capabilities.
+                type: dict
+                required: false
+                suboptions:
+                  overlap_ip_enable:
+                    description:
+                      - Enable overlapping IP address support for FlexConnect.
+                      - Allows multiple sites to use the same IP address ranges.
+                      - Useful for branch deployments with NAT or VPN connectivity.
+                    type: bool
+                    default: False
+              unlocked_attributes:
+                description:
+                  - List of FlexConnect attribute names unlocked for manual configuration.
+                  - Allows override of template-managed FlexConnect settings.
+                type: list
+                elements: str
+                required: false
+          multicast_configuration:
+            description:
+              - Configuration for wireless multicast traffic handling and optimization.
+              - Controls how multicast and broadcast traffic is processed and delivered.
+              - Includes settings for both IPv4 and IPv6 multicast operations.
+            type: list
+            elements: dict
+            required: false
+            suboptions:
+              design_name:
+                description:
+                  - Name of the wireless design to apply multicast configuration.
+                  - Must correspond to an existing design in Cisco Catalyst Center.
+                  - Design name must not exceed 64 characters in length.
+                type: str
+                required: true
+              feature_attributes:
+                description:
+                  - Multicast feature settings and delivery parameters.
+                  - Controls global multicast behavior and protocol-specific settings.
+                type: dict
+                required: true
+                suboptions:
+                  global_multicast_enabled:
+                    description:
+                      - Enable global multicast functionality for the wireless network.
+                      - Must be enabled for any multicast traffic processing.
+                    type: bool
+                    required: true
+                  multicast_ipv4_mode:
+                    description:
+                      - Delivery mode for IPv4 multicast traffic handling.
+                      - UNICAST converts multicast to unicast for individual delivery.
+                      - MULTICAST preserves native multicast delivery method.
+                    type: str
+                    required: false
+                    choices: ["UNICAST", "MULTICAST"]
+                  multicast_ipv4_address:
+                    description:
+                      - IPv4 multicast group address for multicast operations.
+                      - Must be a valid IPv4 multicast address (224.0.0.0 to 239.255.255.255).
+                      - Used when multicast_ipv4_mode is set to MULTICAST.
+                    type: str
+                    required: false
+                  multicast_ipv6_mode:
+                    description:
+                      - Delivery mode for IPv6 multicast traffic handling.
+                      - UNICAST converts multicast to unicast for individual delivery.
+                      - MULTICAST preserves native multicast delivery method.
+                    type: str
+                    required: false
+                    choices: ["UNICAST", "MULTICAST"]
+                  multicast_ipv6_address:
+                    description:
+                      - IPv6 multicast group address for multicast operations.
+                      - Must be a valid IPv6 multicast address (FF00::/8 prefix).
+                      - Used when multicast_ipv6_mode is set to MULTICAST.
+                    type: str
+                    required: false
+              unlocked_attributes:
+                description:
+                  - List of multicast attribute names unlocked for manual configuration.
+                  - Allows override of template-managed multicast settings.
+                type: list
+                elements: str
+                required: false
+          rrm_fra_configuration:
+            description:
+              - Configuration for Radio Resource Management Flexible Radio Assignment (RRM-FRA).
+              - Enables dynamic radio role assignment for optimal spectrum utilization.
+              - Provides automatic adaptation to changing RF conditions and client demands.
+            type: list
+            elements: dict
+            required: false
+            suboptions:
+              design_name:
+                description:
+                  - Name of the wireless design to apply RRM-FRA configuration.
+                  - Must correspond to an existing design in Cisco Catalyst Center.
+                  - Design name must not exceed 64 characters in length.
+                type: str
+                required: true
+              feature_attributes:
+                description:
+                  - RRM-FRA feature settings and operational parameters.
+                  - Controls flexible radio assignment behavior and sensitivity.
+                type: dict
+                required: true
+                suboptions:
+                  radio_band:
+                    description:
+                      - Radio band combination for FRA operation.
+                      - 2_4GHZ_5GHZ enables FRA between 2.4GHz and 5GHz bands.
+                      - 5GHZ_6GHZ enables FRA between 5GHz and 6GHz bands.
+                    type: str
+                    required: true
+                    choices: ["2_4GHZ_5GHZ", "5GHZ_6GHZ"]
+                  fra_freeze:
+                    description:
+                      - Freeze FRA decisions to prevent automatic changes.
+                      - When enabled, current radio assignments are maintained.
+                    type: bool
+                    default: false
+                    required: false
+                  fra_status:
+                    description:
+                      - Enable or disable Flexible Radio Assignment functionality.
+                      - Controls whether radios can dynamically change their band assignment.
+                    type: bool
+                    default: false
+                    required: false
+                  fra_interval:
+                    description:
+                      - Interval in hours for FRA evaluation and potential changes.
+                      - Determines how frequently the system considers radio reassignment.
+                      - Value range is typically 1 to 24 hours.
+                      - Units are in hours.
+                    type: int
+                    required: false
+                  fra_sensitivity:
+                    description:
+                      - Sensitivity level for triggering FRA band changes.
+                      - LOW requires significant load differences for reassignment.
+                      - MEDIUM provides balanced sensitivity to load changes.
+                      - HIGH responds quickly to minor load variations.
+                      - HIGHER, EVEN_HIGHER, SUPER_HIGH provide progressively more sensitive responses.
+                    type: str
+                    required: false
+                    choices: ["LOW", "MEDIUM", "HIGH", "HIGHER", "EVEN_HIGHER", "SUPER_HIGH"]
+              unlocked_attributes:
+                description:
+                  - List of RRM-FRA attribute names unlocked for manual configuration.
+                  - Allows override of template-managed FRA settings.
+                type: list
+                elements: str
+                required: false
+          rrm_general_configuration:
+            description:
+              - Configuration for general Radio Resource Management (RRM) parameters.
+              - Controls overall RF optimization behavior and monitoring settings.
+              - Includes channel monitoring, neighbor discovery, and coverage optimization.
+            type: list
+            elements: dict
+            required: false
+            suboptions:
+              design_name:
+                description:
+                  - Name of the wireless design to apply RRM general configuration.
+                  - Must correspond to an existing design in Cisco Catalyst Center.
+                  - Design name must not exceed 64 characters in length.
+                type: str
+                required: true
+              feature_attributes:
+                description:
+                  - General RRM feature settings and optimization parameters.
+                  - Controls channel monitoring, neighbor discovery, and performance thresholds.
+                type: dict
+                required: true
+                suboptions:
+                  radio_band:
+                    description:
+                      - Radio frequency band for RRM general configuration.
+                      - RRM algorithms will monitor and optimize the specified band.
+                    type: str
+                    required: true
+                    choices: ["2_4GHZ", "5GHZ", "6GHZ"]
+                  monitoring_channels:
+                    description:
+                      - Channel monitoring scope for RRM analysis and optimization.
+                      - MONITORING_CHANNELS_ALL monitors all available channels.
+                      - MONITORING_CHANNELS_COUNTRY monitors country-specific channels.
+                      - MONITORING_CHANNELS_DCA monitors Dynamic Channel Assignment channels.
+                    type: str
+                    required: false
+                    choices: [
+                      "MONITORING_CHANNELS_ALL",
+                      "MONITORING_CHANNELS_COUNTRY",
+                      "MONITORING_CHANNELS_DCA"
+                    ]
+                  neighbor_discover_type:
+                    description:
+                      - Method for discovering neighboring access points and interference.
+                      - NEIGHBOR_DISCOVER_TYPE_TRANSPARENT uses passive monitoring.
+                      - NEIGHBOR_DISCOVER_TYPE_PROTECTED uses active discovery with protection.
+                    type: str
+                    required: false
+                    choices: [
+                      "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT",
+                      "NEIGHBOR_DISCOVER_TYPE_PROTECTED"
+                    ]
+                  throughput_threshold:
+                    description:
+                      - Minimum throughput threshold in Mbps for RRM optimization triggers.
+                      - RRM considers optimization when throughput falls below this value.
+                    type: int
+                    required: false
+                  coverage_hole_detection:
+                    description:
+                      - Enable automatic detection and mitigation of coverage holes.
+                      - Identifies areas with poor signal coverage and attempts optimization.
+                    type: bool
+                    required: false
+                    default: false
+              unlocked_attributes:
+                description:
+                  - List of RRM general attribute names unlocked for manual configuration.
+                  - Allows override of template-managed RRM settings.
+                type: list
+                elements: str
+                required: false
+
 requirements:
   - dnacentersdk >= 2.10.3
   - python >= 3.9
@@ -3097,6 +4078,1327 @@ notes:
 
 EXAMPLES = r"""
 ---
+- name: Add dot11be profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - dot11be_configuration:
+              - design_name: "dot11be_24ghz_design"
+                feature_attributes:
+                  dot11be_status: true
+                  radio_band: "2_4GHZ"
+                unlocked_attributes:
+                  - "dot11be_status"
+                  - "radio_band"
+- name: Update dot11be profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - dot11be_configuration:
+              - design_name: "dot11be_24ghz_design"
+                feature_attributes:
+                  dot11be_status: false
+                  radio_band: "2_4GHZ"
+                unlocked_attributes:
+                  - "dot11be_status"
+                  - "radio_band"
+- name: Delete dot11be profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - feature_template_config:
+          - dot11be_configuration:
+              - design_name: "dot11be_24ghz_design"
+                feature_attributes:
+                  dot11be_status: false
+                  radio_band: "2_4GHZ"
+                unlocked_attributes:
+                  - "dot11be_status"
+                  - "radio_band"
+- name: Add dot11ax profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - dot11ax_configuration:
+              - design_name: "dot11ax_24ghz_design"
+                feature_attributes:
+                  radio_band: "2_4GHZ"
+                  bss_color: true
+                  target_waketime_broadcast: true
+                  non_srg_obss_pd_max_threshold: -78
+                  target_wakeup_time_11ax: true
+                  obss_pd: true
+                unlocked_attributes:
+                  - "radio_band"
+                  - "bss_color"
+                  - "target_waketime_broadcast"
+                  - "non_srg_obss_pd_max_threshold"
+                  - "target_wakeup_time_11ax"
+                  - "obss_pd"
+- name: Update dot11ax profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - dot11ax_configuration:
+              - design_name: "dot11ax_24ghz_design"
+                feature_attributes:
+                  radio_band: "2_4GHZ"
+                  bss_color: true
+                  target_waketime_broadcast: true
+                  non_srg_obss_pd_max_threshold: -78
+                  target_wakeup_time_11ax: false
+                  obss_pd: true
+                unlocked_attributes:
+                  - "radio_band"
+                  - "bss_color"
+                  - "target_waketime_broadcast"
+                  - "non_srg_obss_pd_max_threshold"
+                  - "target_wakeup_time_11ax"
+                  - "obss_pd"
+- name: Delete dot11ax profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - feature_template_config:
+          - dot11ax_configuration:
+              - design_name: "dot11ax_24ghz_design"
+                feature_attributes:
+                  radio_band: "2_4GHZ"
+                  bss_color: true
+                  target_waketime_broadcast: true
+                  non_srg_obss_pd_max_threshold: -78
+                  target_wakeup_time_11ax: false
+                  obss_pd: true
+                unlocked_attributes:
+                  - "radio_band"
+                  - "bss_color"
+                  - "target_waketime_broadcast"
+                  - "non_srg_obss_pd_max_threshold"
+                  - "target_wakeup_time_11ax"
+                  - "obss_pd"
+- name: Add dot11ax profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - dot11ax_configuration:
+              - design_name: "dot11ax_5ghz_design"
+                feature_attributes:
+                  radio_band: "5GHZ"
+                  bss_color: true
+                  target_waketime_broadcast: true
+                  non_srg_obss_pd_max_threshold: -75
+                  target_wakeup_time_11ax: true
+                  obss_pd: true
+                unlocked_attributes:
+                  - "radio_band"
+                  - "bss_color"
+                  - "target_waketime_broadcast"
+                  - "non_srg_obss_pd_max_threshold"
+                  - "target_wakeup_time_11ax"
+                  - "obss_pd"
+- name: Update dot11ax profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - dot11ax_configuration:
+              - design_name: "dot11ax_5ghz_design"
+                feature_attributes:
+                  radio_band: "5GHZ"
+                  bss_color: false
+                  target_waketime_broadcast: false
+                  non_srg_obss_pd_max_threshold: -75
+                  target_wakeup_time_11ax: true
+                  obss_pd: true
+                unlocked_attributes:
+                  - "radio_band"
+                  - "bss_color"
+                  - "target_waketime_broadcast"
+                  - "non_srg_obss_pd_max_threshold"
+                  - "target_wakeup_time_11ax"
+                  - "obss_pd"
+- name: Delete dot11ax profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - feature_template_config:
+          - dot11ax_configuration:
+              - design_name: "dot11ax_5ghz_design"
+                feature_attributes:
+                  radio_band: "5GHZ"
+                  bss_color: false
+                  target_waketime_broadcast: false
+                  non_srg_obss_pd_max_threshold: -75
+                  target_wakeup_time_11ax: true
+                  obss_pd: true
+                unlocked_attributes:
+                  - "radio_band"
+                  - "bss_color"
+                  - "target_waketime_broadcast"
+                  - "non_srg_obss_pd_max_threshold"
+                  - "target_wakeup_time_11ax"
+                  - "obss_pd"
+- name: Add dot11ax profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - dot11ax_configuration:
+              - design_name: "dot11ax_6ghz_design"
+                feature_attributes:
+                  radio_band: "6GHZ"
+                  bss_color: true
+                  target_waketime_broadcast: true
+                  multiple_bssid: true
+                  target_wakeup_time_11ax: true
+                unlocked_attributes:
+                  - "radio_band"
+                  - "bss_color"
+                  - "target_waketime_broadcast"
+                  - "multiple_bssid"
+                  - "target_wakeup_time_11ax"
+- name: Update dot11ax profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - dot11ax_configuration:
+              - design_name: "dot11ax_6ghz_design"
+                feature_attributes:
+                  radio_band: "6GHZ"
+                  bss_color: true
+                  target_waketime_broadcast: false
+                  multiple_bssid: true
+                  target_wakeup_time_11ax: true
+                unlocked_attributes:
+                  - "radio_band"
+                  - "bss_color"
+                  - "target_waketime_broadcast"
+                  - "multiple_bssid"
+                  - "target_wakeup_time_11ax"
+- name: Delete dot11ax profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - feature_template_config:
+          - dot11ax_configuration:
+              - design_name: "dot11ax_6ghz_design"
+                feature_attributes:
+                  radio_band: "6GHZ"
+                  bss_color: true
+                  target_waketime_broadcast: false
+                  multiple_bssid: true
+                  target_wakeup_time_11ax: true
+                unlocked_attributes:
+                  - "radio_band"
+                  - "bss_color"
+                  - "target_waketime_broadcast"
+                  - "multiple_bssid"
+                  - "target_wakeup_time_11ax"
+- name: Add cleanair profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - clean_air_configuration:
+              - design_name: "sample_cleanair_design_24ghz"
+                feature_attributes:
+                  radio_band: 2_4GHZ   # enum: 2_4GHZ, 5GHZ, 6GHZ
+                  clean_air: true
+                  clean_air_device_reporting: true
+                  persistent_device_propagation: false
+                  description: "CleanAir profile for 2.4GHz office deployment"
+                  # Interferers Features (map)
+                  interferers_features:
+                    ble_beacon: true                     # Only applicable for 2_4GHZ
+                    bluetooth_paging_inquiry: false     # Only applicable for 2_4GHZ
+                    bluetooth_sco_acl: false            # Only applicable for 2_4GHZ
+                    continuous_transmitter: true       # Applicable for 2_4GHZ, 5GHZ, 6GHZ
+                    generic_dect: false                 # 2_4GHZ and 5GHZ
+                    generic_tdd: false                  # Only 2_4GHZ
+                    jammer: false                       # 2_4GHZ and 5GHZ
+                    microwave_oven: true                # Only 2_4GHZ
+                    motorola_canopy: false              # 2_4GHZ and 5GHZ
+                    si_fhss: false                      # 2_4GHZ and 5GHZ
+                    spectrum80211_fh: false             # 2_4GHZ only
+                    spectrum80211_non_standard_channel: false  # 2_4GHZ and 5GHZ
+                    spectrum802154: false               # 2_4GHZ only
+                    spectrum_inverted: false            # 2_4GHZ and 5GHZ
+                    super_ag: false                     # 2_4GHZ and 5GHZ
+                    video_camera: false                 # 2_4GHZ and 5GHZ
+                    wimax_fixed: false                  # 2_4GHZ and 5GHZ
+                    wimax_mobile: false                 # 2_4GHZ and 5GHZ
+                    xbox: false                         # 2_4GHZ only
+                unlocked_attributes:
+                  - "clean_air"
+                  - "clean_air_device_reporting"
+                  - "persistent_device_propagation"
+                  - "description"
+                  - "interferers_features.ble_beacon"
+                  - "interferers_features.continuous_transmitter"
+- name: Update cleanair profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - clean_air_configuration:
+          - design_name: "sample_cleanair_design_24ghz"
+            feature_attributes:
+              radio_band: 2_4GHZ   # enum: 2_4GHZ, 5GHZ, 6GHZ
+              clean_air: true
+              clean_air_device_reporting: true
+              persistent_device_propagation: false
+              description: "CleanAir profile for 2.4GHz office deployment"
+              # Interferers Features (map)
+              interferers_features:
+                ble_beacon: true                     # Only applicable for 2_4GHZ
+                bluetooth_paging_inquiry: false     # Only applicable for 2_4GHZ
+                bluetooth_sco_acl: false            # Only applicable for 2_4GHZ
+                continuous_transmitter: true       # Applicable for 2_4GHZ, 5GHZ, 6GHZ
+                generic_dect: false                 # 2_4GHZ and 5GHZ
+                generic_tdd: false                  # Only 2_4GHZ
+                jammer: false                       # 2_4GHZ and 5GHZ
+                microwave_oven: true                # Only 2_4GHZ
+                motorola_canopy: false              # 2_4GHZ and 5GHZ
+                si_fhss: false                      # 2_4GHZ and 5GHZ
+                spectrum80211_fh: false             # 2_4GHZ only
+                spectrum80211_non_standard_channel: false  # 2_4GHZ and 5GHZ
+                spectrum802154: false               # 2_4GHZ only
+                spectrum_inverted: false            # 2_4GHZ and 5GHZ
+                super_ag: true                     # 2_4GHZ and 5GHZ
+                video_camera: false                 # 2_4GHZ and 5GHZ
+                wimax_fixed: false                  # 2_4GHZ and 5GHZ
+                wimax_mobile: false                 # 2_4GHZ and 5GHZ
+                xbox: false                         # 2_4GHZ only
+            unlocked_attributes:
+              - "clean_air"
+              - "clean_air_device_reporting"
+              - "persistent_device_propagation"
+              - "description"
+              - "interferers_features.ble_beacon"
+              - "interferers_features.continuous_transmitter"
+- name: Delete cleanair profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - clean_air_configuration:
+          - design_name: "sample_cleanair_design_24ghz"
+            feature_attributes:
+              radio_band: 2_4GHZ   # enum: 2_4GHZ, 5GHZ, 6GHZ
+              clean_air: true
+              clean_air_device_reporting: true
+              persistent_device_propagation: false
+              description: "CleanAir profile for 2.4GHz office deployment"
+              # Interferers Features (map)
+              interferers_features:
+                ble_beacon: true                     # Only applicable for 2_4GHZ
+                bluetooth_paging_inquiry: false     # Only applicable for 2_4GHZ
+                bluetooth_sco_acl: false            # Only applicable for 2_4GHZ
+                continuous_transmitter: true       # Applicable for 2_4GHZ, 5GHZ, 6GHZ
+                generic_dect: false                 # 2_4GHZ and 5GHZ
+                generic_tdd: false                  # Only 2_4GHZ
+                jammer: false                       # 2_4GHZ and 5GHZ
+                microwave_oven: true                # Only 2_4GHZ
+                motorola_canopy: false              # 2_4GHZ and 5GHZ
+                si_fhss: false                      # 2_4GHZ and 5GHZ
+                spectrum80211_fh: false             # 2_4GHZ only
+                spectrum80211_non_standard_channel: false  # 2_4GHZ and 5GHZ
+                spectrum802154: false               # 2_4GHZ only
+                spectrum_inverted: false            # 2_4GHZ and 5GHZ
+                super_ag: true                     # 2_4GHZ and 5GHZ
+                video_camera: false                 # 2_4GHZ and 5GHZ
+                wimax_fixed: false                  # 2_4GHZ and 5GHZ
+                wimax_mobile: false                 # 2_4GHZ and 5GHZ
+                xbox: false                         # 2_4GHZ only
+            unlocked_attributes:
+              - "clean_air"
+              - "clean_air_device_reporting"
+              - "persistent_device_propagation"
+              - "description"
+              - "interferers_features.ble_beacon"
+              - "interferers_features.continuous_transmitter"
+- name: Add event driven rrm profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - event_driven_rrm_configuration:
+              - design_name: "edrrm_2_4ghz_design"
+                feature_attributes:
+                  radio_band: "2_4GHZ"  # 2_4GHZ, 5GHZ
+                  event_driven_rrm_enable: true
+                  event_driven_rrm_threshold_level: "HIGH"   # LOW, MEDIUM, HIGH, CUSTOM
+                  # event_driven_rrm_custom_threshold_val: 50   # must be between 1–99
+                unlocked_attributes:
+                  - "event_driven_rrm_enable"
+                  - "event_driven_rrm_threshold_level"
+                  - "event_driven_rrm_custom_threshold_val"
+- name: Update event driven rrm profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - event_driven_rrm_configuration:
+              - design_name: "edrrm_2_4ghz_design"
+                feature_attributes:
+                  radio_band: "2_4GHZ"  # 2_4GHZ, 5GHZ
+                  event_driven_rrm_enable: false
+                  event_driven_rrm_threshold_level: "HIGH"   # LOW, MEDIUM, HIGH, CUSTOM
+                  # event_driven_rrm_custom_threshold_val: 50   # must be between 1–99
+                unlocked_attributes:
+                  - "event_driven_rrm_enable"
+                  - "event_driven_rrm_threshold_level"
+                  - "event_driven_rrm_custom_threshold_val"
+- name: Delete event driven rrm profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - feature_template_config:
+          - event_driven_rrm_configuration:
+              - design_name: "edrrm_2_4ghz_design"
+                feature_attributes:
+                  radio_band: "2_4GHZ"  # 2_4GHZ, 5GHZ
+                  event_driven_rrm_enable: false
+                  event_driven_rrm_threshold_level: "HIGH"   # LOW, MEDIUM, HIGH, CUSTOM
+                  # event_driven_rrm_custom_threshold_val: 50   # must be between 1–99
+                unlocked_attributes:
+                  - "event_driven_rrm_enable"
+                  - "event_driven_rrm_threshold_level"
+                  - "event_driven_rrm_custom_threshold_val"
+- name: Add multicast profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - multicast_configuration:
+              - design_name: "multicast_office_profile_1"
+                feature_attributes:
+                  global_multicast_enabled: true
+                  multicast_ipv4_mode: "MULTICAST"     # UNICAST or MULTICAST
+                  multicast_ipv4_address: "239.1.1.25"  # must be in 224.0.0.0 - 239.255.255.255 if mode=MULTICAST
+                  multicast_ipv6_mode: "MULTICAST"    # UNICAST or MULTICAST
+                  multicast_ipv6_address: "FF05::1"   # must follow FF[0/1][1-5,8,E] rule if mode=MULTICAST
+                unlocked_attributes:
+                  - "global_multicast_enabled"
+                  - "multicast_ipv4_mode"
+                  - "multicast_ipv4_address"
+                  - "multicast_ipv6_mode"
+                  - "multicast_ipv6_address"
+- name: Update multicast profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - multicast_configuration:
+              - design_name: "multicast_office_profile_1"
+                feature_attributes:
+                  global_multicast_enabled: false
+                  multicast_ipv4_mode: "MULTICAST"     # UNICAST or MULTICAST
+                  multicast_ipv4_address: "239.1.1.25"   # must be in 224.0.0.0 - 239.255.255.255 if mode=MULTICAST
+                  multicast_ipv6_mode: "MULTICAST"    # UNICAST or MULTICAST
+                  multicast_ipv6_address: "FF05::1"   # must follow FF[0/1][1-5,8,E] rule if mode=MULTICAST
+                unlocked_attributes:
+                  - "global_multicast_enabled"
+                  - "multicast_ipv4_mode"
+                  - "multicast_ipv4_address"
+                  - "multicast_ipv6_mode"
+                  - "multicast_ipv6_address"
+- name: Delete multicast profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - feature_template_config:
+          - multicast_configuration:
+              - design_name: "multicast_office_profile_1"
+                feature_attributes:
+                  global_multicast_enabled: false
+                  multicast_ipv4_mode: "MULTICAST"     # UNICAST or MULTICAST
+                  multicast_ipv4_address: "239.1.1.25"  # must be in 224.0.0.0 - 239.255.255.255 if mode=MULTICAST
+                  multicast_ipv6_mode: "MULTICAST"    # UNICAST or MULTICAST
+                  multicast_ipv6_address: "FF05::1"   # must follow FF[0/1][1-5,8,E] rule if mode=MULTICAST
+                unlocked_attributes:
+                  - "global_multicast_enabled"
+                  - "multicast_ipv4_mode"
+                  - "multicast_ipv4_address"
+                  - "multicast_ipv6_mode"
+                  - "multicast_ipv6_address"
+- name: Add rrm fra profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - rrm_fra_configuration:
+              - design_name: "fra_design_1"
+                feature_attributes:
+                  radio_band: "2_4GHZ_5GHZ"
+                  fra_freeze: false
+                  fra_status: false
+                  fra_interval: 12
+                  fra_sensitivity: "HIGH"
+                unlocked_attributes:
+                  - fra_freeze
+                  - fra_status
+                  - fra_interval
+                  - fra_sensitivity
+- name: Update rrm fra profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - rrm_fra_configuration:
+              - design_name: "fra_design_1"
+                feature_attributes:
+                  radio_band: "2_4GHZ_5GHZ"
+                  fra_freeze: true
+                  fra_status: false
+                  fra_interval: 12
+                  fra_sensitivity: "HIGH"
+                unlocked_attributes:
+                  - fra_freeze
+                  - fra_status
+                  - fra_interval
+                  - fra_sensitivity
+- name: Delete rrm fra profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - feature_template_config:
+          - rrm_fra_configuration:
+              - design_name: "fra_design_1"
+                feature_attributes:
+                  radio_band: "2_4GHZ_5GHZ"
+                  fra_freeze: true
+                  fra_status: false
+                  fra_interval: 12
+                  fra_sensitivity: "HIGH"
+                unlocked_attributes:
+                  - fra_freeze
+                  - fra_status
+                  - fra_interval
+                  - fra_sensitivity
+- name: Add rrm general profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - rrm_general_configuration:
+              - design_name: "rrm_general_24ghz_country_scope"
+                feature_attributes:
+                  radio_band: "2_4GHZ"                          # supported only on IOS-XE >= 17.9.1
+                  monitoring_channels: "MONITORING_CHANNELS_COUNTRY"
+                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"
+                  throughput_threshold: 150000
+                  coverage_hole_detection: true
+                unlocked_attributes:
+                  - "monitoring_channels"
+                  - "coverage_hole_detection"
+- name: Update rrm general profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - rrm_general_configuration:
+              - design_name: "rrm_general_24ghz_country_scope"
+                feature_attributes:
+                  radio_band: "2_4GHZ"                          # supported only on IOS-XE >= 17.9.1
+                  monitoring_channels: "MONITORING_CHANNELS_COUNTRY"
+                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"
+                  throughput_threshold: 150000
+                  coverage_hole_detection: false
+                unlocked_attributes:
+                  - "monitoring_channels"
+                  - "coverage_hole_detection"
+- name: Delete rrm general profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - feature_template_config:
+          - rrm_general_configuration:
+              - design_name: "rrm_general_24ghz_country_scope"
+                feature_attributes:
+                  radio_band: "2_4GHZ"                          # supported only on IOS-XE >= 17.9.1
+                  monitoring_channels: "MONITORING_CHANNELS_COUNTRY"
+                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"
+                  throughput_threshold: 150000
+                  coverage_hole_detection: false
+                unlocked_attributes:
+                  - "monitoring_channels"
+                  - "coverage_hole_detection"
+- name: Add rrm general profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - rrm_general_configuration:
+              - design_name: "rrm_general_5ghz_default"
+                feature_attributes:
+                  radio_band: "5GHZ"                           # enum: 2_4GHZ, 5GHZ, 6GHZ
+                  monitoring_channels: "MONITORING_CHANNELS_DCA"   # enum: MONITORING_CHANNELS_ALL, MONITORING_CHANNELS_COUNTRY, MONITORING_CHANNELS_DCA
+                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"  # enum: NEIGHBOR_DISCOVER_TYPE_TRANSPARENT, NEIGHBOR_DISCOVER_TYPE_PROTECTED
+                  throughput_threshold: 500000                  # 1000..10000000
+                  coverage_hole_detection: true
+                unlocked_attributes:
+                  - "monitoring_channels"
+                  - "neighbor_discover_type"
+                  - "throughput_threshold"
+                  - "coverage_hole_detection"
+- name: Update rrm general profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - rrm_general_configuration:
+              - design_name: "rrm_general_5ghz_default"
+                feature_attributes:
+                  radio_band: "5GHZ"                           # enum: 2_4GHZ, 5GHZ, 6GHZ
+                  monitoring_channels: "MONITORING_CHANNELS_DCA"   # enum: MONITORING_CHANNELS_ALL, MONITORING_CHANNELS_COUNTRY, MONITORING_CHANNELS_DCA
+                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"  # enum: NEIGHBOR_DISCOVER_TYPE_TRANSPARENT, NEIGHBOR_DISCOVER_TYPE_PROTECTED
+                  throughput_threshold: 500000                  # 1000..10000000
+                  coverage_hole_detection: false
+                unlocked_attributes:
+                  - "monitoring_channels"
+                  - "neighbor_discover_type"
+                  - "throughput_threshold"
+                  - "coverage_hole_detection"
+- name: Delete rrm general profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - feature_template_config:
+          - rrm_general_configuration:
+              - design_name: "rrm_general_5ghz_default"
+                feature_attributes:
+                  radio_band: "5GHZ"                           # enum: 2_4GHZ, 5GHZ, 6GHZ
+                  monitoring_channels: "MONITORING_CHANNELS_DCA"   # enum: MONITORING_CHANNELS_ALL, MONITORING_CHANNELS_COUNTRY, MONITORING_CHANNELS_DCA
+                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"  # enum: NEIGHBOR_DISCOVER_TYPE_TRANSPARENT, NEIGHBOR_DISCOVER_TYPE_PROTECTED
+                  throughput_threshold: 500000                  # 1000..10000000
+                  coverage_hole_detection: false
+                unlocked_attributes:
+                  - "monitoring_channels"
+                  - "neighbor_discover_type"
+                  - "throughput_threshold"
+                  - "coverage_hole_detection"
+- name: Add rrm general profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - rrm_general_configuration:
+              - design_name: "rrm_general_6ghz_high_thr"
+                feature_attributes:
+                  radio_band: "6GHZ"
+                  monitoring_channels: "MONITORING_CHANNELS_ALL"
+                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_PROTECTED"
+                  throughput_threshold: 2500000
+                  coverage_hole_detection: false
+                unlocked_attributes:
+                  - "throughput_threshold"
+- name: Update rrm general profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - rrm_general_configuration:
+              - design_name: "rrm_general_6ghz_high_thr"
+                feature_attributes:
+                  radio_band: "6GHZ"
+                  monitoring_channels: "MONITORING_CHANNELS_ALL"
+                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_PROTECTED"
+                  throughput_threshold: 2500000
+                  coverage_hole_detection: true
+                unlocked_attributes:
+                  - "throughput_threshold"
+- name: Delete rrm general profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - feature_template_config:
+          - rrm_general_configuration:
+              - design_name: "rrm_general_6ghz_high_thr"
+                feature_attributes:
+                  radio_band: "6GHZ"
+                  monitoring_channels: "MONITORING_CHANNELS_ALL"
+                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_PROTECTED"
+                  throughput_threshold: 2500000
+                  coverage_hole_detection: true
+                unlocked_attributes:
+                  - "throughput_threshold"
+- name: Add flexconnect profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - flexconnect_configuration:
+              - design_name: "flexconnect_branch_office"
+                feature_attributes:
+                  overlap_ip_enable: true
+                unlocked_attributes:
+                  - "overlap_ip_enable"
+- name: Update flexconnect profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - flexconnect_configuration:
+              - design_name: "flexconnect_branch_office"
+                feature_attributes:
+                  overlap_ip_enable: false
+                unlocked_attributes:
+                  - "overlap_ip_enable"
+- name: Delete flexconnect profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - feature_template_config:
+          - flexconnect_configuration:
+              - design_name: "flexconnect_branch_office"
+                feature_attributes:
+                  overlap_ip_enable: false
+                unlocked_attributes:
+                  - "overlap_ip_enable"
+- name: Add aaa radius profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - aaa_radius_attribute:
+              - design_name: "sample_design"
+                called_station_id: "sample_id"
+                unlocked_attributes:
+                  - "calledStationId"
+- name: Update aaa radius profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - feature_template_config:
+          - aaa_radius_attribute:
+              - design_name: "sample_designnn"
+                called_station_id: "sample_id"
+                unlocked_attributes:
+                  - "calledStationId"
+- name: Delete aaa radius profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - feature_template_config:
+          - aaa_radius_attribute:
+              - design_name: "sample_designnn"
+                called_station_id: "sample_id"
+                unlocked_attributes:
+                  - "calledStationId"
+- name: Add advanced ssid profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+  config:
+    - feature_template_config:
+        - advanced_ssid:
+            - design_name: "sample_advanced_ssid_design"
+              feature_attributes:
+                peer2peer_blocking: "DISABLE"   # enum: DROP, FORWARD_UP, ALLOW_PVT_GROUP, DISABLE
+                passive_client: false
+                prediction_optimization: false
+                dual_band_neighbor_list: false
+                radius_nac_state: true
+                dhcp_required: true
+                dhcp_server: "10.10.10.5"
+                flex_local_auth: false
+                target_wakeup_time: true
+                downlink_ofdma: true
+                uplink_ofdma: true
+                downlink_mu_mimo: true
+                uplink_mu_mimo: true
+                dot11ax: true
+                aironet_ie_support: true
+                load_balancing: false
+                dtim_period_5ghz: 2   # 1-255
+                dtim_period_24ghz: 2  # 1-255
+                scan_defer_time: 100
+                max_clients: 200
+                max_clients_per_radio: 100   # 0-500
+                max_clients_per_ap: 300      # 0-1200
+                wmm_policy: "ALLOWED"        # DISABLED, REQUIRED, ALLOWED
+                multicast_buffer: true
+                multicast_buffer_value: 50
+                media_stream_multicast_direct: true
+                mu_mimo_11ac: true
+                wifi_to_cellular_steering: false
+                wifi_alliance_agile_multiband: false
+                fastlane_asr: false
+                dot11v_bss_max_idle_protected: false
+                universal_ap_admin: false
+                opportunistic_key_caching: false
+                ip_source_guard: false
+                dhcp_opt82_remote_id_sub_option: false
+                vlan_central_switching: false
+                call_snooping: false
+                send_disassociate: false
+                sent_486_busy: false
+                ip_mac_binding: false
+                idle_threshold: 300
+                defer_priority_0: false
+                defer_priority_1: false
+                defer_priority_2: false
+                defer_priority_3: false
+                defer_priority_4: false
+                defer_priority_5: false
+                defer_priority_6: false
+                defer_priority_7: false
+                share_data_with_client: false
+                advertise_support: false
+                advertise_pc_analytics_support: false
+                send_beacon_on_association: false
+                send_beacon_on_roam: false
+                fast_transition_reassociation_timeout: 200
+                mdns_mode: "MDNS_SD_BRIDGING"  # MDNS_SD_BRIDGING, MDNS_SD_DROP, MDNS_SD_GATEWAY
+              unlocked_attributes:
+                - "peer2peer_blocking"
+                - "passive_client"
+                - "dot11ax"
+                - "load_balancing"
+                - "max_clients"
+                - "max_clients_per_radio"
+                - "max_clients_per_ap"
+                - "wmm_policy"
+                - "dtim_period_5ghz"
+                - "dtim_period_24ghz"
+                - "scan_defer_time"
+                - "mdns_mode"
+- name: Update advanced ssid profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+  config:
+    - feature_template_config:
+        - advanced_ssid:
+            - design_name: "sample_advanced_ssid_design"
+              feature_attributes:
+                peer2peer_blocking: "DISABLE"   # enum: DROP, FORWARD_UP, ALLOW_PVT_GROUP, DISABLE
+                passive_client: false
+                prediction_optimization: false
+                dual_band_neighbor_list: false
+                radius_nac_state: true
+                dhcp_required: true
+                dhcp_server: "10.10.10.5"
+                flex_local_auth: false
+                target_wakeup_time: true
+                downlink_ofdma: true
+                uplink_ofdma: true
+                downlink_mu_mimo: true
+                uplink_mu_mimo: true
+                dot11ax: true
+                aironet_ie_support: true
+                load_balancing: false
+                dtim_period_5ghz: 2   # 1-255
+                dtim_period_24ghz: 2  # 1-255
+                scan_defer_time: 100
+                max_clients: 200
+                max_clients_per_radio: 100   # 0-500
+                max_clients_per_ap: 300      # 0-1200
+                wmm_policy: "ALLOWED"        # DISABLED, REQUIRED, ALLOWED
+                multicast_buffer: true
+                multicast_buffer_value: 50
+                media_stream_multicast_direct: true
+                mu_mimo_11ac: true
+                wifi_to_cellular_steering: false
+                wifi_alliance_agile_multiband: false
+                fastlane_asr: false
+                dot11v_bss_max_idle_protected: false
+                universal_ap_admin: false
+                opportunistic_key_caching: false
+                ip_source_guard: false
+                dhcp_opt82_remote_id_sub_option: true
+                vlan_central_switching: true
+                call_snooping: false
+                send_disassociate: false
+                sent_486_busy: false
+                ip_mac_binding: false
+                idle_threshold: 300
+                defer_priority_0: false
+                defer_priority_1: false
+                defer_priority_2: false
+                defer_priority_3: false
+                defer_priority_4: false
+                defer_priority_5: false
+                defer_priority_6: false
+                defer_priority_7: false
+                share_data_with_client: false
+                advertise_support: false
+                advertise_pc_analytics_support: false
+                send_beacon_on_association: false
+                send_beacon_on_roam: false
+                fast_transition_reassociation_timeout: 200
+                mdns_mode: "MDNS_SD_BRIDGING"  # MDNS_SD_BRIDGING, MDNS_SD_DROP, MDNS_SD_GATEWAY
+              unlocked_attributes:
+                - "peer2peer_blocking"
+                - "passive_client"
+                - "dot11ax"
+                - "load_balancing"
+                - "max_clients"
+                - "max_clients_per_radio"
+                - "max_clients_per_ap"
+                - "wmm_policy"
+                - "dtim_period_5ghz"
+                - "dtim_period_24ghz"
+                - "scan_defer_time"
+                - "mdns_mode"
+- name: Delete advanced ssid profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+  config:
+    - feature_template_config:
+        - advanced_ssid:
+            - design_name: "sample_advanced_ssid_design"
+              feature_attributes:
+                peer2peer_blocking: "DISABLE"   # enum: DROP, FORWARD_UP, ALLOW_PVT_GROUP, DISABLE
+                passive_client: false
+                prediction_optimization: false
+                dual_band_neighbor_list: false
+                radius_nac_state: true
+                dhcp_required: true
+                dhcp_server: "10.10.10.5"
+                flex_local_auth: false
+                target_wakeup_time: true
+                downlink_ofdma: true
+                uplink_ofdma: true
+                downlink_mu_mimo: true
+                uplink_mu_mimo: true
+                dot11ax: true
+                aironet_ie_support: true
+                load_balancing: false
+                dtim_period_5ghz: 2   # 1-255
+                dtim_period_24ghz: 2  # 1-255
+                scan_defer_time: 100
+                max_clients: 200
+                max_clients_per_radio: 100   # 0-500
+                max_clients_per_ap: 300      # 0-1200
+                wmm_policy: "ALLOWED"        # DISABLED, REQUIRED, ALLOWED
+                multicast_buffer: true
+                multicast_buffer_value: 50
+                media_stream_multicast_direct: true
+                mu_mimo_11ac: true
+                wifi_to_cellular_steering: false
+                wifi_alliance_agile_multiband: false
+                fastlane_asr: false
+                dot11v_bss_max_idle_protected: false
+                universal_ap_admin: false
+                opportunistic_key_caching: false
+                ip_source_guard: false
+                dhcp_opt82_remote_id_sub_option: true
+                vlan_central_switching: true
+                call_snooping: false
+                send_disassociate: false
+                sent_486_busy: false
+                ip_mac_binding: false
+                idle_threshold: 300
+                defer_priority_0: false
+                defer_priority_1: false
+                defer_priority_2: false
+                defer_priority_3: false
+                defer_priority_4: false
+                defer_priority_5: false
+                defer_priority_6: false
+                defer_priority_7: false
+                share_data_with_client: false
+                advertise_support: false
+                advertise_pc_analytics_support: false
+                send_beacon_on_association: false
+                send_beacon_on_roam: false
+                fast_transition_reassociation_timeout: 200
+                mdns_mode: "MDNS_SD_BRIDGING"  # MDNS_SD_BRIDGING, MDNS_SD_DROP, MDNS_SD_GATEWAY
+              unlocked_attributes:
+                - "peer2peer_blocking"
+                - "passive_client"
+                - "dot11ax"
+                - "load_balancing"
+                - "max_clients"
+                - "max_clients_per_radio"
+                - "max_clients_per_ap"
+                - "wmm_policy"
+                - "dtim_period_5ghz"
+                - "dtim_period_24ghz"
+                - "scan_defer_time"
+                - "mdns_mode"
 - name: Add SSIDs
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -5283,6 +7585,395 @@ class WirelessDesign(DnacBase):
                     },
                 },
             },
+            "feature_template_config": {
+                "type": "list",
+                "elements": "dict",
+                "required": False,
+                "options": {
+                    "aaa_radius_attribute": {
+                        "type": "list",
+                        "elements": "dict",
+                        "required": False,
+                        "options": {
+                            "design_name": {"type": "str"},
+                            "called_station_id": {"type": "str"},
+                            "unlocked_attributes": {"type": "bool", "required": False},
+                        },
+                    },
+                    "advanced_ssid": {
+                        "type": "list",
+                        "elements": "dict",
+                        "required": False,
+                        "options": {
+                            "design_name": {"type": "str"},
+                            "feature_attributes": {
+                                "type": "dict",
+                                "required": False,
+                                "options": {
+                                    "peer2peer_blocking": {
+                                        "type": "str",
+                                        "choices": ["DISABLE", "DROP", "FORWARD_UP", "ALLOW_PVT_GROUP"]
+                                    },
+                                    "passive_client": {"type": "bool", "default": False},
+                                    "prediction_optimization": {"type": "bool", "default": False},
+                                    "dual_band_neighbor_list": {"type": "bool", "default": False},
+                                    "radius_nac_state": {"type": "bool", "default": False},
+                                    "dhcp_required": {"type": "bool", "default": False},
+                                    "dhcp_server": {"type": "str"},
+                                    "flex_local_auth": {"type": "bool", "default": False},
+                                    "target_wakeup_time": {"type": "bool", "default": False},
+                                    "downlink_ofdma": {"type": "bool", "default": False},
+                                    "uplink_ofdma": {"type": "bool", "default": False},
+                                    "downlink_mu_mimo": {"type": "bool", "default": False},
+                                    "uplink_mu_mimo": {"type": "bool", "default": False},
+                                    "dot11ax": {"type": "bool", "default": False},
+                                    "aironet_ie_support": {"type": "bool", "default": False},
+                                    "load_balancing": {"type": "bool", "default": False},
+                                    "dtim_period_5ghz": {"type": "int"},
+                                    "dtim_period_24ghz": {"type": "int"},
+                                    "scan_defer_time": {"type": "int"},
+                                    "max_clients": {"type": "int"},
+                                    "max_clients_per_radio": {"type": "int"},
+                                    "max_clients_per_ap": {"type": "int"},
+                                    "wmm_policy": {"type": "str", "choices": ["DISABLED", "ALLOWED", "REQUIRED"]},
+                                    "multicast_buffer": {"type": "bool", "default": False},
+                                    "multicast_buffer_value": {"type": "int"},
+                                    "media_stream_multicast_direct": {"type": "bool", "default": False},
+                                    "mu_mimo_11ac": {"type": "bool", "default": False},
+                                    "wifi_to_cellular_steering": {"type": "bool", "default": False},
+                                    "wifi_alliance_agile_multiband": {"type": "bool", "default": False},
+                                    "fastlane_asr": {"type": "bool", "default": False},
+                                    "dot11v_bss_max_idle_protected": {"type": "bool", "default": False},
+                                    "universal_ap_admin": {"type": "bool", "default": False},
+                                    "opportunistic_key_caching": {"type": "bool", "default": False},
+                                    "ip_source_guard": {"type": "bool", "default": False},
+                                    "dhcp_opt82_remote_id_sub_option": {"type": "bool", "default": False},
+                                    "vlan_central_switching": {"type": "bool", "default": False},
+                                    "call_snooping": {"type": "bool", "default": False},
+                                    "send_disassociate": {"type": "bool", "default": False},
+                                    "sent_486_busy": {"type": "bool", "default": False},
+                                    "ip_mac_binding": {"type": "bool", "default": False},
+                                    "idle_threshold": {"type": "int"},
+                                    "defer_priority_0": {"type": "bool", "default": False},
+                                    "defer_priority_1": {"type": "bool", "default": False},
+                                    "defer_priority_2": {"type": "bool", "default": False},
+                                    "defer_priority_3": {"type": "bool", "default": False},
+                                    "defer_priority_4": {"type": "bool", "default": False},
+                                    "defer_priority_5": {"type": "bool", "default": False},
+                                    "defer_priority_6": {"type": "bool", "default": False},
+                                    "defer_priority_7": {"type": "bool", "default": False},
+                                    "share_data_with_client": {"type": "bool", "default": False},
+                                    "advertise_support": {"type": "bool", "default": False},
+                                    "advertise_pc_analytics_support": {"type": "bool", "default": False},
+                                    "send_beacon_on_association": {"type": "bool", "default": False},
+                                    "send_beacon_on_roam": {"type": "bool", "default": False},
+                                    "fast_transition_reassociation_timeout": {"type": "int"},
+                                    "mdns_mode": {
+                                        "type": "str",
+                                        "choices": ["MDNS_SD_BRIDGING", "MDNS_SD_DROP", "MDNS_SD_GATEWAY"]
+                                    },
+                                },
+                            },
+                            "unlocked_attributes": {"type": "list", "elements": "str", "required": False},
+                        },
+                    },
+                    "clean_air_configuration": {
+                        "type": "list",
+                        "elements": "dict",
+                        "required": False,
+                        "options": {
+                            "design_name": {"type": "str"},
+                            "radio_band": {
+                                "type": "str",
+                                "choices": ["2_4GHZ", "5GHZ", "6GHZ"]
+                            },
+                            "feature_attributes": {
+                                "type": "dict",
+                                "required": False,
+                                "options": {
+                                    "clean_air": {"type": "bool", "default": False},
+                                    "clean_air_device_reporting": {"type": "bool", "default": False},
+                                    "persistent_device_propagation": {"type": "bool", "default": False},
+                                    "description": {"type": "str"},
+                                    "interferers_features": {
+                                        "type": "dict",
+                                        "required": False,
+                                        "options": {
+                                            "ble_beacon": {"type": "bool", "default": False},
+                                            "bluetooth_paging_inquiry": {"type": "bool", "default": False},
+                                            "bluetooth_sco_acl": {"type": "bool", "default": False},
+                                            "continuous_transmitter": {"type": "bool", "default": False},
+                                            "generic_dect": {"type": "bool", "default": False},
+                                            "generic_tdd": {"type": "bool", "default": False},
+                                            "jammer": {"type": "bool", "default": False},
+                                            "microwave_oven": {"type": "bool", "default": False},
+                                            "motorola_canopy": {"type": "bool", "default": False},
+                                            "si_fhss": {"type": "bool", "default": False},
+                                            "spectrum80211_fh": {"type": "bool", "default": False},
+                                            "spectrum80211_non_standard_channel": {"type": "bool", "default": False},
+                                            "spectrum802154": {"type": "bool", "default": False},
+                                            "spectrum_inverted": {"type": "bool", "default": False},
+                                            "super_ag": {"type": "bool", "default": False},
+                                            "video_camera": {"type": "bool", "default": False},
+                                            "wimax_fixed": {"type": "bool", "default": False},
+                                            "wimax_mobile": {"type": "bool", "default": False},
+                                            "xbox": {"type": "bool", "default": False},
+                                        },
+                                    },
+                                },
+                            },
+                            "unlocked_attributes": {"type": "list", "elements": "str", "required": False},
+                        },
+                    },
+                    "dot11ax_configuration": {
+                        "type": "list",
+                        "elements": "dict",
+                        "required": False,
+                        "options": {
+                            "design_name": {"type": "str"},
+                            "feature_attributes": {
+                                "type": "dict",
+                                "required": False,
+                                "options": {
+                                    "radio_band": {"type": "str"},
+                                    "bss_color": {"type": "bool", "default": False},
+                                    "target_waketime_broadcast": {"type": "bool", "default": False},
+                                    "non_srg_obss_pd_max_threshold": {"type": "int"},
+                                    "target_wakeup_time_11ax": {"type": "bool", "default": False},
+                                    "obss_pd": {"type": "bool", "default": False},
+                                    "multiple_bssid": {"type": "bool", "default": False},
+                                },
+                            },
+                            "unlocked_attributes": {"type": "list", "elements": "str", "required": False},
+                        },
+                    },
+                    "dot11be_configuration": {
+                        "type": "list",
+                        "required": False,
+                        "elements": "dict",
+                        "options": {
+                            "design_name": {"type": "str"},
+                            "feature_attributes": {
+                                "type": "dict",
+                                "required": False,
+                                "options": {
+                                    "dot11be_status": {"type": "bool", "default": False},
+                                    "radio_band": {"type": "str", "choices": ["2_4GHZ", "5GHZ", "6GHZ"]},
+                                },
+                            },
+                            "unlocked_attributes": {
+                                "type": "list",
+                                "elements": "str",
+                                "required": False,
+                            },
+                        },
+                    },
+                    "event_driven_rrm_configuration": {
+                        "type": "list",
+                        "required": False,
+                        "elements": "dict",
+                        "options": {
+                            "design_name": {
+                                "type": "str",
+                                "required": True,
+                            },
+                            "feature_attributes": {
+                                "type": "dict",
+                                "required": True,
+                                "options": {
+                                    "radio_band": {
+                                        "type": "str",
+                                        "required": True,
+                                        "choices": ["2_4GHZ", "5GHZ"],
+                                    },
+                                    "event_driven_rrm_enable": {
+                                        "type": "bool",
+                                        "required": False,
+                                        "default": False,
+                                    },
+                                    "event_driven_rrm_threshold_level": {
+                                        "type": "str",
+                                        "required": False,
+                                        "choices": ["LOW", "MEDIUM", "HIGH", "CUSTOM"],
+                                    },
+                                    "event_driven_rrm_custom_threshold_val": {
+                                        "type": "int",
+                                        "required": False,
+                                    },
+                                },
+                            },
+                            "unlocked_attributes": {
+                                "type": "list",
+                                "elements": "str",
+                                "required": False,
+                            },
+                        },
+                    },
+                    "flexconnect_configuration": {
+                        "type": "list",
+                        "required": False,
+                        "elements": "dict",
+                        "options": {
+                            "design_name": {"type": "str"},
+                            "feature_attributes": {
+                                "type": "dict",
+                                "required": False,
+                                "options": {
+                                    "overlap_ip_enable": {"type": "bool", "default": False},
+                                },
+                            },
+                            "unlocked_attributes": {
+                                "type": "list",
+                                "elements": "str",
+                                "required": False,
+                            },
+                        },
+                    },
+                    "multicast_configuration": {
+                        "type": "list",
+                        "required": False,
+                        "elements": "dict",
+                        "options": {
+                            "design_name": {
+                                "type": "str",
+                                "required": True,
+                                "maxlength": 64
+                            },
+                            "feature_attributes": {
+                                "type": "dict",
+                                "required": True,
+                                "options": {
+                                    "global_multicast_enabled": {"type": "bool", "required": True},
+                                    "multicast_ipv4_mode": {
+                                        "type": "str",
+                                        "required": False,
+                                        "choices": ["UNICAST", "MULTICAST"]
+                                    },
+                                    "multicast_ipv4_address": {
+                                        "type": "str",
+                                        "required": False
+                                    },
+                                    "multicast_ipv6_mode": {
+                                        "type": "str",
+                                        "required": False,
+                                        "choices": ["UNICAST", "MULTICAST"]
+                                    },
+                                    "multicast_ipv6_address": {
+                                        "type": "str",
+                                        "required": False
+                                    },
+                                },
+                            },
+                            "unlocked_attributes": {
+                                "type": "list",
+                                "elements": "str",
+                                "required": False,
+                            },
+                        },
+                    },
+                    "rrm_fra_configuration": {
+                        "type": "list",
+                        "elements": "dict",
+                        "required": False,
+                        "options": {
+                            "design_name": {
+                                "type": "str",
+                                "required": True,
+                                "maxlength": 64
+                            },
+                            "feature_attributes": {
+                                "type": "dict",
+                                "required": True,
+                                "options": {
+                                    "radio_band": {
+                                        "type": "str",
+                                        "required": True,
+                                        "choices": ["2_4GHZ_5GHZ", "5GHZ_6GHZ"]
+                                    },
+                                    "fra_freeze": {
+                                        "type": "bool",
+                                        "required": False,
+                                        "default": False
+                                    },
+                                    "fra_status": {
+                                        "type": "bool",
+                                        "required": False,
+                                        "default": False
+                                    },
+                                    "fra_interval": {
+                                        "type": "int",
+                                        "required": False
+                                    },
+                                    "fra_sensitivity": {
+                                        "type": "str",
+                                        "required": False,
+                                        "choices": ["LOW", "MEDIUM", "HIGH", "HIGHER", "EVEN_HIGHER", "SUPER_HIGH"]
+                                    },
+                                },
+                            },
+                            "unlocked_attributes": {
+                                "type": "list",
+                                "elements": "str",
+                                "required": False,
+                            },
+                        },
+                    },
+                    "rrm_general_configuration": {
+                        "type": "list",
+                        "elements": "dict",
+                        "required": False,
+                        "options": {
+                            "design_name": {
+                                "type": "str",
+                                "required": True,
+                                "maxlength": 64
+                            },
+                            "feature_attributes": {
+                                "type": "dict",
+                                "required": True,
+                                "options": {
+                                    "radio_band": {
+                                        "type": "str",
+                                        "required": True,
+                                        "choices": ["2_4GHZ", "5GHZ", "6GHZ"]
+                                    },
+                                    "monitoring_channels": {
+                                        "type": "str",
+                                        "required": False,
+                                        "choices": [
+                                            "MONITORING_CHANNELS_ALL",
+                                            "MONITORING_CHANNELS_COUNTRY",
+                                            "MONITORING_CHANNELS_DCA"
+                                        ]
+                                    },
+                                    "neighbor_discover_type": {
+                                        "type": "str",
+                                        "required": False,
+                                        "choices": [
+                                            "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT",
+                                            "NEIGHBOR_DISCOVER_TYPE_PROTECTED"
+                                        ]
+                                    },
+                                    "throughput_threshold": {
+                                        "type": "int",
+                                        "required": False
+                                    },
+                                    "coverage_hole_detection": {
+                                        "type": "bool",
+                                        "required": False,
+                                        "default": False
+                                    },
+                                },
+                            },
+                            "unlocked_attributes": {
+                                "type": "list",
+                                "elements": "str",
+                                "required": False,
+                            },
+                        },
+                    }
+                },
+            },
         }
 
         # Validate params against the expected schema
@@ -5301,6 +7992,4892 @@ class WirelessDesign(DnacBase):
         )
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
+
+    def verify_delete_rrm_general_requirement(self, rrm_general_list):
+        """
+        Determines which RRM General configuration templates need to be deleted
+        based on the requested parameters.
+        Args:
+            rrm_general_list (list): A list of dicts containing the requested RRM General
+                                    configuration parameters for deletion.
+                                    Example: [{"design_name": "rrm_general_design"}]
+        Returns:
+            list: A list of RRM General configuration templates scheduled for deletion,
+                including their IDs.
+        """
+        delete_list = []
+
+        self.log("Starting verification of RRM General configurations for deletion.", "INFO")
+
+        # Retrieve all existing RRM General configurations
+        existing_blocks = self.get_rrm_general_profiles()
+        instances = []
+        for block in existing_blocks:
+            instances.extend(block.get("instances", []))
+
+        self.log("Existing RRM General configurations: {0}".format(instances), "DEBUG")
+
+        # Convert existing instances into a dictionary for quick lookup
+        existing_dict = {cfg["designName"]: cfg for cfg in instances}
+        self.log("Converted existing RRM General configs to dictionary.", "DEBUG")
+
+        # Iterate over requested configurations
+        for index, requested_cfg in enumerate(rrm_general_list, start=1):
+            design_name = requested_cfg.get("design_name")
+            self.log(
+                "Iteration {0}: Checking RRM General config '{1}' for deletion.".format(
+                    index, design_name
+                ),
+                "DEBUG",
+            )
+
+            if design_name in existing_dict:
+                existing = existing_dict[design_name]
+                cfg_to_delete = requested_cfg.copy()
+                cfg_to_delete["id"] = existing.get("id")
+                delete_list.append(cfg_to_delete)
+                self.log(
+                    "Iteration {0}: RRM General config '{1}' scheduled for deletion.".format(
+                        index, design_name
+                    ),
+                    "INFO",
+                )
+            else:
+                self.log(
+                    "Iteration {0}: RRM General config '{1}' not found -> no deletion required.".format(
+                        index, design_name
+                    ),
+                    "INFO",
+                )
+
+        self.log(
+            "RRM General configurations scheduled for deletion: {0} - {1}".format(
+                len(delete_list), delete_list
+            ),
+            "DEBUG",
+        )
+
+        return delete_list
+
+    def verify_create_update_rrm_general_requirement(self, rrm_general_list):
+        """
+        Validates and compares desired RRM General profiles against existing ones and determines
+        which need to be created, updated, or left unchanged.
+        Args:
+            rrm_general_list (list): A list of dicts containing the desired RRM General configuration
+                                    parameters for creation or update.
+                                    Example: [{"design_name": "rrm_general_design", "feature_attributes": {...}, "unlocked_attributes": [...]}]
+        Returns:
+            tuple: Three lists containing RRM General configurations to be created, updated, and not updated:
+            - add_list (list): Payloads for new RRM General configurations to create
+            - update_list (list): Payloads for existing RRM General configurations to update (includes "id" field)
+            - no_update_list (list): Existing RRM General configurations that require no changes
+        """
+        add_list, update_list, no_update_list = [], [], []
+
+        self.log("Starting verification of RRM General configurations (Add/Update).", "INFO")
+
+        # --- Inline universal normalizer/validator ---
+        def normalize_value(value, value_type="str", choices=None, min_val=None, max_val=None):
+            """
+            value_type: "str", "enum", "bool", "int"
+            - enum: returns UPPERCASE string and validates against choices (if provided)
+            - bool: accepts bool or "true"/"false" strings
+            - int : casts to int and validates range if min/max provided
+            """
+            if value is None:
+                return None
+
+            if value_type == "bool":
+                if isinstance(value, bool):
+                    return value
+                if isinstance(value, str) and value.lower() in ("true", "false"):
+                    return value.lower() == "true"
+                return value
+
+            if value_type == "int":
+                try:
+                    v = int(value)
+                    if min_val is not None and v < min_val:
+                        raise ValueError("Value {0} below min {1}".format(v, min_val))
+                    if max_val is not None and v > max_val:
+                        raise ValueError("Value {0} above max {1}".format(v, max_val))
+                    return v
+                except Exception:
+                    return value
+
+            if value_type == "enum":
+                v = str(value).upper()
+                if choices and v not in choices:
+                    raise ValueError("Invalid enum value '{0}'. Allowed: {1}".format(v, sorted(list(choices))))
+                return v
+
+            # default: string normalization
+            return str(value)
+
+        # --- Constants / choices ---
+        allowed_bands = {"2_4GHZ", "5GHZ", "6GHZ"}
+        allowed_monitoring = {
+            "MONITORING_CHANNELS_ALL",
+            "MONITORING_CHANNELS_COUNTRY",
+            "MONITORING_CHANNELS_DCA",
+        }
+        allowed_neighbor = {
+            "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT",
+            "NEIGHBOR_DISCOVER_TYPE_PROTECTED",
+        }
+        thr_min, thr_max = 1000, 10_000_000
+
+        # snake -> camel map for unlocked attributes
+        unlock_map = {
+            "radio_band": "radioBand",
+            "monitoring_channels": "monitoringChannels",
+            "neighbor_discover_type": "neighborDiscoverType",
+            "throughput_threshold": "throughputThreshold",
+            "coverage_hole_detection": "coverageHoleDetection",
+        }
+
+        # Fetch existing summaries and flatten
+        existing_blocks = self.get_rrm_general_profiles()
+        instances = []
+        for block in (existing_blocks or []):
+            instances.extend(block.get("instances", []) or [])
+        self.log("Existing RRM General profiles: {0}".format(instances), "DEBUG")
+
+        existing_dict = {inst["designName"]: inst for inst in instances}
+        self.log("Converted existing RRM General configs to dictionary.", "DEBUG")
+
+        for index, requested_cfg in enumerate(rrm_general_list or [], start=1):
+            design_name = requested_cfg.get("design_name")
+            fa_req = requested_cfg.get("feature_attributes") or {}
+            unl_req = requested_cfg.get("unlocked_attributes") or []
+
+            self.log("Iteration {0}: Checking RRM General config '{1}'.".format(index, design_name), "DEBUG")
+
+            # --- VALIDATION (input, snake_case) + normalization ---
+            try:
+                radio_band = normalize_value(fa_req.get("radio_band"), "enum", choices=allowed_bands)
+            except ValueError as e:
+                self.msg = "Invalid radio_band for design '{0}': {1}".format(design_name, e)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            monitoring_channels = None
+            if "monitoring_channels" in fa_req and fa_req.get("monitoring_channels") is not None:
+                try:
+                    monitoring_channels = normalize_value(
+                        fa_req.get("monitoring_channels"), "enum", choices=allowed_monitoring
+                    )
+                except ValueError as e:
+                    self.msg = "Invalid monitoring_channels for design '{0}': {1}".format(design_name, e)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            neighbor_discover_type = None
+            if "neighbor_discover_type" in fa_req and fa_req.get("neighbor_discover_type") is not None:
+                try:
+                    neighbor_discover_type = normalize_value(
+                        fa_req.get("neighbor_discover_type"), "enum", choices=allowed_neighbor
+                    )
+                except ValueError as e:
+                    self.msg = "Invalid neighbor_discover_type for design '{0}': {1}".format(design_name, e)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            throughput_threshold = None
+            if "throughput_threshold" in fa_req and fa_req.get("throughput_threshold") is not None:
+                tt = normalize_value(fa_req.get("throughput_threshold"), "int", min_val=thr_min, max_val=thr_max)
+                if not isinstance(tt, int):
+                    self.msg = ("throughput_threshold must be integer within [{0}..{1}] for design '{2}', got '{3}'"
+                                .format(thr_min, thr_max, design_name, fa_req.get("throughput_threshold")))
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                throughput_threshold = tt
+
+            coverage_hole_detection = None
+            if "coverage_hole_detection" in fa_req and fa_req.get("coverage_hole_detection") is not None:
+                chd = normalize_value(fa_req.get("coverage_hole_detection"), "bool")
+                if not isinstance(chd, bool):
+                    self.msg = ("coverage_hole_detection must be boolean for design '{0}', got '{1}'"
+                                .format(design_name, fa_req.get("coverage_hole_detection")))
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                coverage_hole_detection = chd
+
+            # Info-only constraint: 2_4GHZ support requires IOS-XE >= 17.9.1 (cannot verify here)
+            if radio_band == "2_4GHZ":
+                self.log("Note: radio_band=2_4GHZ requires IOS-XE >= 17.9.1.", "DEBUG")
+
+            # Validate unlocked attributes reference only feature attributes (snake case on input)
+            if unl_req:
+                allowed_unlock_snake = set(unlock_map.keys())
+                bad = [u for u in unl_req if u not in allowed_unlock_snake]
+                if bad:
+                    self.msg = ("Unlocked attributes {0} are invalid for design '{1}'. "
+                                "Allowed: {2}").format(bad, design_name, sorted(allowed_unlock_snake))
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            # --- Build controller payload (camelCase) ---
+            fa_payload = {"radioBand": radio_band}
+            if monitoring_channels is not None:
+                fa_payload["monitoringChannels"] = monitoring_channels
+            if neighbor_discover_type is not None:
+                fa_payload["neighborDiscoverType"] = neighbor_discover_type
+            if throughput_threshold is not None:
+                fa_payload["throughputThreshold"] = throughput_threshold
+            if coverage_hole_detection is not None:
+                fa_payload["coverageHoleDetection"] = coverage_hole_detection
+
+            payload = {
+                "designName": design_name,
+                "featureAttributes": fa_payload,
+            }
+
+            if unl_req:
+                payload["unlockedAttributes"] = [unlock_map[u] for u in unl_req]
+
+            # --- Compare against existing ---
+            existing = existing_dict.get(design_name)
+            if not existing:
+                add_list.append(payload)
+                self.log("RRM General '{0}' scheduled for ADD.".format(design_name), "INFO")
+                continue
+
+            # Prefer detailed fetch if available
+            details = {}
+            try:
+                details = self.get_rrm_general_profile_details(existing.get("id")) or {}
+            except Exception:
+                details = existing  # fallback to summary if detail API not available
+
+            existing_fa = (details.get("featureAttributes") or existing.get("featureAttributes") or {})
+            existing_unl = (details.get("unlockedAttributes") or existing.get("unlockedAttributes") or [])
+
+            # normalize enums for fair compare
+            def U(v):
+                return str(v).upper() if isinstance(v, str) else v
+
+            needs_update = (
+                U(existing_fa.get("radioBand")) != U(fa_payload.get("radioBand")) or
+                U(existing_fa.get("monitoringChannels")) != U(fa_payload.get("monitoringChannels")) or
+                U(existing_fa.get("neighborDiscoverType")) != U(fa_payload.get("neighborDiscoverType")) or
+                normalize_value(existing_fa.get("throughputThreshold"), "int")
+                != normalize_value(fa_payload.get("throughputThreshold"), "int") or
+                normalize_value(existing_fa.get("coverageHoleDetection"), "bool")
+                != normalize_value(fa_payload.get("coverageHoleDetection"), "bool") or
+                set(existing_unl) != set(payload.get("unlockedAttributes", []))
+            )
+
+            if needs_update:
+                payload["id"] = existing.get("id")
+                update_list.append(payload)
+                self.log("RRM General '{0}' scheduled for UPDATE.".format(design_name), "INFO")
+            else:
+                no_update_list.append(details or existing)
+                self.log("RRM General '{0}' -> NO CHANGE.".format(design_name), "INFO")
+
+        self.log(
+            "RRM General - Add: {0}, Update: {1}, No-Change: {2}".format(
+                len(add_list), len(update_list), len(no_update_list)
+            ),
+            "DEBUG",
+        )
+        return add_list, update_list, no_update_list
+
+    def get_rrm_general_profile_details(self, template_id):
+        """
+        Retrieve detailed information for a specific RRM General configuration template from Cisco Catalyst Center.
+        Args:
+            template_id (str): The unique ID of the RRM General feature template.
+        Returns:
+            dict: The details of the RRM General feature template, or {} if fetch fails.
+        """
+        self.log("Fetching RRM General configuration details for template_id='{0}'".format(template_id), "DEBUG")
+
+        try:
+            if not template_id:
+                self.log("No template_id provided for RRM General details.", "ERROR")
+                return {}
+
+            response = self.execute_get_request(
+                "wireless",
+                "get_r_r_m_general_configuration_feature_template",
+                {"id": template_id}
+            )
+            self.log("Received API response: {0}".format(response), "DEBUG")
+
+            details = response.get("response") or {}
+            return details
+
+        except Exception as e:
+            self.log("Failed to fetch RRM General configuration details for template_id={0}: {1}".format(template_id, str(e)), "ERROR")
+            return {}
+
+    def get_rrm_general_profiles(self, design_name=None, template_type="RRM_GENERAL_CONFIGURATION"):
+        """
+        Retrieve existing RRM General feature templates from Cisco Catalyst Center.
+        Args:
+            design_name (str, optional): Specific feature template design name to filter by.
+            template_type (str, optional): DNAC template type identifier.
+                                        Defaults to "RRM_GENERAL_CONFIGURATION".
+        Returns:
+            list: A list of existing RRM General template dicts (the API 'response' list), or [] on failure.
+        """
+        self.log("Fetching existing RRM General Templates from DNAC.", "DEBUG")
+
+        try:
+            params = {"type": template_type}
+            if design_name:
+                params["design_name"] = design_name
+
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
+            )
+            self.log("Received API response: {0}".format(response), "DEBUG")
+
+            existing_rrm_general = response.get("response", [])
+            self.log(
+                "Retrieved {0} RRM General Templates.".format(len(existing_rrm_general)),
+                "DEBUG",
+            )
+            return existing_rrm_general
+
+        except Exception as e:
+            self.log("Failed to fetch RRM General Templates: {0}".format(str(e)), "ERROR")
+            return []
+
+    def verify_delete_rrm_fra_requirement(self, rrm_fra_list):
+        """
+        Determines which RRM-FRA configuration templates need to be deleted
+        based on the requested parameters.
+        Args:
+            rrm_fra_list (list): A list of dicts containing the requested RRM-FRA
+                                configuration parameters for deletion.
+                                Example: [{"design_name": "fra_design_1"}]
+        Returns:
+            list: A list of RRM-FRA configuration templates scheduled for deletion,
+                including their IDs.
+        """
+        delete_list = []
+
+        self.log("Starting verification of RRM-FRA configurations for deletion.", "INFO")
+
+        # Retrieve all existing RRM-FRA configurations
+        existing_blocks = self.get_rrm_fra_profiles()
+        instances = []
+        for block in existing_blocks:
+            instances.extend(block.get("instances", []))
+
+        self.log("Existing RRM-FRA configurations: {0}".format(instances), "DEBUG")
+
+        # Convert existing instances into a dictionary for quick lookup
+        existing_dict = {cfg.get("designName"): cfg for cfg in instances if cfg.get("designName")}
+        self.log("Converted existing RRM-FRA configs to dictionary.", "DEBUG")
+
+        # Iterate over requested configurations
+        for index, requested_cfg in enumerate(rrm_fra_list, start=1):
+            design_name = requested_cfg.get("design_name")
+            self.log(
+                "Iteration {0}: Checking RRM-FRA config '{1}' for deletion.".format(
+                    index, design_name
+                ),
+                "DEBUG",
+            )
+
+            if design_name in existing_dict:
+                existing = existing_dict[design_name]
+                cfg_to_delete = requested_cfg.copy()
+                cfg_to_delete["id"] = existing.get("id")
+                delete_list.append(cfg_to_delete)
+                self.log(
+                    "Iteration {0}: RRM-FRA config '{1}' scheduled for deletion.".format(
+                        index, design_name
+                    ),
+                    "INFO",
+                )
+            else:
+                self.log(
+                    "Iteration {0}: RRM-FRA config '{1}' not found -> no deletion required.".format(
+                        index, design_name
+                    ),
+                    "INFO",
+                )
+
+        self.log(
+            "RRM-FRA configurations scheduled for deletion: {0} - {1}".format(
+                len(delete_list), delete_list
+            ),
+            "DEBUG",
+        )
+
+        return delete_list
+
+    def verify_create_update_rrm_fra_requirement(self, rrm_fra_list):
+        """
+        Compares desired RRM-FRA profiles against existing ones and determines
+        which need to be created, updated, or left unchanged.
+        Args:
+            rrm_fra_list (list): A list of dicts containing the desired RRM-FRA configuration
+                                parameters for creation or update.
+                                Example: [{"design_name": "fra_design_1", "feature_attributes": {...}}]
+        Returns:
+            tuple: Three lists containing RRM-FRA configurations to be created, updated, and not updated:
+            - add_list (list): Payloads for new RRM-FRA configurations to create
+            - update_list (list): Payloads for existing RRM-FRA configurations to update (includes "id" field)
+            - no_update_list (list): Existing RRM-FRA configurations that require no changes
+        """
+        add_list, update_list, no_update_list = [], [], []
+
+        existing_blocks = self.get_rrm_fra_profiles()
+        self.log("Existing RRM-FRA Profiles (summary): {0}".format(existing_blocks), "DEBUG")
+
+        existing_dict = {}
+        for block in (existing_blocks or []):
+            for inst in block.get("instances", []) or []:
+                design_name = inst.get("designName")
+                if design_name:
+                    existing_dict[design_name] = inst
+        self.log("Existing RRM-FRA Profiles Dict: {0}".format(existing_dict), "DEBUG")
+
+        # Allowed values
+        allowed_bands = ["2_4GHZ_5GHZ", "5GHZ_6GHZ"]
+        allowed_sensitivity = ["LOW", "MEDIUM", "HIGH", "HIGHER", "EVEN_HIGHER", "SUPER_HIGH"]
+        advanced_sensitivity = {"HIGHER", "EVEN_HIGHER", "SUPER_HIGH"}
+
+        for attr in (rrm_fra_list or []):
+            design_name = attr.get("design_name")
+            fa = attr.get("feature_attributes") or {}
+            unlocked = attr.get("unlocked_attributes", [])
+
+            # fail early if design_name missing
+            if not design_name:
+                self.msg = "Missing design_name in RRM-FRA item: {0}".format(attr)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            radio_band = fa.get("radio_band")
+            fra_freeze = fa.get("fra_freeze")
+            fra_status = fa.get("fra_status")
+            fra_interval = fa.get("fra_interval")
+            fra_sensitivity = fa.get("fra_sensitivity")
+
+            # --- Validations (no external modules) ---
+            if radio_band not in allowed_bands:
+                self.msg = "Invalid radio_band '{0}' for design '{1}'. Must be one of: {2}".format(
+                    radio_band, design_name, allowed_bands
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            if fra_interval is not None:
+                try:
+                    val = int(fra_interval)
+                except Exception:
+                    self.msg = "fra_interval must be an integer for design '{0}'.".format(design_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                if not (1 <= val <= 24):
+                    self.msg = "fra_interval must be between 1 and 24 for design '{0}'.".format(design_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            if fra_sensitivity is not None:
+                if fra_sensitivity not in allowed_sensitivity:
+                    self.msg = "Invalid fra_sensitivity '{0}' for design '{1}'. Must be one of: {2}".format(
+                        fra_sensitivity, design_name, allowed_sensitivity
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                # Advanced sensitivity only valid for 2_4GHZ_5GHZ
+                if (fra_sensitivity in advanced_sensitivity) and (radio_band != "2_4GHZ_5GHZ"):
+                    self.msg = ("fra_sensitivity '{0}' is supported only for radio_band=2_4GHZ_5GHZ "
+                                "for design '{1}'.").format(fra_sensitivity, design_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            # Note: fra_freeze controller-version constraints cannot be validated here; log hint only.
+            if fra_freeze is not None:
+                if radio_band == "2_4GHZ_5GHZ":
+                    self.log("Notice: fra_freeze requires controller >= 17.6 for 2_4GHZ_5GHZ.", "DEBUG")
+                elif radio_band == "5GHZ_6GHZ":
+                    self.log("Notice: fra_freeze requires controller >= 17.9 for 5GHZ_6GHZ.", "DEBUG")
+
+            # Build desired payload (camelCase for controller)
+            payload = {
+                "designName": design_name,
+                "featureAttributes": {
+                    "radioBand": radio_band
+                }
+            }
+
+            # Use a mapping and loop to set optional attributes only when provided
+            fa_attr_map = {
+                "fraFreeze": fra_freeze,
+                "fraStatus": fra_status,
+                # store fraInterval as int if provided (we validated above)
+                "fraInterval": int(fra_interval) if fra_interval is not None else None,
+                "fraSensitivity": fra_sensitivity,
+            }
+            for key, value in fa_attr_map.items():
+                if value is not None:
+                    payload["featureAttributes"][key] = value
+
+            # Normalize unlocked attributes to controller keys using a mapping + comprehension
+            if unlocked:
+                unlock_map = {
+                    "radio_band": "radioBand",
+                    "fra_freeze": "fraFreeze",
+                    "fra_status": "fraStatus",
+                    "fra_interval": "fraInterval",
+                    "fra_sensitivity": "fraSensitivity",
+                }
+                norm_unlocked = [unlock_map.get(u, u) for u in unlocked]
+                payload["unlockedAttributes"] = norm_unlocked
+
+            # Compare against existing
+            existing = existing_dict.get(design_name)
+            if not existing:
+                add_list.append(payload)
+                self.log("RRM-FRA profile '{0}' scheduled for creation.".format(design_name), "DEBUG")
+                continue
+
+            details = self.get_rrm_fra_profile_details(existing["id"]) or {}
+            self.log("Existing details for '{0}': {1}".format(design_name, details), "DEBUG")
+
+            existing_fa = (details.get("featureAttributes") or {})
+            existing_unl = (details.get("unlockedAttributes") or [])
+
+            desired_fa = payload["featureAttributes"]
+            desired_unl = payload.get("unlockedAttributes", [])
+
+            # Make comparisons type-consistent: ensure fraInterval compared as int and sensitivity compared case-insensitive
+            existing_interval = existing_fa.get("fraInterval")
+            desired_interval = desired_fa.get("fraInterval")
+
+            existing_sens = str(existing_fa.get("fraSensitivity") or "").upper()
+            desired_sens = str(desired_fa.get("fraSensitivity") or "").upper()
+
+            needs_update = (
+                existing_fa.get("radioBand") != desired_fa.get("radioBand") or
+                existing_fa.get("fraFreeze") != desired_fa.get("fraFreeze") or
+                existing_fa.get("fraStatus") != desired_fa.get("fraStatus") or
+                (existing_interval != desired_interval) or
+                (existing_sens != desired_sens) or
+                (set(existing_unl) != set(desired_unl))
+            )
+
+            if needs_update:
+                payload["id"] = existing["id"]
+                update_list.append(payload)
+                self.log("RRM-FRA profile '{0}' marked for update.".format(design_name), "DEBUG")
+            else:
+                no_update_list.append(details)
+                self.log("RRM-FRA profile '{0}' requires no update.".format(design_name), "DEBUG")
+
+        self.log(
+            "RRM-FRA - Add: {0}, Update: {1}, No-Change: {2}".format(
+                len(add_list), len(update_list), len(no_update_list)
+            ),
+            "DEBUG",
+        )
+        return add_list, update_list, no_update_list
+
+    def get_rrm_fra_profiles(self, design_name=None, template_type="RRM_FRA_CONFIGURATION"):
+        """
+        Retrieve existing RRM-FRA feature templates from Cisco Catalyst Center.
+        Args:
+            design_name (str, optional): Specific feature template design name to filter by.
+            template_type (str, optional): Defaults to "RRM_FRA_CONFIGURATION".
+        Returns:
+            list: A list of RRM-FRA template dicts (the API 'response' list), or [] on failure.
+        """
+        self.log("Fetching existing RRM-FRA Templates from DNAC.", "DEBUG")
+
+        try:
+            params = {"type": template_type}
+            if design_name:
+                params["design_name"] = design_name
+
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
+            )
+            self.log("Received API response: {0}".format(response), "DEBUG")
+            existing_fra = response.get("response", [])
+            self.log("Retrieved {0} RRM-FRA Templates.".format(len(existing_fra)), "DEBUG")
+            return existing_fra
+
+        except Exception as e:
+            self.log("Failed to fetch RRM-FRA Templates: {0}".format(str(e)), "ERROR")
+            return []
+
+    def get_rrm_fra_profile_details(self, template_id):
+        """
+        Retrieve detailed information for a specific RRM-FRA configuration template from Cisco Catalyst Center.
+        Args:
+            template_id (str): The unique ID of the RRM-FRA feature template.
+        Returns:
+            dict: The details of the RRM-FRA feature template, or {} if fetch fails.
+        """
+        self.log("Fetching RRM-FRA configuration details for template_id='{0}'".format(template_id), "DEBUG")
+
+        try:
+            if not template_id:
+                self.log("No template_id provided for RRM-FRA details.", "ERROR")
+                return {}
+
+            response = self.execute_get_request(
+                "wireless",
+                "get_r_r_m_f_r_a_configuration_feature_template",
+                {"id": template_id}
+            )
+            self.log("Received API response: {0}".format(response), "DEBUG")
+            details = response.get("response") or {}
+            return details
+
+        except Exception as e:
+            self.log("Failed to fetch RRM-FRA configuration details for template_id={0}: {1}".format(template_id, str(e)), "ERROR")
+            return {}
+
+    def verify_delete_multicast_requirement(self, multicast_list):
+        """
+        Determines which multicast configuration templates need to be deleted
+        based on the requested parameters.
+        Args:
+            multicast_list (list): A list of dicts containing the requested multicast
+                                configuration parameters for deletion.
+                                Example: [{"design_name": "multicast_office_profile"}]
+        Returns:
+            list: A list of multicast configuration templates scheduled for deletion,
+                including their IDs.
+        """
+        delete_list = []
+
+        self.log("Starting verification of multicast configurations for deletion.", "INFO")
+
+        # Retrieve all existing multicast configurations
+        existing_blocks = self.get_multicast_profiles()
+        instances = []
+        for block in existing_blocks:
+            instances.extend(block.get("instances", []))
+
+        self.log("Existing multicast configurations: {0}".format(instances), "DEBUG")
+
+        # Convert existing instances into a dictionary for quick lookup
+        existing_dict = {cfg["designName"]: cfg for cfg in instances}
+        self.log("Converted existing multicast configs to dictionary.", "DEBUG")
+
+        # Iterate over requested configurations
+        for index, requested_cfg in enumerate(multicast_list, start=1):
+            design_name = requested_cfg.get("design_name")
+            self.log(
+                "Iteration {0}: Checking multicast config '{1}' for deletion.".format(
+                    index, design_name
+                ),
+                "DEBUG",
+            )
+
+            if design_name in existing_dict:
+                existing = existing_dict[design_name]
+                cfg_to_delete = requested_cfg.copy()
+                cfg_to_delete["id"] = existing.get("id")
+                delete_list.append(cfg_to_delete)
+                self.log(
+                    "Iteration {0}: multicast config '{1}' scheduled for deletion.".format(
+                        index, design_name
+                    ),
+                    "INFO",
+                )
+            else:
+                self.log(
+                    "Iteration {0}: multicast config '{1}' not found -> no deletion required.".format(
+                        index, design_name
+                    ),
+                    "INFO",
+                )
+
+        self.log(
+            "multicast configurations scheduled for deletion: {0} - {1}".format(
+                len(delete_list), delete_list
+            ),
+            "DEBUG",
+        )
+
+        return delete_list
+
+    def verify_create_update_multicast_requirement(self, multicast_list):
+        """
+        Compares desired Multicast profiles against existing ones and determines
+        which need to be created, updated, or left unchanged.
+        Args:
+            multicast_list (list): A list of dictionaries representing desired Multicast profiles.
+                Each dictionary should include:
+                    - design_name (str): The unique design/profile name.
+                    - feature_attributes (dict): The configuration attributes for the profile.
+                    - unlocked_attributes (list, optional): List of attribute names to unlock for editing.
+        Returns:
+            tuple: Three lists containing Multicast configurations to be created, updated, and not updated:
+                - add_list (list): Payloads for new Multicast configurations to create
+                - update_list (list): Payloads for existing Multicast configurations to update (includes "id" field)
+                - no_update_list (list): Existing Multicast configurations that require no changes
+        """
+        add_list, update_list, no_update_list = [], [], []
+
+        # Fetch once
+        existing_blocks = self.get_multicast_profiles()
+        self.log("Existing Multicast Profiles: {0}".format(existing_blocks), "DEBUG")
+
+        # Flatten instances into dict
+        existing_dict = {}
+        for block in existing_blocks or []:
+            for inst in block.get("instances", []) or []:
+                design = inst.get("designName")
+                if design:
+                    existing_dict[design] = inst
+        self.log("Existing Multicast Profiles Dict: {0}".format(existing_dict), "DEBUG")
+
+        allowed_ipv4_modes = ["UNICAST", "MULTICAST"]
+        allowed_ipv6_modes = ["UNICAST", "MULTICAST"]
+
+        # mapping for unlocked attribute normalization
+        unlock_map = {
+            "global_multicast_enabled": "globalMulticastEnabled",
+            "multicast_ipv4_mode": "multicastIpv4Mode",
+            "multicast_ipv4_address": "multicastIpv4Address",
+            "multicast_ipv6_mode": "multicastIpv6Mode",
+            "multicast_ipv6_address": "multicastIpv6Address",
+        }
+
+        # iterate requested attributes
+        for attr in multicast_list or []:
+            design_name = attr.get("design_name")
+            feature_attrs = attr.get("feature_attributes") or {}
+            unlocked_attributes = attr.get("unlocked_attributes", [])
+
+            global_multicast_enabled = feature_attrs.get("global_multicast_enabled")
+            ipv4_mode = feature_attrs.get("multicast_ipv4_mode")
+            ipv4_address = feature_attrs.get("multicast_ipv4_address")
+            ipv6_mode = feature_attrs.get("multicast_ipv6_mode")
+            ipv6_address = feature_attrs.get("multicast_ipv6_address")
+
+            # --- Validation ---
+            if ipv4_mode and ipv4_mode not in allowed_ipv4_modes:
+                self.msg = (
+                    "Invalid multicastIpv4Mode '{0}' for design '{1}'. Must be one of: {2}"
+                    .format(ipv4_mode, design_name, allowed_ipv4_modes)
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            if ipv6_mode and ipv6_mode not in allowed_ipv6_modes:
+                self.msg = (
+                    "Invalid multicastIpv6Mode '{0}' for design '{1}'. Must be one of: {2}"
+                    .format(ipv6_mode, design_name, allowed_ipv6_modes)
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            # IPv4 validation (basic numeric check, only if MULTICAST)
+            if ipv4_mode == "MULTICAST" and ipv4_address:
+                try:
+                    parts = [int(p) for p in ipv4_address.split(".")]
+                    if len(parts) != 4 or any(p < 0 or p > 255 for p in parts):
+                        raise ValueError
+                    if not (224 <= parts[0] <= 239):
+                        raise ValueError
+                except Exception:
+                    self.msg = (
+                        "Invalid multicastIpv4Address '{0}' for design '{1}'. "
+                        "Must be in range 224.0.0.0–239.255.255.255."
+                    ).format(ipv4_address, design_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            # IPv6 validation (prefix check, only if MULTICAST)
+            if ipv6_mode == "MULTICAST" and ipv6_address:
+                addr_up = ipv6_address.upper()
+                # must start with FF
+                if not addr_up.startswith("FF") or len(addr_up) < 4:
+                    self.msg = (
+                        "Invalid multicastIpv6Address '{0}' for design '{1}'. "
+                        "Must start with FF[0 or 1][1,2,3,4,5,8,E]."
+                    ).format(ipv6_address, design_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                else:
+                    second = addr_up[2]
+                    third = addr_up[3]
+                    if second not in ("0", "1") or third not in ("1", "2", "3", "4", "5", "8", "E"):
+                        self.msg = (
+                            "Invalid multicastIpv6Address '{0}' for design '{1}'. "
+                            "Must start with FF[0 or 1][1,2,3,4,5,8,E]."
+                        ).format(ipv6_address, design_name)
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            # --- Build payload ---
+            payload = {
+                "designName": design_name,
+                "featureAttributes": {
+                    "globalMulticastEnabled": global_multicast_enabled,
+                },
+            }
+
+            # use a small mapping to set optional attrs concisely
+            feature_map = {
+                "multicastIpv4Mode": ipv4_mode,
+                "multicastIpv4Address": ipv4_address,
+                "multicastIpv6Mode": ipv6_mode,
+                "multicastIpv6Address": ipv6_address,
+            }
+            for k, v in feature_map.items():
+                if v is not None:
+                    payload["featureAttributes"][k] = v
+
+            # normalize unlocked attributes using mapping (fallback to original key)
+            if unlocked_attributes:
+                normalized_unlocked = [unlock_map.get(u, u) for u in unlocked_attributes]
+                payload["unlockedAttributes"] = normalized_unlocked
+
+            # --- Compare with existing ---
+            existing = existing_dict.get(design_name)
+            if not existing:
+                add_list.append(payload)
+                self.log("Multicast profile '{0}' scheduled for creation.".format(design_name), "DEBUG")
+                continue
+
+            details = self.get_multicast_profile_details(existing["id"]) or {}
+            self.log("Details for {0}: {1}".format(design_name, details), "DEBUG")
+
+            existing_attrs = details.get("featureAttributes", {}) or {}
+            existing_unlocked = details.get("unlockedAttributes", []) or []
+
+            desired_attrs = payload.get("featureAttributes", {}) or {}
+            desired_unlocked = payload.get("unlockedAttributes", []) or []
+
+            if (
+                existing_attrs.get("globalMulticastEnabled") != desired_attrs.get("globalMulticastEnabled")
+                or existing_attrs.get("multicastIpv4Mode") != desired_attrs.get("multicastIpv4Mode")
+                or existing_attrs.get("multicastIpv4Address") != desired_attrs.get("multicastIpv4Address")
+                or existing_attrs.get("multicastIpv6Mode") != desired_attrs.get("multicastIpv6Mode")
+                or existing_attrs.get("multicastIpv6Address") != desired_attrs.get("multicastIpv6Address")
+                or set(existing_unlocked) != set(desired_unlocked)
+            ):
+                payload["id"] = existing["id"]
+                update_list.append(payload)
+                self.log("Multicast profile '{0}' marked for update.".format(design_name), "DEBUG")
+            else:
+                no_update_list.append(details)
+                self.log("Multicast profile '{0}' requires no update.".format(design_name), "DEBUG")
+
+        # final summary log and return (ensure return is after loop)
+        self.log(
+            "Multicast Profiles - Add: {0}, Update: {1}, No Changes: {2}".format(
+                len(add_list), len(update_list), len(no_update_list)
+            ),
+            "DEBUG",
+        )
+
+        return add_list, update_list, no_update_list
+
+    def get_multicast_profiles(self, design_name=None, template_type="MULTICAST_CONFIGURATION"):
+        """
+        Retrieve existing Multicast feature templates from Cisco Catalyst Center.
+        Args:
+            design_name (str, optional): Specific feature template design name to filter by.
+            template_type (str, optional): Feature template type string used by DNAC.
+                                        Defaults to "MULTICAST_CONFIGURATION".
+        Returns:
+            list: A list of existing Multicast template dicts (the API 'response' list), or [] on failure.
+        """
+        self.log("Fetching existing Multicast Templates from DNAC.", "DEBUG")
+
+        try:
+            params = {"type": template_type}
+            if design_name:
+                params["design_name"] = design_name
+
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
+            )
+            self.log("Received API response: {0}".format(response), "DEBUG")
+            existing_multicast = response.get("response", [])
+            self.log(
+                "Retrieved {0} Multicast Templates.".format(len(existing_multicast)),
+                "DEBUG",
+            )
+            return existing_multicast
+
+        except Exception as e:
+            self.log("Failed to fetch Multicast Templates: {0}".format(str(e)), "ERROR")
+            return []
+
+    def get_multicast_profile_details(self, template_id):
+        """
+        Retrieve detailed information for a specific Multicast configuration template from Cisco Catalyst Center.
+        Args:
+            template_id (str): The unique ID of the multicast feature template.
+        Returns:
+            dict: The details of the multicast feature template, or {} if fetch fails.
+        """
+        self.log("Fetching multicast configuration details for template_id='{0}'".format(template_id), "DEBUG")
+
+        try:
+            if not template_id:
+                self.log("No template_id provided for multicast details.", "ERROR")
+                return {}
+
+            response = self.execute_get_request(
+                "wireless",
+                "get_multicast_configuration_feature_template",
+                {"id": template_id}
+            )
+            self.log("Received API response: {0}".format(response), "DEBUG")
+
+            details = response.get("response") or {}
+            return details
+
+        except Exception as e:
+            self.log("Failed to fetch multicast configuration details for template_id='{0}': {1}".format(template_id, str(e)), "ERROR")
+            return {}
+
+    def verify_delete_flexconnect_requirement(self, flex_list):
+        """
+        Build payloads (with id) for FlexConnect templates to delete.
+        Args:
+            flex_list (list): A list of dicts containing the requested FlexConnect
+                         configuration parameters for deletion.
+                         Example: [{"design_name": "flex_design_1"}]
+        Returns:
+            list: A list of FlexConnect configuration templates scheduled for deletion,including their IDs.
+        """
+        delete_list = []
+        skipped = []
+
+        existing_blocks = self.get_flexconnect_profiles() or []
+        instances = []
+        for block in existing_blocks:
+            instances.extend(block.get("instances", []) or [])
+        existing_by_name = {i.get("designName"): i for i in instances if i.get("designName")}
+
+        for idx, req in enumerate(flex_list or [], start=1):
+            dn = req.get("design_name")
+            if not dn:
+                skipped.append(idx)
+                self.log("Iteration {0}: Missing 'design_name' in delete entry. Skipping.".format(idx), "ERROR")
+                continue
+            if dn in existing_by_name:
+                got = dict(req)
+                got["id"] = existing_by_name[dn].get("id")
+                delete_list.append(got)
+                self.log("Iteration {0}: FlexConnect '{1}' -> DELETE".format(idx, dn), "INFO")
+            else:
+                self.log("Iteration {0}: FlexConnect '{1}' not found -> skip".format(idx, dn), "INFO")
+
+        self.log("FlexConnect scheduled for delete: {0}".format(delete_list), "DEBUG")
+        if skipped:
+            self.log("FlexConnect entries skipped due to missing design_name: {0}".format(skipped), "WARNING")
+        return delete_list
+
+    def verify_create_update_flexconnect_requirement(self, flex_list):
+        """
+        Build payloads to create/update FlexConnect feature templates.
+        Args:
+            flex_list (list): A list of dicts containing desired FlexConnect parameters.
+            Each dict should include:
+                - design_name (str): The unique design/profile name
+                - feature_attributes (dict): Configuration attributes
+                - unlocked_attributes (list, optional): Attributes to unlock for editing
+        Returns:
+            tuple: Three lists containing FlexConnect configurations to be created, updated, and not updated:
+                - add_list (list): Payloads for new FlexConnect configurations to create
+                - update_list (list): Payloads for existing FlexConnect configurations to update (includes "id" field)
+                - no_update_list (list): Existing FlexConnect configurations that require no changes
+        """
+        add_list, update_list, no_update_list = [], [], []
+
+        # Get existing (summary)
+        existing_blocks = self.get_flexconnect_profiles()
+        instances = []
+        for block in (existing_blocks or []):
+            instances.extend(block.get("instances", []) or [])
+        existing_by_name = {i["designName"]: i for i in instances if i.get("designName")}
+        self.log("Existing FlexConnect instances: {0}".format(instances), "DEBUG")
+
+        for req in flex_list or []:
+            design_name = req.get("design_name")
+            fa = req.get("feature_attributes") or {}
+            overlap_enable = fa.get("overlap_ip_enable")
+            unlocked = req.get("unlocked_attributes", []) or []
+
+            if not design_name:
+                self.msg = "FlexConnect: 'design_name' is required."
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            # Build normalized payload
+            payload = {
+                "designName": design_name,
+                "featureAttributes": {}
+            }
+            if overlap_enable is not None:
+                payload["featureAttributes"]["overlapIpEnable"] = overlap_enable
+
+            if unlocked:
+                # Only valid attribute is overlap_ip_enable -> overlapIpEnable
+                name_map = {"overlap_ip_enable": "overlapIpEnable"}
+                payload["unlockedAttributes"] = [name_map.get(u, u) for u in unlocked]
+
+            existing = existing_by_name.get(design_name)
+            if not existing:
+                add_list.append(payload)
+                self.log("FlexConnect '{0}' -> ADD".format(design_name), "DEBUG")
+                continue
+
+            # Fetch details to compare
+            details = self.get_flexconnect_profile_details(existing["id"]) or {}
+            ef = (details.get("featureAttributes") or {})
+            existing_overlap = ef.get("overlapIpEnable")
+            existing_unlocked = details.get("unlockedAttributes", []) or []
+            desired_unlocked = payload.get("unlockedAttributes", [])
+
+            needs_update = (
+                existing_overlap != overlap_enable
+                or set(existing_unlocked) != set(desired_unlocked)
+            )
+
+            if needs_update:
+                payload["id"] = existing["id"]
+                update_list.append(payload)
+                self.log("FlexConnect '{0}' -> UPDATE".format(design_name), "DEBUG")
+            else:
+                no_update_list.append(details)
+                self.log("FlexConnect '{0}' -> NO CHANGE".format(design_name), "DEBUG")
+
+        self.log(
+            "FlexConnect Add: {0}, Update: {1}, No-Change: {2}".format(
+                len(add_list), len(update_list), len(no_update_list)
+            ),
+            "DEBUG",
+        )
+        return add_list, update_list, no_update_list
+
+    def get_flexconnect_profiles(self, design_name=None, template_type="FLEX_CONFIGURATION"):
+        """
+        Summary list of FlexConnect templates (uses get_feature_template_summary with type).
+        Args:
+            design_name (str, optional): Optional design_name to filter template_type (str, optional): Template type string (default FLEX_CONFIGURATION)
+        Returns:
+            list: List of FlexConnect template dicts (API 'response' list), or [] on failure
+        """
+        self.log("Fetching FlexConnect templates (summary).", "DEBUG")
+        try:
+            params = {"type": template_type}
+            if design_name:
+                params["design_name"] = design_name
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
+            )
+            self.log("Received API response: {0}".format(response), "DEBUG")
+            return response.get("response", []) or []
+        except Exception as e:
+            self.log("Failed to fetch FlexConnect templates: {0}".format(str(e)), "ERROR")
+            return []
+
+    def get_flexconnect_profile_details(self, template_id):
+        """
+        Details of one FlexConnect template by id.
+        Args:
+            template_id (str): The unique template ID
+        Returns:
+            dict: Dict of FlexConnect template details, or {} if fetch fails
+        """
+        self.log("Fetching FlexConnect details for id='{0}'".format(template_id), "DEBUG")
+        try:
+            if not template_id:
+                self.log("No template_id provided.", "ERROR")
+                return {}
+            resp = self.execute_get_request(
+                "wireless",
+                "get_flex_connect_configuration_feature_template",
+                {"id": template_id}
+            )
+            self.log("Received API response: {0}".format(resp), "DEBUG")
+            return resp.get("response") or {}
+        except Exception as e:
+            self.log("Failed to fetch FlexConnect details: {0}".format(str(e)), "ERROR")
+            return {}
+
+    def verify_delete_dot11be_requirement(self, dot11be_list):
+        """
+        Determines which dot11be configuration templates need to be deleted
+        based on the requested parameters.
+        Args:
+            dot11be_list (list): A list of dicts containing the requested dot11be
+                                configuration parameters for deletion.
+                                Example: [{"design_name": "dot11be_2.4ghz_design"}]
+        Returns:
+            list: A list of dot11be configuration templates scheduled for deletion,
+                including their IDs.
+        """
+        delete_list = []
+
+        self.log("Starting verification of dot11be configurations for deletion.", "INFO")
+
+        # Retrieve all existing dot11be configurations
+        existing_blocks = self.get_dot11be_profiles()
+        self.log("Existing dot11be Profiles (summary): {0}".format(existing_blocks), "WARNING")
+        instances = []
+        for block in existing_blocks or []:
+            instances.extend(block.get("instances", []) or [])
+
+        self.log("Existing dot11be configurations: {0}".format(instances), "DEBUG")
+
+        # Convert existing instances into a dictionary for quick lookup
+        existing_dict = {cfg["designName"]: cfg for cfg in instances}
+        self.log("Converted existing dot11be configs to dictionary.", "DEBUG")
+
+        # Iterate over requested configurations
+        for index, requested_cfg in enumerate(dot11be_list or [], start=1):
+            design_name = requested_cfg.get("design_name")
+            self.log(
+                "Iteration {0}: Checking dot11be config '{1}' for deletion.".format(
+                    index, design_name
+                ),
+                "INFO",
+            )
+
+            if design_name in existing_dict:
+                existing = existing_dict[design_name]
+                cfg_to_delete = requested_cfg.copy()
+                cfg_to_delete["id"] = existing.get("id")
+                delete_list.append(cfg_to_delete)
+                self.log(
+                    "Iteration {0}: dot11be config '{1}' scheduled for deletion.".format(
+                        index, design_name
+                    ),
+                    "INFO",
+                )
+            else:
+                self.log(
+                    "Iteration {0}: dot11be config '{1}' not found -> no deletion required.".format(
+                        index, design_name
+                    ),
+                    "INFO",
+                )
+
+        self.log(
+            "dot11be configurations scheduled for deletion: {0} - {1}".format(
+                len(delete_list), delete_list
+            ),
+            "DEBUG",
+        )
+        self.log("dot11be configurations scheduled for deletion: {0} - {1}".format(
+            len(delete_list), delete_list
+        ), "Warning")
+
+        return delete_list
+
+    def verify_create_update_dot11be_requirement(self, dot11be_list):
+        """
+        Compares desired 802.11be profiles against existing ones and determines which need to be created, updated, or left unchanged.
+        Args:
+            dot11be_list (list): A list of dictionaries representing desired 802.11be profiles.
+                Each dictionary should include:
+                    - design_name (str): The unique design/profile name.
+                    - feature_attributes (dict): The configuration attributes for the profile.
+                    - unlocked_attributes (list, optional): List of attribute names to unlock for editing.
+        Returns:
+            tuple: Three lists containing 802.11be configurations to be created, updated, and not updated:
+                - add_list (list): Payloads for new 802.11be configurations to create
+                - update_list (list): Payloads for existing 802.11be configurations to update (includes "id" field)
+                - no_update_list (list): Existing 802.11be configurations that require no changes
+        """
+        add_list, update_list, no_update_list = [], [], []
+
+        # Fetch once
+        existing_blocks = self.get_dot11be_profiles()
+        self.log("Existing 802.11be Profiles: {0}".format(existing_blocks), "DEBUG")
+
+        # Flatten instances into dict
+        existing_dict = {}
+        for block in existing_blocks or []:
+            for inst in block.get("instances", []):
+                existing_dict[inst["designName"]] = inst
+        self.log("Existing 802.11be Profiles Dict: {0}".format(existing_dict), "DEBUG")
+
+        # Allowed values for radioBand
+        allowed_bands = ["2_4GHZ", "5GHZ", "6GHZ"]
+
+        # Iterate requested attributes
+        for attr in dot11be_list or []:
+            design_name = attr.get("design_name")
+            feature_attrs = attr.get("feature_attributes") or {}
+            dot11be_status = feature_attrs.get("dot11be_status")
+            radio_band = feature_attrs.get("radio_band")
+            unlocked_attributes = attr.get("unlocked_attributes", [])
+
+            # Normalize radio_band to uppercase for case-insensitive comparison
+            if radio_band:
+                radio_band = str(radio_band).upper()
+
+            # Validate radio_band value
+            if radio_band not in allowed_bands:
+                self.msg = ("Invalid radio_band '{0}' for design '{1}'. Must be one of: {2}".format(
+                    radio_band, design_name, allowed_bands))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            # Build payload
+            payload = {
+                "designName": design_name,
+                "featureAttributes": {
+                    "dot11beStatus": dot11be_status,
+                    "radioBand": radio_band,
+                },
+            }
+            if unlocked_attributes:
+                # Normalized to camelCase
+                name_map = {"dot11be_status": "dot11beStatus", "radio_band": "radioBand"}
+                normalized_unlocked = [name_map.get(u, u) for u in unlocked_attributes]
+                payload["unlockedAttributes"] = normalized_unlocked
+
+            # Check against existing
+            existing = existing_dict.get(design_name)
+            if not existing:
+                add_list.append(payload)
+                self.log("802.11be profile '{0}' scheduled for creation.".format(design_name), "DEBUG")
+            else:
+                details = self.get_dot11be_profile_details(existing["id"])
+                self.log("Details for {0}: {1}".format(design_name, details), "DEBUG")
+
+                existing_status = details.get("featureAttributes", {}).get("dot11beStatus")
+                existing_band = details.get("featureAttributes", {}).get("radioBand")
+                existing_unlocked = details.get("unlockedAttributes", []) or []
+
+                desired_unlocked = payload.get("unlockedAttributes", [])
+
+                # Compare fields
+                if (
+                    existing_status != dot11be_status
+                    or existing_band != radio_band
+                    or set(existing_unlocked) != set(desired_unlocked)
+                ):
+                    payload["id"] = existing["id"]
+                    update_list.append(payload)
+                    self.log("802.11be profile '{0}' marked for update.".format(design_name), "DEBUG")
+                else:
+                    no_update_list.append(details)
+                    self.log("802.11be profile '{0}' requires no update.".format(design_name), "DEBUG")
+
+        self.log(
+            "802.11be Profiles - Add: {0}, Update: {1}, No Changes: {2}".format(
+                len(add_list), len(update_list), len(no_update_list)
+            ),
+            "DEBUG"
+        )
+
+        return add_list, update_list, no_update_list
+
+    def get_dot11be_profiles(self, design_name=None, template_type="DOT11BE_STATUS_CONFIGURATION"):
+        """
+        Retrieve existing 802.11be feature templates from Cisco Catalyst Center.
+        Args:
+            design_name (str, optional): Specific feature template design name to filter by.
+            template_type (str, optional): Feature template type string used by DNAC.
+                                        Defaults to "DOT11BE_STATUS_CONFIGURATION".
+        Returns:
+            list: A list of existing 802.11be template dicts (the API 'response' list), or [] on failure.
+        """
+        self.log("Fetching existing 802.11be Templates from DNAC.", "DEBUG")
+
+        try:
+            params = {"type": template_type}
+            if design_name:
+                params["design_name"] = design_name
+
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
+            )
+            self.log("Received API response: {0}".format(response), "DEBUG")
+            existing_dot11be = response.get("response", [])
+            self.log(
+                "Retrieved {0} 802.11be Templates.".format(len(existing_dot11be)),
+                "DEBUG",
+            )
+            return existing_dot11be
+
+        except Exception as e:
+            self.log("Failed to fetch 802.11be Templates: {0}".format(str(e)), "ERROR")
+            return []
+
+    def get_dot11be_profile_details(self, template_id):
+        """
+        Retrieve detailed information for a specific 802.11be configuration template from Cisco Catalyst Center.
+        Args:
+            template_id (str): The unique ID of the 802.11be feature template.
+        Returns:
+            dict: The details of the 802.11be feature template, or {} if fetch fails.
+        """
+        self.log("Fetching 802.11be configuration details for template_id='{0}'".format(template_id), "DEBUG")
+
+        try:
+            if not template_id:
+                self.log("No template_id provided for 802.11be details.", "ERROR")
+                return {}
+
+            response = self.execute_get_request(
+                "wireless",
+                "get_dot11be_status_configuration_feature_template",
+                {"id": template_id}
+            )
+            self.log("Received API response: {0}".format(response), "DEBUG")
+
+            details = response.get("response") or {}
+            return details
+
+        except Exception as e:
+            self.log("Failed to fetch 802.11be configuration details: {0}".format(str(e)), "ERROR")
+            return {}
+
+    def verify_create_update_event_rrm_requirement(self, event_rrm_list):
+        """
+        Compares desired Event Driven RRM profiles against existing ones and determines
+        which need to be created, updated, or left unchanged.
+        Args:
+            event_rrm_list (list): A list of dictionaries representing desired Event Driven RRM profiles.
+                Each dictionary should include:
+                    - design_name (str): The unique design/profile name.
+                    - feature_attributes (dict): The configuration attributes for the profile.
+                    - unlocked_attributes (list, optional): List of attribute names to unlock for editing.
+        Returns:
+            tuple: Three lists containing Event Driven RRM configurations to be created, updated, and not updated:
+                - add_list (list): Payloads for new Event Driven RRM configurations to create
+                - update_list (list): Payloads for existing Event Driven RRM configurations to update (includes "id" field)
+                - no_update_list (list): Existing Event Driven RRM configurations that require no changes
+        """
+        add_list, update_list, no_update_list = [], [], []
+
+        # Fetch once
+        existing_blocks = self.get_event_rrm_profiles()
+        self.log("Existing Event Driven RRM Profiles: {0}".format(existing_blocks), "DEBUG")
+
+        # Flatten instances into dict
+        existing_dict = {}
+        for block in existing_blocks or []:
+            for inst in block.get("instances", []):
+                existing_dict[inst["designName"]] = inst
+        self.log("Existing Event Driven RRM Profiles Dict: {0}".format(existing_dict), "DEBUG")
+
+        # Allowed enums / ranges
+        allowed_bands = ["2_4GHZ", "5GHZ"]
+        allowed_levels = ["LOW", "MEDIUM", "HIGH", "CUSTOM"]
+
+        # Iterate requested profiles
+        for attr in event_rrm_list or []:
+            design_name = attr.get("design_name")
+            fa = attr.get("feature_attributes") or {}
+            radio_band = fa.get("radio_band").upper() if fa.get("radio_band") else None
+            rrm_enable = fa.get("event_driven_rrm_enable")
+            rrm_level = fa.get("event_driven_rrm_threshold_level").upper() if fa.get("event_driven_rrm_threshold_level") else None
+            rrm_custom = fa.get("event_driven_rrm_custom_threshold_val")
+            unlocked_attributes = attr.get("unlocked_attributes", [])
+
+            # ---- Validations ----
+            if not design_name:
+                self.msg = "Missing 'design_name' in Event Driven RRM entry."
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            if radio_band not in allowed_bands:
+                self.msg = ("Invalid radio_band '{0}' for design '{1}'. Must be one of: {2}".format(
+                    radio_band, design_name, allowed_bands))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            if rrm_level is not None and rrm_level not in allowed_levels:
+                self.msg = ("Invalid event_driven_rrm_threshold_level '{0}' for design '{1}'. "
+                            "Must be one of: {2}".format(rrm_level, design_name, allowed_levels))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            # Threshold level is only supported when RRM is enabled
+            if (rrm_level is not None or rrm_custom is not None) and not rrm_enable:
+                self.msg = ("For design '{0}': threshold level/custom value provided but "
+                            "event_driven_rrm_enable is not true.".format(design_name))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            # Custom value only when level == CUSTOM and must be 1..99
+            if rrm_custom is not None:
+                if rrm_level != "CUSTOM":
+                    self.msg = ("For design '{0}': event_driven_rrm_custom_threshold_val is only valid when "
+                                "event_driven_rrm_threshold_level == 'CUSTOM'.".format(design_name))
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                if not isinstance(rrm_custom, int) or not (1 <= rrm_custom <= 99):
+                    self.msg = ("For design '{0}': event_driven_rrm_custom_threshold_val must be an integer 1–99."
+                                .format(design_name))
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            # ---- Build normalized payload ----
+            payload = {
+                "designName": design_name,
+                "featureAttributes": {
+                    "radioBand": radio_band,
+                },
+            }
+            # Only include optional keys if present (keep payload clean)
+            if rrm_enable is not None:
+                payload["featureAttributes"]["eventDrivenRrmEnable"] = rrm_enable
+            if rrm_level is not None:
+                payload["featureAttributes"]["eventDrivenRrmThresholdLevel"] = rrm_level
+            if rrm_custom is not None:
+                payload["featureAttributes"]["eventDrivenRrmCustomThresholdVal"] = rrm_custom
+
+            # Normalize unlocked attributes (snake_case -> camelCase)
+            if unlocked_attributes:
+                name_map = {
+                    "radio_band": "radioBand",
+                    "event_driven_rrm_enable": "eventDrivenRrmEnable",
+                    "event_driven_rrm_threshold_level": "eventDrivenRrmThresholdLevel",
+                    "event_driven_rrm_custom_threshold_val": "eventDrivenRrmCustomThresholdVal",
+                }
+                normalized_unlocked = [name_map.get(u, u) for u in unlocked_attributes]
+                self.log(
+                    "Normalized unlocked attributes for '{0}': {1} -> {2}".format(
+                        design_name, unlocked_attributes, normalized_unlocked
+                    ),
+                    "DEBUG"
+                )
+                payload["unlockedAttributes"] = normalized_unlocked
+
+            # ---- Compare with existing ----
+            existing = existing_dict.get(design_name)
+            if not existing:
+                add_list.append(payload)
+                self.log("Event Driven RRM profile '{0}' scheduled for creation.".format(design_name), "DEBUG")
+            else:
+                details = self.get_event_rrm_profile_details(existing["id"])
+                self.log("Details for {0}: {1}".format(design_name, details), "DEBUG")
+
+                ef = details.get("featureAttributes", {}) or {}
+                existing_band = ef.get("radioBand")
+                existing_enable = ef.get("eventDrivenRrmEnable")
+                existing_level = ef.get("eventDrivenRrmThresholdLevel")
+                existing_custom = ef.get("eventDrivenRrmCustomThresholdVal")
+                existing_unlocked = details.get("unlockedAttributes", []) or []
+                desired_unlocked = payload.get("unlockedAttributes", [])
+
+                needs_update = (
+                    existing_band != radio_band
+                    or existing_enable != rrm_enable
+                    or existing_level != rrm_level
+                    or existing_custom != rrm_custom
+                    or set(existing_unlocked) != set(desired_unlocked)
+                )
+
+                if needs_update:
+                    payload["id"] = existing["id"]
+                    update_list.append(payload)
+                    self.log("Event Driven RRM profile '{0}' marked for update.".format(design_name), "DEBUG")
+                else:
+                    no_update_list.append(details)
+                    self.log("Event Driven RRM profile '{0}' requires no update.".format(design_name), "DEBUG")
+
+        self.log(
+            "Event Driven RRM - Add: {0}, Update: {1}, No Changes: {2}".format(
+                add_list, update_list, no_update_list
+            ),
+            "DEBUG"
+        )
+        self.log(
+            "Event Driven RRM - Add: {0}, Update: {1}, No Changes: {2}".format(
+                len(add_list), len(update_list), len(no_update_list)
+            ),
+            "DEBUG"
+        )
+
+        return add_list, update_list, no_update_list
+
+    def get_event_rrm_profile_details(self, template_id):
+        """
+        Retrieve detailed information for a specific Event Driven RRM configuration template from Cisco Catalyst Center.
+        Args:
+            template_id (str): The unique ID of the Event Driven RRM feature template.
+        Returns:
+            dict: The details of the Event Driven RRM feature template, or {} if fetch fails.
+        """
+        self.log("Fetching Event Driven RRM configuration details for template_id='{0}'".format(template_id), "DEBUG")
+
+        try:
+            if not template_id:
+                self.log("No template_id provided for Event Driven RRM details.", "ERROR")
+                return {}
+
+            response = self.execute_get_request(
+                "wireless",
+                "get_event_driven_r_r_m_configuration_feature_template",
+                {"id": template_id}
+            )
+            self.log("Received API response: {0}".format(response), "DEBUG")
+
+            details = response.get("response") or {}
+            return details
+
+        except Exception as e:
+            self.log("Failed to fetch Event Driven RRM configuration details: {0}".format(str(e)), "ERROR")
+            return {}
+
+    def get_event_rrm_profiles(self, design_name=None, template_type="EVENT_DRIVEN_RRM_CONFIGURATION"):
+        """
+        Retrieve existing Event Driven RRM feature templates (summary) from Cisco Catalyst Center.
+        Args:
+            design_name (str, optional): Specific feature template design name to filter by.
+            template_type (str, optional): Feature template type string used by DNAC.
+                                        Defaults to "EVENT_DRIVEN_RRM_CONFIGURATION".
+        Returns:
+            list: A list of existing Event Driven RRM template dicts (summary, not full details),
+                or [] on failure.
+        """
+        self.log("Fetching existing Event Driven RRM Templates (summary) from DNAC.", "DEBUG")
+
+        try:
+            params = {"type": template_type}
+            if design_name:
+                params["design_name"] = design_name
+
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
+            )
+            self.log("Received API response: {0}".format(response), "DEBUG")
+
+            existing_event_rrm = response.get("response", [])
+            self.log(
+                "Retrieved {0} Event Driven RRM Templates (summary).".format(len(existing_event_rrm)),
+                "DEBUG",
+            )
+            return existing_event_rrm
+
+        except Exception as e:
+            self.log("Failed to fetch Event Driven RRM Templates: {0}".format(str(e)), "ERROR")
+            return []
+
+    def verify_delete_event_rrm_requirement(self, event_rrm_list):
+        """
+        Determines which Event-Driven RRM configuration templates need to be deleted
+        based on the requested parameters.
+        Args:
+            event_rrm_list (list): A list of dicts containing the requested Event-Driven RRM
+                                configuration parameters for deletion.
+                                Example: [{"design_name": "edrrm_2_4ghz_design"}]
+        Returns:
+            list: A list of Event-Driven RRM configuration templates scheduled for deletion,
+                including their IDs.
+        """
+        delete_list = []
+
+        self.log("Starting verification of Event-Driven RRM configurations for deletion.", "INFO")
+
+        # Retrieve all existing Event-Driven RRM configurations (summary)
+        existing_blocks = self.get_event_rrm_profiles()
+        instances = []
+        for block in existing_blocks or []:
+            instances.extend(block.get("instances", []) or [])
+
+        self.log("Existing Event-Driven RRM configurations: {0}".format(instances), "DEBUG")
+
+        # Convert existing instances into a dictionary for quick lookup
+        existing_dict = {cfg["designName"]: cfg for cfg in instances}
+        self.log("Converted existing Event-Driven RRM configs to dictionary.", "DEBUG")
+
+        # Iterate over requested configurations
+        for index, requested_cfg in enumerate(event_rrm_list or [], start=1):
+            design_name = requested_cfg.get("design_name")
+            self.log(
+                "Iteration {0}: Checking Event-Driven RRM config '{1}' for deletion.".format(
+                    index, design_name
+                ),
+                "DEBUG",
+            )
+
+            if design_name in existing_dict:
+                existing = existing_dict[design_name]
+                cfg_to_delete = requested_cfg.copy()
+                cfg_to_delete["id"] = existing.get("id")
+                delete_list.append(cfg_to_delete)
+                self.log(
+                    "Iteration {0}: Event-Driven RRM config '{1}' scheduled for deletion.".format(
+                        index, design_name
+                    ),
+                    "INFO",
+                )
+            else:
+                self.log(
+                    "Iteration {0}: Event-Driven RRM config '{1}' not found -> no deletion required.".format(
+                        index, design_name
+                    ),
+                    "INFO",
+                )
+
+        self.log(
+            "Event-Driven RRM configurations scheduled for deletion: {0} - {1}".format(
+                len(delete_list), delete_list
+            ),
+            "DEBUG",
+        )
+
+        return delete_list
+
+    def verify_delete_dot11axs_requirement(self, dot11ax_list):
+        """
+        Determines which dot11ax configuration templates need to be deleted
+        based on the requested parameters.
+        Args:
+            dot11ax_list (list): A list of dicts containing the requested dot11ax
+                                configuration parameters for deletion.
+                                Example: [{"design_name": "dot11ax_24ghz_design"}]
+        Returns:
+            list: A list of dot11ax configuration templates scheduled for deletion,
+                including their IDs.
+        """
+        delete_list = []
+
+        self.log("Starting verification of dot11ax configurations for deletion.", "INFO")
+
+        # Retrieve all existing dot11ax configurations
+        existing_blocks = self.get_dot11ax_templates()
+        instances = []
+        for block in existing_blocks:
+            instances.extend(block.get("instances", []))
+
+        self.log("Existing dot11ax configurations: {0}".format(instances), "DEBUG")
+
+        # Convert existing instances into a dictionary for quick lookup
+        existing_dict = {cfg["designName"]: cfg for cfg in instances}
+        self.log("Converted existing dot11ax configs to dictionary.", "DEBUG")
+
+        # Iterate over requested configurations
+        for index, requested_cfg in enumerate(dot11ax_list, start=1):
+            design_name = requested_cfg.get("design_name")
+            self.log(
+                "Iteration {0}: Checking dot11ax config '{1}' for deletion.".format(
+                    index, design_name
+                ),
+                "DEBUG",
+            )
+
+            if design_name in existing_dict:
+                existing = existing_dict[design_name]
+                cfg_to_delete = requested_cfg.copy()
+                cfg_to_delete["id"] = existing.get("id")
+                delete_list.append(cfg_to_delete)
+                self.log(
+                    "Iteration {0}: dot11ax config '{1}' scheduled for deletion.".format(
+                        index, design_name
+                    ),
+                    "INFO",
+                )
+            else:
+                self.log(
+                    "Iteration {0}: dot11ax config '{1}' not found -> no deletion required.".format(
+                        index, design_name
+                    ),
+                    "INFO",
+                )
+
+        self.log(
+            "dot11ax configurations scheduled for deletion: {0} - {1}".format(
+                len(delete_list), delete_list
+            ),
+            "DEBUG",
+        )
+
+        return delete_list
+
+    def verify_create_update_dot11axs_requirement(self, dot11ax_list):
+        """
+        Compare requested dot11ax profiles against existing templates and determine
+        which should be added, updated, or left unchanged.
+        Args:
+            dot11ax_list (list): A list of dictionaries representing desired 802.11ax profiles.
+                Each dictionary should include:
+                    - design_name (str): The unique design/profile name.
+                    - feature_attributes (dict): The configuration attributes for the profile.
+                    - unlocked_attributes (list): List of attribute names to unlock for editing.
+        Returns:
+            tuple: Three lists containing 802.11ax configurations to be created, updated, and not updated:
+                - add_list (list): Payloads for new 802.11ax configurations to create
+                - update_list (list): Payloads for existing 802.11ax configurations to update (includes "id" field)
+                - no_update_list (list): Existing 802.11ax configurations that require no changes
+        """
+        add_list, update_list, no_update_list = [], [], []
+
+        self.log("verify_create_update_dot11axs_requirement input: {0}".format(dot11ax_list), "DEBUG")
+
+        # map snake_case keys from playbook to controller keys (adjust if controller uses different names)
+        key_name_map = {
+            "design_name": "designName",
+            "feature_attributes": "featureAttributes",
+            "unlocked_attributes": "unlockedAttributes",
+            "radio_band": "radioBand",
+            "bss_color": "bssColor",
+            "target_waketime_broadcast": "targetWaketimeBroadcast",
+            "non_srg_obss_pd_max_threshold": "nonSRGObssPdMaxThreshold",
+            "target_wakeup_time_11ax": "targetWakeUpTime11ax",
+            "obss_pd": "obssPd",
+            "multiple_bssid": "multipleBssid",
+        }
+
+        # helper: snake_case -> lowerCamelCase fallback
+        def snake_to_camel(s):
+            parts = s.split("_")
+            return parts[0] + "".join(p.capitalize() for p in parts[1:]) if len(parts) > 1 else s
+
+        # Controller-allowed unlocked attribute names (explicit list from controller validation message).
+        # If you have an API to fetch this dynamically, replace this static set with that call.
+        allowed_unlocked = {
+            "targetWakeUpTime11ax",
+            "obssPd",
+            "bssColor",
+            "targetWaketimeBroadcast",
+            "nonSRGObssPdMaxThreshold",
+            "multipleBssid",
+        }
+
+        # fetch existing dot11ax templates once and flatten by designName
+        existing_blocks = self.get_dot11ax_templates() or []
+        self.log("Existing dot11ax templates: {0}".format(existing_blocks), "DEBUG")
+        existing_dict = {}
+        for block in existing_blocks or []:
+            for inst in block.get("instances", []) or []:
+                existing_dict[inst.get("designName")] = inst
+        self.log("Existing dot11ax templates dict: {0}".format(existing_dict), "DEBUG")
+
+        # iterate requests
+        for requested in dot11ax_list or []:
+            design_name = requested.get("design_name")
+            feature_attrs_raw = requested.get("feature_attributes") or {}
+            unlocked_attrs = requested.get("unlocked_attributes") or []
+
+            # Build normalized payload (controller-style keys) for featureAttributes
+            normalized_features = {}
+            for rk, rv in feature_attrs_raw.items():
+                tk = key_name_map.get(rk) or snake_to_camel(rk)
+                normalized_features[tk] = rv
+
+            # Normalize & filter unlocked attributes: map to controller keys and only keep allowed first-level attributes
+            requested_unlocked = unlocked_attrs or []
+            normalized_unlocked = []
+            dropped_unlocked = []
+            unmapped_unlocked = []
+
+            for ua in requested_unlocked:
+                mapped = key_name_map.get(ua) or snake_to_camel(ua)
+                if mapped in allowed_unlocked:
+                    normalized_unlocked.append(mapped)
+                else:
+                    # keep track to log back to the user / playbook author
+                    # if it didn't map to ANY reasonable controller key, mark as unmapped, else dropped because not allowed
+                    if (key_name_map.get(ua) or snake_to_camel(ua)) != mapped:
+                        unmapped_unlocked.append(ua)
+                    else:
+                        dropped_unlocked.append(ua)
+
+            if dropped_unlocked or unmapped_unlocked:
+                # warn user / playbook author that some unlocked attrs were invalid and dropped
+                self.log(
+                    "[{0}] Some unlockedAttributes were invalid and removed: dropped={1} ({2}), unmapped={3} ({4})".format(
+                        design_name, len(dropped_unlocked), dropped_unlocked, len(unmapped_unlocked), unmapped_unlocked
+                    ),
+                    "WARNING",
+                )
+
+            payload = {"designName": design_name, "featureAttributes": normalized_features}
+            if normalized_unlocked:
+                payload["unlockedAttributes"] = normalized_unlocked
+
+            self.log("Checking dot11ax profile: {0}".format(design_name), "DEBUG")
+
+            existing = existing_dict.get(design_name)
+
+            # If not existing -> add
+            if not existing:
+                add_list.append(payload)
+                self.log("dot11ax '{0}' marked for ADD.".format(design_name), "INFO")
+                continue
+
+            # fetch full details for accurate comparison
+            details = self.get_dot11ax_details(existing.get("id")) or {}
+            self.log("Details for {0}: {1}".format(design_name, details), "DEBUG")
+
+            existing_features = details.get("featureAttributes", {}) or {}
+            existing_unlocked = details.get("unlockedAttributes", []) or []
+
+            needs_update = False
+
+            # Compare only the keys supplied by the user
+            for key, req_value in normalized_features.items():
+                exist_value = existing_features.get(key)
+
+                # normalize boolean-like strings on request side
+                if isinstance(req_value, str) and req_value.lower() in ("true", "false"):
+                    req_value = req_value.lower() == "true"
+                # if controller omitted the key and request is boolean, treat omitted as False
+                if exist_value is None and isinstance(req_value, bool):
+                    exist_value = False
+                # normalize controller boolean strings
+                if isinstance(exist_value, str) and exist_value.lower() in ("true", "false"):
+                    exist_value = exist_value.lower() == "true"
+
+                lower_key = key.lower()
+
+                # numeric comparison for numeric-looking keys
+                if (
+                    isinstance(req_value, (int, float))
+                    or (isinstance(req_value, str) and req_value.isdigit())
+                    or any(sub in lower_key for sub in ("threshold", "max", "count"))
+                ):
+                    try:
+                        ev_num = int(exist_value) if exist_value is not None else None
+                    except Exception:
+                        ev_num = exist_value
+                    try:
+                        rv_num = int(req_value) if req_value is not None else None
+                    except Exception:
+                        rv_num = req_value
+                    if ev_num != rv_num:
+                        self.log("Diff for {0}: existing({1}) != requested({2})".format(key, ev_num, rv_num), "DEBUG")
+                        needs_update = True
+                        break
+
+                else:
+                    # default strict equality
+                    if exist_value != req_value:
+                        self.log("Diff for {0}: existing({1}) != requested({2})".format(key, exist_value, req_value), "DEBUG")
+                        needs_update = True
+                        break
+
+            # compare unlocked attributes (order-insensitive)
+            if not needs_update:
+                # Normalize existing unlocked (controller should already be lowerCamelCase; defensively map snake -> camel just in case)
+                normalized_existing_unlocked = []
+                for eu in existing_unlocked:
+                    # assume existing values are controller style; but normalize just in case:
+                    # if someone stored snake_case in controller (unlikely), convert. We only convert if '_' present.
+                    if isinstance(eu, str) and "_" in eu:
+                        normalized_existing_unlocked.append(key_name_map.get(eu) or snake_to_camel(eu))
+                    else:
+                        normalized_existing_unlocked.append(eu)
+
+                # Compare as sets (order-insensitive). If request omitted unlockedAttributes entirely, we treat as "no change requested"
+                if "unlockedAttributes" in payload:
+                    if set(normalized_existing_unlocked) != set(payload.get("unlockedAttributes", [])):
+                        self.log(
+                            "Unlocked attributes differ: existing({0}) != requested({1})".format(
+                                normalized_existing_unlocked, payload.get("unlockedAttributes", [])
+                            ),
+                            "DEBUG",
+                        )
+                        needs_update = True
+
+            # finalize
+            if needs_update:
+                payload["id"] = existing.get("id")
+                update_list.append(payload)
+                self.log("dot11ax '{0}' marked for UPDATE.".format(design_name), "INFO")
+            else:
+                no_update_list.append(details)
+                self.log("dot11ax '{0}' requires NO UPDATE.".format(design_name), "INFO")
+
+        self.log("dot11ax to ADD: {0}, UPDATE: {1}, NO-UPDATE: {2}".format(len(add_list), len(update_list), len(no_update_list)), "DEBUG")
+        return add_list, update_list, no_update_list
+
+    def get_dot11ax_details(self, template_id):
+        """
+        Retrieve detailed information for a specific dot11ax configuration template from Cisco Catalyst Center.
+        Args:
+            template_id (str): The unique ID of the dot11ax feature template.
+        Returns:
+            dict: The details of the dot11ax feature template, or {} if fetch fails.
+        """
+        self.log("Fetching dot11ax configuration details for template_id='{0}'".format(template_id), "DEBUG")
+
+        try:
+            if not template_id:
+                self.log("No template_id provided for dot11ax details.", "ERROR")
+                return {}
+
+            response = self.execute_get_request(
+                "wireless",
+                "get_dot11ax_configuration_feature_template",
+                {"id": template_id}
+            )
+
+            self.log("Received API response: {0}".format(response), "DEBUG")
+
+            details = response.get("response") or {}
+            return details
+
+        except Exception as e:
+            self.log("Failed to fetch dot11ax configuration details: {0}".format(str(e)), "ERROR")
+            return {}
+
+    def get_dot11ax_templates(self, design_name=None, template_type="DOT11AX_CONFIGURATION"):
+        """
+        Retrieve detailed information for a specific dot11ax configuration template from Cisco Catalyst Center.
+        Args:
+            template_id (str): The unique ID of the dot11ax feature template.
+        Returns:
+            dict: The details of the dot11ax feature template, or {} if fetch fails.
+        """
+        self.log("Fetching existing dot11ax Templates from DNAC.", "DEBUG")
+
+        try:
+            params = {"type": template_type}
+            if design_name:
+                params["design_name"] = design_name
+
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
+            )
+            self.log("Received API response: {0}".format(response), "DEBUG")
+            existing_dot11ax = response.get("response", [])
+            self.log(
+                "Retrieved {0} dot11ax Templates.".format(len(existing_dot11ax)),
+                "DEBUG",
+            )
+            return existing_dot11ax
+
+        except Exception as e:
+            self.log("Failed to fetch dot11ax Templates: {0}".format(str(e)), "ERROR")
+            return []
+
+    def verify_delete_clean_air_requirement(self, clean_air_list):
+        """
+        Determines which CleanAir profiles need to be deleted based on the requested parameters.
+        Args:
+            clean_air_list (list): A list of dicts containing the requested CleanAir parameters for deletion.
+                                Example: [{"design_name": "sample_cleanair_design_24ghz"}]
+        Returns:
+            list: A list of CleanAir entries to delete. Each entry is the original requested dict
+                with an added "id" key (the controller template id) when a match is found.
+        """
+        delete_clean_air_list = []
+
+        self.log("Starting verification of CleanAir profiles for deletion.", "INFO")
+
+        # Retrieve all existing CleanAir templates
+        existing_blocks = self.get_clean_air_templates() or []
+        instances = []
+        for block in existing_blocks:
+            instances.extend(block.get("instances", []) or [])
+
+        self.log("Existing CleanAir instances: {0}".format(instances), "DEBUG")
+
+        # Convert existing instances into a dictionary keyed by designName
+        existing_dict = {item["designName"]: item for item in instances}
+        self.log("Converted existing CleanAir templates to dictionary.", "DEBUG")
+
+        # Iterate over the requested entries for deletion
+        for idx, requested in enumerate(clean_air_list or [], start=1):
+            design_name = requested.get("design_name")
+            self.log(
+                "Iteration {0}: Checking CleanAir '{1}' for deletion requirement.".format(idx, design_name),
+                "DEBUG",
+            )
+
+            if not design_name:
+                self.log(
+                    "Iteration {0}: Skipping entry with missing design_name: {1}".format(idx, requested),
+                    "WARNING",
+                )
+                continue
+
+            if design_name in existing_dict:
+                existing = existing_dict[design_name]
+                to_delete = requested.copy()
+                to_delete["id"] = existing.get("id")
+                delete_clean_air_list.append(to_delete)
+                self.log(
+                    "Iteration {0}: CleanAir '{1}' scheduled for deletion (id={2}).".format(
+                        idx, design_name, existing.get("id")
+                    ),
+                    "INFO",
+                )
+            else:
+                self.log(
+                    "Iteration {0}: CleanAir '{1}' not found - no deletion required.".format(idx, design_name),
+                    "INFO",
+                )
+
+        self.log(
+            "CleanAir profiles scheduled for deletion: {0} - {1}".format(len(delete_clean_air_list), delete_clean_air_list),
+            "DEBUG",
+        )
+
+        return delete_clean_air_list
+
+    def _normalize_clean_air_payload(self, requested_entry, key_name_map, snake_to_camel):
+        """
+        Normalize a requested CleanAir entry into controller payload format.
+        Args:
+            requested_entry (dict): Raw playbook entry with snake_case keys
+            key_name_map (dict): Mapping from snake_case to camelCase
+            snake_to_camel (callable): Function to convert snake_case to camelCase
+        Returns:
+            dict: Normalized payload with camelCase keys
+        """
+        design_name = requested_entry.get("design_name")
+        radio_band = requested_entry.get("radio_band")
+        requested_features_raw = requested_entry.get("feature_attributes") or {}
+        requested_unlocked = requested_entry.get("unlocked_attributes")
+        requested_unlocked = [] if requested_unlocked is None else requested_unlocked
+
+        # Build normalized features (convert top-level keys)
+        normalized_features = {}
+        for raw_k, raw_v in requested_features_raw.items():
+            if raw_k == "interferers_features" and isinstance(raw_v, dict):
+                # nested interferersFeatures: normalize inner keys
+                interferers = {}
+                for ik, iv in raw_v.items():
+                    inner_key = key_name_map.get(ik, ik)
+                    interferers[inner_key] = iv
+                normalized_features["interferersFeatures"] = interferers
+            else:
+                mapped_key = key_name_map.get(raw_k, snake_to_camel(raw_k))
+                normalized_features[mapped_key] = raw_v
+
+        payload = {"designName": design_name, "radioBand": radio_band, "featureAttributes": normalized_features}
+
+        if requested_unlocked:
+            # transform unlocked dot-notation to controller-style
+            normalized_unlocked = []
+            for u in requested_unlocked:
+                if "." in u:
+                    left, right = u.split(".", 1)
+                    left_mapped = key_name_map.get(left, snake_to_camel(left))
+                    normalized_unlocked.append(left_mapped + "." + right)
+                else:
+                    normalized_unlocked.append(key_name_map.get(u, snake_to_camel(u)))
+            payload["unlockedAttributes"] = normalized_unlocked
+
+        return payload
+
+    def _compare_nested_interferers(self, key, normalized_features, existing_features, boolean_defaults, to_bool_if_str, reg_diff_fn):
+        """
+        Compare interferersFeatures nested attributes for CleanAir profiles.
+        Args:
+            key (str): Field key, potentially with dot notation (e.g., "interferersFeatures.ble_beacon")
+            normalized_features (dict): Requested features
+            existing_features (dict): Existing features from controller
+            boolean_defaults (dict): Default values for missing fields
+            to_bool_if_str (callable): Function to coerce string bools to bool
+            reg_diff_fn (callable): Function to register differences
+        Returns:
+            bool: True if update is needed, False otherwise
+        """
+        needs_update = False
+
+        if "." in key:
+            # Single nested field check (e.g., "interferersFeatures.ble_beacon")
+            outer, inner = key.split(".", 1)
+            req_map = normalized_features.get("interferersFeatures", {})
+            req_val = req_map.get(inner)
+            exist_map = existing_features.get("interferersFeatures", {}) or {}
+            exist_val = exist_map.get(inner)
+
+            # coerce bool-like strings
+            req_val = to_bool_if_str(req_val)
+            if exist_val is None and isinstance(req_val, bool):
+                exist_val = (
+                    boolean_defaults.get("interferersFeatures", {}).get(inner)
+                    if isinstance(boolean_defaults.get("interferersFeatures"), dict)
+                    else False
+                )
+            if isinstance(exist_val, str) and exist_val.lower() in ("true", "false"):
+                exist_val = exist_val.lower() == "true"
+
+            if exist_val != req_val:
+                reg_diff_fn("interferersFeatures." + inner, exist_val, req_val)
+                needs_update = True
+        else:
+            # Compare entire interferersFeatures map
+            req_map = normalized_features.get("interferersFeatures", {}) or {}
+            exist_map = existing_features.get("interferersFeatures", {}) or {}
+
+            for inner_key in set(list(req_map.keys()) + list(exist_map.keys())):
+                req_val = to_bool_if_str(req_map.get(inner_key))
+                exist_val = exist_map.get(inner_key)
+
+                if exist_val is None and isinstance(req_val, bool):
+                    exist_val = (
+                        boolean_defaults.get("interferersFeatures", {}).get(inner_key)
+                        if isinstance(boolean_defaults.get("interferersFeatures"), dict)
+                        else False
+                    )
+                if isinstance(exist_val, str) and exist_val.lower() in ("true", "false"):
+                    exist_val = exist_val.lower() == "true"
+
+                if exist_val != req_val:
+                    reg_diff_fn("interferersFeatures." + inner_key, exist_val, req_val)
+                    needs_update = True
+
+        return needs_update
+
+    def _compare_clean_air_fields(self, key, normalized_features, existing_features, boolean_defaults, to_bool_if_str, reg_diff_fn):
+        """
+        Compare non-nested CleanAir field values.
+        Args:
+            key (str): Field key to compare
+            normalized_features (dict): Requested features
+            existing_features (dict): Existing features from controller
+            boolean_defaults (dict): Default values for missing fields
+            to_bool_if_str (callable): Function to coerce string bools to bool
+            reg_diff_fn (callable): Function to register differences
+        Returns:
+            bool: True if update is needed, False otherwise
+        """
+        needs_update = False
+        req_value = normalized_features.get(key)
+        exist_value = existing_features.get(key)
+
+        # coerce boolean-like strings
+        req_value = to_bool_if_str(req_value)
+
+        # consult boolean_defaults for missing exist_value
+        if exist_value is None:
+            if key in boolean_defaults:
+                exist_value = boolean_defaults[key]
+            elif isinstance(req_value, bool):
+                exist_value = False  # safe fallback
+
+        if isinstance(exist_value, str) and exist_value.lower() in ("true", "false"):
+            exist_value = exist_value.lower() == "true"
+
+        # type-specific comparison
+        lower_key = key.lower()
+        if lower_key in ("description",):
+            # string compare
+            if exist_value != req_value:
+                reg_diff_fn(key, exist_value, req_value)
+                needs_update = True
+        elif isinstance(req_value, bool) or isinstance(exist_value, bool):
+            # boolean compare
+            if bool(exist_value) != bool(req_value):
+                reg_diff_fn(key, exist_value, req_value)
+                needs_update = True
+        elif isinstance(req_value, (int, float)) or isinstance(exist_value, (int, float)):
+            # numeric tolerant compare
+            try:
+                evn = int(exist_value) if exist_value is not None else None
+            except Exception:
+                evn = exist_value
+            try:
+                rvn = int(req_value) if req_value is not None else None
+            except Exception:
+                rvn = req_value
+            if evn != rvn:
+                reg_diff_fn(key, evn, rvn)
+                needs_update = True
+        else:
+            # default equality
+            if exist_value != req_value:
+                reg_diff_fn(key, exist_value, req_value)
+                needs_update = True
+
+        return needs_update
+
+    def verify_create_update_clean_air_requirement(self, clean_air_list, field_to_check=None):
+        """
+        Determine which CleanAir profiles to add, update, or leave unchanged.
+        Args:
+            clean_air_list (list): list of requested clean-air dicts from the playbook
+            field_to_check (str|None): optional single-field to check (snake_case or camelCase, supports dot notation)
+        Returns:
+            tuple: (add_list, update_list, no_update_list)
+        Side effect:
+            sets self.clean_air_update_diffs = { designName: [(key, existing, requested), ...], ... }
+        """
+        add_list, update_list, no_update_list = [], [], []
+        clean_air_update_diffs = {}
+        self.log("verify_create_update_clean_air_requirement input: {0}".format(clean_air_list), "DEBUG")
+
+        # key map: playbook snake_case -> controller camelCase
+        key_name_map = {
+            "design_name": "designName",
+            "radio_band": "radioBand",
+            "feature_attributes": "featureAttributes",
+            "unlocked_attributes": "unlockedAttributes",
+            "clean_air": "cleanAir",
+            "clean_air_device_reporting": "cleanAirDeviceReporting",
+            "persistent_device_propagation": "persistentDevicePropagation",
+            "description": "description",
+            "interferers_features": "interferersFeatures",
+            "ble_beacon": "bleBeacon",
+            "bluetooth_paging_inquiry": "bluetoothPagingInquiry",
+            "bluetooth_sco_acl": "bluetoothScoAcl",
+            "continuous_transmitter": "continuousTransmitter",
+            "generic_dect": "genericDect",
+            "generic_tdd": "genericTdd",
+            "jammer": "jammer",
+            "microwave_oven": "microwaveOven",
+            "motorola_canopy": "motorolaCanopy",
+            "si_fhss": "siFHSS",
+            "spectrum80211_fh": "spectrum80211FH",
+            "spectrum80211_non_standard_channel": "spectrum80211NonStandardChannel",
+            "spectrum802154": "spectrum802154",
+            "spectrum_inverted": "spectrumInverted",
+            "super_ag": "superAg",
+            "video_camera": "videoCamera",
+            "wimax_fixed": "wimaxFixed",
+            "wimax_mobile": "wimaxMobile",
+            "xbox": "xbox",
+        }
+
+        # optional per-key boolean defaults when controller omits key (controller-style names)
+        boolean_defaults = {
+            # Example: "cleanAir": False,
+            # For nested interferersFeatures you could default to {} or set specific inner keys
+            # e.g. "interferersFeatures": {}
+        }
+
+        # helper: snake_case -> lowerCamelCase
+        def snake_to_camel(s):
+            parts = s.split("_")
+            return parts[0] + "".join(p.capitalize() for p in parts[1:]) if len(parts) > 1 else s
+
+        # normalize field_to_check (support dot notation like 'interferers_features.ble_beacon')
+        def normalize_field_key(raw_key):
+            if raw_key is None:
+                return None
+            if "." in raw_key:
+                left, right = raw_key.split(".", 1)
+                left_mapped = key_name_map.get(left, snake_to_camel(left))
+                # keep nested part as provided (we will compare nested dicts specially)
+                return left_mapped + "." + right
+            return key_name_map.get(raw_key, snake_to_camel(raw_key))
+
+        field_check_key = normalize_field_key(field_to_check)
+
+        # helper to coerce "true"/"false" strings to bool
+        def to_bool_if_str(v):
+            if isinstance(v, str) and v.lower() in ("true", "false"):
+                return v.lower() == "true"
+            return v
+
+        # Fetch existing templates and flatten by designName
+        existing_blocks = self.get_clean_air_templates() or []
+        instances = []
+        for block in existing_blocks:
+            instances.extend(block.get("instances", []) or [])
+        existing_by_design = {inst["designName"]: inst for inst in instances}
+        self.log("Existing CleanAir instances: {0}".format(instances), "DEBUG")
+
+        # Iterate requested profiles
+        for requested_entry in clean_air_list or []:
+            design_name = requested_entry.get("design_name")
+
+            # Normalize payload using helper
+            payload = self._normalize_clean_air_payload(requested_entry, key_name_map, snake_to_camel)
+
+            # check existing
+            existing_entry = existing_by_design.get(design_name)
+            if not existing_entry:
+                add_list.append(payload)
+                self.log("CleanAir design '{0}' not found -> ADD".format(design_name), "INFO")
+                continue
+
+            # fetch full existing details
+            existing_details = self.get_clean_air_details(existing_entry["id"]) or {}
+            self.log("Existing clean-air details for {0}: {1}".format(design_name, existing_details), "DEBUG")
+            existing_features = existing_details.get("featureAttributes", {}) or {}
+            existing_unlocked = existing_details.get("unlockedAttributes", []) or []
+
+            needs_update = False
+            per_design_diffs = []
+
+            # helper to register diff
+            def _reg_diff(k, ev, rv):
+                per_design_diffs.append((k, ev, rv))
+
+            # Determine keys to compare
+            normalized_features = payload.get("featureAttributes", {})
+            if field_check_key is None:
+                keys_to_check = list(normalized_features.keys())
+            else:
+                keys_to_check = [field_check_key]
+
+            # Compare keys
+            for key in keys_to_check:
+                if key.startswith("interferersFeatures"):
+                    # Use helper for nested interferers comparison
+                    if self._compare_nested_interferers(key, normalized_features, existing_features,
+                                                        boolean_defaults, to_bool_if_str, _reg_diff):
+                        needs_update = True
+                else:
+                    # Use helper for non-nested field comparison
+                    if self._compare_clean_air_fields(key, normalized_features, existing_features,
+                                                      boolean_defaults, to_bool_if_str, _reg_diff):
+                        needs_update = True
+
+            # unlocked attributes diff
+            if (field_check_key is None) or (field_check_key and field_check_key.startswith("unlockedAttributes")):
+                if set(existing_unlocked) != set(payload.get("unlockedAttributes", [])):
+                    _reg_diff("unlockedAttributes", existing_unlocked, payload.get("unlockedAttributes", []))
+                    needs_update = True
+
+            # finalize
+            if needs_update:
+                payload["id"] = existing_entry.get("id")
+                update_list.append(payload)
+                clean_air_update_diffs[design_name] = per_design_diffs
+                self.log("CleanAir design '{0}' marked for UPDATE. Diffs: {1}".format(design_name, per_design_diffs), "INFO")
+            else:
+                no_update_list.append(existing_details)
+                self.log("CleanAir design '{0}' requires NO UPDATE".format(design_name), "INFO")
+
+        # attach diffs to self for inspection
+        self.clean_air_update_diffs = clean_air_update_diffs
+        self.log("Collected CleanAir diffs: {0}".format(clean_air_update_diffs), "DEBUG")
+        self.log("ADD: {0}, UPDATE: {1}, NO-CHANGE: {2}".format(len(add_list), len(update_list), len(no_update_list)), "DEBUG")
+        return add_list, update_list, no_update_list
+
+    def verify_delete_advanced_ssid_requirement(self, adv_ssid_list):
+        """
+        Determines which Advanced SSIDs need to be deleted based on the requested parameters.
+        Args:
+            adv_ssid_list (list): A list of dicts containing the requested Advanced SSID parameters for deletion.
+                                Example: [{"design_name": "Corporate_WLAN_Design"}]
+        Returns:
+            list: A list of Advanced SSID entries to delete. Each entry is the original requested dict
+                with an added "id" key (the controller template id) when a match is found.
+        """
+        delete_ssid_list = []
+
+        self.log("Starting verification of Advanced SSIDs for deletion.", "INFO")
+
+        # Retrieve all existing Advanced SSID templates
+        existing_blocks = self.get_advanced_ssid_templates() or []
+        instances = []
+        for block in existing_blocks:
+            instances.extend(block.get("instances", []) or [])
+
+        self.log("Existing Advanced SSID instances: {0}".format(instances), "DEBUG")
+
+        # Convert existing instances into a dictionary keyed by designName
+        existing_dict = {ssid["designName"]: ssid for ssid in instances}
+        self.log("Converted existing Advanced SSIDs to dictionary.", "DEBUG")
+
+        # Iterate over the requested entries for deletion
+        for idx, requested in enumerate(adv_ssid_list or [], start=1):
+            design_name = requested.get("design_name")
+            self.log(
+                "Iteration {0}: Checking Advanced SSID '{1}' for deletion requirement.".format(idx, design_name),
+                "DEBUG",
+            )
+
+            if not design_name:
+                self.log(
+                    "Iteration {0}: Skipping entry with missing design_name: {1}".format(idx, requested),
+                    "WARNING",
+                )
+                continue
+
+            if design_name in existing_dict:
+                existing = existing_dict[design_name]
+                to_delete = requested.copy()
+                to_delete["id"] = existing.get("id")
+                delete_ssid_list.append(to_delete)
+                self.log(
+                    "Iteration {0}: Advanced SSID '{1}' scheduled for deletion (id={2}).".format(
+                        idx, design_name, existing.get("id")
+                    ),
+                    "INFO",
+                )
+            else:
+                self.log(
+                    "Iteration {0}: Advanced SSID '{1}' not found - no deletion required.".format(idx, design_name),
+                    "INFO",
+                )
+
+        self.log(
+            "Advanced SSIDs scheduled for deletion: {0} - {1}".format(len(delete_ssid_list), delete_ssid_list),
+            "DEBUG",
+        )
+
+        return delete_ssid_list
+
+    def verify_create_update_advanced_ssid_requirement(self, adv_ssid_list, field_to_check=None):
+        """
+        Determine which Advanced SSIDs to add, update, or leave unchanged.
+        This function compares requested Advanced SSID configurations against existing ones
+        and categorizes them based on whether they need to be created, updated, or left unchanged.
+        It supports both full configuration comparison and single-field checking.
+        Args:
+            adv_ssid_list (list): A list of dictionaries representing the Advanced SSIDs to verify.
+                Each dictionary should contain:
+                    - design_name (str): The unique design/profile name
+                    - feature_attributes (dict): The configuration attributes for the profile
+                    - unlocked_attributes (list, optional): List of attribute names to unlock for editing
+            field_to_check (str, optional): The specific field to check for changes. Accepts both
+            camelCase and snake_case field names. If provided, only that field (or 'unlocked_attributes')
+            is compared. Defaults to None (compare all fields).
+
+        Returns:
+            tuple: Three lists containing Advanced SSID configurations:
+                - add_payloads (list): Payloads for new Advanced SSID configurations to create
+                - update_payloads (list): Payloads for existing Advanced SSID configurations to update
+                (includes "id" field)
+                - no_change_payloads (list): Existing Advanced SSID configurations that require no changes
+        """
+        add_payloads, update_payloads, no_change_payloads = [], [], []
+        update_diffs = {}
+        self.log("verify_create_update_advanced_ssid_requirement input: {0}".format(adv_ssid_list), "DEBUG")
+
+        # key name map (complete map from your playbook)
+        key_name_map = {
+            # top-level
+            "design_name": "designName",
+            "feature_attributes": "featureAttributes",
+            "unlocked_attributes": "unlockedAttributes",
+
+            # common ssid fields / enums / booleans
+            "peer2peer_blocking": "peer2peerblocking",
+            "passive_client": "passiveClient",
+            "prediction_optimization": "predictionOptimization",
+            "dual_band_neighbor_list": "dualBandNeighborList",
+            "radius_nac_state": "radiusNacState",
+            "dhcp_required": "dhcpRequired",
+            "dhcp_server": "dhcpServer",
+            "flex_local_auth": "flexLocalAuth",
+            "target_wakeup_time": "targetWakeupTime",
+
+            # OFDMA / MU-MIMO / 802.11ax
+            "downlink_ofdma": "downlinkOfdma",
+            "uplink_ofdma": "uplinkOfdma",
+            "downlink_mu_mimo": "downlinkMuMimo",
+            "uplink_mu_mimo": "uplinkMuMimo",
+            "dot11ax": "dot11ax",
+            "mu_mimo_11ac": "muMimo11ac",
+
+            # vendor / extra flags
+            "aironet_ie_support": "aironetIeSupport",
+            "load_balancing": "loadBalancing",
+
+            # timing / counts / numeric
+            "dtim_period_5ghz": "dtimPeriod5GHz",
+            "dtim_period_24ghz": "dtimPeriod24GHz",
+            "scan_defer_time": "scanDeferTime",
+            "max_clients": "maxClients",
+            "max_clients_per_radio": "maxClientsPerRadio",
+            "max_clients_per_ap": "maxClientsPerAP",
+            "idle_threshold": "idleThreshold",
+            "fast_transition_reassociation_timeout": "fastTransitionReassociationTimeout",
+
+            # WMM / multicast
+            "wmm_policy": "wmmPolicy",
+            "multicast_buffer": "multicastBuffer",
+            "multicast_buffer_value": "multicastBufferValue",
+            "media_stream_multicast_direct": "mediaStreamMulticastDirect",
+
+            # steering / agile multiband / fastlane
+            "wifi_to_cellular_steering": "wifiToCellularSteering",
+            "wifi_alliance_agile_multiband": "wifiAllianceAgileMultiband",
+            "fastlane_asr": "fastlaneAsr",
+
+            # 11v / AP admin / caching / security guards
+            "dot11v_bss_max_idle_protected": "dot11vBssMaxIdleProtected",
+            "universal_ap_admin": "universalApAdmin",
+            "opportunistic_key_caching": "opportunisticKeyCaching",
+            "ip_source_guard": "ipSourceGuard",
+            "dhcp_opt82_remote_id_sub_option": "dhcpOpt82RemoteIdSubOption",
+            "vlan_central_switching": "vlanCentralSwitching",
+
+            # call / snooping / disassociate / busy
+            "call_snooping": "callSnooping",
+            "send_disassociate": "sendDisassociate",
+            "sent_486_busy": "sent486Busy",
+
+            # ip/mac binding
+            "ip_mac_binding": "ipMacBinding",
+
+            # defer priorities (0..7)
+            "defer_priority_0": "deferPriority0",
+            "defer_priority_1": "deferPriority1",
+            "defer_priority_2": "deferPriority2",
+            "defer_priority_3": "deferPriority3",
+            "defer_priority_4": "deferPriority4",
+            "defer_priority_5": "deferPriority5",
+            "defer_priority_6": "deferPriority6",
+            "defer_priority_7": "deferPriority7",
+
+            # sharing / analytics / beacons
+            "share_data_with_client": "shareDataWithClient",
+            "advertise_support": "advertiseSupport",
+            "advertise_pc_analytics_support": "advertisePcAnalyticsSupport",
+            "send_beacon_on_association": "sendBeaconOnAssociation",
+            "send_beacon_on_roam": "sendBeaconOnRoam",
+
+            # mdns
+            "mdns_mode": "mDNSMode",
+        }
+
+        # small helper to normalize a provided field_to_check into controller key style
+        def _normalize_field_check_key(raw_key):
+            if raw_key is None:
+                return None
+            if raw_key in key_name_map:
+                return key_name_map[raw_key]
+            if "_" in raw_key:
+                parts = raw_key.split("_")
+                return parts[0] + "".join(p.capitalize() for p in parts[1:])
+            return raw_key
+
+        # small helper to canonicalize peer2peer-like values for tolerant compare
+        def _canon_peer2peer_value(v):
+            if v is None:
+                return None
+            s = str(v).strip().upper()
+            if s in ("DISABLE", "DROP", "OFF", "FALSE", "0"):
+                return "DROP"
+            if s in ("ENABLE", "ALLOW", "ON", "TRUE", "1"):
+                return "ALLOW"
+            return s
+
+        field_check_key = _normalize_field_check_key(field_to_check)
+
+        # Fetch existing templates once and flatten by designName
+        existing_templates = self.get_advanced_ssid_templates() or []
+        self.log("Existing Advanced SSID templates: {0}".format(existing_templates), "DEBUG")
+        existing_by_design = {}
+        for block in existing_templates:
+            for instance in block.get("instances", []) or []:
+                existing_by_design[instance["designName"]] = instance
+
+        # Iterate requested SSIDs
+        for requested_entry in adv_ssid_list or []:
+            design_name = requested_entry.get("design_name")
+            requested_feature_attrs_raw = requested_entry.get("feature_attributes") or {}
+            requested_unlocked = requested_entry.get("unlocked_attributes")
+            requested_unlocked = [] if requested_unlocked is None else requested_unlocked
+
+            # Inline snake_case -> lowerCamelCase normalization for payload
+            normalized_feature_attrs = {}
+            for raw_key, raw_val in requested_feature_attrs_raw.items():
+                if raw_key in key_name_map:
+                    target_key = key_name_map[raw_key]
+                else:
+                    if "_" in raw_key:
+                        parts = raw_key.split("_")
+                        target_key = parts[0] + "".join(p.capitalize() for p in parts[1:])
+                    else:
+                        target_key = raw_key
+
+                if target_key == "fastTransitionReassociationTimeout" and isinstance(raw_val, (float, str)):
+                    try:
+                        raw_val = int(float(raw_val))
+                    except Exception:
+                        pass
+
+                normalized_feature_attrs[target_key] = raw_val
+
+            payload = {"designName": design_name, "featureAttributes": normalized_feature_attrs}
+            if requested_unlocked:
+                payload["unlockedAttributes"] = requested_unlocked
+
+            self.log("Evaluating design: {0} (field_to_check={1})".format(design_name, field_to_check), "DEBUG")
+
+            existing_entry = existing_by_design.get(design_name)
+            self.log("Existing entry match: {0}".format(existing_entry), "DEBUG")
+
+            # If design doesn't exist yet, schedule for creation
+            if not existing_entry:
+                add_payloads.append(payload)
+                self.log("Design '{0}' not found -> ADD".format(design_name), "INFO")
+                continue
+
+            # Fetch complete details to compare real stored values
+            existing_details = self.get_advanced_ssid_details(existing_entry["id"]) or {}
+            self.log("Existing design details: {0}".format(existing_details), "DEBUG")
+            existing_features = existing_details.get("featureAttributes", {}) or {}
+            existing_unlocked = existing_details.get("unlockedAttributes", []) or []
+
+            needs_update = False
+            per_design_diffs = []  # collect all diffs for this design
+
+            # If no single-field restriction, check all requested keys
+            if field_check_key is None:
+                # Compare only keys the user provided
+                for attr_key, req_value in normalized_feature_attrs.items():
+                    # read raw existing value from controller
+                    exist_value = existing_features.get(attr_key)
+
+                    # coerce boolean-like strings to bool for requested side
+                    if isinstance(req_value, str) and req_value.lower() in ("true", "false"):
+                        req_value = req_value.lower() == "true"
+
+                    # If controller omitted the key (exist_value is None) but the requested value is boolean,
+                    # treat the missing controller value as False (common when controllers omit default/false flags).
+                    if exist_value is None and isinstance(req_value, bool):
+                        exist_value = False
+
+                    # normalize controller-side boolean strings
+                    if isinstance(exist_value, str) and exist_value.lower() in ("true", "false"):
+                        exist_value = exist_value.lower() == "true"
+
+                    lower_key = attr_key.lower()
+
+                    # peer2peer tolerant comparison
+                    if "peer2peer" in lower_key:
+                        if _canon_peer2peer_value(exist_value) != _canon_peer2peer_value(req_value):
+                            self.log("Diff for {0}: existing({1}) != requested({2})".format(attr_key, exist_value, req_value), "DEBUG")
+                            per_design_diffs.append((attr_key, exist_value, req_value))
+                            needs_update = True
+                            # continue scanning to capture all diffs
+                            continue
+
+                    # wmmPolicy tolerant (case-insensitive)
+                    elif attr_key.lower() == "wmmpolicy" or attr_key == "wmmPolicy":
+                        ev = None if exist_value is None else str(exist_value).upper()
+                        rv = None if req_value is None else str(req_value).upper()
+                        if ev != rv:
+                            self.log("Diff for {0}: existing({1}) != requested({2})".format(attr_key, ev, rv), "DEBUG")
+                            per_design_diffs.append((attr_key, ev, rv))
+                            needs_update = True
+                            continue
+
+                    # numeric-ish fields: try int comparison
+                    elif any(sub in lower_key for sub in ("dtim", "maxclients", "idle", "timeout", "value", "scan", "defer")):
+                        try:
+                            ev_num = int(existing_features.get(attr_key)) if existing_features.get(attr_key) is not None else None
+                        except Exception:
+                            ev_num = existing_features.get(attr_key)
+                        try:
+                            rv_num = int(req_value) if req_value is not None else None
+                        except Exception:
+                            rv_num = req_value
+                        if ev_num != rv_num:
+                            self.log("Diff for {0}: existing({1}) != requested({2})".format(attr_key, ev_num, rv_num), "DEBUG")
+                            per_design_diffs.append((attr_key, ev_num, rv_num))
+                            needs_update = True
+                            continue
+
+                    # default strict equality
+                    else:
+                        if exist_value != req_value:
+                            self.log("Diff for {0}: existing({1}) != requested({2})".format(attr_key, exist_value, req_value), "DEBUG")
+                            per_design_diffs.append((attr_key, exist_value, req_value))
+                            needs_update = True
+                            continue
+
+                # If still no difference found, compare unlocked attributes
+                if set(existing_unlocked) != set(requested_unlocked):
+                    self.log("Unlocked attrs differ: existing({0}) != requested({1})".format(existing_unlocked, requested_unlocked), "DEBUG")
+                    per_design_diffs.append(("unlockedAttributes", existing_unlocked, requested_unlocked))
+                    needs_update = True
+
+            else:
+                # Only compare the single requested field or unlocked attributes
+                if field_to_check in ("unlocked_attributes", "unlockedAttributes") or field_check_key == "unlockedAttributes":
+                    if set(existing_unlocked) != set(requested_unlocked):
+                        self.log(
+                            "Unlocked attrs differ (single-field check): "
+                            "existing({0}) != requested({1})".format(existing_unlocked, requested_unlocked),
+                            "DEBUG",
+                        )
+                        per_design_diffs.append(("unlockedAttributes", existing_unlocked, requested_unlocked))
+                        needs_update = True
+                else:
+                    # if the requested payload didn't include the field to check, treat as NO-UPDATE
+                    if field_check_key not in normalized_feature_attrs:
+                        self.log(
+                            "Requested entry missing field_to_check '{0}' -> "
+                            "treating NO-UPDATE for design {1}".format(field_to_check, design_name),
+                            "DEBUG",
+                        )
+                        needs_update = False
+                    else:
+                        req_value = normalized_feature_attrs.get(field_check_key)
+                        exist_value = existing_features.get(field_check_key)
+
+                        # coerce boolean-like strings
+                        if isinstance(req_value, str) and req_value.lower() in ("true", "false"):
+                            req_value = req_value.lower() == "true"
+                        # same missing-key -> False heuristic for boolean requested values
+                        if exist_value is None and isinstance(req_value, bool):
+                            exist_value = False
+                        if isinstance(exist_value, str) and exist_value.lower() in ("true", "false"):
+                            exist_value = exist_value.lower() == "true"
+
+                        lower_key = field_check_key.lower()
+                        if "peer2peer" in lower_key:
+                            if _canon_peer2peer_value(exist_value) != _canon_peer2peer_value(req_value):
+                                self.log("Diff for {0}: existing({1}) != requested({2})".format(field_check_key, exist_value, req_value), "DEBUG")
+                                per_design_diffs.append((field_check_key, exist_value, req_value))
+                                needs_update = True
+                        elif field_check_key.lower() == "wmmpolicy" or field_check_key == "wmmPolicy":
+                            ev = None if exist_value is None else str(exist_value).upper()
+                            rv = None if req_value is None else str(req_value).upper()
+                            if ev != rv:
+                                self.log("Diff for {0}: existing({1}) != requested({2})".format(field_check_key, ev, rv), "DEBUG")
+                                per_design_diffs.append((field_check_key, ev, rv))
+                                needs_update = True
+                        elif any(sub in lower_key for sub in ("dtim", "maxclients", "idle", "timeout", "value", "scan", "defer")):
+                            try:
+                                ev_num = int(existing_features.get(field_check_key)) if existing_features.get(field_check_key) is not None else None
+                            except Exception:
+                                ev_num = existing_features.get(field_check_key)
+                            try:
+                                rv_num = int(req_value) if req_value is not None else None
+                            except Exception:
+                                rv_num = req_value
+                            if ev_num != rv_num:
+                                self.log("Diff for {0}: existing({1}) != requested({2})".format(field_check_key, ev_num, rv_num), "DEBUG")
+                                per_design_diffs.append((field_check_key, ev_num, rv_num))
+                                needs_update = True
+                        else:
+                            if exist_value != req_value:
+                                self.log("Diff for {0}: existing({1}) != requested({2})".format(field_check_key, exist_value, req_value), "DEBUG")
+                                per_design_diffs.append((field_check_key, exist_value, req_value))
+                                needs_update = True
+
+            # Finalize lists
+            if needs_update:
+                payload["id"] = existing_entry.get("id")
+                update_payloads.append(payload)
+                update_diffs[design_name] = per_design_diffs
+                self.log("Design '{0}' marked for UPDATE. Diffs: {1}".format(design_name, per_design_diffs), "INFO")
+            else:
+                no_change_payloads.append(existing_details)
+                self.log("Design '{0}' requires NO UPDATE".format(design_name), "INFO")
+
+        self.log("ADD: {0}, UPDATE: {1}, NO-CHANGE: {2}".format(len(add_payloads), len(update_payloads), len(no_change_payloads)), "DEBUG")
+        return add_payloads, update_payloads, no_change_payloads
+
+    def get_clean_air_templates(self, design_name=None, template_type="CLEANAIR_CONFIGURATION"):
+        """
+        Retrieve existing CleanAir feature templates from Cisco Catalyst Center.
+        Args:
+            design_name (str, optional): Specific feature template design name to filter by.
+            template_type (str, optional): Feature template type string used by DNAC. Defaults to "CLEAN_AIR_CONFIGURATION".
+        Returns:
+            list: A list of existing CleanAir template dicts (the API 'response' list), or [] on failure.
+        """
+        self.log("Fetching existing CleanAir Templates from DNAC.", "DEBUG")
+
+        try:
+            params = {"type": template_type}
+            if design_name:
+                params["design_name"] = design_name
+
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
+            )
+            self.log("Received API response: {0}".format(response), "DEBUG")
+            existing_clean_air = response.get("response", [])
+            self.log(
+                "Retrieved {0} CleanAir Templates.".format(len(existing_clean_air)),
+                "DEBUG",
+            )
+            return existing_clean_air
+
+        except Exception as e:
+            self.log("Failed to fetch CleanAir Templates: {0}".format(str(e)), "ERROR")
+            return []
+
+    def get_clean_air_details(self, template_id):
+        """
+        Retrieve full details for a specific CleanAir feature template.
+        Args:
+            template_id (str): The feature template ID to fetch.
+        Returns:
+            dict: The template details (API 'response' object) or {} on failure.
+        """
+        self.log("Fetching CleanAir template details for id: {0}".format(template_id), "DEBUG")
+
+        if not template_id:
+            self.log("get_clean_air_details called without template_id.", "WARNING")
+            return {}
+
+        try:
+            response = self.execute_get_request(
+                "wireless",
+                "get_clean_air_configuration_feature_template",
+                {"id": template_id}
+            )
+            self.log("Received API response: {0}".format(response), "DEBUG")
+            details = response.get("response", {}) or {}
+            self.log("Retrieved CleanAir template details: {0}".format(details), "DEBUG")
+            return details
+
+        except Exception as e:
+            self.log("Failed to fetch CleanAir template details: {0}".format(str(e)), "ERROR")
+            return {}
+
+    def get_advanced_ssid_details(self, ssid_id):
+        """
+        Retrieve detailed information for a specific Advanced SSID configuration template from Cisco Catalyst Center.
+        Args:
+            ssid_id (str): The unique ID of the Advanced SSID feature template.
+        Returns:
+            dict: The details of the Advanced SSID feature template, or {} if fetch fails.
+        """
+        self.log("Fetching existing Advanced SSID Templates from DNAC.", "DEBUG")
+        try:
+            params = {}
+            if ssid_id:
+                params["id"] = ssid_id
+
+            # Execute API call to DNA Center
+            response = self.execute_get_request(
+                "wireless",
+                "get_advanced_ssid_configuration_feature_template",
+                params
+            )
+
+            # Log raw response for debugging
+            self.log("Received API response: {0}".format(response), "DEBUG")
+            # Extract templates from response
+            existing_ssids = response.get("response", [])
+            # Validate response data
+            if not isinstance(existing_ssids, dict):
+                self.log("Unexpected response format. Expected list, got {0}".format(type(existing_ssids)), "WARNING")
+                return []
+            return existing_ssids
+
+        except Exception as e:
+            self.log(
+                "Failed to fetch Advanced SSID Templates: {0}".format(str(e)), "ERROR"
+            )
+            return []
+
+    def get_advanced_ssid_templates(self, design_name=None):
+        """
+        Retrieve existing Advanced SSID feature templates from Cisco Catalyst Center.
+        Args:
+            design_name (str, optional): Specific feature template design name to filter by.
+        Returns:
+            list: A list of existing Advanced SSID template dicts.
+        """
+        self.log("Fetching existing Advanced SSID Templates from DNAC.", "DEBUG")
+
+        try:
+            params = {"type": "ADVANCED_SSID_CONFIGURATION"}
+
+            if design_name:
+                params["design_name"] = design_name
+
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
+            )
+            self.log("Received API response: {0}".format(response), "DEBUG")
+            existing_ssids = response.get("response", [])
+            self.log(
+                "Retrieved {0} Advanced SSID Templates.".format(len(existing_ssids)),
+                "DEBUG",
+            )
+            return existing_ssids
+
+        except Exception as e:
+            self.log(
+                "Failed to fetch Advanced SSID Templates: {0}".format(str(e)), "ERROR"
+            )
+            return []
+
+    def verify_delete_aaa_radius_attributes_requirement(self, aaa_attr_list):
+        """
+        Determines whether AAA Radius Attributes need to be deleted based on the requested parameters.
+        Args:
+            aaa_attr_list (list): A list of dictionaries containing the requested AAA Radius Attribute parameters for deletion.
+                                Example: [{"design_name": "AAA_Radius_Template_01"}]
+        Returns:
+            list: A list of AAA Radius Attribute entries to delete. Each entry is the original requested dict
+                with an added "id" key (the controller template id) when a match is found.
+        """
+        delete_attrs_list = []
+
+        self.log("Starting verification of AAA Radius Attributes for deletion.", "INFO")
+
+        # Retrieve all existing AAA Radius Attributes
+        existing_blocks = self.get_aaa_radius_attributes()
+        instances = []
+        for block in existing_blocks:
+            instances.extend(block.get("instances", []))
+
+        self.log("Existing AAA Radius Attributes: {0}".format(instances), "DEBUG")
+
+        # Convert existing attributes into a dictionary for quick lookup by design name
+        existing_dict = {attr["designName"]: attr for attr in instances}
+        self.log("Converted existing AAA Radius Attributes to dictionary.", "DEBUG")
+
+        # Iterate over the requested attributes
+        for index, requested_attr in enumerate(aaa_attr_list, start=1):
+            design_name = requested_attr.get("design_name")
+            self.log(
+                "Iteration {0}: Checking AAA Radius Attribute '{1}' for deletion requirement.".format(
+                    index, design_name
+                ),
+                "DEBUG",
+            )
+
+            if design_name in existing_dict:
+                # Match found → prepare payload with ID
+                existing = existing_dict[design_name]
+                attr_to_delete = requested_attr.copy()
+                attr_to_delete["id"] = existing.get("id")
+                delete_attrs_list.append(attr_to_delete)
+                self.log(
+                    "Iteration {0}: AAA Radius Attribute '{1}' scheduled for deletion.".format(
+                        index, design_name
+                    ),
+                    "INFO",
+                )
+            else:
+                self.log(
+                    "Iteration {0}: Deletion not required for AAA Radius Attribute '{1}'. It does not exist.".format(
+                        index, design_name
+                    ),
+                    "INFO",
+                )
+
+        self.log(
+            "AAA Radius Attributes scheduled for deletion: {0} - {1}".format(
+                len(delete_attrs_list), delete_attrs_list
+            ),
+            "DEBUG",
+        )
+
+        return delete_attrs_list
+
+    def verify_create_update_aaa_radius_attributes_requirement(self, aaa_attr_list):
+        """
+        Compares desired AAA Radius Attributes against existing ones and determines
+        which need to be created, updated, or left unchanged.
+        Args:
+            aaa_attr_list (list): A list of dictionaries containing the requested AAA Radius Attribute parameters.
+                Each dictionary should contain:
+                    - design_name (str): The unique design/profile name
+                    - called_station_id (str): The called station ID value
+                    - unlocked_attributes (bool, optional): Whether to unlock the calledStationId attribute
+        Returns:
+            tuple: Three lists containing AAA Radius Attribute configurations:
+                - add_attrs (list): Payloads for new AAA Radius Attribute configurations to create
+                - update_attrs (list): Payloads for existing AAA Radius Attribute configurations to update (includes "id" field)
+                - no_update_attrs (list): Existing AAA Radius Attribute configurations that require no changes
+        Note:
+            This function ONLY builds and returns payloads. It does NOT call create/update APIs — execution should happen elsewhere.
+        """
+        add_attrs, update_attrs, no_update_attrs = [], [], []
+
+        # Fetch once
+        existing_blocks = self.get_aaa_radius_attributes()
+        self.log("Existing AAA Radius Attributes: {0}".format(existing_blocks), "DEBUG")
+
+        # Flatten instances into dict
+        existing_dict = {}
+        for block in existing_blocks:
+            for inst in block.get("instances", []):
+                existing_dict[inst["designName"]] = inst
+        self.log("Existing AAA Radius Attributes Dict: {0}".format(existing_dict), "DEBUG")
+
+        # Iterate requested attributes
+        for attr in aaa_attr_list:
+            design_name = attr.get("design_name")
+            called_station_id = attr.get("called_station_id")
+            unlocked_attributes = attr.get("unlocked_attributes", False)
+
+            # validate the called_station_id value
+            allowed_values = [
+                "AP_ETHMAC_ONLY", "AP_ETHMAC_SSID", "AP_GROUP_NAME", "AP_LABEL_ADDRESS",
+                "AP_LABEL_ADDRESS_SSID", "AP_LOCATION", "AP_MACADDRESS", "AP_MACADDRESS_SSID",
+                "AP_NAME", "AP_NAME_SSID", "IPADDRESS", "MACADDRESS", "VLAN_ID"
+            ]
+            if called_station_id not in allowed_values:
+                self.msg = ("Invalid called_station_id '{0}' for design '{1}'. Must be one of: {2}".format(
+                    called_station_id, design_name, allowed_values))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            # Build payload
+            payload = {
+                "designName": design_name,
+                "featureAttributes": {"calledStationId": called_station_id},
+            }
+            if unlocked_attributes:
+                payload["unlockedAttributes"] = ["calledStationId"]
+
+            existing = existing_dict.get(design_name)
+
+            if not existing:
+                # CREATE payload
+                add_attrs.append(payload)
+                self.log("AAA Radius Attribute '{0}' scheduled for creation.".format(design_name), "DEBUG")
+            else:
+                details = self.get_aaa_radius_attribute_details(existing["id"])
+                self.log("Details for {0}: {1}".format(design_name, details), "DEBUG")
+
+                existing_called = details.get("featureAttributes", {}).get("calledStationId")
+                existing_unlocked = details.get("unlockedAttributes", []) or []
+
+                # Desired unlocked (only set if explicitly requested True)
+                desired_unlocked = ["calledStationId"] if unlocked_attributes else []
+
+                # Compare both fields
+                if (
+                    existing_called != called_station_id
+                    or set(existing_unlocked) != set(desired_unlocked)
+                ):
+                    update_attrs.append(payload)
+                    self.log("AAA Radius Attribute '{0}' marked for update.".format(design_name), "DEBUG")
+                else:
+                    no_update_attrs.append(details)
+                    self.log("AAA Radius Attribute '{0}' requires no update.".format(design_name), "DEBUG")
+
+        self.log("AAA Radius Attributes to Add: {0}".format(add_attrs), "DEBUG")
+        self.log("AAA Radius Attributes to Update: {0}".format(update_attrs), "DEBUG")
+        self.log("AAA Radius Attributes with No Changes: {0}".format(no_update_attrs), "DEBUG")
+
+        return add_attrs, update_attrs, no_update_attrs
+
+    def get_aaa_radius_attribute_details(self, template_id):
+        """
+        Fetch detailed AAA Radius Attribute template by ID from Cisco Catalyst Center.
+        Args:
+            template_id (str): The unique ID of the feature template.
+        Returns:
+            dict: Detailed AAA Radius Attribute template (with featureAttributes, unlockedAttributes).
+        """
+        self.log(
+            "Fetching AAA Radius Attribute details for ID: {0}".format(template_id),
+            "DEBUG",
+        )
+        self.template_id = template_id
+        try:
+            response = self.execute_get_request(
+                "wireless",
+                "get_aaa_radius_attributes_configuration_feature_template",
+                {"id": template_id}
+            )
+            self.log("Received API response: {0}".format(response), "DEBUG")
+            details = response.get("response", {})
+            self.log(
+                "Retrieved AAA Radius Attribute details for ID {0}: {1}".format(
+                    template_id, details
+                ),
+                "DEBUG",
+            )
+            return details
+
+        except Exception as e:
+            self.log(
+                "Failed to fetch AAA Radius Attribute details for ID {0}: {1}".format(
+                    template_id, str(e)
+                ),
+                "ERROR",
+            )
+            return {}
+
+    def get_aaa_radius_attributes(self, design_name=None):
+        """
+        Retrieve existing AAA Radius Attributes from Cisco Catalyst Center.
+        Args:
+            design_name (str, optional): Specific feature template design name to filter by.
+        Returns:
+            list: A list of existing AAA Radius Attribute dicts (the API 'response' list), or [] on failure.
+        """
+        self.log("Fetching existing AAA Radius Attributes from DNAC.", "DEBUG")
+
+        try:
+            params = {"type": "AAA_RADIUS_ATTRIBUTES_CONFIGURATION"}
+            if design_name:
+                params["design_name"] = design_name
+
+            response = self.execute_get_request(
+                "wireless",
+                "get_feature_template_summary",
+                params
+            )
+            self.log("Received API response: {0}".format(response), "DEBUG")
+            existing_attrs = response.get("response", [])
+            self.log(
+                "Retrieved {0} AAA Radius Attributes.".format(len(existing_attrs)),
+                "DEBUG",
+            )
+            return existing_attrs
+
+        except Exception as e:
+            self.log(
+                "Failed to fetch AAA Radius Attributes: {0}".format(str(e)), "ERROR"
+            )
+            return []
+
+    def process_add_rrm_general(self, params):
+        """
+        Handles the creation of RRM General configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of RRM General payloads to create. Each payload should include:
+                        {
+                            "designName": "<str>",
+                            "featureAttributes": { ... },
+                            ["unlockedAttributes": [...]]
+                        }
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing ADD for RRM General Configurations.", "INFO")
+        self.log("Params for ADD: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                self.log("Creating RRM General configuration: {0}".format(design_name), "DEBUG")
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="create_r_r_m_general_configuration_feature_template",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    # Validate returned tasks (consistent with other handlers)
+                    self.check_tasks_response_status(response, "create_r_r_m_general_configuration_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully created RRM General configuration."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to create RRM General configuration: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while creating: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"rrm_general_add": results}
+            self.status = (
+                "failed" if results and all(("Failed" in v or "Exception" in v) for v in results.values()) else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"rrm_general_add": "Exception during add: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_update_rrm_general(self, params):
+        """
+        Handles the update of RRM General configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of RRM General payloads to update. Each payload must include:
+                        {
+                            "id": "<template_id>",
+                            "designName": "<str>",
+                            "featureAttributes": { ... },
+                            ["unlockedAttributes": [...]]
+                        }
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing UPDATE for RRM General Configurations.", "INFO")
+        self.log("Params for UPDATE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                template_id = payload.get("id")
+
+                self.log(
+                    "Updating RRM General configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "DEBUG",
+                )
+
+                if not template_id:
+                    results[design_name] = "Skipped update: missing 'id' in payload."
+                    self.log(results[design_name], "ERROR")
+                    continue
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="update_r_r_m_general_configuration_feature_template",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    # Validate returned tasks
+                    self.check_tasks_response_status(response, "update_r_r_m_general_configuration_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully updated RRM General configuration."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to update RRM General configuration: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while updating: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"rrm_general_update": results}
+            self.status = (
+                "failed" if results and all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values())
+                else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"rrm_general_update": "Exception during update: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_add_rrm_fra(self, params):
+        """
+        Handles the creation of RRM-FRA configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of RRM-FRA payloads to create. Each payload should
+                        include at least 'designName' and 'featureAttributes'.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing ADD for RRM-FRA Configurations.", "INFO")
+        self.log("Params for ADD: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                self.log("Creating RRM-FRA configuration: {0}".format(design_name), "DEBUG")
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="create_r_r_m_f_r_a_configuration_feature_template",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    self.check_tasks_response_status(response, "create_r_r_m_f_r_a_configuration_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully created RRM-FRA configuration."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to create RRM-FRA configuration: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while creating: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"rrm_fra_add": results}
+            self.status = (
+                "failed" if all(("Failed" in v or "Exception" in v) for v in results.values()) else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"rrm_fra_add": "Exception during add: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_update_rrm_fra(self, params):
+        """
+        Handles the update of RRM-FRA configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of RRM-FRA payloads to update. Each payload must include 'id',
+                        'designName', and 'featureAttributes'.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing UPDATE for RRM-FRA Configurations.", "INFO")
+        self.log("Params for UPDATE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                template_id = payload.get("id")
+
+                self.log(
+                    "Updating RRM-FRA configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "DEBUG",
+                )
+
+                if not template_id:
+                    results[design_name] = "Skipped update: missing 'id' in payload."
+                    self.log(results[design_name], "ERROR")
+                    continue
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="update_r_r_m_f_r_a_configuration_feature_template",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    self.check_tasks_response_status(response, "update_r_r_m_f_r_a_configuration_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully updated RRM-FRA configuration."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to update RRM-FRA configuration: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while updating: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"rrm_fra_update": results}
+            self.status = (
+                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"rrm_fra_update": "Exception during update: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_add_multicast(self, params):
+        """
+        Handles addition of Multicast configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of multicast payloads to add.
+                        Each payload must contain at least 'design_name' and 'feature_attributes'.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing ADD for Multicast Configurations.", "INFO")
+        self.log("Params for ADD: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("design_name") or "Unknown"
+
+                self.log(
+                    "Adding Multicast configuration: design='{0}'".format(design_name),
+                    "DEBUG",
+                )
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="create_multicast_configuration_feature_template",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    self.check_tasks_response_status(response, "create_multicast_configuration_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully created Multicast configuration."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to create Multicast configuration: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while adding: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            self.msg = {"multicast_add": results}
+            self.status = (
+                "failed" if all(("Failed" in v or "Exception" in v) for v in results.values()) else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"multicast_add": "Exception during add: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_update_multicast(self, params):
+        """
+        Handles update of Multicast configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of multicast payloads to update.
+                        Each payload must contain at least the template 'id' and updated attributes.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing UPDATE for Multicast Configurations.", "INFO")
+        self.log("Params for UPDATE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("design_name") or payload.get("designName") or "Unknown"
+                template_id = payload.get("id")
+
+                self.log(
+                    "Updating Multicast configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "DEBUG",
+                )
+
+                if not template_id:
+                    results[design_name] = "Skipped update: missing 'id' in payload."
+                    self.log(results[design_name], "ERROR")
+                    continue
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="update_multicast_configuration_feature_template",
+                        op_modifies=True,
+                        params={"id": template_id, **payload},
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    self.check_tasks_response_status(response, "update_multicast_configuration_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully updated Multicast configuration."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to update Multicast configuration: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while updating: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            self.msg = {"multicast_update": results}
+            self.status = (
+                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"multicast_update": "Exception during update: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_delete_multicast(self, params):
+        """
+        Handles deletion of Multicast configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of multicast payloads to delete.
+                        Each payload must contain at least the template 'id'.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing DELETE for Multicast Configurations.", "INFO")
+        self.log("Params for DELETE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("design_name") or payload.get("designName") or "Unknown"
+                template_id = payload.get("id")
+
+                self.log(
+                    "Deleting Multicast configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "DEBUG",
+                )
+
+                if not template_id:
+                    results[design_name] = "Skipped delete: missing 'id' in payload."
+                    self.log(results[design_name], "ERROR")
+                    continue
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="delete_multicast_configuration_feature_template",
+                        op_modifies=True,
+                        params={"id": template_id},
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    self.check_tasks_response_status(response, "delete_multicast_configuration_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully deleted Multicast configuration."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to delete Multicast configuration: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while deleting: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            self.msg = {"multicast_delete": results}
+            self.status = (
+                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"multicast_delete": "Exception during delete: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_add_flexconnect(self, params):
+        """
+        Handles the creation of FlexConnect configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of FlexConnect payloads to create. Each payload should
+                        include at least 'designName' and 'featureAttributes'.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing ADD for FlexConnect.", "INFO")
+        self.log("Params for ADD: {0}".format(params), "DEBUG")
+        results = {}
+        try:
+            for payload in params or []:
+                dn = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                try:
+                    resp = self.dnac._exec(
+                        family="wireless",
+                        function="create_flex_connect_configuration_feature_template",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(resp), "DEBUG")
+                    self.check_tasks_response_status(resp, "create_flex_connect_configuration_feature_template")
+                    results[dn] = (
+                        "Successfully created FlexConnect."
+                        if self.status not in ["failed", "exited"]
+                        else "Failed to create FlexConnect: {0}".format(self.msg)
+                    )
+                except Exception as exc:
+                    results[dn] = "Exception while creating: {0}".format(str(exc))
+                    self.log(results[dn], "ERROR")
+            self.msg = {"flexconnect_add": results}
+            self.status = "failed" if all(("Failed" in v or "Exception" in v) for v in results.values()) else "success"
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+        except Exception as exc:
+            self.msg = {"flexconnect_add": "Exception during add: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_update_flexconnect(self, params):
+        """
+        Handles the update of FlexConnect configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of FlexConnect payloads to update.
+                        Each payload must contain at least the template 'id' and updated attributes.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing UPDATE for FlexConnect.", "INFO")
+        self.log("Params for UPDATE: {0}".format(params), "DEBUG")
+        results = {}
+        try:
+            for payload in params or []:
+                dn = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                tid = payload.get("id")
+                if not tid:
+                    results[dn] = "Skipped update: missing 'id' in payload."
+                    self.log(results[dn], "ERROR")
+                    continue
+                try:
+                    resp = self.dnac._exec(
+                        family="wireless",
+                        function="update_flex_connect_configuration_feature_template",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(resp), "DEBUG")
+                    self.check_tasks_response_status(resp, "update_flex_connect_configuration_feature_template")
+                    results[dn] = (
+                        "Successfully updated FlexConnect."
+                        if self.status not in ["failed", "exited"]
+                        else "Failed to update FlexConnect: {0}".format(self.msg)
+                    )
+                except Exception as exc:
+                    results[dn] = "Exception while updating: {0}".format(str(exc))
+                    self.log(results[dn], "ERROR")
+            self.msg = {"flexconnect_update": results}
+            self.status = "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+        except Exception as exc:
+            self.msg = {"flexconnect_update": "Exception during update: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_add_event_driven_rrm(self, params):
+        """
+        Handles the creation of Event-Driven RRM configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of Event-Driven RRM payloads to create.
+                        Each payload should include at least 'designName'
+                        and 'featureAttributes' as produced by your verifier.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing ADD for Event-Driven RRM Configurations.", "INFO")
+        self.log("Params for ADD: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                self.log("Creating Event-Driven RRM configuration: {0}".format(design_name), "DEBUG")
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="create_event_driven_r_r_m_configuration_feature_template",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    # validate returned tasks
+                    self.check_tasks_response_status(response, "create_event_driven_r_r_m_configuration_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully created Event-Driven RRM configuration."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to create Event-Driven RRM configuration: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while creating: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"event_driven_rrm_add": results}
+            self.status = (
+                "failed" if all(("Failed" in v or "Exception" in v) for v in results.values()) else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"event_driven_rrm_add": "Exception during add: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_update_event_driven_rrm(self, params):
+        """
+        Handles updating of Event-Driven RRM configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of Event-Driven RRM payloads to update.
+                        Each payload must include at least 'id', 'designName',
+                        and 'featureAttributes' as produced by your verifier.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing UPDATE for Event-Driven RRM Configurations.", "INFO")
+        self.log("Params for UPDATE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                template_id = payload.get("id")
+
+                self.log(
+                    "Updating Event-Driven RRM configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "DEBUG",
+                )
+
+                if not template_id:
+                    results[design_name] = "Skipped update: missing 'id' in payload."
+                    self.log(results[design_name], "ERROR")
+                    continue
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="update_event_driven_r_r_m_configuration_feature_template",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    # validate returned tasks
+                    self.check_tasks_response_status(response, "update_event_driven_r_r_m_configuration_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully updated Event-Driven RRM configuration."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to update Event-Driven RRM configuration: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while updating: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"event_driven_rrm_update": results}
+            self.status = (
+                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"event_driven_rrm_update": "Exception during update: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_add_dot11be(self, params):
+        """
+        Handles the creation of dot11be configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of dot11be payloads to create. Each payload should include at least 'designName'
+                        and 'featureAttributes' as produced by your verifier.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing ADD for dot11be Configurations.", "INFO")
+        self.log("Params for ADD: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                self.log("Creating dot11be configuration: {0}".format(design_name), "DEBUG")
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="create_dot11be_status_configuration_feature_template",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    # validate returned tasks
+                    self.check_tasks_response_status(response, "create_dot11be_status_configuration_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully created dot11be configuration."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to create dot11be configuration: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while creating: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"dot11be_add": results}
+            self.status = "failed" if all(("Failed" in v or "Exception" in v) for v in results.values()) else "success"
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"dot11be_add": "Exception during add: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_update_dot11be(self, params):
+        """
+        Handles the update of dot11be configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of dot11be payloads to update. Each payload should include at least 'id',
+                        'designName', and 'featureAttributes' as produced by your verifier.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing UPDATE for dot11be Configurations.", "INFO")
+        self.log("Params for UPDATE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                template_id = payload.get("id")
+                self.log("Updating dot11be configuration: {0}".format(design_name), "DEBUG")
+
+                if not template_id:
+                    results[design_name] = "Skipping update: missing template ID"
+                    self.log(results[design_name], "ERROR")
+                    continue
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="update_dot11be_status_configuration_feature_template",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    # validate returned tasks
+                    self.check_tasks_response_status(response, "update_dot11be_status_configuration_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully updated dot11be configuration."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to update dot11be configuration: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while updating: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"dot11be_update": results}
+            self.status = "failed" if all(("Failed" in v or "Exception" in v) for v in results.values()) else "success"
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"dot11be_update": "Exception during update: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_add_dot11ax(self, params):
+        """
+        Handles the creation of dot11ax configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of dot11ax payloads to create. Each payload should include at least 'designName'
+                        and 'featureAttributes' as produced by your verifier.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing ADD for dot11ax Configurations.", "INFO")
+        self.log("Params for ADD: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                self.log("Creating dot11ax configuration: {0}".format(design_name), "DEBUG")
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="create_dot11ax_configuration_feature_template",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    # validate returned tasks (keeps parity with other handlers)
+                    self.check_tasks_response_status(response, "create_dot11ax_configuration_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully created dot11ax configuration."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to create dot11ax configuration: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while creating: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"dot11ax_add": results}
+            self.status = "failed" if all(("Failed" in v or "Exception" in v) for v in results.values()) else "success"
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"dot11ax_add": "Exception during add: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_update_dot11ax(self, params):
+        """
+        Handles the update of dot11ax configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of dot11ax payloads to update. Each payload should include 'id' (existing template id)
+                        and may include 'designName' and 'featureAttributes'.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing UPDATE for dot11ax Configurations.", "INFO")
+        self.log("Params for UPDATE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                template_id = payload.get("id")
+                self.log("Updating dot11ax configuration: design='{0}', id='{1}'".format(design_name, template_id), "DEBUG")
+
+                if not template_id:
+                    results[design_name] = "Skipped update: missing 'id' in payload."
+                    self.log(results[design_name], "ERROR")
+                    continue
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="update_dot11ax_configuration_feature_template",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    # validate returned tasks (keeps parity with other handlers)
+                    self.check_tasks_response_status(response, "update_dot11ax_configuration_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully updated dot11ax configuration."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to update dot11ax configuration: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while updating: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"dot11ax_update": results}
+            # If every result contains 'Failed' or 'Exception' or 'Skipped', mark overall as failed; else success
+            self.status = (
+                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"dot11ax_update": "Exception during update: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_add_clean_air(self, params):
+        """
+        Handles the creation of CleanAir Profiles in Cisco Catalyst Center.
+        Args:
+            params (list): A list of CleanAir payloads to create.
+
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing ADD for CleanAir Profiles.", "INFO")
+        self.log("Params for ADD: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params:
+                design_name = payload.get("designName")
+                self.log("Creating CleanAir Profile: {0}".format(design_name), "DEBUG")
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="create_clean_air_configuration_feature_template",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    self.check_tasks_response_status(response, "create_clean_air_configuration_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully created CleanAir Profile."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to create CleanAir Profile: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as e:
+                    results[design_name] = "Exception while creating: {0}".format(str(e))
+                    self.log(results[design_name], "ERROR")
+
+            # Final message after all payloads processed
+            self.msg = {"clean_air_add": results}
+            self.status = "failed" if all("Failed" in v or "Exception" in v for v in results.values()) else "success"
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as e:
+            self.msg = {"clean_air_add": "Exception during add: {0}".format(str(e))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_update_clean_air(self, params):
+        """
+        Handles the update of CleanAir Profiles in Cisco Catalyst Center.
+        Args:
+            params (list): A list of CleanAir payloads to update. Each must include 'id'.
+
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing UPDATE for CleanAir Profiles.", "INFO")
+        self.log("Params for UPDATE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params:
+                design_name = payload.get("designName")
+                template_id = payload.get("id")
+                self.log("Updating CleanAir Profile: design='{0}', id='{1}'".format(design_name, template_id), "DEBUG")
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="update_clean_air_configuration_feature_template",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    self.check_tasks_response_status(response, "update_clean_air_configuration_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully updated CleanAir Profile."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to update CleanAir Profile: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as e:
+                    results[design_name] = "Exception while updating: {0}".format(str(e))
+                    self.log(results[design_name], "ERROR")
+
+            # Final result after processing all updates
+            self.msg = {"clean_air_update": results}
+            self.status = "failed" if all("Failed" in v or "Exception" in v for v in results.values()) else "success"
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as e:
+            self.msg = {"clean_air_update": "Exception during update: {0}".format(str(e))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_update_advanced_ssids(self, params):
+        """
+        Handles updating Advanced SSIDs in Cisco Catalyst Center.
+        Args:
+            params (list): A list of Advanced SSID payloads to update. Each payload should include 'id' (existing template id).
+
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing UPDATE for Advanced SSIDs.", "INFO")
+        self.log("Advanced SSID update params: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                template_id = payload.get("id")
+                self.log("Updating Advanced SSID: {0} (id={1})".format(design_name, template_id), "DEBUG")
+
+                if not template_id:
+                    results[design_name] = "Skipped update: missing 'id' in payload."
+                    self.log(results[design_name], "ERROR")
+                    continue
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="update_advanced_ssid_configuration_feature_template",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    # validate the returned task(s)
+                    self.check_tasks_response_status(response, "update_advanced_ssid_configuration_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully updated Advanced SSID."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to update Advanced SSID: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while updating: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"advanced_ssids_update": results}
+            # If every result contains 'Failed' or 'Exception', mark overall as failed; else success
+            self.status = (
+                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"advanced_ssids_update": "Exception during update: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_add_advanced_ssids(self, params):
+        """
+        Handles the creation of Advanced SSIDs in Cisco Catalyst Center.
+        Args:
+            params (list): A list of Advanced SSID payloads to create (each payload should contain 'designName' and 'featureAttributes', etc.)
+
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing ADD for Advanced SSIDs.", "INFO")
+        self.log("Advanced SSID add params: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("designName") or "<unknown>"
+                self.log("Creating Advanced SSID: {0}".format(design_name), "DEBUG")
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="create_advanced_ssid_configuration_feature_template",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    # Reuse your existing task-check helper to validate task status
+                    self.check_tasks_response_status(response, "create_advanced_ssid_configuration_feature_template")
+
+                    # self.status / self.msg are expected to be set by check_tasks_response_status (or set below on failure)
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully created Advanced SSID."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to create Advanced SSID: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while creating: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Summarize outcome
+            self.msg = {"advanced_ssids_add": results}
+            # If every result contains 'Failed' or 'Exception', mark overall as failed; otherwise success
+            self.status = (
+                "failed" if all(("Failed" in v or "Exception" in v) for v in results.values()) else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            # catastrophic failure while iterating/processing
+            self.msg = {"advanced_ssids_add": "Exception during add: {0}".format(str(exc))}
+            self.status = "failed"
+            # set_operation_result(...).check_return_status() matches your AAA pattern
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_add_aaa_radius_attributes(self, params):
+        """
+        Handles the creation of AAA Radius Attributes in Cisco Catalyst Center.
+        Args:
+            params (list): A list of AAA Radius Attribute payloads to create.
+
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing ADD for AAA Radius Attributes.", "INFO")
+        self.log("Params for ADD: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params:
+                design_name = payload.get("designName")
+                self.log("Creating AAA Radius Attribute: {0}".format(design_name), "DEBUG")
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="create_aaa_radius_attributes_configuration_feature_template",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    self.check_tasks_response_status(response, "create_aaa_radius_attributes_configuration_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully created AAA Radius Attribute."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to create AAA Radius Attribute: {0}".format(
+                            fail_reason
+                        )
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as e:
+                    results[design_name] = "Exception while creating: {0}".format(str(e))
+                    self.log(results[design_name], "ERROR")
+
+            # Final message after all payloads processed
+            self.msg = {"aaa_radius_attributes_add": results}
+            self.status = (
+                "failed" if all("Failed" in v or "Exception" in v for v in results.values()) else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as e:
+            self.msg = {
+                "aaa_radius_attributes_add": "Exception during add: {0}".format(str(e))
+            }
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_update_aaa_radius_attributes(self, params):
+        """
+        Handles the update of AAA Radius Attributes in Cisco Catalyst Center.
+        Args:
+            params (list): A list of AAA Radius Attribute payloads to update.
+
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing UPDATE for AAA Radius Attributes.", "INFO")
+        self.log("Params for UPDATE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params:
+                design_name = payload.get("designName")
+                self.log("Updating AAA Radius Attribute: {0}".format(design_name), "DEBUG")
+
+                response = self.dnac._exec(
+                    family="wireless",
+                    function="update_aaa_radius_attributes_configuration_feature_template",
+                    op_modifies=True,
+                    params={"id": self.template_id, "payload": payload},
+                )
+                self.log("Received API response: {0}".format(response), "DEBUG")
+                self.check_tasks_response_status(
+                    response, "update_aaa_radius_attributes_configuration_feature_template"
+                )
+
+                if self.status not in ["failed", "exited"]:
+                    results[design_name] = "Successfully updated AAA Radius Attribute."
+                else:
+                    fail_reason = self.msg
+                    results[design_name] = "Failed to update AAA Radius Attribute: {0}".format(
+                        fail_reason
+                    )
+                    self.log(results[design_name], "ERROR")
+
+            # Final result after all payloads processed
+            self.msg = {"aaa_radius_attributes_update": results}
+            # If all updates failed → status = failed, else = success
+            self.status = (
+                "failed" if all("Failed" in v for v in results.values()) else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as e:
+            self.msg = {
+                "aaa_radius_attributes_update": "Exception during update: {0}".format(str(e))
+            }
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_delete_rrm_general(self, params):
+        """
+        Handles deletion of RRM General configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of RRM General payloads to delete.
+                        Each payload must contain at least the template 'id'
+                        and optionally 'design_name' or 'designName'.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing DELETE for RRM General Configurations.", "INFO")
+        self.log("Params for DELETE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("design_name") or payload.get("designName") or "Unknown"
+                template_id = payload.get("id")
+
+                self.log(
+                    "Deleting RRM General configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "DEBUG",
+                )
+
+                if not template_id:
+                    results[design_name] = "Skipped delete: missing 'id' in payload."
+                    self.log(results[design_name], "ERROR")
+                    continue
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="delete_r_r_m_general_configuration_feature_template",
+                        op_modifies=True,
+                        params={"id": template_id},
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    # validate the returned task(s)
+                    self.check_tasks_response_status(response, "delete_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully deleted RRM General configuration."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to delete RRM General configuration: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while deleting: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"rrm_general_delete": results}
+            # If every result is Failed/Exception/Skipped -> failed; else success
+            self.status = (
+                "failed" if results and all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values())
+                else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"rrm_general_delete": "Exception during delete: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_delete_rrm_fra(self, params):
+        """
+        Handles deletion of RRM-FRA configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of RRM-FRA payloads to delete.
+                        Each payload must contain at least the template 'id'
+                        and optionally 'design_name' or 'designName'.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing DELETE for RRM-FRA Configurations.", "INFO")
+        self.log("Params for DELETE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("design_name") or payload.get("designName") or "Unknown"
+                template_id = payload.get("id")
+
+                self.log(
+                    "Deleting RRM-FRA configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "DEBUG",
+                )
+
+                if not template_id:
+                    results[design_name] = "Skipped delete: missing 'id' in payload."
+                    self.log(results[design_name], "ERROR")
+                    continue
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="delete_r_r_m_f_r_a_configuration_feature_template",
+                        op_modifies=True,
+                        params={"id": template_id},
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    # Validate the returned task(s)
+                    self.check_tasks_response_status(response, "delete_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully deleted RRM-FRA configuration."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to delete RRM-FRA configuration: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while deleting: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"rrm_fra_delete": results}
+            self.status = (
+                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"rrm_fra_delete": "Exception during delete: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_delete_flexconnect(self, params):
+        self.log("Processing DELETE for FlexConnect.", "INFO")
+        self.log("Params for DELETE: {0}".format(params), "DEBUG")
+        results = {}
+        try:
+            for payload in params or []:
+                dn = payload.get("design_name") or payload.get("designName") or "Unknown"
+                tid = payload.get("id")
+                self.log("Deleting FlexConnect: design='{0}', id='{1}'".format(dn, tid), "DEBUG")
+                if not tid:
+                    results[dn] = "Skipped delete: missing 'id' in payload."
+                    self.log(results[dn], "ERROR")
+                    continue
+                try:
+                    resp = self.dnac._exec(
+                        family="wireless",
+                        function="delete_flex_connect_configuration_feature_template",
+                        op_modifies=True,
+                        params={"id": tid},
+                    )
+                    self.log("Received API response: {0}".format(resp), "DEBUG")
+                    self.check_tasks_response_status(resp, "delete_feature_template")
+                    results[dn] = (
+                        "Successfully deleted FlexConnect."
+                        if self.status not in ["failed", "exited"]
+                        else "Failed to delete FlexConnect: {0}".format(self.msg)
+                    )
+                except Exception as exc:
+                    results[dn] = "Exception while deleting: {0}".format(str(exc))
+                    self.log(results[dn], "ERROR")
+            self.msg = {"flexconnect_delete": results}
+            self.status = "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+        except Exception as exc:
+            self.msg = {"flexconnect_delete": "Exception during delete: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_delete_dot11be(self, params):
+        """
+        Handles deletion of dot11be configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of dot11be payloads to delete.
+                        Each payload must contain at least the template 'id' and optionally 'design_name' or 'designName'.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing DELETE for dot11be Configurations.", "INFO")
+        self.log("Params for DELETE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("design_name") or payload.get("designName") or "Unknown"
+                template_id = payload.get("id")
+
+                self.log(
+                    "Deleting dot11be configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "DEBUG",
+                )
+
+                if not template_id:
+                    results[design_name] = "Skipped delete: missing 'id' in payload."
+                    self.log(results[design_name], "ERROR")
+                    continue
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="delete_dot11be_status_configuration_feature_template",
+                        op_modifies=True,
+                        params={"id": template_id},
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    # validate the returned task(s)
+                    self.check_tasks_response_status(response, "delete_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully deleted dot11be configuration."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to delete dot11be configuration: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while deleting: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"dot11be_delete": results}
+            # If every result contains 'Failed' or 'Exception' or 'Skipped', mark overall as failed; else success
+            self.status = (
+                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"dot11be_delete": "Exception during delete: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_delete_dot11ax(self, params):
+        """
+        Handles deletion of dot11ax configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of dot11ax payloads to delete.
+                        Each payload must contain at least the template 'id' and optionally 'design_name' or 'designName'.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing DELETE for dot11ax Configurations.", "INFO")
+        self.log("Params for DELETE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("design_name") or payload.get("designName") or "Unknown"
+                template_id = payload.get("id")
+
+                self.log(
+                    "Deleting dot11ax configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "DEBUG",
+                )
+
+                if not template_id:
+                    results[design_name] = "Skipped delete: missing 'id' in payload."
+                    self.log(results[design_name], "ERROR")
+                    continue
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="delete_dot11ax_configuration_feature_template",
+                        op_modifies=True,
+                        params={"id": template_id},
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    # validate the returned task(s)
+                    self.check_tasks_response_status(response, "delete_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully deleted dot11ax configuration."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to delete dot11ax configuration: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while deleting: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"dot11ax_delete": results}
+            # If every result contains 'Failed' or 'Exception' or 'Skipped', mark overall as failed; else success
+            self.status = (
+                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"dot11ax_delete": "Exception during delete: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_delete_clean_air(self, params):
+        """
+        Handles the deletion of CleanAir profiles in Cisco Catalyst Center.
+        Args:
+            params (list): A list of CleanAir payloads to delete.
+                        Each payload must contain at least the template 'id' and optionally 'design_name' or 'designName'.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing DELETE for CleanAir Profiles.", "INFO")
+        self.log("Params for DELETE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("design_name") or payload.get("designName") or "Unknown"
+                template_id = payload.get("id")
+
+                self.log(
+                    "Deleting CleanAir Profile: design='{0}', id='{1}'".format(design_name, template_id),
+                    "DEBUG",
+                )
+
+                if not template_id:
+                    results[design_name] = "Skipped delete: missing 'id' in payload."
+                    self.log(results[design_name], "ERROR")
+                    continue
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="delete_clean_air_configuration_feature_template",
+                        op_modifies=True,
+                        params={"id": template_id},
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    # validate the returned task(s)
+                    self.check_tasks_response_status(response, "delete_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully deleted CleanAir Profile."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to delete CleanAir Profile: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while deleting: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"clean_air_delete": results}
+            # If every result contains 'Failed' or 'Exception' or 'Skipped', mark overall as failed; else success
+            self.status = (
+                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"clean_air_delete": "Exception during delete: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_delete_event_driven_rrm(self, params):
+        """
+        Handles deletion of Event-Driven RRM configurations in Cisco Catalyst Center.
+        Args:
+            params (list): A list of Event-Driven RRM payloads to delete.
+                        Each payload must contain at least the template 'id'
+                        and optionally 'design_name' or 'designName'.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing DELETE for Event-Driven RRM Configurations.", "INFO")
+        self.log("Params for DELETE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("design_name") or payload.get("designName") or "Unknown"
+                template_id = payload.get("id")
+
+                self.log(
+                    "Deleting Event-Driven RRM configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "DEBUG",
+                )
+
+                if not template_id:
+                    results[design_name] = "Skipped delete: missing 'id' in payload."
+                    self.log(results[design_name], "ERROR")
+                    continue
+
+                try:
+                    # DNAC API for Event-Driven RRM delete
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="delete_event_driven_r_r_m_configuration_feature_template",
+                        op_modifies=True,
+                        params={"id": template_id},
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    # validate the returned task(s)
+                    self.check_tasks_response_status(response, "delete_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully deleted Event-Driven RRM configuration."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to delete Event-Driven RRM configuration: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while deleting: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"event_driven_rrm_delete": results}
+            # If every result contains 'Failed' or 'Exception' or 'Skipped', mark overall as failed; else success
+            self.status = (
+                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values())
+                else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"event_driven_rrm_delete": "Exception during delete: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_delete_advanced_ssids(self, params):
+        """
+        Handles the deletion of Advanced SSIDs in Cisco Catalyst Center.
+        Args:
+            params (list): A list of Advanced SSID payloads to delete.
+                        Each payload must contain at least the template 'id' and optionally 'design_name'.
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing DELETE for Advanced SSIDs.", "INFO")
+        self.log("Params for DELETE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                design_name = payload.get("design_name") or payload.get("designName") or "Unknown"
+                template_id = payload.get("id")
+
+                self.log(
+                    "Deleting Advanced SSID: design='{0}', id='{1}'".format(design_name, template_id),
+                    "DEBUG",
+                )
+
+                if not template_id:
+                    results[design_name] = "Skipped delete: missing 'id' in payload."
+                    self.log(results[design_name], "ERROR")
+                    continue
+
+                try:
+                    # NOTE: replace function name if your DNAC SDK expects a different delete function
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="delete_advanced_ssid_configuration_feature_template",
+                        op_modifies=True,
+                        params={"id": template_id},
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    # validate the returned task(s)
+                    self.check_tasks_response_status(response, "delete_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully deleted Advanced SSID."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to delete Advanced SSID: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as exc:
+                    results[design_name] = "Exception while deleting: {0}".format(str(exc))
+                    self.log(results[design_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"advanced_ssids_delete": results}
+            # If every result contains 'Failed' or 'Exception', mark overall as failed; else success
+            self.status = (
+                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"advanced_ssids_delete": "Exception during delete: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_delete_aaa_radius_attributes(self, params):
+        """
+        Handles the deletion of AAA Radius Attributes in Cisco Catalyst Center.
+        Args:
+            params (list): A list of AAA Radius Attribute payloads to delete.
+
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing DELETE for AAA Radius Attributes.", "INFO")
+        self.log("Params for DELETE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params:
+                design_name = payload.get("design_name", "Unknown")
+                template_id = payload.get("id")
+
+                self.log(
+                    "Deleting AAA Radius Attribute: design='{0}', id='{1}'".format(design_name, template_id),
+                    "DEBUG",
+                )
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="delete_aaa_radius_attributes_configuration_feature_template",
+                        op_modifies=True,
+                        params={"id": template_id},
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                    self.check_tasks_response_status(response, "delete_feature_template")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[design_name] = "Successfully deleted AAA Radius Attribute."
+                    else:
+                        fail_reason = self.msg
+                        results[design_name] = "Failed to delete AAA Radius Attribute: {0}".format(fail_reason)
+                        self.log(results[design_name], "ERROR")
+
+                except Exception as e:
+                    results[design_name] = "Exception while deleting: {0}".format(str(e))
+                    self.log(results[design_name], "ERROR")
+
+            # Final result after processing all deletions
+            self.msg = {"aaa_radius_attributes_delete": results}
+            self.status = "failed" if all("Failed" in v or "Exception" in v for v in results.values()) else "success"
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as e:
+            self.msg = {"aaa_radius_attributes_delete": "Exception during delete: {0}".format(str(e))}
+            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
 
     def validate_required_ssid_params(self, ssid, state="merged"):
         """
@@ -15810,7 +23387,6 @@ class WirelessDesign(DnacBase):
     ):
         """
         Processes the anchor groups for the specified operation (create, update, delete).
-
         Args:
             anchor_groups_params (list): A list of dictionaries containing parameters for each anchor group operation.
             create_or_update_or_delete_anchor_groups (function): The function to execute for each anchor group operation.
@@ -16374,6 +23950,260 @@ class WirelessDesign(DnacBase):
                 elif state == "deleted":
                     have["delete_{0}".format(config_key)] = deleted_func(elements)
 
+        # --- New logic for AAA Radius Attributes ---
+        if config.get("feature_template_config", []):
+            aaa_attr_list = []
+            for item in config.get("feature_template_config", []):
+                if "aaa_radius_attribute" in item:
+                    aaa_attr_list.extend(item.get("aaa_radius_attribute", []))
+
+            if aaa_attr_list:
+                self.log("Processing AAA Radius Attributes for state: {0}".format(state), "DEBUG")
+
+                if state == "merged":
+                    add_attrs, update_attrs, no_update_attrs = (
+                        self.verify_create_update_aaa_radius_attributes_requirement(aaa_attr_list)
+                    )
+                    have.update(
+                        {
+                            "add_aaa_radius_attribute": add_attrs,
+                            "update_aaa_radius_attribute": update_attrs,
+                            "no_update_aaa_radius_attribute": no_update_attrs,
+                        }
+                    )
+                elif state == "deleted":
+                    have["delete_aaa_radius_attribute"] = self.verify_delete_aaa_radius_attributes_requirement(
+                        aaa_attr_list
+                    )
+
+            # --- New logic for Advanced SSID ---
+            adv_ssid_list = []
+            for item in config.get("feature_template_config", []):
+                if "advanced_ssid" in item:
+                    adv_ssid_list.extend(item.get("advanced_ssid", []))
+
+            if adv_ssid_list:
+                self.log("Processing Advanced SSID for state: {0}".format(state), "DEBUG")
+
+                if state == "merged":
+                    add_adv, update_adv, no_update_adv = (
+                        self.verify_create_update_advanced_ssid_requirement(adv_ssid_list)
+                    )
+                    have.update(
+                        {
+                            "add_advanced_ssid": add_adv,
+                            "update_advanced_ssid": update_adv,
+                            "no_update_advanced_ssid": no_update_adv,
+                        }
+                    )
+                elif state == "deleted":
+                    have["delete_advanced_ssid"] = self.verify_delete_advanced_ssid_requirement(
+                        adv_ssid_list
+                    )
+
+            # --- New logic for CleanAir profiles ---
+            clean_air_list = []
+            for item in config.get("feature_template_config", []):
+                if "clean_air_configuration" in item:
+                    clean_air_list.extend(item.get("clean_air_configuration", []))
+
+            if clean_air_list:
+                self.log("Processing CleanAir configuration for state: {0}".format(state), "DEBUG")
+
+                if state == "merged":
+                    add_clean_air, update_clean_air, no_update_clean_air = (
+                        self.verify_create_update_clean_air_requirement(clean_air_list)
+                    )
+                    have.update(
+                        {
+                            "add_clean_air_configuration": add_clean_air,
+                            "update_clean_air_configuration": update_clean_air,
+                            "no_update_clean_air_configuration": no_update_clean_air,
+                        }
+                    )
+                elif state == "deleted":
+                    have["delete_clean_air_configuration"] = self.verify_delete_clean_air_requirement(
+                        clean_air_list
+                    )
+
+            # --- New logic for 802.11ax profiles ---
+            dot11ax_list = []
+            for item in config.get("feature_template_config", []):
+                if "dot11ax_configuration" in item:
+                    dot11ax_list.extend(item.get("dot11ax_configuration", []))
+
+            if dot11ax_list:
+                self.log("Processing 802.11ax configuration for state: {0}".format(state), "DEBUG")
+
+                if state == "merged":
+                    add_dot11ax, update_dot11ax, no_update_dot11ax = (
+                        self.verify_create_update_dot11axs_requirement(dot11ax_list)
+                    )
+                    have.update(
+                        {
+                            "add_dot11ax_configuration": add_dot11ax,
+                            "update_dot11ax_configuration": update_dot11ax,
+                            "no_update_dot11ax_configuration": no_update_dot11ax,
+                        }
+                    )
+                elif state == "deleted":
+                    have["delete_dot11ax_configuration"] = self.verify_delete_dot11axs_requirement(
+                        dot11ax_list
+                    )
+
+            # --- New logic for 802.11be profiles ---
+            dot11be_list = []
+            for item in config.get("feature_template_config", []):
+                self.log("Processing 802.11be configuration for state: {0}".format(item), "Warning")
+                if "dot11be_configuration" in item:
+                    dot11be_list.extend(item.get("dot11be_configuration", []))
+
+            if dot11be_list:
+                self.log("Processing 802.11be configuration for state: {0}".format(state), "DEBUG")
+
+                if state == "merged":
+                    add_dot11be, update_dot11be, no_update_dot11be = (
+                        self.verify_create_update_dot11be_requirement(dot11be_list)
+                    )
+                    have.update(
+                        {
+                            "add_dot11be_configuration": add_dot11be,
+                            "update_dot11be_configuration": update_dot11be,
+                            "no_update_dot11be_configuration": no_update_dot11be,
+                        }
+                    )
+                elif state == "deleted":
+                    self.log("Deleting 802.11be configuration for state: {0}".format(state), "WARNING")
+                    self.log("Dot11be List: {0}".format(dot11be_list), "WARNING")
+                    have["delete_dot11be_configuration"] = self.verify_delete_dot11be_requirement(
+                        dot11be_list
+                    )
+
+            # --- New logic for Event Driven RRM profiles ---
+            event_rrm_list = []
+            for item in config.get("feature_template_config", []):
+                if "event_driven_rrm_configuration" in item:
+                    event_rrm_list.extend(item.get("event_driven_rrm_configuration", []))
+
+            if event_rrm_list:
+                self.log("Processing Event Driven RRM configuration for state: {0}".format(state), "DEBUG")
+
+                if state == "merged":
+                    add_event_rrm, update_event_rrm, no_update_event_rrm = (
+                        self.verify_create_update_event_rrm_requirement(event_rrm_list)
+                    )
+                    have.update(
+                        {
+                            "add_event_driven_rrm_configuration": add_event_rrm,
+                            "update_event_driven_rrm_configuration": update_event_rrm,
+                            "no_update_event_driven_rrm_configuration": no_update_event_rrm,
+                        }
+                    )
+                elif state == "deleted":
+                    have["delete_event_driven_rrm_configuration"] = self.verify_delete_event_rrm_requirement(
+                        event_rrm_list
+                    )
+
+            # --- New logic for FlexConnect profiles ---
+            flexconnect_list = []
+            for item in config.get("feature_template_config", []):
+                if "flexconnect_configuration" in item:
+                    flexconnect_list.extend(item.get("flexconnect_configuration", []))
+
+            if flexconnect_list:
+                self.log("Processing FlexConnect configuration for state: {0}".format(state), "DEBUG")
+
+                if state == "merged":
+                    add_flexconnect, update_flexconnect, no_update_flexconnect = (
+                        self.verify_create_update_flexconnect_requirement(flexconnect_list)
+                    )
+                    have.update(
+                        {
+                            "add_flexconnect_configuration": add_flexconnect,
+                            "update_flexconnect_configuration": update_flexconnect,
+                            "no_update_flexconnect_configuration": no_update_flexconnect,
+                        }
+                    )
+                elif state == "deleted":
+                    have["delete_flexconnect_configuration"] = self.verify_delete_flexconnect_requirement(
+                        flexconnect_list
+                    )
+
+            # --- New logic for Multicast profiles ---
+            multicast_list = []
+            for item in config.get("feature_template_config", []):
+                if "multicast_configuration" in item:
+                    multicast_list.extend(item.get("multicast_configuration", []))
+
+            if multicast_list:
+                self.log("Processing Multicast configuration for state: {0}".format(state), "DEBUG")
+
+                if state == "merged":
+                    add_multicast, update_multicast, no_update_multicast = (
+                        self.verify_create_update_multicast_requirement(multicast_list)
+                    )
+                    have.update(
+                        {
+                            "add_multicast_configuration": add_multicast,
+                            "update_multicast_configuration": update_multicast,
+                            "no_update_multicast_configuration": no_update_multicast,
+                        }
+                    )
+                elif state == "deleted":
+                    have["delete_multicast_configuration"] = self.verify_delete_multicast_requirement(
+                        multicast_list
+                    )
+
+            # --- New logic for RRM-FRA profiles ---
+            rrm_fra_list = []
+            for item in config.get("feature_template_config", []):
+                if "rrm_fra_configuration" in item:
+                    rrm_fra_list.extend(item.get("rrm_fra_configuration", []))
+
+            if rrm_fra_list:
+                self.log("Processing RRM-FRA configuration for state: {0}".format(state), "DEBUG")
+
+                if state == "merged":
+                    add_rrm_fra, update_rrm_fra, no_update_rrm_fra = (
+                        self.verify_create_update_rrm_fra_requirement(rrm_fra_list)
+                    )
+                    have.update(
+                        {
+                            "add_rrm_fra_configuration": add_rrm_fra,
+                            "update_rrm_fra_configuration": update_rrm_fra,
+                            "no_update_rrm_fra_configuration": no_update_rrm_fra,
+                        }
+                    )
+                elif state == "deleted":
+                    have["delete_rrm_fra_configuration"] = self.verify_delete_rrm_fra_requirement(
+                        rrm_fra_list
+                    )
+
+            # --- New logic for RRM General profiles ---
+            rrm_general_list = []
+            for item in config.get("feature_template_config", []):
+                if "rrm_general_configuration" in item:
+                    rrm_general_list.extend(item.get("rrm_general_configuration", []))
+
+            if rrm_general_list:
+                self.log("Processing RRM General configuration for state: {0}".format(state), "DEBUG")
+
+                if state == "merged":
+                    add_rrm_general, update_rrm_general, no_update_rrm_general = (
+                        self.verify_create_update_rrm_general_requirement(rrm_general_list)
+                    )
+                    have.update(
+                        {
+                            "add_rrm_general_configuration": add_rrm_general,
+                            "update_rrm_general_configuration": update_rrm_general,
+                            "no_update_rrm_general_configuration": no_update_rrm_general,
+                        }
+                    )
+                elif state == "deleted":
+                    have["delete_rrm_general_configuration"] = self.verify_delete_rrm_general_requirement(
+                        rrm_general_list
+                    )
+
         self.have = have
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         return self
@@ -16452,6 +24282,102 @@ class WirelessDesign(DnacBase):
                     "update_anchor_groups_params",
                     self.have.get("update_anchor_groups"),
                 ),
+                # --- New AAA Radius Attributes ---
+                ("add_aaa_radius_attribute", "add_aaa_radius_attribute_params", self.have.get("add_aaa_radius_attribute")),
+                ("update_aaa_radius_attribute", "update_aaa_radius_attribute_params", self.have.get("update_aaa_radius_attribute")),
+
+                # --- New Advanced SSID ---
+                ("add_advanced_ssid", "add_advanced_ssid_params", self.have.get("add_advanced_ssid")),
+                ("update_advanced_ssid", "update_advanced_ssid_params", self.have.get("update_advanced_ssid")),
+
+                # --- New CleanAir ---
+                (
+                    "add_clean_air_configuration",
+                    "add_clean_air_configuration_params",
+                    self.have.get("add_clean_air_configuration"),
+                ),
+                (
+                    "update_clean_air_configuration",
+                    "update_clean_air_configuration_params",
+                    self.have.get("update_clean_air_configuration"),
+                ),
+                # --- New dot11ax Configuration ---
+                (
+                    "add_dot11ax_configuration",
+                    "add_dot11ax_configuration_params",
+                    self.have.get("add_dot11ax_configuration"),
+                ),
+                (
+                    "update_dot11ax_configuration",
+                    "update_dot11ax_configuration_params",
+                    self.have.get("update_dot11ax_configuration"),
+                ),
+                # --- New dot11be Configuration ---
+                (
+                    "add_dot11be_configuration",
+                    "add_dot11be_configuration_params",
+                    self.have.get("add_dot11be_configuration"),
+                ),
+                (
+                    "update_dot11be_configuration",
+                    "update_dot11be_configuration_params",
+                    self.have.get("update_dot11be_configuration"),
+                ),
+                # --- New Event Driven RRM Configuration ---
+                (
+                    "add_event_driven_rrm_configuration",
+                    "add_event_driven_rrm_configuration_params",
+                    self.have.get("add_event_driven_rrm_configuration"),
+                ),
+                (
+                    "update_event_driven_rrm_configuration",
+                    "update_event_driven_rrm_configuration_params",
+                    self.have.get("update_event_driven_rrm_configuration"),
+                ),
+                # --- New FlexConnect Configuration ---
+                (
+                    "add_flexconnect_configuration",
+                    "add_flexconnect_configuration_params",
+                    self.have.get("add_flexconnect_configuration"),
+                ),
+                (
+                    "update_flexconnect_configuration",
+                    "update_flexconnect_configuration_params",
+                    self.have.get("update_flexconnect_configuration"),
+                ),
+                # --- New Multicast Configuration ---
+                (
+                    "add_multicast_configuration",
+                    "add_multicast_configuration_params",
+                    self.have.get("add_multicast_configuration"),
+                ),
+                (
+                    "update_multicast_configuration",
+                    "update_multicast_configuration_params",
+                    self.have.get("update_multicast_configuration"),
+                ),
+                # --- New RRM-FRA Configuration ---
+                (
+                    "add_rrm_fra_configuration",
+                    "add_rrm_fra_configuration_params",
+                    self.have.get("add_rrm_fra_configuration"),
+                ),
+                (
+                    "update_rrm_fra_configuration",
+                    "update_rrm_fra_configuration_params",
+                    self.have.get("update_rrm_fra_configuration"),
+                ),
+                # --- New RRM General Configuration ---
+                (
+                    "add_rrm_general_configuration",
+                    "add_rrm_general_configuration_params",
+                    self.have.get("add_rrm_general_configuration"),
+                ),
+                (
+                    "update_rrm_general_configuration",
+                    "update_rrm_general_configuration_params",
+                    self.have.get("update_rrm_general_configuration"),
+                ),
             ],
             "deleted": [
                 ("delete_ssids", "delete_ssids_params", self.have.get("delete_ssids")),
@@ -16483,6 +24409,66 @@ class WirelessDesign(DnacBase):
                     "delete_anchor_groups",
                     "delete_anchor_groups_params",
                     self.have.get("delete_anchor_groups"),
+                ),
+                # --- New AAA Radius Attributes ---
+                (
+                    "delete_aaa_radius_attribute",
+                    "delete_aaa_radius_attribute_params",
+                    self.have.get("delete_aaa_radius_attribute"),
+                ),
+                # --- New Advanced SSIDs ---
+                (
+                    "delete_advanced_ssid",
+                    "delete_advanced_ssid_params",
+                    self.have.get("delete_advanced_ssid"),
+                ),
+                # --- New CleanAir ---
+                (
+                    "delete_clean_air_configuration",
+                    "delete_clean_air_configuration_params",
+                    self.have.get("delete_clean_air_configuration"),
+                ),
+                # --- New dot11ax Configuration ---
+                (
+                    "delete_dot11ax_configuration",
+                    "delete_dot11ax_configuration_params",
+                    self.have.get("delete_dot11ax_configuration"),
+                ),
+                # --- New dot11be Configuration ---
+                (
+                    "delete_dot11be_configuration",
+                    "delete_dot11be_configuration_params",
+                    self.have.get("delete_dot11be_configuration"),
+                ),
+                # --- New Event Driven RRM Configuration ---
+                (
+                    "delete_event_driven_rrm_configuration",
+                    "delete_event_driven_rrm_configuration_params",
+                    self.have.get("delete_event_driven_rrm_configuration"),
+                ),
+                # --- New FlexConnect Configuration ---
+                (
+                    "delete_flexconnect_configuration",
+                    "delete_flexconnect_configuration_params",
+                    self.have.get("delete_flexconnect_configuration"),
+                ),
+                # --- New Multicast Configuration ---
+                (
+                    "delete_multicast_configuration",
+                    "delete_multicast_configuration_params",
+                    self.have.get("delete_multicast_configuration"),
+                ),
+                # --- New RRM-FRA Configuration ---
+                (
+                    "delete_rrm_fra_configuration",
+                    "delete_rrm_fra_configuration_params",
+                    self.have.get("delete_rrm_fra_configuration"),
+                ),
+                # --- New RRM General Configuration ---
+                (
+                    "delete_rrm_general_configuration",
+                    "delete_rrm_general_configuration_params",
+                    self.have.get("delete_rrm_general_configuration"),
                 ),
             ],
         }
@@ -16577,6 +24563,116 @@ class WirelessDesign(DnacBase):
                 "update_anchor_groups_params",
                 "UPDATE Anchor Groups",
                 self.process_update_anchor_groups,
+            ),
+            # new enhancement for AAA Radius Attributes
+            (
+                "add_aaa_radius_attribute_params",
+                "ADD AAA Radius Attributes",
+                self.process_add_aaa_radius_attributes
+            ),
+            (
+                "update_aaa_radius_attribute_params",
+                "UPDATE AAA Radius Attributes",
+                self.process_update_aaa_radius_attributes
+            ),
+            # --- New Advanced SSID ---
+            (
+                "add_advanced_ssid_params",
+                "ADD Advanced SSIDs",
+                self.process_add_advanced_ssids
+            ),
+            (
+                "update_advanced_ssid_params",
+                "UPDATE Advanced SSIDs",
+                self.process_update_advanced_ssids
+            ),
+            # --- New CleanAir ---
+            (
+                "add_clean_air_configuration_params",
+                "ADD CleanAir Profiles",
+                self.process_add_clean_air,
+            ),
+            (
+                "update_clean_air_configuration_params",
+                "UPDATE CleanAir Profiles",
+                self.process_update_clean_air,
+            ),
+            # --- New dot11ax Configuration ---
+            (
+                "add_dot11ax_configuration_params",
+                "ADD dot11ax Configurations",
+                self.process_add_dot11ax,
+            ),
+            (
+                "update_dot11ax_configuration_params",
+                "UPDATE dot11ax Configurations",
+                self.process_update_dot11ax,
+            ),
+            # --- New dot11be Configuration ---
+            (
+                "add_dot11be_configuration_params",
+                "ADD dot11be Configurations",
+                self.process_add_dot11be,
+            ),
+            (
+                "update_dot11be_configuration_params",
+                "UPDATE dot11be Configurations",
+                self.process_update_dot11be,
+            ),
+            # --- New Event-Driven RRM Configuration ---
+            (
+                "add_event_driven_rrm_configuration_params",
+                "ADD Event-Driven RRM Configurations",
+                self.process_add_event_driven_rrm,
+            ),
+            (
+                "update_event_driven_rrm_configuration_params",
+                "UPDATE Event-Driven RRM Configurations",
+                self.process_update_event_driven_rrm,
+            ),
+            # --- New FlexConnect Configuration ---
+            (
+                "add_flexconnect_configuration_params",
+                "ADD FlexConnect Configurations",
+                self.process_add_flexconnect,
+            ),
+            (
+                "update_flexconnect_configuration_params",
+                "UPDATE FlexConnect Configurations",
+                self.process_update_flexconnect,
+            ),
+            # --- New Multicast Configuration ---
+            (
+                "add_multicast_configuration_params",
+                "ADD Multicast Configurations",
+                self.process_add_multicast,
+            ),
+            (
+                "update_multicast_configuration_params",
+                "UPDATE Multicast Configurations",
+                self.process_update_multicast,
+            ),
+            # --- New RRM-FRA Configuration ---
+            (
+                "add_rrm_fra_configuration_params",
+                "ADD RRM-FRA Configurations",
+                self.process_add_rrm_fra,
+            ),
+            (
+                "update_rrm_fra_configuration_params",
+                "UPDATE RRM-FRA Configurations",
+                self.process_update_rrm_fra,
+            ),
+            # --- New RRM General Configuration ---
+            (
+                "add_rrm_general_configuration_params",
+                "ADD RRM General Configurations",
+                self.process_add_rrm_general,
+            ),
+            (
+                "update_rrm_general_configuration_params",
+                "UPDATE RRM General Configurations",
+                self.process_update_rrm_general,
             ),
         ]
 
@@ -16678,6 +24774,61 @@ class WirelessDesign(DnacBase):
                 "delete_anchor_groups_params",
                 "DELETE Anchor Groups",
                 self.process_delete_anchor_groups,
+            ),
+            (
+                "delete_aaa_radius_attribute_params",
+                "DELETE AAA Radius Attributes",
+                self.process_delete_aaa_radius_attributes
+            ),
+            # --- New Advanced SSIDs ---
+            ("delete_advanced_ssid_params", "DELETE Advanced SSIDs", self.process_delete_advanced_ssids),
+            # --- New CleanAir ---
+            (
+                "delete_clean_air_configuration_params",
+                "DELETE CleanAir Profiles",
+                self.process_delete_clean_air,
+            ),
+            # --- New dot11ax Configuration ---
+            (
+                "delete_dot11ax_configuration_params",
+                "DELETE dot11ax Configurations",
+                self.process_delete_dot11ax,
+            ),
+            # --- New dot11be Configuration ---
+            (
+                "delete_dot11be_configuration_params",
+                "DELETE dot11be Configurations",
+                self.process_delete_dot11be,
+            ),
+            # --- New dot11be Configuration ---
+            (
+                "delete_event_driven_rrm_configuration_params",
+                "DELETE Event-Driven RRM Configurations",
+                self.process_delete_event_driven_rrm,
+            ),
+            # --- New FlexConnect Configuration ---
+            (
+                "delete_flexconnect_configuration_params",
+                "DELETE FlexConnect Configurations",
+                self.process_delete_flexconnect,
+            ),
+            # --- New Multicast Configuration ---
+            (
+                "delete_multicast_configuration_params",
+                "DELETE Multicast Configurations",
+                self.process_delete_multicast,
+            ),
+            # --- New RRM-FRA Configuration ---
+            (
+                "delete_rrm_fra_configuration_params",
+                "DELETE RRM-FRA Configurations",
+                self.process_delete_rrm_fra,
+            ),
+            # --- New RRM-General Configuration ---
+            (
+                "delete_rrm_general_configuration_params",
+                "DELETE RRM-General Configurations",
+                self.process_delete_rrm_general,
             ),
         ]
 

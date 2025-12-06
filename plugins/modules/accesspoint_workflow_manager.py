@@ -243,7 +243,10 @@ options:
             type: str
             required: true
       2.4ghz_radio:
-        description: Configuration options for the 2.4GHz radio interface.
+        description: |
+          Configuration options for the 2.4GHz radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
         type: dict
         required: false
         suboptions:
@@ -316,7 +319,10 @@ options:
             type: int
             required: false
       5ghz_radio:
-        description: Configuration options for the 5GHz radio interface.
+        description: >
+          Configuration options for the 5GHz radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
         type: dict
         required: false
         suboptions:
@@ -397,7 +403,10 @@ options:
             type: int
             required: false
       6ghz_radio:
-        description: Configuration options for the 6GHz radio interface.
+        description: |
+          Configuration options for the 6GHz radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
         type: dict
         required: false
         suboptions:
@@ -480,7 +489,10 @@ options:
             type: int
             required: false
       xor_radio:
-        description: Configuration options for the XOR radio interface.
+        description: |
+          Configuration options for the XOR radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
         type: dict
         required: false
         suboptions:
@@ -590,7 +602,10 @@ options:
             type: int
             required: false
       tri_radio:
-        description: Configuration options for the TRI radio interface.
+        description: |
+          Configuration options for the TRI radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
         type: dict
         required: false
         suboptions:
@@ -915,7 +930,10 @@ options:
                     type: str
                     required: false
               2.4ghz_radio:
-                description: Configuration options for the 2.4GHz radio interface.
+                description: |
+                  Configuration options for the 2.4GHz radio interface.
+                  Note: Updating access point radio configuration varies based on each model.
+                  Refer to the respective access point documentation before updating the radio configuration.
                 type: dict
                 required: false
                 suboptions:
@@ -988,7 +1006,10 @@ options:
                     type: int
                     required: false
               5ghz_radio:
-                description: Configuration options for the 5GHz radio interface.
+                description: |
+                  Configuration options for the 5GHz radio interface.
+                  Note: Updating access point radio configuration varies based on each model.
+                  Refer to the respective access point documentation before updating the radio configuration.
                 type: dict
                 required: false
                 suboptions:
@@ -1064,7 +1085,10 @@ options:
                     type: int
                     required: false
               6ghz_radio:
-                description: Configuration options for the 6GHz radio interface.
+                description: |
+                  Configuration options for the 6GHz radio interface.
+                  Note: Updating access point radio configuration varies based on each model.
+                  Refer to the respective access point documentation before updating the radio configuration.
                 type: dict
                 required: false
                 suboptions:
@@ -1141,7 +1165,10 @@ options:
                     type: int
                     required: false
               xor_radio:
-                description: Configuration options for the XOR radio interface.
+                description: |
+                  Configuration options for the XOR radio interface.
+                  Note: Updating access point radio configuration varies based on each model.
+                  Refer to the respective access point documentation before updating the radio configuration.
                 type: dict
                 required: false
                 suboptions:
@@ -1251,7 +1278,10 @@ options:
                     type: int
                     required: false
               tri_radio:
-                description: Configuration options for the TRI radio interface.
+                description: |
+                  Configuration options for the TRI radio interface.
+                  Note: Updating access point radio configuration varies based on each model.
+                  Refer to the respective access point documentation before updating the radio configuration.
                 type: dict
                 required: false
                 suboptions:
@@ -2338,8 +2368,8 @@ class Accesspoint(DnacBase):
         """
 
         self.get_have(config)
-        self.log("Current AP Config (have): {0}".format(str(self.have)), "INFO")
-        self.log("Desired AP Config (want): {0}".format(str(self.want)), "INFO")
+        self.log("Current AP Config (have): {0}".format(self.pprint(self.have)), "INFO")
+        self.log("Desired AP Config (want): {0}".format(self.pprint(self.want)), "INFO")
 
         ap_exists = self.have.get("ap_exists")
         ap_name = self.have.get("current_ap_config").get("ap_name")
@@ -2366,7 +2396,8 @@ class Accesspoint(DnacBase):
                     radio_key_list = list(each_radio.keys())
                     for each_key in radio_key_list:
                         if each_key not in ("antenna_name", self.keymap["radio_type"], "unmatch", "cable_loss",
-                                            self.keymap["radio_role_assignment"], self.keymap["radio_band"]):
+                                            self.keymap["radio_role_assignment"], self.keymap["radio_band"],
+                                            self.keymap["admin_status"]):
                             unmatch_count += 1
 
             other_keys = list(require_update.keys())
@@ -3554,8 +3585,8 @@ class Accesspoint(DnacBase):
             are found, they are collected and returned in a dictionary.
         """
         self.log("Starting radio configuration comparison.", "INFO")
-        self.log("Current radio configuration: {}".format(current_radio), "INFO")
-        self.log("Desired radio configuration: {}".format(want_radio), "INFO")
+        self.log("Current radio configuration: {0}".format(self.pprint(current_radio)), "INFO")
+        self.log("Desired radio configuration: {0}".format(self.pprint(want_radio)), "INFO")
         available_key = {
             "_1": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
                    "power_assignment_mode", "power_level", "channel_assignment_mode",

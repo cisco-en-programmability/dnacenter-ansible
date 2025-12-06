@@ -183,8 +183,6 @@ options:
             description: |
               A list of specific design names or IDs to apply within the chosen feature template category.
               These designs include various parameters and settings for wireless infrastructure configuration.
-              If "Default Advanced SSID Design" is included in this list, it is comprehensive for SSID configuration,
-              and no other template designs are typically needed for that specific SSID feature.
             type: list
             elements: str
             required: true
@@ -1177,17 +1175,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     errormsg,
                 )
 
-                # Special case validation for Advanced SSID Configuration
-                if design_type == "ADVANCED_SSID_CONFIGURATION":
-                    advanced_ssid_templates_found += 1
-                    if len(feature_template_designs) > 1:
-                        errormsg.append(
-                            "design_type: 'ADVANCED_SSID_CONFIGURATION' is a special case and should be the only design type in feature_templates." +
-                            "Please remove other design types if 'ADVANCED_SSID_CONFIGURATION' is used."
-                        )
-                        template_has_errors = True
-                        self.log("Advanced SSID Configuration validation failed - cannot be combined with other design types", "ERROR")
-
                 # Validate design type against supported categories
                 if design_type not in self.available_design_types:
                     errormsg.append(
@@ -1658,6 +1645,16 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 "No site list associated with profile: {0}".format(profile_name),
                 "DEBUG",
             )
+
+        if site_list and not profile_info.get("site_response"):
+            self.log(
+                "No site response found for profile: {0}. Assuming site comparison passed.".format(
+                    profile_name
+                ),
+                "INFO",
+            )
+            profile_info["site_compare_stat"] = True
+            profile_info["site_compare_unmatched"] = None
 
         if site_list and profile_info.get("site_response"):
             site_status, unmatch = self.compare_config_with_sites_templates(
@@ -2484,6 +2481,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             "day_n_templates",
             "provision_group",
         ]
+
         try:
             for key, value in wireless_data.items():
                 if value is None or key in exclude_keys:
@@ -2582,6 +2580,27 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     else:
                         payload_data[mapped_key] = value
 
+            if self.params.get("state") == "merged" and self.have.get("wireless_profile", {}).get("profile_info"):
+                self.log(
+                    "Merging input data with existing wireless profile data", "INFO"
+                )
+                existing_profile = copy.deepcopy(self.have.get("wireless_profile", {}).get("profile_info"))
+                self.log(
+                    "Starting profile data merge operation with {0} existing components "
+                    "and {1} new components".format(
+                        len(existing_profile.keys()) if existing_profile else 0,
+                        len(payload_data.keys()) if payload_data else 0
+                    ),
+                    "DEBUG"
+                )
+                self.parse_with_existing_profile_data(existing_profile, payload_data)
+                self.log(
+                    "Profile data merge completed successfully - merged configuration "
+                    "contains {0} components".format(
+                        len(payload_data.keys()) if payload_data else 0
+                    ),
+                    "INFO"
+                )
             self.log(
                 "Parsed payload data: {0}".format(self.pprint(payload_data)), "INFO"
             )
@@ -2590,6 +2609,241 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             msg = "An error occurred during Parsing for payload: {0}".format(str(e))
             self.log(msg, "ERROR")
             self.fail_and_exit(msg)
+
+    def parse_with_existing_profile_data(self, existing_profile, payload_data):
+        """
+        Parse the existing profile data and merge it with the new payload data.
+
+        Parameters:
+            existing_profile (dict): The existing wireless profile data.
+            payload_data (dict): The new payload data to merge.
+
+        Returns:
+            No return, parse the input data and load the parsed data to the payload_data
+        """
+        self.log(
+            "Starting merged profile data processing for wireless network profile management",
+            "INFO"
+        )
+
+        self.log(
+            "Processing profile data merge with existing profile components: {0} and new payload size: {1}".format(
+                len(existing_profile.keys()) if existing_profile else 0,
+                len(payload_data.keys()) if payload_data else 0
+            ),
+            "DEBUG"
+        )
+
+        # Statistics tracking for merge operations
+        merge_stats = {
+            'ssids_preserved': 0,
+            'ap_zones_preserved': 0,
+            'feature_templates_preserved': 0,
+            'interfaces_preserved': 0,
+            'components_processed': 0
+        }
+
+        # SSID details from existing profile data
+        existing_ssids = existing_profile.get("ssidDetails", [])
+        if existing_ssids:
+            # Initialize ssidDetails if not present
+            merge_stats['components_processed'] += 1
+            payload_data.setdefault("ssidDetails", [])
+
+            self.log(
+                "Processing SSID merge operation - existing SSIDs: {0}, new SSIDs: {1}".format(
+                    len(existing_ssids), len(payload_data.get("ssidDetails", []))
+                ),
+                "DEBUG"
+            )
+
+            ssids_preserved = []
+
+            for existing_ssid in existing_ssids:
+                ssid_name = existing_ssid.get("ssidName")
+
+                # Skip invalid entries
+                if not ssid_name:
+                    self.log("Skipping SSID entry without name in existing profile", "WARNING")
+                    continue
+
+                # Check if SSID already exists in payload
+                if not self.value_exists(payload_data["ssidDetails"], "ssidName", ssid_name):
+                    self.log(
+                        "Preserving existing SSID '{0}' in updated profile configuration".format(ssid_name),
+                        "INFO"
+                    )
+                    payload_data["ssidDetails"].append(existing_ssid)
+                    ssids_preserved.append(ssid_name)
+                    merge_stats['ssids_preserved'] += 1
+                else:
+                    self.log(
+                        "SSID '{0}' already exists in new configuration - using new configuration".format(ssid_name),
+                        "DEBUG"
+                    )
+
+            # Summary logging
+            if ssids_preserved:
+                self.log(
+                    "Preserved {0} existing SSID(s) in profile update: {1}".format(
+                        len(ssids_preserved), ", ".join(ssids_preserved)
+                    ),
+                    "INFO"
+                )
+
+        # AP Zones details from existing profile data
+        existing_ap_zones = existing_profile.get("apZones", [])
+        if existing_ap_zones:
+            merge_stats['components_processed'] += 1
+            payload_data.setdefault("apZones", [])
+            zones_preserved = []
+            self.log(
+                "Processing AP Zones merge operation - existing zones: {0}, new zones: {1}".format(
+                    len(existing_ap_zones), len(payload_data.get("apZones", []))
+                ),
+                "DEBUG"
+            )
+
+            for existing_apzone in existing_ap_zones:
+                apzone_name = existing_apzone.get("apZoneName")
+
+                if not apzone_name:
+                    self.log("Skipping AP Zone entry without name in existing profile", "WARNING")
+                    continue
+
+                if not self.value_exists(payload_data["apZones"], "apZoneName", apzone_name):
+                    self.log(
+                        "Preserving existing AP Zone '{0}' in updated profile configuration".format(apzone_name),
+                        "INFO"
+                    )
+                    payload_data["apZones"].append(existing_apzone)
+                    zones_preserved.append(apzone_name)
+                    merge_stats['ap_zones_preserved'] += 1
+                else:
+                    self.log(
+                        "AP Zone '{0}' being updated with new configuration".format(apzone_name),
+                        "DEBUG"
+                    )
+
+            if zones_preserved:
+                self.log(
+                    "Preserved {0} existing AP Zone(s): {1}".format(
+                        len(zones_preserved), ", ".join(zones_preserved)
+                    ),
+                    "INFO"
+                )
+
+        # Feature Templates data from existing profile data
+        existing_feature_templates = existing_profile.get("featureTemplates", [])
+        if existing_feature_templates:
+            payload_data.setdefault("featureTemplates", [])
+            templates_preserved = []
+            self.log(
+                "Processing feature templates merge operation - existing templates: {0}, new templates: {1}".format(
+                    len(existing_feature_templates), len(payload_data.get("featureTemplates", []))
+                ),
+                "DEBUG"
+            )
+
+            for existing_template in existing_feature_templates:
+                template_id = existing_template.get("id")
+                template_name = existing_template.get("designName", "Unknown")
+
+                if not template_id:
+                    self.log(
+                        "Skipping feature template entry without ID in existing profile",
+                        "WARNING"
+                    )
+                    continue
+
+                if not self.value_exists(payload_data["featureTemplates"], "id", template_id):
+                    self.log(
+                        "Preserving existing feature template '{0}' (ID: {1}) in profile update".format(
+                            template_name, template_id
+                        ),
+                        "INFO"
+                    )
+                    payload_data["featureTemplates"].append(existing_template)
+                    templates_preserved.append(template_name)
+                    merge_stats['feature_templates_preserved'] += 1
+                else:
+                    self.log(
+                        "Feature template '{0}' being updated with new configuration".format(template_name),
+                        "DEBUG"
+                    )
+
+            if templates_preserved:
+                self.log(
+                    "Preserved {0} existing feature template(s): {1}".format(
+                        len(templates_preserved), ", ".join(templates_preserved)
+                    ),
+                    "INFO"
+                )
+
+        # Additional Interfaces data from existing profile data
+        existing_interfaces = existing_profile.get("additionalInterfaces", [])
+        if existing_interfaces:
+            payload_data.setdefault("additionalInterfaces", [])
+            interfaces_preserved = []
+            merge_stats['components_processed'] += 1
+            self.log(
+                "Processing additional interfaces merge operation - existing interfaces: {0}, new interfaces: {1}".format(
+                    len(existing_interfaces), len(payload_data.get("additionalInterfaces", []))
+                ),
+                "DEBUG"
+            )
+
+            for existing_interface in existing_interfaces:
+                if existing_interface and existing_interface not in payload_data["additionalInterfaces"]:
+                    self.log(
+                        "Preserving existing interface '{0}' in updated profile configuration".format(
+                            existing_interface
+                        ),
+                        "INFO"
+                    )
+                    payload_data["additionalInterfaces"].append(existing_interface)
+                    interfaces_preserved.append(existing_interface)
+                    merge_stats['interfaces_preserved'] += 1
+                elif existing_interface:
+                    self.log(
+                        "Interface '{0}' already in new configuration".format(existing_interface),
+                        "DEBUG"
+                    )
+
+            if interfaces_preserved:
+                self.log(
+                    "Preserved {0} existing interface(s): {1}".format(
+                        len(interfaces_preserved), ", ".join(interfaces_preserved)
+                    ),
+                    "INFO"
+                )
+
+        total_preserved = (
+            merge_stats['ssids_preserved'] +
+            merge_stats['ap_zones_preserved'] +
+            merge_stats['feature_templates_preserved'] +
+            merge_stats['interfaces_preserved']
+        )
+
+        self.log(
+            "Profile data merge completed - processed {0} component types, preserved {1} total items".format(
+                merge_stats['components_processed'], total_preserved
+            ),
+            "INFO"
+        )
+
+        if total_preserved > 0:
+            self.log(
+                "Merge statistics - SSIDs: {0}, AP Zones: {1}, Feature Templates: {2}, Interfaces: {3}".format(
+                    merge_stats['ssids_preserved'],
+                    merge_stats['ap_zones_preserved'],
+                    merge_stats['feature_templates_preserved'],
+                    merge_stats['interfaces_preserved']
+                ),
+                "INFO"
+            )
+
+        return
 
     def create_update_wireless_profile(self, wireless_data, profile_id=None):
         """
