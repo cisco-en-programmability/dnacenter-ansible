@@ -1,0 +1,337 @@
+{
+    "create_ap_location": [{
+        "floor_site_hierarchy": "Global/USA/California/SAN JOSE/BLD24/Floor3",
+        "access_points": [
+            {
+            "accesspoint_name": "IAC-TB4-SJ-AP1",
+            "mac_address": "54:8a:ba:22:eb:c0",
+            "accesspoint_model": "CW9172H",
+            "position": {"x_position": 30, "y_position": 20, "z_position": 8},
+            "radios": [
+                {
+                "bands": ["2.4"],
+                "channel": 10,
+                "tx_power": 5,
+                "antenna": {
+                    "antenna_name": "Internal-CW9172H-x-2.4GHz",
+                    "azimuth": 10,
+                    "elevation": 30
+                }
+                },
+                {
+                "bands": ["5"],
+                "channel": 40,
+                "tx_power": 6,
+                "antenna": {
+                    "antenna_name": "Internal-CW9172H-x-5GHz",
+                    "azimuth": 10,
+                    "elevation": 30
+                }
+                }
+            ]
+            }
+        ]
+    }],
+
+    "get_site_floor_response": {
+        "response": [
+            {
+            "id": "d7db223c-1859-45d4-86f1-a2c9c53f822e",
+            "parentId": "93e5610a-4659-4b25-aa80-939fdb82f17b",
+            "name": "Floor3",
+            "nameHierarchy": "Global/USA/California/SAN JOSE/BLD24/Floor3",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "ap_antenna_patterns_response": [
+        {
+            "apType": "AP9167EH",
+            "antennaPatterns": [
+                {
+                    "band": "5",
+                    "names": [
+                        "AIR-ANT2547V-NS-5GHz",
+                        "AIR-ANT2588P4M-NS-5GHz",
+                        "AIR-ANT5114P2M-NS",
+                        "AIR-ANT2568VG-NS-5GHz",
+                        "AIR-ANT2513P4M-NS-5GHz",
+                        "FM-PANEL-19-5GHz",
+                        "IW-ANT-OMM-53-N-5GHz",
+                        "IW-ANT-H90-510-N-5GHz",
+                        "IW-ANT-SKD-513-Q-5GHz",
+                        "IW-ANT-SKS-514-Q-5GHz",
+                        "IW-ANT-PNL-59-N-5GHz",
+                        "IW-ANT-OMH-2567-N-x-TRI-5GHz",
+                        "IW-ANT-OMV-2567-N-x-TRI-5GHz"
+                    ]
+                },
+                {
+                    "band": "6",
+                    "names": [
+                        "IW-ANT-OMV-2567-N-x-TRI-6GHz",
+                        "IW-ANT-OMH-2567-N-x-TRI-6GHz"
+                    ]
+                },
+                {
+                    "band": "2.4",
+                    "names": [
+                        "AIR-ANT2413P2M-NS",
+                        "AIR-ANT2513P4M-NS-2.4GHz",
+                        "AIR-ANT2568VG-NS-2.4GHz",
+                        "AIR-ANT2588P4M-NS-2.4GHz",
+                        "AIR-ANT2547V-NS-2.4GHz",
+                        "IW-ANT-OMV-2567-N-x-TRI-2.4GHz",
+                        "IW-ANT-OMH-2567-N-x-TRI-2.4GHz"
+                    ]
+                }
+            ]
+        },
+        {
+            "apType": "CW9172H",
+            "antennaPatterns": [
+                {
+                    "band": "5",
+                    "names": [
+                        "Internal-CW9172H-x-5GHz"
+                    ]
+                },
+                {
+                    "band": "6",
+                    "names": [
+                        "Internal-CW9172H-x-6GHz"
+                    ]
+                },
+                {
+                    "band": "2.4",
+                    "names": [
+                        "Internal-CW9172H-x-2.4GHz"
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "get_ap_device_details": {
+        "response": [
+        {
+            "type": "Cisco Catalyst 9130AXE Unified Access Point",
+            "lastUpdateTime": 1758124551204,
+            "softwareType": null,
+            "softwareVersion": "17.15.3.28",
+            "collectionInterval": "NA",
+            "dnsResolvedManagementAddress": "",
+            "lastManagedResyncReasons": "",
+            "managementState": "Managed",
+            "pendingSyncRequestsCount": "0",
+            "reasonsForDeviceResync": "",
+            "reasonsForPendingSyncRequests": "",
+            "macAddress": "54:8a:ba:22:eb:c0",
+            "deviceSupportLevel": "Supported",
+            "serialNumber": "FJC24481A75",
+            "syncRequestedByApp": "",
+            "inventoryStatusDetail": "NA",
+            "upTime": "56 days, 09:32:20.260",
+            "roleSource": "AUTO",
+            "interfaceCount": "0",
+            "lastUpdated": "2025-09-17 15:55:51",
+            "bootDateTime": null,
+            "apManagerInterfaceIp": "204.192.4.2",
+            "collectionStatus": "Managed",
+            "family": "Unified AP",
+            "hostname": "IAC-TB4-SJ-AP1",
+            "locationName": null,
+            "managementIpAddress": "204.1.100.6",
+            "platformId": "C9130AXE-B",
+            "reachabilityFailureReason": "NA",
+            "reachabilityStatus": "Reachable",
+            "series": "Cisco Catalyst 9130AXE Series Unified Access Points",
+            "snmpContact": "",
+            "snmpLocation": "default location",
+            "associatedWlcIp": "204.192.4.2",
+            "apEthernetMacAddress": "14:16:9d:58:2b:1c",
+            "errorCode": "null",
+            "errorDescription": null,
+            "lastDeviceResyncStartTime": "",
+            "lineCardCount": "0",
+            "lineCardId": "",
+            "managedAtleastOnce": false,
+            "memorySize": "NA",
+            "tagCount": "0",
+            "tunnelUdpPort": null,
+            "uptimeSeconds": 4873999,
+            "vendor": "NA",
+            "waasDeviceMode": null,
+            "description": null,
+            "location": null,
+            "role": "ACCESS",
+            "instanceUuid": "0ee2b3a1-139a-4683-b04b-6ee00665d00b",
+            "instanceTenantId": "67f642fce1bab70013e3d30e",
+            "id": "0ee2b3a1-139a-4683-b04b-6ee00665d00b"
+        }
+    ]},
+
+    "get_planned_location_not_exist": {
+        "response": [],
+        "version": "1.0"
+    },
+
+    "create_planned_location_task_id": {
+        "response": {
+            "taskId": "01995876-e6bc-79bb-8db8-71f24f8ff563",
+            "url": "/dna/intent/api/v1/tasks/01995876-e6bc-79bb-8db8-71f24f8ff563"
+        },
+        "version": "1.0"
+    },
+
+    "create_planned_location_task_details": {
+        "response": {
+            "endTime": 1758125811491,
+            "status": "SUCCESS",
+            "startTime": 1758125811388,
+            "resultLocation": "/dna/intent/api/v1/tasks/01995876-e6bc-79bb-8db8-71f24f8ff563/detail",
+            "id": "01995876-e6bc-79bb-8db8-71f24f8ff563"
+        },
+        "version": "1.0"
+    },
+
+    "create_planned_location_task_stats": {
+        "progress": "100"
+    },
+
+    "update_ap_location": [{
+        "floor_site_hierarchy": "Global/USA/California/SAN JOSE/BLD24/Floor3",
+        "access_points": [
+            {
+            "accesspoint_name": "IAC-TB4-SJ-AP1",
+            "mac_address": "54:8a:ba:22:eb:c0",
+            "accesspoint_model": "CW9172H",
+            "position": {"x_position": 30, "y_position": 20, "z_position": 8},
+            "radios": [
+                {
+                "bands": ["2.4"],
+                "channel": 10,
+                "tx_power": 5,
+                "antenna": {
+                    "antenna_name": "Internal-CW9172H-x-2.4GHz",
+                    "azimuth": 20,
+                    "elevation": 30
+                }
+                },
+                {
+                "bands": ["5"],
+                "channel": 44,
+                "tx_power": 6,
+                "antenna": {
+                    "antenna_name": "Internal-CW9172H-x-5GHz",
+                    "azimuth": 10,
+                    "elevation": 30
+                }
+                }
+            ]
+            }
+        ]
+    }],
+
+    "get_planned_location_exist": { 
+        "response": [{
+            "id": "fc46242c-75a9-4c56-81d9-7df84edbc32b",
+            "name": "IAC-TB4-SJ-AP1",
+            "macAddress": "54:8a:ba:22:eb:c0",
+            "type": "CW9172H",
+            "position": {
+                "x": 30.0,
+                "y": 20.0,
+                "z": 8.0
+            },
+            "radios": [
+                {
+                    "id": "73b3c7c4-223e-4b41-a4bb-baa022d6989c",
+                    "bands": [
+                        2.4
+                    ],
+                    "channel": 10,
+                    "txPower": 5,
+                    "antenna": {
+                        "elevation": 30,
+                        "name": "Internal-CW9172H-x-2.4GHz",
+                        "azimuth": 9
+                    }
+                },
+                {
+                    "id": "7eb5992d-4737-437a-b091-0b5fd70ab349",
+                    "bands": [
+                        5.0
+                    ],
+                    "channel": 40,
+                    "txPower": 6,
+                    "antenna": {
+                        "elevation": 30,
+                        "name": "Internal-CW9172H-x-5GHz",
+                        "azimuth": 9
+                    }
+                }
+            ]
+        }]
+    },
+
+    "delete_ap_location": [{
+        "floor_site_hierarchy": "Global/USA/California/SAN JOSE/BLD24/Floor3",
+        "access_points": [
+            {
+            "accesspoint_name": "IAC-TB4-SJ-AP1"
+            }
+        ]
+    }],
+
+    "delete_ap_location_task_status": {
+        "progress": "Delete planned access point with 'id': fc46242c-75a9-4c56-81d9-7df84edbc32b completed successfully"
+    },
+
+    "create_assign_ap_location": [{
+        "floor_site_hierarchy": "Global/USA/California/SAN JOSE/BLD24/Floor3",
+        "access_points": [
+            {
+            "accesspoint_name": "IAC-TB4-SJ-AP1",
+            "action": "assign_planned_ap",
+            "mac_address": "54:8a:ba:22:eb:c0",
+            "accesspoint_model": "CW9172H",
+            "position": {"x_position": 30, "y_position": 20, "z_position": 8},
+            "radios": [
+                {
+                "bands": ["2.4"],
+                "channel": 10,
+                "tx_power": 5,
+                "antenna": {
+                    "antenna_name": "Internal-CW9172H-x-2.4GHz",
+                    "azimuth": 10,
+                    "elevation": 30
+                }
+                },
+                {
+                "bands": ["5"],
+                "channel": 40,
+                "tx_power": 6,
+                "antenna": {
+                    "antenna_name": "Internal-CW9172H-x-5GHz",
+                    "azimuth": 10,
+                    "elevation": 30
+                }
+                }
+            ]
+            }
+        ]
+    }],
+
+    "assign_task_status": {
+        "progress": "finished"
+    }
+}
