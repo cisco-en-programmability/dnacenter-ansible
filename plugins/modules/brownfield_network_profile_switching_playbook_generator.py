@@ -385,7 +385,7 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
             self - The current object with Filtered or all profile list
         """
         self.log(
-            f"Collecting template and swith profile related information for: {profile_names}",
+            f"Collecting template and switch profile related information for: {profile_names}",
             "INFO",
         )
         self.have["switch_profile_names"], self.have["switch_profile_list"] = [], []
