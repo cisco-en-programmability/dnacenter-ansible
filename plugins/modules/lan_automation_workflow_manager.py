@@ -6311,30 +6311,31 @@ class LanAutomation(DnacBase):
 
         if our_source_ip == catc_device1_ip:
             self.log(
-                "Source device IP matches Catalyst Center device1 IP. No swapping required.",
+                f"Source device IP {our_source_ip} matches Catalyst Center device1 IP {catc_device1_ip}. No swapping required.",
                 "DEBUG",
             )
             return False
-        elif our_source_ip == catc_device2_ip:
+
+        if our_source_ip == catc_device2_ip:
             self.log(
-                "Source device IP matches Catalyst Center device2 IP. Swapping is required.",
+                f"Source device IP {our_source_ip} matches Catalyst Center device2 IP {catc_device2_ip}. Swapping is required.",
                 "INFO",
             )
             return True
-        else:
-            self.log(
-                f"Source device IP '{our_source_ip}' does not match either device1 IP '{catc_device1_ip}' "
-                f"or device2 IP '{catc_device2_ip}' from Catalyst Center configuration.",
-                "ERROR",
-            )
-            self.msg = (
-                f"Port channel configuration validation failed. Source device IP '{our_source_ip}' "
-                f"does not match the port channel devices in Catalyst Center. "
-                f"Port channel ID '{port_channel_id}' has devices: "
-                f"device1='{catc_device1_ip}', device2='{catc_device2_ip}'. "
-                f"Please verify the port channel configuration."
-            )
-            self.fail_and_exit(self.msg)
+
+        self.log(
+            f"Source device IP '{our_source_ip}' does not match either device1 IP '{catc_device1_ip}' "
+            f"or device2 IP '{catc_device2_ip}' from Catalyst Center configuration.",
+            "ERROR",
+        )
+        self.msg = (
+            f"Port channel configuration validation failed. Source device IP '{our_source_ip}' "
+            f"does not match the port channel devices in Catalyst Center. "
+            f"Port channel ID '{port_channel_id}' has devices: "
+            f"device1='{catc_device1_ip}', device2='{catc_device2_ip}'. "
+            f"Please verify the port channel configuration."
+        )
+        self.fail_and_exit(self.msg)
 
     def delete_lan_automated_link_from_a_port_channel(self, port_channel_config):
         """
@@ -6410,6 +6411,7 @@ class LanAutomation(DnacBase):
                     f"-> Swapped: device1Interface='{member['device1Interface']}', device2Interface='{member['device2Interface']}'",
                     "DEBUG",
                 )
+
             self.log(
                 f"Device order swapping completed. Updated payload: {self.pprint(delete_link_payload)}",
                 "DEBUG",
