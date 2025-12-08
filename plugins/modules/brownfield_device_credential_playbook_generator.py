@@ -351,9 +351,6 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
             "global_filters": {"type": "dict", "required": False},
         }
 
-        # Import validate_list_of_dicts function here to avoid circular imports
-        from ansible_collections.cisco.dnac.plugins.module_utils.dnac import validate_list_of_dicts
-
         # Validate params
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
         self.log(
