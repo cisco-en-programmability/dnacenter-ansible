@@ -319,10 +319,8 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
         self.global_credential_details = self.dnac._exec(
-                family="discovery",
-                function="get_all_global_credentials",
-                op_modifies=False,
-            ).get("response", [])
+            family="discovery", function="get_all_global_credentials", op_modifies=False
+        ).get("response", [])
         self.module_name = "device_credential_workflow_manager"
 
     def validate_input(self):
@@ -456,7 +454,7 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
             },
             "global_filters": [],
         }
-    
+
     def global_credential_details_temp_spec(self):
         """Build temp spec for mapping global credentials to YAML.
 
@@ -944,7 +942,7 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
                     ),
                     "WARNING",
                 )
-            
+
             # Set empty filters to retrieve everything
             global_filters = {}
             component_specific_filters = {}
@@ -1054,7 +1052,7 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.msg = "Successfully collected all parameters from the playbook for Wireless Design operations."
         self.status = "success"
         return self
-    
+
     def generate_custom_variable_name(
         self,
         network_component_details,
@@ -1160,6 +1158,7 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         return self
+
 
 def main():
     """Main entry point for module execution.
