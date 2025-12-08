@@ -2294,6 +2294,87 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "ip_addresses": syslog.get("externalSyslogServers", []),
         }
 
+    def execute_get_bulk(self, api_family, api_function, params=None):
+        """
+        Executes a single non-paginated GET request for bulk data retrieval.
+
+        This function is specifically designed for API endpoints that return all data
+        in a single call without requiring pagination parameters.
+
+        Args:
+            api_family (str): The API family to use for the call (For example, 'network_settings', 'devices', etc.).
+            api_function (str): The specific API function to call for retrieving data (For example, 'retrieves_ip_address_subpools').
+            params (dict, optional): Parameters for filtering the data. Defaults to None for bulk retrieval.
+
+        Returns:
+            list: A list of dictionaries containing the retrieved data.
+
+        Usage:
+            # For bulk reserve pool retrieval without site filtering
+            all_pools = self.execute_get_bulk("network_settings", "retrieves_ip_address_subpools")
+
+            # For bulk retrieval with specific filters
+            filtered_pools = self.execute_get_bulk("network_settings", "retrieves_ip_address_subpools", {"filter": "value"})
+        """
+        self.log("Starting bulk API execution for family '{0}', function '{1}'".format(
+            api_family, api_function), "DEBUG")
+
+        try:
+            # Prepare parameters - use empty dict if params is None
+            api_params = params if params is not None else {}
+
+            self.log(
+                "Executing bulk API call for family '{0}', function '{1}' with parameters: {2}".format(
+                    api_family, api_function, api_params
+                ),
+                "INFO",
+            )
+
+            # Execute the API call
+            response = self.dnac._exec(
+                family=api_family,
+                function=api_function,
+                op_modifies=False,
+                params=api_params,
+            )
+
+            self.log(
+                "Response received from bulk API call for family '{0}', function '{1}': {2}".format(
+                    api_family, api_function, response
+                ),
+                "DEBUG",
+            )
+
+            # Process the response if available
+            response_data = response.get("response", [])
+
+            if response_data:
+                self.log(
+                    "Bulk data retrieved for family '{0}', function '{1}': Total records: {2}".format(
+                        api_family, api_function, len(response_data)
+                    ),
+                    "INFO",
+                )
+            else:
+                self.log(
+                    "No data found for family '{0}', function '{1}'.".format(
+                        api_family, api_function
+                    ),
+                    "DEBUG",
+                )
+
+            # Return the list of retrieved data
+            return response_data if isinstance(response_data, list) else [response_data] if response_data else []
+
+        except Exception as e:
+            self.msg = (
+                "An error occurred while retrieving bulk data using family '{0}', function '{1}'. "
+                "Error: {2}".format(
+                    api_family, api_function, str(e)
+                )
+            )
+            self.fail_and_exit(self.msg)
+
     def get_reserve_pools(self, network_element, filters):
         """
         Retrieves reserve IP pools based on the provided network element and filters.
@@ -2317,68 +2398,51 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         global_filters = filters.get("global_filters", {})
         component_specific_filters = filters.get("component_specific_filters", {}).get("reserve_pool_details", [])
 
-        # Process site-based filtering first
-        target_sites = []
+        # Check if we need site-specific filtering
         site_name_list = global_filters.get("site_name_list", [])
+        has_site_specific_filters = site_name_list or any(
+            filter_param.get("site_name") for filter_param in component_specific_filters
+        )
 
-        if site_name_list:
-            self.log("Processing site name list: {0}".format(site_name_list), "DEBUG")
-            # Get site ID to name mapping
-            if not hasattr(self, 'site_id_name_dict'):
-                self.site_id_name_dict = self.get_site_id_name_mapping()
-
-            # Create reverse mapping (name to ID)
-            site_name_to_id_dict = {v: k for k, v in self.site_id_name_dict.items()}
-
-            for site_name in site_name_list:
-                site_id = site_name_to_id_dict.get(site_name)
-                if site_id:
-                    target_sites.append({"site_name": site_name, "site_id": site_id})
-                    self.log("Added target site: {0} (ID: {1})".format(site_name, site_id), "DEBUG")
-                else:
-                    self.log("Site '{0}' not found in Catalyst Center".format(site_name), "WARNING")
-                    self.add_failure(site_name, "reserve_pool_details", {
-                        "error_type": "site_not_found",
-                        "error_message": "Site not found or not accessible",
-                        "error_code": "SITE_NOT_FOUND"
-                    })
-
-        # If no target sites specified, get all sites
-        if not target_sites:
-            self.log("No specific sites targeted, processing all sites", "DEBUG")
-            if not hasattr(self, 'site_id_name_dict'):
-                self.site_id_name_dict = self.get_site_id_name_mapping()
-
-            for site_id, site_name in self.site_id_name_dict.items():
-                target_sites.append({"site_name": site_name, "site_id": site_id})
-
-        # Process each site
-        for site_info in target_sites:
-            site_name = site_info["site_name"]
-            site_id = site_info["site_id"]
-
-            self.log("Processing reserve pools for site: {0} (ID: {1})".format(site_name, site_id), "DEBUG")
+        # Performance optimization: Use bulk API call when no site-specific filters are present
+        if not has_site_specific_filters:
+            self.log("No site-specific filters detected, using optimized bulk retrieval", "INFO")
 
             try:
-                # Base parameters for API call
-                params = {"siteId": site_id}
+                # Execute bulk API call to get all reserve pools at once (no siteId parameter needed)
+                all_reserve_pools = self.execute_get_bulk(api_family, api_function)
+                self.log("Retrieved {0} total reserve pools using bulk API call".format(
+                    len(all_reserve_pools)), "INFO")
 
-                # Execute API call to get reserve pools for this site
-                reserve_pool_details = self.execute_get_with_pagination(api_family, api_function, params)
-                self.log("Retrieved {0} reserve pools for site {1}".format(
-                    len(reserve_pool_details), site_name), "INFO")
-
-                # Apply component-specific filters
-                if component_specific_filters:
+                # Apply global filters if present
+                filtered_pools = all_reserve_pools
+                if global_filters.get("pool_name_list") or global_filters.get("pool_type_list"):
                     filtered_pools = []
-                    for filter_param in component_specific_filters:
-                        # Check if filter applies to this site
-                        filter_site_name = filter_param.get("site_name")
-                        if filter_site_name and filter_site_name != site_name:
-                            continue  # Skip this filter as it's for a different site
+                    pool_name_list = global_filters.get("pool_name_list", [])
+                    pool_type_list = global_filters.get("pool_type_list", [])
 
-                        # Apply other filters
-                        for pool in reserve_pool_details:
+                    for pool in all_reserve_pools:
+                        # Check pool name filter
+                        if pool_name_list and pool.get("groupName") not in pool_name_list:
+                            continue
+
+                        # Check pool type filter
+                        if pool_type_list and pool.get("type") not in pool_type_list:
+                            continue
+
+                        filtered_pools.append(pool)
+
+                    self.log("Applied global filters, remaining pools: {0}".format(len(filtered_pools)), "DEBUG")
+
+                # Apply component-specific filters (non-site-specific only)
+                if component_specific_filters:
+                    final_filtered_pools = []
+                    for filter_param in component_specific_filters:
+                        # Skip site-specific filters (should not occur in this path)
+                        if filter_param.get("site_name"):
+                            continue
+
+                        for pool in filtered_pools:
                             matches_filter = True
 
                             # Check pool name filter
@@ -2394,51 +2458,156 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                                     continue
 
                             if matches_filter:
-                                filtered_pools.append(pool)
+                                final_filtered_pools.append(pool)
 
-                    # Use filtered results if filters were applied
-                    if filtered_pools:
-                        reserve_pool_details = filtered_pools
-                    elif component_specific_filters:
-                        # If filters were specified but none matched, empty the list
-                        reserve_pool_details = []
+                    filtered_pools = final_filtered_pools
 
-                # Apply global filters
-                if global_filters.get("pool_name_list") or global_filters.get("pool_type_list"):
-                    filtered_pools = []
-                    pool_name_list = global_filters.get("pool_name_list", [])
-                    pool_type_list = global_filters.get("pool_type_list", [])
+                final_reserve_pools = filtered_pools
 
-                    for pool in reserve_pool_details:
-                        # Check pool name filter
-                        if pool_name_list and pool.get("groupName") not in pool_name_list:
-                            continue
-
-                        # Check pool type filter (note: pool_type_list might contain Management, but API uses different values)
-                        if pool_type_list and pool.get("type") not in pool_type_list:
-                            continue
-
-                        filtered_pools.append(pool)
-
-                    reserve_pool_details = filtered_pools
-                    self.log("Applied global filters, remaining pools: {0}".format(len(filtered_pools)), "DEBUG")
-
-                # Add to final list
-                final_reserve_pools.extend(reserve_pool_details)
-
-                # Track success for this site
-                self.add_success(site_name, "reserve_pool_details", {
-                    "pools_processed": len(reserve_pool_details)
+                # Track success for bulk operation
+                self.add_success("All Sites", "reserve_pool_details", {
+                    "pools_processed": len(final_reserve_pools),
+                    "optimization": "bulk_retrieval"
                 })
 
             except Exception as e:
-                self.log("Error retrieving reserve pools for site {0}: {1}".format(site_name, str(e)), "ERROR")
-                self.add_failure(site_name, "reserve_pool_details", {
+                self.log("Error in bulk reserve pool retrieval: {0}".format(str(e)), "ERROR")
+                self.add_failure("All Sites", "reserve_pool_details", {
                     "error_type": "api_error",
                     "error_message": str(e),
-                    "error_code": "API_CALL_FAILED"
+                    "error_code": "BULK_API_CALL_FAILED"
                 })
-                continue
+                final_reserve_pools = []
+
+        else:
+            # Site-specific filtering is needed, use original site-by-site approach
+            self.log("Site-specific filters detected, using site-by-site retrieval", "INFO")
+
+            # Process site-based filtering
+            target_sites = []
+
+            if site_name_list:
+                self.log("Processing site name list: {0}".format(site_name_list), "DEBUG")
+                # Get site ID to name mapping
+                if not hasattr(self, 'site_id_name_dict'):
+                    self.site_id_name_dict = self.get_site_id_name_mapping()
+
+                # Create reverse mapping (name to ID)
+                site_name_to_id_dict = {v: k for k, v in self.site_id_name_dict.items()}
+
+                for site_name in site_name_list:
+                    site_id = site_name_to_id_dict.get(site_name)
+                    if site_id:
+                        target_sites.append({"site_name": site_name, "site_id": site_id})
+                        self.log("Added target site: {0} (ID: {1})".format(site_name, site_id), "DEBUG")
+                    else:
+                        self.log("Site '{0}' not found in Catalyst Center".format(site_name), "WARNING")
+                        self.add_failure(site_name, "reserve_pool_details", {
+                            "error_type": "site_not_found",
+                            "error_message": "Site not found or not accessible",
+                            "error_code": "SITE_NOT_FOUND"
+                        })
+
+            # If component-specific filters contain site names but no global site filter, extract those sites
+            if not target_sites and component_specific_filters:
+                if not hasattr(self, 'site_id_name_dict'):
+                    self.site_id_name_dict = self.get_site_id_name_mapping()
+                site_name_to_id_dict = {v: k for k, v in self.site_id_name_dict.items()}
+
+                for filter_param in component_specific_filters:
+                    filter_site_name = filter_param.get("site_name")
+                    if filter_site_name:
+                        site_id = site_name_to_id_dict.get(filter_site_name)
+                        if site_id and not any(s["site_name"] == filter_site_name for s in target_sites):
+                            target_sites.append({"site_name": filter_site_name, "site_id": site_id})
+
+            # Process each target site
+            for site_info in target_sites:
+                site_name = site_info["site_name"]
+                site_id = site_info["site_id"]
+
+                self.log("Processing reserve pools for site: {0} (ID: {1})".format(site_name, site_id), "DEBUG")
+
+                try:
+                    # Base parameters for API call
+                    params = {"siteId": site_id}
+
+                    # Execute API call to get reserve pools for this site
+                    reserve_pool_details = self.execute_get_with_pagination(api_family, api_function, params)
+                    self.log("Retrieved {0} reserve pools for site {1}".format(
+                        len(reserve_pool_details), site_name), "INFO")
+
+                    # Apply component-specific filters
+                    if component_specific_filters:
+                        filtered_pools = []
+                        for filter_param in component_specific_filters:
+                            # Check if filter applies to this site
+                            filter_site_name = filter_param.get("site_name")
+                            if filter_site_name and filter_site_name != site_name:
+                                continue  # Skip this filter as it's for a different site
+
+                            # Apply other filters
+                            for pool in reserve_pool_details:
+                                matches_filter = True
+
+                                # Check pool name filter
+                                if "pool_name" in filter_param:
+                                    if pool.get("groupName") != filter_param["pool_name"]:
+                                        matches_filter = False
+                                        continue
+
+                                # Check pool type filter
+                                if "pool_type" in filter_param:
+                                    if pool.get("type") != filter_param["pool_type"]:
+                                        matches_filter = False
+                                        continue
+
+                                if matches_filter:
+                                    filtered_pools.append(pool)
+
+                        # Use filtered results if filters were applied
+                        if filtered_pools:
+                            reserve_pool_details = filtered_pools
+                        elif component_specific_filters:
+                            # If filters were specified but none matched, empty the list
+                            reserve_pool_details = []
+
+                    # Apply global filters
+                    if global_filters.get("pool_name_list") or global_filters.get("pool_type_list"):
+                        filtered_pools = []
+                        pool_name_list = global_filters.get("pool_name_list", [])
+                        pool_type_list = global_filters.get("pool_type_list", [])
+
+                        for pool in reserve_pool_details:
+                            # Check pool name filter
+                            if pool_name_list and pool.get("groupName") not in pool_name_list:
+                                continue
+
+                            # Check pool type filter
+                            if pool_type_list and pool.get("type") not in pool_type_list:
+                                continue
+
+                            filtered_pools.append(pool)
+
+                        reserve_pool_details = filtered_pools
+                        self.log("Applied global filters, remaining pools: {0}".format(len(filtered_pools)), "DEBUG")
+
+                    # Add to final list
+                    final_reserve_pools.extend(reserve_pool_details)
+
+                    # Track success for this site
+                    self.add_success(site_name, "reserve_pool_details", {
+                        "pools_processed": len(reserve_pool_details)
+                    })
+
+                except Exception as e:
+                    self.log("Error retrieving reserve pools for site {0}: {1}".format(site_name, str(e)), "ERROR")
+                    self.add_failure(site_name, "reserve_pool_details", {
+                        "error_type": "api_error",
+                        "error_message": str(e),
+                        "error_code": "API_CALL_FAILED"
+                    })
+                    continue
 
         # Remove duplicates based on pool ID or unique combination
         unique_pools = []
