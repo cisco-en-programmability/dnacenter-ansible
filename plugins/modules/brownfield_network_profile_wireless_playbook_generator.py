@@ -36,7 +36,6 @@ options:
     default: gathered
   config:
     description:
-      short_description: Generate YAML configurations playbook for 'brownfield_network_profile_wireless_playbook_generator' module.
       - A list of filters for generating YAML playbook compatible with the 
         'brownfield_network_profile_wireless_playbook_generator' module.
       - Filters specify which components to include in the YAML configuration file.
