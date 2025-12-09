@@ -563,7 +563,7 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
                 for profile in profile_names:
                     if self.value_exists(self.have["wireless_profile_list"], "name", profile):
                         self.log(f"Found existing wireless profile: {profile}", "DEBUG")
-                        profile_id = self.get_value_by_key( self.have["wireless_profile_list"],
+                        profile_id = self.get_value_by_key(self.have["wireless_profile_list"],
                                                            "name", profile, "id")
                         filtered_profiles.append(profile)
                         profile_info = self.get_wireless_profile(profile)
