@@ -5,7 +5,6 @@
 
 """Ansible module to generate YAML configurations for Network Profile Wireless Module."""
 from __future__ import absolute_import, division, print_function
-import profile
 
 __metaclass__ = type
 __author__ = ("A Mohamed Rafeek, Madhan Sankaranarayanan")
