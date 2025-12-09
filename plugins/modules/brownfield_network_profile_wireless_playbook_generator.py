@@ -36,7 +36,7 @@ options:
     default: gathered
   config:
     description:
-      - A list of filters for generating YAML playbook compatible with the 
+      - A list of filters for generating YAML playbook compatible with the
         'brownfield_network_profile_wireless_playbook_generator' module.
       - Filters specify which components to include in the YAML configuration file.
       - If "components_list" is specified, only those components are included, regardless of the filters.
@@ -1024,7 +1024,7 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
                         each_parsed_ssid["dot11be_profile_name"] = dot11be_profile_name
 
                 enable_fabric = ssid.get("enableFabric")
-                each_parsed_ssid["enable_fabric"] = True if enable_fabric else False 
+                each_parsed_ssid["enable_fabric"] = True if enable_fabric else False
 
                 vlan_group_name = ssid.get("vlanGroupName")
                 if vlan_group_name:
@@ -1125,7 +1125,7 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
         """
         Retrieve the dot11be profile details based on the dot11be profile id from Cisco Catalyst Center.
 
-        Parameters:
+        Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             dot11be_profile_id (str): A string containing dot11be profile ID.
 
