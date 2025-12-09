@@ -120,7 +120,7 @@ class TestBrownfieldNetworkProfileSwitchingPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_config_generate_all_profile
             )
         )
@@ -145,7 +145,7 @@ class TestBrownfieldNetworkProfileSwitchingPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="3.1.3.0",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_global_filter_profile_base
             )
         )
@@ -170,7 +170,7 @@ class TestBrownfieldNetworkProfileSwitchingPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="3.1.3.0",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_global_filter_template_base
             )
         )
@@ -195,7 +195,7 @@ class TestBrownfieldNetworkProfileSwitchingPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="3.1.3.0",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_global_filter_site_base
             )
         )

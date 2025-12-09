@@ -31,8 +31,8 @@ options:
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
-    choices: [merged]
-    default: merged
+    choices: [gathered]
+    default: gathered
   config:
     description:
       - A list of filters for generating YAML playbook compatible with the `brownfield_network_profile_switching_playbook_generator`
@@ -135,7 +135,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - generate_all_configurations: true
 
@@ -150,7 +150,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/complete_switch_profile_config.yml"
         generate_all_configurations: true
@@ -166,7 +166,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - global_filters:
           profile_name_list: ["Campus_Switch_Profile", "Enterprise_Switch_Profile"]
@@ -182,7 +182,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - global_filters:
           day_n_template_list: ["Periodic_Config_Audit", "Security_Compliance_Check"]
@@ -198,7 +198,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - global_filters:
           site_list: ["Global/India/Chennai/Main_Office", "Global/USA/San_Francisco/Regional_HQ"]
@@ -214,7 +214,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - global_filters:
           site_list: ["Global/India/Chennai/Main_Office", "Global/USA/San_Francisco/Regional_HQ"]
@@ -293,7 +293,7 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
         Returns:
             The method does not return a value.
         """
-        self.supported_states = ["merged"]
+        self.supported_states = ["gathered"]
         super().__init__(module)
         self.module_name = "network_profile_switching_workflow_manager"
         self.module_schema = self.get_workflow_elements_schema()
@@ -774,7 +774,7 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
 
         Args:
             config (dict): The configuration data for the network elements.
-            state (str): The desired state of the network elements ('merged').
+            state (str): The desired state of the network elements ('gathered').
         """
 
         self.log(
@@ -933,7 +933,7 @@ def main():
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
-        "state": {"default": "merged", "choices": ["merged"]},
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with the provided argument specifications

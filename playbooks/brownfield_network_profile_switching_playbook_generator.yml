@@ -21,19 +21,34 @@
         config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        state: merged
+        state: gathered
         config:
+          # ========================================================================================
+          # Scenario 1: Generate all all switch profile configurations
+          # ========================================================================================
           - file_path: "tmp/brownfield_network_profile_switching_workflow_playbook.yml"
             generate_all_configurations: true
+
+          # ========================================================================================
+          # Scenario 2: Generate switch profile configurations based on profile name global filters
+          # ========================================================================================
           - file_path: "tmp/brownfield_network_profile_switching_workflow_playbook_profilebase.yml"
             global_filters:
               profile_name_list:
                 - Enterprise_Switching_Profile
                 - Campus_Core_Switching
+
+          # ========================================================================================
+          # Scenario 3: Generate switch profile configurations based on template name global filters
+          # ========================================================================================
           - file_path: "tmp/brownfield_network_profile_switching_workflow_playbook_templatebase.yml"
             global_filters:
               day_n_template_list:
                 - evpn_l2vn_anycast_template
+
+          # ========================================================================================
+          # Scenario 4: Generate switch profile configurations based on site name global filters
+          # ========================================================================================
           - file_path: "tmp/brownfield_network_profile_switching_workflow_playbook_sitebase.yml"
             global_filters:
               site_list:
