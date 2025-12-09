@@ -1,0 +1,167 @@
+---
+- debug: msg="Starting accesspoint location workflow manager test"
+- debug: msg="switching Path {{ role_path }}"
+
+- block:
+  - name: Access Point location workflow manager
+    include_vars:
+      file: "{{ role_path }}/vars/vars_accesspoint_location_workflow_manager.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  # - name: Delete profile
+  #   cisco.dnac.accesspoint_location_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.delete_accesspoint_location }}"
+    # register: result_delete_accesspoint_location
+
+###########################################
+ #  CREATE ACCESSPOINT PLANNED LOCATION  #
+###########################################
+
+  - name: Create accesspoint planned location
+    cisco.dnac.accesspoint_location_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config: 
+        - "{{ item }}"
+    loop: "{{ vars_map.create_accesspoint_location }}"
+    register: result_create_accesspoint_location
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_accesspoint_location.results }}"
+  #   when: result_create_accesspoint_location is defined
+
+  - name: Assert accesspoint planned location created
+    assert:
+      that:
+        - item.changed == true
+        - "'Planned/Real Access Point position created successfully' in item.msg"
+    loop: "{{ result_create_accesspoint_location.results }}"
+    when: result_create_accesspoint_location is defined
+
+
+#############################################
+#    UPDATE ACCESSPOINT PLANNED LOCATION    #
+#############################################
+
+  - name: update accesspoint planned location
+    cisco.dnac.accesspoint_location_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.update_accesspoint_location }}"
+    register: result_update_accesspoint_location
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_update_accesspoint_location.results }}"
+  #   when: result_update_accesspoint_location is defined
+
+  - name: Assert Update accesspoint location
+    assert:
+      that:
+        - item.changed == true
+        - "'Planned/Real Access Point position updated successfully' in item.msg"
+    loop: "{{ result_update_accesspoint_location.results }}"
+    when: result_update_accesspoint_location is defined
+
+  
+#############################################
+#    DELETE ACCESSPOINT PLANNED LOCATION    #
+#############################################
+
+  - name: Delete accesspoint planned location
+    cisco.dnac.accesspoint_location_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_accesspoint_location }}"
+    register: result_delete_accesspoint_location
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_accesspoint_location.results }}"
+  #   when: result_delete_accesspoint_location is defined
+
+  - name: Assert delete accesspoint planned location
+    assert:
+      that:
+        - item.changed == true
+        - "'Access Point planned Location(s) deleted and verified successfully' in item.msg"
+    loop: "{{ result_delete_accesspoint_location.results }}"
+    when: result_delete_accesspoint_location is defined
+
+
+#############################################
+#    ASSIGN ACCESSPOINT TO PLANNED LOCATION #
+#############################################
+
+  - name: Assign accesspoint to planned location
+    cisco.dnac.accesspoint_location_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.assign_accesspoint_to_location }}"
+    register: result_assign_accesspoint_to_location
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_assign_accesspoint_to_location.results }}"
+  #   when: result_assign_accesspoint_to_location is defined
+
+  - name: Assert assign accesspoint to planned location
+    assert:
+      that:
+        - item.changed == true
+        - "'Planned Access Point position assigned successfully for '[['IAC-TB4-SJ-AP1']]'.
+            Following Access Point(s) assigned to planned location(s): '['IAC-TB4-SJ-AP1']'.' in item.msg"
+    loop: "{{ result_assign_accesspoint_to_location.results }}"
+    when: result_assign_accesspoint_to_location is defined
+
+
+#############################################
+#               POST Clean Up               #
+#############################################
+
+  # - name: Delete accesspoint planned location
+  #   cisco.dnac.accesspoint_location_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.delete_accesspoint_location }}"
+  #   register: result_delete_accesspoint_location
