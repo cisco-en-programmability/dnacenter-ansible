@@ -1784,7 +1784,7 @@ releases:
         - Added 'profile_names' in template_workflow_manager module 
 
   6.43.0:
-    release_date: "2025-12-05"
+    release_date: "2025-12-08"
     changes:
       release_summary: Enhancements in workflow manager modules
       minor_changes:
