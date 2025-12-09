@@ -67,6 +67,9 @@ class TestDnacLanAutomationWorkflow(TestDnacModule):
     playbook_config_update_port_channel_negative_testcase_playbook_case_9 = (
         test_data.get("update_port_channel_negative_testcase_playbook_case_9")
     )
+    playbook_config_add_link_to_port_channel_when_the_order_of_source_and_destination_device_is_reversed_case_10 = test_data.get(
+        "add_link_to_port_channel_when_the_order_of_source_and_destination_device_is_reversed_case_10"
+    )
 
     def setUp(self):
         super(TestDnacLanAutomationWorkflow, self).setUp()
@@ -167,6 +170,7 @@ class TestDnacLanAutomationWorkflow(TestDnacModule):
                 self.test_data.get("get_lan_automation_status_call_1_case_6"),
                 self.test_data.get("get_active_lan_automation_sessions_call_1_case_6"),
                 self.test_data.get("get_port_channel_call_1_case_6"),
+                self.test_data.get("get_port_channel_information_by_id_call_1_case_6"),
                 self.test_data.get("add_links_to_port_channel_call_1_case_6"),
                 self.test_data.get("get_tasks_by_id_call_1_case_6"),
                 self.test_data.get("get_lan_automation_status_call_1_case_6"),
@@ -180,6 +184,7 @@ class TestDnacLanAutomationWorkflow(TestDnacModule):
                 self.test_data.get("get_lan_automation_status_call_1_case_7"),
                 self.test_data.get("get_active_lan_automation_sessions_call_1_case_7"),
                 self.test_data.get("get_port_channel_call_1_case_7"),
+                self.test_data.get("get_port_channel_information_by_id_call_1_case_7"),
                 self.test_data.get("remove_a_link_from_port_channel_case_7"),
                 self.test_data.get("get_tasks_by_id_call_1_case_7"),
                 self.test_data.get("get_lan_automation_status_call_1_case_7"),
@@ -204,6 +209,23 @@ class TestDnacLanAutomationWorkflow(TestDnacModule):
                 self.test_data.get("get_lan_automation_status_call_1_case_9"),
                 self.test_data.get("get_active_lan_automation_sessions_call_1_case_9"),
                 self.test_data.get("get_port_channel_call_1_case_9"),
+            ]
+        elif (
+            "add_link_to_port_channel_when_the_order_of_source_and_destination_device_is_reversed_case_10"
+            in self._testMethodName
+        ):
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_device_list_call_1_case_10"),
+                self.test_data.get("get_device_list_call_2_case_10"),
+                self.test_data.get("get_lan_automation_status_call_1_case_10"),
+                self.test_data.get("get_active_lan_automation_sessions_call_1_case_10"),
+                self.test_data.get("get_port_channel_call_1_case_10"),
+                self.test_data.get("get_port_channel_information_by_id_call_1_case_10"),
+                self.test_data.get("add_a_link_to_port_channel_case_10"),
+                self.test_data.get("get_tasks_by_id_call_1_case_10"),
+                self.test_data.get("get_lan_automation_status_call_1_case_10"),
+                self.test_data.get("get_active_lan_automation_sessions_call_1_case_10"),
+                self.test_data.get("get_port_channel_call_2_case_10"),
             ]
 
     def test_delete_port_channel_when_it_doesnot_exist_case_1(self):
@@ -409,5 +431,32 @@ class TestDnacLanAutomationWorkflow(TestDnacModule):
             "If you want to create a new Port Channel, please remove the "
             "port_channel_number parameter from your playbook configuration "
             "and try again.",
+            result.get("msg"),
+        )
+
+    def add_link_to_port_channel_when_the_order_of_source_and_destination_device_is_reversed_case_10(
+        self,
+    ):
+        # Test Description: Add link to port channel when the order of source and destination devices
+        # is reversed compared to the Catalyst Center configuration. The module should automatically
+        # detect the reversed order and swap the interface assignments before calling the API.
+        # Expected Result: Module should successfully add links to the port channel by automatically
+        # swapping device1Interface and device2Interface to match the Catalyst Center port channel configuration.
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="3.1.3.0",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_log_level="DEBUG",
+                config=self.playbook_config_add_link_to_port_channel_when_the_order_of_source_and_destination_device_is_reversed_case_10,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertIn(
+            "Links added successfully to the port channel between source device '172.254.0.2' and destination device '172.101.1.1'. Added links:",
             result.get("msg"),
         )
