@@ -157,7 +157,34 @@ EXAMPLES = r"""
         config:
           - generate_all_configurations: true
 
-# Example 2: Generate only tag configurations without memberships
+# Example 2: Generate all configurations with custom file path
+- name: Generate complete brownfield tag configuration with custom filename
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Generate all tag configurations to a specific file
+      cisco.dnac.brownfield_tags_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: merged
+        config_verify: true
+        config:
+          - file_path: "/tmp/complete_tags_config.yaml"
+            generate_all_configurations: true
+
+# Example 3: Generate only tag configurations without memberships
 - name: Generate tag definitions only
   hosts: dnac_servers
   vars_files:
@@ -185,7 +212,7 @@ EXAMPLES = r"""
             component_specific_filters:
               components_list: ["tag"]
 
-# Example 3: Generate only tag membership configurations
+# Example 4: Generate only tag membership configurations
 - name: Generate tag memberships only
   hosts: dnac_servers
   vars_files:
@@ -213,7 +240,7 @@ EXAMPLES = r"""
             component_specific_filters:
               components_list: ["tag_memberships"]
 
-# Example 4: Generate both tags and memberships together
+# Example 5: Generate both tags and memberships together
 - name: Generate tags and their memberships
   hosts: dnac_servers
   vars_files:
@@ -241,7 +268,7 @@ EXAMPLES = r"""
             component_specific_filters:
               components_list: ["tag", "tag_memberships"]
 
-# Example 5: Filter specific tags by name
+# Example 6: Filter specific tags by name
 - name: Generate configuration for specific tags by name
   hosts: dnac_servers
   vars_files:
@@ -272,7 +299,7 @@ EXAMPLES = r"""
                 - tag_name: Production
                 - tag_name: Data-Center
 
-# Example 6: Filter specific tag memberships by tag name
+# Example 7: Filter specific tag memberships by tag name
 - name: Generate memberships for specific tags
   hosts: dnac_servers
   vars_files:
@@ -303,7 +330,7 @@ EXAMPLES = r"""
                 - tag_name: Campus-Switches
                 - tag_name: Core-Routers
 
-# Example 7: Multiple configurations in a single playbook
+# Example 8: Multiple configurations in a single playbook
 - name: Generate multiple tag configuration files
   hosts: dnac_servers
   vars_files:
@@ -340,7 +367,7 @@ EXAMPLES = r"""
                 - tag_name: Branch-Office
                 - tag_name: Access-Points
 
-# Example 8: Filter tags by ID
+# Example 9: Filter tags by ID
 - name: Generate configuration for tags by ID
   hosts: dnac_servers
   vars_files:
@@ -371,7 +398,7 @@ EXAMPLES = r"""
                 - tag_id: "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p"
                 - tag_id: "9z8y7x6w-5v4u-3t2s-1r0q-9p8o7n6m5l4k"
 
-# Example 9: Mixed filter by tag name and ID
+# Example 10: Mixed filter by tag name and ID
 - name: Generate configuration using mixed filters
   hosts: dnac_servers
   vars_files:
