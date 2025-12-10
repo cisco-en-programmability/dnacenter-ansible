@@ -54,6 +54,14 @@ options:
           a default file name  "<module_name>_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
         - For example, "backup_and_restore_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
         type: str
+      generate_all_configurations:
+        description:
+        - Generate YAML configuration for all available backup and restore components.
+        - When set to true, generates configuration for both NFS configurations and backup storage configurations.
+        - Takes precedence over component_specific_filters if both are specified.
+        - If set to true and no component_specific_filters are provided, defaults to including all components.
+        type: bool
+        default: false
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration
