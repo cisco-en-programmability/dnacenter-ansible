@@ -66,12 +66,17 @@ class TestBrownfieldNetworkProfileWirelessPlaybookGenerator(TestDnacModule):
         if "generate_all_configurations" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("all_wireless_profiles"),
+                self.test_data.get("each_wireless_profile_info1"),
+                self.test_data.get("each_wireless_profile_info2"),
+                self.test_data.get("cli_template_empty_response"),
+                self.test_data.get("cli_template_response"),
                 self.test_data.get("cli_template_details_for_profile1"),
                 self.test_data.get("get_site_list_for_profile1"),
                 self.test_data.get("get_site_all"),
-                self.test_data.get("template_attached_profile2"),
-                self.test_data.get("site_attached_profile2"),
-                self.test_data.get("get_site_all"),
+                self.test_data.get("dot11be_profile_response1"),
+                self.test_data.get("dot11be_profile_response1"),
+                self.test_data.get("get_interface_details1"),
+                self.test_data.get("get_interface_details2"),
             ]
         elif "generate_global_filter" in self._testMethodName:
             self.run_dnac_exec.side_effect = [

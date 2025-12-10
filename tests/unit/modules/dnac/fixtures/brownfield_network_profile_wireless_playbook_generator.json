@@ -1,26 +1,180 @@
 {
-  "playbook_config_generate_all_profile": [
-    {
-      "generate_all_configurations": true,
-      "file_path": "/tmp/test_demo.yaml"
-    }
-  ],
-
-  "all_wireless_profiles": {
-        "response": [
+    "playbook_config_generate_all_profile": [
         {
-            "id": "41abb276-81d5-42a0-a1c0-a1d898bd73e5",
-            "name": "profile-SSIDOpenIndia",
-            "type": "Wireless"
-        },
-        {
-            "id": "b4de80c0-3700-4ee1-9334-a32f8187da68",
-            "name": "Campus_Wireless_Profile",
-            "type": "Wireless"
+        "generate_all_configurations": true,
+        "file_path": "/tmp/test_demo.yaml"
         }
     ],
-    "version": "1.0"
-  },
+
+    "all_wireless_profiles": {
+            "response": [
+            {
+                "id": "41abb276-81d5-42a0-a1c0-a1d898bd73e5",
+                "name": "profile-SSIDOpenIndia",
+                "type": "Wireless"
+            },
+            {
+                "id": "b4de80c0-3700-4ee1-9334-a32f8187da68",
+                "name": "Campus_Wireless_Profile",
+                "type": "Wireless"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "each_wireless_profile_info1": {
+    "response": [
+        {
+            "id": "41abb276-81d5-42a0-a1c0-a1d898bd73e5",
+            "wirelessProfileName": "profile-SSIDOpenIndia",
+            "ssidDetails": [
+                {
+                    "ssidName": "SSIDDUAL BAND",
+                    "enableFabric": true,
+                    "flexConnect": {
+                        "enableFlexConnect": false
+                    },
+                    "wlanProfileName": "SSIDDUAL BAND_profile",
+                    "policyProfileName": "SSIDDUAL BAND_profile"
+                },
+                {
+                    "ssidName": "Random_mac",
+                    "enableFabric": true,
+                    "flexConnect": {
+                        "enableFlexConnect": false
+                    },
+                    "wlanProfileName": "Random_mac_profile",
+                    "policyProfileName": "Random_mac_profile"
+                },
+                {
+                    "ssidName": "SSIDScheduler",
+                    "enableFabric": true,
+                    "flexConnect": {
+                        "enableFlexConnect": false
+                    },
+                    "wlanProfileName": "SSIDScheduler_profile",
+                    "policyProfileName": "SSIDScheduler_profile"
+                },
+                {
+                    "ssidName": "posture",
+                    "enableFabric": true,
+                    "flexConnect": {
+                        "enableFlexConnect": false
+                    },
+                    "wlanProfileName": "posture_profile",
+                    "policyProfileName": "posture_profile"
+                },
+                {
+                    "ssidName": "Single5KBand",
+                    "enableFabric": true,
+                    "flexConnect": {
+                        "enableFlexConnect": false
+                    },
+                    "wlanProfileName": "Single5KBand_profile",
+                    "policyProfileName": "Single5KBand_profile"
+                },
+                {
+                    "ssidName": "Radius_ssid",
+                    "enableFabric": true,
+                    "flexConnect": {
+                        "enableFlexConnect": false
+                    },
+                    "wlanProfileName": "Radius_ssid_profile",
+                    "policyProfileName": "Radius_ssid_profile"
+                }
+            ],
+            "additionalInterfaces": [],
+            "apZones": [],
+            "featureTemplates": [
+                {
+                    "designName": "Default AAA_Radius_Attributes_Configuration",
+                    "id": "8864fe4d-b305-4fd2-b8f9-2d9bc54b6347",
+                    "ssids": []
+                }
+            ]
+        }
+    ],
+    "version": "1.2"
+    },
+
+    "each_wireless_profile_info2": {
+        "response": [
+        {
+            "id": "b4de80c0-3700-4ee1-9334-a32f8187da68",
+            "wirelessProfileName": "Campus_Wireless_Profile",
+            "ssidDetails": [
+                {
+                    "ssidName": "GUEST",
+                    "enableFabric": false,
+                    "flexConnect": {
+                        "enableFlexConnect": false
+                    },
+                    "wlanProfileName": "GUEST_profile",
+                    "policyProfileName": "GUEST_profile",
+                    "dot11beProfileId": "c69f975a-5a16-39c9-9b85-643ac0a06cdb",
+                    "vlanGroupName": "Ans_NP_WL_INT_group_1"
+                },
+                {
+                    "ssidName": "OPEN",
+                    "enableFabric": false,
+                    "flexConnect": {
+                        "enableFlexConnect": true,
+                        "localToVlan": 22
+                    },
+                    "interfaceName": "VLAN_22",
+                    "wlanProfileName": "OPEN_profile",
+                    "policyProfileName": "OPEN_profile",
+                    "dot11beProfileId": "c69f975a-5a16-39c9-9b85-643ac0a06cdb"
+                }
+            ],
+            "additionalInterfaces": [
+                "VLAN_22",
+                "temp_20"
+            ],
+            "apZones": [
+                {
+                    "apZoneName": "AP_Zone_North",
+                    "rfProfileName": "HIGH",
+                    "ssids": [
+                        "GUEST"
+                    ]
+                }
+            ],
+            "featureTemplates": [
+                {
+                    "designName": "Default CleanAir 802.11b Design",
+                    "id": "b17463b1-b0f9-4e7f-a987-c3bb97236dd1",
+                    "ssids": []
+                },
+                {
+                    "designName": "Default CleanAir 6GHz Design",
+                    "id": "dae784a7-7589-4b98-a924-b93c3d5f5604",
+                    "ssids": []
+                },
+                {
+                    "designName": "Default Advanced SSID Design",
+                    "id": "a007b22e-43dc-4d5f-b847-a59d5a7b192d",
+                    "ssids": []
+                }
+            ]
+        }],
+        "version": "1.2"
+    },
+
+    "cli_template_empty_response": {
+        "response": [],
+        "version": "1.0"
+    },
+
+    "cli_template_response": {
+        "response": [
+            {
+                "id": "b7494025-20f0-4902-aa72-e76d3e2394c9",
+                "name": "Ans Wireless DayN 1"
+            }
+        ],
+        "version": "1.0"
+    },
 
   "cli_template_details_for_profile1": {
      "response": [
@@ -51,10 +205,13 @@
     "get_site_list_for_profile1": {
         "response": [
             {
-                "id": "4f3b43a9-b29b-43f8-8ca8-7c141efcdf95"
+                "id": "dd281fdb-b316-4de9-b96a-71b982f623f6"
             },
             {
-                "id": "17178190-aeb1-42a8-83c4-38adbbe9a1fd"
+                "id": "2bdda35f-0b5b-4352-a9f9-654d3c0bd4ce"
+            },
+            {
+                "id": "ec64358e-f74c-4810-9877-16498ca8bcd0"
             }
         ],
         "version": "1.0"
@@ -1248,6 +1405,45 @@
         ],
         "version": "1.0"
     },
+
+    "dot11be_profile_response1":{
+        "response": {
+            "id": "c69f975a-5a16-39c9-9b85-643ac0a06cdb",
+            "profileName": "Ans NP WL BE 1",
+            "muMimoDownLink": false,
+            "muMimoUpLink": false,
+            "ofdmaDownLink": true,
+            "ofdmaUpLink": true,
+            "ofdmaMultiRu": false,
+            "default": true
+        },
+        "version": "1.0"
+    },
+
+    "get_interface_details1":{
+        "response": [
+                {
+                "id": "mda3vKXb-tL8Y-mLyW-tdfb-mK4ZxZqYnti2vJDmoee5tJeWxZeX",
+                "interfaceName": "VLAN_22",
+                "vlanId": 22
+                }
+            ],
+        "version": "1.0"
+    },
+
+    "get_interface_details2":{
+        "response": [
+                {
+                "id": "mda3DgvT-Cf8Y-mhqW-ztfT-mNaZxZqYnta2DdDLog05CdeWxZeX",
+                "interfaceName": "temp_20",
+                "vlanId": 20
+                }
+            ],
+        "version": "1.0"
+    },
+
+
+
 
     "template_attached_profile2":{
         "response": [
