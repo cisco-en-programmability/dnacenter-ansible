@@ -176,32 +176,6 @@
         "version": "1.0"
     },
 
-  "cli_template_details_for_profile1": {
-     "response": [
-        {
-            "id": "835a11f4-afde-4056-abe1-bf0508b42e5b",
-            "name": "evpn_l2vn_anycast_delete_template"
-        },
-        {
-            "id": "323ae98e-4793-4f49-b6f0-5aada9461a56",
-            "name": "static_host_offboarding_template"
-        },
-        {
-            "id": "41e9f81d-1719-4c3f-9738-74b9016de2e5",
-            "name": "static_host_onboarding_template"
-        },
-        {
-            "id": "9954f069-8b74-45bd-a508-c291a35b165d",
-            "name": "Ans Switch DayN 2"
-        },
-        {
-            "id": "478fcb76-bfff-4f8f-b85a-41fcc52204b6",
-            "name": "Ans Switch DayN 1"
-        }
-    ],
-    "version": "1.0"
-  },
-
     "get_site_list_for_profile1": {
         "response": [
             {
@@ -1442,34 +1416,12 @@
         "version": "1.0"
     },
 
-
-
-
-    "template_attached_profile2":{
-        "response": [
-            {
-                "id": "835a11f4-afde-4056-abe1-bf0508b42e5b",
-                "name": "evpn_l2vn_anycast_delete_template"
-            }
-        ],
-        "version": "1.0"
-    },
-
-    "site_attached_profile2": {
-        "response": [
-            {
-                "id": "e95dff62-9fac-4a3e-8891-1c0a6525976c"
-            }
-        ],
-        "version": "1.0"
-    },
-
     "playbook_global_filter_profile_base": [
         {
             "file_path": "tmp/brownfield_network_profile_switching_workflow_playbook_profilebase.yml",
             "global_filters": {
                 "profile_name_list": [
-                    "Test Profile BF1"
+                    "Campus_Wireless_Profile"
                 ]
             }
         }
@@ -1480,7 +1432,7 @@
             "file_path": "tmp/brownfield_network_profile_switching_workflow_playbook_templatebase.yml",
             "global_filters": {
                 "day_n_template_list": [
-                    "evpn_l2vn_anycast_delete_template"
+                    "Ans Wireless DayN 1"
                 ]
             }
         }
@@ -1491,10 +1443,19 @@
             "file_path": "tmp/brownfield_network_profile_switching_workflow_playbook_sitebase.yml",
             "global_filters": {
                 "site_list": [
-                    "Global/USA/SAN JOSE/SJ_BLD20/FLOOR1"
+                    "Global/USA/SAN JOSE/SJ_BLD20/FLOOR2"
                 ]
             }
         }
-    ]
+    ],
+
+    "site_attached_profile2": {
+        "response": [
+            {
+                "id": "e95dff62-9fac-4a3e-8891-1c0a6525976c"
+            }
+        ],
+        "version": "1.0"
+    }
 
 }
