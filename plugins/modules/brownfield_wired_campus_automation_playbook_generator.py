@@ -682,7 +682,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 import time
 try:
@@ -2180,7 +2179,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             return ("ip_address", None)
 
     def get_device_layer2_configurations(self, device_id, device_ip, layer2_features, feature_to_api_mapping,
-                                            component_specific_filters, network_element):
+                                        component_specific_filters, network_element):
         """
         Retrieves layer2 configurations for a specific device by making API calls for each requested feature.
         Handles special processing for port configurations which require multiple API calls and consolidation.
@@ -2314,7 +2313,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         return device_configurations
 
     def _process_standard_feature(self, device_id, device_ip, feature, api_features, component_specific_filters,
-                                    api_family, api_function, feature_errors):
+                                api_family, api_function, feature_errors):
         """
         Processes standard features using normal API call flow with single API endpoint per feature.
         Args:
@@ -2430,7 +2429,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         return processing_result
 
     def _process_port_configuration_feature(self, device_id, device_ip, api_features, component_specific_filters,
-                                        api_family, api_function, feature_errors):
+                                    api_family, api_function, feature_errors):
         """
         Processes port configuration feature by retrieving all interface-related API responses and merging them.
         Args:
@@ -2973,14 +2972,14 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Extract error code with fallback options
         error_code = (response_data.get("errorCode") or
-                        response_data.get("error_code") or
-                        "UNKNOWN_ERROR_CODE")
+                    response_data.get("error_code") or
+                    "UNKNOWN_ERROR_CODE")
 
         # Extract error message with fallback options
         error_message = (response_data.get("message") or
-                            response_data.get("errorMessage") or
-                            response_data.get("error") or
-                            "No error message provided by API")
+                        response_data.get("errorMessage") or
+                        response_data.get("error") or
+                        "No error message provided by API")
 
         # Extract additional details if available
         error_detail = response_data.get("detail", "")
@@ -3485,7 +3484,7 @@ def main():
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
-        "state": {"default": "merged", "choices": ["merged"]},
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with the provided argument specifications
