@@ -1217,7 +1217,7 @@ class BrownFieldHelper:
 
         return site_name_hierarchy
 
-    def get_site_id_name_mapping(self, site_id_list=[]):
+    def get_site_id_name_mapping(self, site_id_list=None):
         """
         Retrieves the site name hierarchy for all sites.
 
