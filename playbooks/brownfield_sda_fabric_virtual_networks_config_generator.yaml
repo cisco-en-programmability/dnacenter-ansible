@@ -7,7 +7,7 @@
     - "credentials.yml"
   tasks:
     - name: Generate the playbook for Fabric Vlan(s), Virtual network(s) and Anycast gateway(s) for SDA in Cisco Catalyst Center
-      cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator.py:
+      cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator.py:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
