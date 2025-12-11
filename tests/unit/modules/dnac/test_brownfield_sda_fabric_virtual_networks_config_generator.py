@@ -586,7 +586,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         for anycast gateways when filtered by VLAN name.
         """
         mock_exists.return_value = True
- 
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
