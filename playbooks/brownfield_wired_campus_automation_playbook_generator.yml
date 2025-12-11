@@ -277,7 +277,7 @@
               layer2_configurations:
                 layer2_features: ["port_configuration"]
                 port_configuration:
-                  interface_names_list: 
+                  interface_names_list:
                     - "GigabitEthernet1/0/1"
                     - "GigabitEthernet1/0/2"
                     - "TenGigabitEthernet1/0/1"
@@ -404,9 +404,9 @@
             component_specific_filters:
               components_list: ["layer2_configurations"]
               layer2_configurations:
-                layer2_features: 
+                layer2_features:
                   - "vlans"
-                  - "cdp" 
+                  - "cdp"
                   - "lldp"
                   - "stp"
                   - "vtp"
@@ -492,7 +492,7 @@
         config:
           - file_path: "/tmp/building_a_config.yml"
             global_filters:
-              hostname_list: 
+              hostname_list:
                 - "bldg-a-dist-01"
                 - "bldg-a-acc-01"
                 - "bldg-a-acc-02"
@@ -515,9 +515,9 @@
         config:
           - file_path: "/tmp/compliance_audit_config.yml"
             global_filters:
-              ip_address_list: 
+              ip_address_list:
                 - "192.168.1.10"
-                - "192.168.1.11" 
+                - "192.168.1.11"
                 - "192.168.1.12"
                 - "192.168.1.13"
             component_specific_filters:
@@ -533,7 +533,7 @@
         config:
           - file_path: "/tmp/dr_backup_config.yml"
             global_filters:
-              serial_number_list: 
+              serial_number_list:
                 - "FCW2140L05Y"
                 - "FCW2140L06Z"
                 - "9080V0I41J3"

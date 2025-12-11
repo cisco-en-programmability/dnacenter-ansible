@@ -47,7 +47,7 @@ class BrownFieldHelper():
             SystemExit: If validation fails and fail_and_exit is called.
         """
         import re
-        
+
         self.log(
             "Starting validation of global filters for module: {0}".format(
                 self.module_name
@@ -57,7 +57,7 @@ class BrownFieldHelper():
 
         # Retrieve the valid global filters from the module mapping
         valid_global_filters = self.module_schema.get("global_filters", {})
-        
+
         # Check if the module does not support global filters but global filters are provided
         if not valid_global_filters and global_filters:
             self.msg = "Module '{0}' does not support global filters, but 'global_filters' were provided: {1}. Please remove them.".format(
@@ -89,7 +89,7 @@ class BrownFieldHelper():
         )
 
         invalid_filters = []
-        
+
         for filter_name, filter_value in global_filters.items():
             if filter_name not in valid_global_filters:
                 invalid_filters.append("Filter '{0}' not supported".format(filter_name))
@@ -131,7 +131,7 @@ class BrownFieldHelper():
                 element_type = filter_spec.get("elements", "str")
                 validate_ip = filter_spec.get("validate_ip", False)
                 pattern = filter_spec.get("pattern")
-                range_values = filter_spec.get("range")  #  ADD: Support range for list validation
+                range_values = filter_spec.get("range")
 
                 for i, element in enumerate(filter_value):
                     if element_type == "str" and not isinstance(element, str):
@@ -283,7 +283,7 @@ class BrownFieldHelper():
 
                             nested_spec = nested_options[nested_key]
                             nested_type = nested_spec.get("type", "str")
-                            
+
                             if nested_type == "list" and not isinstance(nested_value, list):
                                 invalid_filters.append("Component '{0}' filter '{1}.{2}' must be a list".format(
                                     component_name, filter_name, nested_key))
@@ -442,8 +442,8 @@ class BrownFieldHelper():
             #     data_dict, Dumper=OrderedDumper, default_flow_style=False
             # )
             yaml_content = yaml.dump(
-                data_dict, 
-                Dumper=OrderedDumper, 
+                data_dict,
+                Dumper=OrderedDumper,
                 default_flow_style=False,
                 indent=2,
                 allow_unicode=True,
@@ -498,7 +498,7 @@ class BrownFieldHelper():
 
                 source_key = spec.get("source_key", key)
                 value = detail.get(source_key)
-                
+
                 self.log(
                     "Retrieved value for source key '{0}': {1}".format(
                         source_key, value
@@ -575,14 +575,14 @@ class BrownFieldHelper():
                                             transformed_item = transform(v)
                                             if transformed_item is not None:
                                                 processed_list.append(transformed_item)
-                                
+
                                 if processed_list:  # Only add if list is not empty after processing
                                     mapped_detail[key] = processed_list
                             elif value:  # Handle non-list values that are not None or empty
                                 transformed_value = transform(value)
                                 if transformed_value is not None and transformed_value != []:
                                     mapped_detail[key] = transformed_value
-                                    
+
                             if key in mapped_detail:
                                 self.log(
                                     "Mapped list for key '{0}' with transformation: {1}".format(
@@ -1156,7 +1156,7 @@ class BrownFieldHelper():
             self.log("Using execute_get_with_pagination to retrieve device list", "DEBUG")
             device_list = self.execute_get_with_pagination(
                 api_family="devices",
-                api_function="get_device_list", 
+                api_function="get_device_list",
                 params=get_device_list_params
             )
 
@@ -1183,6 +1183,8 @@ class BrownFieldHelper():
                 device_hostname = device_info.get("hostname")
                 device_serial = device_info.get("serialNumber")
                 device_id = device_info.get("id")
+                device_software_version = device_info.get("softwareVersion")
+                device_platform = device_info.get("platformId")
 
                 self.log(
                     "Processing device: IP={0}, Hostname={1}, Serial={2}, ID={3}".format(
@@ -1201,7 +1203,9 @@ class BrownFieldHelper():
                     device_data = {
                         "device_id": device_id,
                         "hostname": device_hostname,
-                        "serial_number": device_serial
+                        "serial_number": device_serial,
+                        "software_version": device_software_version,
+                        "platform": device_platform,
                     }
 
                     mgmt_ip_to_device_info_map[device_ip] = device_data
