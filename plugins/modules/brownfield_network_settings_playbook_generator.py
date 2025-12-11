@@ -118,14 +118,14 @@ options:
             description:
             - List of components to include in the YAML configuration file.
             - Valid values are ["global_pool_details", "reserve_pool_details", "network_management_details",
-              "device_controllability_details", "aaa_settings"]
+              "device_controllability_details"]
             - If not specified, all supported components are included.
             - Example ["global_pool_details", "reserve_pool_details", "network_management_details"]
             type: list
             elements: str
             required: false
             choices: ["global_pool_details", "reserve_pool_details", "network_management_details",
-                     "device_controllability_details", "aaa_settings"]
+                     "device_controllability_details"]
           global_pool_details:
             description:
             - Global IP Pools to filter by pool name or pool type.
@@ -151,25 +151,15 @@ options:
             elements: dict
             required: false
             suboptions:
-              pool_name:
-                description:
-                - Reserve pool name to filter by name.
-                type: str
-                required: false
               site_name:
                 description:
                 - Site name to filter reserve pools by site.
                 type: str
                 required: false
-              pool_type:
-                description:
-                - Pool type to filter reserve pools by type (LAN, WAN, Management).
-                type: str
-                required: false
-                choices: ["LAN", "WAN", "Management"]
           network_management_details:
             description:
-            - Network management settings to filter by site or NTP server.
+            - Network management settings to filter by site.
+            - It is recommended to use 'site_name' filter within this component for accurate filtering.
             type: list
             elements: dict
             required: false
@@ -179,41 +169,13 @@ options:
                 - Site name to filter network management settings by site.
                 type: str
                 required: false
-              ntp_server:
-                description:
-                - NTP server to filter by NTP configuration.
-                type: str
-                required: false
           device_controllability_details:
             description:
             - Device controllability settings to filter by site.
             type: list
             elements: dict
             required: false
-            suboptions:
-              site_name:
-                description:
-                - Site name to filter device controllability settings by site.
-                type: str
-                required: false
-          aaa_settings:
-            description:
-            - AAA settings to filter by network or server type.
-            type: list
-            elements: dict
-            required: false
-            suboptions:
-              network:
-                description:
-                - Network to filter AAA settings by network.
-                type: str
-                required: false
-              server_type:
-                description:
-                - Server type to filter AAA settings (ISE, AAA).
-                type: str
-                required: false
-                choices: ["ISE", "AAA"]
+
 requirements:
 - dnacentersdk >= 2.10.10
 - python >= 3.9
@@ -222,9 +184,14 @@ notes:
     - sites.Sites.get_site
     - network_settings.NetworkSettings.retrieves_global_ip_address_pools
     - network_settings.NetworkSettings.retrieves_ip_address_subpools
-    - network_settings.NetworkSettings.get_network_v2
-    - network_settings.NetworkSettings.get_device_credential_details
-    - network_settings.NetworkSettings.get_network_v2_aaa
+    - network_settings.NetworkSettings.retrieve_d_h_c_p_settings_for_a_site
+    - network_settings.NetworkSettings.retrieve_d_n_s_settings_for_a_site
+    - network_settings.NetworkSettings.retrieve_telemetry_settings_for_a_site
+    - network_settings.NetworkSettings.retrieve_n_t_p_settings_for_a_site
+    - network_settings.NetworkSettings.retrieve_time_zone_settings_for_a_site
+    - network_settings.NetworkSettings.retrieve_aaa_settings_for_a_site
+    - network_settings.NetworkSettings.get_device_controllability_settings,
+
 - Paths used are
     - GET /dna/intent/api/v1/sites
     - GET /dna/intent/api/v1/global-pool
@@ -250,7 +217,7 @@ EXAMPLES = r"""
     state: gathered
     config:
       - component_specific_filters:
-          components_list: ["reserve_pool_details"]
+          components_list: ["global_pool_details"]
 
 - name: Generate YAML Configuration for specific sites
   cisco.dnac.brownfield_network_settings_playbook_generator:
@@ -1931,27 +1898,127 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Getting global pools using family '{0}' and function '{1}'.".format(
             api_family, api_function), "INFO")
 
-        params = {}
+        # Get global filters
+        global_filters = filters.get("global_filters", {})
         component_specific_filters = filters.get("component_specific_filters", {}).get("global_pool_details", [])
 
-        if component_specific_filters:
-            for filter_param in component_specific_filters:
-                for key, value in filter_param.items():
-                    if key == "pool_name":
-                        params["ipPoolName"] = value
-                    elif key == "pool_type":
-                        params["ipPoolType"] = value
-                    else:
-                        self.log("Ignoring unsupported filter parameter: {0}".format(key), "DEBUG")
+        try:
+            # Execute bulk API call to get all global pools at once
+            # Note: Global pool APIs don't support filter parameters, so we retrieve all and filter locally
+            all_global_pools = self.execute_get_bulk(api_family, api_function)
+            # all_global_pools = self.execute_get_bulk_with_pagination(api_family, api_function, params={})
+            self.log("Retrieved {0} total global pools using bulk API call".format(
+                len(all_global_pools)), "INFO")
+            
+            # Add debug logging to see what pools were retrieved
+            for i, pool in enumerate(all_global_pools):
+                self.log("Pool {0}: Name='{1}', Type='{2}', ID='{3}'".format(
+                    i + 1, 
+                    pool.get("name", "N/A"), 
+                    pool.get("poolType", "N/A"),
+                    pool.get("id", "N/A")
+                ), "DEBUG")
 
-                global_pool_details = self.execute_get_with_pagination(api_family, api_function, params)
-                self.log("Retrieved global pool details: {0}".format(len(global_pool_details)), "INFO")
-                final_global_pools.extend(global_pool_details)
-        else:
-            # Execute API call to retrieve global pool details
-            global_pool_details = self.execute_get_with_pagination(api_family, api_function, params)
-            self.log("Retrieved global pool details: {0}".format(len(global_pool_details)), "INFO")
-            final_global_pools.extend(global_pool_details)
+                # Debug: Log all available fields for the first few pools
+                if i < 3:
+                    self.log("Pool {0} all fields: {1}".format(i + 1, list(pool.keys())), "DEBUG")
+                    for key, value in pool.items():
+                        self.log("  {0}: {1}".format(key, value), "DEBUG")
+
+            # Apply global filters if present
+            filtered_pools = all_global_pools
+            if global_filters.get("pool_name_list") or global_filters.get("pool_type_list"):
+                filtered_pools = []
+                pool_name_list = global_filters.get("pool_name_list", [])
+                pool_type_list = global_filters.get("pool_type_list", [])
+
+                for pool in all_global_pools:
+                    # Check pool name filter
+                    if pool_name_list and pool.get("name") not in pool_name_list:
+                        continue
+
+                    # Check pool type filter  
+                    if pool_type_list and pool.get("poolType") not in pool_type_list:
+                        continue
+
+                    filtered_pools.append(pool)
+
+                self.log("Applied global filters, remaining pools: {0}".format(len(filtered_pools)), "DEBUG")
+
+            # Apply component-specific filters
+            if component_specific_filters:
+                self.log("Applying component-specific filters: {0}".format(component_specific_filters), "DEBUG")
+                
+                # Component filters should work as AND operation across all filter criteria
+                # Each pool must satisfy ALL the filter criteria to be included
+                final_filtered_pools = []
+                
+                # Collect all filter criteria from all filter objects
+                all_pool_name_filters = []
+                all_pool_type_filters = []
+                
+                for filter_param in component_specific_filters:
+                    if "pool_name" in filter_param:
+                        all_pool_name_filters.append(filter_param["pool_name"])
+                    if "pool_type" in filter_param:
+                        all_pool_type_filters.append(filter_param["pool_type"])
+                
+                self.log("Collected filter criteria - pool_names: {0}, pool_types: {1}".format(
+                    all_pool_name_filters, all_pool_type_filters), "DEBUG")
+                
+                for pool in filtered_pools:
+                    pool_name = pool.get("name")
+                    pool_type = pool.get("poolType")
+                    matches_all_criteria = True
+                    
+                    # Check if pool matches ALL name filters (if any)
+                    if all_pool_name_filters:
+                        if pool_name not in all_pool_name_filters:
+                            matches_all_criteria = False
+                            self.log("Pool '{0}' does not match any name filter: {1}".format(
+                                pool_name, all_pool_name_filters), "DEBUG")
+                    
+                    # Check if pool matches ALL type filters (if any) 
+                    if all_pool_type_filters and matches_all_criteria:
+                        if pool_type not in all_pool_type_filters:
+                            matches_all_criteria = False
+                            self.log("Pool '{0}' (type: '{1}') does not match any type filter: {2}".format(
+                                pool_name, pool_type, all_pool_type_filters), "DEBUG")
+                    
+                    # Additional AND logic: if both name and type filters exist, 
+                    # pool must satisfy both criteria
+                    if matches_all_criteria and all_pool_name_filters and all_pool_type_filters:
+                        # Pool must match at least one name AND at least one type
+                        name_match = pool_name in all_pool_name_filters
+                        type_match = pool_type in all_pool_type_filters
+                        
+                        if not (name_match and type_match):
+                            matches_all_criteria = False
+                            self.log("Pool '{0}' (type: '{1}') does not satisfy both name and type criteria".format(
+                                pool_name, pool_type), "DEBUG")
+                    
+                    if matches_all_criteria:
+                        final_filtered_pools.append(pool)
+                        self.log("Pool '{0}' (type: '{1}') matched ALL filter criteria".format(
+                            pool_name, pool_type), "INFO")
+
+                final_global_pools = final_filtered_pools
+                self.log("Applied component-specific filters with AND logic, final pools: {0}".format(len(final_global_pools)), "DEBUG")
+            else:
+                final_global_pools = filtered_pools
+
+        except Exception as e:
+            error_msg = "Failed to retrieve global pools: {0}".format(str(e))
+            self.log(error_msg, "ERROR")
+            self.add_failure("Global", "global_pool_details", {
+                "error_type": "api_error",
+                "error_message": error_msg,
+                "error_code": "GLOBAL_POOL_RETRIEVAL_FAILED"
+            })
+            return {
+                "global_pool_details": {},
+                "operation_summary": self.get_operation_summary()
+            }
 
         # Track success
         self.add_success("Global", "global_pool_details", {
@@ -1986,7 +2053,20 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # === Determine target sites (same logic as reserve pools) ===
         global_filters = filters.get("global_filters", {})
-        site_name_list = global_filters.get("site_name_list", [])
+        component_specific_filters = filters.get("component_specific_filters", {}).get("network_management_details", [])
+        
+        # Extract site_name_list from component specific filters
+        site_name_list = []
+        if component_specific_filters:
+            for filter_param in component_specific_filters:
+                if "site_name_list" in filter_param:
+                    site_name_list.extend(filter_param["site_name_list"])
+                elif "site_name" in filter_param:
+                    site_name_list.append(filter_param["site_name"])
+        
+        # If no component specific filters, check global filters
+        if not site_name_list:
+            site_name_list = global_filters.get("site_name_list", [])
 
         target_sites = []
 
