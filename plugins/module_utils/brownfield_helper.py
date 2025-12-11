@@ -4,11 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
 import datetime
 import os
+
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
@@ -16,6 +18,7 @@ except ImportError:
 from collections import OrderedDict
 
 if HAS_YAML:
+
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
             return self.represent_mapping("tag:yaml.org,2002:map", data.items())
@@ -27,8 +30,7 @@ __metaclass__ = type
 from abc import ABCMeta
 
 
-class BrownFieldHelper():
-
+class BrownFieldHelper:
     """Class contains members which can be reused for all workflow brownfield modules"""
 
     __metaclass__ = ABCMeta
@@ -100,21 +102,39 @@ class BrownFieldHelper():
             # Validate type
             expected_type = filter_spec.get("type", "str")
             if expected_type == "list" and not isinstance(filter_value, list):
-                invalid_filters.append("Filter '{0}' must be a list, got {1}".format(filter_name, type(filter_value).__name__))
+                invalid_filters.append(
+                    "Filter '{0}' must be a list, got {1}".format(
+                        filter_name, type(filter_value).__name__
+                    )
+                )
                 continue
             elif expected_type == "dict" and not isinstance(filter_value, dict):
-                invalid_filters.append("Filter '{0}' must be a dict, got {1}".format(filter_name, type(filter_value).__name__))
+                invalid_filters.append(
+                    "Filter '{0}' must be a dict, got {1}".format(
+                        filter_name, type(filter_value).__name__
+                    )
+                )
                 continue
             elif expected_type == "str" and not isinstance(filter_value, str):
-                invalid_filters.append("Filter '{0}' must be a string, got {1}".format(filter_name, type(filter_value).__name__))
+                invalid_filters.append(
+                    "Filter '{0}' must be a string, got {1}".format(
+                        filter_name, type(filter_value).__name__
+                    )
+                )
                 continue
             elif expected_type == "int" and not isinstance(filter_value, int):
-                invalid_filters.append("Filter '{0}' must be an integer, got {1}".format(filter_name, type(filter_value).__name__))
+                invalid_filters.append(
+                    "Filter '{0}' must be an integer, got {1}".format(
+                        filter_name, type(filter_value).__name__
+                    )
+                )
                 continue
 
             # Validate required
             if filter_spec.get("required", False) and not filter_value:
-                invalid_filters.append("Filter '{0}' is required but empty".format(filter_name))
+                invalid_filters.append(
+                    "Filter '{0}' is required but empty".format(filter_name)
+                )
                 continue
 
             #  ADD: Direct range validation for integers
@@ -122,8 +142,11 @@ class BrownFieldHelper():
                 range_values = filter_spec["range"]
                 min_val, max_val = range_values[0], range_values[1]
                 if not (min_val <= filter_value <= max_val):
-                    invalid_filters.append("Filter '{0}' value {1} is outside valid range [{2}, {3}]".format(
-                        filter_name, filter_value, min_val, max_val))
+                    invalid_filters.append(
+                        "Filter '{0}' value {1} is outside valid range [{2}, {3}]".format(
+                            filter_name, filter_value, min_val, max_val
+                        )
+                    )
                     continue
 
             # Validate list elements
@@ -135,26 +158,53 @@ class BrownFieldHelper():
 
                 for i, element in enumerate(filter_value):
                     if element_type == "str" and not isinstance(element, str):
-                        invalid_filters.append("Filter '{0}[{1}]' must be a string".format(filter_name, i))
+                        invalid_filters.append(
+                            "Filter '{0}[{1}]' must be a string".format(filter_name, i)
+                        )
                         continue
                     elif element_type == "int" and not isinstance(element, int):
-                        invalid_filters.append("Filter '{0}[{1}]' must be an integer".format(filter_name, i))
+                        invalid_filters.append(
+                            "Filter '{0}[{1}]' must be an integer".format(
+                                filter_name, i
+                            )
+                        )
                         continue
 
                     #  ADD: Range validation for list elements
-                    if element_type == "int" and range_values and isinstance(element, int):
+                    if (
+                        element_type == "int"
+                        and range_values
+                        and isinstance(element, int)
+                    ):
                         min_val, max_val = range_values[0], range_values[1]
                         if not (min_val <= element <= max_val):
-                            invalid_filters.append("Filter '{0}[{1}]' value {2} is outside valid range [{3}, {4}]".format(
-                                filter_name, i, element, min_val, max_val))
+                            invalid_filters.append(
+                                "Filter '{0}[{1}]' value {2} is outside valid range [{3}, {4}]".format(
+                                    filter_name, i, element, min_val, max_val
+                                )
+                            )
                             continue
 
                     # Use existing IP validation functions instead of regex
                     if validate_ip and isinstance(element, str):
-                        if not (self.is_valid_ipv4(element) or self.is_valid_ipv6(element)):
-                            invalid_filters.append("Filter '{0}[{1}]' contains invalid IP address: {2}".format(filter_name, i, element))
-                    elif pattern and isinstance(element, str) and not re.match(pattern, element):
-                        invalid_filters.append("Filter '{0}[{1}]' does not match required pattern".format(filter_name, i))
+                        if not (
+                            self.is_valid_ipv4(element) or self.is_valid_ipv6(element)
+                        ):
+                            invalid_filters.append(
+                                "Filter '{0}[{1}]' contains invalid IP address: {2}".format(
+                                    filter_name, i, element
+                                )
+                            )
+                    elif (
+                        pattern
+                        and isinstance(element, str)
+                        and not re.match(pattern, element)
+                    ):
+                        invalid_filters.append(
+                            "Filter '{0}[{1}]' does not match required pattern".format(
+                                filter_name, i
+                            )
+                        )
 
         if invalid_filters:
             self.msg = "Invalid 'global_filters' found for module '{0}': {1}".format(
@@ -201,7 +251,9 @@ class BrownFieldHelper():
         # Validate components_list if provided
         components_list = component_specific_filters.get("components_list", [])
         if components_list:
-            invalid_components = [comp for comp in components_list if comp not in network_elements]
+            invalid_components = [
+                comp for comp in components_list if comp not in network_elements
+            ]
             if invalid_components:
                 self.msg = "Invalid network components provided for module '{0}': {1}. Valid components are: {2}".format(
                     self.module_name, invalid_components, list(network_elements.keys())
@@ -217,25 +269,37 @@ class BrownFieldHelper():
 
             # Check if component exists
             if component_name not in network_elements:
-                invalid_filters.append("Component '{0}' not supported".format(component_name))
+                invalid_filters.append(
+                    "Component '{0}' not supported".format(component_name)
+                )
                 continue
 
             # Get valid filters for this component
-            valid_filters_for_component = network_elements[component_name].get("filters", {})
+            valid_filters_for_component = network_elements[component_name].get(
+                "filters", {}
+            )
 
             # Support legacy format (list of filter names)
             if isinstance(valid_filters_for_component, list):
                 if isinstance(component_filters, dict):
                     for filter_name in component_filters.keys():
                         if filter_name not in valid_filters_for_component:
-                            invalid_filters.append("Filter '{0}' not valid for component '{1}'".format(filter_name, component_name))
+                            invalid_filters.append(
+                                "Filter '{0}' not valid for component '{1}'".format(
+                                    filter_name, component_name
+                                )
+                            )
                 continue
 
             # Enhanced validation for new format (dict with rules)
             if isinstance(component_filters, dict):
                 for filter_name, filter_value in component_filters.items():
                     if filter_name not in valid_filters_for_component:
-                        invalid_filters.append("Filter '{0}' not valid for component '{1}'".format(filter_name, component_name))
+                        invalid_filters.append(
+                            "Filter '{0}' not valid for component '{1}'".format(
+                                filter_name, component_name
+                            )
+                        )
                         continue
 
                     filter_spec = valid_filters_for_component[filter_name]
@@ -243,16 +307,32 @@ class BrownFieldHelper():
                     # Validate type
                     expected_type = filter_spec.get("type", "str")
                     if expected_type == "list" and not isinstance(filter_value, list):
-                        invalid_filters.append("Component '{0}' filter '{1}' must be a list".format(component_name, filter_name))
+                        invalid_filters.append(
+                            "Component '{0}' filter '{1}' must be a list".format(
+                                component_name, filter_name
+                            )
+                        )
                         continue
                     elif expected_type == "dict" and not isinstance(filter_value, dict):
-                        invalid_filters.append("Component '{0}' filter '{1}' must be a dict".format(component_name, filter_name))
+                        invalid_filters.append(
+                            "Component '{0}' filter '{1}' must be a dict".format(
+                                component_name, filter_name
+                            )
+                        )
                         continue
                     elif expected_type == "str" and not isinstance(filter_value, str):
-                        invalid_filters.append("Component '{0}' filter '{1}' must be a string".format(component_name, filter_name))
+                        invalid_filters.append(
+                            "Component '{0}' filter '{1}' must be a string".format(
+                                component_name, filter_name
+                            )
+                        )
                         continue
                     elif expected_type == "int" and not isinstance(filter_value, int):
-                        invalid_filters.append("Component '{0}' filter '{1}' must be an integer".format(component_name, filter_name))
+                        invalid_filters.append(
+                            "Component '{0}' filter '{1}' must be an integer".format(
+                                component_name, filter_name
+                            )
+                        )
                         continue
 
                     #  ADD: Direct range validation for integers
@@ -260,55 +340,101 @@ class BrownFieldHelper():
                         range_values = filter_spec["range"]
                         min_val, max_val = range_values[0], range_values[1]
                         if not (min_val <= filter_value <= max_val):
-                            invalid_filters.append("Component '{0}' filter '{1}' value {2} is outside valid range [{3}, {4}]".format(
-                                component_name, filter_name, filter_value, min_val, max_val))
+                            invalid_filters.append(
+                                "Component '{0}' filter '{1}' value {2} is outside valid range [{3}, {4}]".format(
+                                    component_name,
+                                    filter_name,
+                                    filter_value,
+                                    min_val,
+                                    max_val,
+                                )
+                            )
                             continue
 
                     # Validate choices for lists
                     if expected_type == "list" and "choices" in filter_spec:
                         valid_choices = filter_spec["choices"]
-                        invalid_choices = [item for item in filter_value if item not in valid_choices]
+                        invalid_choices = [
+                            item for item in filter_value if item not in valid_choices
+                        ]
                         if invalid_choices:
-                            invalid_filters.append("Component '{0}' filter '{1}' contains invalid choices: {2}. Valid choices: {3}".format(
-                                component_name, filter_name, invalid_choices, valid_choices))
+                            invalid_filters.append(
+                                "Component '{0}' filter '{1}' contains invalid choices: {2}. Valid choices: {3}".format(
+                                    component_name,
+                                    filter_name,
+                                    invalid_choices,
+                                    valid_choices,
+                                )
+                            )
 
                     # Validate nested dict options and apply dynamic validation
                     if expected_type == "dict" and "options" in filter_spec:
                         nested_options = filter_spec["options"]
                         for nested_key, nested_value in filter_value.items():
                             if nested_key not in nested_options:
-                                invalid_filters.append("Component '{0}' filter '{1}' contains invalid nested key: '{2}'".format(
-                                    component_name, filter_name, nested_key))
+                                invalid_filters.append(
+                                    "Component '{0}' filter '{1}' contains invalid nested key: '{2}'".format(
+                                        component_name, filter_name, nested_key
+                                    )
+                                )
                                 continue
 
                             nested_spec = nested_options[nested_key]
                             nested_type = nested_spec.get("type", "str")
 
-                            if nested_type == "list" and not isinstance(nested_value, list):
-                                invalid_filters.append("Component '{0}' filter '{1}.{2}' must be a list".format(
-                                    component_name, filter_name, nested_key))
-                            elif nested_type == "str" and not isinstance(nested_value, str):
-                                invalid_filters.append("Component '{0}' filter '{1}.{2}' must be a string".format(
-                                    component_name, filter_name, nested_key))
-                            elif nested_type == "int" and not isinstance(nested_value, int):
-                                invalid_filters.append("Component '{0}' filter '{1}.{2}' must be an integer".format(
-                                    component_name, filter_name, nested_key))
+                            if nested_type == "list" and not isinstance(
+                                nested_value, list
+                            ):
+                                invalid_filters.append(
+                                    "Component '{0}' filter '{1}.{2}' must be a list".format(
+                                        component_name, filter_name, nested_key
+                                    )
+                                )
+                            elif nested_type == "str" and not isinstance(
+                                nested_value, str
+                            ):
+                                invalid_filters.append(
+                                    "Component '{0}' filter '{1}.{2}' must be a string".format(
+                                        component_name, filter_name, nested_key
+                                    )
+                                )
+                            elif nested_type == "int" and not isinstance(
+                                nested_value, int
+                            ):
+                                invalid_filters.append(
+                                    "Component '{0}' filter '{1}.{2}' must be an integer".format(
+                                        component_name, filter_name, nested_key
+                                    )
+                                )
 
                             #  ADD: Direct range validation for nested integers
                             if nested_type == "int" and "range" in nested_spec:
                                 range_values = nested_spec["range"]
                                 min_val, max_val = range_values[0], range_values[1]
                                 if not (min_val <= nested_value <= max_val):
-                                    invalid_filters.append("Component '{0}' filter '{1}.{2}' value {3} is outside valid range [{4}, {5}]".format(
-                                        component_name, filter_name, nested_key, nested_value, min_val, max_val))
+                                    invalid_filters.append(
+                                        "Component '{0}' filter '{1}.{2}' value {3} is outside valid range [{4}, {5}]".format(
+                                            component_name,
+                                            filter_name,
+                                            nested_key,
+                                            nested_value,
+                                            min_val,
+                                            max_val,
+                                        )
+                                    )
                                     continue
 
                             # Validate patterns using regex
-                            if "pattern" in nested_spec and isinstance(nested_value, str):
+                            if "pattern" in nested_spec and isinstance(
+                                nested_value, str
+                            ):
                                 pattern = nested_spec["pattern"]
                                 if not re.match(pattern, nested_value):
-                                    invalid_filters.append("Component '{0}' filter '{1}.{2}' does not match required pattern".format(
-                                        component_name, filter_name, nested_key))
+                                    invalid_filters.append(
+                                        "Component '{0}' filter '{1}.{2}' does not match required pattern".format(
+                                            component_name, filter_name, nested_key
+                                        )
+                                    )
 
         if invalid_filters:
             self.msg = "Invalid filters provided for module '{0}': {1}".format(
@@ -434,7 +560,8 @@ class BrownFieldHelper():
         """
 
         self.log(
-            "Starting to write dictionary to YAML file at: {0}".format(file_path), "DEBUG"
+            "Starting to write dictionary to YAML file at: {0}".format(file_path),
+            "DEBUG",
         )
         try:
             self.log("Starting conversion of dictionary to YAML format.", "INFO")
@@ -447,7 +574,7 @@ class BrownFieldHelper():
                 default_flow_style=False,
                 indent=2,
                 allow_unicode=True,
-                sort_keys=False  # Important: Don't sort keys to preserve order
+                sort_keys=False,  # Important: Don't sort keys to preserve order
             )
             yaml_content = "---\n" + yaml_content
             self.log("Dictionary successfully converted to YAML format.", "DEBUG")
@@ -534,8 +661,12 @@ class BrownFieldHelper():
                             "Mapping nested dictionary for key '{0}'.".format(key),
                             "DEBUG",
                         )
-                        nested_result = self.modify_parameters(spec["options"], [detail])
-                        if nested_result and nested_result[0]:  # Check if nested result is not empty
+                        nested_result = self.modify_parameters(
+                            spec["options"], [detail]
+                        )
+                        if (
+                            nested_result and nested_result[0]
+                        ):  # Check if nested result is not empty
                             mapped_detail[key] = nested_result[0]
                             self.log(
                                 "Mapped nested dictionary for key '{0}': {1}".format(
@@ -563,12 +694,16 @@ class BrownFieldHelper():
                     else:
                         # For lists, only process if value exists and is not None
                         if value is not None:
-                            if isinstance(value, list) and value:  # Check if list is not empty
+                            if (
+                                isinstance(value, list) and value
+                            ):  # Check if list is not empty
                                 processed_list = []
                                 for v in value:
                                     if v is not None:  # Skip None items in the list
                                         if isinstance(v, dict):
-                                            nested_result = self.modify_parameters(spec["options"], [v])
+                                            nested_result = self.modify_parameters(
+                                                spec["options"], [v]
+                                            )
                                             if nested_result and nested_result[0]:
                                                 processed_list.append(nested_result[0])
                                         else:
@@ -576,11 +711,18 @@ class BrownFieldHelper():
                                             if transformed_item is not None:
                                                 processed_list.append(transformed_item)
 
-                                if processed_list:  # Only add if list is not empty after processing
+                                if (
+                                    processed_list
+                                ):  # Only add if list is not empty after processing
                                     mapped_detail[key] = processed_list
-                            elif value:  # Handle non-list values that are not None or empty
+                            elif (
+                                value
+                            ):  # Handle non-list values that are not None or empty
                                 transformed_value = transform(value)
-                                if transformed_value is not None and transformed_value != []:
+                                if (
+                                    transformed_value is not None
+                                    and transformed_value != []
+                                ):
                                     mapped_detail[key] = transformed_value
 
                             if key in mapped_detail:
@@ -592,7 +734,10 @@ class BrownFieldHelper():
                                 )
                         else:
                             self.log(
-                                "Skipping list key '{0}' because value is null/None".format(key), "DEBUG"
+                                "Skipping list key '{0}' because value is null/None".format(
+                                    key
+                                ),
+                                "DEBUG",
                             )
 
                 elif spec["type"] == "str" and spec.get("special_handling"):
@@ -610,7 +755,8 @@ class BrownFieldHelper():
                     # For str, int, and other simple types - skip if value is None
                     if value is None:
                         self.log(
-                            "Skipping key '{0}' because value is null/None".format(key), "DEBUG"
+                            "Skipping key '{0}' because value is null/None".format(key),
+                            "DEBUG",
                         )
                         continue
 
@@ -620,7 +766,10 @@ class BrownFieldHelper():
                         # For strings, also skip empty strings if desired (optional)
                         if spec["type"] == "str" and transformed_value == "":
                             self.log(
-                                "Skipping key '{0}' because transformed value is empty string".format(key), "DEBUG"
+                                "Skipping key '{0}' because transformed value is empty string".format(
+                                    key
+                                ),
+                                "DEBUG",
                             )
                             continue
 
@@ -770,7 +919,9 @@ class BrownFieldHelper():
 
     #     return modified_details
 
-    def execute_get_with_pagination(self, api_family, api_function, params, offset=1, limit=500, use_strings=False):
+    def execute_get_with_pagination(
+        self, api_family, api_function, params, offset=1, limit=500, use_strings=False
+    ):
         """
         Executes a paginated GET request using the specified API family, function, and parameters.
         Args:
@@ -783,17 +934,23 @@ class BrownFieldHelper():
         Returns:
             list: A list of dictionaries containing the retrieved data based on the filtering parameters.
         """
-        self.log("Starting paginated API execution for family '{0}', function '{1}'".format(
-            api_family, api_function), "DEBUG")
+        self.log(
+            "Starting paginated API execution for family '{0}', function '{1}'".format(
+                api_family, api_function
+            ),
+            "DEBUG",
+        )
 
         def update_params(current_offset, current_limit):
             """Update the params dictionary with pagination info."""
             # Create a copy of params to avoid modifying the original
             updated_params = params.copy()
-            updated_params.update({
-                "offset": str(current_offset) if use_strings else current_offset,
-                "limit": str(current_limit) if use_strings else current_limit,
-            })
+            updated_params.update(
+                {
+                    "offset": str(current_offset) if use_strings else current_offset,
+                    "limit": str(current_limit) if use_strings else current_limit,
+                }
+            )
             return updated_params
 
         try:
@@ -802,8 +959,12 @@ class BrownFieldHelper():
             current_offset = offset
             current_limit = limit
 
-            self.log("Pagination settings - offset: {0}, limit: {1}, use_strings: {2}".format(
-                current_offset, current_limit, use_strings), "DEBUG")
+            self.log(
+                "Pagination settings - offset: {0}, limit: {1}, use_strings: {2}".format(
+                    current_offset, current_limit, use_strings
+                ),
+                "DEBUG",
+            )
 
             # Start the loop for paginated API calls
             while True:
@@ -835,9 +996,7 @@ class BrownFieldHelper():
                     # Handle error during API call
                     self.msg = (
                         "An error occurred while retrieving data using family '{0}', function '{1}'. "
-                        "Error: {2}".format(
-                            api_family, api_function, str(e)
-                        )
+                        "Error: {2}".format(api_family, api_function, str(e))
                     )
                     self.fail_and_exit(self.msg)
 
@@ -895,9 +1054,7 @@ class BrownFieldHelper():
         except Exception as e:
             self.msg = (
                 "An error occurred while retrieving data using family '{0}', function '{1}'. "
-                "Error: {2}".format(
-                    api_family, api_function, str(e)
-                )
+                "Error: {2}".format(api_family, api_function, str(e))
             )
             self.fail_and_exit(self.msg)
 
@@ -918,7 +1075,7 @@ class BrownFieldHelper():
             "Retrieving site ID from fabric site or zones for fabric_id: {0}, fabric_type: {1}".format(
                 fabric_id, fabric_type
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if fabric_type == "fabric_site":
@@ -938,7 +1095,7 @@ class BrownFieldHelper():
                 "Received API response from '{0}': {1}".format(
                     function_name, str(response)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if not response:
@@ -950,7 +1107,7 @@ class BrownFieldHelper():
             site_id = response[0].get("siteId")
             self.log(
                 "Retrieved site ID: {0} from fabric site or zones.".format(site_id),
-                "DEBUG"
+                "DEBUG",
             )
 
         except Exception as e:
@@ -974,26 +1131,28 @@ class BrownFieldHelper():
         """
 
         self.log(
-            "Analyzing fabric site or zone details for fabric_id: {0}".format(fabric_id),
-            "DEBUG"
+            "Analyzing fabric site or zone details for fabric_id: {0}".format(
+                fabric_id
+            ),
+            "DEBUG",
         )
         site_id, fabric_type = None, None
 
         site_id = self.get_site_id_from_fabric_site_or_zones(fabric_id, "fabric_site")
         if not site_id:
-            site_id = self.get_site_id_from_fabric_site_or_zones(fabric_id, "fabric_zone")
+            site_id = self.get_site_id_from_fabric_site_or_zones(
+                fabric_id, "fabric_zone"
+            )
             if not site_id:
                 return None, None
 
             self.log(
-                "Fabric zone ID '{0}' retrieved successfully.".format(site_id),
-                "DEBUG"
+                "Fabric zone ID '{0}' retrieved successfully.".format(site_id), "DEBUG"
             )
             return site_id, "fabric_zone"
 
         self.log(
-            "Fabric site ID '{0}' retrieved successfully.".format(site_id),
-            "DEBUG"
+            "Fabric site ID '{0}' retrieved successfully.".format(site_id), "DEBUG"
         )
         return site_id, "fabric_site"
 
@@ -1034,7 +1193,7 @@ class BrownFieldHelper():
             "Site name hierarchy for site_id '{0}': {1}".format(
                 site_id, site_name_hierarchy
             ),
-            "INFO"
+            "INFO",
         )
 
         return site_name_hierarchy
@@ -1048,9 +1207,7 @@ class BrownFieldHelper():
             Exception: If an error occurs while retrieving the site name hierarchy.
         """
 
-        self.log(
-            "Retrieving site name hierarchy for all sites.", "DEBUG"
-        )
+        self.log("Retrieving site name hierarchy for all sites.", "DEBUG")
         self.log("Executing 'get_sites' API call to retrieve all sites.", "DEBUG")
         site_id_name_mapping = {}
 
@@ -1090,7 +1247,9 @@ class BrownFieldHelper():
             api_params,
         )
 
-    def get_device_list_params(self, ip_address_list=None, hostname_list=None, serial_number_list=None):
+    def get_device_list_params(
+        self, ip_address_list=None, hostname_list=None, serial_number_list=None
+    ):
         """
         Generates a dictionary of device list parameters based on the provided IP address, hostname, or serial number.
         Args:
@@ -1103,7 +1262,9 @@ class BrownFieldHelper():
         # Return a dictionary with 'management_ip_address' if ip_address is provided
         if ip_address_list:
             self.log(
-                "Using IP addresses '{0}' for device list parameters".format(ip_address_list),
+                "Using IP addresses '{0}' for device list parameters".format(
+                    ip_address_list
+                ),
                 "DEBUG",
             )
             return {"management_ip_address": ip_address_list}
@@ -1111,7 +1272,9 @@ class BrownFieldHelper():
         # Return a dictionary with 'hostname' if hostname is provided
         if hostname_list:
             self.log(
-                "Using hostnames '{0}' for device list parameters".format(hostname_list),
+                "Using hostnames '{0}' for device list parameters".format(
+                    hostname_list
+                ),
                 "DEBUG",
             )
             return {"hostname": hostname_list}
@@ -1119,14 +1282,17 @@ class BrownFieldHelper():
         # Return a dictionary with 'serialNumber' if serial_number is provided
         if serial_number_list:
             self.log(
-                "Using serial numbers '{0}' for device list parameters".format(serial_number_list),
+                "Using serial numbers '{0}' for device list parameters".format(
+                    serial_number_list
+                ),
                 "DEBUG",
             )
             return {"serial_number": serial_number_list}
 
         # Return an empty dictionary if none is provided
         self.log(
-            "No IP addresses, hostnames, or serial numbers provided, returning empty parameters", "DEBUG"
+            "No IP addresses, hostnames, or serial numbers provided, returning empty parameters",
+            "DEBUG",
         )
         return {}
 
@@ -1153,11 +1319,13 @@ class BrownFieldHelper():
 
         try:
             # Use the existing pagination function to get all devices
-            self.log("Using execute_get_with_pagination to retrieve device list", "DEBUG")
+            self.log(
+                "Using execute_get_with_pagination to retrieve device list", "DEBUG"
+            )
             device_list = self.execute_get_with_pagination(
                 api_family="devices",
                 api_function="get_device_list",
-                params=get_device_list_params
+                params=get_device_list_params,
             )
 
             if not device_list:
@@ -1174,7 +1342,9 @@ class BrownFieldHelper():
             total_devices_count = len(device_list)
 
             self.log(
-                "Processing {0} devices from the API response".format(total_devices_count),
+                "Processing {0} devices from the API response".format(
+                    total_devices_count
+                ),
                 "INFO",
             )
 
@@ -1196,7 +1366,8 @@ class BrownFieldHelper():
                 # Check if the device is reachable, not a Unified AP, and in a managed state
                 if (
                     device_info.get("reachabilityStatus") == "Reachable"
-                    and device_info.get("collectionStatus") in ["Managed", "In Progress"]
+                    and device_info.get("collectionStatus")
+                    in ["Managed", "In Progress"]
                     and device_info.get("family") != "Unified AP"
                 ):
                     # Create device information dictionary
@@ -1220,10 +1391,12 @@ class BrownFieldHelper():
                 else:
                     self.log(
                         "Device {0} (hostname: {1}, serial: {2}) is not valid - Status: {3}, Collection: {4}, Family: {5}".format(
-                            device_ip, device_hostname, device_serial,
+                            device_ip,
+                            device_hostname,
+                            device_serial,
                             device_info.get("reachabilityStatus"),
                             device_info.get("collectionStatus"),
-                            device_info.get("family")
+                            device_info.get("family"),
                         ),
                         "WARNING",
                     )
@@ -1245,15 +1418,17 @@ class BrownFieldHelper():
 
         # Only fail and exit if no valid devices are found
         if not mgmt_ip_to_device_info_map:
-            self.msg = ("Unable to retrieve details for any devices matching parameters: {0}. "
-                        "Please verify the device parameters and ensure devices are reachable and managed.").format(
-                get_device_list_params
-            )
+            self.msg = (
+                "Unable to retrieve details for any devices matching parameters: {0}. "
+                "Please verify the device parameters and ensure devices are reachable and managed."
+            ).format(get_device_list_params)
             self.fail_and_exit(self.msg)
 
         return mgmt_ip_to_device_info_map
 
-    def get_network_device_details(self, ip_addresses=None, hostnames=None, serial_numbers=None):
+    def get_network_device_details(
+        self, ip_addresses=None, hostnames=None, serial_numbers=None
+    ):
         """
         Retrieves the network device ID for a given IP address list or hostname list.
         Args:
@@ -1271,14 +1446,16 @@ class BrownFieldHelper():
             ),
             "DEBUG",
         )
-        get_device_list_params = self.get_device_list_params(ip_address_list=ip_addresses, hostname_list=hostnames, serial_number_list=serial_numbers)
+        get_device_list_params = self.get_device_list_params(
+            ip_address_list=ip_addresses,
+            hostname_list=hostnames,
+            serial_number_list=serial_numbers,
+        )
         self.log(
             "get_device_list_params constructed: {0}".format(get_device_list_params),
             "DEBUG",
         )
-        mgmt_ip_to_instance_id_map = self.get_device_list(
-            get_device_list_params
-        )
+        mgmt_ip_to_instance_id_map = self.get_device_list(get_device_list_params)
         self.log(
             "Collected mgmt_ip_to_instance_id_map: {0}".format(
                 mgmt_ip_to_instance_id_map

@@ -684,8 +684,10 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
 )
 import time
+
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
@@ -694,6 +696,7 @@ from collections import OrderedDict
 
 
 if HAS_YAML:
+
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
             return self.represent_mapping("tag:yaml.org,2002:map", data.items())
@@ -752,14 +755,20 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {"type": "bool", "required": False, "default": False},
+            "generate_all_configurations": {
+                "type": "bool",
+                "required": False,
+                "default": False,
+            },
             "file_path": {"type": "str", "required": False},
             "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
 
         # Import validate_list_of_dicts function here to avoid circular imports
-        from ansible_collections.cisco.dnac.plugins.module_utils.dnac import validate_list_of_dicts
+        from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+            validate_list_of_dicts,
+        )
 
         # Validate params
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
@@ -792,10 +801,18 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                             "required": False,
                             "elements": "str",
                             "choices": [
-                                "vlans", "cdp", "lldp", "stp", "vtp", "dhcp_snooping",
-                                "igmp_snooping", "mld_snooping", "authentication",
-                                "logical_ports", "port_configuration"
-                            ]
+                                "vlans",
+                                "cdp",
+                                "lldp",
+                                "stp",
+                                "vtp",
+                                "dhcp_snooping",
+                                "igmp_snooping",
+                                "mld_snooping",
+                                "authentication",
+                                "logical_ports",
+                                "port_configuration",
+                            ],
                         },
                         "vlans": {
                             "type": "dict",
@@ -805,9 +822,9 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                                     "type": "list",
                                     "required": False,
                                     "elements": "int",
-                                    "range": [1, 4094]
+                                    "range": [1, 4094],
                                 }
-                            }
+                            },
                         },
                         "port_configuration": {
                             "type": "dict",
@@ -816,10 +833,10 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                                 "interface_names_list": {
                                     "type": "list",
                                     "required": False,
-                                    "elements": "str"
+                                    "elements": "str",
                                 }
-                            }
-                        }
+                            },
+                        },
                     },
                     "reverse_mapping_function": self.layer2_configurations_reverse_mapping_function,
                     "api_function": "get_configurations_for_a_deployed_layer2_feature_on_a_wired_device",
@@ -836,18 +853,14 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "type": "list",
                     "required": False,
                     "elements": "str",
-                    "validate_ip": True
+                    "validate_ip": True,
                 },
-                "hostname_list": {
-                    "type": "list",
-                    "required": False,
-                    "elements": "str"
-                },
+                "hostname_list": {"type": "list", "required": False, "elements": "str"},
                 "serial_number_list": {
                     "type": "list",
                     "required": False,
-                    "elements": "str"
-                }
+                    "elements": "str",
+                },
             },
         }
 
@@ -860,10 +873,17 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: Reverse mapping specification for requested feature(s)
         """
-        self.log("Starting reverse mapping specification retrieval for feature_name: {0} (type: {1})".format(
-            feature_name, type(feature_name).__name__), "DEBUG")
+        self.log(
+            "Starting reverse mapping specification retrieval for feature_name: {0} (type: {1})".format(
+                feature_name, type(feature_name).__name__
+            ),
+            "DEBUG",
+        )
 
-        self.log("Creating comprehensive mapping dictionary with all supported layer2 features", "DEBUG")
+        self.log(
+            "Creating comprehensive mapping dictionary with all supported layer2 features",
+            "DEBUG",
+        )
         all_mappings = {
             "vlans": self.vlans_reverse_mapping_spec(),
             "cdp": self.cdp_reverse_mapping_spec(),
@@ -875,33 +895,77 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             "mld_snooping": self.mld_snooping_reverse_mapping_spec(),
             "authentication": self.authentication_reverse_mapping_spec(),
             "logical_ports": self.logical_ports_reverse_mapping_spec(),
-            "port_configuration": self.port_configuration_reverse_mapping_spec()
+            "port_configuration": self.port_configuration_reverse_mapping_spec(),
         }
 
-        self.log("Successfully created all_mappings dictionary with {0} feature types".format(len(all_mappings)), "DEBUG")
+        self.log(
+            "Successfully created all_mappings dictionary with {0} feature types".format(
+                len(all_mappings)
+            ),
+            "DEBUG",
+        )
 
         if feature_name is None:
-            self.log("Feature name is None - returning all available mapping specifications", "DEBUG")
-            self.log("Returning complete mapping specifications for all {0} features".format(len(all_mappings)), "INFO")
+            self.log(
+                "Feature name is None - returning all available mapping specifications",
+                "DEBUG",
+            )
+            self.log(
+                "Returning complete mapping specifications for all {0} features".format(
+                    len(all_mappings)
+                ),
+                "INFO",
+            )
             return all_mappings
         elif isinstance(feature_name, list):
-            self.log("Feature name is list with {0} elements: {1}".format(len(feature_name), feature_name), "DEBUG")
-            filtered_mappings = {feat: all_mappings[feat] for feat in feature_name if feat in all_mappings}
-            self.log("Filtered mappings created for {0} valid features out of {1} requested".format(
-                len(filtered_mappings), len(feature_name)), "DEBUG")
+            self.log(
+                "Feature name is list with {0} elements: {1}".format(
+                    len(feature_name), feature_name
+                ),
+                "DEBUG",
+            )
+            filtered_mappings = {
+                feat: all_mappings[feat]
+                for feat in feature_name
+                if feat in all_mappings
+            }
+            self.log(
+                "Filtered mappings created for {0} valid features out of {1} requested".format(
+                    len(filtered_mappings), len(feature_name)
+                ),
+                "DEBUG",
+            )
             return filtered_mappings
         elif isinstance(feature_name, str):
-            self.log("Feature name is string: '{0}' - retrieving single feature mapping".format(feature_name), "DEBUG")
+            self.log(
+                "Feature name is string: '{0}' - retrieving single feature mapping".format(
+                    feature_name
+                ),
+                "DEBUG",
+            )
             single_mapping = {feature_name: all_mappings.get(feature_name, {})}
             if all_mappings.get(feature_name):
-                self.log("Successfully retrieved mapping specification for feature '{0}'".format(feature_name), "DEBUG")
+                self.log(
+                    "Successfully retrieved mapping specification for feature '{0}'".format(
+                        feature_name
+                    ),
+                    "DEBUG",
+                )
             else:
-                self.log("Feature '{0}' not found in available mappings - returning empty specification".format(
-                    feature_name), "WARNING")
+                self.log(
+                    "Feature '{0}' not found in available mappings - returning empty specification".format(
+                        feature_name
+                    ),
+                    "WARNING",
+                )
             return single_mapping
         else:
-            self.log("Invalid feature_name type: {0} - returning empty dictionary".format(
-                type(feature_name).__name__), "WARNING")
+            self.log(
+                "Invalid feature_name type: {0} - returning empty dictionary".format(
+                    type(feature_name).__name__
+                ),
+                "WARNING",
+            )
             return {}
 
     def layer2_configurations_reverse_mapping_function(self, requested_features=None):
@@ -913,21 +977,43 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: A dictionary containing reverse mapping specifications for requested layer2 features
         """
-        self.log("Starting reverse mapping specification generation for layer2 configurations", "DEBUG")
-        self.log("Requested features parameter: {0} (type: {1})".format(
-            requested_features, type(requested_features).__name__), "DEBUG")
+        self.log(
+            "Starting reverse mapping specification generation for layer2 configurations",
+            "DEBUG",
+        )
+        self.log(
+            "Requested features parameter: {0} (type: {1})".format(
+                requested_features, type(requested_features).__name__
+            ),
+            "DEBUG",
+        )
 
         if requested_features:
-            self.log("Specific features requested - delegating to get_feature_reverse_mapping_spec with feature list", "DEBUG")
+            self.log(
+                "Specific features requested - delegating to get_feature_reverse_mapping_spec with feature list",
+                "DEBUG",
+            )
             self.log("Features to process: {0}".format(requested_features), "DEBUG")
             result = self.get_feature_reverse_mapping_spec(requested_features)
-            self.log("Successfully retrieved reverse mapping specification for {0} requested features".format(
-                len(requested_features) if isinstance(requested_features, list) else 1), "INFO")
+            self.log(
+                "Successfully retrieved reverse mapping specification for {0} requested features".format(
+                    len(requested_features)
+                    if isinstance(requested_features, list)
+                    else 1
+                ),
+                "INFO",
+            )
             return result
 
-        self.log("No specific features requested - delegating to get_feature_reverse_mapping_spec for all features", "DEBUG")
+        self.log(
+            "No specific features requested - delegating to get_feature_reverse_mapping_spec for all features",
+            "DEBUG",
+        )
         result = self.get_feature_reverse_mapping_spec(None)
-        self.log("Successfully retrieved reverse mapping specification for all available features", "INFO")
+        self.log(
+            "Successfully retrieved reverse mapping specification for all available features",
+            "INFO",
+        )
         return result
 
     def vlans_reverse_mapping_spec(self):
@@ -939,18 +1025,25 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Generating reverse mapping specification for VLANs.", "DEBUG")
 
-        return OrderedDict({
-            "vlans": {
-                "type": "list",
-                "elements": "dict",
-                "source_key": "items",
-                "options": OrderedDict({
-                    "vlan_id": {"type": "int", "source_key": "vlanId"},
-                    "vlan_name": {"type": "str", "source_key": "name"},
-                    "vlan_admin_status": {"type": "bool", "source_key": "isVlanEnabled"}
-                })
+        return OrderedDict(
+            {
+                "vlans": {
+                    "type": "list",
+                    "elements": "dict",
+                    "source_key": "items",
+                    "options": OrderedDict(
+                        {
+                            "vlan_id": {"type": "int", "source_key": "vlanId"},
+                            "vlan_name": {"type": "str", "source_key": "name"},
+                            "vlan_admin_status": {
+                                "type": "bool",
+                                "source_key": "isVlanEnabled",
+                            },
+                        }
+                    ),
+                }
             }
-        })
+        )
 
     def cdp_reverse_mapping_spec(self):
         """
@@ -960,13 +1053,21 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Generating reverse mapping specification for CDP.", "DEBUG")
 
-        return OrderedDict({
-            "cdp_admin_status": {"type": "bool", "source_key": "isCdpEnabled"},
-            "cdp_hold_time": {"type": "int", "source_key": "holdTime"},
-            "cdp_timer": {"type": "int", "source_key": "timer"},
-            "cdp_advertise_v2": {"type": "bool", "source_key": "isAdvertiseV2Enabled"},
-            "cdp_log_duplex_mismatch": {"type": "bool", "source_key": "isLogDuplexMismatchEnabled"}
-        })
+        return OrderedDict(
+            {
+                "cdp_admin_status": {"type": "bool", "source_key": "isCdpEnabled"},
+                "cdp_hold_time": {"type": "int", "source_key": "holdTime"},
+                "cdp_timer": {"type": "int", "source_key": "timer"},
+                "cdp_advertise_v2": {
+                    "type": "bool",
+                    "source_key": "isAdvertiseV2Enabled",
+                },
+                "cdp_log_duplex_mismatch": {
+                    "type": "bool",
+                    "source_key": "isLogDuplexMismatchEnabled",
+                },
+            }
+        )
 
     def lldp_reverse_mapping_spec(self):
         """
@@ -976,12 +1077,17 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Generating reverse mapping specification for LLDP.", "DEBUG")
 
-        return OrderedDict({
-            "lldp_admin_status": {"type": "bool", "source_key": "isLldpEnabled"},
-            "lldp_hold_time": {"type": "int", "source_key": "holdTime"},
-            "lldp_timer": {"type": "int", "source_key": "timer"},
-            "lldp_reinitialization_delay": {"type": "int", "source_key": "reinitializationDelay"}
-        })
+        return OrderedDict(
+            {
+                "lldp_admin_status": {"type": "bool", "source_key": "isLldpEnabled"},
+                "lldp_hold_time": {"type": "int", "source_key": "holdTime"},
+                "lldp_timer": {"type": "int", "source_key": "timer"},
+                "lldp_reinitialization_delay": {
+                    "type": "int",
+                    "source_key": "reinitializationDelay",
+                },
+            }
+        )
 
     def stp_reverse_mapping_spec(self):
         """
@@ -991,33 +1097,73 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Generating reverse mapping specification for STP.", "DEBUG")
 
-        return OrderedDict({
-            "stp_mode": {"type": "str", "source_key": "stpMode"},
-            "stp_portfast_mode": {"type": "str", "source_key": "portFastMode"},
-            "stp_bpdu_guard": {"type": "bool", "source_key": "isBpduGuardEnabled"},
-            "stp_bpdu_filter": {"type": "bool", "source_key": "isBpduFilterEnabled"},
-            "stp_backbonefast": {"type": "bool", "source_key": "isBackboneFastEnabled"},
-            "stp_extended_system_id": {"type": "bool", "source_key": "isExtendedSystemIdEnabled"},
-            "stp_logging": {"type": "bool", "source_key": "isLoggingEnabled"},
-            "stp_loopguard": {"type": "bool", "source_key": "isLoopGuardEnabled"},
-            "stp_transmit_hold_count": {"type": "int", "source_key": "transmitHoldCount"},
-            "stp_uplinkfast": {"type": "bool", "source_key": "isUplinkFastEnabled"},
-            "stp_uplinkfast_max_update_rate": {"type": "int", "source_key": "uplinkFastMaxUpdateRate"},
-            "stp_etherchannel_guard": {"type": "bool", "source_key": "isEtherChannelGuardEnabled"},
-            "stp_instances": {
-                "type": "list",
-                "elements": "dict",
-                "source_key": "stpInstances.items",
-                "options": OrderedDict({
-                    "stp_instance_vlan_id": {"type": "int", "source_key": "vlanId"},
-                    "stp_instance_priority": {"type": "int", "source_key": "priority"},
-                    "enable_stp": {"type": "bool", "source_key": "isStpEnabled"},
-                    "stp_instance_max_age_timer": {"type": "int", "source_key": "timers.maxAge"},
-                    "stp_instance_hello_interval_timer": {"type": "int", "source_key": "timers.helloInterval"},
-                    "stp_instance_forward_delay_timer": {"type": "int", "source_key": "timers.forwardDelay"}
-                })
+        return OrderedDict(
+            {
+                "stp_mode": {"type": "str", "source_key": "stpMode"},
+                "stp_portfast_mode": {"type": "str", "source_key": "portFastMode"},
+                "stp_bpdu_guard": {"type": "bool", "source_key": "isBpduGuardEnabled"},
+                "stp_bpdu_filter": {
+                    "type": "bool",
+                    "source_key": "isBpduFilterEnabled",
+                },
+                "stp_backbonefast": {
+                    "type": "bool",
+                    "source_key": "isBackboneFastEnabled",
+                },
+                "stp_extended_system_id": {
+                    "type": "bool",
+                    "source_key": "isExtendedSystemIdEnabled",
+                },
+                "stp_logging": {"type": "bool", "source_key": "isLoggingEnabled"},
+                "stp_loopguard": {"type": "bool", "source_key": "isLoopGuardEnabled"},
+                "stp_transmit_hold_count": {
+                    "type": "int",
+                    "source_key": "transmitHoldCount",
+                },
+                "stp_uplinkfast": {"type": "bool", "source_key": "isUplinkFastEnabled"},
+                "stp_uplinkfast_max_update_rate": {
+                    "type": "int",
+                    "source_key": "uplinkFastMaxUpdateRate",
+                },
+                "stp_etherchannel_guard": {
+                    "type": "bool",
+                    "source_key": "isEtherChannelGuardEnabled",
+                },
+                "stp_instances": {
+                    "type": "list",
+                    "elements": "dict",
+                    "source_key": "stpInstances.items",
+                    "options": OrderedDict(
+                        {
+                            "stp_instance_vlan_id": {
+                                "type": "int",
+                                "source_key": "vlanId",
+                            },
+                            "stp_instance_priority": {
+                                "type": "int",
+                                "source_key": "priority",
+                            },
+                            "enable_stp": {
+                                "type": "bool",
+                                "source_key": "isStpEnabled",
+                            },
+                            "stp_instance_max_age_timer": {
+                                "type": "int",
+                                "source_key": "timers.maxAge",
+                            },
+                            "stp_instance_hello_interval_timer": {
+                                "type": "int",
+                                "source_key": "timers.helloInterval",
+                            },
+                            "stp_instance_forward_delay_timer": {
+                                "type": "int",
+                                "source_key": "timers.forwardDelay",
+                            },
+                        }
+                    ),
+                },
             }
-        })
+        )
 
     def vtp_reverse_mapping_spec(self):
         """
@@ -1027,14 +1173,22 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Generating reverse mapping specification for VTP.", "DEBUG")
 
-        return OrderedDict({
-            "vtp_mode": {"type": "str", "source_key": "mode"},
-            "vtp_version": {"type": "str", "source_key": "version"},
-            "vtp_domain_name": {"type": "str", "source_key": "domainName"},
-            "vtp_configuration_file_name": {"type": "str", "source_key": "configurationFileName"},
-            "vtp_source_interface": {"type": "str", "source_key": "sourceInterface"},
-            "vtp_pruning": {"type": "bool", "source_key": "isPruningEnabled"}
-        })
+        return OrderedDict(
+            {
+                "vtp_mode": {"type": "str", "source_key": "mode"},
+                "vtp_version": {"type": "str", "source_key": "version"},
+                "vtp_domain_name": {"type": "str", "source_key": "domainName"},
+                "vtp_configuration_file_name": {
+                    "type": "str",
+                    "source_key": "configurationFileName",
+                },
+                "vtp_source_interface": {
+                    "type": "str",
+                    "source_key": "sourceInterface",
+                },
+                "vtp_pruning": {"type": "bool", "source_key": "isPruningEnabled"},
+            }
+        )
 
     def dhcp_snooping_reverse_mapping_spec(self):
         """
@@ -1044,25 +1198,42 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Generating reverse mapping specification for DHCP Snooping.", "DEBUG")
 
-        return OrderedDict({
-            "dhcp_admin_status": {"type": "bool", "source_key": "isDhcpSnoopingEnabled"},
-            "dhcp_snooping_vlans": {
-                "type": "list",
-                "elements": "int",
-                "source_key": "dhcpSnoopingVlans",
-                "transform": self.transform_vlan_string_to_list
-            },
-            "dhcp_snooping_glean": {"type": "bool", "source_key": "isGleaningEnabled"},
-            "dhcp_snooping_database_agent_url": {"type": "str", "source_key": "databaseAgent.agentUrl"},
-            "dhcp_snooping_database_timeout": {"type": "int", "source_key": "databaseAgent.timeout"},
-            "dhcp_snooping_database_write_delay": {"type": "int", "source_key": "databaseAgent.writeDelay"},
-            "dhcp_snooping_proxy_bridge_vlans": {
-                "type": "list",
-                "elements": "int",
-                "source_key": "proxyBridgeVlans",
-                "transform": self.transform_vlan_string_to_list
+        return OrderedDict(
+            {
+                "dhcp_admin_status": {
+                    "type": "bool",
+                    "source_key": "isDhcpSnoopingEnabled",
+                },
+                "dhcp_snooping_vlans": {
+                    "type": "list",
+                    "elements": "int",
+                    "source_key": "dhcpSnoopingVlans",
+                    "transform": self.transform_vlan_string_to_list,
+                },
+                "dhcp_snooping_glean": {
+                    "type": "bool",
+                    "source_key": "isGleaningEnabled",
+                },
+                "dhcp_snooping_database_agent_url": {
+                    "type": "str",
+                    "source_key": "databaseAgent.agentUrl",
+                },
+                "dhcp_snooping_database_timeout": {
+                    "type": "int",
+                    "source_key": "databaseAgent.timeout",
+                },
+                "dhcp_snooping_database_write_delay": {
+                    "type": "int",
+                    "source_key": "databaseAgent.writeDelay",
+                },
+                "dhcp_snooping_proxy_bridge_vlans": {
+                    "type": "list",
+                    "elements": "int",
+                    "source_key": "proxyBridgeVlans",
+                    "transform": self.transform_vlan_string_to_list,
+                },
             }
-        })
+        )
 
     def igmp_snooping_reverse_mapping_spec(self):
         """
@@ -1072,36 +1243,78 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Generating reverse mapping specification for IGMP Snooping.", "DEBUG")
 
-        return OrderedDict({
-            "enable_igmp_snooping": {"type": "bool", "source_key": "isIgmpSnoopingEnabled"},
-            "igmp_snooping_querier": {"type": "bool", "source_key": "isQuerierEnabled"},
-            "igmp_snooping_querier_address": {"type": "str", "source_key": "querierAddress"},
-            "igmp_snooping_querier_version": {"type": "str", "source_key": "querierVersion"},
-            "igmp_snooping_querier_query_interval": {"type": "int", "source_key": "querierQueryInterval"},
-            "igmp_snooping_vlans": {
-                "type": "list",
-                "elements": "dict",
-                "source_key": "igmpSnoopingVlanSettings.items",
-                "options": OrderedDict({
-                    "igmp_snooping_vlan_id": {"type": "int", "source_key": "vlanId"},
-                    "enable_igmp_snooping": {"type": "bool", "source_key": "isIgmpSnoopingEnabled"},
-                    "igmp_snooping_immediate_leave": {"type": "bool", "source_key": "isImmediateLeaveEnabled"},
-                    "igmp_snooping_querier": {"type": "bool", "source_key": "isQuerierEnabled"},
-                    "igmp_snooping_querier_address": {"type": "str", "source_key": "querierAddress"},
-                    "igmp_snooping_querier_version": {"type": "str", "source_key": "querierVersion"},
-                    "igmp_snooping_querier_query_interval": {"type": "int", "source_key": "querierQueryInterval"},
-                    "igmp_snooping_mrouter_port_list": {
-                        "type": "list",
-                        "elements": "str",
-                        "special_handling": True,
-                        "source_key": "igmpSnoopingVlanMrouters.items",
-                        "transform": lambda vlan_detail: self.extract_interface_names(
-                            vlan_detail.get("igmpSnoopingVlanMrouters", {}).get("items", [])
-                        )
-                    }
-                })
+        return OrderedDict(
+            {
+                "enable_igmp_snooping": {
+                    "type": "bool",
+                    "source_key": "isIgmpSnoopingEnabled",
+                },
+                "igmp_snooping_querier": {
+                    "type": "bool",
+                    "source_key": "isQuerierEnabled",
+                },
+                "igmp_snooping_querier_address": {
+                    "type": "str",
+                    "source_key": "querierAddress",
+                },
+                "igmp_snooping_querier_version": {
+                    "type": "str",
+                    "source_key": "querierVersion",
+                },
+                "igmp_snooping_querier_query_interval": {
+                    "type": "int",
+                    "source_key": "querierQueryInterval",
+                },
+                "igmp_snooping_vlans": {
+                    "type": "list",
+                    "elements": "dict",
+                    "source_key": "igmpSnoopingVlanSettings.items",
+                    "options": OrderedDict(
+                        {
+                            "igmp_snooping_vlan_id": {
+                                "type": "int",
+                                "source_key": "vlanId",
+                            },
+                            "enable_igmp_snooping": {
+                                "type": "bool",
+                                "source_key": "isIgmpSnoopingEnabled",
+                            },
+                            "igmp_snooping_immediate_leave": {
+                                "type": "bool",
+                                "source_key": "isImmediateLeaveEnabled",
+                            },
+                            "igmp_snooping_querier": {
+                                "type": "bool",
+                                "source_key": "isQuerierEnabled",
+                            },
+                            "igmp_snooping_querier_address": {
+                                "type": "str",
+                                "source_key": "querierAddress",
+                            },
+                            "igmp_snooping_querier_version": {
+                                "type": "str",
+                                "source_key": "querierVersion",
+                            },
+                            "igmp_snooping_querier_query_interval": {
+                                "type": "int",
+                                "source_key": "querierQueryInterval",
+                            },
+                            "igmp_snooping_mrouter_port_list": {
+                                "type": "list",
+                                "elements": "str",
+                                "special_handling": True,
+                                "source_key": "igmpSnoopingVlanMrouters.items",
+                                "transform": lambda vlan_detail: self.extract_interface_names(
+                                    vlan_detail.get("igmpSnoopingVlanMrouters", {}).get(
+                                        "items", []
+                                    )
+                                ),
+                            },
+                        }
+                    ),
+                },
             }
-        })
+        )
 
     def mld_snooping_reverse_mapping_spec(self):
         """
@@ -1111,37 +1324,82 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Generating reverse mapping specification for MLD Snooping.", "DEBUG")
 
-        return OrderedDict({
-            "enable_mld_snooping": {"type": "bool", "source_key": "isMldSnoopingEnabled"},
-            "mld_snooping_querier": {"type": "bool", "source_key": "isQuerierEnabled"},
-            "mld_snooping_querier_address": {"type": "str", "source_key": "querierAddress"},
-            "mld_snooping_querier_version": {"type": "str", "source_key": "querierVersion"},
-            "mld_snooping_listener": {"type": "bool", "source_key": "isSuppressListenerMessagesEnabled"},
-            "mld_snooping_querier_query_interval": {"type": "int", "source_key": "querierQueryInterval"},
-            "mld_snooping_vlans": {
-                "type": "list",
-                "elements": "dict",
-                "source_key": "mldSnoopingVlanSettings.items",
-                "options": OrderedDict({
-                    "mld_snooping_vlan_id": {"type": "int", "source_key": "vlanId"},
-                    "enable_mld_snooping": {"type": "bool", "source_key": "isMldSnoopingEnabled"},
-                    "mld_snooping_enable_immediate_leave": {"type": "bool", "source_key": "isImmediateLeaveEnabled"},
-                    "mld_snooping_querier": {"type": "bool", "source_key": "isQuerierEnabled"},
-                    "mld_snooping_querier_address": {"type": "str", "source_key": "querierAddress"},
-                    "mld_snooping_querier_version": {"type": "str", "source_key": "querierVersion"},
-                    "mld_snooping_querier_query_interval": {"type": "int", "source_key": "querierQueryInterval"},
-                    "mld_snooping_mrouter_port_list": {
-                        "type": "list",
-                        "elements": "str",
-                        "source_key": "mldSnoopingVlanMrouters.items",
-                        "special_handling": True,
-                        "transform": lambda vlan_detail: self.extract_interface_names(
-                            vlan_detail.get("mldSnoopingVlanMrouters", {}).get("items", [])
-                        )
-                    }
-                })
+        return OrderedDict(
+            {
+                "enable_mld_snooping": {
+                    "type": "bool",
+                    "source_key": "isMldSnoopingEnabled",
+                },
+                "mld_snooping_querier": {
+                    "type": "bool",
+                    "source_key": "isQuerierEnabled",
+                },
+                "mld_snooping_querier_address": {
+                    "type": "str",
+                    "source_key": "querierAddress",
+                },
+                "mld_snooping_querier_version": {
+                    "type": "str",
+                    "source_key": "querierVersion",
+                },
+                "mld_snooping_listener": {
+                    "type": "bool",
+                    "source_key": "isSuppressListenerMessagesEnabled",
+                },
+                "mld_snooping_querier_query_interval": {
+                    "type": "int",
+                    "source_key": "querierQueryInterval",
+                },
+                "mld_snooping_vlans": {
+                    "type": "list",
+                    "elements": "dict",
+                    "source_key": "mldSnoopingVlanSettings.items",
+                    "options": OrderedDict(
+                        {
+                            "mld_snooping_vlan_id": {
+                                "type": "int",
+                                "source_key": "vlanId",
+                            },
+                            "enable_mld_snooping": {
+                                "type": "bool",
+                                "source_key": "isMldSnoopingEnabled",
+                            },
+                            "mld_snooping_enable_immediate_leave": {
+                                "type": "bool",
+                                "source_key": "isImmediateLeaveEnabled",
+                            },
+                            "mld_snooping_querier": {
+                                "type": "bool",
+                                "source_key": "isQuerierEnabled",
+                            },
+                            "mld_snooping_querier_address": {
+                                "type": "str",
+                                "source_key": "querierAddress",
+                            },
+                            "mld_snooping_querier_version": {
+                                "type": "str",
+                                "source_key": "querierVersion",
+                            },
+                            "mld_snooping_querier_query_interval": {
+                                "type": "int",
+                                "source_key": "querierQueryInterval",
+                            },
+                            "mld_snooping_mrouter_port_list": {
+                                "type": "list",
+                                "elements": "str",
+                                "source_key": "mldSnoopingVlanMrouters.items",
+                                "special_handling": True,
+                                "transform": lambda vlan_detail: self.extract_interface_names(
+                                    vlan_detail.get("mldSnoopingVlanMrouters", {}).get(
+                                        "items", []
+                                    )
+                                ),
+                            },
+                        }
+                    ),
+                },
             }
-        })
+        )
 
     def extract_interface_names(self, mrouter_items):
         """
@@ -1152,36 +1410,61 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             list: List of interface names
         """
         self.log("Starting interface name extraction from mrouter items", "DEBUG")
-        self.log("Input mrouter_items type: {0}, value: {1}".format(
-            type(mrouter_items).__name__, mrouter_items), "DEBUG")
+        self.log(
+            "Input mrouter_items type: {0}, value: {1}".format(
+                type(mrouter_items).__name__, mrouter_items
+            ),
+            "DEBUG",
+        )
 
         # Early validation - check if input is empty or not a list
         if not mrouter_items or not isinstance(mrouter_items, list):
-            self.log("Mrouter items is empty or not a list - returning empty list", "DEBUG")
+            self.log(
+                "Mrouter items is empty or not a list - returning empty list", "DEBUG"
+            )
             return []
 
-        self.log("Processing {0} mrouter items for interface name extraction".format(len(mrouter_items)), "DEBUG")
+        self.log(
+            "Processing {0} mrouter items for interface name extraction".format(
+                len(mrouter_items)
+            ),
+            "DEBUG",
+        )
 
         # Initialize list to collect extracted interface names
         interface_names = []
 
         # Process each mrouter item to extract interface name
         for item_index, item in enumerate(mrouter_items):
-            self.log("Processing mrouter item {0} of {1}: {2}".format(
-                item_index + 1, len(mrouter_items), item), "DEBUG")
+            self.log(
+                "Processing mrouter item {0} of {1}: {2}".format(
+                    item_index + 1, len(mrouter_items), item
+                ),
+                "DEBUG",
+            )
 
             # Validate item structure and extract interface name if valid
             if isinstance(item, dict) and "interfaceName" in item:
                 interface_name = item["interfaceName"]
                 interface_names.append(interface_name)
-                self.log("Successfully extracted interface name: '{0}' from item {1}".format(
-                    interface_name, item_index + 1), "DEBUG")
+                self.log(
+                    "Successfully extracted interface name: '{0}' from item {1}".format(
+                        interface_name, item_index + 1
+                    ),
+                    "DEBUG",
+                )
             else:
-                self.log("Skipping invalid mrouter item {0} - not dict or missing interfaceName: {1}".format(
-                    item_index + 1, item), "DEBUG")
+                self.log(
+                    "Skipping invalid mrouter item {0} - not dict or missing interfaceName: {1}".format(
+                        item_index + 1, item
+                    ),
+                    "DEBUG",
+                )
 
         self.log("Interface name extraction completed successfully", "DEBUG")
-        self.log("Total interface names extracted: {0}".format(len(interface_names)), "INFO")
+        self.log(
+            "Total interface names extracted: {0}".format(len(interface_names)), "INFO"
+        )
         self.log("Extracted interface names list: {0}".format(interface_names), "DEBUG")
 
         return interface_names
@@ -1192,12 +1475,22 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             OrderedDict: Reverse mapping specification for Authentication from API response to user format
         """
-        self.log("Generating reverse mapping specification for Authentication.", "DEBUG")
+        self.log(
+            "Generating reverse mapping specification for Authentication.", "DEBUG"
+        )
 
-        return OrderedDict({
-            "enable_dot1x_authentication": {"type": "bool", "source_key": "isDot1xEnabled"},
-            "authentication_config_mode": {"type": "str", "source_key": "authenticationConfigMode"}
-        })
+        return OrderedDict(
+            {
+                "enable_dot1x_authentication": {
+                    "type": "bool",
+                    "source_key": "isDot1xEnabled",
+                },
+                "authentication_config_mode": {
+                    "type": "str",
+                    "source_key": "authenticationConfigMode",
+                },
+            }
+        )
 
     def logical_ports_reverse_mapping_spec(self):
         """
@@ -1207,32 +1500,45 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Generating reverse mapping specification for Logical Ports.", "DEBUG")
 
-        return OrderedDict({
-            "port_channel_auto": {"type": "bool", "source_key": "isAutoEnabled"},
-            "port_channel_lacp_system_priority": {"type": "int", "source_key": "lacpSystemPriority"},
-            "port_channel_load_balancing_method": {"type": "str", "source_key": "loadBalancingMethod"},
-            "port_channels": {
-                "type": "list",
-                "elements": "dict",
-                "source_key": "portchannels.items",
-                "options": OrderedDict({
-                    "port_channel_protocol": {
-                        "type": "str",
-                        "source_key": "configType",
-                        "transform": self.transform_port_channel_protocol
-                    },
-                    "port_channel_name": {"type": "str", "source_key": "name"},
-                    "port_channel_min_links": {"type": "int", "source_key": "minLinks"},
-                    "port_channel_members": {
-                        "type": "list",
-                        "elements": "dict",
-                        "source_key": "memberPorts.items",
-                        "special_handling": True,
-                        "transform": self.transform_port_channel_members
-                    }
-                })
+        return OrderedDict(
+            {
+                "port_channel_auto": {"type": "bool", "source_key": "isAutoEnabled"},
+                "port_channel_lacp_system_priority": {
+                    "type": "int",
+                    "source_key": "lacpSystemPriority",
+                },
+                "port_channel_load_balancing_method": {
+                    "type": "str",
+                    "source_key": "loadBalancingMethod",
+                },
+                "port_channels": {
+                    "type": "list",
+                    "elements": "dict",
+                    "source_key": "portchannels.items",
+                    "options": OrderedDict(
+                        {
+                            "port_channel_protocol": {
+                                "type": "str",
+                                "source_key": "configType",
+                                "transform": self.transform_port_channel_protocol,
+                            },
+                            "port_channel_name": {"type": "str", "source_key": "name"},
+                            "port_channel_min_links": {
+                                "type": "int",
+                                "source_key": "minLinks",
+                            },
+                            "port_channel_members": {
+                                "type": "list",
+                                "elements": "dict",
+                                "source_key": "memberPorts.items",
+                                "special_handling": True,
+                                "transform": self.transform_port_channel_members,
+                            },
+                        }
+                    ),
+                },
             }
-        })
+        )
 
     def transform_port_channel_protocol(self, config_type):
         """
@@ -1242,32 +1548,55 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             str: The transformed protocol name
         """
-        self.log("Starting port channel protocol transformation for config_type: '{0}' (type: {1})".format(
-            config_type, type(config_type).__name__), "DEBUG")
+        self.log(
+            "Starting port channel protocol transformation for config_type: '{0}' (type: {1})".format(
+                config_type, type(config_type).__name__
+            ),
+            "DEBUG",
+        )
 
         # Define mapping dictionary for config type to protocol transformation
         protocol_mapping = {
             "ETHERCHANNEL_CONFIG": "NONE",
             "LACP_PORTCHANNEL_CONFIG": "LACP",
-            "PAGP_PORTCHANNEL_CONFIG": "PAGP"
+            "PAGP_PORTCHANNEL_CONFIG": "PAGP",
         }
 
-        self.log("Protocol mapping dictionary configured with {0} transformation rules".format(
-            len(protocol_mapping)), "DEBUG")
-        self.log("Available config_type mappings: {0}".format(list(protocol_mapping.keys())), "DEBUG")
+        self.log(
+            "Protocol mapping dictionary configured with {0} transformation rules".format(
+                len(protocol_mapping)
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Available config_type mappings: {0}".format(list(protocol_mapping.keys())),
+            "DEBUG",
+        )
 
         # Perform the transformation using mapping dictionary with fallback
         if config_type in protocol_mapping:
             transformed_protocol = protocol_mapping[config_type]
-            self.log("Successfully transformed config_type '{0}' to protocol '{1}'".format(
-                config_type, transformed_protocol), "DEBUG")
+            self.log(
+                "Successfully transformed config_type '{0}' to protocol '{1}'".format(
+                    config_type, transformed_protocol
+                ),
+                "DEBUG",
+            )
         else:
-            self.log("Config_type '{0}' not found in mapping dictionary - using original value as fallback".format(
-                config_type), "DEBUG")
+            self.log(
+                "Config_type '{0}' not found in mapping dictionary - using original value as fallback".format(
+                    config_type
+                ),
+                "DEBUG",
+            )
             transformed_protocol = config_type
 
-        self.log("Port channel protocol transformation completed - returning: '{0}'".format(
-            transformed_protocol), "DEBUG")
+        self.log(
+            "Port channel protocol transformation completed - returning: '{0}'".format(
+                transformed_protocol
+            ),
+            "DEBUG",
+        )
 
         return transformed_protocol
 
@@ -1285,7 +1614,12 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         members = port_channel_detail.get("memberPorts", {}).get("items", [])
         config_type = port_channel_detail.get("configType")
 
-        self.log("Extracted {0} member ports with config type: {1}".format(len(members), config_type), "DEBUG")
+        self.log(
+            "Extracted {0} member ports with config type: {1}".format(
+                len(members), config_type
+            ),
+            "DEBUG",
+        )
 
         if not members:
             self.log("No member ports found - returning empty list", "DEBUG")
@@ -1294,36 +1628,61 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         transformed_members = []
 
         for member in members:
-            self.log("Processing member: {0}".format(member.get("interfaceName")), "DEBUG")
+            self.log(
+                "Processing member: {0}".format(member.get("interfaceName")), "DEBUG"
+            )
 
             base_config = {
                 "port_channel_interface_name": member.get("interfaceName"),
-                "port_channel_port_priority": member.get("portPriority")
+                "port_channel_port_priority": member.get("portPriority"),
             }
 
             # Add protocol-specific fields
             if config_type == "LACP_PORTCHANNEL_CONFIG":
-                self.log("Adding LACP-specific fields for interface {0}".format(member.get("interfaceName")), "DEBUG")
-                base_config.update({
-                    "port_channel_mode": member.get("mode"),
-                    "port_channel_rate": member.get("rate")
-                })
+                self.log(
+                    "Adding LACP-specific fields for interface {0}".format(
+                        member.get("interfaceName")
+                    ),
+                    "DEBUG",
+                )
+                base_config.update(
+                    {
+                        "port_channel_mode": member.get("mode"),
+                        "port_channel_rate": member.get("rate"),
+                    }
+                )
             elif config_type == "PAGP_PORTCHANNEL_CONFIG":
-                self.log("Adding PAGP-specific fields for interface {0}".format(member.get("interfaceName")), "DEBUG")
-                base_config.update({
-                    "port_channel_mode": member.get("mode"),
-                    "port_channel_learn_method": member.get("learnMethod")
-                })
+                self.log(
+                    "Adding PAGP-specific fields for interface {0}".format(
+                        member.get("interfaceName")
+                    ),
+                    "DEBUG",
+                )
+                base_config.update(
+                    {
+                        "port_channel_mode": member.get("mode"),
+                        "port_channel_learn_method": member.get("learnMethod"),
+                    }
+                )
             # ETHERCHANNEL_CONFIG (STATIC) doesn't have additional protocol-specific fields
 
             # Remove None values
             cleaned_config = {k: v for k, v in base_config.items() if v is not None}
             transformed_members.append(cleaned_config)
 
-            self.log("Transformed member {0} - removed {1} None values".format(
-                member.get("interfaceName"), len(base_config) - len(cleaned_config)), "DEBUG")
+            self.log(
+                "Transformed member {0} - removed {1} None values".format(
+                    member.get("interfaceName"), len(base_config) - len(cleaned_config)
+                ),
+                "DEBUG",
+            )
 
-        self.log("Port channel member transformation completed - processed {0} members".format(len(transformed_members)), "INFO")
+        self.log(
+            "Port channel member transformation completed - processed {0} members".format(
+                len(transformed_members)
+            ),
+            "INFO",
+        )
 
         return transformed_members
 
@@ -1333,23 +1692,32 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             OrderedDict: Reverse mapping specification for Port Configuration containing all interface feature mappings
         """
-        self.log("Starting generation of reverse mapping specification for Port Configuration", "DEBUG")
+        self.log(
+            "Starting generation of reverse mapping specification for Port Configuration",
+            "DEBUG",
+        )
 
         # Build mapping spec using individual spec functions for better modularity
-        mapping_spec = OrderedDict({
-            "switchport_interface_config": self._get_switchport_interface_spec(),
-            "vlan_trunking_interface_config": self._get_vlan_trunking_interface_spec(),
-            "cdp_interface_config": self._get_cdp_interface_spec(),
-            "lldp_interface_config": self._get_lldp_interface_spec(),
-            "stp_interface_config": self._get_stp_interface_spec(),
-            "dhcp_snooping_interface_config": self._get_dhcp_snooping_interface_spec(),
-            "dot1x_interface_config": self._get_dot1x_interface_spec(),
-            "mab_interface_config": self._get_mab_interface_spec(),
-            "vtp_interface_config": self._get_vtp_interface_spec()
-        })
+        mapping_spec = OrderedDict(
+            {
+                "switchport_interface_config": self._get_switchport_interface_spec(),
+                "vlan_trunking_interface_config": self._get_vlan_trunking_interface_spec(),
+                "cdp_interface_config": self._get_cdp_interface_spec(),
+                "lldp_interface_config": self._get_lldp_interface_spec(),
+                "stp_interface_config": self._get_stp_interface_spec(),
+                "dhcp_snooping_interface_config": self._get_dhcp_snooping_interface_spec(),
+                "dot1x_interface_config": self._get_dot1x_interface_spec(),
+                "mab_interface_config": self._get_mab_interface_spec(),
+                "vtp_interface_config": self._get_vtp_interface_spec(),
+            }
+        )
 
-        self.log("Port Configuration mapping specification created with {0} interface types".format(
-            len(mapping_spec)), "INFO")
+        self.log(
+            "Port Configuration mapping specification created with {0} interface types".format(
+                len(mapping_spec)
+            ),
+            "INFO",
+        )
 
         return mapping_spec
 
@@ -1363,20 +1731,25 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return {
             "type": "dict",
-            "options": OrderedDict({
-                "switchport_description": {"type": "str", "source_key": "description"},
-                "switchport_mode": {"type": "str", "source_key": "mode"},
-                "access_vlan": {"type": "int", "source_key": "accessVlan"},
-                "voice_vlan": {"type": "int", "source_key": "voiceVlan"},
-                "admin_status": {"type": "str", "source_key": "adminStatus"},
-                "allowed_vlans": {
-                    "type": "list",
-                    "elements": "int",
-                    "source_key": "trunkAllowedVlans",
-                    "transform": self.transform_vlan_string_to_list
-                },
-                "native_vlan_id": {"type": "int", "source_key": "nativeVlan"}
-            })
+            "options": OrderedDict(
+                {
+                    "switchport_description": {
+                        "type": "str",
+                        "source_key": "description",
+                    },
+                    "switchport_mode": {"type": "str", "source_key": "mode"},
+                    "access_vlan": {"type": "int", "source_key": "accessVlan"},
+                    "voice_vlan": {"type": "int", "source_key": "voiceVlan"},
+                    "admin_status": {"type": "str", "source_key": "adminStatus"},
+                    "allowed_vlans": {
+                        "type": "list",
+                        "elements": "int",
+                        "source_key": "trunkAllowedVlans",
+                        "transform": self.transform_vlan_string_to_list,
+                    },
+                    "native_vlan_id": {"type": "int", "source_key": "nativeVlan"},
+                }
+            ),
         }
 
     def _get_vlan_trunking_interface_spec(self):
@@ -1385,20 +1758,27 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: VLAN trunking interface configuration mapping specification
         """
-        self.log("Generating VLAN trunking interface configuration specification", "DEBUG")
+        self.log(
+            "Generating VLAN trunking interface configuration specification", "DEBUG"
+        )
 
         return {
             "type": "dict",
-            "options": OrderedDict({
-                "is_protected": {"type": "bool", "source_key": "isProtected"},
-                "is_dtp_negotiation_enabled": {"type": "bool", "source_key": "isDtpNegotiationEnabled"},
-                "prune_eligible_vlans": {
-                    "type": "list",
-                    "elements": "int",
-                    "source_key": "pruneEligibleVlans",
-                    "transform": self.transform_vlan_string_to_list
+            "options": OrderedDict(
+                {
+                    "is_protected": {"type": "bool", "source_key": "isProtected"},
+                    "is_dtp_negotiation_enabled": {
+                        "type": "bool",
+                        "source_key": "isDtpNegotiationEnabled",
+                    },
+                    "prune_eligible_vlans": {
+                        "type": "list",
+                        "elements": "int",
+                        "source_key": "pruneEligibleVlans",
+                        "transform": self.transform_vlan_string_to_list,
+                    },
                 }
-            })
+            ),
         }
 
     def _get_cdp_interface_spec(self):
@@ -1411,10 +1791,15 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return {
             "type": "dict",
-            "options": OrderedDict({
-                "is_cdp_enabled": {"type": "bool", "source_key": "isCdpEnabled"},
-                "is_log_duplex_mismatch_enabled": {"type": "bool", "source_key": "isLogDuplexMismatchEnabled"}
-            })
+            "options": OrderedDict(
+                {
+                    "is_cdp_enabled": {"type": "bool", "source_key": "isCdpEnabled"},
+                    "is_log_duplex_mismatch_enabled": {
+                        "type": "bool",
+                        "source_key": "isLogDuplexMismatchEnabled",
+                    },
+                }
+            ),
         }
 
     def _get_lldp_interface_spec(self):
@@ -1427,9 +1812,9 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return {
             "type": "dict",
-            "options": OrderedDict({
-                "admin_status": {"type": "str", "source_key": "adminStatus"}
-            })
+            "options": OrderedDict(
+                {"admin_status": {"type": "str", "source_key": "adminStatus"}}
+            ),
         }
 
     def _get_stp_interface_spec(self):
@@ -1442,32 +1827,46 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return {
             "type": "dict",
-            "options": OrderedDict({
-                "guard_mode": {"type": "str", "source_key": "guardMode"},
-                "bpdu_filter": {"type": "str", "source_key": "bpduFilter"},
-                "bpdu_guard": {"type": "str", "source_key": "bpduGuard"},
-                "path_cost": {"type": "int", "source_key": "pathCost"},
-                "portfast_mode": {"type": "str", "source_key": "portFastMode"},
-                "priority": {"type": "int", "source_key": "priority"},
-                "port_vlan_cost_settings": {
-                    "type": "list",
-                    "elements": "dict",
-                    "source_key": "portVlanCostSettings.items",
-                    "options": OrderedDict({
-                        "cost": {"type": "int", "source_key": "cost"},
-                        "vlans": {"type": "list", "elements": "int", "source_key": "vlans"}
-                    })
-                },
-                "port_vlan_priority_settings": {
-                    "type": "list",
-                    "elements": "dict",
-                    "source_key": "portVlanPrioritySettings.items",
-                    "options": OrderedDict({
-                        "priority": {"type": "int", "source_key": "priority"},
-                        "vlans": {"type": "list", "elements": "int", "source_key": "vlans"}
-                    })
+            "options": OrderedDict(
+                {
+                    "guard_mode": {"type": "str", "source_key": "guardMode"},
+                    "bpdu_filter": {"type": "str", "source_key": "bpduFilter"},
+                    "bpdu_guard": {"type": "str", "source_key": "bpduGuard"},
+                    "path_cost": {"type": "int", "source_key": "pathCost"},
+                    "portfast_mode": {"type": "str", "source_key": "portFastMode"},
+                    "priority": {"type": "int", "source_key": "priority"},
+                    "port_vlan_cost_settings": {
+                        "type": "list",
+                        "elements": "dict",
+                        "source_key": "portVlanCostSettings.items",
+                        "options": OrderedDict(
+                            {
+                                "cost": {"type": "int", "source_key": "cost"},
+                                "vlans": {
+                                    "type": "list",
+                                    "elements": "int",
+                                    "source_key": "vlans",
+                                },
+                            }
+                        ),
+                    },
+                    "port_vlan_priority_settings": {
+                        "type": "list",
+                        "elements": "dict",
+                        "source_key": "portVlanPrioritySettings.items",
+                        "options": OrderedDict(
+                            {
+                                "priority": {"type": "int", "source_key": "priority"},
+                                "vlans": {
+                                    "type": "list",
+                                    "elements": "int",
+                                    "source_key": "vlans",
+                                },
+                            }
+                        ),
+                    },
                 }
-            })
+            ),
         }
 
     def _get_dhcp_snooping_interface_spec(self):
@@ -1476,14 +1875,24 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: DHCP snooping interface configuration mapping specification
         """
-        self.log("Generating DHCP snooping interface configuration specification", "DEBUG")
+        self.log(
+            "Generating DHCP snooping interface configuration specification", "DEBUG"
+        )
 
         return {
             "type": "dict",
-            "options": OrderedDict({
-                "is_trusted_interface": {"type": "bool", "source_key": "isTrustedInterface"},
-                "message_rate_limit": {"type": "int", "source_key": "messageRateLimit"}
-            })
+            "options": OrderedDict(
+                {
+                    "is_trusted_interface": {
+                        "type": "bool",
+                        "source_key": "isTrustedInterface",
+                    },
+                    "message_rate_limit": {
+                        "type": "int",
+                        "source_key": "messageRateLimit",
+                    },
+                }
+            ),
         }
 
     def _get_dot1x_interface_spec(self):
@@ -1496,36 +1905,53 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return {
             "type": "dict",
-            "options": OrderedDict({
-                "authentication_order": {
-                    "type": "list",
-                    "elements": "str",
-                    "source_key": "authenticationOrder.items"
-                },
-                "priority": {
-                    "type": "list",
-                    "elements": "str",
-                    "source_key": "priority.items"
-                },
-                "control_direction": {"type": "str", "source_key": "controlDirection"},
-                "host_mode": {"type": "str", "source_key": "hostMode"},
-                "inactivity_timer": {"type": "int", "source_key": "inactivityTimer"},
-                "authentication_mode": {"type": "str", "source_key": "authenticationMode"},
-                "is_reauth_enabled": {"type": "bool", "source_key": "isReauthEnabled"},
-                "max_reauth_requests": {"type": "int", "source_key": "maxReauthRequests"},
-                "is_inactivity_timer_from_server_enabled": {
-                    "type": "bool",
-                    "source_key": "isInactivityTimerFromServerEnabled"
-                },
-                "is_reauth_timer_from_server_enabled": {
-                    "type": "bool",
-                    "source_key": "isReauthTimerFromServerEnabled"
-                },
-                "pae_type": {"type": "str", "source_key": "paeType"},
-                "port_control": {"type": "str", "source_key": "portControl"},
-                "reauth_timer": {"type": "int", "source_key": "reauthTimer"},
-                "tx_period": {"type": "int", "source_key": "txPeriod"}
-            })
+            "options": OrderedDict(
+                {
+                    "authentication_order": {
+                        "type": "list",
+                        "elements": "str",
+                        "source_key": "authenticationOrder.items",
+                    },
+                    "priority": {
+                        "type": "list",
+                        "elements": "str",
+                        "source_key": "priority.items",
+                    },
+                    "control_direction": {
+                        "type": "str",
+                        "source_key": "controlDirection",
+                    },
+                    "host_mode": {"type": "str", "source_key": "hostMode"},
+                    "inactivity_timer": {
+                        "type": "int",
+                        "source_key": "inactivityTimer",
+                    },
+                    "authentication_mode": {
+                        "type": "str",
+                        "source_key": "authenticationMode",
+                    },
+                    "is_reauth_enabled": {
+                        "type": "bool",
+                        "source_key": "isReauthEnabled",
+                    },
+                    "max_reauth_requests": {
+                        "type": "int",
+                        "source_key": "maxReauthRequests",
+                    },
+                    "is_inactivity_timer_from_server_enabled": {
+                        "type": "bool",
+                        "source_key": "isInactivityTimerFromServerEnabled",
+                    },
+                    "is_reauth_timer_from_server_enabled": {
+                        "type": "bool",
+                        "source_key": "isReauthTimerFromServerEnabled",
+                    },
+                    "pae_type": {"type": "str", "source_key": "paeType"},
+                    "port_control": {"type": "str", "source_key": "portControl"},
+                    "reauth_timer": {"type": "int", "source_key": "reauthTimer"},
+                    "tx_period": {"type": "int", "source_key": "txPeriod"},
+                }
+            ),
         }
 
     def _get_mab_interface_spec(self):
@@ -1538,9 +1964,9 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return {
             "type": "dict",
-            "options": OrderedDict({
-                "is_mab_enabled": {"type": "bool", "source_key": "isMabEnabled"}
-            })
+            "options": OrderedDict(
+                {"is_mab_enabled": {"type": "bool", "source_key": "isMabEnabled"}}
+            ),
         }
 
     def _get_vtp_interface_spec(self):
@@ -1553,9 +1979,9 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return {
             "type": "dict",
-            "options": OrderedDict({
-                "is_vtp_enabled": {"type": "bool", "source_key": "isVtpEnabled"}
-            })
+            "options": OrderedDict(
+                {"is_vtp_enabled": {"type": "bool", "source_key": "isVtpEnabled"}}
+            ),
         }
 
     def transform_vlan_string_to_list(self, vlan_string):
@@ -1563,12 +1989,18 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Transforms a VLAN string representation into a list of integer VLAN IDs.
         Handles various formats including ranges, comma-separated values, and special cases like 'ALL'.
         """
-        self.log("Transforming VLAN string: '{0}' (type: {1})".format(
-            vlan_string, type(vlan_string).__name__), "DEBUG")
+        self.log(
+            "Transforming VLAN string: '{0}' (type: {1})".format(
+                vlan_string, type(vlan_string).__name__
+            ),
+            "DEBUG",
+        )
 
         # Handle None, empty, or not configured values
         if not vlan_string or str(vlan_string).upper() in ["NOT CONFIGURED", "NONE"]:
-            self.log("VLAN string empty or not configured - returning empty list", "DEBUG")
+            self.log(
+                "VLAN string empty or not configured - returning empty list", "DEBUG"
+            )
             return []
 
         # Handle the special case "ALL" - return as string to preserve semantic meaning
@@ -1579,7 +2011,10 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Handle unexpected dictionary input
         if isinstance(vlan_string, dict):
-            self.log("Received dictionary for VLAN transformation - returning empty list", "WARNING")
+            self.log(
+                "Received dictionary for VLAN transformation - returning empty list",
+                "WARNING",
+            )
             return []
 
         # Parse VLAN string into individual VLAN IDs
@@ -1589,7 +2024,12 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Process and return final result
         if parsed_vlans:
             unique_vlans = sorted(list(set(parsed_vlans)))
-            self.log("VLAN transformation completed - {0} unique VLANs parsed".format(len(unique_vlans)), "INFO")
+            self.log(
+                "VLAN transformation completed - {0} unique VLANs parsed".format(
+                    len(unique_vlans)
+                ),
+                "INFO",
+            )
             return unique_vlans
         else:
             self.log("VLAN transformation resulted in empty list", "DEBUG")
@@ -1609,8 +2049,10 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         try:
             # Split by comma to handle comma-separated values
-            vlan_parts = vlan_string_clean.split(',')
-            self.log("Split VLAN string into {0} parts".format(len(vlan_parts)), "DEBUG")
+            vlan_parts = vlan_string_clean.split(",")
+            self.log(
+                "Split VLAN string into {0} parts".format(len(vlan_parts)), "DEBUG"
+            )
 
             for part_index, part in enumerate(vlan_parts):
                 part = part.strip()
@@ -1620,7 +2062,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                     continue
 
                 # Handle range notation (e.g., "3-5")
-                if '-' in part:
+                if "-" in part:
                     self.log("Processing VLAN range: '{0}'".format(part), "DEBUG")
                     range_vlans = self._parse_vlan_range(part)
                     if range_vlans:
@@ -1632,11 +2074,17 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                         vlans.append(single_vlan)
 
         except Exception as e:
-            self.log("Error during VLAN string parsing '{0}': {1}".format(
-                vlan_string_clean, str(e)), "ERROR")
+            self.log(
+                "Error during VLAN string parsing '{0}': {1}".format(
+                    vlan_string_clean, str(e)
+                ),
+                "ERROR",
+            )
             return []
 
-        self.log("VLAN parsing completed - parsed {0} VLANs".format(len(vlans)), "DEBUG")
+        self.log(
+            "VLAN parsing completed - parsed {0} VLANs".format(len(vlans)), "DEBUG"
+        )
         return vlans
 
     def _parse_vlan_range(self, range_part):
@@ -1650,22 +2098,36 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Parsing VLAN range: '{0}'".format(range_part), "DEBUG")
 
         try:
-            range_parts = range_part.split('-')
+            range_parts = range_part.split("-")
             if len(range_parts) == 2:
                 start, end = map(int, range_parts)
 
                 if start <= end:
                     range_vlans = list(range(start, end + 1))
-                    self.log("Generated VLAN range {0}-{1}: {2} VLANs".format(
-                        start, end, len(range_vlans)), "DEBUG")
+                    self.log(
+                        "Generated VLAN range {0}-{1}: {2} VLANs".format(
+                            start, end, len(range_vlans)
+                        ),
+                        "DEBUG",
+                    )
                     return range_vlans
                 else:
-                    self.log("Invalid range '{0}' - start > end".format(range_part), "WARNING")
+                    self.log(
+                        "Invalid range '{0}' - start > end".format(range_part),
+                        "WARNING",
+                    )
             else:
-                self.log("Invalid range format '{0}' - expected one hyphen".format(range_part), "WARNING")
+                self.log(
+                    "Invalid range format '{0}' - expected one hyphen".format(
+                        range_part
+                    ),
+                    "WARNING",
+                )
 
         except ValueError as e:
-            self.log("Error parsing range '{0}': {1}".format(range_part, str(e)), "WARNING")
+            self.log(
+                "Error parsing range '{0}': {1}".format(range_part, str(e)), "WARNING"
+            )
 
         return []
 
@@ -1683,7 +2145,10 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Successfully parsed VLAN: {0}".format(single_vlan), "DEBUG")
             return single_vlan
         except ValueError as e:
-            self.log("Error parsing single VLAN '{0}': {1}".format(vlan_part, str(e)), "WARNING")
+            self.log(
+                "Error parsing single VLAN '{0}': {1}".format(vlan_part, str(e)),
+                "WARNING",
+            )
             return None
 
     def reset_operation_tracking(self):
@@ -1706,21 +2171,35 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             feature (str): Feature name that succeeded.
             additional_info (dict): Additional information about the success.
         """
-        self.log("Creating success entry for device {0}, feature {1}".format(device_ip, feature), "DEBUG")
+        self.log(
+            "Creating success entry for device {0}, feature {1}".format(
+                device_ip, feature
+            ),
+            "DEBUG",
+        )
         success_entry = {
             "device_ip": device_ip,
             "device_id": device_id,
             "feature": feature,
-            "status": "success"
+            "status": "success",
         }
 
         if additional_info:
-            self.log("Adding additional information to success entry: {0}".format(additional_info), "DEBUG")
+            self.log(
+                "Adding additional information to success entry: {0}".format(
+                    additional_info
+                ),
+                "DEBUG",
+            )
             success_entry.update(additional_info)
 
         self.operation_successes.append(success_entry)
-        self.log("Successfully added success entry for device {0}, feature {1}. Total successes: {2}".format(
-            device_ip, feature, len(self.operation_successes)), "DEBUG")
+        self.log(
+            "Successfully added success entry for device {0}, feature {1}. Total successes: {2}".format(
+                device_ip, feature, len(self.operation_successes)
+            ),
+            "DEBUG",
+        )
 
     def add_failure(self, device_ip, device_id, feature, error_info, api_feature=None):
         """
@@ -1732,22 +2211,39 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             error_info (dict): Error information containing error details.
             api_feature (str): Specific API feature that failed.
         """
-        self.log("Creating failure entry for device {0}, feature {1}".format(device_ip, feature), "DEBUG")
+        self.log(
+            "Creating failure entry for device {0}, feature {1}".format(
+                device_ip, feature
+            ),
+            "DEBUG",
+        )
         failure_entry = {
             "device_ip": device_ip,
             "device_id": device_id,
             "feature": feature,
             "status": "failed",
-            "error_info": error_info
+            "error_info": error_info,
         }
 
         if api_feature:
-            self.log("Adding API feature information to failure entry: {0}".format(api_feature), "DEBUG")
+            self.log(
+                "Adding API feature information to failure entry: {0}".format(
+                    api_feature
+                ),
+                "DEBUG",
+            )
             failure_entry["api_feature"] = api_feature
 
         self.operation_failures.append(failure_entry)
-        self.log("Successfully added failure entry for device {0}, feature {1}: {2}. Total failures: {3}".format(
-            device_ip, feature, error_info.get("error_message", "Unknown error"), len(self.operation_failures)), "ERROR")
+        self.log(
+            "Successfully added failure entry for device {0}, feature {1}: {2}. Total failures: {3}".format(
+                device_ip,
+                feature,
+                error_info.get("error_message", "Unknown error"),
+                len(self.operation_failures),
+            ),
+            "ERROR",
+        )
 
     def get_operation_summary(self):
         """
@@ -1755,35 +2251,63 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: Summary containing successes, failures, and statistics.
         """
-        self.log("Generating operation summary from {0} successes and {1} failures".format(
-            len(self.operation_successes), len(self.operation_failures)), "DEBUG")
+        self.log(
+            "Generating operation summary from {0} successes and {1} failures".format(
+                len(self.operation_successes), len(self.operation_failures)
+            ),
+            "DEBUG",
+        )
 
         unique_successful_devices = set()
         unique_failed_devices = set()
 
-        self.log("Processing successful operations to extract unique device information", "DEBUG")
+        self.log(
+            "Processing successful operations to extract unique device information",
+            "DEBUG",
+        )
         for success in self.operation_successes:
             unique_successful_devices.add(success["device_ip"])
 
-        self.log("Processing failed operations to extract unique device information", "DEBUG")
+        self.log(
+            "Processing failed operations to extract unique device information", "DEBUG"
+        )
         for failure in self.operation_failures:
             unique_failed_devices.add(failure["device_ip"])
 
-        self.log("Calculating device categorization based on success and failure patterns", "DEBUG")
-        partial_success_devices = unique_successful_devices.intersection(unique_failed_devices)
-        self.log("Devices with partial success (both successes and failures): {0}".format(
-            len(partial_success_devices)), "DEBUG")
+        self.log(
+            "Calculating device categorization based on success and failure patterns",
+            "DEBUG",
+        )
+        partial_success_devices = unique_successful_devices.intersection(
+            unique_failed_devices
+        )
+        self.log(
+            "Devices with partial success (both successes and failures): {0}".format(
+                len(partial_success_devices)
+            ),
+            "DEBUG",
+        )
 
         complete_success_devices = unique_successful_devices - unique_failed_devices
-        self.log("Devices with complete success (only successes): {0}".format(
-            len(complete_success_devices)), "DEBUG")
+        self.log(
+            "Devices with complete success (only successes): {0}".format(
+                len(complete_success_devices)
+            ),
+            "DEBUG",
+        )
 
         complete_failure_devices = unique_failed_devices - unique_successful_devices
-        self.log("Devices with complete failure (only failures): {0}".format(
-            len(complete_failure_devices)), "DEBUG")
+        self.log(
+            "Devices with complete failure (only failures): {0}".format(
+                len(complete_failure_devices)
+            ),
+            "DEBUG",
+        )
 
         summary = {
-            "total_devices_processed": len(unique_successful_devices.union(unique_failed_devices)),
+            "total_devices_processed": len(
+                unique_successful_devices.union(unique_failed_devices)
+            ),
             "total_features_processed": self.total_features_processed,
             "total_successful_operations": len(self.operation_successes),
             "total_failed_operations": len(self.operation_failures),
@@ -1791,11 +2315,15 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             "devices_with_partial_success": list(partial_success_devices),
             "devices_with_complete_failure": list(complete_failure_devices),
             "success_details": self.operation_successes,
-            "failure_details": self.operation_failures
+            "failure_details": self.operation_failures,
         }
 
-        self.log("Operation summary generated successfully with {0} total devices processed".format(
-            summary["total_devices_processed"]), "INFO")
+        self.log(
+            "Operation summary generated successfully with {0} total devices processed".format(
+                summary["total_devices_processed"]
+            ),
+            "INFO",
+        )
 
         return summary
 
@@ -1808,7 +2336,9 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: A dictionary containing layer2 configurations organized by feature type.
         """
-        self.log("Starting comprehensive layer2 configurations retrieval process", "INFO")
+        self.log(
+            "Starting comprehensive layer2 configurations retrieval process", "INFO"
+        )
         self.log("Network element configuration: {0}".format(network_element), "DEBUG")
         self.log("Applied filters: {0}".format(filters), "DEBUG")
 
@@ -1821,64 +2351,99 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         global_filters = filters.get("global_filters", {})
 
         if self.generate_all_configurations:
-            self.log("Generate all configurations mode detected - retrieving all managed devices", "INFO")
+            self.log(
+                "Generate all configurations mode detected - retrieving all managed devices",
+                "INFO",
+            )
             # Get all devices without any parameters to retrieve everything
             device_ip_to_id_mapping = self.get_network_device_details()
-            selected_filter_type = "ip_addresses"  # Default to IP addresses for output format
+            selected_filter_type = (
+                "ip_addresses"  # Default to IP addresses for output format
+            )
 
             processed_global_filters = {
                 "device_ip_to_id_mapping": device_ip_to_id_mapping,
-                "applied_filters": {
-                    "selected_filter_type": selected_filter_type
-                }
+                "applied_filters": {"selected_filter_type": selected_filter_type},
             }
         else:
             processed_global_filters = self.process_global_filters(global_filters)
-            device_ip_to_id_mapping = processed_global_filters.get("device_ip_to_id_mapping", {})
-            selected_filter_type = processed_global_filters.get("applied_filters", {}).get("selected_filter_type")
+            device_ip_to_id_mapping = processed_global_filters.get(
+                "device_ip_to_id_mapping", {}
+            )
+            selected_filter_type = processed_global_filters.get(
+                "applied_filters", {}
+            ).get("selected_filter_type")
 
             # NEW: If no device filters provided, get all devices
-            if not device_ip_to_id_mapping and not any([
-                global_filters.get("ip_address_list"),
-                global_filters.get("hostname_list"),
-                global_filters.get("serial_number_list")
-            ]):
-                self.log("No device filters provided - retrieving all managed devices", "INFO")
+            if not device_ip_to_id_mapping and not any(
+                [
+                    global_filters.get("ip_address_list"),
+                    global_filters.get("hostname_list"),
+                    global_filters.get("serial_number_list"),
+                ]
+            ):
+                self.log(
+                    "No device filters provided - retrieving all managed devices",
+                    "INFO",
+                )
                 device_ip_to_id_mapping = self.get_network_device_details()
-                selected_filter_type = "ip_addresses"  # Default to IP addresses for output format
+                selected_filter_type = (
+                    "ip_addresses"  # Default to IP addresses for output format
+                )
 
                 # Update processed_global_filters
                 processed_global_filters = {
                     "device_ip_to_id_mapping": device_ip_to_id_mapping,
-                    "applied_filters": {
-                        "selected_filter_type": selected_filter_type
-                    }
+                    "applied_filters": {"selected_filter_type": selected_filter_type},
                 }
 
         if not device_ip_to_id_mapping:
-            self.log("No devices found from global filters. Terminating configuration retrieval.", "WARNING")
+            self.log(
+                "No devices found from global filters. Terminating configuration retrieval.",
+                "WARNING",
+            )
             return {
                 "layer2_configurations": [],
-                "operation_summary": self.get_operation_summary()
+                "operation_summary": self.get_operation_summary(),
             }
 
-        self.log("Found {0} devices to process from global filters".format(len(device_ip_to_id_mapping)), "INFO")
+        self.log(
+            "Found {0} devices to process from global filters".format(
+                len(device_ip_to_id_mapping)
+            ),
+            "INFO",
+        )
         self.total_devices_processed = len(device_ip_to_id_mapping)
 
         self.log("Extracting component-specific filters for layer2 features", "DEBUG")
         component_specific_filters = filters.get("component_specific_filters", {})
-        self.log("Component specific filters: {0}".format(component_specific_filters), "DEBUG")
-        layer2_config_filters = component_specific_filters.get("layer2_configurations", {})
-        self.log("Layer2 configuration filters: {0}".format(layer2_config_filters), "DEBUG")
+        self.log(
+            "Component specific filters: {0}".format(component_specific_filters),
+            "DEBUG",
+        )
+        layer2_config_filters = component_specific_filters.get(
+            "layer2_configurations", {}
+        )
+        self.log(
+            "Layer2 configuration filters: {0}".format(layer2_config_filters), "DEBUG"
+        )
         layer2_features = layer2_config_filters.get("layer2_features", [])
         self.log("Requested layer2 features: {0}".format(layer2_features), "DEBUG")
 
         self.log("Checking if specific layer2 features were requested", "DEBUG")
         if not layer2_features:
-            self.log("No specific features requested, retrieving all supported features from module schema", "DEBUG")
-            layer2_config_filters = self.module_schema.get("network_elements", {}).get(
-                "layer2_configurations", {}).get("filters", {})
-            layer2_features = layer2_config_filters["layer2_features"].get("choices", [])
+            self.log(
+                "No specific features requested, retrieving all supported features from module schema",
+                "DEBUG",
+            )
+            layer2_config_filters = (
+                self.module_schema.get("network_elements", {})
+                .get("layer2_configurations", {})
+                .get("filters", {})
+            )
+            layer2_features = layer2_config_filters["layer2_features"].get(
+                "choices", []
+            )
 
         self.log("Processing layer2 features: {0}".format(layer2_features), "DEBUG")
 
@@ -1895,43 +2460,79 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             "authentication": "dot1xGlobalConfig",
             "logical_ports": "portchannelConfig",
             "port_configuration": [
-                "switchportInterfaceConfig", "trunkInterfaceConfig", "cdpInterfaceConfig",
-                "lldpInterfaceConfig", "stpInterfaceConfig", "dhcpSnoopingInterfaceConfig",
-                "dot1xInterfaceConfig", "mabInterfaceConfig", "vtpInterfaceConfig"
-            ]
+                "switchportInterfaceConfig",
+                "trunkInterfaceConfig",
+                "cdpInterfaceConfig",
+                "lldpInterfaceConfig",
+                "stpInterfaceConfig",
+                "dhcpSnoopingInterfaceConfig",
+                "dot1xInterfaceConfig",
+                "mabInterfaceConfig",
+                "vtpInterfaceConfig",
+            ],
         }
-        self.log("Feature to API mapping configured with {0} feature mappings".format(
-            len(feature_to_api_mapping)), "DEBUG")
+        self.log(
+            "Feature to API mapping configured with {0} feature mappings".format(
+                len(feature_to_api_mapping)
+            ),
+            "DEBUG",
+        )
 
         self.log("Initializing configuration collection for all devices", "DEBUG")
         device_configurations = {}
 
         for device_ip, device_info in device_ip_to_id_mapping.items():
-            self.log("Processing device {0} (ID: {1})".format(device_ip, device_info.get("device_id")), "DEBUG")
+            self.log(
+                "Processing device {0} (ID: {1})".format(
+                    device_ip, device_info.get("device_id")
+                ),
+                "DEBUG",
+            )
 
             device_id = device_info.get("device_id")
 
             device_layer2_configs = self.get_device_layer2_configurations(
-                device_id, device_ip, layer2_features, feature_to_api_mapping, component_specific_filters, network_element
+                device_id,
+                device_ip,
+                layer2_features,
+                feature_to_api_mapping,
+                component_specific_filters,
+                network_element,
             )
-            self.log("Retrieved {0} layer2 configurations from device {1}. Configs: {2}".format(
-                len(device_layer2_configs), device_ip, device_layer2_configs), "DEBUG")
+            self.log(
+                "Retrieved {0} layer2 configurations from device {1}. Configs: {2}".format(
+                    len(device_layer2_configs), device_ip, device_layer2_configs
+                ),
+                "DEBUG",
+            )
 
             if device_layer2_configs:
                 if device_ip not in device_configurations:
                     device_configurations[device_ip] = {
                         "device_info": device_info,  # Store full device info for identifier selection
-                        "configs": []
+                        "configs": [],
                     }
 
-                device_configurations[device_ip]["configs"].extend(device_layer2_configs)
-                self.log("Adding {0} configurations from device {1} to collection".format(
-                    len(device_layer2_configs), device_ip), "DEBUG")
+                device_configurations[device_ip]["configs"].extend(
+                    device_layer2_configs
+                )
+                self.log(
+                    "Adding {0} configurations from device {1} to collection".format(
+                        len(device_layer2_configs), device_ip
+                    ),
+                    "DEBUG",
+                )
 
-        self.log("Completed configuration retrieval from all devices 'device_configurations': {0}".format(
-            device_configurations), "DEBUG")
+        self.log(
+            "Completed configuration retrieval from all devices 'device_configurations': {0}".format(
+                device_configurations
+            ),
+            "DEBUG",
+        )
 
-        self.log("Applying reverse mapping to transform API data to user format", "DEBUG")
+        self.log(
+            "Applying reverse mapping to transform API data to user format", "DEBUG"
+        )
         reverse_mapping_function = network_element.get("reverse_mapping_function")
         reverse_mapping_spec = reverse_mapping_function(layer2_features)
 
@@ -1939,19 +2540,30 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         transformed_configurations = []
 
         for device_ip, device_data in device_configurations.items():
-            self.log("Processing configurations for device: {0}".format(device_ip), "DEBUG")
+            self.log(
+                "Processing configurations for device: {0}".format(device_ip), "DEBUG"
+            )
 
             device_info = device_data["device_info"]
             configs = device_data["configs"]
 
             # Get the appropriate identifier based on filter type
-            identifier_key, identifier_value = self.get_device_identifier_from_filter_type(device_info, selected_filter_type)
+            identifier_key, identifier_value = (
+                self.get_device_identifier_from_filter_type(
+                    device_info, selected_filter_type
+                )
+            )
 
             # For IP addresses, use the device_ip from the mapping key
             if identifier_key == "ip_address":
                 identifier_value = device_ip
 
-            self.log("Using device identifier: {0} = {1}".format(identifier_key, identifier_value), "DEBUG")
+            self.log(
+                "Using device identifier: {0} = {1}".format(
+                    identifier_key, identifier_value
+                ),
+                "DEBUG",
+            )
 
             # Initialize device-specific layer2_configuration as OrderedDict
             device_layer2_config = OrderedDict()
@@ -1959,10 +2571,25 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             for config in configs:
                 for feature_type, feature_data in config.items():
                     if feature_type in reverse_mapping_spec and feature_data:
-                        self.log("Applying transformation for feature type: {0}".format(feature_type), "DEBUG")
+                        self.log(
+                            "Applying transformation for feature type: {0}".format(
+                                feature_type
+                            ),
+                            "DEBUG",
+                        )
 
                         # Apply transformations based on feature type
-                        if feature_type in ["cdp", "lldp", "vtp", "stp", "dhcp_snooping", "igmp_snooping", "mld_snooping", "authentication", "logical_ports"]:
+                        if feature_type in [
+                            "cdp",
+                            "lldp",
+                            "vtp",
+                            "stp",
+                            "dhcp_snooping",
+                            "igmp_snooping",
+                            "mld_snooping",
+                            "authentication",
+                            "logical_ports",
+                        ]:
                             api_feature_name = {
                                 "cdp": "cdpGlobalConfig",
                                 "lldp": "lldpGlobalConfig",
@@ -1972,58 +2599,91 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                                 "igmp_snooping": "igmpSnoopingGlobalConfig",
                                 "mld_snooping": "mldSnoopingGlobalConfig",
                                 "authentication": "dot1xGlobalConfig",
-                                "logical_ports": "portchannelConfig"
+                                "logical_ports": "portchannelConfig",
                             }[feature_type]
 
-                            items = feature_data.get(api_feature_name, {}).get("items", [])
+                            items = feature_data.get(api_feature_name, {}).get(
+                                "items", []
+                            )
                             if items:
                                 transformed_data = self.modify_parameters(
-                                    reverse_mapping_spec[feature_type],
-                                    [items[0]]
+                                    reverse_mapping_spec[feature_type], [items[0]]
                                 )
                                 if transformed_data:
                                     if feature_type not in device_layer2_config:
-                                        device_layer2_config[feature_type] = transformed_data[0]
+                                        device_layer2_config[feature_type] = (
+                                            transformed_data[0]
+                                        )
                                     else:
-                                        device_layer2_config[feature_type].update(transformed_data[0])
+                                        device_layer2_config[feature_type].update(
+                                            transformed_data[0]
+                                        )
                         elif feature_type == "port_configuration":
                             # Port configuration is already fully processed and reverse-mapped
                             # Just extend the data directly without additional transformation
-                            self.log("Port configuration data is already reverse-mapped, adding directly", "DEBUG")
+                            self.log(
+                                "Port configuration data is already reverse-mapped, adding directly",
+                                "DEBUG",
+                            )
                             if feature_type not in device_layer2_config:
                                 device_layer2_config[feature_type] = []
                             device_layer2_config[feature_type].extend(feature_data)
                         else:
                             # For vlans and other list-based features
-                            self.log("Transforming list-based feature type: {0}".format(feature_type), "DEBUG")
-                            self.log("Feature data before transformation: {0}".format(feature_data), "DEBUG")
+                            self.log(
+                                "Transforming list-based feature type: {0}".format(
+                                    feature_type
+                                ),
+                                "DEBUG",
+                            )
+                            self.log(
+                                "Feature data before transformation: {0}".format(
+                                    feature_data
+                                ),
+                                "DEBUG",
+                            )
 
                             # Special handling for VLANs - flatten the structure
                             if feature_type == "vlans":
-                                vlan_items = feature_data.get("vlanConfig", {}).get("items", [])
+                                vlan_items = feature_data.get("vlanConfig", {}).get(
+                                    "items", []
+                                )
                                 if vlan_items:
                                     flattened_data = {"items": vlan_items}
                                     transformed_data = self.modify_parameters(
                                         reverse_mapping_spec[feature_type],
-                                        [flattened_data]
+                                        [flattened_data],
                                     )
                                 else:
                                     transformed_data = []
                             else:
                                 transformed_data = self.modify_parameters(
                                     reverse_mapping_spec[feature_type],
-                                    feature_data if isinstance(feature_data, list) else [feature_data]
+                                    (
+                                        feature_data
+                                        if isinstance(feature_data, list)
+                                        else [feature_data]
+                                    ),
                                 )
 
-                            self.log("Transformed data for feature type {0}: {1}".format(feature_type, transformed_data), "DEBUG")
+                            self.log(
+                                "Transformed data for feature type {0}: {1}".format(
+                                    feature_type, transformed_data
+                                ),
+                                "DEBUG",
+                            )
 
                             if transformed_data:
                                 if feature_type == "vlans":
-                                    device_layer2_config[feature_type] = transformed_data[0].get("vlans", [])
+                                    device_layer2_config[feature_type] = (
+                                        transformed_data[0].get("vlans", [])
+                                    )
                                 else:
                                     if feature_type not in device_layer2_config:
                                         device_layer2_config[feature_type] = []
-                                    device_layer2_config[feature_type].extend(transformed_data)
+                                    device_layer2_config[feature_type].extend(
+                                        transformed_data
+                                    )
 
             # Add device configuration with identifier first using OrderedDict
             if device_layer2_config:
@@ -2032,18 +2692,27 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 device_config[identifier_key] = identifier_value
                 device_config["layer2_configuration"] = device_layer2_config
                 transformed_configurations.append(device_config)
-                self.log("Added configuration for device with {0}: {1}".format(identifier_key, identifier_value), "DEBUG")
+                self.log(
+                    "Added configuration for device with {0}: {1}".format(
+                        identifier_key, identifier_value
+                    ),
+                    "DEBUG",
+                )
 
         self.log("Generating comprehensive operation summary", "DEBUG")
         operation_summary = self.get_operation_summary()
 
         final_result = {
             "layer2_configurations": transformed_configurations,
-            "operation_summary": operation_summary
+            "operation_summary": operation_summary,
         }
 
-        self.log("Layer2 configurations retrieval completed successfully for {0} devices".format(
-            len(device_ip_to_id_mapping)), "INFO")
+        self.log(
+            "Layer2 configurations retrieval completed successfully for {0} devices".format(
+                len(device_ip_to_id_mapping)
+            ),
+            "INFO",
+        )
 
         return final_result
 
@@ -2057,27 +2726,39 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: Dictionary containing processed global filters with device_ip_to_id_mapping
         """
-        self.log("Processing global filters with priority-based selection: {0}".format(global_filters), "DEBUG")
+        self.log(
+            "Processing global filters with priority-based selection: {0}".format(
+                global_filters
+            ),
+            "DEBUG",
+        )
 
         # Extract filter lists
         ip_addresses = global_filters.get("ip_address_list", [])
         serial_numbers = global_filters.get("serial_number_list", [])
         hostnames = global_filters.get("hostname_list", [])
 
-        self.log("Raw filters - IP addresses: {0}, Serial numbers: {1}, Hostnames: {2}".format(
-            ip_addresses, serial_numbers, hostnames), "DEBUG")
+        self.log(
+            "Raw filters - IP addresses: {0}, Serial numbers: {1}, Hostnames: {2}".format(
+                ip_addresses, serial_numbers, hostnames
+            ),
+            "DEBUG",
+        )
 
         # Check if no filters provided at all
         if not ip_addresses and not serial_numbers and not hostnames:
-            self.log("No device identification filters provided - will be handled by caller", "DEBUG")
+            self.log(
+                "No device identification filters provided - will be handled by caller",
+                "DEBUG",
+            )
             return {
                 "device_ip_to_id_mapping": {},
                 "total_devices": 0,
                 "applied_filters": {
                     "selected_filter_type": None,
                     "selected_values": [],
-                    "ignored_filters": []
-                }
+                    "ignored_filters": [],
+                },
             }
 
         # Priority-based selection logic
@@ -2087,27 +2768,51 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         if ip_addresses:
             selected_filter_type = "ip_addresses"
             selected_values = ip_addresses
-            self.log("IP addresses provided (HIGHEST PRIORITY) - using IP address filter: {0}".format(
-                ip_addresses), "INFO")
+            self.log(
+                "IP addresses provided (HIGHEST PRIORITY) - using IP address filter: {0}".format(
+                    ip_addresses
+                ),
+                "INFO",
+            )
             if serial_numbers:
-                self.log("Serial numbers provided but IGNORED due to lower priority: {0}".format(
-                    serial_numbers), "WARNING")
+                self.log(
+                    "Serial numbers provided but IGNORED due to lower priority: {0}".format(
+                        serial_numbers
+                    ),
+                    "WARNING",
+                )
             if hostnames:
-                self.log("Hostnames provided but IGNORED due to lower priority: {0}".format(
-                    hostnames), "WARNING")
+                self.log(
+                    "Hostnames provided but IGNORED due to lower priority: {0}".format(
+                        hostnames
+                    ),
+                    "WARNING",
+                )
         elif serial_numbers:
             selected_filter_type = "serial_numbers"
             selected_values = serial_numbers
-            self.log("Serial numbers provided (MEDIUM PRIORITY) - using serial number filter: {0}".format(
-                serial_numbers), "INFO")
+            self.log(
+                "Serial numbers provided (MEDIUM PRIORITY) - using serial number filter: {0}".format(
+                    serial_numbers
+                ),
+                "INFO",
+            )
             if hostnames:
-                self.log("Hostnames provided but IGNORED due to lower priority: {0}".format(
-                    hostnames), "WARNING")
+                self.log(
+                    "Hostnames provided but IGNORED due to lower priority: {0}".format(
+                        hostnames
+                    ),
+                    "WARNING",
+                )
         elif hostnames:
             selected_filter_type = "hostnames"
             selected_values = hostnames
-            self.log("Hostnames provided (LOWEST PRIORITY) - using hostname filter: {0}".format(
-                hostnames), "INFO")
+            self.log(
+                "Hostnames provided (LOWEST PRIORITY) - using hostname filter: {0}".format(
+                    hostnames
+                ),
+                "INFO",
+            )
 
         # Prepare parameters for get_network_device_details based on selected filter
         kwargs = {}
@@ -2116,7 +2821,9 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         if selected_filter_type == "ip_addresses":
             kwargs["ip_addresses"] = selected_values
             if serial_numbers:
-                ignored_filters.append({"type": "serial_numbers", "values": serial_numbers})
+                ignored_filters.append(
+                    {"type": "serial_numbers", "values": serial_numbers}
+                )
             if hostnames:
                 ignored_filters.append({"type": "hostnames", "values": hostnames})
         elif selected_filter_type == "serial_numbers":
@@ -2126,14 +2833,22 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         elif selected_filter_type == "hostnames":
             kwargs["hostnames"] = selected_values
 
-        self.log("Calling get_network_device_details with selected filter type: {0}".format(
-            selected_filter_type), "DEBUG")
+        self.log(
+            "Calling get_network_device_details with selected filter type: {0}".format(
+                selected_filter_type
+            ),
+            "DEBUG",
+        )
 
         # Get device IDs using the selected filter
         device_ip_to_id_mapping = self.get_network_device_details(**kwargs)
 
-        self.log("Retrieved device mapping using {0}: {1}".format(
-            selected_filter_type, device_ip_to_id_mapping), "DEBUG")
+        self.log(
+            "Retrieved device mapping using {0}: {1}".format(
+                selected_filter_type, device_ip_to_id_mapping
+            ),
+            "DEBUG",
+        )
 
         processed_filters = {
             "device_ip_to_id_mapping": device_ip_to_id_mapping,
@@ -2141,12 +2856,16 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             "applied_filters": {
                 "selected_filter_type": selected_filter_type,
                 "selected_values": selected_values,
-                "ignored_filters": ignored_filters
-            }
+                "ignored_filters": ignored_filters,
+            },
         }
 
-        self.log("Processed global filters result - Selected: {0} with {1} values, Ignored: {2} filter types".format(
-            selected_filter_type, len(selected_values), len(ignored_filters)), "INFO")
+        self.log(
+            "Processed global filters result - Selected: {0} with {1} values, Ignored: {2} filter types".format(
+                selected_filter_type, len(selected_values), len(ignored_filters)
+            ),
+            "INFO",
+        )
 
         return processed_filters
 
@@ -2159,15 +2878,23 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             tuple: (identifier_key, identifier_value) for the final configuration
         """
-        self.log("Getting device identifier for filter type: {0}".format(filter_type), "DEBUG")
+        self.log(
+            "Getting device identifier for filter type: {0}".format(filter_type),
+            "DEBUG",
+        )
 
         if filter_type == "ip_addresses":
             # For IP addresses, we use the key from device_ip_to_id_mapping (which is the IP)
-            self.log("Using IP address identifier for filter type: {0}".format(filter_type), "DEBUG")
+            self.log(
+                "Using IP address identifier for filter type: {0}".format(filter_type),
+                "DEBUG",
+            )
             return ("ip_address", None)  # IP will be provided by the caller
         elif filter_type == "serial_numbers":
             serial_number = device_info.get("serial_number")
-            self.log("Using serial number identifier: {0}".format(serial_number), "DEBUG")
+            self.log(
+                "Using serial number identifier: {0}".format(serial_number), "DEBUG"
+            )
             return ("serial_number", serial_number)
         elif filter_type == "hostnames":
             hostname = device_info.get("hostname")
@@ -2175,11 +2902,21 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             return ("hostname", hostname)
         else:
             # Default fallback to IP address
-            self.log("Unknown filter type {0}, defaulting to ip_address".format(filter_type), "WARNING")
+            self.log(
+                "Unknown filter type {0}, defaulting to ip_address".format(filter_type),
+                "WARNING",
+            )
             return ("ip_address", None)
 
-    def get_device_layer2_configurations(self, device_id, device_ip, layer2_features, feature_to_api_mapping,
-                                        component_specific_filters, network_element):
+    def get_device_layer2_configurations(
+        self,
+        device_id,
+        device_ip,
+        layer2_features,
+        feature_to_api_mapping,
+        component_specific_filters,
+        network_element,
+    ):
         """
         Retrieves layer2 configurations for a specific device by making API calls for each requested feature.
         Handles special processing for port configurations which require multiple API calls and consolidation.
@@ -2193,127 +2930,253 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: List of configuration dictionaries for the device, one per successfully retrieved feature.
         """
-        self.log("Initiating layer2 configuration retrieval process for device {0} with IP {1}".format(
-            device_id, device_ip), "DEBUG")
-        self.log("Features requested for retrieval: {0}".format(layer2_features), "DEBUG")
-        self.log("Total number of features to process: {0}".format(len(layer2_features)), "DEBUG")
+        self.log(
+            "Initiating layer2 configuration retrieval process for device {0} with IP {1}".format(
+                device_id, device_ip
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Features requested for retrieval: {0}".format(layer2_features), "DEBUG"
+        )
+        self.log(
+            "Total number of features to process: {0}".format(len(layer2_features)),
+            "DEBUG",
+        )
 
         device_configurations = []
 
-        self.log("Extracting API configuration parameters from network element", "DEBUG")
+        self.log(
+            "Extracting API configuration parameters from network element", "DEBUG"
+        )
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
-        self.log("Extracted API family: '{0}', API function: '{1}' for device operations".format(
-            api_family, api_function), "DEBUG")
+        self.log(
+            "Extracted API family: '{0}', API function: '{1}' for device operations".format(
+                api_family, api_function
+            ),
+            "DEBUG",
+        )
 
         if not api_family or not api_function:
-            self.log("Missing required API configuration - family: {0}, function: {1}".format(
-                api_family, api_function), "ERROR")
+            self.log(
+                "Missing required API configuration - family: {0}, function: {1}".format(
+                    api_family, api_function
+                ),
+                "ERROR",
+            )
             return []
 
-        self.log("Incrementing total features processed counter by {0}".format(len(layer2_features)), "DEBUG")
+        self.log(
+            "Incrementing total features processed counter by {0}".format(
+                len(layer2_features)
+            ),
+            "DEBUG",
+        )
         self.total_features_processed += len(layer2_features)
 
         for feature_index, feature in enumerate(layer2_features):
-            self.log("Processing feature {0} of {1}: '{2}' for device {3}".format(
-                feature_index + 1, len(layer2_features), feature, device_ip), "DEBUG")
+            self.log(
+                "Processing feature {0} of {1}: '{2}' for device {3}".format(
+                    feature_index + 1, len(layer2_features), feature, device_ip
+                ),
+                "DEBUG",
+            )
 
             api_features = feature_to_api_mapping.get(feature)
             if not api_features:
-                error_msg = "No API mapping found for feature '{0}' in feature_to_api_mapping dictionary".format(feature)
+                error_msg = "No API mapping found for feature '{0}' in feature_to_api_mapping dictionary".format(
+                    feature
+                )
                 self.log(error_msg, "WARNING")
-                self.log("Available mappings in feature_to_api_mapping: {0}".format(
-                    list(feature_to_api_mapping.keys())), "DEBUG")
+                self.log(
+                    "Available mappings in feature_to_api_mapping: {0}".format(
+                        list(feature_to_api_mapping.keys())
+                    ),
+                    "DEBUG",
+                )
                 self.add_failure(
-                    device_ip, device_id, feature,
+                    device_ip,
+                    device_id,
+                    feature,
                     {
                         "error_type": "mapping_error",
                         "error_message": error_msg,
                         "error_code": "MAPPING_ERROR",
-                        "available_features": list(feature_to_api_mapping.keys())
-                    }
+                        "available_features": list(feature_to_api_mapping.keys()),
+                    },
                 )
                 continue
 
-            self.log("Found API mapping for feature '{0}': {1}".format(feature, api_features), "DEBUG")
+            self.log(
+                "Found API mapping for feature '{0}': {1}".format(
+                    feature, api_features
+                ),
+                "DEBUG",
+            )
 
             # Ensure api_features is always a list for consistent processing
             if isinstance(api_features, str):
                 self.log("Converting single API feature string to list format", "DEBUG")
                 api_features = [api_features]
 
-            self.log("API features to process for '{0}': {1} (total: {2})".format(
-                feature, api_features, len(api_features)), "DEBUG")
+            self.log(
+                "API features to process for '{0}': {1} (total: {2})".format(
+                    feature, api_features, len(api_features)
+                ),
+                "DEBUG",
+            )
 
             feature_success = False
             feature_errors = []
 
             # Route to appropriate processing method based on feature type
             if feature == "port_configuration":
-                self.log("Routing to specialized port configuration processing", "DEBUG")
-                port_config_result = self._process_port_configuration_feature(
-                    device_id, device_ip, api_features, component_specific_filters,
-                    api_family, api_function, feature_errors
+                self.log(
+                    "Routing to specialized port configuration processing", "DEBUG"
                 )
-                self.log("Port configuration processing result: {0}".format(port_config_result), "DEBUG")
+                port_config_result = self._process_port_configuration_feature(
+                    device_id,
+                    device_ip,
+                    api_features,
+                    component_specific_filters,
+                    api_family,
+                    api_function,
+                    feature_errors,
+                )
+                self.log(
+                    "Port configuration processing result: {0}".format(
+                        port_config_result
+                    ),
+                    "DEBUG",
+                )
 
                 if port_config_result["success"]:
                     feature_success = True
                     if port_config_result["configurations"]:
-                        device_configurations.extend(port_config_result["configurations"])
-                        self.log("Successfully processed port configuration feature", "DEBUG")
+                        device_configurations.extend(
+                            port_config_result["configurations"]
+                        )
+                        self.log(
+                            "Successfully processed port configuration feature", "DEBUG"
+                        )
 
                 feature_errors.extend(port_config_result["errors"])
             else:
-                self.log("Processing standard feature '{0}' using normal API call flow".format(feature), "DEBUG")
+                self.log(
+                    "Processing standard feature '{0}' using normal API call flow".format(
+                        feature
+                    ),
+                    "DEBUG",
+                )
                 standard_result = self._process_standard_feature(
-                    device_id, device_ip, feature, api_features, component_specific_filters,
-                    api_family, api_function, feature_errors
+                    device_id,
+                    device_ip,
+                    feature,
+                    api_features,
+                    component_specific_filters,
+                    api_family,
+                    api_function,
+                    feature_errors,
                 )
 
                 if standard_result["success"]:
                     feature_success = True
                     if standard_result["configurations"]:
                         device_configurations.extend(standard_result["configurations"])
-                        self.log("Successfully processed standard feature '{0}'".format(feature), "DEBUG")
+                        self.log(
+                            "Successfully processed standard feature '{0}'".format(
+                                feature
+                            ),
+                            "DEBUG",
+                        )
 
                 feature_errors.extend(standard_result["errors"])
 
             # Evaluate and track feature processing results
-            self.log("Evaluating processing results for feature '{0}' on device {1}".format(feature, device_ip), "DEBUG")
+            self.log(
+                "Evaluating processing results for feature '{0}' on device {1}".format(
+                    feature, device_ip
+                ),
+                "DEBUG",
+            )
             if feature_success:
-                self.log("Feature '{0}' processed successfully - adding to success tracking".format(feature), "DEBUG")
+                self.log(
+                    "Feature '{0}' processed successfully - adding to success tracking".format(
+                        feature
+                    ),
+                    "DEBUG",
+                )
                 self.add_success(
-                    device_ip, device_id, feature,
+                    device_ip,
+                    device_id,
+                    feature,
                     {
                         "api_features_processed": api_features,
-                        "processing_method": "port_configuration" if feature == "port_configuration" else "standard"
-                    }
+                        "processing_method": (
+                            "port_configuration"
+                            if feature == "port_configuration"
+                            else "standard"
+                        ),
+                    },
                 )
             else:
-                self.log("Feature '{0}' processing failed - consolidating error information for tracking".format(
-                    feature), "DEBUG")
-                self.log("Total errors encountered for feature '{0}': {1}".format(feature, len(feature_errors)), "DEBUG")
+                self.log(
+                    "Feature '{0}' processing failed - consolidating error information for tracking".format(
+                        feature
+                    ),
+                    "DEBUG",
+                )
+                self.log(
+                    "Total errors encountered for feature '{0}': {1}".format(
+                        feature, len(feature_errors)
+                    ),
+                    "DEBUG",
+                )
 
                 consolidated_error = {
                     "error_type": "feature_retrieval_failed",
-                    "error_message": "Failed to retrieve {0} configuration for device {1}".format(feature, device_ip),
+                    "error_message": "Failed to retrieve {0} configuration for device {1}".format(
+                        feature, device_ip
+                    ),
                     "error_code": "FEATURE_RETRIEVAL_FAILED",
                     "detailed_errors": feature_errors,
-                    "api_features_attempted": api_features
+                    "api_features_attempted": api_features,
                 }
                 self.add_failure(device_ip, device_id, feature, consolidated_error)
 
-        self.log("Completed layer2 configuration retrieval for device {0} (IP: {1}). Configurations: {2}".format(
-            device_id, device_ip, device_configurations), "DEBUG")
-        self.log("Total configurations successfully retrieved: {0}".format(len(device_configurations)), "DEBUG")
-        self.log("Configuration features retrieved: {0}".format(
-            [list(config.keys())[0] for config in device_configurations]), "DEBUG")
+        self.log(
+            "Completed layer2 configuration retrieval for device {0} (IP: {1}). Configurations: {2}".format(
+                device_id, device_ip, device_configurations
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Total configurations successfully retrieved: {0}".format(
+                len(device_configurations)
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Configuration features retrieved: {0}".format(
+                [list(config.keys())[0] for config in device_configurations]
+            ),
+            "DEBUG",
+        )
 
         return device_configurations
 
-    def _process_standard_feature(self, device_id, device_ip, feature, api_features, component_specific_filters,
-                                api_family, api_function, feature_errors):
+    def _process_standard_feature(
+        self,
+        device_id,
+        device_ip,
+        feature,
+        api_features,
+        component_specific_filters,
+        api_family,
+        api_function,
+        feature_errors,
+    ):
         """
         Processes standard features using normal API call flow with single API endpoint per feature.
         Args:
@@ -2328,108 +3191,189 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: Dictionary containing success status, configurations, and errors.
         """
-        self.log("Processing standard feature '{0}' using normal API call flow for device {1}".format(
-            feature, device_ip), "DEBUG")
-        self.log("Standard feature processing involves {0} API call(s)".format(len(api_features)), "DEBUG")
+        self.log(
+            "Processing standard feature '{0}' using normal API call flow for device {1}".format(
+                feature, device_ip
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Standard feature processing involves {0} API call(s)".format(
+                len(api_features)
+            ),
+            "DEBUG",
+        )
 
-        processing_result = {
-            "success": False,
-            "configurations": [],
-            "errors": []
-        }
+        processing_result = {"success": False, "configurations": [], "errors": []}
 
         for api_feature_index, api_feature in enumerate(api_features):
-            self.log("Processing API feature {0} of {1}: '{2}' for feature '{3}' on device {4}".format(
-                api_feature_index + 1, len(api_features), api_feature, feature, device_ip), "DEBUG")
+            self.log(
+                "Processing API feature {0} of {1}: '{2}' for feature '{3}' on device {4}".format(
+                    api_feature_index + 1,
+                    len(api_features),
+                    api_feature,
+                    feature,
+                    device_ip,
+                ),
+                "DEBUG",
+            )
 
-            self.log("Preparing API request parameters for {0}".format(api_feature), "DEBUG")
+            self.log(
+                "Preparing API request parameters for {0}".format(api_feature), "DEBUG"
+            )
             api_params = {"id": device_id, "feature": api_feature}
-            self.log("API request parameters constructed: {0}".format(api_params), "DEBUG")
+            self.log(
+                "API request parameters constructed: {0}".format(api_params), "DEBUG"
+            )
 
             try:
-                self.log("Executing GET request for {0} using execute_get_request method".format(
-                    api_feature), "DEBUG")
+                self.log(
+                    "Executing GET request for {0} using execute_get_request method".format(
+                        api_feature
+                    ),
+                    "DEBUG",
+                )
 
-                response = self.execute_get_request(api_family, api_function, api_params)
+                response = self.execute_get_request(
+                    api_family, api_function, api_params
+                )
 
                 if response and response.get("response"):
-                    self.log("API response received successfully for {0}".format(api_feature), "DEBUG")
+                    self.log(
+                        "API response received successfully for {0}".format(
+                            api_feature
+                        ),
+                        "DEBUG",
+                    )
 
                     # Use dynamic error checking function
                     response_data = response.get("response")
                     if self.is_api_error_response(response_data):
                         # Use dynamic error extraction function
-                        error_info = self.extract_api_error_info(response_data, api_feature, device_ip)
+                        error_info = self.extract_api_error_info(
+                            response_data, api_feature, device_ip
+                        )
                         processing_result["errors"].append(error_info)
-                        self.log("API returned error for {0}: {1}".format(
-                            api_feature, error_info["error_message"]), "ERROR")
+                        self.log(
+                            "API returned error for {0}: {1}".format(
+                                api_feature, error_info["error_message"]
+                            ),
+                            "ERROR",
+                        )
                         continue
 
-                    self.log("Extracting configuration data from successful API response", "DEBUG")
+                    self.log(
+                        "Extracting configuration data from successful API response",
+                        "DEBUG",
+                    )
                     config_data = response.get("response")
 
-                    self.log("Applying component-specific filters to {0} configuration data".format(
-                        api_feature), "DEBUG")
+                    self.log(
+                        "Applying component-specific filters to {0} configuration data".format(
+                            api_feature
+                        ),
+                        "DEBUG",
+                    )
                     filtered_data = self.apply_component_specific_filters(
                         config_data, feature, component_specific_filters
                     )
 
                     if filtered_data:
-                        self.log("Configuration data successfully filtered for {0}".format(api_feature), "DEBUG")
+                        self.log(
+                            "Configuration data successfully filtered for {0}".format(
+                                api_feature
+                            ),
+                            "DEBUG",
+                        )
                         structured_data = {feature: filtered_data}
                         processing_result["configurations"].append(structured_data)
                         processing_result["success"] = True
 
-                        self.log("Successfully retrieved, filtered, and structured {0} for device {1}".format(
-                            feature, device_ip), "DEBUG")
+                        self.log(
+                            "Successfully retrieved, filtered, and structured {0} for device {1}".format(
+                                feature, device_ip
+                            ),
+                            "DEBUG",
+                        )
                     else:
                         warning_msg = "No data remaining after applying filters for {0} on device {1}".format(
-                            api_feature, device_ip)
+                            api_feature, device_ip
+                        )
                         self.log(warning_msg, "DEBUG")
 
-                        processing_result["errors"].append({
-                            "api_feature": api_feature,
-                            "error_type": "no_data_after_filtering",
-                            "error_message": "No data found after applying component-specific filters for {0}".format(
-                                api_feature),
-                            "error_code": "NO_DATA_AFTER_FILTERING"
-                        })
+                        processing_result["errors"].append(
+                            {
+                                "api_feature": api_feature,
+                                "error_type": "no_data_after_filtering",
+                                "error_message": "No data found after applying component-specific filters for {0}".format(
+                                    api_feature
+                                ),
+                                "error_code": "NO_DATA_AFTER_FILTERING",
+                            }
+                        )
                 else:
-                    error_message = "No response data received for {0} on device {1}".format(
-                        api_feature, device_ip)
+                    error_message = (
+                        "No response data received for {0} on device {1}".format(
+                            api_feature, device_ip
+                        )
+                    )
                     self.log(error_message, "WARNING")
-                    self.log("Response validation failed - missing or empty response data", "DEBUG")
+                    self.log(
+                        "Response validation failed - missing or empty response data",
+                        "DEBUG",
+                    )
 
-                    processing_result["errors"].append({
-                        "api_feature": api_feature,
-                        "error_type": "no_response_data",
-                        "error_message": error_message,
-                        "error_code": "NO_RESPONSE_DATA"
-                    })
+                    processing_result["errors"].append(
+                        {
+                            "api_feature": api_feature,
+                            "error_type": "no_response_data",
+                            "error_message": error_message,
+                            "error_code": "NO_RESPONSE_DATA",
+                        }
+                    )
 
             except Exception as e:
                 error_message = "Exception occurred while retrieving {0} for device {1}: {2}".format(
-                    api_feature, device_ip, str(e))
+                    api_feature, device_ip, str(e)
+                )
                 self.log(error_message, "ERROR")
-                self.log("Exception details - Type: {0}, Message: {1}".format(
-                    type(e).__name__, str(e)), "ERROR")
+                self.log(
+                    "Exception details - Type: {0}, Message: {1}".format(
+                        type(e).__name__, str(e)
+                    ),
+                    "ERROR",
+                )
 
-                processing_result["errors"].append({
-                    "api_feature": api_feature,
-                    "error_type": "exception",
-                    "error_message": error_message,
-                    "error_code": "EXCEPTION_ERROR",
-                    "exception_type": type(e).__name__,
-                    "exception_details": str(e)
-                })
+                processing_result["errors"].append(
+                    {
+                        "api_feature": api_feature,
+                        "error_type": "exception",
+                        "error_message": error_message,
+                        "error_code": "EXCEPTION_ERROR",
+                        "exception_type": type(e).__name__,
+                        "exception_details": str(e),
+                    }
+                )
 
-        self.log("Standard feature '{0}' processing completed with success: {1}".format(
-            feature, processing_result["success"]), "DEBUG")
+        self.log(
+            "Standard feature '{0}' processing completed with success: {1}".format(
+                feature, processing_result["success"]
+            ),
+            "DEBUG",
+        )
 
         return processing_result
 
-    def _process_port_configuration_feature(self, device_id, device_ip, api_features, component_specific_filters,
-                                    api_family, api_function, feature_errors):
+    def _process_port_configuration_feature(
+        self,
+        device_id,
+        device_ip,
+        api_features,
+        component_specific_filters,
+        api_family,
+        api_function,
+        feature_errors,
+    ):
         """
         Processes port configuration feature by retrieving all interface-related API responses and merging them.
         Args:
@@ -2443,84 +3387,150 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: Dictionary containing success status, configurations, and errors.
         """
-        self.log("Starting port configuration feature processing for device {0} (IP: {1})".format(
-            device_id, device_ip), "DEBUG")
-        self.log("Port configuration requires processing {0} API features: {1}".format(
-            len(api_features), api_features), "DEBUG")
+        self.log(
+            "Starting port configuration feature processing for device {0} (IP: {1})".format(
+                device_id, device_ip
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Port configuration requires processing {0} API features: {1}".format(
+                len(api_features), api_features
+            ),
+            "DEBUG",
+        )
 
-        processing_result = {
-            "success": False,
-            "configurations": [],
-            "errors": []
-        }
+        processing_result = {"success": False, "configurations": [], "errors": []}
 
         # Step 1: Get all feature configurations for port configuration
-        self.log("Step 1: Retrieving all API feature configurations for port configuration", "DEBUG")
+        self.log(
+            "Step 1: Retrieving all API feature configurations for port configuration",
+            "DEBUG",
+        )
         all_feature_configs = self.get_all_port_features(
             device_id, device_ip, api_features, api_family, api_function
         )
-        self.log("All port feature configurations retrieved: {0}".format(all_feature_configs), "DEBUG")
+        self.log(
+            "All port feature configurations retrieved: {0}".format(
+                all_feature_configs
+            ),
+            "DEBUG",
+        )
 
         if not all_feature_configs["success"]:
-            self.log("Failed to retrieve port feature configurations for device {0}".format(device_ip), "ERROR")
+            self.log(
+                "Failed to retrieve port feature configurations for device {0}".format(
+                    device_ip
+                ),
+                "ERROR",
+            )
             processing_result["errors"].extend(all_feature_configs["errors"])
             return processing_result
 
         # Step 2: Merge configurations by interface name
         self.log("Step 2: Merging port configurations by interface name", "DEBUG")
-        merged_interface_configs = self.merge_port_configurations(all_feature_configs["configurations"])
-        self.log("Merged interface configurations: {0}".format(merged_interface_configs), "DEBUG")
+        merged_interface_configs = self.merge_port_configurations(
+            all_feature_configs["configurations"]
+        )
+        self.log(
+            "Merged interface configurations: {0}".format(merged_interface_configs),
+            "DEBUG",
+        )
 
         if not merged_interface_configs:
-            self.log("No port configurations to process for device {0}".format(device_ip), "WARNING")
-            processing_result["errors"].append({
-                "error_type": "no_merged_configurations",
-                "error_message": "No port configurations available for merging",
-                "error_code": "NO_MERGED_CONFIGS"
-            })
+            self.log(
+                "No port configurations to process for device {0}".format(device_ip),
+                "WARNING",
+            )
+            processing_result["errors"].append(
+                {
+                    "error_type": "no_merged_configurations",
+                    "error_message": "No port configurations available for merging",
+                    "error_code": "NO_MERGED_CONFIGS",
+                }
+            )
             return processing_result
 
         # Step 3: Apply component-specific filters to merged configurations
-        self.log("Step 3: Applying component-specific filters to merged port configurations", "DEBUG")
+        self.log(
+            "Step 3: Applying component-specific filters to merged port configurations",
+            "DEBUG",
+        )
         filtered_interface_configs = self.apply_port_configuration_filters(
             merged_interface_configs, component_specific_filters
         )
-        self.log("Filtered interface configurations: {0}".format(filtered_interface_configs), "DEBUG")
+        self.log(
+            "Filtered interface configurations: {0}".format(filtered_interface_configs),
+            "DEBUG",
+        )
 
         if not filtered_interface_configs:
-            self.log("No port configurations remain after filtering for device {0}".format(device_ip), "WARNING")
-            processing_result["errors"].append({
-                "error_type": "no_configurations_after_filtering",
-                "error_message": "No port configurations remain after applying component-specific filters",
-                "error_code": "NO_CONFIGS_AFTER_FILTERING"
-            })
+            self.log(
+                "No port configurations remain after filtering for device {0}".format(
+                    device_ip
+                ),
+                "WARNING",
+            )
+            processing_result["errors"].append(
+                {
+                    "error_type": "no_configurations_after_filtering",
+                    "error_message": "No port configurations remain after applying component-specific filters",
+                    "error_code": "NO_CONFIGS_AFTER_FILTERING",
+                }
+            )
             return processing_result
 
         # Step 4: Reverse map the filtered configurations to final format
-        self.log("Step 4: Reverse mapping filtered interface configurations to final format", "DEBUG")
+        self.log(
+            "Step 4: Reverse mapping filtered interface configurations to final format",
+            "DEBUG",
+        )
         final_port_configurations = self.reverse_map_port_configurations(
             filtered_interface_configs, component_specific_filters
         )
-        self.log("Final port configurations after reverse mapping: {0}".format(final_port_configurations), "DEBUG")
+        self.log(
+            "Final port configurations after reverse mapping: {0}".format(
+                final_port_configurations
+            ),
+            "DEBUG",
+        )
 
         if final_port_configurations:
-            self.log("Successfully reverse mapped port configurations for {0} interfaces on device {1}".format(
-                len(final_port_configurations), device_ip), "INFO")
+            self.log(
+                "Successfully reverse mapped port configurations for {0} interfaces on device {1}".format(
+                    len(final_port_configurations), device_ip
+                ),
+                "INFO",
+            )
             processing_result["success"] = True
-            processing_result["configurations"].append({"port_configuration": final_port_configurations})
+            processing_result["configurations"].append(
+                {"port_configuration": final_port_configurations}
+            )
         else:
-            self.log("No port configurations successfully reverse mapped for device {0}".format(device_ip), "WARNING")
-            processing_result["errors"].append({
-                "error_type": "no_reverse_mapped_configurations",
-                "error_message": "No port configurations were successfully reverse mapped",
-                "error_code": "NO_REVERSE_MAPPED_CONFIGS"
-            })
+            self.log(
+                "No port configurations successfully reverse mapped for device {0}".format(
+                    device_ip
+                ),
+                "WARNING",
+            )
+            processing_result["errors"].append(
+                {
+                    "error_type": "no_reverse_mapped_configurations",
+                    "error_message": "No port configurations were successfully reverse mapped",
+                    "error_code": "NO_REVERSE_MAPPED_CONFIGS",
+                }
+            )
 
-        self.log("Port configuration processing completed for device {0}".format(device_ip), "DEBUG")
+        self.log(
+            "Port configuration processing completed for device {0}".format(device_ip),
+            "DEBUG",
+        )
 
         return processing_result
 
-    def get_all_port_features(self, device_id, device_ip, api_features, api_family, api_function):
+    def get_all_port_features(
+        self, device_id, device_ip, api_features, api_family, api_function
+    ):
         """
         Retrieves configurations for all port-related API features from a device.
         Args:
@@ -2532,20 +3542,30 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: Dictionary containing success status, consolidated configurations, and any errors.
         """
-        self.log("Starting retrieval of all port feature configurations for device {0}".format(device_ip), "DEBUG")
-        self.log("Will retrieve {0} API features: {1}".format(len(api_features), api_features), "DEBUG")
+        self.log(
+            "Starting retrieval of all port feature configurations for device {0}".format(
+                device_ip
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Will retrieve {0} API features: {1}".format(
+                len(api_features), api_features
+            ),
+            "DEBUG",
+        )
 
-        result = {
-            "success": False,
-            "configurations": {},
-            "errors": []
-        }
+        result = {"success": False, "configurations": {}, "errors": []}
 
         successful_retrievals = 0
 
         for feature_index, api_feature in enumerate(api_features):
-            self.log("Retrieving API feature {0} of {1}: '{2}' for device {3}".format(
-                feature_index + 1, len(api_features), api_feature, device_ip), "DEBUG")
+            self.log(
+                "Retrieving API feature {0} of {1}: '{2}' for device {3}".format(
+                    feature_index + 1, len(api_features), api_feature, device_ip
+                ),
+                "DEBUG",
+            )
 
             # Get single feature configuration
             feature_result = self.get_single_port_feature(
@@ -2555,29 +3575,50 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             if feature_result["success"]:
                 result["configurations"][api_feature] = feature_result
                 successful_retrievals += 1
-                self.log("Successfully retrieved {0} configuration for device {1}".format(
-                    api_feature, device_ip), "DEBUG")
+                self.log(
+                    "Successfully retrieved {0} configuration for device {1}".format(
+                        api_feature, device_ip
+                    ),
+                    "DEBUG",
+                )
             else:
                 result["errors"].extend(feature_result["errors"])
-                self.log("Failed to retrieve {0} configuration for device {1}: {2}".format(
-                    api_feature, device_ip, feature_result["errors"]), "WARNING")
+                self.log(
+                    "Failed to retrieve {0} configuration for device {1}: {2}".format(
+                        api_feature, device_ip, feature_result["errors"]
+                    ),
+                    "WARNING",
+                )
 
         # Determine overall success based on retrievals
         if successful_retrievals > 0:
             result["success"] = True
-            self.log("Successfully retrieved {0} out of {1} port feature configurations for device {2}".format(
-                successful_retrievals, len(api_features), device_ip), "INFO")
+            self.log(
+                "Successfully retrieved {0} out of {1} port feature configurations for device {2}".format(
+                    successful_retrievals, len(api_features), device_ip
+                ),
+                "INFO",
+            )
         else:
-            self.log("Failed to retrieve any port feature configurations for device {0}".format(device_ip), "ERROR")
-            result["errors"].append({
-                "error_type": "no_configurations_retrieved",
-                "error_message": "Failed to retrieve any port feature configurations from device",
-                "error_code": "NO_PORT_CONFIGS_RETRIEVED"
-            })
+            self.log(
+                "Failed to retrieve any port feature configurations for device {0}".format(
+                    device_ip
+                ),
+                "ERROR",
+            )
+            result["errors"].append(
+                {
+                    "error_type": "no_configurations_retrieved",
+                    "error_message": "Failed to retrieve any port feature configurations from device",
+                    "error_code": "NO_PORT_CONFIGS_RETRIEVED",
+                }
+            )
 
         return result
 
-    def get_single_port_feature(self, device_id, device_ip, api_feature, api_family, api_function):
+    def get_single_port_feature(
+        self, device_id, device_ip, api_feature, api_family, api_function
+    ):
         """
         Retrieves configuration for a single port-related API feature from a device.
         Args:
@@ -2589,22 +3630,29 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: Dictionary containing success status, configuration data, and any errors.
         """
-        self.log("Retrieving single port feature configuration: {0} for device {1}".format(
-            api_feature, device_ip), "DEBUG")
+        self.log(
+            "Retrieving single port feature configuration: {0} for device {1}".format(
+                api_feature, device_ip
+            ),
+            "DEBUG",
+        )
 
-        result = {
-            "success": False,
-            "data": None,
-            "errors": []
-        }
+        result = {"success": False, "data": None, "errors": []}
 
         # Prepare API request parameters
         api_params = {"id": device_id, "feature": api_feature}
-        self.log("API request parameters for {0}: {1}".format(api_feature, api_params), "DEBUG")
+        self.log(
+            "API request parameters for {0}: {1}".format(api_feature, api_params),
+            "DEBUG",
+        )
 
         try:
-            self.log("Executing GET request for {0} using {1}.{2}".format(
-                api_feature, api_family, api_function), "DEBUG")
+            self.log(
+                "Executing GET request for {0} using {1}.{2}".format(
+                    api_feature, api_family, api_function
+                ),
+                "DEBUG",
+            )
 
             response = self.execute_get_request(api_family, api_function, api_params)
 
@@ -2614,41 +3662,59 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 # Check for API error in response
                 response_data = response.get("response")
                 if self.is_api_error_response(response_data):
-                    error_info = self.extract_api_error_info(response_data, api_feature, device_ip)
+                    error_info = self.extract_api_error_info(
+                        response_data, api_feature, device_ip
+                    )
                     result["errors"].append(error_info)
-                    self.log("API returned error for {0}: {1}".format(
-                        api_feature, error_info["error_message"]), "ERROR")
+                    self.log(
+                        "API returned error for {0}: {1}".format(
+                            api_feature, error_info["error_message"]
+                        ),
+                        "ERROR",
+                    )
                     return result
 
                 # Successful response
                 result["success"] = True
                 result["data"] = response_data
-                self.log("Successfully retrieved {0} configuration data".format(api_feature), "DEBUG")
+                self.log(
+                    "Successfully retrieved {0} configuration data".format(api_feature),
+                    "DEBUG",
+                )
 
             else:
-                error_msg = "No response data received for {0} on device {1}".format(api_feature, device_ip)
+                error_msg = "No response data received for {0} on device {1}".format(
+                    api_feature, device_ip
+                )
                 self.log(error_msg, "WARNING")
-                result["errors"].append({
-                    "api_feature": api_feature,
-                    "error_type": "no_response_data",
-                    "error_message": error_msg,
-                    "error_code": "NO_RESPONSE_DATA"
-                })
+                result["errors"].append(
+                    {
+                        "api_feature": api_feature,
+                        "error_type": "no_response_data",
+                        "error_message": error_msg,
+                        "error_code": "NO_RESPONSE_DATA",
+                    }
+                )
 
         except Exception as e:
-            error_msg = "Exception occurred while retrieving {0} for device {1}: {2}".format(
-                api_feature, device_ip, str(e))
+            error_msg = (
+                "Exception occurred while retrieving {0} for device {1}: {2}".format(
+                    api_feature, device_ip, str(e)
+                )
+            )
             self.log(error_msg, "ERROR")
             self.log("Exception details - Type: {0}".format(type(e).__name__), "ERROR")
 
-            result["errors"].append({
-                "api_feature": api_feature,
-                "error_type": "exception",
-                "error_message": error_msg,
-                "error_code": "API_EXCEPTION_ERROR",
-                "exception_type": type(e).__name__,
-                "exception_details": str(e)
-            })
+            result["errors"].append(
+                {
+                    "api_feature": api_feature,
+                    "error_type": "exception",
+                    "error_message": error_msg,
+                    "error_code": "API_EXCEPTION_ERROR",
+                    "exception_type": type(e).__name__,
+                    "exception_details": str(e),
+                }
+            )
 
         return result
 
@@ -2661,33 +3727,71 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             str: Name of the API feature with the most interfaces, or None if no valid configurations found
         """
-        self.log("Analyzing feature configurations to identify feature with highest interface count", "DEBUG")
+        self.log(
+            "Analyzing feature configurations to identify feature with highest interface count",
+            "DEBUG",
+        )
         self.log("all_feature_configs: {0}".format(all_feature_configs), "DEBUG")
         feature_counts = {}
 
         # Count interfaces in each feature
         for api_feature_name, api_response_data in all_feature_configs.items():
-            self.log("Evaluating feature '{0}' with response data: {1}".format(
-                api_feature_name, api_response_data), "DEBUG")
+            self.log(
+                "Evaluating feature '{0}' with response data: {1}".format(
+                    api_feature_name, api_response_data
+                ),
+                "DEBUG",
+            )
             if isinstance(api_response_data, dict):
-                self.log("Extracting 'items' list from feature '{0}' configuration".format(api_feature_name), "DEBUG")
-                feature_config_section = api_response_data.get("data", {}).get(api_feature_name, {})
-                self.log("Feature '{0}' configuration section: {1}".format(api_feature_name, feature_config_section), "DEBUG")
+                self.log(
+                    "Extracting 'items' list from feature '{0}' configuration".format(
+                        api_feature_name
+                    ),
+                    "DEBUG",
+                )
+                feature_config_section = api_response_data.get("data", {}).get(
+                    api_feature_name, {}
+                )
+                self.log(
+                    "Feature '{0}' configuration section: {1}".format(
+                        api_feature_name, feature_config_section
+                    ),
+                    "DEBUG",
+                )
                 if isinstance(feature_config_section, dict):
                     interface_items = feature_config_section.get("items", [])
-                    self.log("Feature '{0}' has {1} interface items".format(api_feature_name, len(interface_items)), "DEBUG")
+                    self.log(
+                        "Feature '{0}' has {1} interface items".format(
+                            api_feature_name, len(interface_items)
+                        ),
+                        "DEBUG",
+                    )
                     if isinstance(interface_items, list):
-                        self.log("Recording interface count for feature '{0}'".format(api_feature_name), "DEBUG")
+                        self.log(
+                            "Recording interface count for feature '{0}'".format(
+                                api_feature_name
+                            ),
+                            "DEBUG",
+                        )
                         feature_counts[api_feature_name] = len(interface_items)
-                        self.log("Feature '{0}' has {1} interfaces".format(api_feature_name, len(interface_items)), "DEBUG")
+                        self.log(
+                            "Feature '{0}' has {1} interfaces".format(
+                                api_feature_name, len(interface_items)
+                            ),
+                            "DEBUG",
+                        )
 
         self.log("Feature interface counts: {0}".format(feature_counts), "DEBUG")
 
         # Find feature with most interfaces
         if feature_counts:
             feature_with_most = max(feature_counts, key=feature_counts.get)
-            self.log("Feature with most interfaces: '{0}' with {1} interfaces".format(
-                feature_with_most, feature_counts[feature_with_most]), "INFO")
+            self.log(
+                "Feature with most interfaces: '{0}' with {1} interfaces".format(
+                    feature_with_most, feature_counts[feature_with_most]
+                ),
+                "INFO",
+            )
             return feature_with_most
 
         self.log("No valid feature configurations found", "WARNING")
@@ -2707,16 +3811,30 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Find the feature with most interfaces to use as reference
         reference_feature = self.find_feature_with_most_interfaces(all_feature_configs)
         if not reference_feature:
-            self.log("No reference feature found for merging port configurations", "WARNING")
+            self.log(
+                "No reference feature found for merging port configurations", "WARNING"
+            )
             return []
 
-        self.log("Using '{0}' as reference feature for interface merging".format(reference_feature), "INFO")
+        self.log(
+            "Using '{0}' as reference feature for interface merging".format(
+                reference_feature
+            ),
+            "INFO",
+        )
 
         # Get reference interfaces list
         reference_data = all_feature_configs.get(reference_feature, {})
-        reference_items = reference_data.get("data", {}).get(reference_feature, {}).get("items", [])
+        reference_items = (
+            reference_data.get("data", {}).get(reference_feature, {}).get("items", [])
+        )
 
-        self.log("Reference feature contains {0} interfaces for merging".format(len(reference_items)), "DEBUG")
+        self.log(
+            "Reference feature contains {0} interfaces for merging".format(
+                len(reference_items)
+            ),
+            "DEBUG",
+        )
 
         merged_interfaces = []
 
@@ -2730,15 +3848,17 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Processing interface: {0}".format(interface_name), "DEBUG")
 
             # Initialize merged interface configuration
-            merged_interface = {
-                "interface_name": interface_name
-            }
+            merged_interface = {"interface_name": interface_name}
 
             # Merge configurations from all features for this interface
             for api_feature_name, feature_result in all_feature_configs.items():
                 if not feature_result.get("success"):
-                    self.log("Skipping failed feature '{0}' for interface {1}".format(
-                        api_feature_name, interface_name), "DEBUG")
+                    self.log(
+                        "Skipping failed feature '{0}' for interface {1}".format(
+                            api_feature_name, interface_name
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 # Extract feature data
@@ -2755,35 +3875,64 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
                 if matching_item:
                     # Remove interfaceName and configType from the item before merging
-                    cleaned_item = {k: v for k, v in matching_item.items()
-                                    if k not in ["interfaceName", "configType"]}
+                    cleaned_item = {
+                        k: v
+                        for k, v in matching_item.items()
+                        if k not in ["interfaceName", "configType"]
+                    }
 
                     if cleaned_item:  # Only add if there's actual configuration data
                         merged_interface[api_feature_name] = cleaned_item
-                        self.log("Added {0} configuration for interface {1}".format(
-                            api_feature_name, interface_name), "DEBUG")
+                        self.log(
+                            "Added {0} configuration for interface {1}".format(
+                                api_feature_name, interface_name
+                            ),
+                            "DEBUG",
+                        )
                     else:
-                        self.log("No configuration data found in {0} for interface {1}".format(
-                            api_feature_name, interface_name), "DEBUG")
+                        self.log(
+                            "No configuration data found in {0} for interface {1}".format(
+                                api_feature_name, interface_name
+                            ),
+                            "DEBUG",
+                        )
                 else:
-                    self.log("No configuration found in {0} for interface {1}".format(
-                        api_feature_name, interface_name), "DEBUG")
+                    self.log(
+                        "No configuration found in {0} for interface {1}".format(
+                            api_feature_name, interface_name
+                        ),
+                        "DEBUG",
+                    )
 
             # Only add interface if it has configurations beyond just the interface name
             if len(merged_interface) > 1:
                 merged_interfaces.append(merged_interface)
-                self.log("Successfully merged configurations for interface {0} with {1} features".format(
-                    interface_name, len(merged_interface) - 1), "DEBUG")
+                self.log(
+                    "Successfully merged configurations for interface {0} with {1} features".format(
+                        interface_name, len(merged_interface) - 1
+                    ),
+                    "DEBUG",
+                )
             else:
-                self.log("No feature configurations found for interface {0}, skipping".format(
-                    interface_name), "DEBUG")
+                self.log(
+                    "No feature configurations found for interface {0}, skipping".format(
+                        interface_name
+                    ),
+                    "DEBUG",
+                )
 
-        self.log("Port configuration merge completed - processed {0} interfaces, merged {1} interfaces".format(
-            len(reference_items), len(merged_interfaces)), "INFO")
+        self.log(
+            "Port configuration merge completed - processed {0} interfaces, merged {1} interfaces".format(
+                len(reference_items), len(merged_interfaces)
+            ),
+            "INFO",
+        )
 
         return merged_interfaces
 
-    def reverse_map_port_configurations(self, filtered_interface_configs, component_specific_filters):
+    def reverse_map_port_configurations(
+        self, filtered_interface_configs, component_specific_filters
+    ):
         """
         Reverse maps filtered interface configurations using modify_parameters and reverse mapping functions.
         Only processes interfaces that have switchportInterfaceConfig data.
@@ -2794,16 +3943,30 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             list: List of reverse-mapped port configuration dictionaries.
         """
         self.log("Starting reverse mapping process for port configurations", "DEBUG")
-        self.log("Input interface configurations count: {0}".format(len(filtered_interface_configs)), "DEBUG")
+        self.log(
+            "Input interface configurations count: {0}".format(
+                len(filtered_interface_configs)
+            ),
+            "DEBUG",
+        )
 
         if not filtered_interface_configs:
-            self.log("No interface configurations provided for reverse mapping", "DEBUG")
+            self.log(
+                "No interface configurations provided for reverse mapping", "DEBUG"
+            )
             return []
 
-        self.log("Getting reverse mapping specification for port configuration features", "DEBUG")
+        self.log(
+            "Getting reverse mapping specification for port configuration features",
+            "DEBUG",
+        )
         port_config_reverse_spec = self.port_configuration_reverse_mapping_spec()
-        self.log("Retrieved reverse mapping spec with {0} feature mappings".format(
-            len(port_config_reverse_spec)), "DEBUG")
+        self.log(
+            "Retrieved reverse mapping spec with {0} feature mappings".format(
+                len(port_config_reverse_spec)
+            ),
+            "DEBUG",
+        )
 
         final_port_configurations = []
         processed_interfaces_count = 0
@@ -2811,25 +3974,41 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         for interface_index, interface_config in enumerate(filtered_interface_configs):
             interface_name = interface_config.get("interface_name")
-            self.log("Processing interface {0} of {1}: {2}".format(
-                interface_index + 1, len(filtered_interface_configs), interface_name), "DEBUG")
+            self.log(
+                "Processing interface {0} of {1}: {2}".format(
+                    interface_index + 1, len(filtered_interface_configs), interface_name
+                ),
+                "DEBUG",
+            )
 
             if not interface_name:
-                self.log("Skipping interface configuration without interface_name at index {0}".format(
-                    interface_index), "WARNING")
+                self.log(
+                    "Skipping interface configuration without interface_name at index {0}".format(
+                        interface_index
+                    ),
+                    "WARNING",
+                )
                 skipped_interfaces_count += 1
                 continue
 
             # Check if switchportInterfaceConfig exists - this is our main criterion
             switchport_config = interface_config.get("switchportInterfaceConfig")
             if not switchport_config:
-                self.log("Interface {0} does not have switchportInterfaceConfig - skipping reverse mapping".format(
-                    interface_name), "DEBUG")
+                self.log(
+                    "Interface {0} does not have switchportInterfaceConfig - skipping reverse mapping".format(
+                        interface_name
+                    ),
+                    "DEBUG",
+                )
                 skipped_interfaces_count += 1
                 continue
 
-            self.log("Interface {0} has switchportInterfaceConfig - proceeding with reverse mapping".format(
-                interface_name), "DEBUG")
+            self.log(
+                "Interface {0} has switchportInterfaceConfig - proceeding with reverse mapping".format(
+                    interface_name
+                ),
+                "DEBUG",
+            )
 
             # Initialize the final interface configuration
             final_interface_config = {"interface_name": interface_name}
@@ -2837,68 +4016,118 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             # Process each feature type for this interface
             for feature_type, feature_spec in port_config_reverse_spec.items():
-                self.log("Processing feature type: {0} for interface {1}".format(
-                    feature_type, interface_name), "DEBUG")
+                self.log(
+                    "Processing feature type: {0} for interface {1}".format(
+                        feature_type, interface_name
+                    ),
+                    "DEBUG",
+                )
 
                 # Get the raw feature data from interface config
-                raw_feature_data = interface_config.get(self._get_api_feature_name(feature_type))
+                raw_feature_data = interface_config.get(
+                    self._get_api_feature_name(feature_type)
+                )
 
                 if not raw_feature_data:
-                    self.log("No {0} data found for interface {1}".format(
-                        feature_type, interface_name), "DEBUG")
+                    self.log(
+                        "No {0} data found for interface {1}".format(
+                            feature_type, interface_name
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
-                self.log("Found {0} data for interface {1} - applying reverse mapping".format(
-                    feature_type, interface_name), "DEBUG")
+                self.log(
+                    "Found {0} data for interface {1} - applying reverse mapping".format(
+                        feature_type, interface_name
+                    ),
+                    "DEBUG",
+                )
 
                 # Apply reverse mapping using modify_parameters
                 try:
                     # Wrap the data in the expected structure for modify_parameters
                     wrapped_data = {
                         "interface_name": interface_name,
-                        **raw_feature_data
+                        **raw_feature_data,
                     }
 
                     # Use modify_parameters to reverse map
                     reverse_mapped_data = self.modify_parameters(
-                        {feature_type: feature_spec},
-                        [wrapped_data]
+                        {feature_type: feature_spec}, [wrapped_data]
                     )
 
                     if reverse_mapped_data and reverse_mapped_data[0].get(feature_type):
-                        final_interface_config[feature_type] = reverse_mapped_data[0][feature_type]
+                        final_interface_config[feature_type] = reverse_mapped_data[0][
+                            feature_type
+                        ]
                         reverse_mapped_features_count += 1
-                        self.log("Successfully reverse mapped {0} for interface {1}".format(
-                            feature_type, interface_name), "DEBUG")
+                        self.log(
+                            "Successfully reverse mapped {0} for interface {1}".format(
+                                feature_type, interface_name
+                            ),
+                            "DEBUG",
+                        )
                     else:
-                        self.log("Reverse mapping for {0} resulted in empty data for interface {1}".format(
-                            feature_type, interface_name), "DEBUG")
+                        self.log(
+                            "Reverse mapping for {0} resulted in empty data for interface {1}".format(
+                                feature_type, interface_name
+                            ),
+                            "DEBUG",
+                        )
 
                 except Exception as e:
-                    self.log("Error during reverse mapping of {0} for interface {1}: {2}".format(
-                        feature_type, interface_name, str(e)), "ERROR")
+                    self.log(
+                        "Error during reverse mapping of {0} for interface {1}: {2}".format(
+                            feature_type, interface_name, str(e)
+                        ),
+                        "ERROR",
+                    )
                     continue
 
             # Only add interface to final config if we successfully mapped at least one feature
             if reverse_mapped_features_count > 0:
                 final_port_configurations.append(final_interface_config)
                 processed_interfaces_count += 1
-                self.log("Added interface {0} to final configuration with {1} mapped features".format(
-                    interface_name, reverse_mapped_features_count), "DEBUG")
+                self.log(
+                    "Added interface {0} to final configuration with {1} mapped features".format(
+                        interface_name, reverse_mapped_features_count
+                    ),
+                    "DEBUG",
+                )
             else:
-                self.log("Interface {0} has no successfully mapped features - excluding from final config".format(
-                    interface_name), "WARNING")
+                self.log(
+                    "Interface {0} has no successfully mapped features - excluding from final config".format(
+                        interface_name
+                    ),
+                    "WARNING",
+                )
                 skipped_interfaces_count += 1
 
         self.log("Reverse mapping process completed", "INFO")
-        self.log("Successfully processed {0} interfaces out of {1} total".format(
-            processed_interfaces_count, len(filtered_interface_configs)), "INFO")
-        self.log("Skipped {0} interfaces (no switchportInterfaceConfig or mapping failures)".format(
-            skipped_interfaces_count), "INFO")
+        self.log(
+            "Successfully processed {0} interfaces out of {1} total".format(
+                processed_interfaces_count, len(filtered_interface_configs)
+            ),
+            "INFO",
+        )
+        self.log(
+            "Skipped {0} interfaces (no switchportInterfaceConfig or mapping failures)".format(
+                skipped_interfaces_count
+            ),
+            "INFO",
+        )
 
         if final_port_configurations:
-            interface_names = [config.get("interface_name") for config in final_port_configurations]
-            self.log("Final port configurations include interfaces: {0}".format(interface_names), "DEBUG")
+            interface_names = [
+                config.get("interface_name") for config in final_port_configurations
+            ]
+            self.log(
+                "Final port configurations include interfaces: {0}".format(
+                    interface_names
+                ),
+                "DEBUG",
+            )
         else:
             self.log("No interfaces were successfully reverse mapped", "WARNING")
 
@@ -2912,7 +4141,10 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             str: The corresponding API feature name.
         """
-        self.log("Mapping feature type '{0}' to API feature name".format(feature_type), "DEBUG")
+        self.log(
+            "Mapping feature type '{0}' to API feature name".format(feature_type),
+            "DEBUG",
+        )
 
         api_feature_mapping = {
             "switchport_interface_config": "switchportInterfaceConfig",
@@ -2923,7 +4155,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             "dhcp_snooping_interface_config": "dhcpSnoopingInterfaceConfig",
             "dot1x_interface_config": "dot1xInterfaceConfig",
             "mab_interface_config": "mabInterfaceConfig",
-            "vtp_interface_config": "vtpInterfaceConfig"
+            "vtp_interface_config": "vtpInterfaceConfig",
         }
 
         result = api_feature_mapping.get(feature_type, feature_type)
@@ -2939,7 +4171,12 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             bool: True if response contains error, False otherwise.
         """
-        self.log("Checking API response for error indicators: {0}".format(type(response_data).__name__), "DEBUG")
+        self.log(
+            "Checking API response for error indicators: {0}".format(
+                type(response_data).__name__
+            ),
+            "DEBUG",
+        )
 
         if not isinstance(response_data, dict):
             self.log("Response data is not a dictionary - no error detected", "DEBUG")
@@ -2950,8 +4187,12 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         for indicator in error_indicators:
             if response_data.get(indicator):
-                self.log("API error detected - indicator: {0}, value: {1}".format(
-                    indicator, response_data.get(indicator)), "DEBUG")
+                self.log(
+                    "API error detected - indicator: {0}, value: {1}".format(
+                        indicator, response_data.get(indicator)
+                    ),
+                    "DEBUG",
+                )
                 return True
 
         self.log("No error indicators found in API response", "DEBUG")
@@ -2967,19 +4208,27 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: Structured error information.
         """
-        self.log("Extracting API error information for {0} on device {1}".format(
-            api_feature, device_ip), "DEBUG")
+        self.log(
+            "Extracting API error information for {0} on device {1}".format(
+                api_feature, device_ip
+            ),
+            "DEBUG",
+        )
 
         # Extract error code with fallback options
-        error_code = (response_data.get("errorCode") or
-                    response_data.get("error_code") or
-                    "UNKNOWN_ERROR_CODE")
+        error_code = (
+            response_data.get("errorCode")
+            or response_data.get("error_code")
+            or "UNKNOWN_ERROR_CODE"
+        )
 
         # Extract error message with fallback options
-        error_message = (response_data.get("message") or
-                        response_data.get("errorMessage") or
-                        response_data.get("error") or
-                        "No error message provided by API")
+        error_message = (
+            response_data.get("message")
+            or response_data.get("errorMessage")
+            or response_data.get("error")
+            or "No error message provided by API"
+        )
 
         # Extract additional details if available
         error_detail = response_data.get("detail", "")
@@ -2994,13 +4243,20 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             "error_code": error_code,
             "error_message": full_error_message,
             "error_detail": error_detail,
-            "api_response": response_data
+            "api_response": response_data,
         }
 
-        self.log("Extracted error - code: {0}, message: {1}".format(error_code, error_message), "DEBUG")
+        self.log(
+            "Extracted error - code: {0}, message: {1}".format(
+                error_code, error_message
+            ),
+            "DEBUG",
+        )
         return error_info
 
-    def apply_component_specific_filters(self, config_data, feature, component_specific_filters):
+    def apply_component_specific_filters(
+        self, config_data, feature, component_specific_filters
+    ):
         """
         Applies component-specific filters to configuration data based on the feature type.
         Routes to appropriate filter functions for different feature types like VLANs and port configurations.
@@ -3011,31 +4267,58 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: Filtered configuration data with only matching items included based on filter criteria.
         """
-        self.log("Starting component-specific filtering process for feature: {0}".format(feature), "DEBUG")
-        self.log("Input configuration data structure: {0} top-level keys".format(
-            len(config_data) if isinstance(config_data, dict) else "non-dict type"), "DEBUG")
+        self.log(
+            "Starting component-specific filtering process for feature: {0}".format(
+                feature
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Input configuration data structure: {0} top-level keys".format(
+                len(config_data) if isinstance(config_data, dict) else "non-dict type"
+            ),
+            "DEBUG",
+        )
 
         if component_specific_filters:
-            self.log("Component-specific filters provided: {0}".format(
-                list(component_specific_filters.keys())), "DEBUG")
+            self.log(
+                "Component-specific filters provided: {0}".format(
+                    list(component_specific_filters.keys())
+                ),
+                "DEBUG",
+            )
         else:
-            self.log("No component-specific filters provided - returning original data unchanged", "DEBUG")
+            self.log(
+                "No component-specific filters provided - returning original data unchanged",
+                "DEBUG",
+            )
             return config_data
 
         # Route to appropriate filter function based on feature type
         if feature == "vlans":
             self.log("Routing to VLAN-specific filter function", "DEBUG")
-            filtered_result = self.apply_vlan_filters(config_data, component_specific_filters)
+            filtered_result = self.apply_vlan_filters(
+                config_data, component_specific_filters
+            )
         elif feature == "port_configuration":
             self.log("Routing to port configuration-specific filter function", "DEBUG")
-            filtered_result = self.apply_port_configuration_filters(config_data, component_specific_filters)
+            filtered_result = self.apply_port_configuration_filters(
+                config_data, component_specific_filters
+            )
         else:
             # For features without specific filter implementations, return data unchanged
-            self.log("No specific filter implementation for feature '{0}' - returning original data".format(
-                feature), "DEBUG")
+            self.log(
+                "No specific filter implementation for feature '{0}' - returning original data".format(
+                    feature
+                ),
+                "DEBUG",
+            )
             filtered_result = config_data
 
-        self.log("Component-specific filtering completed for feature: {0}".format(feature), "INFO")
+        self.log(
+            "Component-specific filtering completed for feature: {0}".format(feature),
+            "INFO",
+        )
         return filtered_result
 
     def apply_vlan_filters(self, config_data, component_specific_filters):
@@ -3060,7 +4343,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             1002: ["fddi-default"],
             1003: ["token-ring-default", "trcrf-default"],
             1004: ["fddinet-default"],
-            1005: ["trnet-default", "trbrf-default"]
+            1005: ["trnet-default", "trbrf-default"],
         }
 
         original_vlans = config_data["vlanConfig"]["items"]
@@ -3081,15 +4364,22 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             filtered_vlans.append(vlan)
 
-        self.log("Excluded {0} system default VLANs from {1} total VLANs".format(
-            excluded_count, len(original_vlans)), "INFO")
+        self.log(
+            "Excluded {0} system default VLANs from {1} total VLANs".format(
+                excluded_count, len(original_vlans)
+            ),
+            "INFO",
+        )
 
         # Second pass: Apply user-specified VLAN ID filters if any
         vlan_filters = component_specific_filters.get("vlans", {})
         vlan_ids_list = vlan_filters.get("vlan_ids_list", [])
 
         if vlan_ids_list:
-            self.log("Applying user-specified VLAN ID filters: {0}".format(vlan_ids_list), "DEBUG")
+            self.log(
+                "Applying user-specified VLAN ID filters: {0}".format(vlan_ids_list),
+                "DEBUG",
+            )
             user_filtered_vlans = []
             for vlan in filtered_vlans:
                 vlan_id = vlan.get("vlanId")
@@ -3099,8 +4389,12 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             if user_filtered_vlans:
                 filtered_config = config_data.copy()
                 filtered_config["vlanConfig"]["items"] = user_filtered_vlans
-                self.log("User filtering: {0} out of {1} VLANs match criteria".format(
-                    len(user_filtered_vlans), len(filtered_vlans)), "DEBUG")
+                self.log(
+                    "User filtering: {0} out of {1} VLANs match criteria".format(
+                        len(user_filtered_vlans), len(filtered_vlans)
+                    ),
+                    "DEBUG",
+                )
                 return filtered_config
             else:
                 self.log("No VLANs match the user-specified filter criteria", "DEBUG")
@@ -3110,13 +4404,23 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             if filtered_vlans:
                 filtered_config = config_data.copy()
                 filtered_config["vlanConfig"]["items"] = filtered_vlans
-                self.log("Returning {0} VLANs after filtering out system defaults".format(len(filtered_vlans)), "DEBUG")
+                self.log(
+                    "Returning {0} VLANs after filtering out system defaults".format(
+                        len(filtered_vlans)
+                    ),
+                    "DEBUG",
+                )
                 return filtered_config
             else:
-                self.log("All VLANs were system defaults - no VLANs remaining after filtering", "DEBUG")
+                self.log(
+                    "All VLANs were system defaults - no VLANs remaining after filtering",
+                    "DEBUG",
+                )
                 return {}
 
-    def apply_port_configuration_filters(self, merged_interface_configs, component_specific_filters):
+    def apply_port_configuration_filters(
+        self, merged_interface_configs, component_specific_filters
+    ):
         """
         Applies component-specific filters to merged port configurations based on interface names.
         Args:
@@ -3126,57 +4430,104 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             list: Filtered list of interface configurations matching the specified criteria.
         """
         self.log("Starting port configuration filtering process", "DEBUG")
-        self.log("Input configurations count: {0}".format(len(merged_interface_configs)), "DEBUG")
+        self.log(
+            "Input configurations count: {0}".format(len(merged_interface_configs)),
+            "DEBUG",
+        )
 
         if not merged_interface_configs:
             self.log("No interface configurations to filter", "DEBUG")
             return []
 
         if not component_specific_filters:
-            self.log("No component-specific filters provided - returning all configurations", "DEBUG")
+            self.log(
+                "No component-specific filters provided - returning all configurations",
+                "DEBUG",
+            )
             return merged_interface_configs
 
-        self.log("Extracting port configuration filters from component-specific filters", "DEBUG")
+        self.log(
+            "Extracting port configuration filters from component-specific filters",
+            "DEBUG",
+        )
 
         # Fix: Look for port_configuration filters in the correct nested structure
-        layer2_config_filters = component_specific_filters.get("layer2_configurations", {})
+        layer2_config_filters = component_specific_filters.get(
+            "layer2_configurations", {}
+        )
         port_config_filters = layer2_config_filters.get("port_configuration", {})
 
         if not port_config_filters:
-            self.log("No port configuration filters found in layer2_configurations - returning all configurations", "DEBUG")
+            self.log(
+                "No port configuration filters found in layer2_configurations - returning all configurations",
+                "DEBUG",
+            )
             return merged_interface_configs
 
         interface_names_list = port_config_filters.get("interface_names_list", [])
 
         if not interface_names_list:
-            self.log("No interface names filter provided - returning all configurations", "DEBUG")
+            self.log(
+                "No interface names filter provided - returning all configurations",
+                "DEBUG",
+            )
             return merged_interface_configs
 
-        self.log("Filtering interfaces based on interface names list: {0}".format(interface_names_list), "INFO")
-        self.log("Interface names filter contains {0} entries".format(len(interface_names_list)), "DEBUG")
+        self.log(
+            "Filtering interfaces based on interface names list: {0}".format(
+                interface_names_list
+            ),
+            "INFO",
+        )
+        self.log(
+            "Interface names filter contains {0} entries".format(
+                len(interface_names_list)
+            ),
+            "DEBUG",
+        )
 
         filtered_configs = []
 
         for config_index, interface_config in enumerate(merged_interface_configs):
             interface_name = interface_config.get("interface_name")
-            self.log("Evaluating interface {0} of {1}: '{2}'".format(
-                config_index + 1, len(merged_interface_configs), interface_name), "DEBUG")
+            self.log(
+                "Evaluating interface {0} of {1}: '{2}'".format(
+                    config_index + 1, len(merged_interface_configs), interface_name
+                ),
+                "DEBUG",
+            )
 
             if interface_name in interface_names_list:
-                self.log("Interface '{0}' matches filter criteria - including in results".format(
-                    interface_name), "DEBUG")
+                self.log(
+                    "Interface '{0}' matches filter criteria - including in results".format(
+                        interface_name
+                    ),
+                    "DEBUG",
+                )
                 filtered_configs.append(interface_config)
             else:
-                self.log("Interface '{0}' does not match filter criteria - excluding from results".format(
-                    interface_name), "DEBUG")
+                self.log(
+                    "Interface '{0}' does not match filter criteria - excluding from results".format(
+                        interface_name
+                    ),
+                    "DEBUG",
+                )
 
         self.log("Port configuration filtering completed", "INFO")
-        self.log("Filtered result: {0} out of {1} interfaces match the criteria".format(
-            len(filtered_configs), len(merged_interface_configs)), "INFO")
+        self.log(
+            "Filtered result: {0} out of {1} interfaces match the criteria".format(
+                len(filtered_configs), len(merged_interface_configs)
+            ),
+            "INFO",
+        )
 
         if filtered_configs:
-            filtered_interface_names = [config.get("interface_name") for config in filtered_configs]
-            self.log("Filtered interfaces: {0}".format(filtered_interface_names), "INFO")
+            filtered_interface_names = [
+                config.get("interface_name") for config in filtered_configs
+            ]
+            self.log(
+                "Filtered interfaces: {0}".format(filtered_interface_names), "INFO"
+            )
         else:
             self.log("No interfaces matched the filter criteria", "WARNING")
 
@@ -3200,26 +4551,42 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Check if generate_all_configurations mode is enabled
         generate_all = yaml_config_generator.get("generate_all_configurations", False)
         if generate_all:
-            self.log("Auto-discovery mode enabled - will process all devices and all features", "INFO")
+            self.log(
+                "Auto-discovery mode enabled - will process all devices and all features",
+                "INFO",
+            )
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
         file_path = yaml_config_generator.get("file_path")
         if not file_path:
-            self.log("No file_path provided by user, generating default filename", "DEBUG")
+            self.log(
+                "No file_path provided by user, generating default filename", "DEBUG"
+            )
             file_path = self.generate_filename()
         else:
             self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
 
-        self.log("YAML configuration file path determined: {0}".format(file_path), "DEBUG")
+        self.log(
+            "YAML configuration file path determined: {0}".format(file_path), "DEBUG"
+        )
 
         self.log("Initializing filter dictionaries", "DEBUG")
         if generate_all:
             # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
-            self.log("Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features", "INFO")
+            self.log(
+                "Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features",
+                "INFO",
+            )
             if yaml_config_generator.get("global_filters"):
-                self.log("Warning: global_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
+                self.log(
+                    "Warning: global_filters provided but will be ignored due to generate_all_configurations=True",
+                    "WARNING",
+                )
             if yaml_config_generator.get("component_specific_filters"):
-                self.log("Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
+                self.log(
+                    "Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True",
+                    "WARNING",
+                )
 
             # Set empty filters to retrieve everything
             global_filters = {}
@@ -3227,10 +4594,14 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         else:
             # Use provided filters or default to empty
             global_filters = yaml_config_generator.get("global_filters") or {}
-            component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
+            component_specific_filters = (
+                yaml_config_generator.get("component_specific_filters") or {}
+            )
 
         self.log("Retrieving supported network elements schema for the module", "DEBUG")
-        module_supported_network_elements = self.module_schema.get("network_elements", {})
+        module_supported_network_elements = self.module_schema.get(
+            "network_elements", {}
+        )
 
         self.log("Determining components list for processing", "DEBUG")
         components_list = component_specific_filters.get(
@@ -3238,7 +4609,10 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
-        self.log("Initializing final configuration list and operation summary tracking", "DEBUG")
+        self.log(
+            "Initializing final configuration list and operation summary tracking",
+            "DEBUG",
+        )
         final_list = []
         consolidated_operation_summary = {
             "total_devices_processed": 0,
@@ -3249,7 +4623,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             "devices_with_partial_success": [],
             "devices_with_complete_failure": [],
             "success_details": [],
-            "failure_details": []
+            "failure_details": [],
         }
 
         for component in components_list:
@@ -3257,7 +4631,9 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             network_element = module_supported_network_elements.get(component)
             if not network_element:
                 self.log(
-                    "Component {0} not supported by module, skipping processing".format(component),
+                    "Component {0} not supported by module, skipping processing".format(
+                        component
+                    ),
                     "WARNING",
                 )
                 continue
@@ -3265,20 +4641,28 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Preparing component-specific filter configuration", "DEBUG")
             component_filters = {
                 "global_filters": global_filters,
-                "component_specific_filters": component_specific_filters
+                "component_specific_filters": component_specific_filters,
             }
 
-            self.log("Executing component operation function to retrieve details", "DEBUG")
+            self.log(
+                "Executing component operation function to retrieve details", "DEBUG"
+            )
             operation_func = network_element.get("get_function_name")
             details = operation_func(network_element, component_filters)
             self.log(
                 "Details retrieved for component {0}: configurations count = {1}".format(
-                    component, len(details.get("layer2_configurations", []))), "DEBUG"
+                    component, len(details.get("layer2_configurations", []))
+                ),
+                "DEBUG",
             )
 
             if details and details.get("layer2_configurations"):
-                self.log("Adding {0} configurations from component {1} to final list".format(
-                    len(details["layer2_configurations"]), component), "DEBUG")
+                self.log(
+                    "Adding {0} configurations from component {1} to final list".format(
+                        len(details["layer2_configurations"]), component
+                    ),
+                    "DEBUG",
+                )
                 final_list.extend(details["layer2_configurations"])
 
             self.log("Consolidating operation summary from component results", "DEBUG")
@@ -3288,51 +4672,86 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
                 consolidated_operation_summary["total_devices_processed"] = max(
                     consolidated_operation_summary["total_devices_processed"],
-                    summary.get("total_devices_processed", 0)
+                    summary.get("total_devices_processed", 0),
                 )
-                consolidated_operation_summary["total_features_processed"] += summary.get("total_features_processed", 0)
-                consolidated_operation_summary["total_successful_operations"] += summary.get("total_successful_operations", 0)
-                consolidated_operation_summary["total_failed_operations"] += summary.get("total_failed_operations", 0)
+                consolidated_operation_summary[
+                    "total_features_processed"
+                ] += summary.get("total_features_processed", 0)
+                consolidated_operation_summary[
+                    "total_successful_operations"
+                ] += summary.get("total_successful_operations", 0)
+                consolidated_operation_summary[
+                    "total_failed_operations"
+                ] += summary.get("total_failed_operations", 0)
 
                 self.log("Merging device lists while avoiding duplicates", "DEBUG")
-                for key in ["devices_with_complete_success", "devices_with_partial_success", "devices_with_complete_failure"]:
+                for key in [
+                    "devices_with_complete_success",
+                    "devices_with_partial_success",
+                    "devices_with_complete_failure",
+                ]:
                     devices = summary.get(key, [])
                     for device in devices:
                         if device not in consolidated_operation_summary[key]:
                             consolidated_operation_summary[key].append(device)
 
                 self.log("Extending operation detail lists", "DEBUG")
-                consolidated_operation_summary["success_details"].extend(summary.get("success_details", []))
-                consolidated_operation_summary["failure_details"].extend(summary.get("failure_details", []))
+                consolidated_operation_summary["success_details"].extend(
+                    summary.get("success_details", [])
+                )
+                consolidated_operation_summary["failure_details"].extend(
+                    summary.get("failure_details", [])
+                )
 
         self.log("Creating final dictionary structure with operation summary", "DEBUG")
         final_dict = OrderedDict()
         final_dict["config"] = final_list
 
         if not final_list:
-            self.log("No configurations found to process, setting appropriate result", "WARNING")
+            self.log(
+                "No configurations found to process, setting appropriate result",
+                "WARNING",
+            )
             self.msg = {
                 "message": "No configurations or components to process for module '{0}'. Verify input filters or configuration.".format(
                     self.module_name
                 ),
-                "operation_summary": consolidated_operation_summary
+                "operation_summary": consolidated_operation_summary,
             }
             self.set_operation_result("ok", False, self.msg, "INFO")
             return self
 
-        self.log("Final dictionary created successfully with {0} configurations".format(len(final_list)), "DEBUG")
-        self.log("Consolidated operation summary: {0} total successful operations, {1} total failed operations".format(
-            consolidated_operation_summary["total_successful_operations"],
-            consolidated_operation_summary["total_failed_operations"]
-        ), "INFO")
+        self.log(
+            "Final dictionary created successfully with {0} configurations".format(
+                len(final_list)
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Consolidated operation summary: {0} total successful operations, {1} total failed operations".format(
+                consolidated_operation_summary["total_successful_operations"],
+                consolidated_operation_summary["total_failed_operations"],
+            ),
+            "INFO",
+        )
 
         # Determine if operation should be considered failed based on partial or complete failures
-        has_partial_failures = len(consolidated_operation_summary["devices_with_partial_success"]) > 0
-        has_complete_failures = len(consolidated_operation_summary["devices_with_complete_failure"]) > 0
+        has_partial_failures = (
+            len(consolidated_operation_summary["devices_with_partial_success"]) > 0
+        )
+        has_complete_failures = (
+            len(consolidated_operation_summary["devices_with_complete_failure"]) > 0
+        )
         has_any_failures = consolidated_operation_summary["total_failed_operations"] > 0
 
-        self.log("Evaluating operation status - Partial failures: {0}, Complete failures: {1}, Total failed operations: {2}".format(
-            has_partial_failures, has_complete_failures, consolidated_operation_summary["total_failed_operations"]), "DEBUG")
+        self.log(
+            "Evaluating operation status - Partial failures: {0}, Complete failures: {1}, Total failed operations: {2}".format(
+                has_partial_failures,
+                has_complete_failures,
+                consolidated_operation_summary["total_failed_operations"],
+            ),
+            "DEBUG",
+        )
 
         self.log("Attempting to write final dictionary to YAML file", "DEBUG")
         if self.write_dict_to_yaml(final_dict, file_path):
@@ -3340,29 +4759,38 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             # Determine final operation status
             if has_partial_failures or has_complete_failures or has_any_failures:
-                self.log("Operation contains failures - setting final status to failed", "WARNING")
+                self.log(
+                    "Operation contains failures - setting final status to failed",
+                    "WARNING",
+                )
                 self.msg = {
-                    "message": "YAML config generation completed with failures for module '{0}'. Check operation_summary for details.".format(self.module_name),
+                    "message": "YAML config generation completed with failures for module '{0}'. Check operation_summary for details.".format(
+                        self.module_name
+                    ),
                     "file_path": file_path,
                     "configurations_generated": len(final_list),
-                    "operation_summary": consolidated_operation_summary
+                    "operation_summary": consolidated_operation_summary,
                 }
                 self.set_operation_result("failed", True, self.msg, "ERROR")
             else:
                 self.log("Operation completed successfully without failures", "INFO")
                 self.msg = {
-                    "message": "YAML config generation succeeded for module '{0}'.".format(self.module_name),
+                    "message": "YAML config generation succeeded for module '{0}'.".format(
+                        self.module_name
+                    ),
                     "file_path": file_path,
                     "configurations_generated": len(final_list),
-                    "operation_summary": consolidated_operation_summary
+                    "operation_summary": consolidated_operation_summary,
                 }
                 self.set_operation_result("success", True, self.msg, "INFO")
         else:
             self.log("YAML file write operation failed", "ERROR")
             self.msg = {
-                "message": "YAML config generation failed for module '{0}' - unable to write to file.".format(self.module_name),
+                "message": "YAML config generation failed for module '{0}' - unable to write to file.".format(
+                    self.module_name
+                ),
                 "file_path": file_path,
-                "operation_summary": consolidated_operation_summary
+                "operation_summary": consolidated_operation_summary,
             }
             self.set_operation_result("failed", True, self.msg, "ERROR")
 
@@ -3387,8 +4815,15 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.validate_params(config)
 
         # Set generate_all_configurations after validation
-        self.generate_all_configurations = config.get("generate_all_configurations", False)
-        self.log("Set generate_all_configurations mode: {0}".format(self.generate_all_configurations), "DEBUG")
+        self.generate_all_configurations = config.get(
+            "generate_all_configurations", False
+        )
+        self.log(
+            "Set generate_all_configurations mode: {0}".format(
+                self.generate_all_configurations
+            ),
+            "DEBUG",
+        )
 
         want = {}
 
@@ -3490,7 +4925,9 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_wired_campus_automation_playbook_generator = WiredCampusAutomationPlaybookGenerator(module)
+    ccc_wired_campus_automation_playbook_generator = (
+        WiredCampusAutomationPlaybookGenerator(module)
+    )
     if (
         ccc_wired_campus_automation_playbook_generator.compare_dnac_versions(
             ccc_wired_campus_automation_playbook_generator.get_ccc_version(), "2.3.7.9"
@@ -3513,8 +4950,8 @@ def main():
     # Check if the state is valid
     if state not in ccc_wired_campus_automation_playbook_generator.supported_states:
         ccc_wired_campus_automation_playbook_generator.status = "invalid"
-        ccc_wired_campus_automation_playbook_generator.msg = "State {0} is invalid".format(
-            state
+        ccc_wired_campus_automation_playbook_generator.msg = (
+            "State {0} is invalid".format(state)
         )
         ccc_wired_campus_automation_playbook_generator.check_recturn_status()
 
