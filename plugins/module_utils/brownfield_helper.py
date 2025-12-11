@@ -1246,7 +1246,7 @@ class BrownFieldHelper():
         # Only fail and exit if no valid devices are found
         if not mgmt_ip_to_device_info_map:
             self.msg = ("Unable to retrieve details for any devices matching parameters: {0}. "
-                    "Please verify the device parameters and ensure devices are reachable and managed.").format(
+                        "Please verify the device parameters and ensure devices are reachable and managed.").format(
                 get_device_list_params
             )
             self.fail_and_exit(self.msg)
