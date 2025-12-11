@@ -6,7 +6,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ("Karthick S N", "Madhan Sankaranarayanan")
+__author__ = ("Karthick S N", "Priyadharshini B", "Madhan Sankaranarayanan")
 
 DOCUMENTATION = r"""
 ---
@@ -34,6 +34,7 @@ extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
   - Karthick S N (@karthick-s-n)
+  - Priyadharshini B (@pbalaku2)
   - Madhan Sankaranarayanan (@madhansansel)
 
 options:
@@ -236,7 +237,6 @@ options:
                   - Directory structure will be created automatically if it does not exist.
                   - Path must be writable by the user executing the Ansible playbook.
                 type: str
-                required: true
               file_format:
                 description:
                   - Output data format for the generated file.
@@ -906,7 +906,6 @@ class NetworkDevicesInfo(DnacBase):
     def __init__(self, module):
         super().__init__(module)
         self.supported_states = ['gathered']
-        self.total_response = []
 
     def validate_input(self):
         """
@@ -1088,6 +1087,8 @@ class NetworkDevicesInfo(DnacBase):
         """
         self.log("Extracting desired network devices information workflow state from playbook configuration", "DEBUG")
         self.log("Processing configuration sections for comprehensive workflow validation", "DEBUG")
+
+        self.total_response = []
 
         want = {}
         network_devices = config.get("network_devices")
@@ -1843,11 +1844,11 @@ class NetworkDevicesInfo(DnacBase):
             "DEBUG"
         )
 
-        while attempt < retries and (time.time() - start_time) < timeout:
+        while attempt < retries or (time.time() - start_time < timeout):
             elapsed_time = time.time() - start_time
             self.log(
-                "Attempt {0}/{1} for {2}={3} - elapsed time: {4:.1f}s".format(
-                    attempt + 1, retries, key, value, elapsed_time
+                "Attempt {0} for {1}={2} - elapsed time: {3:.1f}s".format(
+                    attempt + 1, key, value, elapsed_time
                 ),
                 "DEBUG"
             )
@@ -1897,26 +1898,10 @@ class NetworkDevicesInfo(DnacBase):
                     "WARNING"
                 )
 
-            # Prepare for next attempt
             attempt += 1
+            time.sleep(interval)
 
-            if attempt < retries and (time.time() - start_time) < timeout:
-                self.log(
-                    "Waiting {0}s before next attempt for {1}={2}".format(
-                        interval, key, value
-                    ),
-                    "DEBUG"
-                )
-                time.sleep(interval)
-            elif attempt >= retries:
-                self.log(
-                    "Maximum retry attempts ({0}) reached for {1}={2}".format(
-                        retries, key, value
-                    ),
-                    "WARNING"
-                )
-                break
-            elif (time.time() - start_time) >= timeout:
+            if elapsed_time >= timeout:
                 self.log(
                     "Timeout ({0}s) reached for {1}={2}".format(timeout, key, value),
                     "WARNING"
@@ -2026,7 +2011,7 @@ class NetworkDevicesInfo(DnacBase):
             )
 
             for item in parent_site_data["response"]:
-                if self._validate_site_item(item):
+                if "nameHierarchy" in item and "id" in item:
                     site_info[item["nameHierarchy"]] = item["id"]
                     self.log(
                         "Added parent site '{0}' with ID '{1}' to hierarchy".format(
@@ -2284,7 +2269,7 @@ class NetworkDevicesInfo(DnacBase):
         attempt = 0
         elapsed_time = time.time() - start_time
 
-        while attempt < retries and (elapsed_time < timeout):
+        while attempt < retries or (time.time() - start_time < timeout):
             try:
                 self.log(
                     "Starting device discovery phase - retrieving network devices with offset {0} and limit {1}".format(
