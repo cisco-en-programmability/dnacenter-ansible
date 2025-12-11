@@ -36,8 +36,8 @@ options:
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
-    choices: [merged]
-    default: merged
+    choices: [gathered]
+    default: gathered
   config:
     description:
       - A list of filters for generating YAML playbook compatible with the 'wired_campus_automation_workflow_manager'
@@ -58,10 +58,10 @@ options:
           - This is useful for complete brownfield infrastructure discovery and documentation.
           - IMPORTANT NOTE - Currently, this module only supports layer2 configurations.
             When generate_all_configurations is enabled, it will attempt to retrieve layer2 configurations
-            from ALL managed devices without filtering for layer2 capability. 
+            from ALL managed devices without filtering for layer2 capability.
             This may result in API errors for devices that do not support layer2 configuration features
-            (such as older switch models, routers, wireless controllers, etc.). 
-            It is recommended to use specific device filters (ip_address_list, hostname_list, 
+            (such as older switch models, routers, wireless controllers, etc.).
+            It is recommended to use specific device filters (ip_address_list, hostname_list,
             or serial_number_list) to target only layer2-capable devices when not using generate_all_configurations mode.
           - Supported layer2 devices include Catalyst 9000 series switches (9200/9300/9350/9400/9500/9600)
             and IE series switches (IE3400/IE3400H/IE3500/IE9300) running IOS-XE 17.3 or higher.
@@ -135,15 +135,15 @@ options:
           layer2_features:
             description:
               - List of specific layer2 features to extract from devices.
-              - Valid values are ["vlans", "cdp", "lldp", "stp", "vtp", "dhcp_snooping", 
+              - Valid values are ["vlans", "cdp", "lldp", "stp", "vtp", "dhcp_snooping",
                 "igmp_snooping", "mld_snooping", "authentication", "logical_ports", "port_configuration"]
               - If not specified, all supported layer2 features will be extracted.
               - Example ["vlans", "stp", "cdp"] to extract only VLAN, STP, and CDP configurations.
             type: list
             elements: str
             required: false
-            choices: ["vlans", "cdp", "lldp", "stp", "vtp", "dhcp_snooping", 
-                     "igmp_snooping", "mld_snooping", "authentication", 
+            choices: ["vlans", "cdp", "lldp", "stp", "vtp", "dhcp_snooping",
+                     "igmp_snooping", "mld_snooping", "authentication",
                      "logical_ports", "port_configuration"]
           vlans:
             description:
@@ -205,7 +205,7 @@ EXAMPLES = r"""
 #     dnac_debug: "{{dnac_debug}}"
 #     dnac_log: true
 #     dnac_log_level: "{{dnac_log_level}}"
-#     state: merged
+#     state: gathered
 #     config:
 #       - generate_all_configurations: true
 
@@ -221,7 +221,7 @@ EXAMPLES = r"""
 #     dnac_debug: "{{dnac_debug}}"
 #     dnac_log: true
 #     dnac_log_level: "{{dnac_log_level}}"
-#     state: merged
+#     state: gathered
 #     config:
 #       - file_path: "/tmp/complete_infrastructure_config.yml"
 
@@ -236,7 +236,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - global_filters:
           ip_address_list: ["192.168.1.10"]
@@ -252,7 +252,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/wired_campus_automation_config.yml"
         global_filters:
@@ -269,7 +269,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/wired_campus_automation_config.yml"
         global_filters:
@@ -286,7 +286,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/wired_campus_automation_config.yml"
         global_filters:
@@ -303,7 +303,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/wired_campus_automation_config.yml"
         global_filters:
@@ -320,7 +320,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/wired_campus_automation_config.yml"
         global_filters:
@@ -337,7 +337,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/wired_campus_automation_config.yml"
         global_filters:
@@ -356,7 +356,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/wired_campus_automation_config.yml"
         global_filters:
@@ -377,7 +377,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/wired_campus_automation_config.yml"
         global_filters:
@@ -400,7 +400,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/wired_campus_automation_config.yml"
         global_filters:
@@ -410,7 +410,7 @@ EXAMPLES = r"""
           layer2_configurations:
             layer2_features: ["port_configuration"]
             port_configuration:
-              interface_names_list: 
+              interface_names_list:
                 - "GigabitEthernet1/0/1"
                 - "GigabitEthernet1/0/2"
                 - "TenGigabitEthernet1/0/1"
@@ -426,7 +426,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/wired_campus_automation_config.yml"
         global_filters:
@@ -453,7 +453,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/wired_campus_automation_config.yml"
         global_filters:
@@ -461,7 +461,7 @@ EXAMPLES = r"""
         component_specific_filters:
           layer2_features: ["port_configuration"]
           port_configuration:
-            interface_names_list: 
+            interface_names_list:
               - "GigabitEthernet1/0/1"
               - "GigabitEthernet1/0/2"
               - "TenGigabitEthernet1/0/1"
@@ -477,7 +477,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/wired_campus_automation_config.yml"
         global_filters:
@@ -502,7 +502,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/wired_campus_automation_config.yml"
         global_filters:
@@ -519,7 +519,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - global_filters:
           ip_address_list: ["192.168.1.10"]
@@ -535,7 +535,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/protocol_features_config.yml"
         global_filters:
@@ -554,7 +554,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/security_features_config.yml"
         global_filters:
@@ -643,7 +643,7 @@ response_3:
   type: dict
   sample: >
     {
-      "response": 
+      "response":
         {
           "message": "YAML config generation failed for module 'wired_campus_automation_workflow_manager'.",
           "file_path": "/tmp/wired_campus_automation_config.yml",
@@ -719,7 +719,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             The method does not return a value.
         """
-        self.supported_states = ["merged"]
+        self.supported_states = ["gathered"]
         super().__init__(module)
         self.module_schema = self.get_workflow_elements_schema()
         self.module_name = "wired_campus_automation_workflow_manager"
@@ -793,8 +793,8 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                             "required": False,
                             "elements": "str",
                             "choices": [
-                                "vlans", "cdp", "lldp", "stp", "vtp", "dhcp_snooping", 
-                                "igmp_snooping", "mld_snooping", "authentication", 
+                                "vlans", "cdp", "lldp", "stp", "vtp", "dhcp_snooping",
+                                "igmp_snooping", "mld_snooping", "authentication",
                                 "logical_ports", "port_configuration"
                             ]
                         },
@@ -840,7 +840,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "validate_ip": True
                 },
                 "hostname_list": {
-                    "type": "list", 
+                    "type": "list",
                     "required": False,
                     "elements": "str"
                 },
@@ -1048,7 +1048,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         return OrderedDict({
             "dhcp_admin_status": {"type": "bool", "source_key": "isDhcpSnoopingEnabled"},
             "dhcp_snooping_vlans": {
-                "type": "list", 
+                "type": "list",
                 "elements": "int",
                 "source_key": "dhcpSnoopingVlans",
                 "transform": self.transform_vlan_string_to_list
@@ -1059,7 +1059,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             "dhcp_snooping_database_write_delay": {"type": "int", "source_key": "databaseAgent.writeDelay"},
             "dhcp_snooping_proxy_bridge_vlans": {
                 "type": "list",
-                "elements": "int", 
+                "elements": "int",
                 "source_key": "proxyBridgeVlans",
                 "transform": self.transform_vlan_string_to_list
             }
@@ -1162,7 +1162,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             return []
 
         self.log("Processing {0} mrouter items for interface name extraction".format(len(mrouter_items)), "DEBUG")
-        
+
         # Initialize list to collect extracted interface names
         interface_names = []
 
@@ -1218,7 +1218,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "source_key": "portchannels.items",
                 "options": OrderedDict({
                     "port_channel_protocol": {
-                        "type": "str", 
+                        "type": "str",
                         "source_key": "configType",
                         "transform": self.transform_port_channel_protocol
                     },
@@ -1249,7 +1249,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Define mapping dictionary for config type to protocol transformation
         protocol_mapping = {
             "ETHERCHANNEL_CONFIG": "NONE",
-            "LACP_PORTCHANNEL_CONFIG": "LACP", 
+            "LACP_PORTCHANNEL_CONFIG": "LACP",
             "PAGP_PORTCHANNEL_CONFIG": "PAGP"
         }
 
@@ -1269,7 +1269,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log("Port channel protocol transformation completed - returning: '{0}'".format(
             transformed_protocol), "DEBUG")
-        
+
         return transformed_protocol
 
     def transform_port_channel_members(self, port_channel_detail):
@@ -1285,7 +1285,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         members = port_channel_detail.get("memberPorts", {}).get("items", [])
         config_type = port_channel_detail.get("configType")
-        
+
         self.log("Extracted {0} member ports with config type: {1}".format(len(members), config_type), "DEBUG")
 
         if not members:
@@ -1320,7 +1320,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             # Remove None values
             cleaned_config = {k: v for k, v in base_config.items() if v is not None}
             transformed_members.append(cleaned_config)
-            
+
             self.log("Transformed member {0} - removed {1} None values".format(
                 member.get("interfaceName"), len(base_config) - len(cleaned_config)), "DEBUG")
 
@@ -1504,7 +1504,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "source_key": "authenticationOrder.items"
                 },
                 "priority": {
-                    "type": "list", 
+                    "type": "list",
                     "elements": "str",
                     "source_key": "priority.items"
                 },
@@ -1515,11 +1515,11 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "is_reauth_enabled": {"type": "bool", "source_key": "isReauthEnabled"},
                 "max_reauth_requests": {"type": "int", "source_key": "maxReauthRequests"},
                 "is_inactivity_timer_from_server_enabled": {
-                    "type": "bool", 
+                    "type": "bool",
                     "source_key": "isInactivityTimerFromServerEnabled"
                 },
                 "is_reauth_timer_from_server_enabled": {
-                    "type": "bool", 
+                    "type": "bool",
                     "source_key": "isReauthTimerFromServerEnabled"
                 },
                 "pae_type": {"type": "str", "source_key": "paeType"},
@@ -1586,7 +1586,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Parse VLAN string into individual VLAN IDs
         self.log("Parsing VLAN string for individual IDs", "DEBUG")
         parsed_vlans = self._parse_vlan_string(str(vlan_string).strip())
-        
+
         # Process and return final result
         if parsed_vlans:
             unique_vlans = sorted(list(set(parsed_vlans)))
@@ -1612,14 +1612,14 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             # Split by comma to handle comma-separated values
             vlan_parts = vlan_string_clean.split(',')
             self.log("Split VLAN string into {0} parts".format(len(vlan_parts)), "DEBUG")
-            
+
             for part_index, part in enumerate(vlan_parts):
                 part = part.strip()
-                
+
                 if not part:
                     self.log("Skipping empty part {0}".format(part_index), "DEBUG")
                     continue
-                
+
                 # Handle range notation (e.g., "3-5")
                 if '-' in part:
                     self.log("Processing VLAN range: '{0}'".format(part), "DEBUG")
@@ -1631,7 +1631,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                     single_vlan = self._parse_single_vlan(part)
                     if single_vlan is not None:
                         vlans.append(single_vlan)
-        
+
         except Exception as e:
             self.log("Error during VLAN string parsing '{0}': {1}".format(
                 vlan_string_clean, str(e)), "ERROR")
@@ -1820,13 +1820,13 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Check if this is generate_all_configurations mode using class parameter
         global_filters = filters.get("global_filters", {})
-        
+
         if self.generate_all_configurations:
             self.log("Generate all configurations mode detected - retrieving all managed devices", "INFO")
             # Get all devices without any parameters to retrieve everything
             device_ip_to_id_mapping = self.get_network_device_details()
             selected_filter_type = "ip_addresses"  # Default to IP addresses for output format
-            
+
             processed_global_filters = {
                 "device_ip_to_id_mapping": device_ip_to_id_mapping,
                 "applied_filters": {
@@ -1841,13 +1841,13 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             # NEW: If no device filters provided, get all devices
             if not device_ip_to_id_mapping and not any([
                 global_filters.get("ip_address_list"),
-                global_filters.get("hostname_list"), 
+                global_filters.get("hostname_list"),
                 global_filters.get("serial_number_list")
             ]):
                 self.log("No device filters provided - retrieving all managed devices", "INFO")
                 device_ip_to_id_mapping = self.get_network_device_details()
                 selected_filter_type = "ip_addresses"  # Default to IP addresses for output format
-                
+
                 # Update processed_global_filters
                 processed_global_filters = {
                     "device_ip_to_id_mapping": device_ip_to_id_mapping,
@@ -1886,7 +1886,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Initializing feature to API mapping configuration", "DEBUG")
         feature_to_api_mapping = {
             "vlans": "vlanConfig",
-            "cdp": "cdpGlobalConfig", 
+            "cdp": "cdpGlobalConfig",
             "lldp": "lldpGlobalConfig",
             "stp": "stpGlobalConfig",
             "vtp": "vtpGlobalConfig",
@@ -1911,7 +1911,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Processing device {0} (ID: {1})".format(device_ip, device_info.get("device_id")), "DEBUG")
 
             device_id = device_info.get("device_id")
-            
+
             device_layer2_configs = self.get_device_layer2_configurations(
                 device_id, device_ip, layer2_features, feature_to_api_mapping, component_specific_filters, network_element
             )
@@ -1963,10 +1963,10 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                         self.log("Applying transformation for feature type: {0}".format(feature_type), "DEBUG")
 
                         # Apply transformations based on feature type
-                        if feature_type in ["cdp", "lldp", "vtp","stp", "dhcp_snooping", "igmp_snooping", "mld_snooping", "authentication", "logical_ports"]:
+                        if feature_type in ["cdp", "lldp", "vtp", "stp", "dhcp_snooping", "igmp_snooping", "mld_snooping", "authentication", "logical_ports"]:
                             api_feature_name = {
                                 "cdp": "cdpGlobalConfig",
-                                "lldp": "lldpGlobalConfig", 
+                                "lldp": "lldpGlobalConfig",
                                 "vtp": "vtpGlobalConfig",
                                 "stp": "stpGlobalConfig",
                                 "dhcp_snooping": "dhcpSnoopingGlobalConfig",
@@ -1979,7 +1979,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                             items = feature_data.get(api_feature_name, {}).get("items", [])
                             if items:
                                 transformed_data = self.modify_parameters(
-                                    reverse_mapping_spec[feature_type], 
+                                    reverse_mapping_spec[feature_type],
                                     [items[0]]
                                 )
                                 if transformed_data:
@@ -2005,14 +2005,14 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                                 if vlan_items:
                                     flattened_data = {"items": vlan_items}
                                     transformed_data = self.modify_parameters(
-                                        reverse_mapping_spec[feature_type], 
+                                        reverse_mapping_spec[feature_type],
                                         [flattened_data]
                                     )
                                 else:
                                     transformed_data = []
                             else:
                                 transformed_data = self.modify_parameters(
-                                    reverse_mapping_spec[feature_type], 
+                                    reverse_mapping_spec[feature_type],
                                     feature_data if isinstance(feature_data, list) else [feature_data]
                                 )
 
@@ -2080,7 +2080,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "ignored_filters": []
                 }
             }
-        
+
         # Priority-based selection logic
         selected_filter_type = None
         selected_values = []
@@ -2135,7 +2135,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log("Retrieved device mapping using {0}: {1}".format(
             selected_filter_type, device_ip_to_id_mapping), "DEBUG")
-        
+
         processed_filters = {
             "device_ip_to_id_mapping": device_ip_to_id_mapping,
             "total_devices": len(device_ip_to_id_mapping),
@@ -2179,8 +2179,8 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Unknown filter type {0}, defaulting to ip_address".format(filter_type), "WARNING")
             return ("ip_address", None)
 
-    def get_device_layer2_configurations(self, device_id, device_ip, layer2_features, feature_to_api_mapping, 
-                                        component_specific_filters, network_element):
+    def get_device_layer2_configurations(self, device_id, device_ip, layer2_features, feature_to_api_mapping,
+                                            component_specific_filters, network_element):
         """
         Retrieves layer2 configurations for a specific device by making API calls for each requested feature.
         Handles special processing for port configurations which require multiple API calls and consolidation.
@@ -2214,7 +2214,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log("Incrementing total features processed counter by {0}".format(len(layer2_features)), "DEBUG")
         self.total_features_processed += len(layer2_features)
-        
+
         for feature_index, feature in enumerate(layer2_features):
             self.log("Processing feature {0} of {1}: '{2}' for device {3}".format(
                 feature_index + 1, len(layer2_features), feature, device_ip), "DEBUG")
@@ -2237,7 +2237,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 continue
 
             self.log("Found API mapping for feature '{0}': {1}".format(feature, api_features), "DEBUG")
-            
+
             # Ensure api_features is always a list for consistent processing
             if isinstance(api_features, str):
                 self.log("Converting single API feature string to list format", "DEBUG")
@@ -2253,11 +2253,11 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             if feature == "port_configuration":
                 self.log("Routing to specialized port configuration processing", "DEBUG")
                 port_config_result = self._process_port_configuration_feature(
-                    device_id, device_ip, api_features, component_specific_filters, 
+                    device_id, device_ip, api_features, component_specific_filters,
                     api_family, api_function, feature_errors
                 )
                 self.log("Port configuration processing result: {0}".format(port_config_result), "DEBUG")
-                
+
                 if port_config_result["success"]:
                     feature_success = True
                     if port_config_result["configurations"]:
@@ -2295,7 +2295,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log("Feature '{0}' processing failed - consolidating error information for tracking".format(
                     feature), "DEBUG")
                 self.log("Total errors encountered for feature '{0}': {1}".format(feature, len(feature_errors)), "DEBUG")
-                
+
                 consolidated_error = {
                     "error_type": "feature_retrieval_failed",
                     "error_message": "Failed to retrieve {0} configuration for device {1}".format(feature, device_ip),
@@ -2314,7 +2314,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         return device_configurations
 
     def _process_standard_feature(self, device_id, device_ip, feature, api_features, component_specific_filters,
-                                api_family, api_function, feature_errors):
+                                    api_family, api_function, feature_errors):
         """
         Processes standard features using normal API call flow with single API endpoint per feature.
         Args:
@@ -2342,7 +2342,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         for api_feature_index, api_feature in enumerate(api_features):
             self.log("Processing API feature {0} of {1}: '{2}' for feature '{3}' on device {4}".format(
                 api_feature_index + 1, len(api_features), api_feature, feature, device_ip), "DEBUG")
-            
+
             self.log("Preparing API request parameters for {0}".format(api_feature), "DEBUG")
             api_params = {"id": device_id, "feature": api_feature}
             self.log("API request parameters constructed: {0}".format(api_params), "DEBUG")
@@ -2429,7 +2429,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return processing_result
 
-    def _process_port_configuration_feature(self, device_id, device_ip, api_features, component_specific_filters, 
+    def _process_port_configuration_feature(self, device_id, device_ip, api_features, component_specific_filters,
                                         api_family, api_function, feature_errors):
         """
         Processes port configuration feature by retrieving all interface-related API responses and merging them.
@@ -2466,7 +2466,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Failed to retrieve port feature configurations for device {0}".format(device_ip), "ERROR")
             processing_result["errors"].extend(all_feature_configs["errors"])
             return processing_result
-        
+
         # Step 2: Merge configurations by interface name
         self.log("Step 2: Merging port configurations by interface name", "DEBUG")
         merged_interface_configs = self.merge_port_configurations(all_feature_configs["configurations"])
@@ -2657,7 +2657,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Finds the API feature configuration that contains the highest number of interface items.
         Args:
-            all_feature_configs (dict): Dictionary containing all port feature configurations where keys are API feature names 
+            all_feature_configs (dict): Dictionary containing all port feature configurations where keys are API feature names
             and values are the actual API response data.
         Returns:
             str: Name of the API feature with the most interfaces, or None if no valid configurations found
@@ -2756,8 +2756,8 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
                 if matching_item:
                     # Remove interfaceName and configType from the item before merging
-                    cleaned_item = {k: v for k, v in matching_item.items() 
-                                if k not in ["interfaceName", "configType"]}
+                    cleaned_item = {k: v for k, v in matching_item.items()
+                                    if k not in ["interfaceName", "configType"]}
 
                     if cleaned_item:  # Only add if there's actual configuration data
                         merged_interface[api_feature_name] = cleaned_item
@@ -2972,15 +2972,15 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             api_feature, device_ip), "DEBUG")
 
         # Extract error code with fallback options
-        error_code = (response_data.get("errorCode") or 
-                    response_data.get("error_code") or 
-                    "UNKNOWN_ERROR_CODE")
+        error_code = (response_data.get("errorCode") or
+                        response_data.get("error_code") or
+                        "UNKNOWN_ERROR_CODE")
 
         # Extract error message with fallback options
-        error_message = (response_data.get("message") or 
-                        response_data.get("errorMessage") or 
-                        response_data.get("error") or 
-                        "No error message provided by API")
+        error_message = (response_data.get("message") or
+                            response_data.get("errorMessage") or
+                            response_data.get("error") or
+                            "No error message provided by API")
 
         # Extract additional details if available
         error_detail = response_data.get("detail", "")
@@ -3058,7 +3058,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Define system default VLANs that should be excluded
         default_vlans = {
             1: ["default"],
-            1002: ["fddi-default"], 
+            1002: ["fddi-default"],
             1003: ["token-ring-default", "trcrf-default"],
             1004: ["fddinet-default"],
             1005: ["trnet-default", "trbrf-default"]
@@ -3232,7 +3232,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log("Retrieving supported network elements schema for the module", "DEBUG")
         module_supported_network_elements = self.module_schema.get("network_elements", {})
-        
+
         self.log("Determining components list for processing", "DEBUG")
         components_list = component_specific_filters.get(
             "components_list", list(module_supported_network_elements.keys())
@@ -3331,14 +3331,14 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         has_partial_failures = len(consolidated_operation_summary["devices_with_partial_success"]) > 0
         has_complete_failures = len(consolidated_operation_summary["devices_with_complete_failure"]) > 0
         has_any_failures = consolidated_operation_summary["total_failed_operations"] > 0
-        
+
         self.log("Evaluating operation status - Partial failures: {0}, Complete failures: {1}, Total failed operations: {2}".format(
             has_partial_failures, has_complete_failures, consolidated_operation_summary["total_failed_operations"]), "DEBUG")
 
         self.log("Attempting to write final dictionary to YAML file", "DEBUG")
         if self.write_dict_to_yaml(final_dict, file_path):
             self.log("YAML file write operation completed successfully", "INFO")
-            
+
             # Determine final operation status
             if has_partial_failures or has_complete_failures or has_any_failures:
                 self.log("Operation contains failures - setting final status to failed", "WARNING")
@@ -3378,7 +3378,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         based on the desired state. It logs detailed information for each operation.
         Args:
             config (dict): The configuration data for the network elements.
-            state (str): The desired state of the network elements ('merged' or 'deleted').
+            state (str): The desired state of the network elements ('gathered').
         """
 
         self.log(
@@ -3408,7 +3408,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.status = "success"
         return self
 
-    def get_diff_merged(self):
+    def get_diff_gathered(self):
         """
         Executes the merge operations for various network configurations in the Cisco Catalyst Center.
         This method processes additions and updates for SSIDs, interfaces, power profiles, access point profiles,
@@ -3417,7 +3417,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
 
         start_time = time.time()
-        self.log("Starting 'get_diff_merged' operation.", "DEBUG")
+        self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
         operations = [
             (
                 "yaml_config_generator",
@@ -3456,13 +3456,14 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         end_time = time.time()
         self.log(
-            "Completed 'get_diff_merged' operation in {0:.2f} seconds.".format(
+            "Completed 'get_diff_gathered' operation in {0:.2f} seconds.".format(
                 end_time - start_time
             ),
             "DEBUG",
         )
 
         return self
+
 
 def main():
     """main entry point for module execution"""
