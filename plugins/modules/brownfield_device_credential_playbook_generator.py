@@ -21,7 +21,7 @@ version_added: 6.17.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 author:
-- Vivek Raj (vivekraj2000)
+- Vivek Raj (@vivekraj2000)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
@@ -88,49 +88,57 @@ options:
                 type: list
                 elements: dict
                 suboptions:
-                    description:
-                        description: Description of the CLI credential.
-                        type: str
-                https_read:
-                    description: HTTPS Read credentials to be included.
-                    type: list
-                    elements: dict
-                    suboptions:
-                        description:
-                            description: Description of the HTTPS Read credential.
-                            type: str
-                https_write:
-                    description: HTTPS Write credentials to be included.
-                    type: list
-                    elements: dict
-                    suboptions:
-                        description:
-                            description: Description of the HTTPS Write credential.
-                            type: str
-                snmp_v2c_read:
-                    description: SNMPv2c Read credentials to be included.
-                    type: list
-                    elements: dict
-                    suboptions:
-                        description:
-                            description: Description of the SNMPv2c Read credential.
-                            type: str
-                snmp_v2c_write:
-                    description: SNMPv2c Write credentials to be included.
-                    type: list
-                    elements: dict
-                    suboptions:
-                        description:
-                            description: Description of the SNMPv2c Write credential.
-                            type: str
-                snmp_v3:
-                    description: SNMPv3 credentials to be included.
-                    type: list
-                    elements: dict
-                    suboptions:
-                        description:
-                            description: Description of the SNMPv3 credential.
-                            type: str
+                  description:
+                    description: Description of the CLI credential.
+                    type: str
+                            netconf:
+                                description: NETCONF credentials to be included.
+                                type: list
+                                elements: dict
+                                suboptions:
+                                    description:
+                                        description: Description of the NETCONF credential.
+                                        type: str
+              https_read:
+                description: HTTPS Read credentials to be included.
+                type: list
+                elements: dict
+                suboptions:
+                  description:
+                    description: Description of the HTTPS Read credential.
+                    type: str
+              https_write:
+                description: HTTPS Write credentials to be included.
+                type: list
+                elements: dict
+                suboptions:
+                  description:
+                    description: Description of the HTTPS Write credential.
+                    type: str
+              snmp_v2c_read:
+                description: SNMPv2c Read credentials to be included.
+                type: list
+                elements: dict
+                suboptions:
+                  description:
+                    description: Description of the SNMPv2c Read credential.
+                    type: str
+              snmp_v2c_write:
+                description: SNMPv2c Write credentials to be included.
+                type: list
+                elements: dict
+                suboptions:
+                  description:
+                    description: Description of the SNMPv2c Write credential.
+                    type: str
+              snmp_v3:
+                description: SNMPv3 credentials to be included.
+                type: list
+                elements: dict
+                suboptions:
+                  description:
+                    description: Description of the SNMPv3 credential.
+                    type: str
           assign_credentials_to_site:
             description: Assign credentials to site details to be included in the YAML configuration file.
             type: dict
@@ -144,13 +152,13 @@ requirements:
 - python >= 3.9
 notes:
 - SDK Methods used are
-    - discovery.Discovery.get_all_global_credentials
-    - site_design.SiteDesigns.get_sites
-    -  network_settings.NetworkSettings.get_device_credential_settings_for_a_site
-- Paths used are:
-    - GET /dna/intent/api/v2/global-credential
-    - GET /dna/intent/api/v1/sites
-    - GET /dna/intent/api/v1/sites/${id}/deviceCredentials
+  discovery.Discovery.get_all_global_credentials,
+  site_design.SiteDesigns.get_sites,
+  network_settings.NetworkSettings.get_device_credential_settings_for_a_site
+- Paths used are
+  GET /dna/intent/api/v2/global-credential,
+  GET /dna/intent/api/v1/sites,
+  GET /dna/intent/api/v1/sites/${id}/deviceCredentials
 
 """
 
