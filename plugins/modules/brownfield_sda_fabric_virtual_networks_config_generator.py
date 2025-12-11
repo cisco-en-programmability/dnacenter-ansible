@@ -11,10 +11,10 @@ __author__ = "Abhishek Maheshwari, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_sda_fabric_virtual_networks_playbook_generator
-short_description: Generate YAML playbook for 'brownfield_sda_fabric_virtual_networks_playbook_generator' module.
+module: brownfield_sda_fabric_virtual_networks_config_generator
+short_description: Generate YAML playbook for 'brownfield_sda_fabric_virtual_networks_config_generator' module.
 description:
-- Generates YAML configurations compatible with the `brownfield_sda_fabric_virtual_networks_playbook_generator`
+- Generates YAML configurations compatible with the `brownfield_sda_fabric_virtual_networks_config_generator`
   module, reducing the effort required to manually create Ansible playbooks and
   enabling programmatic modifications.
 - The YAML configurations generated represent the fabric vlans, virtual networks and anycast
@@ -38,7 +38,7 @@ options:
     default: gathered
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `brownfield_sda_fabric_virtual_networks_playbook_generator`
+    - A list of filters for generating YAML playbook compatible with the `brownfield_sda_fabric_virtual_networks_config_generator`
       module.
     - Filters specify which components to include in the YAML configuration file.
     - If "components_list" is specified, only those components are included, regardless of the filters.
@@ -70,7 +70,7 @@ options:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
           a default file name  "<module_name>_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "brownfield_sda_fabric_virtual_networks_playbook_generator_playbook_22_Apr_2025_21_43_26_379.yml".
+        - For example, "brownfield_sda_fabric_virtual_networks_config_generator_playbook_22_Apr_2025_21_43_26_379.yml".
         type: str
       component_specific_filters:
         description:
@@ -165,7 +165,7 @@ notes:
 EXAMPLES = r"""
 - name: Auto-generate YAML Configuration for all components which
      includes fabric vlans, virtual networks and anycast gateways.
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -179,7 +179,7 @@ EXAMPLES = r"""
     config:
       - generate_all_configurations: true
 - name: Generate YAML Configuration with File Path specified
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -193,7 +193,7 @@ EXAMPLES = r"""
     config:
       - file_path: "/tmp/catc_virtual_networks_components_config.yaml"
 - name: Generate YAML Configuration with specific fabric vlan components only
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -209,7 +209,7 @@ EXAMPLES = r"""
         component_specific_filters:
           components_list: ["fabric_vlan"]
 - name: Generate YAML Configuration with specific virtual networks components only
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -225,7 +225,7 @@ EXAMPLES = r"""
         component_specific_filters:
           components_list: ["virtual_networks"]
 - name: Generate YAML Configuration with specific anycast gateways components only
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -241,7 +241,7 @@ EXAMPLES = r"""
         component_specific_filters:
           components_list: ["anycast_gateways"]
 - name: Generate YAML Configuration for fabric vlans with vlan name filter
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -260,7 +260,7 @@ EXAMPLES = r"""
             - vlan_name: "vlan_1"
             - vlan_name: "vlan_2"
 - name: Generate YAML Configuration for fabric vlans and virtual networks with multiple filters
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -282,7 +282,7 @@ EXAMPLES = r"""
             - vn_name: "vn_1"
             - vn_name: "vn_2"
 - name: Generate YAML Configuration for all components with no filters
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -298,7 +298,7 @@ EXAMPLES = r"""
         component_specific_filters:
           components_list: ["fabric_vlan", "virtual_networks", "anycast_gateways"]
 - name: Generate YAML Configuration for fabric vlans with VLAN IDs filter
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -317,7 +317,7 @@ EXAMPLES = r"""
             - vlan_id: 1031
             - vlan_id: 1038
 - name: Generate YAML Configuration for fabric vlans with both VLAN name and ID filters
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -338,7 +338,7 @@ EXAMPLES = r"""
             - vlan_name: "Chennai-VN9-Pool2"
               vlan_id: 1038
 - name: Generate YAML Configuration for virtual networks with specific VN names
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -357,7 +357,7 @@ EXAMPLES = r"""
             - vn_name: "VN1"
             - vn_name: "VN3"
 - name: Generate YAML Configuration for anycast gateways with VN name filter
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -376,7 +376,7 @@ EXAMPLES = r"""
             - vn_name: "Chennai_VN1"
             - vn_name: "Chennai_VN3"
 - name: Generate YAML Configuration for anycast gateways with IP pool name filter
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -395,7 +395,7 @@ EXAMPLES = r"""
             - ip_pool_name: "Chennai-VN3-Pool1"
             - ip_pool_name: "Chennai-VN1-Pool2"
 - name: Generate YAML Configuration for anycast gateways with VLAN ID and IP pool filter
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -415,7 +415,7 @@ EXAMPLES = r"""
             - vlan_id: 1033
             - ip_pool_name: "Chennai-VN1-Pool2"
 - name: Generate YAML Configuration for anycast gateways with VLAN name filter
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -434,7 +434,7 @@ EXAMPLES = r"""
             - vlan_name: "Chennai-VN1-Pool2"
             - vlan_name: "Chennai-VN7-Pool1"
 - name: Generate YAML Configuration for anycast gateways with VLAN name and ID combination
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -455,7 +455,7 @@ EXAMPLES = r"""
             - vlan_name: "Chennai-VN7-Pool1"
               vlan_id: 1033
 - name: Generate YAML Configuration for anycast gateways with comprehensive filters
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
