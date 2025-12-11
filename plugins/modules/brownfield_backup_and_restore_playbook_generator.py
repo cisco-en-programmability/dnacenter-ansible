@@ -14,18 +14,19 @@ DOCUMENTATION = r"""
 module: brownfield_backup_and_restore_playbook_generator
 short_description: Generate YAML playbook for 'backup_and_restore_workflow_manager' module.
 description:
-- Generates YAML configurations compatible with the `backup_and_restore_workflow_manager`
-  module, reducing the effort required to manually create Ansible playbooks and
-  enabling programmatic modifications.
-- The YAML configurations generated represent the NFS server configurations and backup
-  storage configurations for backup and restore operations configured on the Cisco Catalyst Center.
-- Supports extraction of NFS configurations, backup storage configurations with encryption and retention policies.
+  - Generates YAML configurations compatible with the `backup_and_restore_workflow_manager`
+    module, reducing the effort required to manually create Ansible playbooks and
+    enabling programmatic modifications.
+  - The YAML configurations generated represent the NFS server configurations and backup
+    storage configurations for backup and restore operations configured on the Cisco Catalyst Center.
+  - Supports extraction of NFS configurations, backup storage configurations with encryption and retention policies.
+
 version_added: 6.31.0
 extends_documentation_fragment:
-- cisco.dnac.workflow_manager_params
+  - cisco.dnac.workflow_manager_params
 author:
-- Priyadharshini B (@pbalaku2)
-- Madhan Sankaranarayanan (@madhansansel)
+  - Priyadharshini B (@pbalaku2)
+  - Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst
@@ -39,89 +40,97 @@ options:
     default: gathered
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `backup_and_restore_workflow_manager`
-      module.
-    - Filters specify which components to include in the YAML configuration file.
-    - If "components_list" is specified, only those components are included, regardless of the filters.
+      - A list of filters for generating YAML playbook compatible with the `backup_and_restore_workflow_manager`
+        module.
+      - Filters specify which components to include in the YAML configuration file.
+      - If "components_list" is specified, only those components are included, regardless of the filters.
     type: list
     elements: dict
     required: true
     suboptions:
       file_path:
         description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name  "<module_name>_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "backup_and_restore_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
+          - Path where the YAML configuration file will be saved.
+          - If not provided, the file will be saved in the current working directory with
+            a default file name  "<module_name>_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
+          - For example, "backup_and_restore_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
         type: str
       generate_all_configurations:
         description:
-        - Generate YAML configuration for all available backup and restore components.
-        - When set to true, generates configuration for both NFS configurations and backup storage configurations.
-        - Takes precedence over component_specific_filters if both are specified.
-        - If set to true and no component_specific_filters are provided, defaults to including all components.
+          - Generate YAML configuration for all available backup and restore components.
+          - When set to true, generates configuration for both NFS configurations and backup storage configurations.
+          - Takes precedence over component_specific_filters if both are specified.
+          - If set to true and no component_specific_filters are provided, defaults to including all components.
         type: bool
         default: false
       component_specific_filters:
         description:
-        - Filters to specify which components to include in the YAML configuration
-          file.
-        - If "components_list" is specified, only those components are included,
-          regardless of other filters.
+          - Filters to specify which components to include in the YAML configuration
+            file.
+          - If "components_list" is specified, only those components are included,
+            regardless of other filters.
+          - Ignored when generate_all_configurations is set to true.
         type: dict
         suboptions:
           components_list:
             description:
-            - List of components to include in the YAML configuration file.
-            - Valid values are
-              - NFS Configuration "nfs_configuration"
-              - Backup Storage Configuration "backup_storage_configuration"
-            - If not specified, all components are included.
-            - For example, ["nfs_configuration", "backup_storage_configuration"].
+              - List of components to include in the YAML configuration file.
+              - Valid values are
+                - NFS Configuration "nfs_configuration"
+                - Backup Storage Configuration "backup_storage_configuration"
+              - If not specified, all components are included.
+              - For example, ["nfs_configuration", "backup_storage_configuration"].
             type: list
             elements: str
+            choices: ['nfs_configuration', 'backup_storage_configuration']
           nfs_configuration:
             description:
-            - NFS configuration details to filter NFS servers by server IP or source path.
+              - NFS configuration details to filter NFS servers.
+              - Both server_ip and source_path must be provided together for filtering.
+              - If not specified, all NFS configurations are included.
             type: list
             elements: dict
             suboptions:
               server_ip:
                 description:
-                - Server IP address to filter NFS configurations by server IP.
+                  - Server IP address of the NFS server.
+                  - Must be provided along with source_path for filtering.
                 type: str
+                required: true
               source_path:
                 description:
-                - Source path to filter NFS configurations by source path.
+                  - Source path on the NFS server.
+                  - Must be provided along with server_ip for filtering.
                 type: str
+                required: true
           backup_storage_configuration:
             description:
-            - Backup storage configuration details to filter backup configurations.
+              - Backup storage configuration filtering options by server type only.
+              - If not specified, all backup storage configurations are included.
             type: list
             elements: dict
             suboptions:
               server_type:
                 description:
-                - Server type to filter backup configurations by server type (NFS, PHYSICAL_DISK).
+                  - Server type to filter backup configurations by server type.
                 type: str
-              server_ip:
-                description:
-                - Server IP address to filter backup configurations by associated NFS server IP.
-                type: str
-              source_path:
-                description:
-                - Source path to filter backup configurations by associated NFS source path.
-                type: str
+                choices: ['NFS', 'PHYSICAL_DISK']
+
 requirements:
 - dnacentersdk >= 2.9.3
 - python >= 3.9
 notes:
 - SDK Methods used are
-    - backup.Backup.get_all_n_f_s_configurations
-    - backup.Backup.get_backup_configuration
+  - backup.Backup.get_all_n_f_s_configurations
+  - backup.Backup.get_backup_configuration
 - Paths used are
-    - GET /dna/system/api/v1/backupNfsConfigurations
-    - GET /dna/system/api/v1/backupConfiguration
+  - GET /dna/system/api/v1/backupNfsConfigurations
+  - GET /dna/system/api/v1/backupConfiguration
+
+- This module requires Cisco Catalyst Center version 3.1.3.0 or higher
+- The module only supports the 'gathered' state for extracting existing configurations
+- For NFS configuration filtering, both server_ip and source_path must be provided together
+- Backup storage configuration filtering only supports server_type filtering
 """
 
 EXAMPLES = r"""
@@ -142,7 +151,7 @@ EXAMPLES = r"""
         component_specific_filters:
           components_list: ["nfs_configuration", "backup_storage_configuration"]
 
-- name: Generate YAML Configuration for backup storage configuration only
+- name: Generate YAML Configuration for backup storage configuration with server type filter
   cisco.dnac.brownfield_backup_and_restore_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -161,7 +170,7 @@ EXAMPLES = r"""
           backup_storage_configuration:
             - server_type: "NFS"
 
-- name: Generate YAML Configuration for NFS with server IP filter
+- name: Generate YAML Configuration for specific NFS server (both server_ip and source_path required)
   cisco.dnac.brownfield_backup_and_restore_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -174,7 +183,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_backup_restore_config.yaml"
+      - file_path: "/tmp/catc_specific_nfs_config.yaml"
         component_specific_filters:
           components_list: ["nfs_configuration"]
           nfs_configuration:
@@ -195,6 +204,48 @@ EXAMPLES = r"""
     state: gathered
     config:
       - file_path: "/tmp/catc_backup_restore_config.yaml"
+        generate_all_configurations: true
+
+- name: Generate YAML Configuration for multiple NFS servers (each must have both server_ip and source_path)
+  cisco.dnac.brownfield_backup_and_restore_playbook_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    config:
+      - file_path: "/tmp/catc_multiple_nfs_config.yaml"
+        component_specific_filters:
+          components_list: ["nfs_configuration"]
+          nfs_configuration:
+            - server_ip: "172.27.17.90"
+              source_path: "/home/nfsshare/backups/TB30"
+            - server_ip: "172.27.17.91"
+              source_path: "/home/nfsshare/backups/TB31"
+
+- name: Generate YAML Configuration for Physical Disk backup storage only
+  cisco.dnac.brownfield_backup_and_restore_playbook_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    config:
+      - file_path: "/tmp/catc_physical_disk_backup.yaml"
+        component_specific_filters:
+          components_list: ["backup_storage_configuration"]
+          backup_storage_configuration:
+            - server_type: "NFS"
 """
 
 RETURN = r"""
@@ -344,8 +395,6 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "backup_storage_configuration": {
                     "filters": {
                         "server_type": {"type": "str", "required": False},
-                        "server_ip": {"type": "str", "required": False},
-                        "source_path": {"type": "str", "required": False},
                     },
                     "reverse_mapping_function": self.backup_storage_configuration_reverse_mapping_function,
                     "api_function": "get_backup_configuration",
@@ -428,6 +477,23 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         component_specific_filters = filters.get("component_specific_filters", {})
         nfs_filters = component_specific_filters.get("nfs_configuration", [])
 
+        if nfs_filters:
+            for filter_param in nfs_filters:
+                # Validate that both server_ip and source_path are provided
+                if not all(key in filter_param for key in ["server_ip", "source_path"]):
+                    error_msg = (
+                        "NFS configuration filter must include both server_ip and source_path together. "
+                        "Invalid filter: {0}. Please provide both parameters or remove the filter.".format(filter_param)
+                    )
+                    self.log(error_msg, "ERROR")
+
+                    result = self.set_operation_result("failed", False, error_msg, "ERROR")
+
+                    self.msg = error_msg
+                    self.result["msg"] = error_msg
+
+                    return result
+
         final_nfs_configs = []
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
@@ -440,17 +506,14 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            # Get all NFS configurations - updated API call
             response = self.dnac._exec(
                 family=api_family,
                 function=api_function,
                 op_modifies=False,
             )
 
-            # Log the received response to debug
             self.log("Received API response: {0}".format(response), "DEBUG")
 
-            # Handle different response structures
             if isinstance(response, dict):
                 nfs_configs = response.get("response", [])
                 # Some APIs return data directly in response
@@ -464,39 +527,38 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
             self.log("Retrieved {0} NFS configurations from Catalyst Center".format(len(nfs_configs)), "INFO")
 
-            # Log the structure of the first config if available
             if nfs_configs:
                 self.log("Sample NFS config structure: {0}".format(nfs_configs[0]), "DEBUG")
 
             if nfs_filters:
                 filtered_configs = []
+
                 for filter_param in nfs_filters:
                     for config in nfs_configs:
                         match = True
 
                         # Handle different possible structures
-                        spec = config.get("spec", config)  # Fallback to config itself if no spec
-                        self.log(spec)
+                        spec = config.get("spec", config)
+                        self.log("Checking NFS config spec: {0}".format(spec), "DEBUG")
 
-                        for key, value in filter_param.items():
-                            config_value = None
-                            if key == "server_ip":
-                                # Try different possible field names
-                                config_value = (
-                                    spec.get("server")
-                                )
-                            elif key == "source_path":
-                                # Try different possible field names
-                                config_value = (
-                                    spec.get("sourcePath")
-                                )
+                        # Check both server_ip and source_path together
+                        server_ip_match = spec.get("server") == filter_param.get("server_ip")
+                        source_path_match = spec.get("sourcePath") == filter_param.get("source_path")
 
-                            if config_value != value:
-                                match = False
-                                break
+                        if not (server_ip_match and source_path_match):
+                            match = False
+
+                        self.log(
+                            "NFS filter check - server_ip: {0} (expected: {1}), source_path: {2} (expected: {3}), match: {4}".format(
+                                spec.get("server"), filter_param.get("server_ip"),
+                                spec.get("sourcePath"), filter_param.get("source_path"),
+                                match
+                            ), "DEBUG"
+                        )
 
                         if match and config not in filtered_configs:
                             filtered_configs.append(config)
+                            self.log("NFS configuration matched filter criteria", "INFO")
 
                 final_nfs_configs = filtered_configs
             else:
@@ -504,14 +566,13 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         except Exception as e:
             self.log("Error retrieving NFS configurations: {0}".format(str(e)), "ERROR")
-            # Instead of failing immediately, let's return empty result
+
             self.log("API call failed, returning empty NFS configuration list", "WARNING")
             final_nfs_configs = []
 
         # Modify NFS configuration details using temp_spec
         nfs_configuration_temp_spec = self.nfs_configuration_temp_spec()
 
-        # Custom parameter modification to handle nested spec values
         modified_nfs_configs = []
         for config in final_nfs_configs:
             mapped_config = OrderedDict()
@@ -520,7 +581,6 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 source_key = spec_def.get("source_key", key)
                 value = self.extract_nested_value(config, source_key)
 
-                # If nested extraction fails, try direct access with alternative names
                 if value is None:
                     if key == "server_ip":
                         value = (
@@ -555,7 +615,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                     transform = spec_def.get("transform", lambda x: x)
                     mapped_config[key] = transform(value)
 
-            if mapped_config:  # Only add if we have valid data
+            if mapped_config:
                 modified_nfs_configs.append(mapped_config)
 
         modified_nfs_configuration_details = {"nfs_configuration": modified_nfs_configs}
@@ -662,7 +722,6 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                 })
 
-                # Log what we found
                 for key, value in nfs_details.items():
                     if value is not None:
                         self.log("Extracted {0}: {1} from backup config directly".format(key, value), "INFO")
@@ -673,6 +732,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_backup_storage_configurations(self, network_element, filters):
         """
         Retrieves backup storage configuration details based on filters.
+        Only server_type filtering is supported.
         """
         self.log("Starting to retrieve backup storage configurations", "DEBUG")
 
@@ -703,69 +763,59 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 if not backup_config:
                     backup_config = response.get("data", {})
                     if not backup_config:
-                        backup_config = response  # Sometimes the response itself is the config
+                        backup_config = response
             else:
                 backup_config = response if isinstance(response, dict) else {}
 
             self.log("Parsed backup configuration from API response: {0}".format(backup_config), "INFO")
 
             if backup_config:
-                # Apply filters if provided
+                # Apply filters if provided (only server_type filtering supported)
                 if backup_filters:
                     self.log("Applying backup configuration filters: {0}".format(backup_filters), "DEBUG")
 
                     for filter_param in backup_filters:
+                        # Validate that only supported filters are used
+                        unsupported_filters = []
+                        for key in filter_param.keys():
+                            if key not in ["server_type"]:
+                                unsupported_filters.append(key)
+
+                        if unsupported_filters:
+                            error_msg = (
+                                "Unsupported backup storage configuration filters: {0}. "
+                                "Only 'server_type' filter is supported. "
+                                "Invalid filter: {1}".format(unsupported_filters, filter_param)
+                            )
+                            self.log(error_msg, "ERROR")
+                            # Set error result AND explicitly update msg
+                            result = self.set_operation_result("failed", False, error_msg, "ERROR")
+
+                            # Explicitly ensure msg field is updated to overwrite any previous success message
+                            self.msg = error_msg
+                            self.result["msg"] = error_msg
+
+                            return result
+
                         match = True
 
                         for key, value in filter_param.items():
-                            config_value = None
-
                             if key == "server_type":
                                 config_value = backup_config.get("type")
-                            elif key == "server_ip":
-                                # Try multiple ways to get server IP
-                                config_value = (
-                                    backup_config.get("nfsServer") or
-                                    backup_config.get("server")
-                                )
+                                self.log("Filter check - server_type: expected '{0}', found '{1}'".format(
+                                    value, config_value), "DEBUG")
 
-                                # If still not found, try to match with NFS configs
-                                if not config_value:
-                                    mount_path = backup_config.get("mountPath")
-                                    nfs_configs = self.get_nfs_configuration_details()
-                                    for nfs_config in nfs_configs:
-                                        if nfs_config.get("status", {}).get("destinationPath") == mount_path:
-                                            config_value = nfs_config.get("spec", {}).get("server")
-                                            break
-
-                            elif key == "source_path":
-                                # Try multiple ways to get source path
-                                config_value = (
-                                    backup_config.get("sourcePath")
-                                )
-
-                                # If still not found, try to match with NFS configs
-                                if not config_value:
-                                    mount_path = backup_config.get("mountPath")
-                                    nfs_configs = self.get_nfs_configuration_details()
-                                    for nfs_config in nfs_configs:
-                                        if nfs_config.get("status", {}).get("destinationPath") == mount_path:
-                                            config_value = nfs_config.get("spec", {}).get("sourcePath")
-                                            break
-
-                            self.log("Filter check - {0}: expected '{1}', found '{2}'".format(
-                                key, value, config_value), "DEBUG")
-
-                            if str(config_value) != str(value):
-                                match = False
-                                break
+                                if str(config_value) != str(value):
+                                    match = False
+                                    break
 
                         if match:
                             final_backup_configs = [backup_config]
-                            self.log("Backup configuration matched filter criteria", "DEBUG")
+                            self.log("Backup configuration matched filter criteria", "INFO")
                             break
                 else:
                     final_backup_configs = [backup_config] if backup_config else []
+                    self.log("No filters applied - including all backup configurations", "INFO")
             else:
                 self.log("No backup configuration found", "INFO")
                 final_backup_configs = []
@@ -776,7 +826,6 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Exception type: {0}".format(type(e).__name__), "ERROR")
             final_backup_configs = []
 
-        # Transform configurations using the temp spec
         self.log("Transforming {0} backup configurations to user format".format(len(final_backup_configs)), "DEBUG")
 
         backup_storage_config_temp_spec = self.backup_storage_configuration_temp_spec()
@@ -946,7 +995,14 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
             if callable(operation_func):
                 try:
                     self.log("Calling operation function for component: {0}".format(component), "INFO")
-                    details = operation_func(network_element, filters)
+                    result = operation_func(network_element, filters)
+
+                    if result is self:
+
+                        self.log("Validation error occurred in component: {0}".format(component), "ERROR")
+                        return self
+
+                    details = result
                     self.log(
                         "Details retrieved for {0}: {1}".format(component, details), "DEBUG"
                     )
@@ -975,7 +1031,6 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     import traceback
                     self.log("Full traceback: {0}".format(traceback.format_exc()), "DEBUG")
-                    # Only add empty component for failed components if generate_all_configurations is True
                     if generate_all_configurations:
                         component_dict = {component: []}
                         config_list.append(component_dict)
@@ -994,14 +1049,16 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log("Component '{0}': {1} configurations".format(component, len(data)), "INFO")
 
         if not config_list:
-            self.msg = (
-                "No configurations found to process for module '{0}'. This may be because:\n"
-                "- No NFS servers or backup configurations are configured in Catalyst Center\n"
-                "- The API is not available in this version\n"
-                "- User lacks required permissions\n"
-                "- API function names have changed"
-            ).format(self.module_name)
-            self.set_operation_result("ok", False, self.msg, "INFO")
+            # Only set this message if there's no existing error status
+            if self.status != "failed":
+                self.msg = (
+                    "No configurations found to process for module '{0}'. This may be because:\n"
+                    "- No NFS servers or backup configurations are configured in Catalyst Center\n"
+                    "- The API is not available in this version\n"
+                    "- User lacks required permissions\n"
+                    "- API function names have changed"
+                ).format(self.module_name)
+                self.set_operation_result("ok", False, self.msg, "INFO")
             return self
 
         # Use the config_list directly (each component is already a separate list item)
@@ -1009,19 +1066,23 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Final dictionary created with {0} component items".format(len(config_list)), "DEBUG")
 
         if self.write_dict_to_yaml(final_dict, file_path):
-            self.msg = {
-                "YAML config generation Task succeeded for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path, "components_processed": components_processed}
-            }
-            self.set_operation_result("success", True, self.msg, "INFO")
+            # Only set success message if there's no existing error
+            if self.status != "failed":
+                self.msg = {
+                    "YAML config generation Task succeeded for module '{0}'.".format(
+                        self.module_name
+                    ): {"file_path": file_path, "components_processed": components_processed}
+                }
+                self.set_operation_result("success", True, self.msg, "INFO")
         else:
-            self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
-            }
-            self.set_operation_result("failed", True, self.msg, "ERROR")
+            # Only set this failure if there's no existing error (don't overwrite validation errors)
+            if self.status != "failed":
+                self.msg = {
+                    "YAML config generation Task failed for module '{0}'.".format(
+                        self.module_name
+                    ): {"file_path": file_path}
+                }
+                self.set_operation_result("failed", True, self.msg, "ERROR")
 
         return self
 
@@ -1050,8 +1111,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.want = want
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
-        self.msg = "Successfully collected all parameters from the playbook for Backup Restore operations."
-        self.status = "success"
+
         return self
 
     def get_diff_gathered(self):
@@ -1088,7 +1148,13 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                     ),
                     "INFO",
                 )
-                operation_func(params).check_return_status()
+                result = operation_func(params)
+
+                # Check if operation failed and return immediately
+                if result.status == "failed":
+                    result.check_return_status()
+
+                result.check_return_status()
             else:
                 self.log(
                     "Iteration {0}: No parameters found for {1}. Skipping operation.".format(
@@ -1096,6 +1162,11 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                     ),
                     "WARNING",
                 )
+
+        # Only set final success message if no errors occurred
+        if self.status != "failed":
+            self.msg = "Successfully collected all parameters from the playbook for Backup Restore operations."
+            self.status = "success"
 
         end_time = time.time()
         self.log(
