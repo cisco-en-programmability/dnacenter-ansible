@@ -182,7 +182,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - generate_all_components: true 
+      - generate_all_components: true
 """
 
 
@@ -230,7 +230,6 @@ except ImportError:
     HAS_YAML = False
     yaml = None
 from collections import OrderedDict
-import os
 
 
 if HAS_YAML:
@@ -260,7 +259,6 @@ class BrownFieldFabricSiteZonePlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.supported_states = ["gathered"]
         super().__init__(module)
-        # self.module_mapping = self.fabric_sites_zones_workflow_manager_mapping()
         self.module_schema = self.get_workflow_filters_schema()
         self.site_id_name_dict = self.get_site_id_name_mapping()
         self.module_name = "brownfield_sda_fabric_sites_zones_config_generator"
@@ -349,7 +347,7 @@ class BrownFieldFabricSiteZonePlaybookGenerator(DnacBase, BrownFieldHelper):
             },
             "global_filters": [],
         }
-    
+
     def transform_fabric_site_name(self, site_details):
         """
         Transforms fabric site-related information for a given VLAN by extracting and mapping
@@ -395,7 +393,7 @@ class BrownFieldFabricSiteZonePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "fabric_type": {
                     "type": "str",
                     "special_handling": True,
-                    "transform": lambda x: "fabric_site",   
+                    "transform": lambda x: "fabric_site",
                 },
                 "is_pub_sub_enabled": {"type": "bool", "source_key": "isPubSubEnabled"},
                 "authentication_profile": {"type": "str", "source_key": "authenticationProfileName"}
@@ -424,7 +422,7 @@ class BrownFieldFabricSiteZonePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "fabric_type": {
                     "type": "str",
                     "special_handling": True,
-                    "transform": lambda x: "fabric_zone",   
+                    "transform": lambda x: "fabric_zone",
                 },
                 "authentication_profile": {"type": "str", "source_key": "authenticationProfileName"}
             }
@@ -542,7 +540,6 @@ class BrownFieldFabricSiteZonePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         params = {}
-
         # Execute API call to retrieve fabric zone details
         if component_specific_filters:
             self.log("Using component-specific filters for API call.", "DEBUG")
@@ -636,7 +633,7 @@ class BrownFieldFabricSiteZonePlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log("Warning: global_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
             if yaml_config_generator.get("component_specific_filters"):
                 self.log("Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
-            
+
             # Set empty filters to retrieve everything
             global_filters = {}
             component_specific_filters = {}
@@ -662,15 +659,13 @@ class BrownFieldFabricSiteZonePlaybookGenerator(DnacBase, BrownFieldHelper):
         components_list = component_specific_filters.get(
             "components_list", list(module_supported_network_elements.keys())
         )
-        
+
         # If components_list is empty, default to all supported components
         if not components_list:
             self.log("No components specified; processing all supported components.", "INFO")
             components_list = list(module_supported_network_elements.keys())
-        
-        self.log("Components to process: {0}".format(components_list), "DEBUG")
-        self.log("Keys in module_supported_network_elements: {0}".format(module_supported_network_elements.keys()), "DEBUG")
 
+        self.log("Keys in module_supported_network_elements: {0}".format(module_supported_network_elements.keys()), "DEBUG")
         self.log("Initializing final configuration list", "DEBUG")
         final_list = []
         for component in components_list:

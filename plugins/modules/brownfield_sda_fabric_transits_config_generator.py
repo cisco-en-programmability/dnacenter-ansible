@@ -343,7 +343,7 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_workflow_filters_schema(self):
         """
         Get the workflow filters schema for SDA fabric transits.
-        
+
         Returns:
             dict: A dictionary containing network elements configuration with filters,
                 API details, and processing functions for fabric transits.
@@ -370,9 +370,9 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             OrderedDict: An ordered dictionary defining the structure of fabric transit attributes.
         """
-        
+
         self.log("Generating temporary specification for fabric transits.", "DEBUG")
-        
+
         fabric_transit = OrderedDict(
             {
                 "name": {
@@ -420,7 +420,7 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 },
             }
         )
-        
+
         self.log("Fabric transit temp spec generated successfully.", "DEBUG")
 
         return fabric_transit
@@ -439,11 +439,11 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "Transforming site ID to site hierarchy name: {0}".format(site_id),
             "DEBUG"
         )
-        
+
         if not site_id:
             self.log("No site ID provided", "DEBUG")
             return ""
-        
+
         site_hierarchy_name = self.site_id_name_dict.get(site_id)
         if not site_hierarchy_name:
             self.log(
@@ -451,44 +451,44 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG"
             )
             return ""
-        
+
         self.log(
             "Transformed site ID {0} to site hierarchy name {1}".format(site_id, site_hierarchy_name),
             "DEBUG"
         )
-        
+
         return site_hierarchy_name
 
     def transform_control_plane_device_ids_to_ips(self, sda_transit_settings):
         """
         Transforms control plane network device IDs to their corresponding IP addresses.
-        
+
         Args:
             sda_transit_settings (dict): The SDA transit settings containing controlPlaneNetworkDeviceIds.
-        
+
         Returns:
             list: A list of management IP addresses corresponding to the device IDs.
         """
-        
+
         self.log(
             "Transforming control plane device IDs to IPs from SDA transit settings: {0}".format(sda_transit_settings),
             "DEBUG"
         )
-        
+
         # Extract controlPlaneNetworkDeviceIds from the settings
         control_plane_device_ids = sda_transit_settings.get("controlPlaneNetworkDeviceIds", [])
-        
+
         self.log(
             "Extracted control plane device IDs: {0}".format(control_plane_device_ids),
             "DEBUG"
         )
-        
+
         if not control_plane_device_ids:
             self.log("No control plane device IDs found in SDA transit settings", "DEBUG")
             return []
-        
+
         device_ips = []
-        
+
         for device_id in control_plane_device_ids:
             device_ip = self.device_id_ip_mapping.get(device_id)
             if not device_ip:
@@ -508,7 +508,7 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "Transformed control plane device IDs to IPs: {0}".format(device_ips),
             "DEBUG"
         )
-        
+
         return sorted(device_ips) if device_ips else []
 
     def get_fabric_transits_configuration(self, network_element, component_specific_filters=None):
@@ -529,12 +529,12 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
             ),
             "DEBUG",
         )
-        
+
         # Extract API family and function from network_element
         final_fabric_transits = []
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
-        
+
         self.log(
             "Getting fabric transits using family '{0}' and function '{1}'.".format(
                 api_family, api_function
@@ -556,7 +556,7 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
                             "Ignoring unsupported filter parameter: {0}".format(key),
                             "DEBUG",
                         )
-                
+
                 # Execute API call to retrieve fabric transit details with filters
                 fabric_transit_details = self.execute_get_with_pagination(
                     api_family, api_function, params
@@ -564,7 +564,7 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log("Retrieved fabric transit details: {0}".format(fabric_transit_details), "INFO")
                 final_fabric_transits.extend(fabric_transit_details)
                 params.clear()
-            
+
             self.log("Using component-specific filters for API call.", "INFO")
         else:
             # Execute API call to retrieve all fabric transit details
@@ -634,7 +634,7 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log("Warning: global_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
             if yaml_config_generator.get("component_specific_filters"):
                 self.log("Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
-            
+
             # Set empty filters to retrieve everything
             global_filters = {}
             component_specific_filters = {}
@@ -660,12 +660,12 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
         components_list = component_specific_filters.get(
             "components_list", list(module_supported_network_elements.keys())
         )
-        
+
         # If components_list is empty, default to all supported components
         if not components_list:
             self.log("No components specified; processing all supported components.", "INFO")
             components_list = list(module_supported_network_elements.keys())
-        
+
         self.log("Components to process: {0}".format(components_list), "DEBUG")
         self.log("Keys in module_supported_network_elements: {0}".format(module_supported_network_elements.keys()), "DEBUG")
 
@@ -811,6 +811,7 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         return self
+
 
 def main():
     """main entry point for module execution"""
