@@ -793,6 +793,25 @@ class BrownFieldHelper:
 
         return modified_details
 
+    def get_value_by_key(self, data_list, key_name, key_value, return_key):
+        """
+        Get value from a list of dictionaries based on a key-value pair.
+
+        Args:
+            data_list: List of dictionaries to search
+            key_name: Key to match (e.g., "name")
+            key_value: Value to match (e.g., "Campus_Switch_Profile")
+            return_key: Key whose value to return (e.g., "id")
+
+        Returns:
+            Value of return_key if found, None otherwise
+        """
+        for item in data_list:
+            if item.get(key_name) == key_value:
+                return item.get(return_key)
+
+        return None
+
     # Important Note: This function retains params with null values
     # def modify_parameters(self, temp_spec, details_list):
     #     """
@@ -1198,9 +1217,13 @@ class BrownFieldHelper:
 
         return site_name_hierarchy
 
-    def get_site_id_name_mapping(self):
+    def get_site_id_name_mapping(self, site_id_list=None):
         """
         Retrieves the site name hierarchy for all sites.
+
+        Args:
+            site_id_list (list): A list of site IDs to retrieve the name hierarchy for.
+
         Returns:
             dict: A dictionary mapping site IDs to their name hierarchies.
         Raises:
@@ -1220,6 +1243,20 @@ class BrownFieldHelper:
             site_id = site.get("id")
             if site_id:
                 site_id_name_mapping[site_id] = site.get("nameHierarchy")
+
+        if site_id_list:
+            filtered_mapping = {
+                site_id: site_id_name_mapping[site_id]
+                for site_id in site_id_list
+                if site_id in site_id_name_mapping
+            }
+            self.log(
+                "Filtered site ID to name hierarchy mapping: {0}".format(
+                    filtered_mapping
+                ),
+                "DEBUG"
+            )
+            return filtered_mapping
 
         return site_id_name_mapping
 
