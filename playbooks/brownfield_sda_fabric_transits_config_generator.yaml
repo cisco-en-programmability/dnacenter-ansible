@@ -1,3 +1,4 @@
+---
 - name: Generate Brownfield SDA Fabric Transits Playbook with Various Filtering Scenarios
   hosts: localhost
   connection: local
@@ -31,7 +32,6 @@
           - file_path: "demo.yaml"
             component_specific_filters:
               components_list: ["sda_fabric_transits"]
-
 
           # ================================================
           # Scenario 3: Fabric Transits - Component Specific Filters with Transit Type
