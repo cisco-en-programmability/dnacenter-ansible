@@ -2473,6 +2473,7 @@ class Template(NetworkProfileFunctions):
                 self.msg = "name is required in tags in location " + str(i)
                 self.status = "failed"
                 return self.check_return_status()
+            i = i + 1
 
         return tags
 
