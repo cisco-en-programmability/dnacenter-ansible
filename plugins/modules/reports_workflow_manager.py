@@ -3084,17 +3084,6 @@ class Reports(DnacBase):
             bool:
                 - True if the AP filter is valid and successfully resolved.
                 - False if validation fails or AP resolution is unsuccessful.
-
-        Description:
-            - Ensures `value` exists in the filter; initializes empty list if missing.
-            - Validates that `value` is a list of dictionaries, each containing
-            a `value` key (AP hostname string).
-            - Uses `display_value` if provided, otherwise defaults to the hostname string.
-            - Resolves hostname → deviceId → MAC address through API calls.
-            - Replaces the original filter `value` with a list of resolved
-            MAC addresses and display values.
-            - Logs detailed debug information at each step for traceability.
-            - Updates the operation result with clear error messages when validation fails.
         """
 
         self.log(
