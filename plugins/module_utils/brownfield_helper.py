@@ -656,24 +656,52 @@ class BrownFieldHelper:
                                 "DEBUG",
                             )
                     else:
-                        # Handle nested dictionary mapping - process even if value is None
-                        self.log(
-                            "Mapping nested dictionary for key '{0}'.".format(key),
-                            "DEBUG",
-                        )
-                        nested_result = self.modify_parameters(
-                            spec["options"], [detail]
-                        )
-                        if (
-                            nested_result and nested_result[0]
-                        ):  # Check if nested result is not empty
-                            mapped_detail[key] = nested_result[0]
+                        # Handle nested dictionary mapping - process only if value exists
+                        if value is not None:
                             self.log(
-                                "Mapped nested dictionary for key '{0}': {1}".format(
-                                    key, mapped_detail[key]
+                                "Mapping nested dictionary for key '{0}'.".format(key),
+                                "DEBUG",
+                            )
+                            self.log(
+                                "Nested dictionary value to be processed: {0}".format(
+                                    value
                                 ),
                                 "DEBUG",
                             )
+                            self.log(
+                                "Spec options for nested dictionary: {0}".format(
+                                    spec.get("options")
+                                ),
+                                "DEBUG",
+                            )
+                            nested_result = self.modify_parameters(spec["options"], [value])
+                            if nested_result and nested_result[0]:  # Check if nested result is not empty
+                                mapped_detail[key] = nested_result[0]
+                                self.log(
+                                    "Mapped nested dictionary for key '{0}': {1}".format(
+                                        key, mapped_detail[key]
+                                    ),
+                                    "DEBUG",
+                                )
+                        else:
+                            # Handle nested dictionary mapping - process even if value is None
+                            self.log(
+                                "Mapping nested dictionary for key '{0}'.".format(key),
+                                "DEBUG",
+                            )
+                            nested_result = self.modify_parameters(
+                                spec["options"], [detail]
+                            )
+                            if (
+                                nested_result and nested_result[0]
+                            ):  # Check if nested result is not empty
+                                mapped_detail[key] = nested_result[0]
+                                self.log(
+                                    "Mapped nested dictionary for key '{0}': {1}".format(
+                                        key, mapped_detail[key]
+                                    ),
+                                    "DEBUG",
+                                )
 
                 elif spec["type"] == "list":
                     if spec.get("special_handling"):
@@ -955,6 +983,15 @@ class BrownFieldHelper:
 
         try:
             # Initialize results list and keep offset/limit as integers for arithmetic
+            if not params:
+                self.log(
+                    "Starting paginated GET request for family '{0}', function '{1}' with initial params: {2}".format(
+                        api_family, api_function, params
+                    ),
+                    "INFO",
+                )
+                params = {}
+
             results = []
             current_offset = offset
             current_limit = limit
@@ -1155,6 +1192,33 @@ class BrownFieldHelper:
             "Fabric site ID '{0}' retrieved successfully.".format(site_id), "DEBUG"
         )
         return site_id, "fabric_site"
+
+    def get_site_id(self, site_name):
+        """
+        Retrieves the site ID for a given site name.
+        Args:
+            site_name (str): The name of the site for which to retrieve the ID.
+        Returns:
+            str: The ID of the site.
+        Raises:
+            Exception: If an error occurs while retrieving the site name hierarchy.
+        """
+
+        self.log(
+            "Retrieving site name hierarchy for all sites.", "DEBUG"
+        )
+        self.log("Executing 'get_sites' API call to retrieve all sites.", "DEBUG")
+        site_id = None
+
+        api_family, api_function, params = "site_design", "get_sites", {"nameHierarchy": site_name}
+        site_details = self.execute_get_with_pagination(
+            api_family, api_function, params
+        )
+
+        if site_details:
+            site_id = site_details[0].get("id")
+
+        return site_id
 
     def get_site_name(self, site_id):
         """
@@ -1425,6 +1489,81 @@ class BrownFieldHelper:
             self.fail_and_exit(self.msg)
 
         return mgmt_ip_to_device_info_map
+
+    def get_device_id_management_ip_mapping(self, get_device_list_params=None):
+        """
+        Fetches device IDs from Cisco Catalyst Center based on provided parameters using pagination.
+        Args:
+            get_device_list_params (dict): Parameters for querying the device list, such as IP address, hostname, or serial number.
+        Returns:
+            dict: A dictionary mapping management IP addresses to device information including ID, hostname, and serial number.
+        Description:
+            This method queries Cisco Catalyst Center using the provided parameters to retrieve device information.
+            It checks if each device is reachable, managed, and not a Unified AP. If valid, it maps the management IP
+            address to a dictionary containing device instance ID, hostname, and serial number.
+        """
+        # Initialize the dictionary to map management IP to device information
+        mgmt_id_to_device_ip_map = {}
+        self.log(
+            "Parameters for 'get_device_list' API call: {0}".format(
+                get_device_list_params
+            ),
+            "DEBUG",
+        )
+        
+        try:
+            # Use the existing pagination function to get all devices
+            self.log("Using execute_get_with_pagination to retrieve device list", "DEBUG")
+            device_list = self.execute_get_with_pagination(
+                api_family="devices",
+                api_function="get_device_list", 
+                params=get_device_list_params
+            )
+            
+            if not device_list:
+                self.log(
+                    "No devices were returned for the given parameters: {0}".format(
+                        get_device_list_params
+                    ),
+                    "WARNING",
+                )
+                return mgmt_id_to_device_ip_map
+
+            for device_info in device_list:
+                device_ip = device_info.get("managementIpAddress")
+                device_id = device_info.get("id")
+                self.log(
+                    "Processing device: IP={0}, ID={1}".format(
+                        device_ip, device_id
+                    ),
+                    "DEBUG",
+                )
+  
+                mgmt_id_to_device_ip_map[device_id] = device_ip
+                self.log(
+                    "Device '{0}' is added to the map.".format(
+                        device_ip
+                    ),
+                    "INFO",
+                )
+
+        except Exception as e:
+            # Log an error message if any exception occurs during the process
+            self.log(
+                "Error while fetching device IDs from Cisco Catalyst Center using API 'get_device_list' for parameters: {0}. "
+                "Error: {1}".format(get_device_list_params, str(e)),
+                "ERROR",
+            )
+            
+        # Only fail and exit if no devices are found
+        if not mgmt_id_to_device_ip_map:
+            self.msg = ("Unable to retrieve details for any devices matching parameters: {0}. "
+                    "Please verify the device parameters and ensure devices are reachable and managed.").format(
+                get_device_list_params
+            )
+            self.fail_and_exit(self.msg)
+
+        return mgmt_id_to_device_ip_map
 
     def get_network_device_details(
         self, ip_addresses=None, hostnames=None, serial_numbers=None
