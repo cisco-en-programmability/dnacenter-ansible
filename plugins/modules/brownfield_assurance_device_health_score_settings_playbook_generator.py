@@ -39,8 +39,8 @@ options:
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
-    choices: [merged]
-    default: merged
+    choices: [gathered]
+    default: gathered
   config:
     description:
       - A list of filters for generating YAML playbook compatible with the 'assurance_device_health_score_settings_workflow_manager'
@@ -100,22 +100,6 @@ options:
                 type: list
                 elements: str
                 required: false
-              kpi_names:
-                description:
-                  - List of specific KPI names to extract from device families.
-                  - If not specified, all KPI settings for the selected device families will be extracted.
-                  - Example ["Interference 6 GHz", "Link Error", "CPU Utilization"]
-                type: list
-                elements: str
-                required: false
-          device_families:
-            description:
-              - Legacy support - List of specific device families to extract KPI settings for.
-              - It's recommended to use device_health_score_settings.device_families instead.
-              - Valid values include device family names like "UNIFIED_AP", "ROUTER", "SWITCH_AND_HUB", etc.
-            type: list
-            elements: str
-            required: false
 
 requirements:
 - dnacentersdk >= 2.10.10
@@ -138,7 +122,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - generate_all_configurations: true
 
@@ -153,7 +137,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/assurance_health_score_settings.yml"
 
@@ -168,7 +152,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/assurance_health_score_settings.yml"
         component_specific_filters:
@@ -185,7 +169,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/specific_device_health_score_settings.yml"
         component_specific_filters:
@@ -204,7 +188,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/filtered_device_health_score_settings.yml"
         component_specific_filters:
@@ -224,7 +208,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: gathered
     config:
       - file_path: "/tmp/legacy_device_health_score_settings.yml"
         component_specific_filters:
@@ -376,7 +360,7 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
         Returns:
             The method does not return a value.
         """
-        self.supported_states = ["merged"]
+        self.supported_states = ["gathered"]
         super().__init__(module)
         self.module_schema = self.get_workflow_elements_schema()
         self.module_name = "assurance_device_health_score_settings_workflow_manager"
@@ -470,6 +454,72 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
 
         return self.get_device_health_score_reverse_mapping_spec()
 
+    def get_kpi_name_reverse_mapping(self):
+        """
+        Returns mapping from internal API names to user-friendly KPI names.
+        This is the reverse of the mapping in assurance_device_health_score_settings_workflow_manager.
+        """
+        return {
+            "linkErrorThreshold": "Link Error",
+            "rssiThreshold": "Connectivity RSSI",
+            "snrThreshold": "Connectivity SNR",
+            "rf_airQuality_2_4GThreshold": "Air Quality 2.4 GHz",
+            "rf_airQuality_5GThreshold": "Air Quality 5 GHz",
+            "rf_airQuality_6GThreshold": "Air Quality 6 GHz",
+            "cpuUtilizationThreshold": "CPU Utilization",
+            "rf_interference_2_4GThreshold": "Interference 2.4 GHz",
+            "rf_interference_5GThreshold": "Interference 5 GHz",
+            "rf_interference_6GThreshold": "Interference 6 GHz",
+            "rf_noise_2_4GThreshold": "Noise 2.4 GHz",
+            "rf_noise_5GThreshold": "Noise 5 GHz",
+            "rf_noise_6GThreshold": "Noise 6 GHz",
+            "rf_utilization_2_4GThreshold": "RF Utilization 2.4 GHz",
+            "rf_utilization_5GThreshold": "RF Utilization 5 GHz",
+            "rf_utilization_6GThreshold": "RF Utilization 6 GHz",
+            "freeMbufThreshold": "Free Mbuf",
+            "freeTimerThreshold": "Free Timer",
+            "packetPool": "Packet Pool",
+            "WQEPool": "WQE Pool",
+            "aaaServerReachability": "AAA server reachability",
+            "bgpBgpSiteThreshold": "BGP Session from Border to Control Plane (BGP)",
+            "bgpPubsubSiteThreshold": "BGP Session from Border to Control Plane (PubSub)",
+            "bgpPeerInfraVnThreshold": "BGP Session from Border to Peer Node for INFRA VN",
+            "bgpPeerThreshold": "BGP Session from Border to Peer Node",
+            "bgpTcpThreshold": "BGP Session from Border to Transit Control Plane",
+            "bgpEvpnThreshold": "BGP Session to Spine",
+            "ctsEnvDataThreshold": "Cisco TrustSec environment data download status",
+            "fabricReachability": "Fabric Control Plane Reachability",
+            "multicastRPReachability": "Fabric Multicast RP Reachability",
+            "fpcLinkScoreThreshold": "Extended Node Connectivity",
+            "infraLinkAvailabilityThreshold": "Inter-device Link Availability",
+            "defaultRouteThreshold": "Internet Availability",
+            "linkDiscardThreshold": "Link Discard",
+            "linkUtilizationThreshold": "Link Utilization",
+            "lispTransitConnScoreThreshold": "LISP Session from Border to Transit Site Control Plane",
+            "lispCpConnScoreThreshold": "LISP Session Status",
+            "memoryUtilizationThreshold": "Memory Utilization",
+            "peerThreshold": "Peer Status",
+            "pubsubTransitSessionScoreThreshold": "Pub-Sub Session from Border to Transit Site Control Plane",
+            "pubsubInfraVNSessionScoreThreshold": "Pub-Sub Session Status for INFRA VN",
+            "pubsubSessionThreshold": "Pub-Sub Session Status",
+            "remoteRouteThreshold": "Remote Internet Availability",
+            "vniStatusThreshold": "VNI Status",
+            "fwConnThreshold": "Firewall Connection"
+        }
+
+    def transform_kpi_name(self, internal_kpi_name):
+        """
+        Transform internal API KPI name to user-friendly KPI name.
+        Args:
+            internal_kpi_name (str): Internal API KPI name like 'cpuUtilizationThreshold'
+        Returns:
+            str: User-friendly KPI name like 'CPU Utilization'
+        """
+        kpi_mapping = self.get_kpi_name_reverse_mapping()
+        user_friendly_name = kpi_mapping.get(internal_kpi_name, internal_kpi_name)
+        self.log("Transformed KPI name from '{0}' to '{1}'".format(internal_kpi_name, user_friendly_name), "DEBUG")
+        return user_friendly_name
+
     def get_device_health_score_reverse_mapping_spec(self):
         """
         Constructs reverse mapping specification for device health score settings.
@@ -486,9 +536,13 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
                 "source_key": "response",
                 "options": OrderedDict({
                     "device_family": {"type": "str", "source_key": "deviceFamily"},
-                    "kpi_name": {"type": "str", "source_key": "kpiName"},
+                    "kpi_name": {
+                        "type": "str",
+                        "source_key": "name",
+                        "transform": self.transform_kpi_name
+                    },
                     "include_for_overall_health": {"type": "bool", "source_key": "includeForOverallHealth"},
-                    "threshold_value": {"type": "int", "source_key": "thresholdValue"},
+                    "threshold_value": {"type": "float", "source_key": "thresholdValue"},
                     "synchronize_to_issue_threshold": {"type": "bool", "source_key": "synchronizeToIssueThreshold"}
                 })
             }
@@ -710,9 +764,12 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
                 device_families = set()
                 for item in response_data:
                     device_families.add(item.get("deviceFamily"))
+                    # Get user-friendly KPI name for tracking
+                    kpi_internal_name = item.get("name")
+                    kpi_user_name = self.get_kpi_name_reverse_mapping().get(kpi_internal_name, kpi_internal_name)
                     self.add_success(
                         item.get("deviceFamily"),
-                        item.get("kpiName"),
+                        kpi_user_name,
                         {
                             "threshold_value": item.get("thresholdValue"),
                             "include_for_overall_health": item.get("includeForOverallHealth")
@@ -921,11 +978,11 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
         final_dict = OrderedDict()
 
         # Format the configuration properly according to the required structure
-        # Changed to match expected format: config: device_health_score: [list]
+        # Changed to match expected format: config: - device_health_score: [list]
         if final_list:
-            final_dict["config"] = {"device_health_score": final_list}
+            final_dict["config"] = [{"device_health_score": final_list}]
         else:
-            final_dict["config"] = {"device_health_score": []}
+            final_dict["config"] = [{"device_health_score": []}]
 
         if not final_list:
             self.log("No configurations found to process, setting appropriate result", "WARNING")
@@ -989,7 +1046,7 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
         Creates parameters for API calls based on the specified state.
         Args:
             config (dict): The configuration data for the network elements.
-            state (str): The desired state of the network elements ('merged').
+            state (str): The desired state of the network elements ('gathered').
         """
 
         self.log(
@@ -1047,9 +1104,76 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
         self.log("Generated default filename: {0}".format(filename), "DEBUG")
         return filename
 
+    def generate_playbook_header(self, data_dict):
+        """
+        Generates header comments for the playbook file.
+        Args:
+            data_dict (dict): The configuration dictionary to analyze for summary.
+        Returns:
+            str: Header comments as a string.
+        """
+        import datetime
+
+        # Get current timestamp
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        # Calculate summary information
+        device_health_score_list = []
+        if data_dict.get("config"):
+            for config_item in data_dict["config"]:
+                if config_item.get("device_health_score"):
+                    device_health_score_list = config_item["device_health_score"]
+                    break
+
+        total_configurations = len(device_health_score_list)
+        device_families = set()
+        kpi_names = set()
+
+        for config in device_health_score_list:
+            if config.get("device_family"):
+                device_families.add(config["device_family"])
+            if config.get("kpi_name"):
+                kpi_names.add(config["kpi_name"])
+
+        # Get DNAC host information
+        dnac_host = 'Unknown'
+        if hasattr(self, 'params') and self.params:
+            dnac_host = self.params.get('dnac_host', 'Unknown')
+        elif hasattr(self, 'dnac_host'):
+            dnac_host = self.dnac_host
+        elif hasattr(self, 'module') and self.module and hasattr(self.module, 'params'):
+            dnac_host = self.module.params.get('dnac_host', 'Unknown')
+
+        # Build header comments
+        header_lines = [
+            "# " + "=" * 80,
+            "# Cisco Catalyst Center - Device Health Score Settings Configuration",
+            "# " + "=" * 80,
+            "#",
+            "# Generated by: Cisco DNA Center Ansible Collection",
+            "# Source: Cisco Catalyst Center (CatC)",
+            "# DNAC Host: {0}".format(dnac_host),
+            "# Generated on: {0}".format(timestamp),
+            "#",
+            "# Configuration Summary:",
+            "#   Total KPI Configurations: {0}".format(total_configurations),
+            "#   Device Families: {0}".format(", ".join(sorted(device_families)) if device_families else "None"),
+            "#   Unique KPIs: {0}".format(len(kpi_names)),
+            "#",
+            "# This playbook contains device health score settings extracted from",
+            "# Cisco Catalyst Center and can be used with the",
+            "# cisco.dnac.assurance_device_health_score_settings_workflow_manager module",
+            "# to apply the same configurations to other Catalyst Center instances.",
+            "#",
+            "# " + "=" * 80,
+            ""
+        ]
+
+        return "\n".join(header_lines)
+
     def write_dict_to_yaml(self, data_dict, file_path):
         """
-        Writes a dictionary to a YAML file.
+        Writes a dictionary to a YAML file with header comments.
         Args:
             data_dict (dict): Dictionary to write to YAML.
             file_path (str): Path where the YAML file should be saved.
@@ -1059,6 +1183,11 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
         self.log("Starting YAML file write operation to: {0}".format(file_path), "DEBUG")
         try:
             with open(file_path, 'w') as yaml_file:
+                # Write header comments
+                header = self.generate_playbook_header(data_dict)
+                yaml_file.write(header)
+
+                # Write YAML content
                 if HAS_YAML and OrderedDumper:
                     yaml.dump(data_dict, yaml_file, Dumper=OrderedDumper,
                               default_flow_style=False, indent=2)
@@ -1070,13 +1199,13 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
             self.log("Failed to write YAML file: {0}".format(str(e)), "ERROR")
             return False
 
-    def get_diff_merged(self):
+    def get_diff_gathered(self):
         """
         Executes the merge operations for device health score settings configurations.
         """
 
         start_time = time.time()
-        self.log("Starting 'get_diff_merged' operation.", "DEBUG")
+        self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
         operations = [
             (
                 "yaml_config_generator",
@@ -1115,7 +1244,7 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
 
         end_time = time.time()
         self.log(
-            "Completed 'get_diff_merged' operation in {0:.2f} seconds.".format(
+            "Completed 'get_diff_gathered' operation in {0:.2f} seconds.".format(
                 end_time - start_time
             ),
             "DEBUG",
@@ -1144,7 +1273,7 @@ def main():
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
-        "state": {"default": "merged", "choices": ["merged"]},
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with the provided argument specifications
