@@ -3347,6 +3347,9 @@ class AccessPointLocation(DnacBase):
         self.log(f"Starting to delete planned Access Point position(s) for: {config}", "INFO")
         site_hierarchy = config.get("floor_site_hierarchy", "Unknown")
         access_points_count = len(config.get("access_points", []))
+        self.location_deleted = []
+        self.location_not_deleted = []
+        self.location_already_deleted = []
 
         self.log(
             "Processing deletion operations for site '{0}' with {1} access point configurations".format(
@@ -3545,11 +3548,8 @@ class AccessPointLocation(DnacBase):
 
         # Handle deletion failures
         if failed_deletion_count > 0:
-            failed_list = [str(item) for item in self.location_not_deleted]
             failure_msg = (
-                "Unable to delete the following access point positions: {0}".format(
-                    ", ".join(failed_list)
-                )
+                "Unable to delete the following access point positions."
             )
 
             if self.msg:
@@ -3572,7 +3572,7 @@ class AccessPointLocation(DnacBase):
             already_deleted_list = [str(item) for item in self.location_already_deleted]
             idempotent_msg = (
                 "No changes required - access point positions already deleted and "
-                "verified successfully: {0}".format(", ".join(already_deleted_list))
+                "verified successfully."
             )
 
             self.log(
@@ -3588,11 +3588,8 @@ class AccessPointLocation(DnacBase):
 
         # Verify successful deletion operations
         elif deleted_count == expected_deletion_count:
-            deleted_list = [str(item) for item in self.location_deleted]
             success_msg = (
-                "Access point positions deleted and verified successfully: {0}".format(
-                    ", ".join(deleted_list)
-                )
+                "Access point positions deleted and verified successfully."
             )
 
             self.log(
@@ -3640,9 +3637,25 @@ class AccessPointLocation(DnacBase):
             self.msg = "Access point position deletion verification completed"
             self.log(self.msg, "INFO")
 
+        if self.location_deleted:
+            self.result_response['accesspoint_deletion'].append(
+                "The access point positions for {0}".format(", ".join(self.location_deleted)) +
+                " have been successfully deleted from the site " + site_hierarchy)
+
+        if self.location_already_deleted:
+            self.result_response['already_processed'].append(
+                "No changes required - access point positions already deleted and "
+                "verified successfully: {0}".format(", ".join(already_deleted_list)) +
+                " from the site " + site_hierarchy)
+
+        if self.location_not_deleted:
+            self.result_response['unprocessed'].append(
+                f"Unable to delete the following access point positions: {self.location_not_deleted}" +
+                " from the site " + site_hierarchy)
+
         # Set verification results and validate return status
         self.set_operation_result(
-            self.status, self.changed, self.msg, "INFO", self.location_deleted
+            self.status, self.changed, self.msg, "INFO", self.result_response
         ).check_return_status()
 
         return self
