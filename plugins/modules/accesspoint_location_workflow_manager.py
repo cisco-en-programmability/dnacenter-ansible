@@ -2243,15 +2243,17 @@ class AccessPointLocation(DnacBase):
                 "add_planned_access_points_positions", floor_id, create_payload, "create"
             )
             if process_response == "SUCCESS":
-                self.msg = f"Planned Access Point Position created successfully for: {self.have.get('site_name')}"
+                self.msg = f"The planned access point positions for {collect_ap_list} have been successfully created"
+                self.msg += f" and associated with the site {self.have.get('site_name')}."
                 self.log(self.msg , "INFO")
                 self.location_created.append(collect_ap_list)
             elif process_response == "FAILURE":
-                self.msg = f"Failed to create Planned Access Point position for: {self.have.get('site_name')}"
+                self.msg = f"Failed to create planned access point positions {collect_ap_list} "
+                self.msg += f"for the site: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_created.append(collect_ap_list)
             else:
-                self.msg = f"Unable to process planned Access Point position creation for: {self.have.get('site_name')}"
+                self.msg = f"Unable to process planned Access Point position creation for the site: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_created.append(collect_ap_list)
 
@@ -2282,13 +2284,15 @@ class AccessPointLocation(DnacBase):
                 "edit_planned_access_points_positions", floor_id, update_payload, "update"
             )
             if process_response == "SUCCESS":
-                self.msg = f"Planned Access Point position updated successfully for: {self.have.get('site_name')}"
+                self.msg = f"The planned access point positions for {collect_ap_list} have been successfully updated"
+                self.msg += f" and associated with the site {self.have.get('site_name')}."
                 self.log(self.msg , "INFO")
                 self.location_updated.append(collect_ap_list)
 
                 self.log(".", "INFO")
             elif process_response == "FAILURE":
-                self.msg = f"Failed to update planned Access Point position for: {self.have.get('site_name')}"
+                self.msg = f"Failed to update planned access point positions {collect_ap_list}"
+                self.msg += f" for the site: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_updated.append(collect_ap_list)
             else:
@@ -2315,13 +2319,14 @@ class AccessPointLocation(DnacBase):
                 "edit_the_access_points_positions", floor_id, update_real_payload, "update"
             )
             if process_response == "SUCCESS":
-                self.msg = f"Real Access Point position updated successfully for: {self.have.get('site_name')}"
+                self.msg = f"The real access point positions for {collect_ap_list} have been successfully updated"
+                self.msg += f" and associated with the site {self.have.get('site_name')}."
                 self.log(self.msg , "INFO")
                 self.location_updated.append(collect_ap_list)
-
                 self.log(".", "INFO")
             elif process_response == "FAILURE":
-                self.msg = f"Failed to update real Access Point position for: {self.have.get('site_name')}"
+                self.msg = f"Failed to update real access point positions {collect_ap_list}"
+                self.msg += f" for the site: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_updated.append(collect_ap_list)
             else:
@@ -2995,7 +3000,7 @@ class AccessPointLocation(DnacBase):
 
         # Prepare operation results for response
         processed_locations = self.location_created + self.location_updated
-        location_results = [str(item) for item in processed_locations]
+        location_results = ["Access point positions created/updated successfully: " + str(item) for item in processed_locations]
 
         self.log(
             "Merge operation completed - operations: {0}, processed: {1}, "
@@ -3227,7 +3232,7 @@ class AccessPointLocation(DnacBase):
             self.location_created + self.location_updated + self.location_assigned
         )
         unique_operations = [
-            list(operation) for operation in set(map(tuple, successful_operations))
+            "Access point positions created/updated successfully: " + str(operation) for operation in set(map(tuple, successful_operations))
         ]
 
         verification_status = getattr(self, 'status', 'unknown')
