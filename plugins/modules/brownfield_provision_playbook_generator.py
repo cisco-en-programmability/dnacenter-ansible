@@ -55,6 +55,26 @@ options:
           a default file name  "<module_name>_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
         - For example, "provision_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
         type: str
+      generate_all_configurations:
+        description:
+        - When set to C(true), generates a comprehensive YAML playbook containing all provisioned devices
+          from Cisco Catalyst Center, including both wired and wireless devices.
+        - This option ignores all filter parameters (C(global_filters) and C(component_specific_filters))
+          and retrieves complete configuration for all devices across all sites.
+        - If not provided or set to C(false), filters will be applied to retrieve specific devices.
+        type: bool
+        default: false
+      global_filters:
+        description:
+        - Global filters to apply across all components.
+        type: dict
+        suboptions:
+          management_ip_address:
+            description:
+            - Management IP address to filter devices globally.
+            - Can specify single IP or list of IPs.
+            type: list
+            elements: str
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration
@@ -67,15 +87,15 @@ options:
             description:
             - List of components to include in the YAML configuration file.
             - Valid values are
-              - Provisioned Devices "provisioned_devices"
-              - Non-Provisioned Devices "non_provisioned_devices"
+              - Wired Devices "wired"
+              - Wireless Devices "wireless"
             - If not specified, all components are included.
-            - For example, ["provisioned_devices", "non_provisioned_devices"].
+            - For example, ["wired", "wireless"].
             type: list
             elements: str
-          provisioned_devices:
+          wired:
             description:
-            - Provisioned devices to filter devices by management IP, site name, or device family.
+            - Wired devices to filter devices by management IP, site name, or device family.
             type: list
             elements: dict
             suboptions:
@@ -86,15 +106,16 @@ options:
               site_name_hierarchy:
                 description:
                 - Site name hierarchy to filter devices by site.
-                type: str
+                - Can specify single site or list of sites.
+                type: list
+                elements: str
               device_family:
                 description:
-                - Device family to filter devices by type (e.g., 'Switches and Hubs', 'Wireless Controller').
+                - Device family to filter devices by type (e.g., 'Switches and Hubs', 'Routers').
                 type: str
-          non_provisioned_devices:
+          wireless:
             description:
-            - Non-provisioned devices to filter devices by management IP, site name, or device family.
-            - These are devices that are assigned to sites but not yet provisioned.
+            - Wireless devices to filter devices by management IP, site name, or device family.
             type: list
             elements: dict
             suboptions:
@@ -105,10 +126,12 @@ options:
               site_name_hierarchy:
                 description:
                 - Site name hierarchy to filter devices by site.
-                type: str
+                - Can specify single site or list of sites.
+                type: list
+                elements: str
               device_family:
                 description:
-                - Device family to filter devices by type (e.g., 'Switches and Hubs', 'Wireless Controller').
+                - Device family to filter devices by type (e.g., 'Wireless Controller').
                 type: str
 requirements:
 - dnacentersdk >= 2.7.2
@@ -148,7 +171,7 @@ EXAMPLES = r"""
     config:
       - file_path: "/tmp/catc_provision_config.yaml"
 
-- name: Generate YAML Configuration with specific provisioned devices filter
+- name: Generate YAML Configuration with specific wired devices filter
   cisco.dnac.brownfield_provision_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -163,9 +186,28 @@ EXAMPLES = r"""
     config:
       - file_path: "/tmp/catc_provision_config.yaml"
         component_specific_filters:
-          components_list: ["provisioned_devices"]
+          components_list: ["wired"]
 
-- name: Generate YAML Configuration for devices with IP address filter
+- name: Generate YAML Configuration for devices with IP address filter (global)
+  cisco.dnac.brownfield_provision_playbook_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    config:
+      - file_path: "/tmp/catc_provision_config.yaml"
+        global_filters:
+          management_ip_address:
+            - "204.192.3.40"
+            - "204.192.12.201"
+
+- name: Generate YAML Configuration for wired devices with multiple site filters
   cisco.dnac.brownfield_provision_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -180,12 +222,13 @@ EXAMPLES = r"""
     config:
       - file_path: "/tmp/catc_provision_config.yaml"
         component_specific_filters:
-          components_list: ["provisioned_devices"]
-          provisioned_devices:
-            - management_ip_address: "204.192.3.40"
-            - management_ip_address: "204.192.12.201"
+          components_list: ["wired"]
+          wired:
+            - site_name_hierarchy:
+                - "Global/USA/San Francisco/BGL_18"
+                - "Global/USA/San Jose/SJ_BLD20"
 
-- name: Generate YAML Configuration for devices with site filter
+- name: Generate YAML Configuration for all wired devices
   cisco.dnac.brownfield_provision_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -200,11 +243,9 @@ EXAMPLES = r"""
     config:
       - file_path: "/tmp/catc_provision_config.yaml"
         component_specific_filters:
-          components_list: ["provisioned_devices"]
-          provisioned_devices:
-            - site_name_hierarchy: "Global/USA/San Francisco/BGL_18"
+          components_list: ["wired"]
 
-- name: Generate YAML Configuration for all provisioned devices
+- name: Generate YAML Configuration for wireless devices only
   cisco.dnac.brownfield_provision_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -217,28 +258,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_provision_config.yaml"
+      - file_path: "/tmp/catc_wireless_config.yaml"
         component_specific_filters:
-          components_list: ["provisioned_devices"]
+          components_list: ["wireless"]
 
-- name: Generate YAML Configuration for non-provisioned devices only
-  cisco.dnac.brownfield_provision_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/catc_non_provisioned_config.yaml"
-        component_specific_filters:
-          components_list: ["non_provisioned_devices"]
-
-- name: Generate YAML Configuration for both provisioned and non-provisioned devices
+- name: Generate YAML Configuration for both wired and wireless devices
   cisco.dnac.brownfield_provision_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -253,9 +277,9 @@ EXAMPLES = r"""
     config:
       - file_path: "/tmp/catc_all_devices_config.yaml"
         component_specific_filters:
-          components_list: ["provisioned_devices", "non_provisioned_devices"]
+          components_list: ["wired", "wireless"]
 
-- name: Generate YAML Configuration for non-provisioned devices with specific site filter
+- name: Generate YAML Configuration for wireless devices with specific site filter
   cisco.dnac.brownfield_provision_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -268,11 +292,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_site_non_provisioned_config.yaml"
+      - file_path: "/tmp/catc_site_wireless_config.yaml"
         component_specific_filters:
-          components_list: ["non_provisioned_devices"]
-          non_provisioned_devices:
-            - site_name_hierarchy: "Global/USA/San Francisco/BGL_18"
+          components_list: ["wireless"]
+          wireless:
+            - site_name_hierarchy:
+                - "Global/USA/San Francisco/BGL_18"
 """
 
 RETURN = r"""
@@ -350,6 +375,164 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log(self.module_schema, "DEBUG")
         self.site_id_name_dict = self.get_site_id_name_mapping()
 
+    def get_site_id_name_mapping(self):
+        """
+        Retrieves the site name hierarchy for all sites.
+        Returns:
+            dict: A dictionary mapping site IDs to their name hierarchies.
+        Raises:
+            Exception: If an error occurs while retrieving the site name hierarchy.
+        """
+
+        self.log(
+            "Retrieving site name hierarchy for all sites.", "DEBUG"
+        )
+        self.log("Executing 'get_sites' API call to retrieve all sites.", "DEBUG")
+        site_id_name_mapping = {}
+
+        api_family, api_function, params = "site_design", "get_sites", {}
+        site_details = self.execute_get_with_pagination(
+            api_family, api_function, params
+        )
+
+        for site in site_details:
+            site_id = site.get("id")
+            if site_id:
+                site_id_name_mapping[site_id] = site.get("nameHierarchy")
+
+        return site_id_name_mapping
+
+    def execute_get_with_pagination(self, api_family, api_function, params, offset=1, limit=500, use_strings=False):
+        """
+        Executes a paginated GET request using the specified API family, function, and parameters.
+        Args:
+            api_family (str): The API family to use for the call (For example, 'wireless', 'network', etc.).
+            api_function (str): The specific API function to call for retrieving data (For example, 'get_ssid_by_site', 'get_interfaces').
+            params (dict): Parameters for filtering the data.
+            offset (int, optional): Starting offset for pagination. Defaults to 1.
+            limit (int, optional): Maximum number of records to retrieve per page. Defaults to 500.
+            use_strings (bool, optional): Whether to use string values for offset and limit. Defaults to False.
+        Returns:
+            list: A list of dictionaries containing the retrieved data based on the filtering parameters.
+        """
+        self.log("Starting paginated API execution for family '{0}', function '{1}'".format(
+            api_family, api_function), "DEBUG")
+
+        def update_params(current_offset, current_limit):
+            """Update the params dictionary with pagination info."""
+            # Create a copy of params to avoid modifying the original
+            updated_params = params.copy()
+            updated_params.update({
+                "offset": str(current_offset) if use_strings else current_offset,
+                "limit": str(current_limit) if use_strings else current_limit,
+            })
+            return updated_params
+
+        try:
+            # Initialize results list and keep offset/limit as integers for arithmetic
+            results = []
+            current_offset = offset
+            current_limit = limit
+
+            self.log("Pagination settings - offset: {0}, limit: {1}, use_strings: {2}".format(
+                current_offset, current_limit, use_strings), "DEBUG")
+
+            # Start the loop for paginated API calls
+            while True:
+                # Update parameters for pagination
+                api_params = update_params(current_offset, current_limit)
+
+                try:
+                    # Execute the API call
+                    self.log(
+                        "Attempting API call with offset {0} and limit {1} for family '{2}', function '{3}': {4}".format(
+                            current_offset,
+                            current_limit,
+                            api_family,
+                            api_function,
+                            api_params,
+                        ),
+                        "INFO",
+                    )
+
+                    # Execute the API call
+                    response = self.dnac._exec(
+                        family=api_family,
+                        function=api_function,
+                        op_modifies=False,
+                        params=api_params,
+                    )
+                    self.log("Recived API response: {0}".format(response), "DEBUG")
+                except Exception as e:
+                    # Handle error during API call
+                    self.msg = (
+                        "An error occurred while retrieving data using family '{0}', function '{1}'. "
+                        "Error: {2}".format(
+                            api_family, api_function, str(e)
+                        )
+                    )
+                    self.fail_and_exit(self.msg)
+
+                self.log(
+                    "Response received from API call for family '{0}', function '{1}': {2}".format(
+                        api_family, api_function, response
+                    ),
+                    "DEBUG",
+                )
+
+                # Process the response if available
+                response_data = response.get("response")
+                if not response_data:
+                    self.log(
+                        "Exiting the loop because no data was returned after increasing the offset. "
+                        "Current offset: {0}".format(current_offset),
+                        "INFO",
+                    )
+                    break
+
+                # Extend the results list with the response data
+                results.extend(response_data)
+
+                # Check if the response size is less than the limit
+                if len(response_data) < current_limit:
+                    self.log(
+                        "Received less than limit ({0}) results, assuming last page. Exiting pagination.".format(
+                            current_limit
+                        ),
+                        "DEBUG",
+                    )
+                    break
+
+                # Increment the offset for the next iteration (always use integer arithmetic)
+                current_offset = int(current_offset) + int(current_limit)
+
+            if results:
+                self.log(
+                    "Data retrieved for family '{0}', function '{1}': Total records: {2}".format(
+                        api_family, api_function, len(results)
+                    ),
+                    "INFO",
+                )
+            else:
+                self.log(
+                    "No data found for family '{0}', function '{1}'.".format(
+                        api_family, api_function
+                    ),
+                    "DEBUG",
+                )
+
+            # Return the list of retrieved data
+            return results
+
+        except Exception as e:
+            self.msg = (
+                "An error occurred while retrieving data using family '{0}', function '{1}'. "
+                "Error: {2}".format(
+                    api_family, api_function, str(e)
+                )
+            )
+            self.fail_and_exit(self.msg)
+
     def validate_input(self):
         """
         Validates the input configuration parameters for the playbook.
@@ -397,26 +580,327 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         tempspec = {
             "network_elements": {
-                "provisioned_devices": {
+                "wired": {
                     "filters": ["management_ip_address", "site_name_hierarchy", "device_family"],
-                    "temp_spec_function": self.provisioned_devices_temp_spec,
+                    "temp_spec_function": self.wired_devices_temp_spec,
                     "api_function": "get_provisioned_devices",
                     "api_family": "sda",
-                    "get_function_name": self.get_provisioned_devices,
+                    "get_function_name": self.get_wired_devices,
                 },
-                "non_provisioned_devices": {
+                "wireless": {
                     "filters": ["management_ip_address", "site_name_hierarchy", "device_family"],
-                    "temp_spec_function": self.non_provisioned_devices_temp_spec,
-                    "api_function": "get_device_list",
-                    "api_family": "devices",
-                    "get_function_name": self.get_non_provisioned_devices,
+                    "temp_spec_function": self.wireless_devices_temp_spec,
+                    "api_function": "get_provisioned_devices",
+                    "api_family": "sda",
+                    "get_function_name": self.get_wireless_devices,
                 },
             },
-            "global_filters": [],
+            "global_filters": ["management_ip_address"],
         }
 
         self.log("Constructed provision workflow manager mapping: {0}".format(tempspec), "DEBUG")
         return tempspec
+
+    def wired_devices_temp_spec(self):
+        """
+        Constructs a temporary specification for wired devices.
+
+        Returns:
+            OrderedDict: An ordered dictionary defining the structure of wired device attributes.
+        """
+        self.log("Generating temporary specification for wired devices.", "DEBUG")
+        wired_devices = OrderedDict({
+            "management_ip_address": {
+                "type": "str",
+                "special_handling": True,
+                "transform": self.transform_device_management_ip,
+            },
+            "site_name_hierarchy": {
+                "type": "str",
+                "special_handling": True,
+                "transform": self.transform_device_site_hierarchy,
+            },
+            "provisioning": {"type": "bool", "default": True},
+            "force_provisioning": {"type": "bool", "default": False},
+        })
+        self.log("Temporary specification for wired devices generated: {0}".format(wired_devices), "DEBUG")
+        return wired_devices
+
+    def wireless_devices_temp_spec(self):
+        """
+        Constructs a temporary specification for wireless devices.
+
+        Returns:
+            OrderedDict: An ordered dictionary defining the structure of wireless device attributes.
+        """
+        self.log("Generating temporary specification for wireless devices.", "DEBUG")
+        wireless_devices = OrderedDict({
+            "management_ip_address": {
+                "type": "str",
+                "special_handling": True,
+                "transform": self.transform_device_management_ip,
+            },
+            "site_name_hierarchy": {
+                "type": "str",
+                "special_handling": True,
+                "transform": self.transform_device_site_hierarchy,
+            },
+            "provisioning": {"type": "bool", "default": True},
+            "force_provisioning": {"type": "bool", "default": False},
+            "primary_managed_ap_locations": {
+                "type": "list",
+                "special_handling": True,
+                "transform": self.get_primary_managed_ap_locations_for_device,
+                "wireless_only": True,
+            },
+            "secondary_managed_ap_locations": {
+                "type": "list",
+                "special_handling": True,
+                "transform": self.get_secondary_managed_ap_locations_for_device,
+                "wireless_only": True,
+            },
+        })
+        self.log("Temporary specification for wireless devices generated: {0}".format(wireless_devices), "DEBUG")
+        return wireless_devices
+
+    def get_wired_devices(self, network_element, component_specific_filters=None):
+        """
+        Retrieves wired provisioned devices based on filters.
+
+        Args:
+            network_element (dict): Network element definition
+            component_specific_filters (list): List of filter dictionaries
+
+        Returns:
+            list: List of wired device configurations
+        """
+        self.log("Starting to retrieve wired devices", "INFO")
+
+        # Get all provisioned devices
+        all_devices = self.get_all_provisioned_devices_internal()
+
+        self.log("Total provisioned devices retrieved: {0}".format(len(all_devices)), "error")
+
+        # Filter for wired devices only
+        wired_devices = [device for device in all_devices
+                         if self.is_wired_device(device)]
+
+        self.log("Found {0} wired devices".format(len(wired_devices)), "INFO")
+
+        # Apply component-specific filters
+        if component_specific_filters:
+            wired_devices = self.apply_device_filters(wired_devices, component_specific_filters)
+
+        # Process devices into configuration format
+        return self.process_device_list(wired_devices, is_wireless=False)
+
+    def get_wireless_devices(self, network_element, component_specific_filters=None):
+        """
+        Retrieves wireless provisioned devices based on filters.
+
+        Args:
+            network_element (dict): Network element definition
+            component_specific_filters (list): List of filter dictionaries
+
+        Returns:
+            list: List of wireless device configurations
+        """
+        self.log("Starting to retrieve wireless devices", "INFO")
+
+        # Get all provisioned devices
+        all_devices = self.get_all_provisioned_devices_internal()
+
+        # Filter for wireless devices only
+        wireless_devices = [device for device in all_devices
+                            if self.is_wireless_device(device)]
+
+        self.log("Found {0} wireless devices".format(len(wireless_devices)), "INFO")
+
+        # Apply component-specific filters
+        if component_specific_filters:
+            wireless_devices = self.apply_device_filters(wireless_devices, component_specific_filters)
+
+        # Process devices into configuration format
+        return self.process_device_list(wireless_devices, is_wireless=True)
+
+    def get_all_provisioned_devices_internal(self):
+        """
+        Internal method to get all provisioned devices from SDA API and add missing wireless controllers.
+
+        Returns:
+            list: List of all provisioned devices
+        """
+        try:
+            # Get all provisioned devices from SDA API
+            response = self.dnac._exec(
+                family="sda",
+                function="get_provisioned_devices",
+                op_modifies=False,
+            )
+            self.log("Recived API response: {0}".format(response), "DEBUG")
+            sda_devices = response.get("response", [])
+            self.log("Retrieved {0} devices from SDA provisioned devices API".format(len(sda_devices)), "INFO")
+
+            # WORKAROUND: Check for missing wireless controllers
+            all_devices_response = self.dnac._exec(
+                family="devices",
+                function="get_device_list",
+                op_modifies=False,
+            )
+            self.log("Recived API response: {0}".format(all_devices_response), "DEBUG")
+            all_devices = all_devices_response.get("response", [])
+
+            wireless_controllers_found = []
+            sda_device_ids = {device.get("networkDeviceId") for device in sda_devices}
+
+            for device in all_devices:
+                device_id = device.get("id")
+                management_ip = device.get("managementIpAddress")
+
+                if device_id in sda_device_ids:
+                    continue
+
+                try:
+                    device_detail_response = self.dnac._exec(
+                        family="devices",
+                        function="get_device_detail",
+                        op_modifies=False,
+                        params={"search_by": device_id, "identifier": "uuid"},
+                    )
+                    self.log("Recived API response: {0}".format(device_detail_response), "DEBUG")
+                    device_info = device_detail_response.get("response", {})
+                    device_family = device_info.get("nwDeviceFamily")
+
+                    if device_family == "Wireless Controller":
+                        try:
+                            provision_response = self.dnac._exec(
+                                family="sda",
+                                function="get_provisioned_wired_device",
+                                op_modifies=False,
+                                params={"device_management_ip_address": management_ip}
+                            )
+                            self.log("Recived API response: {0}".format(provision_response), "DEBUG")
+                            if provision_response.get("status") == "success":
+                                mock_device = {
+                                    "networkDeviceId": device_id,
+                                    "siteId": device.get("siteId"),
+                                    "deviceType": "WirelessController"
+                                }
+                                sda_devices.append(mock_device)
+                                wireless_controllers_found.append(management_ip)
+                        except Exception:
+                            pass
+                except Exception:
+                    pass
+
+            self.log("Found {0} additional provisioned wireless controllers".format(
+                len(wireless_controllers_found)), "INFO")
+
+            return sda_devices
+
+        except Exception as e:
+            self.log("Error retrieving provisioned devices: {0}".format(str(e)), "ERROR")
+            return []
+
+    def is_wired_device(self, device):
+        """Check if device is a wired device."""
+        device_family = self.transform_device_family_info(device)
+        return device_family in ["Switches and Hubs", "Routers"]
+
+    def is_wireless_device(self, device):
+        """Check if device is a wireless device."""
+        device_family = self.transform_device_family_info(device)
+        return device_family == "Wireless Controller"
+
+    def apply_device_filters(self, devices, filters):
+        """
+        Apply component-specific filters to device list.
+        Now supports site_name_hierarchy as a list.
+
+        Args:
+            devices (list): List of devices to filter
+            filters (list): List of filter dictionaries
+
+        Returns:
+            list: Filtered device list
+        """
+        filtered_devices = []
+
+        for filter_param in filters:
+            for device in devices:
+                match = True
+
+                for key, value in filter_param.items():
+                    if key == "management_ip_address":
+                        device_ip = self.transform_device_management_ip(device)
+                        if device_ip != value:
+                            match = False
+                            break
+
+                    elif key == "site_name_hierarchy":
+                        site_hierarchy = self.transform_device_site_hierarchy(device)
+                        # Handle site_name_hierarchy as list
+                        if isinstance(value, list):
+                            if site_hierarchy not in value:
+                                match = False
+                                break
+                        else:
+                            if site_hierarchy != value:
+                                match = False
+                                break
+
+                    elif key == "device_family":
+                        device_family = self.transform_device_family_info(device)
+                        if device_family != value:
+                            match = False
+                            break
+
+                if match and device not in filtered_devices:
+                    filtered_devices.append(device)
+
+        return filtered_devices
+
+    def process_device_list(self, devices, is_wireless=False):
+        """
+        Process device list into configuration format.
+
+        Args:
+            devices (list): List of devices to process
+            is_wireless (bool): Whether these are wireless devices
+
+        Returns:
+            list: List of device configurations
+        """
+        device_configs = []
+
+        for device in devices:
+            device_id = device.get("networkDeviceId")
+
+            management_ip = self.transform_device_management_ip(device)
+            if not management_ip:
+                self.log("Skipping device without management IP: {0}".format(device_id), "WARNING")
+                continue
+
+            site_hierarchy = self.transform_device_site_hierarchy(device)
+            if not site_hierarchy:
+                self.log("Skipping device without site hierarchy: {0}".format(device_id), "WARNING")
+                continue
+
+            device_config = {
+                "management_ip_address": management_ip,
+                "site_name_hierarchy": site_hierarchy,
+                "provisioning": True,
+                "force_provisioning": False
+            }
+
+            if is_wireless:
+                primary_locations, secondary_locations = self.get_wireless_ap_locations(device)
+                device_config["primary_managed_ap_locations"] = primary_locations if primary_locations else []
+                device_config["secondary_managed_ap_locations"] = secondary_locations if secondary_locations else []
+
+            device_configs.append(device_config)
+
+        return device_configs
 
     def transform_device_site_hierarchy(self, device_details):
         """
@@ -578,7 +1062,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
                 params={"search_by": device_id, "identifier": "uuid"},
             )
-            self.log("Recived API response: {0}".format(response), "DEBUG")
+            self.log("Recived API response: {0}".format(response), "error")
             device_info = response.get("response", {})
             self.log("Device information extracted: {0}".format(device_info), "DEBUG")
 
@@ -955,6 +1439,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 # Get basic device info
                 management_ip = self.transform_device_management_ip(device)
                 if not management_ip:
+                    self.log("yoooooooooooooooooooooo", "error")
                     self.log("Skipping device without management IP: {0}".format(device_id), "WARNING")
                     continue
 
@@ -1255,91 +1740,100 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         and writes the YAML content to a specified file.
 
         Args:
-            yaml_config_generator (dict): Contains file_path and component_specific_filters.
+            yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
 
         Returns:
             self: The current instance with the operation result and message updated.
         """
-        self.log(
-            "Starting YAML config generation with parameters: {0}".format(
-                yaml_config_generator
-            ),
-            "DEBUG",
-        )
+        self.log("Starting YAML config generation with parameters: {0}".format(yaml_config_generator), "DEBUG")
 
-        # Better handling of file_path
+        # Handle file_path - FIXED: Use the provided file_path from config
         file_path = yaml_config_generator.get("file_path")
         if not file_path:
-            # Generate default filename if not provided
-            file_path = self.generate_filename() if hasattr(self, 'generate_filename') else None
-            if not file_path:
-                # Fallback to a simple default filename
-                from datetime import datetime
-                timestamp = datetime.now().strftime("%d_%b_%Y_%H_%M_%S_%f")[:-3]
-                file_path = "{0}_playbook_{1}.yml".format(self.module_name, timestamp)
+            file_path = self.generate_filename()
 
         self.log("File path determined: {0}".format(file_path), "DEBUG")
 
-        component_specific_filters = (
-            yaml_config_generator.get("component_specific_filters") or {}
-        )
-        self.log(
-            "Component-specific filters: {0}".format(component_specific_filters),
-            "DEBUG",
-        )
+        # Get global and component-specific filters
+        global_filters = yaml_config_generator.get("global_filters") or {}
+        component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
+
+        self.log("Global filters: {0}".format(global_filters), "DEBUG")
+        self.log("Component-specific filters: {0}".format(component_specific_filters), "DEBUG")
 
         # Retrieve the supported network elements for the module
         module_supported_network_elements = self.module_schema.get("network_elements", {})
-        components_list = component_specific_filters.get(
-            "components_list", module_supported_network_elements.keys()
-        )
+        components_list = component_specific_filters.get("components_list", module_supported_network_elements.keys())
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
-        # Collect all devices directly into a flat list
+        # Collect all devices
         all_devices = []
         for component in components_list:
             network_element = module_supported_network_elements.get(component)
             if not network_element:
-                self.log(
-                    "Skipping unsupported network element: {0}".format(component),
-                    "WARNING",
-                )
+                self.log("Skipping unsupported network element: {0}".format(component), "WARNING")
                 continue
 
             filters = component_specific_filters.get(component, [])
             operation_func = network_element.get("get_function_name")
+
             if callable(operation_func):
                 device_list = operation_func(network_element, filters)
-                self.log(
-                    "Retrieved {0} devices for component {1}".format(len(device_list), component), "DEBUG"
-                )
-
-                # Extend the all_devices list with the retrieved devices
+                self.log("Retrieved {0} devices for component {1}".format(len(device_list), component), "DEBUG")
                 all_devices.extend(device_list)
 
+        self.log("Total devices before global filters: {0}".format(len(all_devices)), "DEBUG")
+
+        # Apply global filters FIRST before continuing
+        if global_filters.get("management_ip_address"):
+            ip_filter_list = global_filters["management_ip_address"]
+            if not isinstance(ip_filter_list, list):
+                ip_filter_list = [ip_filter_list]
+
+            self.log("Applying global IP filter: {0}".format(ip_filter_list), "INFO")
+
+            # Log all device IPs before filtering
+            device_ips = [device.get("management_ip_address") for device in all_devices]
+            self.log("Available device IPs BEFORE filtering: {0}".format(device_ips), "INFO")
+
+            filtered_devices = []
+            for device in all_devices:
+                device_ip = device.get("management_ip_address")
+                if device_ip in ip_filter_list:
+                    self.log("Device {0} matches global filter - KEEPING".format(device_ip), "INFO")
+                    filtered_devices.append(device)
+                else:
+                    self.log("Device {0} does NOT match global filter - REMOVING".format(device_ip), "DEBUG")
+
+            all_devices = filtered_devices
+            self.log("After global IP filter: {0} devices remain".format(len(all_devices)), "INFO")
+
+            # Log remaining device IPs after filtering
+            remaining_ips = [device.get("management_ip_address") for device in all_devices]
+            self.log("Remaining device IPs AFTER filtering: {0}".format(remaining_ips), "INFO")
+
         if not all_devices:
-            self.msg = "No provisioned devices found to process for module '{0}'. Verify input filters or configuration.".format(
-                self.module_name
+            self.msg = "No devices found matching the provided filters for module '{0}'. Global filters: {1}, Component filters: {2}".format(
+                self.module_name, global_filters, component_specific_filters
             )
-            self.set_operation_result("ok", False, self.msg, "INFO")
+            self.set_operation_result("ok", False, self.msg, "WARNING")
             return self
 
-        # Create the final structure with devices directly under config
+        # Create the final structure
         final_dict = {"config": all_devices}
         self.log("Final dictionary created with {0} devices".format(len(all_devices)), "DEBUG")
 
+        # WRITE TO THE CORRECT FILE PATH
         if self.write_dict_to_yaml(final_dict, file_path):
             self.msg = {
-                "YAML config generation Task succeeded for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
+                "YAML config generation Task succeeded for module '{0}'.".format(self.module_name):
+                {"file_path": file_path, "devices_count": len(all_devices)}
             }
             self.set_operation_result("success", True, self.msg, "INFO")
         else:
             self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
+                "YAML config generation Task failed for module '{0}'.".format(self.module_name):
+                {"file_path": file_path}
             }
             self.set_operation_result("failed", True, self.msg, "ERROR")
 
@@ -1360,6 +1854,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.validate_params(config)
 
         want = {}
+        # FIXED: Pass the entire config including global_filters
         want["yaml_config_generator"] = config
         self.log(
             "yaml_config_generator added to want: {0}".format(
@@ -1546,17 +2041,19 @@ def main():
     ccc_provision_playbook_generator.validate_input().check_return_status()
     config = ccc_provision_playbook_generator.validated_config
 
-    if len(config) == 1 and config[0].get("component_specific_filters") is None:
-        ccc_provision_playbook_generator.msg = (
-            "No valid configurations found in the provided parameters."
-        )
-        ccc_provision_playbook_generator.validated_config = [
-            {
-                'component_specific_filters': {
-                    'components_list': ["provisioned_devices"]
-                }
+    # FIXED: Preserve file_path when adding default components_list
+    if len(config) == 1:
+        current_config = config[0]
+
+        # If component_specific_filters is missing, add default
+        if current_config.get("component_specific_filters") is None:
+            current_config['component_specific_filters'] = {
+                'components_list': ["wired", "wireless"]
             }
-        ]
+            ccc_provision_playbook_generator.validated_config = [current_config]
+            ccc_provision_playbook_generator.msg = (
+                "No 'component_specific_filters' found. Adding default components: ['wired', 'wireless']"
+            )
 
     # Iterate over the validated configuration parameters
     for config in ccc_provision_playbook_generator.validated_config:
