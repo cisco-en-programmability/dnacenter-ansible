@@ -123,6 +123,8 @@ options:
             description:
               - The version of the view group to be used for the report.
               - Defaults to C(2.0.0) if not specified.
+            type: str
+            required: false
           schedule:
             description:
               - Defines when the report should be executed (immediately, later, or
