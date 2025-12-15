@@ -560,6 +560,6 @@ class TestDnacTemplateWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
-            "Failed to read template content from file",
+            "does not exist",
             result.get('msg')
         )
