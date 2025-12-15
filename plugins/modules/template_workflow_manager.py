@@ -2909,13 +2909,28 @@ class Template(NetworkProfileFunctions):
 
     def get_template_params(self, params):
         """
-        Store template parameters from the playbook for template processing in Cisco Catalyst Center.
+        Converts template parameter data from playbook format to Cisco Catalyst Center API format with
+        comprehensive validation and file handling. Supports both inline template content and file-based
+        template content with proper priority handling and security validation.
 
         Parameters:
-            params (dict) - Playbook details containing Template information.
+            params (dict): Playbook details containing template information including:
+                          - template_content (str, optional): Inline template content
+                          - template_content_file_path (str, optional): Path to template content file
+                          - template_name (str, required): Name of the template
+                          - project_name (str, required): Name of the project
+                          - language (str, required): Template language (JINJA/VELOCITY)
+                          - software_type (str, required): Software type for template
 
         Returns:
-            temp_params (dict) - Organized template parameters.
+            dict: Organized template parameters formatted for Cisco Catalyst Center API consumption
+
+        Description:
+            - Validates template content sources with file-first priority pattern
+            - Processes file-based template content with security validation
+            - Handles both inline content and file path specifications
+            - Validates required parameters and formats for API compatibility
+            - Supports composite template configurations with failure policies
         """
 
         self.log("Template params playbook details: {0}".format(params), "DEBUG")
@@ -2923,11 +2938,37 @@ class Template(NetworkProfileFunctions):
         # Read template content from file if file path is provided
         template_content = params.get("template_content")
         template_content_file_path = params.get("template_content_file_path")
+        self.log(
+            "Template content sources - file_path: {0}, inline_content: {1}".format(
+                bool(template_content_file_path), bool(template_content)
+            ),
+            "DEBUG"
+        )
         if not template_content and not template_content_file_path:
             self.msg = "One of 'template_content' or 'template_content_file_path' must be provided."
             self.status = "failed"
             return self.check_return_status()
+
+        # Priority 1: template_content_file_path (file-based content)
         if template_content_file_path:
+            self.log(
+                "Processing file-based template content from path: {0}".format(
+                    template_content_file_path
+                ),
+                "INFO"
+            )
+
+            # Validate file existence
+            if not self.is_path_exists(template_content_file_path):
+                error_msg = "Template content file path '{0}' does not exist".format(
+                    template_content_file_path
+                )
+                self.log(error_msg, "ERROR")
+                self.msg = error_msg
+                self.status = "failed"
+                return self.check_return_status()
+
+            # Validate file extension
             allowed_ext = (".j2", ".txt")
             if not str(template_content_file_path).lower().endswith(allowed_ext):
                 self.msg = (
@@ -2935,9 +2976,15 @@ class Template(NetworkProfileFunctions):
                 )
                 self.status = "failed"
                 return self.check_return_status()
+
+            if template_content:
+                warning_msg = (
+                    "Both 'template_content' and 'template_content_file_path' provided. "
+                    "Using file path and ignoring inline content"
+                )
+                self.log(warning_msg, "WARNING")
+
             try:
-                if template_content:
-                    self.log("Both 'template_content' and 'template_content_file_path' provided. Using content from file path.", "WARNING")
                 with open(template_content_file_path, "r", encoding="utf-8") as f:
                     template_content = f.read()
             except Exception as e:
@@ -2948,6 +2995,16 @@ class Template(NetworkProfileFunctions):
                 )
                 self.status = "failed"
                 return self.check_return_status()
+
+        # Priority 2: template_content (inline content) - fallback
+        else:
+            self.log(
+                "Using inline template content - length: {0} characters".format(
+                    len(template_content)
+                ),
+                "DEBUG"
+            )
+
         temp_params = {
             "tags": self.get_tags(params.get("template_tag")),
             "author": params.get("author"),
