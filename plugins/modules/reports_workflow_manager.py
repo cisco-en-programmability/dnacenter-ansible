@@ -375,7 +375,6 @@ options:
                   - Endpoint Profiling # viewName in viewGroup AI Endpoint Analytics
                   - Audit Log # viewName in viewGroup Audit Log
                   - Configuration Archive # viewName in viewGroup Configuration Archive
-                  - Client # viewName in viewGroup Client
                   - Client Summary # viewName in viewGroup Client
                   - Top N Summary # viewName in viewGroup Client
                   - Client Detail # viewName in viewGroup Client
