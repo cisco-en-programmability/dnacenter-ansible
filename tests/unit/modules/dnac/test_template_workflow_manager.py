@@ -26,6 +26,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
+import tempfile
+import os
+import copy
 from ansible_collections.cisco.dnac.plugins.modules import template_workflow_manager
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
@@ -441,4 +444,122 @@ class TestDnacTemplateWorkflow(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Project(s) are deleted and verified successfully. ['test-rename-2']"
+        )
+
+    def test_create_template_playbook_case_1_with_file_path(self):
+        """
+        Verify template content is read from provided file path for create flow.
+        """
+        # Prepare a temporary template content file
+        with tempfile.NamedTemporaryFile('w', suffix='.j2', delete=False) as tf:
+            tf.write('test-content-from-file')
+            temp_path = tf.name
+
+        # Clone base config from case_1 and inject file path
+        cfg = copy.deepcopy(self.playbook_config_create_template_playbook_case_1)
+        # Handle both list or dict shapes
+        if isinstance(cfg, list):
+            for item in cfg:
+                if isinstance(item, dict) and item.get('configuration_templates'):
+                    item['configuration_templates']['template_content_file_path'] = temp_path
+        elif isinstance(cfg, dict):
+            ct = cfg.get('configuration_templates')
+            if isinstance(ct, dict):
+                ct['template_content_file_path'] = temp_path
+
+        try:
+            set_module_args(
+                dict(
+                    dnac_host="1.1.1.1",
+                    dnac_username="dummy",
+                    dnac_password="dummy",
+                    dnac_version="2.3.7.9",
+                    dnac_log=True,
+                    state="merged",
+                    config_verify=False,
+                    config=cfg,
+                )
+            )
+            result = self.execute_module(changed=True, failed=False)
+            # Reuse existing success assertion text
+            self.assertIn(
+                "created successfully",
+                result.get('msg')
+            )
+        finally:
+            if os.path.exists(temp_path):
+                os.unlink(temp_path)
+
+    def test_template_content_file_path_invalid_extension(self):
+        """
+        Invalid extension should fail with explicit message (.j2/.txt allowed).
+        """
+        with tempfile.NamedTemporaryFile('w', suffix='.yaml', delete=False) as tf:
+            tf.write('should-not-be-read')
+            bad_path = tf.name
+
+        cfg = copy.deepcopy(self.playbook_config_create_template_playbook_case_1)
+        if isinstance(cfg, list):
+            for item in cfg:
+                if isinstance(item, dict) and item.get('configuration_templates'):
+                    item['configuration_templates']['template_content_file_path'] = bad_path
+        elif isinstance(cfg, dict):
+            ct = cfg.get('configuration_templates')
+            if isinstance(ct, dict):
+                ct['template_content_file_path'] = bad_path
+
+        try:
+            set_module_args(
+                dict(
+                    dnac_host="1.1.1.1",
+                    dnac_username="dummy",
+                    dnac_password="dummy",
+                    dnac_version="2.3.7.9",
+                    dnac_log=True,
+                    state="merged",
+                    config_verify=False,
+                    config=cfg,
+                )
+            )
+            result = self.execute_module(changed=False, failed=True)
+            self.assertEqual(
+                result.get('msg'),
+                "Invalid template_content_file_path extension. Allowed: .j2, .txt"
+            )
+        finally:
+            if os.path.exists(bad_path):
+                os.unlink(bad_path)
+
+    def test_template_content_file_path_missing_file(self):
+        """
+        Missing file path should raise a read error and fail.
+        """
+        missing_path = os.path.join(tempfile.gettempdir(), 'no_such_template_file.j2')
+
+        cfg = copy.deepcopy(self.playbook_config_create_template_playbook_case_1)
+        if isinstance(cfg, list):
+            for item in cfg:
+                if isinstance(item, dict) and item.get('configuration_templates'):
+                    item['configuration_templates']['template_content_file_path'] = missing_path
+        elif isinstance(cfg, dict):
+            ct = cfg.get('configuration_templates')
+            if isinstance(ct, dict):
+                ct['template_content_file_path'] = missing_path
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                config_verify=False,
+                config=cfg,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "Failed to read template content from file",
+            result.get('msg')
         )
