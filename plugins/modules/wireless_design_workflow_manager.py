@@ -13245,9 +13245,7 @@ class WirelessDesign(DnacBase):
                 )
                 existing[key] = value
 
-    def verify_create_update_access_point_profiles_requirement(
-        self, access_point_profiles
-    ):
+    def verify_create_update_access_point_profiles_requirement(self, access_point_profiles):
         """
         Determines whether access point profiles need to be created, updated, or require no updates.
         Args:
@@ -13255,6 +13253,7 @@ class WirelessDesign(DnacBase):
         Returns:
             tuple: Three lists containing access point profiles to be created, updated, and not updated.
         """
+
         # Update requested profiles with default values where needed
         updated_access_point_profiles = self.map_access_point_profiles_params(
             access_point_profiles
@@ -13268,129 +13267,115 @@ class WirelessDesign(DnacBase):
         self.log("Retrieved existing access point profiles from the system.", "DEBUG")
 
         self.log(
-            "Existing Access Point Profiles: {0}".format(
-                existing_access_point_profiles
-            ),
+            "Existing Access Point Profiles: {0}".format(existing_access_point_profiles),
             "DEBUG",
         )
         self.log(
-            "Requested Access Point Profiles: {0}".format(
-                updated_access_point_profiles
-            ),
+            "Requested Access Point Profiles: {0}".format(updated_access_point_profiles),
             "DEBUG",
         )
 
-        # Initialize lists to store profiles that need to be created, updated, or not changed
         create_profiles = []
         update_profiles = []
         no_update_profiles = []
 
-        # Create a dictionary of existing profiles for quick lookup using the profile name
         existing_profiles_dict = {
-            profile["apProfileName"]: profile
-            for profile in existing_access_point_profiles
+            profile["apProfileName"]: profile for profile in existing_access_point_profiles
         }
         self.log(
             "Converted existing profiles to a dictionary for quick lookup.", "DEBUG"
         )
 
-        # Iterate over the updated requested access point profiles
         for requested_profile in updated_access_point_profiles:
             profile_name = requested_profile["apProfileName"]
             self.log("Checking profile: {0}".format(profile_name), "DEBUG")
             update_needed = False
 
-            # Check if the profile already exists
+            tz = requested_profile.get("timeZone")
+            if tz in ("NOT CONFIGURED", "CONTROLLER"):
+                requested_profile["timeZoneOffsetHour"] = 0
+                requested_profile["timeZoneOffsetMinutes"] = 0
+                self.log(
+                    "For profile '{0}', 'timeZone' is set to '{1}'. Setting 'timeZoneOffsetHour' and 'timeZoneOffsetMinutes' to 0.".format(
+                        profile_name, tz
+                    ),
+                    "DEBUG",
+                )
+
+            if "calendarPowerProfiles" in requested_profile and isinstance(
+                requested_profile["calendarPowerProfiles"], list
+            ):
+                self.log(
+                    "Normalizing calendarPowerProfiles for profile '{0}'.".format(
+                        profile_name
+                    ),
+                    "DEBUG",
+                )
+                for calendar_profile in requested_profile["calendarPowerProfiles"]:
+                    if "duration" not in calendar_profile or calendar_profile["duration"] is None:
+                        calendar_profile["duration"] = {}
+
+                    scheduler_type = calendar_profile.get("schedulerType")
+                    if scheduler_type == "DAILY":
+                        calendar_profile["duration"]["schedulerDay"] = None
+                        calendar_profile["duration"]["schedulerDate"] = None
+                        self.log(
+                            "Set 'schedulerDay' and 'schedulerDate' to None for schedulerType 'DAILY' in profile '{0}'.".format(
+                                profile_name
+                            ),
+                            "DEBUG",
+                        )
+                    elif scheduler_type == "WEEKLY":
+                        calendar_profile["duration"]["schedulerDate"] = None
+                        self.log(
+                            "Set 'schedulerDate' to None for schedulerType 'WEEKLY' in profile '{0}'.".format(
+                                profile_name
+                            ),
+                            "DEBUG",
+                        )
+                    elif scheduler_type == "MONTHLY":
+                        calendar_profile["duration"]["schedulerDay"] = None
+                        self.log(
+                            "Set 'schedulerDay' to None for schedulerType 'MONTHLY' in profile '{0}'.".format(
+                                profile_name
+                            ),
+                            "DEBUG",
+                        )
+                    else:
+                        self.log(
+                            "Unknown schedulerType '{0}' in calendarPowerProfiles for profile '{1}'.".format(
+                                scheduler_type, profile_name
+                            ),
+                            "DEBUG",
+                        )
+
             if profile_name in existing_profiles_dict:
                 existing_profile = existing_profiles_dict[profile_name]
                 self.log(
                     "Profile '{0}' exists in the system.".format(profile_name), "DEBUG"
                 )
 
-                # Iterate over each parameter in the requested profile
                 for key, requested_value in requested_profile.items():
                     if key in existing_profile:
                         existing_value = existing_profile[key]
-
-                        # Compare requested and existing values
                         if not self.compare_values(requested_value, existing_value):
                             update_needed = True
                             self.log(
-                                "Mismatch found in parameter '{0}' for profile '{1}'. "
-                                "Requested value: {2}, Existing value: {3}".format(
+                                "Mismatch found in parameter '{0}' for profile '{1}'. Requested: {2}, Existing: {3}".format(
                                     key, profile_name, requested_value, existing_value
                                 ),
                                 "DEBUG",
                             )
-
-                            # Handle the specific case for time_zone
-                            if key == "timeZone" and requested_value in [
-                                "NOT CONFIGURED",
-                                "CONTROLLER",
-                            ]:
-                                # Ensure timeZoneOffsetHour and timeZoneOffsetMinutes are set to zero
-                                requested_profile["timeZoneOffsetHour"] = 0
-                                requested_profile["timeZoneOffsetMinutes"] = 0
-                                self.log(
-                                    "For profile '{0}', 'timeZone' is set to '{1}'. Setting 'timeZoneOffsetHour' and 'timeZoneOffsetMinutes' to 0.".format(
-                                        profile_name, requested_value
-                                    ),
-                                    "DEBUG",
-                                )
-
-                            # Handle the specific case for calendarPowerProfiles
-                            if key == "calendarPowerProfiles":
-                                self.log(
-                                    "Updating calendarPowerProfiles for profile '{0}'.".format(
-                                        profile_name
-                                    ),
-                                    "DEBUG",
-                                )
-                                for calendar_profile in requested_value:
-                                    # Ensure the 'duration' field exists
-                                    if "duration" not in calendar_profile:
-                                        calendar_profile["duration"] = {}
-
-                                    # Update fields based on the schedulerType
-                                    scheduler_type = calendar_profile.get(
-                                        "schedulerType"
-                                    )
-                                    if scheduler_type == "DAILY":
-                                        calendar_profile["duration"][
-                                            "schedulerDay"
-                                        ] = None
-                                        calendar_profile["duration"][
-                                            "schedulerDate"
-                                        ] = None
-                                        self.log(
-                                            "Set 'schedulerDay' to None and 'schedulerDate' to None for schedulerType 'DAILY' "
-                                            "in profile '{0}'.".format(profile_name),
-                                            "DEBUG",
-                                        )
-                                    elif scheduler_type == "WEEKLY":
-                                        calendar_profile["duration"][
-                                            "schedulerDate"
-                                        ] = None
-                                        self.log(
-                                            "Set 'schedulerDate' to None for schedulerType 'WEEKLY' in profile '{0}'.".format(
-                                                profile_name
-                                            ),
-                                            "DEBUG",
-                                        )
-                                    elif scheduler_type == "MONTHLY":
-                                        calendar_profile["duration"][
-                                            "schedulerDay"
-                                        ] = None
-                                        self.log(
-                                            "Unknown schedulerType '{0}' in calendarPowerProfiles for profile '{1}'.".format(
-                                                scheduler_type, profile_name
-                                            ),
-                                            "DEBUG",
-                                        )
-                            break
+                    else:
+                        update_needed = True
+                        self.log(
+                            "Requested key '{0}' not present in existing profile '{1}', marking for update.".format(
+                                key, profile_name
+                            ),
+                            "DEBUG",
+                        )
 
                 if update_needed:
-                    # Copy the existing profile and update it with the requested values
                     updated_profile = existing_profile.copy()
                     self.recursive_update(updated_profile, requested_profile)
                     update_profiles.append(updated_profile)
@@ -13401,8 +13386,7 @@ class WirelessDesign(DnacBase):
                     # No changes needed for this profile
                     no_update_profiles.append(existing_profile)
                     self.log(
-                        "Profile '{0}' requires no updates.".format(profile_name),
-                        "DEBUG",
+                        "Profile '{0}' requires no updates.".format(profile_name), "DEBUG"
                     )
 
             else:
@@ -13431,10 +13415,10 @@ class WirelessDesign(DnacBase):
             "DEBUG",
         )
 
-        # Validate that the total number of processed profiles matches the number of requested profiles
         total_profiles_processed = (
             len(create_profiles) + len(update_profiles) + len(no_update_profiles)
         )
+
         if total_profiles_processed == len(updated_access_point_profiles):
             self.log(
                 "Match in total counts: Processed={0}, Requested={1}.".format(
@@ -13450,7 +13434,6 @@ class WirelessDesign(DnacBase):
                 "ERROR",
             )
 
-        # Return the categorized profiles
         return create_profiles, update_profiles, no_update_profiles
 
     def verify_delete_access_point_profiles_requirement(self, access_point_profiles):

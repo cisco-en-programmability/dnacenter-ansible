@@ -1,0 +1,514 @@
+# ---
+# # ===================================================================================================
+# # AUTHENTICATION FEATURE TESTS SUMMARY
+# # ===================================================================================================
+# #
+# # This test suite validates 802.1X Authentication configuration functionality for Wired Campus Automation.
+# #
+# # TEST CATEGORIES:
+# #
+# # 1. NEGATIVE VALIDATION TESTS (Lines 90-450)
+# #    - Authentication Enable validation (string/integer/list instead of boolean)
+# #    - Authentication Config Mode validation (integer/boolean/list instead of string, invalid choices)
+# #    - Case sensitivity validation (lowercase/mixed case mode values)
+# #    - Partial match validation (abbreviated mode names)
+# #    - Data type and structure validation (invalid dict/list types)
+# #
+# # 2. POSITIVE VALIDATION TESTS (Lines 450-1200)
+# #    a) Authentication Creation Tests (Merged State)
+# #       - Enable/disable only configuration
+# #       - Mode only configuration (LEGACY/NEW_STYLE)
+# #       - Combined enable/disable with mode configurations
+# #       - Minimal configuration testing
+# #
+# #    b) Authentication Update Tests (Merged State)
+# #       - Enable/disable authentication updates
+# #       - Mode preservation during updates
+# #       - Combined parameter updates
+# #
+# #    c) Authentication Reset Tests (Deleted State)
+# #       - Empty configuration reset (resets to defaults)
+# #       - Configuration with parameters reset
+# #
+# #    d) Mode Change Restriction Tests
+# #       - Mode change validation (once set, mode cannot be changed)
+# #       - API restriction enforcement testing
+# #
+# #    e) Special Configuration Tests
+# #       - Minimal configurations (enable/disable only)
+# #       - Mode-only configurations
+# #       - Case sensitivity validation
+# #       - Edge case parameter combinations
+# #
+# #    f) Advanced Test Scenarios
+# #       - Idempotency tests (same config applied twice)
+# #       - Cleanup operations
+# #
+# # VALIDATION RANGES:
+# # - Authentication Enable: boolean (true/false)
+# # - Authentication Config Mode: string choices ["LEGACY", "NEW_STYLE"]
+# # - Mode values are case-sensitive and must match exactly
+# # - Once mode is set, it cannot be changed via API
+# #
+# # AUTHENTICATION FUNCTIONALITY:
+# # - 802.1X Authentication provides network access control
+# # - LEGACY mode uses traditional 802.1X authentication methods
+# # - NEW_STYLE mode uses enhanced authentication with additional features
+# # - Enable/disable controls whether authentication is active on the device
+# # - Mode determines the authentication method and capabilities
+# # - Authentication settings apply globally to the managed device
+# #
+# # EXPECTED BEHAVIORS:
+# # - Negative tests should fail with appropriate error messages
+# # - Positive tests should succeed with 'Successfully' in response
+# # - Idempotency: First run changes=true, second run changes=false
+# # - All tests include proper pause times for configuration settlement
+# # - Deleted state resets authentication to default configuration
+# # - Mode change restrictions are enforced by the API
+# # - Case sensitivity is strictly enforced for mode values
+# #
+# # SPECIAL CONSIDERATIONS:
+# # - Mode cannot be changed once initially set (API restriction)
+# # - Mode values are case-sensitive ("LEGACY" not "legacy")
+# # - Authentication configuration affects device security posture
+# # - Proper reset between mode tests to avoid conflicts
+# # - Extended pause times for authentication configuration changes
+# # - Mode change tests may succeed with no changes or fail with restrictions
+# #
+# # ===================================================================================================
+
+# - debug: msg="Starting Authentication feature tests for Wired Campus Automation"
+# - debug: msg="Role Path {{ role_path }}"
+
+# - block:
+#     - name: Load Authentication test variables
+#       include_vars:
+#         file: "{{ role_path }}/vars/vars_wca_test_feature_authentication.yml"
+#         name: authentication_vars_map
+#       vars:
+#         dnac_login: &dnac_login
+#           dnac_host: "{{ dnac_host }}"
+#           dnac_username: "{{ dnac_username }}"
+#           dnac_password: "{{ dnac_password }}"
+#           dnac_verify: "{{ dnac_verify }}"
+#           dnac_port: "{{ dnac_port }}"
+#           dnac_version: "{{ dnac_version }}"
+#           dnac_debug: "{{ dnac_debug }}"
+#           dnac_log: true
+#           dnac_log_level: DEBUG
+#           config_verify: true
+#           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
+#           dnac_log_append: false
+
+#     # #############################################
+#     #        Cleanup Operations
+#     # #############################################
+
+#     - name: Cleanup - Reset authentication to default configuration
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_reset_empty }}"
+#       register: result_auth_cleanup
+#       tags: [positive, authentication, cleanup]
+
+#     # =============================================================================
+#     # NEGATIVE VALIDATION TESTS FOR AUTHENTICATION
+#     # =============================================================================
+
+#     # #############################################
+#     #        Authentication Enable Tests
+#     # #############################################
+
+#     - name: Test authentication enable validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_enable_string }}"
+#       register: result_auth_enable_string
+#       ignore_errors: true
+#       tags: [negative, authentication, enable]
+
+#     - name: Assert authentication enable string validation failed
+#       assert:
+#         that:
+#           - result_auth_enable_string.failed == true
+#           - "'must be of type boolean' in result_auth_enable_string.msg"
+#         fail_msg: "Authentication enable string validation should have failed"
+#         success_msg: "Authentication enable string validation correctly failed"
+#       tags: [negative, authentication, enable]
+
+#     - name: Test authentication enable validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_enable_integer }}"
+#       register: result_auth_enable_integer
+#       ignore_errors: true
+#       tags: [negative, authentication, enable]
+
+#     - name: Assert authentication enable integer validation failed
+#       assert:
+#         that:
+#           - result_auth_enable_integer.failed == true
+#           - "'must be of type boolean' in result_auth_enable_integer.msg"
+#         fail_msg: "Authentication enable integer validation should have failed"
+#         success_msg: "Authentication enable integer validation correctly failed"
+#       tags: [negative, authentication, enable]
+
+#     - name: Test authentication enable validation - list value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_enable_list }}"
+#       register: result_auth_enable_list
+#       ignore_errors: true
+#       tags: [negative, authentication, enable]
+
+#     - name: Assert authentication enable list validation failed
+#       assert:
+#         that:
+#           - result_auth_enable_list.failed == true
+#           - "'must be of type boolean' in result_auth_enable_list.msg"
+#         fail_msg: "Authentication enable list validation should have failed"
+#         success_msg: "Authentication enable list validation correctly failed"
+#       tags: [negative, authentication, enable]
+
+#     # #############################################
+#     #        Authentication Mode Tests
+#     # #############################################
+
+#     - name: Test authentication config mode validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_config_mode_integer }}"
+#       register: result_auth_mode_integer
+#       ignore_errors: true
+#       tags: [negative, authentication, config_mode]
+
+#     - name: Assert authentication config mode integer validation failed
+#       assert:
+#         that:
+#           - result_auth_mode_integer.failed == true
+#           - "'must be of type string' in result_auth_mode_integer.msg"
+#         fail_msg: "Authentication config mode integer validation should have failed"
+#         success_msg: "Authentication config mode integer validation correctly failed"
+#       tags: [negative, authentication, config_mode]
+
+#     - name: Test authentication config mode validation - boolean value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_config_mode_boolean }}"
+#       register: result_auth_mode_boolean
+#       ignore_errors: true
+#       tags: [negative, authentication, config_mode]
+
+#     - name: Assert authentication config mode boolean validation failed
+#       assert:
+#         that:
+#           - result_auth_mode_boolean.failed == true
+#           - "'must be of type string' in result_auth_mode_boolean.msg"
+#         fail_msg: "Authentication config mode boolean validation should have failed"
+#         success_msg: "Authentication config mode boolean validation correctly failed"
+#       tags: [negative, authentication, config_mode]
+
+#     - name: Test authentication config mode validation - list value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_config_mode_list }}"
+#       register: result_auth_mode_list
+#       ignore_errors: true
+#       tags: [negative, authentication, config_mode]
+
+#     - name: Assert authentication config mode list validation failed
+#       assert:
+#         that:
+#           - result_auth_mode_list.failed == true
+#           - "'must be of type string' in result_auth_mode_list.msg"
+#         fail_msg: "Authentication config mode list validation should have failed"
+#         success_msg: "Authentication config mode list validation correctly failed"
+#       tags: [negative, authentication, config_mode]
+
+#     - name: Test authentication config mode validation - invalid choice should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_config_mode_invalid_choice }}"
+#       register: result_auth_mode_invalid_choice
+#       ignore_errors: true
+#       tags: [negative, authentication, config_mode, choices]
+
+#     - name: Assert authentication config mode invalid choice validation failed
+#       assert:
+#         that:
+#           - result_auth_mode_invalid_choice.failed == true
+#           - "'must be one of' in result_auth_mode_invalid_choice.msg"
+#         fail_msg: "Authentication config mode invalid choice validation should have failed"
+#         success_msg: "Authentication config mode invalid choice validation correctly failed"
+#       tags: [negative, authentication, config_mode, choices]
+
+#     - name: Test authentication config mode validation - partial match should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_config_mode_partial }}"
+#       register: result_auth_mode_partial
+#       ignore_errors: true
+#       tags: [negative, authentication, config_mode, partial]
+
+#     - name: Assert authentication config mode partial match validation failed
+#       assert:
+#         that:
+#           - result_auth_mode_partial.failed == true
+#           - "'must be one of' in result_auth_mode_partial.msg"
+#         fail_msg: "Authentication config mode partial match validation should have failed"
+#         success_msg: "Authentication config mode partial match validation correctly failed"
+#       tags: [negative, authentication, config_mode, partial]
+
+#     # #############################################
+#     #        Data Type and Structure Tests
+#     # #############################################
+
+#     - name: Test authentication structure validation - string instead of dict should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_invalid_dict_type }}"
+#       register: result_auth_invalid_dict_type
+#       ignore_errors: true
+#       tags: [negative, authentication, structure]
+
+#     - name: Assert authentication invalid dict type validation failed
+#       assert:
+#         that:
+#           - result_auth_invalid_dict_type.failed == true
+#           - "'must be of type dictionary' in result_auth_invalid_dict_type.msg"
+#         fail_msg: "Authentication invalid dict type validation should have failed"
+#         success_msg: "Authentication invalid dict type validation correctly failed"
+#       tags: [negative, authentication, structure]
+
+#     - name: Test authentication structure validation - list instead of dict should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_invalid_list_type }}"
+#       register: result_auth_invalid_list_type
+#       ignore_errors: true
+#       tags: [negative, authentication, structure]
+
+#     - name: Assert authentication invalid list type validation failed
+#       assert:
+#         that:
+#           - result_auth_invalid_list_type.failed == true
+#           - "'must be of type dictionary' in result_auth_invalid_list_type.msg"
+#         fail_msg: "Authentication invalid list type validation should have failed"
+#         success_msg: "Authentication invalid list type validation correctly failed"
+#       tags: [negative, authentication, structure]
+
+#     - name: Test authentication structure validation - integer instead of dict should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_invalid_integer_type }}"
+#       register: result_auth_invalid_integer_type
+#       ignore_errors: true
+#       tags: [negative, authentication, structure]
+
+#     - name: Assert authentication invalid integer type validation failed
+#       assert:
+#         that:
+#           - result_auth_invalid_integer_type.failed == true
+#           - "'must be of type dictionary' in result_auth_invalid_integer_type.msg"
+#         fail_msg: "Authentication invalid integer type validation should have failed"
+#         success_msg: "Authentication invalid integer type validation correctly failed"
+#       tags: [negative, authentication, structure]
+
+#     # =============================================================================
+#     # POSITIVE VALIDATION TESTS FOR AUTHENTICATION
+#     # =============================================================================
+
+#     # #############################################
+#     #        POSITIVE TEST CASES - CREATE
+#     # #############################################
+
+#     - name: Test authentication configuration with enable only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_create_enable_only }}"
+#       register: result_auth_create_enable_only
+#       tags: [positive, authentication, create, enable]
+
+#     - name: Assert authentication enable only configuration succeeded
+#       assert:
+#         that:
+#           - result_auth_create_enable_only.failed == false
+#           - result_auth_create_enable_only.changed == true
+#           - "'Successfully' in result_auth_create_enable_only.response"
+#         fail_msg: "Authentication enable only configuration should have succeeded"
+#         success_msg: "Authentication enable only configuration succeeded"
+#       tags: [positive, authentication, create, enable]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, authentication, create]
+
+#     - name: Test authentication configuration with disable only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_create_disable_only }}"
+#       register: result_auth_create_disable_only
+#       tags: [positive, authentication, create, disable]
+
+#     - name: Assert authentication disable only configuration succeeded
+#       assert:
+#         that:
+#           - result_auth_create_disable_only.failed == false
+#           - result_auth_create_disable_only.changed == true
+#           - "'Successfully' in result_auth_create_disable_only.response"
+#         fail_msg: "Authentication disable only configuration should have succeeded"
+#         success_msg: "Authentication disable only configuration succeeded"
+#       tags: [positive, authentication, create, disable]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, authentication, create]
+
+#     # IMPORTANT: Reset authentication to test NEW_STYLE mode independently
+#     - name: Reset authentication before NEW_STYLE mode test
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_reset_empty }}"
+#       register: result_auth_reset_before_new_style
+#       tags: [positive, authentication, create, reset_before_new_style]
+
+#     - name: Pause after reset before NEW_STYLE test
+#       pause:
+#         seconds: 15
+#       tags: [positive, authentication, create]
+
+#     # #############################################
+#     #        POSITIVE TEST CASES - UPDATE
+#     # #############################################
+
+#     - name: Test authentication update - enable authentication (preserving existing mode)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_update_enable }}"
+#       register: result_auth_update_enable
+#       tags: [positive, authentication, update, enable]
+
+#     - name: Assert authentication enable update succeeded
+#       assert:
+#         that:
+#           - result_auth_update_enable.failed == false
+#           - result_auth_update_enable.changed == true
+#           - "'Successfully' in result_auth_update_enable.response"
+#         fail_msg: "Authentication enable update should have succeeded"
+#         success_msg: "Authentication enable update succeeded"
+#       tags: [positive, authentication, update, enable]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, authentication, update]
+
+#     - name: Test authentication update - disable authentication (preserving existing mode)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_update_disable }}"
+#       register: result_auth_update_disable
+#       tags: [positive, authentication, update, disable]
+
+#     - name: Assert authentication disable update succeeded
+#       assert:
+#         that:
+#           - result_auth_update_disable.failed == false
+#           - result_auth_update_disable.changed == true
+#           - "'Successfully' in result_auth_update_disable.response"
+#         fail_msg: "Authentication disable update should have succeeded"
+#         success_msg: "Authentication disable update succeeded"
+#       tags: [positive, authentication, update, disable]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, authentication, update]
+
+#     # #############################################
+#     #        POSITIVE TEST CASES - RESET
+#     # #############################################
+
+#     - name: Test authentication reset - empty configuration (deleted state resets to defaults)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_reset_empty }}"
+#       register: result_auth_reset_empty
+#       tags: [positive, authentication, reset, deleted]
+
+#     - name: Assert authentication empty reset succeeded
+#       assert:
+#         that:
+#           - result_auth_reset_empty.failed == false
+#           - result_auth_reset_empty.changed == true
+#           - "'Successfully' in result_auth_reset_empty.response"
+#         fail_msg: "Authentication empty reset should have succeeded"
+#         success_msg: "Authentication empty reset succeeded"
+#       tags: [positive, authentication, reset, deleted]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 15
+#       tags: [positive, authentication, reset]
+
+#     - name: Test authentication reset - with existing parameters (deleted state resets to defaults)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - "{{ authentication_vars_map.test_authentication_reset_with_params }}"
+#       register: result_auth_reset_with_params
+#       tags: [positive, authentication, reset, deleted]
+
+#     - name: Assert authentication reset with params succeeded
+#       assert:
+#         that:
+#           - result_auth_reset_with_params.failed == false
+#           - result_auth_reset_with_params.changed == true
+#           - "'Successfully' in result_auth_reset_with_params.response"
+#         fail_msg: "Authentication reset with params should have succeeded"
+#         success_msg: "Authentication reset with params succeeded"
+#       tags: [positive, authentication, reset, deleted]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 15
+#       tags: [positive, authentication, reset]

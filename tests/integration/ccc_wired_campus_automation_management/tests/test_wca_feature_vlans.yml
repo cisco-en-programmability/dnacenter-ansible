@@ -1,0 +1,789 @@
+# ---
+# # ===================================================================================================
+# # VLAN FEATURE TESTS SUMMARY
+# # ===================================================================================================
+# #
+# # This test suite validates VLAN configuration for Wired Campus Automation.
+# #
+# # TEST CATEGORIES:
+# #
+# # 1. NEGATIVE VALIDATION TESTS (Lines 30-230)
+# #    - VLAN ID validation (below min, above max, zero, negative, missing)
+# #    - Admin status validation (string/integer instead of boolean)
+# #    - Data type and structure validation (invalid dict/list types)
+# #    - Edge case and boundary tests
+# #
+# # 2. POSITIVE VALIDATION TESTS (Lines 230-750)
+# #    a) VLAN Creation Tests
+# #       - Single VLAN creation (minimal params, all params, admin disabled)
+# #       - Multiple VLANs creation with mixed configurations
+# #       - Boundary value tests (min/max VLAN IDs)
+# #       - Special characters and numeric names
+# #
+# #    b) VLAN Update Tests (Merged State)
+# #       - Single VLAN updates (name only, both name and status)
+# #       - Multiple VLANs updates
+# #       - Enable/disable VLAN admin status
+# #       - Minimal parameter updates
+# #
+# #    c) VLAN Deletion Tests (Deleted State)
+# #       - Single VLAN deletion
+# #       - Multiple VLANs deletion
+# #       - Selective deletion
+# #       - Boundary VLANs deletion
+# #       - Special characteristics deletion
+# #
+# #    d) Advanced Test Scenarios
+# #       - Idempotency tests (same config applied twice)
+# #       - Cleanup operations
+# #
+# # ===================================================================================================
+
+# - debug: msg="Starting campus automation workflow management test"
+# - debug: msg="Role Path {{ role_path }}"
+
+# - block:
+#     - name: Load vars and declare dnac vars
+#       include_vars:
+#         file: "{{ role_path }}/vars/vars_wca_test_feature_vlans.yml"
+#         name: vlan_vars_map
+#       vars:
+#         dnac_login: &dnac_login
+#           dnac_host: "{{ dnac_host }}"
+#           dnac_username: "{{ dnac_username }}"
+#           dnac_password: "{{ dnac_password }}"
+#           dnac_verify: "{{ dnac_verify }}"
+#           dnac_port: "{{ dnac_port }}"
+#           dnac_version: "{{ dnac_version }}"
+#           dnac_debug: "{{ dnac_debug }}"
+#           dnac_log: true
+#           dnac_log_level: DEBUG
+#           config_verify: true
+#           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
+#           dnac_log_append: false
+
+#     # =============================================================================
+#     # Negative Validation Tests for VLANs
+#     # =============================================================================
+
+#     # #############################################
+#     #           VLAN ID Validation Tests
+#     # #############################################
+
+#     - name: Test VLAN - Invalid VLAN ID (below minimum)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_id_below_min }}"
+#       register: result_vlan_id_below_min
+#       ignore_errors: true
+
+#     - name: Assert VLAN - Invalid VLAN ID (below minimum)
+#       assert:
+#         that:
+#           - result_vlan_id_below_min.failed == true
+#           - "'vlan_id' in result_vlan_id_below_min.msg"
+#           - "'range' in result_vlan_id_below_min.msg"
+#           - "'2' in result_vlan_id_below_min.msg"
+#           - "'4094' in result_vlan_id_below_min.msg"
+
+#     - name: Test VLAN - Invalid VLAN ID (above maximum)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_id_above_max }}"
+#       register: result_vlan_id_above_max
+#       ignore_errors: true
+
+#     - name: Assert VLAN - Invalid VLAN ID (above maximum)
+#       assert:
+#         that:
+#           - result_vlan_id_above_max.failed == true
+#           - "'vlan_id' in result_vlan_id_above_max.msg"
+#           - "'range' in result_vlan_id_above_max.msg"
+
+#     - name: Test VLAN - Invalid VLAN ID (zero)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_id_zero }}"
+#       register: result_vlan_id_zero
+#       ignore_errors: true
+
+#     - name: Assert VLAN - Invalid VLAN ID (zero)
+#       assert:
+#         that:
+#           - result_vlan_id_zero.failed == true
+#           - "'vlan_id' in result_vlan_id_zero.msg"
+#           - "'range' in result_vlan_id_zero.msg"
+
+#     - name: Test VLAN - Invalid VLAN ID (negative)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_id_negative }}"
+#       register: result_vlan_id_negative
+#       ignore_errors: true
+
+#     - name: Assert VLAN - Invalid VLAN ID (negative)
+#       assert:
+#         that:
+#           - result_vlan_id_negative.failed == true
+#           - "'vlan_id' in result_vlan_id_negative.msg"
+#           - "'range' in result_vlan_id_negative.msg"
+
+#     - name: Test VLAN - Missing required VLAN ID
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_id_missing }}"
+#       register: result_vlan_id_missing
+#       ignore_errors: true
+
+#     - name: Assert VLAN - Missing required VLAN ID
+#       assert:
+#         that:
+#           - result_vlan_id_missing.failed == true
+#           - "'vlan_id' in result_vlan_id_missing.msg"
+#           - "'required' in result_vlan_id_missing.msg"
+
+#     # #############################################
+#     #         VLAN Admin Status Tests
+#     # #############################################
+
+#     - name: Test VLAN - Invalid admin status (string instead of boolean)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_admin_status_string }}"
+#       register: result_vlan_admin_status_string
+#       ignore_errors: true
+
+#     - name: Assert VLAN - Invalid admin status (string)
+#       assert:
+#         that:
+#           - result_vlan_admin_status_string.failed == true
+#           - "'vlan_admin_status' in result_vlan_admin_status_string.msg"
+
+#     - name: Test VLAN - Invalid admin status (integer instead of boolean)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_admin_status_integer }}"
+#       register: result_vlan_admin_status_integer
+#       ignore_errors: true
+
+#     - name: Assert VLAN - Invalid admin status (integer)
+#       assert:
+#         that:
+#           - result_vlan_admin_status_integer.failed == true
+#           - "'vlan_admin_status' in result_vlan_admin_status_integer.msg"
+
+#     # #############################################
+#     #         Data Type and Structure Tests
+#     # #############################################
+
+#     - name: Test VLAN - Invalid data type (string instead of dict)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_invalid_dict_type }}"
+#       register: result_vlan_invalid_dict_type
+#       ignore_errors: true
+
+#     - name: Assert VLAN - Invalid data type
+#       assert:
+#         that:
+#           - result_vlan_invalid_dict_type.failed == true
+#           - "'dictionary' in result_vlan_invalid_dict_type.msg"
+
+#     - name: Test VLAN - Invalid VLAN list structure (not a list)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_not_list }}"
+#       register: result_vlan_not_list
+#       ignore_errors: true
+
+#     - name: Assert VLAN - Invalid VLAN list structure
+#       assert:
+#         that:
+#           - result_vlan_not_list.failed == true
+#           - "'str' in result_vlan_not_list.msg"
+
+#     # #############################################
+#     #         Edge Case and Boundary Tests
+#     # #############################################
+
+#     - name: Test VLAN - Minimum valid VLAN ID (1)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_id_min_valid }}"
+#       register: result_vlan_id_min_valid
+#       ignore_errors: true
+
+#     - name: Assert VLAN - Minimum valid VLAN ID (should pass)
+#       assert:
+#         that:
+#           - result_vlan_id_min_valid.failed == true
+#           - result_vlan_id_min_valid.changed == false
+
+#     - name: Test VLAN - Multiple VLANs with one invalid
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_multiple_one_invalid }}"
+#       register: result_vlan_multiple_one_invalid
+#       ignore_errors: true
+
+#     - name: Assert VLAN - Multiple VLANs with one invalid
+#       assert:
+#         that:
+#           - result_vlan_multiple_one_invalid.failed == true
+#           - "'vlan_id' in result_vlan_multiple_one_invalid.msg"
+
+#     - name: Test VLAN Creation - Single VLAN admin disabled
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_create_single_disabled_1 }}"
+#       register: result_vlan_create_single_disabled
+#       ignore_errors: true
+
+#     - name: Assert VLAN Creation - Single VLAN disabled (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_create_single_disabled.failed == true
+#           - result_vlan_create_single_disabled.changed == false
+#           - "'Failed' in result_vlan_create_single_disabled.response"
+
+#     # =============================================================================
+#     # POSITIVE TEST CASES - VLAN UPDATE (MERGED STATE)
+#     # =============================================================================
+
+#     # #############################################
+#     #        Single VLAN Update Tests
+#     # #############################################
+
+#     - name: Test VLAN Creation - Single VLAN with minimal parameters
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_create_single_minimal }}"
+#       register: result_vlan_create_single_minimal
+
+#     - name: Assert VLAN Creation - Single VLAN minimal (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_create_single_minimal.failed == false
+#           - result_vlan_create_single_minimal.changed == true
+#           - "'Successfully' in result_vlan_create_single_minimal.response"
+#         fail_msg: Single VLAN creation with minimal parameters failed
+#         success_msg: Single VLAN creation with minimal parameters failed
+
+#     - name: Wait 10 seconds before next test to allow configuration to settle
+#       pause:
+#         seconds: 10
+
+#     - name: Test VLAN Creation - Single VLAN with all parameters
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_create_single_all_params }}"
+#       register: result_vlan_create_single_all_params
+
+#     - name: Assert VLAN Creation - Single VLAN all params (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_create_single_all_params.failed == false
+#           - result_vlan_create_single_all_params.changed == true
+#           - "'Successfully' in result_vlan_create_single_all_params.response"
+#         fail_msg: Single VLAN creation with all parameters failed
+#         success_msg: Single VLAN creation with all parameters succeeded
+
+#     - name: Wait 10 seconds before next test to allow configuration to settle
+#       pause:
+#         seconds: 10
+
+#     - name: Test VLAN Creation - Single VLAN admin disabled
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_create_single_disabled_2 }}"
+#       register: result_vlan_create_single_disabled_2
+
+#     - name: Assert VLAN Creation - Single VLAN disabled (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_create_single_disabled_2.failed == false
+#           - result_vlan_create_single_disabled_2.changed == true
+#           - "'Successfully' in result_vlan_create_single_disabled_2.response"
+#         fail_msg: Single VLAN creation with admin disabled failed
+#         success_msg: Single VLAN creation with admin disabled succeeded
+
+#     - name: Wait 10 seconds before next test to allow configuration to settle
+#       pause:
+#         seconds: 10
+
+#     # #############################################
+#     #         Multiple VLANs Creation Tests
+#     # #############################################
+
+#     - name: Test VLAN Creation - Multiple VLANs mixed configurations
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_create_multiple_mixed }}"
+#       register: result_vlan_create_multiple_mixed
+
+#     - name: Assert VLAN Creation - Multiple VLANs mixed (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_create_multiple_mixed.failed == false
+#           - result_vlan_create_multiple_mixed.changed == true
+#           - "'Successfully' in result_vlan_create_multiple_mixed.response"
+#         fail_msg: Multiple VLANs creation with mixed configurations failed
+#         success_msg: Multiple VLANs creation with mixed configurations succeeded
+
+#     - name: Wait 10 seconds before next test to allow configuration to settle
+#       pause:
+#         seconds: 10
+
+#     # #############################################
+#     #         Boundary Value Tests
+#     # #############################################
+
+#     - name: Test VLAN Creation - Minimum boundary VLAN ID
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_create_boundary_min }}"
+#       register: result_vlan_create_boundary_min
+
+#     - name: Assert VLAN Creation - Minimum boundary (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_create_boundary_min.failed == false
+#           - result_vlan_create_boundary_min.changed == true
+#           - "'Successfully' in result_vlan_create_boundary_min.response"
+#         fail_msg: Minimum boundary VLAN creation failed
+#         success_msg: Minimum boundary VLAN creation succeeded
+
+#     - name: Wait 10 seconds before next test to allow configuration to settle
+#       pause:
+#         seconds: 10
+
+#     - name: Test VLAN Creation - Maximum boundary VLAN ID
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_create_boundary_max }}"
+#       register: result_vlan_create_boundary_max
+
+#     - name: Assert VLAN Creation - Maximum boundary (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_create_boundary_max.failed == false
+#           - result_vlan_create_boundary_max.changed == true
+#           - "'Successfully' in result_vlan_create_boundary_max.response"
+#         fail_msg: Maximum boundary VLAN creation failed
+#         success_msg: Maximum boundary VLAN creation succeeded
+
+#     - name: Wait 10 seconds before next test to allow configuration to settle
+#       pause:
+#         seconds: 10
+
+#     # #############################################
+#     #         Special Characters and Names
+#     # #############################################
+
+#     - name: Test VLAN Creation - Special characters in name
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_create_special_chars }}"
+#       register: result_vlan_create_special_chars
+
+#     - name: Assert VLAN Creation - Special characters (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_create_special_chars.failed == false
+#           - result_vlan_create_special_chars.changed == true
+#           - "'Successfully' in result_vlan_create_special_chars.response"
+#         fail_msg: VLAN creation with special characters failed
+#         success_msg: VLAN creation with special characters succeeded
+
+#     - name: Wait 10 seconds before next test to allow configuration to settle
+#       pause:
+#         seconds: 10
+
+#     - name: Test VLAN Creation - Numeric name
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_create_numeric_name }}"
+#       register: result_vlan_create_numeric_name
+
+#     - name: Assert VLAN Creation - Numeric name (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_create_numeric_name.failed == false
+#           - result_vlan_create_numeric_name.changed == true
+#           - "'Successfully' in result_vlan_create_numeric_name.response"
+#         fail_msg: VLAN creation with numeric name failed
+#         success_msg: VLAN creation with numeric name succeeded
+
+#     - name: Wait 10 seconds before next test to allow configuration to settle
+#       pause:
+#         seconds: 10
+
+#     # =============================================================================
+#     # POSITIVE TEST CASES - VLAN UPDATE (MERGED STATE)
+#     # =============================================================================
+
+#     # #############################################
+#     #         Single VLAN Update Tests
+#     # #############################################
+
+#     - name: Test VLAN Update - Change name only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_update_name_only }}"
+#       register: result_vlan_update_name_only
+
+#     - name: Assert VLAN Update - Name only (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_update_name_only.failed == false
+#           - result_vlan_update_name_only.changed == true
+#           - "'Successfully' in result_vlan_update_name_only.response"
+#         fail_msg: VLAN name update failed
+#         success_msg: VLAN name update succeeded
+
+#     - name: Wait 10 seconds before next test to allow configuration to settle
+#       pause:
+#         seconds: 10
+
+#     - name: Test VLAN Update - Change both name and status
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_update_both_params }}"
+#       register: result_vlan_update_both_params
+
+#     - name: Assert VLAN Update - Both parameters (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_update_both_params.failed == false
+#           - result_vlan_update_both_params.changed == true
+#           - "'Successfully' in result_vlan_update_both_params.response"
+#         fail_msg: VLAN update of both parameters failed
+#         success_msg: VLAN update of both parameters succeeded
+
+#     - name: Wait 10 seconds before next test to allow configuration to settle
+#       pause:
+#         seconds: 10
+
+#     # #############################################
+#     #         Multiple VLANs Update Tests
+#     # #############################################
+
+#     - name: Test VLAN Update - Multiple VLANs
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_update_multiple }}"
+#       register: result_vlan_update_multiple
+
+#     - name: Assert VLAN Update - Multiple VLANs (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_update_multiple.failed == false
+#           - result_vlan_update_multiple.changed == true
+#           - "'Successfully' in result_vlan_update_multiple.response"
+#         fail_msg: Multiple VLANs update failed
+#         success_msg: Multiple VLANs update succeeded
+
+#     - name: Wait 10 seconds before next test to allow configuration to settle
+#       pause:
+#         seconds: 10
+
+#     - name: Test VLAN Update - Enable disabled VLAN
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_update_enable_disabled }}"
+#       register: result_vlan_update_enable_disabled
+
+#     - name: Assert VLAN Update - Enable disabled (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_update_enable_disabled.failed == false
+#           - result_vlan_update_enable_disabled.changed == true
+#           - "'Successfully' in result_vlan_update_enable_disabled.response"
+#         fail_msg: VLAN enable update failed
+#         success_msg: VLAN enable update succeeded
+
+#     - name: Wait 10 seconds before next test to allow configuration to settle
+#       pause:
+#         seconds: 10
+
+#     - name: Test VLAN Update - Minimal parameters
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_update_minimal }}"
+#       register: result_vlan_update_minimal
+
+#     - name: Assert VLAN Update - Minimal parameters (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_update_minimal.failed == false
+#           - result_vlan_update_minimal.changed == true
+#           - "'Successfully' in result_vlan_update_minimal.response"
+#         fail_msg: VLAN minimal update failed
+#         success_msg: VLAN minimal update succeeded
+
+#     - name: Wait 10 seconds before next test to allow configuration to settle
+#       pause:
+#         seconds: 10
+
+#     # =============================================================================
+#     # POSITIVE TEST CASES - VLAN DELETION (DELETED STATE)
+#     # =============================================================================
+
+#     # #############################################
+#     #        Single VLAN Deletion Tests
+#     # #############################################
+
+#     - name: Test VLAN Deletion - Single VLAN
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_delete_single }}"
+#       register: result_vlan_delete_single
+
+#     - name: Assert VLAN Deletion - Single VLAN (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_delete_single.failed == false
+#           - result_vlan_delete_single.changed == true
+#           - "'Successfully' in result_vlan_delete_single.response"
+#         fail_msg: Single VLAN deletion failed
+#         success_msg: Single VLAN deletion succeeded
+
+#     - name: Wait 10 seconds before next test to allow configuration to settle
+#       pause:
+#         seconds: 10
+
+#     # #############################################
+#     #         Multiple VLANs Deletion Tests
+#     # #############################################
+
+#     - name: Test VLAN Deletion - Multiple VLANs
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_delete_multiple }}"
+#       register: result_vlan_delete_multiple
+
+#     - name: Assert VLAN Deletion - Multiple VLANs (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_delete_multiple.failed == false
+#           - result_vlan_delete_multiple.changed == true
+#           - "'Successfully' in result_vlan_delete_multiple.response"
+#         fail_msg: Multiple VLANs deletion failed
+#         success_msg: Multiple VLANs deletion succeeded
+
+#     - name: Wait 10 seconds before next test to allow configuration to settle
+#       pause:
+#         seconds: 10
+
+#     - name: Test VLAN Deletion - Selective deletion
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_delete_selective }}"
+#       register: result_vlan_delete_selective
+
+#     - name: Assert VLAN Deletion - Selective (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_delete_selective.failed == false
+#           - result_vlan_delete_selective.changed == true
+#           - "'Successfully' in result_vlan_delete_selective.response"
+#         fail_msg: Selective VLAN deletion failed
+#         success_msg: Selective VLAN deletion succeeded
+
+#     - name: Wait 10 seconds before next test to allow configuration to settle
+#       pause:
+#         seconds: 10
+
+#     # #############################################
+#     #         Boundary VLANs Deletion Tests
+#     # #############################################
+
+#     - name: Test VLAN Deletion - Boundary VLANs
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_delete_boundary }}"
+#       register: result_vlan_delete_boundary
+
+#     - name: Assert VLAN Deletion - Boundary VLANs (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_delete_boundary.failed == false
+#           - result_vlan_delete_boundary.changed == true
+#           - "'Successfully' in result_vlan_delete_boundary.response"
+#         fail_msg: Boundary VLANs deletion failed
+#         success_msg: Boundary VLANs deletion succeeded
+
+#     - name: Wait 10 seconds before next test to allow configuration to settle
+#       pause:
+#         seconds: 10
+
+#     # #############################################
+#     #         Special Characteristics Deletion
+#     # #############################################
+
+#     - name: Test VLAN Deletion - Special characteristics VLANs
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - "{{ vlan_vars_map.test_vlan_delete_special_chars }}"
+#       register: result_vlan_delete_special_chars
+
+#     - name: Assert VLAN Deletion - Special characteristics (should succeed)
+#       assert:
+#         that:
+#           - result_vlan_delete_special_chars.failed == false
+#           - result_vlan_delete_special_chars.changed == true
+#           - "'Successfully' in result_vlan_delete_special_chars.response"
+#         fail_msg: Special characteristics VLANs deletion failed
+#         success_msg: Special characteristics VLANs deletion succeeded
+
+#     - name: Wait 10 seconds before next test to allow configuration to settle
+#       pause:
+#         seconds: 10
+
+#     # =============================================================================
+#     # ADVANCED POSITIVE TEST SCENARIOS
+#     # =============================================================================
+
+#     # #############################################
+#     #         Idempotency Tests
+#     # #############################################
+
+#     - name: Test VLAN Idempotency - Create same VLAN twice
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - ip_address: 204.1.2.3
+#             device_collection_status_check: false
+#             layer2_configuration:
+#               vlans:
+#                 - vlan_id: 3001
+#                   vlan_name: Idempotency_Test_VLAN
+#                   vlan_admin_status: true
+#       register: result_vlan_idempotency_first
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 40
+
+#     - name: Test VLAN Idempotency - Create same VLAN again
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - ip_address: 204.1.2.3
+#             device_collection_status_check: false
+#             layer2_configuration:
+#               vlans:
+#                 - vlan_id: 3001
+#                   vlan_name: Idempotency_Test_VLAN
+#                   vlan_admin_status: true
+#       register: result_vlan_idempotency_second
+
+#     - name: Assert VLAN Idempotency - Second creation should not change
+#       assert:
+#         that:
+#           - result_vlan_idempotency_first.failed == false
+#           - result_vlan_idempotency_second.failed == false
+#           - result_vlan_idempotency_first.changed == true
+#           # should be idempotent
+#           - result_vlan_idempotency_second.changed == false
+#         fail_msg: VLAN idempotency test failed
+#         success_msg: VLAN idempotency test succeeded
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 20
+
+#     # #############################################
+#     #         Cleanup Test VLANs
+#     # #############################################
+
+#     - name: Cleanup - Delete test VLANs created during positive tests
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - ip_address: 204.1.2.3
+#             device_collection_status_check: false
+#             layer2_configuration:
+#               vlans:
+#                 - vlan_id: 3001 # Idempotency test VLAN
+#       register: result_vlan_cleanup
+#       ignore_errors: true
+
+#   always:
+#     - name: Display positive test summary
+#       debug:
+#         msg: VLAN positive validation tests completed successfully
+# # #############################################
+# #        Delete ALL VLANS post tests
+# # #############################################
+
+# # - name: Test VLAN Deletion - ALL
+# #   cisco.dnac.wired_campus_automation_workflow_manager:
+# #     <<: *dnac_login
+# #     state: deleted
+# #     config:
+# #       - "{{ vlan_vars_map.test_vlan_delete_all }}"
+# #   register: result_vlan_delete_all

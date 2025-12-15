@@ -1,0 +1,437 @@
+---
+# Common device information
+device_info: &device_info
+  ip_address: "204.1.2.3"
+  device_collection_status_check: false
+
+###################################################################################################################
+# Negative Validation Tests for IGMP Snooping
+
+#############################################
+#        IGMP Snooping Global Configuration Tests    #
+#############################################
+
+# Test invalid IGMP snooping enabled - string instead of boolean
+test_igmp_global_enabled_string:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      enable_igmp_snooping: "true" # Invalid: string instead of boolean
+
+# Test invalid IGMP snooping enabled - integer instead of boolean
+test_igmp_global_enabled_integer:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      enable_igmp_snooping: 1 # Invalid: integer instead of boolean
+
+# Test invalid IGMP querier enabled - string instead of boolean
+test_igmp_global_querier_enabled_string:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_querier: "false" # Invalid: string instead of boolean
+
+# Test invalid IGMP querier enabled - integer instead of boolean
+test_igmp_global_querier_enabled_integer:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_querier: 0 # Invalid: integer instead of boolean
+
+# Test invalid IGMP querier address - integer instead of string
+test_igmp_global_querier_address_integer:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_querier_address: 192168001001 # Invalid: integer instead of string
+
+# Test invalid IGMP querier version - invalid choice
+test_igmp_global_querier_version_invalid:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_querier_version: "VERSION_4" # Invalid: not in valid choices
+
+# Test invalid IGMP querier version - integer instead of string
+test_igmp_global_querier_version_integer:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_querier_version: 2 # Invalid: integer instead of string
+
+# Test invalid IGMP query interval - string instead of integer
+test_igmp_global_query_interval_string:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_querier_query_interval: "125" # Invalid: string instead of integer
+
+# Test invalid IGMP query interval - boolean instead of integer
+test_igmp_global_query_interval_boolean:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_querier_query_interval: true # Invalid: boolean instead of integer
+
+# Test invalid IGMP query interval - below minimum value
+test_igmp_global_query_interval_min:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_querier_query_interval: 0 # Invalid: below minimum of 1
+
+# Test invalid IGMP query interval - exceeds maximum value
+test_igmp_global_query_interval_max:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_querier_query_interval: 18001 # Invalid: exceeds maximum of 18000
+
+#############################################
+#        IGMP Snooping VLAN Configuration Tests  #
+#############################################
+
+# Test invalid IGMP VLAN ID - string instead of integer
+test_igmp_vlan_id_string:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: "98" # Invalid: string instead of integer
+          enable_igmp_snooping: true
+
+# Test invalid IGMP VLAN ID - negative value
+test_igmp_vlan_id_negative:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: -1 # Invalid: negative value
+          enable_igmp_snooping: true
+
+# Test invalid IGMP VLAN ID - exceeds maximum value
+test_igmp_vlan_id_max:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 4095 # Invalid: exceeds maximum of 4094
+          enable_igmp_snooping: true
+
+# Test invalid IGMP VLAN ID - zero value
+test_igmp_vlan_id_zero:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 0 # Invalid: zero value
+          enable_igmp_snooping: true
+
+# Test missing required IGMP VLAN ID
+test_igmp_vlan_id_missing:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - # igmp_snooping_vlan_id is missing - should fail
+          enable_igmp_snooping: true
+
+# Test invalid IGMP VLAN enabled - string instead of boolean
+test_igmp_vlan_enabled_string:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 98
+          enable_igmp_snooping: "true" # Invalid: string instead of boolean
+
+# Test invalid IGMP VLAN enabled - integer instead of boolean
+test_igmp_vlan_enabled_integer:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 99
+          enable_igmp_snooping: 1 # Invalid: integer instead of boolean
+
+# Test invalid IGMP VLAN querier enabled - string instead of boolean
+test_igmp_vlan_querier_enabled_string:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 202
+          enable_igmp_snooping: true
+          igmp_snooping_querier: "false" # Invalid: string instead of boolean
+
+# Test invalid IGMP VLAN querier enabled - integer instead of boolean
+test_igmp_vlan_querier_enabled_integer:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 400
+          enable_igmp_snooping: true
+          igmp_snooping_querier: 0 # Invalid: integer instead of boolean
+
+# Test invalid IGMP VLAN querier address - integer instead of string
+test_igmp_vlan_querier_address_integer:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 401
+          enable_igmp_snooping: true
+          igmp_snooping_querier_address: 192168001001 # Invalid: integer instead of string
+
+# Test invalid IGMP VLAN querier version - invalid choice
+test_igmp_vlan_querier_version_invalid:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 402
+          enable_igmp_snooping: true
+          igmp_snooping_querier_version: "VERSION_4" # Invalid: not in valid choices
+
+# Test invalid IGMP VLAN query interval - string instead of integer
+test_igmp_vlan_query_interval_string:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 403
+          enable_igmp_snooping: true
+          igmp_snooping_querier_query_interval: "125" # Invalid: string instead of integer
+
+# Test invalid IGMP VLAN query interval - below minimum value
+test_igmp_vlan_query_interval_min:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 98
+          enable_igmp_snooping: true
+          igmp_snooping_querier_query_interval: 0 # Invalid: below minimum of 1
+
+# Test invalid IGMP VLAN query interval - exceeds maximum value
+test_igmp_vlan_query_interval_max:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 99
+          enable_igmp_snooping: true
+          igmp_snooping_querier_query_interval: 18001 # Invalid: exceeds maximum of 18000
+
+# Test invalid IGMP VLAN mrouter port list - string instead of list
+test_igmp_vlan_mrouter_port_list_string:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 202
+          enable_igmp_snooping: true
+          igmp_snooping_mrouter_port_list: "GigabitEthernet1/0/1" # Invalid: string instead of list
+
+#############################################
+#        Data Type and Structure Tests     #
+#############################################
+
+# Test invalid IGMP snooping configuration - string instead of dictionary
+test_igmp_invalid_dict_type:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping: "invalid_igmp_string" # Invalid: string instead of dictionary
+
+# Test invalid IGMP snooping configuration - list instead of dictionary
+test_igmp_invalid_list_type:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping: ["invalid", "igmp", "list"] # Invalid: list instead of dictionary
+
+# Test invalid IGMP VLANs - string instead of list
+test_igmp_vlans_invalid_string:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans: "invalid_vlans_string" # Invalid: string instead of list
+
+# Test invalid IGMP VLANs - dictionary instead of list
+test_igmp_vlans_invalid_dict:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans: { "invalid": "dict" } # Invalid: dictionary instead of list
+
+# Test invalid IGMP VLAN item - string instead of dictionary
+test_igmp_vlan_invalid_dict_type:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - "invalid_vlan_string" # Invalid: string instead of dictionary
+
+###################################################################################################################
+# Positive Test Cases for IGMP Snooping
+
+#############################################
+#        POSITIVE TEST CASES - CREATE      #
+#############################################
+
+# Test IGMP snooping configuration with global parameters only
+test_igmp_create_global_only:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      enable_igmp_snooping: true
+      igmp_snooping_querier: false
+      igmp_snooping_querier_address: "192.168.1.1"
+      igmp_snooping_querier_version: "VERSION_2"
+      igmp_snooping_querier_query_interval: 125
+
+# Test IGMP snooping configuration with VLANs only
+test_igmp_create_vlans_only:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 98
+          enable_igmp_snooping: true
+          igmp_snooping_querier: false
+          igmp_snooping_querier_address: "192.168.1.1"
+          igmp_snooping_querier_version: "VERSION_2"
+          igmp_snooping_querier_query_interval: 125
+          igmp_snooping_mrouter_port_list:
+            ["GigabitEthernet1/0/1", "GigabitEthernet1/0/2"]
+
+# Test IGMP snooping configuration with single VLAN
+test_igmp_create_single_vlan:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 99
+          enable_igmp_snooping: true
+
+# Test IGMP snooping configuration with global and VLANs
+test_igmp_create_global_and_vlans:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      enable_igmp_snooping: true
+      igmp_snooping_querier: true
+      igmp_snooping_querier_address: "10.1.1.1"
+      igmp_snooping_querier_version: "VERSION_3"
+      igmp_snooping_querier_query_interval: 60
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 202
+          enable_igmp_snooping: true
+          igmp_snooping_querier: false
+          igmp_snooping_querier_address: "192.168.1.1"
+          igmp_snooping_querier_version: "VERSION_2"
+          igmp_snooping_querier_query_interval: 125
+          igmp_snooping_mrouter_port_list: ["GigabitEthernet1/0/1"]
+        - igmp_snooping_vlan_id: 400
+          enable_igmp_snooping: true
+          igmp_snooping_querier: true
+          igmp_snooping_querier_address: "192.168.2.1"
+          igmp_snooping_querier_version: "VERSION_3"
+          igmp_snooping_querier_query_interval: 90
+          igmp_snooping_mrouter_port_list:
+            ["GigabitEthernet1/0/3", "GigabitEthernet1/0/4"]
+
+# Test IGMP snooping configuration with minimal VLAN parameters
+test_igmp_create_minimal_vlan:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 401
+          enable_igmp_snooping: true
+
+# Test IGMP snooping configuration with multiple VLANs - different settings
+test_igmp_create_multiple_vlans_different_settings:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 401
+          enable_igmp_snooping: true
+          igmp_snooping_querier: false
+          igmp_snooping_querier_query_interval: 60
+        - igmp_snooping_vlan_id: 402
+          enable_igmp_snooping: true
+          igmp_snooping_querier: true
+          igmp_snooping_querier_query_interval: 125
+        - igmp_snooping_vlan_id: 403
+          enable_igmp_snooping: false
+          igmp_snooping_querier: false
+          igmp_snooping_querier_query_interval: 250
+
+#############################################
+#        POSITIVE TEST CASES - UPDATE      #
+#############################################
+
+# Test IGMP snooping update - global parameters only
+test_igmp_update_global_only:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      enable_igmp_snooping: false
+      igmp_snooping_querier: true
+      igmp_snooping_querier_address: "10.2.2.1"
+      igmp_snooping_querier_version: "VERSION_1"
+      igmp_snooping_querier_query_interval: 90
+
+# Test IGMP snooping update - modify existing VLANs
+test_igmp_update_modify_vlans:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 202
+          enable_igmp_snooping: false # Changed from true
+          igmp_snooping_querier: true # Changed from false
+          igmp_snooping_querier_query_interval: 180 # Changed from 125
+        - igmp_snooping_vlan_id: 400
+          enable_igmp_snooping: true
+          igmp_snooping_querier: false # Changed from true
+          igmp_snooping_querier_query_interval: 240 # Changed from 90
+
+# Test IGMP snooping update - global and VLANs together
+test_igmp_update_global_and_vlans:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      enable_igmp_snooping: true
+      igmp_snooping_querier: false # Updated global querier
+      igmp_snooping_querier_query_interval: 180 # Updated global query interval
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 401
+          enable_igmp_snooping: true
+          igmp_snooping_querier: false
+          igmp_snooping_querier_query_interval: 240
+        - igmp_snooping_vlan_id: 402 # Updated VLAN
+          enable_igmp_snooping: true
+          igmp_snooping_querier: true
+          igmp_snooping_querier_query_interval: 150
+
+# Test IGMP snooping update - change global enablement state
+test_igmp_update_change_global_enablement:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      enable_igmp_snooping: false # Changed from previous state
+
+# Test IGMP snooping update - modify single VLAN
+test_igmp_update_single_vlan:
+  <<: *device_info
+  layer2_configuration:
+    igmp_snooping:
+      igmp_snooping_vlans:
+        - igmp_snooping_vlan_id: 403
+          enable_igmp_snooping: true
+          igmp_snooping_querier: true
+          igmp_snooping_querier_query_interval: 300

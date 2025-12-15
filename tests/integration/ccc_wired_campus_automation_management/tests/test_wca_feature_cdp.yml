@@ -1,0 +1,893 @@
+# ---
+# # ===================================================================================================
+# # CDP FEATURE TESTS SUMMARY
+# # ===================================================================================================
+# #
+# # This test suite validates CDP (Cisco Discovery Protocol) configuration functionality for Wired Campus Automation.
+# #
+# # TEST CATEGORIES:
+# #
+# # 1. NEGATIVE VALIDATION TESTS (Lines 75-350)
+# #    - CDP Admin Status validation (string/integer instead of boolean)
+# #    - CDP Hold Time validation (below min, above max, negative, string, float)
+# #    - CDP Timer validation (below min, above max, negative, string, float)
+# #    - CDP Advertise V2 validation (string/integer instead of boolean)
+# #    - CDP Log Duplex Mismatch validation (string/integer instead of boolean)
+# #    - Data type and structure validation (invalid dict/list types)
+# #
+# # 2. POSITIVE VALIDATION TESTS (Lines 350-800)
+# #    a) CDP Creation Tests
+# #       - Admin status only configuration
+# #       - All parameters configuration
+# #       - Custom timers configuration
+# #       - Disabled CDP configuration
+# #
+# #    b) CDP Update Tests (Merged State)
+# #       - Enable CDP updates
+# #       - Timer modifications
+# #       - Feature disable/enable
+# #       - All parameters updates
+# #
+# #    c) CDP Deletion Tests (Deleted State)
+# #       - Empty configuration deletion/reset
+# #       - Configuration with parameters deletion
+# #
+# #    d) Boundary Value Tests
+# #       - Minimum valid values (hold_time: 10, timer: 5)
+# #       - Maximum valid values (hold_time: 255, timer: 254)
+# #       - Recommended values testing
+# #
+# #    e) Advanced Test Scenarios
+# #       - Idempotency tests (same config applied twice)
+# #       - Cleanup operations
+# #
+# # VALIDATION RANGES:
+# # - CDP Admin Status: boolean (true/false)
+# # - CDP Hold Time: integer (10-255 seconds)
+# # - CDP Timer: integer (5-254 seconds)
+# # - CDP Advertise V2: boolean (true/false)
+# # - CDP Log Duplex Mismatch: boolean (true/false)
+# #
+# # EXPECTED BEHAVIORS:
+# # - Negative tests should fail with appropriate error messages
+# # - Positive tests should succeed with 'Successfully' in response
+# # - Idempotency: First run changes=true, second run changes=false
+# # - All tests include proper pause times for configuration settlement
+# #
+# # ===================================================================================================
+
+# - debug: msg="Starting CDP feature tests for Wired Campus Automation"
+# - debug: msg="Role Path {{ role_path }}"
+
+# - block:
+#     - name: Load CDP test variables
+#       include_vars:
+#         file: "{{ role_path }}/vars/vars_wca_test_feature_cdp.yml"
+#         name: cdp_vars_map
+#       vars:
+#         dnac_login: &dnac_login
+#           dnac_host: "{{ dnac_host }}"
+#           dnac_username: "{{ dnac_username }}"
+#           dnac_password: "{{ dnac_password }}"
+#           dnac_verify: "{{ dnac_verify }}"
+#           dnac_port: "{{ dnac_port }}"
+#           dnac_version: "{{ dnac_version }}"
+#           dnac_debug: "{{ dnac_debug }}"
+#           dnac_log: true
+#           dnac_log_level: "DEBUG"
+#           config_verify: true
+#           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
+#           dnac_log_append: false
+
+#     # =============================================================================
+#     # Negative Validation Tests for CDP
+#     # =============================================================================
+
+#     # #############################################
+#     #        CDP Admin Status Tests
+#     # #############################################
+
+#     - name: Test CDP admin status validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_admin_status_string }}"
+#       register: result_cdp_admin_status_string
+#       ignore_errors: true
+#       tags: [negative, cdp, admin_status]
+
+#     - name: Assert CDP admin status string validation failed
+#       assert:
+#         that:
+#           - result_cdp_admin_status_string.failed == true
+#           - "'must be of type boolean' in result_cdp_admin_status_string.msg"
+#         fail_msg: "CDP admin status string validation should have failed"
+#         success_msg: "CDP admin status string validation correctly failed"
+#       tags: [negative, cdp, admin_status]
+
+#     - name: Test CDP admin status validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_admin_status_integer }}"
+#       register: result_cdp_admin_status_integer
+#       ignore_errors: true
+#       tags: [negative, cdp, admin_status]
+
+#     - name: Assert CDP admin status integer validation failed
+#       assert:
+#         that:
+#           - result_cdp_admin_status_integer.failed == true
+#           - "'must be of type boolean' in result_cdp_admin_status_integer.msg"
+#         fail_msg: "CDP admin status integer validation should have failed"
+#         success_msg: "CDP admin status integer validation correctly failed"
+#       tags: [negative, cdp, admin_status]
+
+#     # #############################################
+#     #        CDP Hold Time Tests
+#     # #############################################
+
+#     - name: Test CDP hold time validation - below minimum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_hold_time_below_min }}"
+#       register: result_cdp_hold_time_below_min
+#       ignore_errors: true
+#       tags: [negative, cdp, hold_time]
+
+#     - name: Assert CDP hold time below minimum validation failed
+#       assert:
+#         that:
+#           - result_cdp_hold_time_below_min.failed == true
+#           - "'must be within the range' in result_cdp_hold_time_below_min.msg"
+#         fail_msg: "CDP hold time below minimum validation should have failed"
+#         success_msg: "CDP hold time below minimum validation correctly failed"
+#       tags: [negative, cdp, hold_time]
+
+#     - name: Test CDP hold time validation - above maximum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_hold_time_above_max }}"
+#       register: result_cdp_hold_time_above_max
+#       ignore_errors: true
+#       tags: [negative, cdp, hold_time]
+
+#     - name: Assert CDP hold time above maximum validation failed
+#       assert:
+#         that:
+#           - result_cdp_hold_time_above_max.failed == true
+#           - "'must be within the range' in result_cdp_hold_time_above_max.msg"
+#         fail_msg: "CDP hold time above maximum validation should have failed"
+#         success_msg: "CDP hold time above maximum validation correctly failed"
+#       tags: [negative, cdp, hold_time]
+
+#     - name: Test CDP hold time validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_hold_time_string }}"
+#       register: result_cdp_hold_time_string
+#       ignore_errors: true
+#       tags: [negative, cdp, hold_time]
+
+#     - name: Assert CDP hold time string validation failed
+#       assert:
+#         that:
+#           - result_cdp_hold_time_string.failed == true
+#           - "'must be of type integer' in result_cdp_hold_time_string.msg"
+#         fail_msg: "CDP hold time string validation should have failed"
+#         success_msg: "CDP hold time string validation correctly failed"
+#       tags: [negative, cdp, hold_time]
+
+#     - name: Test CDP hold time validation - float value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_hold_time_float }}"
+#       register: result_cdp_hold_time_float
+#       ignore_errors: true
+#       tags: [negative, cdp, hold_time]
+
+#     - name: Assert CDP hold time float validation failed
+#       assert:
+#         that:
+#           - result_cdp_hold_time_float.failed == true
+#           - "'must be of type integer' in result_cdp_hold_time_float.msg"
+#         fail_msg: "CDP hold time float validation should have failed"
+#         success_msg: "CDP hold time float validation correctly failed"
+#       tags: [negative, cdp, hold_time]
+
+#     - name: Test CDP hold time validation - negative value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_hold_time_negative }}"
+#       register: result_cdp_hold_time_negative
+#       ignore_errors: true
+#       tags: [negative, cdp, hold_time]
+
+#     - name: Assert CDP hold time negative validation failed
+#       assert:
+#         that:
+#           - result_cdp_hold_time_negative.failed == true
+#           - "'must be within the range' in result_cdp_hold_time_negative.msg"
+#         fail_msg: "CDP hold time negative validation should have failed"
+#         success_msg: "CDP hold time negative validation correctly failed"
+#       tags: [negative, cdp, hold_time]
+
+#     # #############################################
+#     #        CDP Timer Tests
+#     # #############################################
+
+#     - name: Test CDP timer validation - below minimum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_timer_below_min }}"
+#       register: result_cdp_timer_below_min
+#       ignore_errors: true
+#       tags: [negative, cdp, timer]
+
+#     - name: Assert CDP timer below minimum validation failed
+#       assert:
+#         that:
+#           - result_cdp_timer_below_min.failed == true
+#           - "'must be within the range' in result_cdp_timer_below_min.msg"
+#         fail_msg: "CDP timer below minimum validation should have failed"
+#         success_msg: "CDP timer below minimum validation correctly failed"
+#       tags: [negative, cdp, timer]
+
+#     - name: Test CDP timer validation - above maximum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_timer_above_max }}"
+#       register: result_cdp_timer_above_max
+#       ignore_errors: true
+#       tags: [negative, cdp, timer]
+
+#     - name: Assert CDP timer above maximum validation failed
+#       assert:
+#         that:
+#           - result_cdp_timer_above_max.failed == true
+#           - "'must be within the range' in result_cdp_timer_above_max.msg"
+#         fail_msg: "CDP timer above maximum validation should have failed"
+#         success_msg: "CDP timer above maximum validation correctly failed"
+#       tags: [negative, cdp, timer]
+
+#     - name: Test CDP timer validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_timer_string }}"
+#       register: result_cdp_timer_string
+#       ignore_errors: true
+#       tags: [negative, cdp, timer]
+
+#     - name: Assert CDP timer string validation failed
+#       assert:
+#         that:
+#           - result_cdp_timer_string.failed == true
+#           - "'must be of type integer' in result_cdp_timer_string.msg"
+#         fail_msg: "CDP timer string validation should have failed"
+#         success_msg: "CDP timer string validation correctly failed"
+#       tags: [negative, cdp, timer]
+
+#     - name: Test CDP timer validation - float value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_timer_float }}"
+#       register: result_cdp_timer_float
+#       ignore_errors: true
+#       tags: [negative, cdp, timer]
+
+#     - name: Assert CDP timer float validation failed
+#       assert:
+#         that:
+#           - result_cdp_timer_float.failed == true
+#           - "'must be of type integer' in result_cdp_timer_float.msg"
+#         fail_msg: "CDP timer float validation should have failed"
+#         success_msg: "CDP timer float validation correctly failed"
+#       tags: [negative, cdp, timer]
+
+#     - name: Test CDP timer validation - negative value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_timer_negative }}"
+#       register: result_cdp_timer_negative
+#       ignore_errors: true
+#       tags: [negative, cdp, timer]
+
+#     - name: Assert CDP timer negative validation failed
+#       assert:
+#         that:
+#           - result_cdp_timer_negative.failed == true
+#           - "'must be within the range' in result_cdp_timer_negative.msg"
+#         fail_msg: "CDP timer negative validation should have failed"
+#         success_msg: "CDP timer negative validation correctly failed"
+#       tags: [negative, cdp, timer]
+
+#     # #############################################
+#     #        CDP Advertise V2 Tests
+#     # #############################################
+
+#     - name: Test CDP advertise v2 validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_advertise_v2_string }}"
+#       register: result_cdp_advertise_v2_string
+#       ignore_errors: true
+#       tags: [negative, cdp, advertise_v2]
+
+#     - name: Assert CDP advertise v2 string validation failed
+#       assert:
+#         that:
+#           - result_cdp_advertise_v2_string.failed == true
+#           - "'must be of type boolean' in result_cdp_advertise_v2_string.msg"
+#         fail_msg: "CDP advertise v2 string validation should have failed"
+#         success_msg: "CDP advertise v2 string validation correctly failed"
+#       tags: [negative, cdp, advertise_v2]
+
+#     - name: Test CDP advertise v2 validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_advertise_v2_integer }}"
+#       register: result_cdp_advertise_v2_integer
+#       ignore_errors: true
+#       tags: [negative, cdp, advertise_v2]
+
+#     - name: Assert CDP advertise v2 integer validation failed
+#       assert:
+#         that:
+#           - result_cdp_advertise_v2_integer.failed == true
+#           - "'must be of type boolean' in result_cdp_advertise_v2_integer.msg"
+#         fail_msg: "CDP advertise v2 integer validation should have failed"
+#         success_msg: "CDP advertise v2 integer validation correctly failed"
+#       tags: [negative, cdp, advertise_v2]
+
+#     # #############################################
+#     #        CDP Log Duplex Mismatch Tests
+#     # #############################################
+
+#     - name: Test CDP log duplex mismatch validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_log_duplex_mismatch_string }}"
+#       register: result_cdp_log_duplex_mismatch_string
+#       ignore_errors: true
+#       tags: [negative, cdp, log_duplex]
+
+#     - name: Assert CDP log duplex mismatch string validation failed
+#       assert:
+#         that:
+#           - result_cdp_log_duplex_mismatch_string.failed == true
+#           - "'must be of type boolean' in result_cdp_log_duplex_mismatch_string.msg"
+#         fail_msg: "CDP log duplex mismatch string validation should have failed"
+#         success_msg: "CDP log duplex mismatch string validation correctly failed"
+#       tags: [negative, cdp, log_duplex]
+
+#     - name: Test CDP log duplex mismatch validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_log_duplex_mismatch_integer }}"
+#       register: result_cdp_log_duplex_mismatch_integer
+#       ignore_errors: true
+#       tags: [negative, cdp, log_duplex]
+
+#     - name: Assert CDP log duplex mismatch integer validation failed
+#       assert:
+#         that:
+#           - result_cdp_log_duplex_mismatch_integer.failed == true
+#           - "'must be of type boolean' in result_cdp_log_duplex_mismatch_integer.msg"
+#         fail_msg: "CDP log duplex mismatch integer validation should have failed"
+#         success_msg: "CDP log duplex mismatch integer validation correctly failed"
+#       tags: [negative, cdp, log_duplex]
+
+#     # #############################################
+#     #        Data Type and Structure Tests
+#     # #############################################
+
+#     - name: Test CDP structure validation - string instead of dict should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_invalid_dict_type }}"
+#       register: result_cdp_invalid_dict_type
+#       ignore_errors: true
+#       tags: [negative, cdp, structure]
+
+#     - name: Assert CDP invalid dict type validation failed
+#       assert:
+#         that:
+#           - result_cdp_invalid_dict_type.failed == true
+#           - "'must be of type dictionary' in result_cdp_invalid_dict_type.msg"
+#         fail_msg: "CDP invalid dict type validation should have failed"
+#         success_msg: "CDP invalid dict type validation correctly failed"
+#       tags: [negative, cdp, structure]
+
+#     - name: Test CDP structure validation - list instead of dict should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_invalid_list_type }}"
+#       register: result_cdp_invalid_list_type
+#       ignore_errors: true
+#       tags: [negative, cdp, structure]
+
+#     - name: Assert CDP invalid list type validation failed
+#       assert:
+#         that:
+#           - result_cdp_invalid_list_type.failed == true
+#           - "'must be of type dictionary' in result_cdp_invalid_list_type.msg"
+#         fail_msg: "CDP invalid list type validation should have failed"
+#         success_msg: "CDP invalid list type validation correctly failed"
+#       tags: [negative, cdp, structure]
+
+#     - name: Display negative test summary
+#       debug:
+#         msg: "CDP negative validation tests completed successfully"
+#       tags: [negative, cdp]
+
+#     # =============================================================================
+#     # POSITIVE TEST CASES - CDP CREATION (MERGED STATE)
+#     # =============================================================================
+
+#     # #############################################
+#     #        Single CDP Parameter Tests
+#     # #############################################
+
+#     - name: Test CDP configuration with admin status only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_create_admin_status_only }}"
+#       register: result_cdp_create_admin_status_only
+#       tags: [positive, cdp, create, admin_status]
+
+#     - name: Assert CDP admin status only configuration succeeded
+#       assert:
+#         that:
+#           - result_cdp_create_admin_status_only.failed == false
+#           - result_cdp_create_admin_status_only.changed == true
+#           - "'Successfully' in result_cdp_create_admin_status_only.response"
+#         fail_msg: "CDP admin status only configuration should have succeeded"
+#         success_msg: "CDP admin status only configuration succeeded"
+#       tags: [positive, cdp, create, admin_status]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, cdp, create]
+
+#     - name: Test CDP configuration with all parameters
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_create_all_params }}"
+#       register: result_cdp_create_all_params
+#       tags: [positive, cdp, create, all_params]
+
+#     - name: Assert CDP all parameters configuration succeeded
+#       assert:
+#         that:
+#           - result_cdp_create_all_params.failed == false
+#           - result_cdp_create_all_params.changed == true
+#           - "'Successfully' in result_cdp_create_all_params.response"
+#         fail_msg: "CDP all parameters configuration should have succeeded"
+#         success_msg: "CDP all parameters configuration succeeded"
+#       tags: [positive, cdp, create, all_params]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, cdp, create]
+
+#     - name: Test CDP configuration with custom timers
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_create_custom_timers }}"
+#       register: result_cdp_create_custom_timers
+#       tags: [positive, cdp, create, timers]
+
+#     - name: Assert CDP custom timers configuration succeeded
+#       assert:
+#         that:
+#           - result_cdp_create_custom_timers.failed == false
+#           - result_cdp_create_custom_timers.changed == true
+#           - "'Successfully' in result_cdp_create_custom_timers.response"
+#         fail_msg: "CDP custom timers configuration should have succeeded"
+#         success_msg: "CDP custom timers configuration succeeded"
+#       tags: [positive, cdp, create, timers]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, cdp, create]
+
+#     - name: Test CDP disabled configuration
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_create_disabled }}"
+#       register: result_cdp_create_disabled
+#       tags: [positive, cdp, create, disabled]
+
+#     - name: Assert CDP disabled configuration succeeded
+#       assert:
+#         that:
+#           - result_cdp_create_disabled.failed == false
+#           - result_cdp_create_disabled.changed == true
+#           - "'Successfully' in result_cdp_create_disabled.response"
+#         fail_msg: "CDP disabled configuration should have succeeded"
+#         success_msg: "CDP disabled configuration succeeded"
+#       tags: [positive, cdp, create, disabled]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, cdp, create]
+
+#     # =============================================================================
+#     # POSITIVE TEST CASES - CDP UPDATE (MERGED STATE)
+#     # =============================================================================
+
+#     # #############################################
+#     #        Single CDP Update Tests
+#     # #############################################
+
+#     - name: Test CDP update - enable CDP
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_update_enable }}"
+#       register: result_cdp_update_enable
+#       tags: [positive, cdp, update, enable]
+
+#     - name: Assert CDP enable update succeeded
+#       assert:
+#         that:
+#           - result_cdp_update_enable.failed == false
+#           - result_cdp_update_enable.changed == true
+#           - "'Successfully' in result_cdp_update_enable.response"
+#         fail_msg: "CDP enable update should have succeeded"
+#         success_msg: "CDP enable update succeeded"
+#       tags: [positive, cdp, update, enable]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, cdp, update]
+
+#     - name: Test CDP update - modify timers
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_update_timers }}"
+#       register: result_cdp_update_timers
+#       tags: [positive, cdp, update, timers]
+
+#     - name: Assert CDP timers update succeeded
+#       assert:
+#         that:
+#           - result_cdp_update_timers.failed == false
+#           - result_cdp_update_timers.changed == true
+#           - "'Successfully' in result_cdp_update_timers.response"
+#         fail_msg: "CDP timers update should have succeeded"
+#         success_msg: "CDP timers update succeeded"
+#       tags: [positive, cdp, update, timers]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, cdp, update]
+
+#     - name: Test CDP update - disable features
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_update_disable_features }}"
+#       register: result_cdp_update_disable_features
+#       tags: [positive, cdp, update, disable]
+
+#     - name: Assert CDP disable features update succeeded
+#       assert:
+#         that:
+#           - result_cdp_update_disable_features.failed == false
+#           - result_cdp_update_disable_features.changed == true
+#           - "'Successfully' in result_cdp_update_disable_features.response"
+#         fail_msg: "CDP disable features update should have succeeded"
+#         success_msg: "CDP disable features update succeeded"
+#       tags: [positive, cdp, update, disable]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, cdp, update]
+
+#     - name: Test CDP update - all parameters
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_update_all_params }}"
+#       register: result_cdp_update_all_params
+#       tags: [positive, cdp, update, all_params]
+
+#     - name: Assert CDP all parameters update succeeded
+#       assert:
+#         that:
+#           - result_cdp_update_all_params.failed == false
+#           - result_cdp_update_all_params.changed == true
+#           - "'Successfully' in result_cdp_update_all_params.response"
+#         fail_msg: "CDP all parameters update should have succeeded"
+#         success_msg: "CDP all parameters update succeeded"
+#       tags: [positive, cdp, update, all_params]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, cdp, update]
+
+#     # =============================================================================
+#     # POSITIVE TEST CASES - CDP DELETION (DELETED STATE)
+#     # =============================================================================
+
+#     # #############################################
+#     #        CDP Deletion Tests
+#     # #############################################
+
+#     - name: Test CDP deletion/reset - empty configuration
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_delete_empty }}"
+#       register: result_cdp_delete_empty
+#       tags: [positive, cdp, delete, empty]
+
+#     - name: Assert CDP empty deletion succeeded
+#       assert:
+#         that:
+#           - result_cdp_delete_empty.failed == false
+#           - result_cdp_delete_empty.changed == true
+#           - "'Successfully' in result_cdp_delete_empty.response"
+#         fail_msg: "CDP empty deletion should have succeeded"
+#         success_msg: "CDP empty deletion succeeded"
+#       tags: [positive, cdp, delete, empty]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, cdp, delete]
+
+#     - name: Test CDP update - all parameters
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_update_all_params }}"
+#       register: result_cdp_update_all_params
+#       tags: [positive, cdp, update, all_params]
+
+#     - name: Assert CDP all parameters update succeeded
+#       assert:
+#         that:
+#           - result_cdp_update_all_params.failed == false
+#           - result_cdp_update_all_params.changed == true
+#           - "'Successfully' in result_cdp_update_all_params.response"
+#         fail_msg: "CDP all parameters update should have succeeded"
+#         success_msg: "CDP all parameters update succeeded"
+#       tags: [positive, cdp, update, all_params]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, cdp, delete]
+
+#     - name: Test CDP deletion/reset - with existing parameters
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_delete_with_params }}"
+#       register: result_cdp_delete_with_params
+#       tags: [positive, cdp, delete, params]
+
+#     - name: Assert CDP deletion with params succeeded
+#       assert:
+#         that:
+#           - result_cdp_delete_with_params.failed == false
+#           - result_cdp_delete_with_params.changed == true
+#           - "'Successfully' in result_cdp_delete_with_params.response"
+#         fail_msg: "CDP deletion with params should have succeeded"
+#         success_msg: "CDP deletion with params succeeded"
+#       tags: [positive, cdp, delete, params]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, cdp, delete]
+
+#     # =============================================================================
+#     # BOUNDARY VALUE TESTS
+#     # =============================================================================
+
+#     # #############################################
+#     #        Boundary Value Tests
+#     # #############################################
+
+#     - name: Test CDP with minimum valid values
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_boundary_min_values }}"
+#       register: result_cdp_boundary_min_values
+#       tags: [positive, cdp, boundary, min]
+
+#     - name: Assert CDP minimum values configuration succeeded
+#       assert:
+#         that:
+#           - result_cdp_boundary_min_values.failed == false
+#           - result_cdp_boundary_min_values.changed == true
+#           - "'Successfully' in result_cdp_boundary_min_values.response"
+#         fail_msg: "CDP minimum values configuration should have succeeded"
+#         success_msg: "CDP minimum values configuration succeeded"
+#       tags: [positive, cdp, boundary, min]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, cdp, boundary]
+
+#     - name: Test CDP with maximum valid values
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_boundary_max_values }}"
+#       register: result_cdp_boundary_max_values
+#       tags: [positive, cdp, boundary, max]
+
+#     - name: Assert CDP maximum values configuration succeeded
+#       assert:
+#         that:
+#           - result_cdp_boundary_max_values.failed == false
+#           - result_cdp_boundary_max_values.changed == true
+#           - "'Successfully' in result_cdp_boundary_max_values.response"
+#         fail_msg: "CDP maximum values configuration should have succeeded"
+#         success_msg: "CDP maximum values configuration succeeded"
+#       tags: [positive, cdp, boundary, max]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, cdp, boundary]
+
+#     - name: Test CDP with recommended values
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_recommended_values }}"
+#       register: result_cdp_recommended_values
+#       tags: [positive, cdp, boundary, recommended]
+
+#     - name: Assert CDP recommended values configuration succeeded
+#       assert:
+#         that:
+#           - result_cdp_recommended_values.failed == false
+#           - result_cdp_recommended_values.changed == true
+#           - "'Successfully' in result_cdp_recommended_values.response"
+#         fail_msg: "CDP recommended values configuration should have succeeded"
+#         success_msg: "CDP recommended values configuration succeeded"
+#       tags: [positive, cdp, boundary, recommended]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, cdp, boundary]
+
+#     # =============================================================================
+#     # ADVANCED POSITIVE TEST SCENARIOS
+#     # =============================================================================
+
+#     # #############################################
+#     #        Idempotency Tests
+#     # #############################################
+
+#     - name: Test CDP Idempotency - Configure same CDP settings twice
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_create_all_params }}"
+#       register: result_cdp_idempotency_first
+#       tags: [positive, cdp, idempotency]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 40
+#       tags: [positive, cdp, idempotency]
+
+#     # should be idempotent
+#     - name: Test CDP Idempotency - Configure same CDP settings again
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ cdp_vars_map.test_cdp_create_all_params }}"
+#       register: result_cdp_idempotency_second
+#       tags: [positive, cdp, idempotency]
+
+#     - name: Assert CDP Idempotency - Second configuration should not change
+#       assert:
+#         that:
+#           - result_cdp_idempotency_second.failed == false
+#           - result_cdp_idempotency_second.changed == false
+#         fail_msg: "CDP idempotency test failed"
+#         success_msg: "CDP idempotency test succeeded"
+#       tags: [positive, cdp, idempotency]
+
+#     # #############################################
+#     #        Cleanup Test Configurations
+#     # #############################################
+
+#     - name: Cleanup - Reset CDP to default configuration
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - ip_address: "204.1.2.3"
+#             device_collection_status_check: false
+#             layer2_configuration:
+#               cdp: {}
+#       register: result_cdp_cleanup
+#       ignore_errors: true
+#       tags: [cleanup, cdp]
+
+#   always:
+#     - name: Display positive test summary
+#       debug:
+#         msg: "CDP positive validation tests completed successfully"
+#       tags: [positive, cdp]
+
+#     - name: Display final cleanup status
+#       debug:
+#         var: result_cdp_cleanup
+#       when: result_cdp_cleanup is defined
+#       tags: [cleanup, cdp]
