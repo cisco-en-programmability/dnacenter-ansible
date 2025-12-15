@@ -460,6 +460,12 @@ options:
             description: The actual script or code constituting
               the body of the template.
             type: str
+          template_content_file_path:
+            description:
+              - Path to a local file containing the template content to be used during create or update operations.
+              - Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+              - When provided, this field takes precedence over 'template_content'.
+            type: str
           template_params:
             description: The customization of the contents
               within the template.
@@ -798,6 +804,12 @@ options:
                         description: The actual script
                           or code constituting the body
                           of the template.
+                        type: str
+                      template_content_file_path:
+                        description:
+                          - Path to a local file containing the template content to be used during import operations.
+                          - Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+                          - When provided, this field takes precedence over 'template_content'.
                         type: str
                       template_params:
                         description: The customization
@@ -1963,6 +1975,45 @@ EXAMPLES = r"""
         software_type: "IOS-XE"
         device_types:
           - product_family: "Switches and Hubs"
+
+- name: Create template using file path content
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
+    state: merged
+    config:
+      - configuration_templates:
+          author: string
+          composite: true
+          custom_params_order: true
+          template_description: string
+          device_types:
+            - product_family: string
+              product_series: string
+              product_type: string
+          failure_policy: string
+          id: string
+          language: string
+          template_name: string
+          project_name: string
+          project_description: string
+          profile_names:
+            - string
+          software_type: string
+          software_version: string
+          tags:
+            - id: string
+              name: string
+          template_content_file_path: "/path/to/template/file"
+          version: string
 """
 
 RETURN = r"""
@@ -2222,6 +2273,7 @@ class Template(NetworkProfileFunctions):
                 "software_type": {"type": "str"},
                 "software_version": {"type": "str"},
                 "template_content": {"type": "str"},
+                "template_content_file_path": {"type": "str"},
                 "template_params": {"type": "list"},
                 "template_name": {"type": "str"},
                 "new_template_name": {"type": "str"},
@@ -2867,6 +2919,35 @@ class Template(NetworkProfileFunctions):
         """
 
         self.log("Template params playbook details: {0}".format(params), "DEBUG")
+
+        # Read template content from file if file path is provided
+        template_content = params.get("template_content")
+        template_content_file_path = params.get("template_content_file_path")
+        if not template_content and not template_content_file_path:
+            self.msg = "One of 'template_content' or 'template_content_file_path' must be provided."
+            self.status = "failed"
+            return self.check_return_status()
+        if template_content_file_path:
+            allowed_ext = (".j2", ".txt")
+            if not str(template_content_file_path).lower().endswith(allowed_ext):
+                self.msg = (
+                    "Invalid template_content_file_path extension. Allowed: .j2, .txt"
+                )
+                self.status = "failed"
+                return self.check_return_status()
+            try:
+                if template_content:
+                    self.log("Both 'template_content' and 'template_content_file_path' provided. Using content from file path.", "WARNING")
+                with open(template_content_file_path, "r", encoding="utf-8") as f:
+                    template_content = f.read()
+            except Exception as e:
+                self.msg = (
+                    "Failed to read template content from file '{0}': {1}".format(
+                        template_content_file_path, str(e)
+                    )
+                )
+                self.status = "failed"
+                return self.check_return_status()
         temp_params = {
             "tags": self.get_tags(params.get("template_tag")),
             "author": params.get("author"),
@@ -2879,7 +2960,7 @@ class Template(NetworkProfileFunctions):
             "deviceTypes": self.get_device_types(params.get("device_types")),
             "id": params.get("id"),
             "softwareVersion": params.get("software_version"),
-            "templateContent": params.get("template_content"),
+            "templateContent": template_content,
             "templateParams": self.get_template_info(params.get("template_params")),
             "version": params.get("version"),
         }
