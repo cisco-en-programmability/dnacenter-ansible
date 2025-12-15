@@ -85,6 +85,7 @@ options:
               - If set to C(True) and a report with the same name is found,
                 a new report is created with a unique timestamp suffix appended to its name.
             type: bool
+            required: false
             default: true
           view_group_name:
             description:
@@ -181,7 +182,7 @@ options:
                         - WEEKLY
                         - MONTHLY
                       type: str
-                      required: true
+                      required: false
                     days:
                       description:
                         - List of days for weekly recurrence.
@@ -391,14 +392,14 @@ options:
                   - Field group availability depends on the selected view_name.
                 type: list
                 elements: dict
-                required: true
+                required: false
                 suboptions:
                   field_group_name:
                     description:
                         - The internal name of the field group as defined in the view metadata.
                         - Must match exactly with the available field_groups for the selected view.
                     type: str
-                    required: true
+                    required: false
                   field_group_display_name:
                     description:
                         - The display name shown in the UI for the field group.
@@ -412,14 +413,14 @@ options:
                       - Field availability depends on the selected field group.
                     type: list
                     elements: dict
-                    required: true
+                    required: false
                     suboptions:
                       name:
                         description:
                           - Field identifier as defined in the view metadata.
                           - Must match exactly with available fields in the group.
                         type: str
-                        required: true
+                        required: false
                       display_name:
                         description:
                             - Optional UI-friendly display label for the field.
@@ -462,7 +463,7 @@ options:
                       - Name of the filter as defined in the view metadata.
                       - Common filters include Location, Time Range, Device Type, etc.
                     type: str
-                    required: true
+                    required: false
                   display_name:
                     description:
                         - Human-readable name of the filter shown in the UI.
@@ -481,7 +482,7 @@ options:
                       - SINGLE_SELECT_ARRAY
                       - TIME_RANGE
                     type: str
-                    required: true
+                    required: false
                   value:
                     description:
                       - Value(s) to apply in the filter based on filter_type.
@@ -492,18 +493,18 @@ options:
                       - Location filters are automatically resolved to site hierarchy IDs.
                     type: list
                     elements: dict
-                    required: true
+                    required: false
                     suboptions:
                         value:
                             description:
                                 - API-compatible internal value (e.g., DeviceFamily = SWITCHES)
                             type: str
-                            required: true
+                            required: false
                         display_value:
                             description:
                                 - Human-readable value (e.g., "Switches" or "Global/India")
                             type: str
-                            required: true
+                            required: false
 
 requirements:
   - dnacentersdk >= 2.8.6
