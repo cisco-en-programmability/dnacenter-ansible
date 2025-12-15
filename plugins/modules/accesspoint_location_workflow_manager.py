@@ -3645,7 +3645,7 @@ class AccessPointLocation(DnacBase):
         if self.location_already_deleted:
             self.result_response['already_processed'].append(
                 "No changes required - access point positions already deleted and "
-                "verified successfully: {0}".format(", ".join(already_deleted_list)) +
+                "verified successfully: {0}".format(", ".join(self.location_already_deleted)) +
                 " from the site " + site_hierarchy)
 
         if self.location_not_deleted:
