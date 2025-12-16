@@ -95,11 +95,11 @@
           # Tests behavior when components_list is specified but no filter criteria provided
           # ====================================================================================
 
-          - file_path: "/tmp/fabric_vlan_empty_filter.yaml" #optional
-            component_specific_filters: #optional
+          - file_path: "/tmp/fabric_vlan_empty_filter.yaml"  # optional
+            component_specific_filters:  # optional
               components_list: ["virtual_networks"]
 
-          # ====================================================================================
+            # ====================================================================================
           # Scenario 9: Virtual Networks - Filter by VN Name (Single)
           # Fetches a single virtual network from Cisco Catalyst Center using vn_name as filter
           # ====================================================================================
