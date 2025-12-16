@@ -99,20 +99,14 @@ class TestDnacBrownfieldTagsPlaybookGenerator(TestDnacModule):
                 self.test_data.get("get_tag_members_by_id_case_1_call_1"),
                 self.test_data.get("get_tag_members_by_id_case_1_call_2"),
                 self.test_data.get("get_tag_members_by_id_case_1_call_3"),
-                # 23 blank response
-                # call 1, 2, 3
                 self.test_data.get("get_tag_members_by_id_empty_response"),
                 self.test_data.get("get_tag_members_by_id_empty_response"),
                 self.test_data.get("get_tag_members_by_id_empty_response"),
-                # 3 emoty calls
-                # 4, 5
                 self.test_data.get("get_tag_members_by_id_case_1_call_4"),
                 self.test_data.get("get_tag_members_by_id_case_1_call_5"),
-                # 1 empty call
                 self.test_data.get("get_tag_members_by_id_empty_response"),
                 self.test_data.get("get_tag_members_by_id_case_1_call_6"),
                 self.test_data.get("get_tag_members_by_id_case_1_call_7"),
-                # 4 emoty calls,
                 self.test_data.get("get_tag_members_by_id_empty_response"),
                 self.test_data.get("get_tag_members_by_id_empty_response"),
                 self.test_data.get("get_tag_members_by_id_empty_response"),
@@ -134,9 +128,6 @@ class TestDnacBrownfieldTagsPlaybookGenerator(TestDnacModule):
         all tags and all tag memberships from Cisco Catalyst Center.
 
         Based on real API logs, this test:
-        - Retrieves 4 sites from get_sites
-        - Retrieves 7 tags from get_tag
-        - Queries tag membership for each tag (network devices and interfaces)
         - Generates YAML configuration file with all discovered tags and memberships
         """
         set_module_args(
