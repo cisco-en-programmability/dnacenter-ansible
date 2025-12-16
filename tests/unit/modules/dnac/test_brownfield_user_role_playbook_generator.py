@@ -94,10 +94,10 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
 
     def test_brownfield_user_role_playbook_generator_playbook_user_role_details(self):
         """
-        Test the Application Policy Workflow Manager's profile creation process.
+        Test the User Role Playbook Generator's ability to generate both user and role configurations.
 
-        This test verifies that the workflow correctly handles the creation of a new
-        application policy profile, ensuring proper validation and expected behavior.
+        This test verifies that the workflow correctly handles the generation of YAML configuration
+        for both user details and role details from Cisco Catalyst Center.
         """
 
         set_module_args(
@@ -126,10 +126,10 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
 
     def test_brownfield_user_role_playbook_generator_playbook_specific_user_details(self):
         """
-        Test the Application Policy Workflow Manager's profile creation process.
+        Test the User Role Playbook Generator's ability to generate specific user details.
 
-        This test verifies that the workflow correctly handles the creation of a new
-        application policy profile, ensuring proper validation and expected behavior.
+        This test verifies that the workflow correctly handles the generation of YAML configuration
+        for specific user details from Cisco Catalyst Center.
         """
 
         set_module_args(
@@ -158,10 +158,10 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
 
     def test_brownfield_user_role_playbook_generator_playbook_specific_role_details(self):
         """
-        Test the Application Policy Workflow Manager's profile creation process.
+        Test the User Role Playbook Generator's ability to generate specific role details.
 
-        This test verifies that the workflow correctly handles the creation of a new
-        application policy profile, ensuring proper validation and expected behavior.
+        This test verifies that the workflow correctly handles the generation of YAML configuration
+        for specific role details from Cisco Catalyst Center.
         """
 
         set_module_args(
@@ -190,10 +190,10 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
 
     def test_brownfield_user_role_playbook_generator_playbook_generate_all_configurations(self):
         """
-        Test the Application Policy Workflow Manager's profile creation process.
+        Test the User Role Playbook Generator's ability to generate all configurations.
 
-        This test verifies that the workflow correctly handles the creation of a new
-        application policy profile, ensuring proper validation and expected behavior.
+        This test verifies that the workflow correctly handles the generation of YAML configuration
+        for all user and role details from Cisco Catalyst Center.
         """
 
         set_module_args(
@@ -222,10 +222,10 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
 
     def test_brownfield_user_role_playbook_generator_playbook_invalid_components(self):
         """
-        Test the Application Policy Workflow Manager's profile creation process.
+        Test the User Role Playbook Generator's handling of invalid components.
 
-        This test verifies that the workflow correctly handles the creation of a new
-        application policy profile, ensuring proper validation and expected behavior.
+        This test verifies that the workflow correctly identifies and reports invalid network
+        components provided in the configuration.
         """
 
         set_module_args(
@@ -250,10 +250,10 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
 
     def test_brownfield_user_role_playbook_all_role_details(self):
         """
-        Test the Application Policy Workflow Manager's profile creation process.
+        Test the User Role Playbook Generator's ability to generate all role details.
 
-        This test verifies that the workflow correctly handles the creation of a new
-        application policy profile, ensuring proper validation and expected behavior.
+        This test verifies that the workflow correctly handles the generation of YAML configuration
+        for all role details from Cisco Catalyst Center.
         """
 
         set_module_args(
