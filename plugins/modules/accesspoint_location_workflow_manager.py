@@ -419,7 +419,8 @@ EXAMPLES = r"""
         config:  # Minimum 1; Maximum 100 config hierarchy
           - floor_site_hierarchy: "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1"
             access_points:
-              - accesspoint_name: AP687D.B402.1614-AP-location_Test6
+              - accesspoint_name: AP687D.B402.1614  # Accesspoint hostname
+                action: assign_planned_ap  # Required for real access point update
                 mac_address: a4:88:73:d4:dd:80  # Required for real access point creation
                 accesspoint_model: AP9120E
                 position:
