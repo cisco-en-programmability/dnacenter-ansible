@@ -908,7 +908,10 @@ class DnacBase():
 
             # Check if the response is empty
             if response is None:
-                self.msg = "No site details retrieved for site name: {0}".format(site_name)
+                self.msg = (
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "Please create the site using the 'cisco.dnac.site_workflow_manager' module."
+                )
                 self.fail_and_exit(self.msg)
 
             self.log("Site details retrieved for site '{0}'': {1}".format(site_name, str(response)), "DEBUG")
@@ -2536,6 +2539,30 @@ class DnacBase():
 
         self.log(f"No matching item found for key '{key}' with value '{value}'.", "DEBUG")
         return None
+
+    def find_duplicate_value(self, config_list, key_name):
+        """
+        Identifies duplicate values for a given key in a list of dictionaries.
+
+        Parameters:
+            config_list (list of dict): A list where each dictionary contains key-value pairs.
+            key_name (str): The key whose values need to be checked for duplicates.
+
+        Returns:
+            list: A list of duplicate key_name values found in the input list.
+        """
+        seen = set()
+        duplicates = set()
+
+        for item in config_list:  # Ensure the item is a dictionary
+            value = item.get(key_name)
+            if value:
+                if value in seen:
+                    duplicates.add(value)
+                else:
+                    seen.add(value)
+
+        return list(duplicates)
 
 
 def is_list_complex(x):
