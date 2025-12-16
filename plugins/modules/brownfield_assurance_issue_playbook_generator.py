@@ -67,32 +67,6 @@ options:
         - For example, "assurance_issue_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
         type: str
         required: false
-      global_filters:
-        description:
-        - Global filters to apply when generating the YAML configuration file.
-        - These filters identify which assurance issues to extract configurations from.
-        - At least one filter type must be specified to identify target settings.
-        type: dict
-        required: false
-        suboptions:
-          issue_name_list:
-            description:
-            - List of issue names to extract configurations from.
-            - Can be applied to both user-defined and system issue definitions.
-            - Issue names must match those configured in Catalyst Center.
-            - Example ["High CPU Usage Alert", "AP Frequent Reboots", "Interface Down"]
-            type: list
-            elements: str
-            required: false
-          device_type_list:
-            description:
-            - List of device types to extract system issue configurations from.
-            - Valid values include ROUTER, SWITCH, WIRELESS_CONTROLLER, UNIFIED_AP, etc.
-            - Only applicable to system issue settings.
-            - Example ["UNIFIED_AP", "SWITCH", "ROUTER"]
-            type: list
-            elements: str
-            required: false
       component_specific_filters:
         description:
         - Filters to specify which assurance issue components and features to include in the YAML configuration file.
@@ -117,34 +91,6 @@ options:
             type: list
             elements: dict
             required: false
-            suboptions:
-              issue_name:
-                description:
-                - Issue name to filter by specific issue title.
-                type: str
-                required: false
-              priority:
-                description:
-                - Issue priority to filter by (P1, P2, P3, P4).
-                type: str
-                required: false
-                choices: ["P1", "P2", "P3", "P4"]
-              issue_status:
-                description:
-                - Issue status to filter by (ACTIVE, RESOLVED, IGNORED).
-                type: str
-                required: false
-                choices: ["ACTIVE", "RESOLVED", "IGNORED"]
-              device_name:
-                description:
-                - Device name to filter issues by specific device.
-                type: str
-                required: false
-              site_hierarchy:
-                description:
-                - Site hierarchy to filter issues by location.
-                type: str
-                required: false
           assurance_user_defined_issue_settings:
             description:
             - User-defined issue settings to filter by issue name or enabled status.
@@ -169,11 +115,6 @@ options:
             elements: dict
             required: false
             suboptions:
-              name:
-                description:
-                - System issue name to filter by name.
-                type: str
-                required: false
               device_type:
                 description:
                 - Device type to filter system issues (e.g., ROUTER, SWITCH, UNIFIED_AP).
@@ -225,7 +166,7 @@ EXAMPLES = r"""
     config:
       - file_path: "/tmp/assurance_issue_config.yml"
         global_filters:
-          device_type_list: ["UNIFIED_AP", "SWITCH"]
+          device_type_list: ["UNIFIED_AP", "ROUTER"]
         component_specific_filters:
           components_list: ["assurance_system_issue_settings"]
 
@@ -246,23 +187,6 @@ EXAMPLES = r"""
       - file_path: "/tmp/complete_assurance_config.yml"
         generate_all_configurations: true
 
-# Generate YAML Configuration with specific issue name filters
-- name: Generate YAML Configuration for specific issues
-  cisco.dnac.brownfield_assurance_issue_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/specific_issues.yml"
-        global_filters:
-          issue_name_list: ["High CPU Usage Alert", "AP Frequent Reboots"]
 """
 
 RETURN = r"""
@@ -496,10 +420,13 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                     self.status = "failed"
                     return self
 
-        # Validate component_specific_filters
-        component_filters = config.get("component_specific_filters", {})
+        # Validate component_specific_filters with safe access
+        component_filters = config.get("component_specific_filters", {}) or {}
         if component_filters:
             components_list = component_filters.get("components_list", [])
+            # Ensure module_schema is available
+            if not hasattr(self, 'module_schema') or not self.module_schema:
+                self.module_schema = self.get_workflow_elements_schema()
             supported_components = list(self.module_schema.get("issue_elements", {}).keys())
 
             for component in components_list:
@@ -959,6 +886,10 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting to retrieve user-defined issues with filters: {0}".format(filters), "DEBUG")
 
+        # Safety check for filters
+        if not filters:
+            filters = {}
+        
         final_user_issues = []
         api_family = issue_element.get("api_family")
         api_function = issue_element.get("api_function")
@@ -967,8 +898,11 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
             api_family, api_function), "INFO")
 
         params = {}
-        component_specific_filters = filters.get("component_specific_filters", {}).get(
-            "assurance_user_defined_issue_settings", [])
+        component_specific_filters = filters.get("component_specific_filters", {})
+        if component_specific_filters:
+            component_specific_filters = component_specific_filters.get("assurance_user_defined_issue_settings", [])
+        else:
+            component_specific_filters = []
 
         try:
             if component_specific_filters:
@@ -1066,7 +1000,7 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "assurance_system_issue_settings": [],
                 "operation_summary": self.get_operation_summary()
             }
-
+        
         if not filters:
             self.log("Error: filters is None or empty", "ERROR")
             return {
@@ -1093,8 +1027,9 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         device_types = []
         global_filters = filters.get("global_filters") or {}
         device_type_list = global_filters.get("device_type_list", [])
-
-        component_specific_filters = filters.get("component_specific_filters", {}).get(
+        
+        component_specific_filters = filters.get("component_specific_filters") or {}
+        component_specific_filters = component_specific_filters.get(
             "assurance_system_issue_settings", [])
 
         if device_type_list:
@@ -1106,23 +1041,39 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                     device_types.append(device_type)
 
         # If no device types specified, use common device types
+        if not device_types:
+            device_types = ["UNIFIED_AP", "SWITCH_AND_HUB", "ROUTER", "WIRELESS_CONTROLLER", "WIRELESS_CLIENT", "WIRED_CLIENT"]
+            self.log("No device types specified, using default device types: {0}".format(device_types), "DEBUG")
 
         try:
-            # Try to get all system issues without device type filtering first
-            self.log("Attempting to retrieve all system issues without device type filtering", "DEBUG")
+            # Try to get all system issues for each device type and enabled state
+            self.log("Attempting to retrieve system issues for device types: {0}".format(device_types), "DEBUG")
+            
             for issue_enabled in ["true", "false"]:
-                response = self.dnac._exec(
-                    family=api_family,
-                    function=api_function,
-                    params={"deviceType": device_types, "issueEnabled": issue_enabled},
-                )
-
-            if response and response.get("response"):
-                issues = response.get("response")
-                self.log("Retrieved {0} total system issues".format(len(issues)), "INFO")
-                final_system_issues.extend(issues)
-            else:
-                self.log("No response or empty response from system issues API", "WARNING")
+                for device_type in device_types:
+                    try:
+                        self.log("Calling API for device_type: {0}, issue_enabled: {1}".format(device_type, issue_enabled), "DEBUG")
+                        params = {"deviceType": device_type, "issueEnabled": issue_enabled}
+                        response = self.execute_get_with_pagination(
+                            api_family,
+                            api_function,
+                            params
+                        )
+                        
+                        self.log("API response received for device_type {0}, issue_enabled {1}: {2}".format(
+                            device_type, issue_enabled, type(response)), "DEBUG")
+                        
+                        if response:
+                            self.log("Retrieved {0} system issues for device_type {1}, issue_enabled {2}".format(
+                                len(response), device_type, issue_enabled), "DEBUG")
+                            final_system_issues.extend(response)
+                        else:
+                            self.log("No response for device_type {0}, issue_enabled {1}".format(
+                                device_type, issue_enabled), "DEBUG")
+                    except Exception as api_error:
+                        self.log("API error for device_type {0}, issue_enabled {1}: {2}".format(
+                            device_type, issue_enabled, str(api_error)), "WARNING")
+                        continue
 
             self.log("Total system issues retrieved: {0}".format(len(final_system_issues)), "INFO")
 
@@ -1133,10 +1084,33 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
 
             # Apply reverse mapping
             reverse_mapping_function = issue_element.get("reverse_mapping_function")
+            if not reverse_mapping_function:
+                self.log("Error: reverse_mapping_function is None for issue_element", "ERROR")
+                return {
+                    "assurance_system_issue_settings": [],
+                    "operation_summary": self.get_operation_summary()
+                }
+            
             reverse_mapping_spec = reverse_mapping_function()
+            if not reverse_mapping_spec:
+                self.log("Error: reverse_mapping_spec is None", "ERROR")
+                return {
+                    "assurance_system_issue_settings": [],
+                    "operation_summary": self.get_operation_summary()
+                }
 
             # Transform using inherited modify_parameters function
+            self.log("About to call modify_parameters with reverse_mapping_spec: {0}, final_system_issues count: {1}".format(
+                type(reverse_mapping_spec), len(final_system_issues)), "DEBUG")
             issue_details = self.modify_parameters(reverse_mapping_spec, final_system_issues)
+            self.log("modify_parameters returned: {0}".format(type(issue_details)), "DEBUG")
+
+            if issue_details is None:
+                self.log("Error: modify_parameters returned None", "ERROR")
+                return {
+                    "assurance_system_issue_settings": [],
+                    "operation_summary": self.get_operation_summary()
+                }
 
             return {
                 "assurance_system_issue_settings": issue_details,
@@ -1183,13 +1157,18 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         # Build configuration data structure
         all_configs = []
 
-        # Get component filters
-        component_filters = config.get("component_specific_filters", {})
+        # Get component filters with safe access
+        component_filters = config.get("component_specific_filters", {}) or {}
         components_list = component_filters.get("components_list", [])
 
         # If generate_all_configurations or no components specified, process all
         if self.generate_all_configurations or not components_list:
-            components_list = list(self.module_schema.get("issue_elements", {}).keys())
+            # Ensure module_schema is available
+            if not hasattr(self, 'module_schema') or not self.module_schema:
+                self.module_schema = self.get_workflow_elements_schema()
+            # Get all component names from issue_elements in schema
+            issue_elements = self.module_schema.get("issue_elements", {})
+            components_list = list(issue_elements.keys())
 
         self.log("Processing components: {0}".format(components_list), "INFO")
 
@@ -1197,9 +1176,19 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
             self.total_components_processed += 1
             self.log("Processing component: {0}".format(component_name), "INFO")
 
-            issue_element = self.module_schema["issue_elements"].get(component_name)
+            # Ensure module_schema is available and valid
+            if not hasattr(self, 'module_schema') or not self.module_schema:
+                self.module_schema = self.get_workflow_elements_schema()
+            
+            # Add debugging for schema structure
+            self.log("Current module_schema structure: {0}".format(self.module_schema.keys()), "DEBUG")
+            issue_elements = self.module_schema.get("issue_elements", {})
+            self.log("Available issue_elements keys: {0}".format(list(issue_elements.keys())), "DEBUG")
+            
+            issue_element = issue_elements.get(component_name)
             if not issue_element:
-                self.log("Component {0} not found in schema".format(component_name), "WARNING")
+                self.log("Component {0} not found in schema. Available components: {1}".format(
+                    component_name, list(issue_elements.keys())), "ERROR")
                 continue
 
             get_function = issue_element.get("get_function_name")
@@ -1207,8 +1196,26 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log("No get function found for component {0}".format(component_name), "WARNING")
                 continue
 
-            # Call the appropriate get function
-            result = get_function(issue_element, config)
+            self.log("About to call get function {0} for component {1}".format(
+                get_function.__name__ if hasattr(get_function, '__name__') else str(get_function), component_name), "DEBUG")
+
+            # Call the appropriate get function with proper filter structure
+            filters_structure = {
+                "global_filters": config.get("global_filters", {}),
+                "component_specific_filters": config.get("component_specific_filters", {})
+            }
+            
+            try:
+                result = get_function(issue_element, filters_structure)
+                self.log("Get function completed for component {0}, result type: {1}".format(component_name, type(result)), "DEBUG")
+            except Exception as e:
+                self.log("Error calling get function for component {0}: {1}".format(component_name, str(e)), "ERROR")
+                continue
+
+            # Check if result is valid before accessing
+            if not result:
+                self.log("Get function for component {0} returned None or empty result".format(component_name), "WARNING")
+                continue
 
             # Extract the component data
             component_data = result.get(component_name, [])
@@ -1217,20 +1224,58 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Generate final YAML structure
         yaml_config = []
-        if all_configs:
-            # Merge all component configurations
-            merged_config = {}
+        
+        # Always generate template structure when generate_all_configurations is True
+        if self.generate_all_configurations:
+            self.log("Building comprehensive YAML structure with all components using brownfield pattern", "DEBUG")
+            # Create list of component configurations following brownfield pattern
+            final_list = []
+            issue_elements = self.module_schema.get("issue_elements", {})
+            
+            for component_name in issue_elements.keys():
+                self.log("Processing component: {0}".format(component_name), "DEBUG")
+                # Check if we have data for this component
+                component_data = None
+                for config_item in all_configs:
+                    if component_name in config_item:
+                        component_data = config_item[component_name]
+                        break
+                
+                # Create component dictionary with proper structure
+                component_dict = {}
+                if component_data:
+                    component_dict[component_name] = component_data
+                else:
+                    component_dict[component_name] = []
+                    
+                final_list.append(component_dict)
+                    
+            yaml_config.append({"config": final_list})
+        elif all_configs:
+            # Create individual component dictionaries for non-generate_all mode  
+            final_list = []
             for config_item in all_configs:
-                merged_config.update(config_item)
+                final_list.append(config_item)
 
-            yaml_config.append({"config": [merged_config]})
+            yaml_config.append({"config": final_list})
+        else:
+            # Generate empty template structure when no configurations found and not in generate_all mode
+            final_list = []
+            issue_elements = self.module_schema.get("issue_elements", {})
+            for component_name in issue_elements.keys():
+                component_dict = {component_name: []}
+                final_list.append(component_dict)
+            yaml_config.append({"config": final_list})
 
         # Write to YAML file
         if yaml_config:
             success = self.write_dict_to_yaml(yaml_config, file_path)
             if success:
                 operation_summary = self.get_operation_summary()
-                self.msg = "YAML config generation succeeded for module '{0}'.".format(self.module_name)
+                if all_configs:
+                    self.msg = "YAML config generation succeeded for module '{0}'.".format(self.module_name)
+                else:
+                    self.msg = "YAML config generation completed for module '{0}' with empty template (no configurations found).".format(self.module_name)
                 self.result["response"] = {
                     "message": self.msg,
                     "file_path": file_path,
