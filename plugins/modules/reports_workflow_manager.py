@@ -66,7 +66,8 @@ options:
             configuration.
           - Reports are processed sequentially, not in parallel,
             which ensures data consistency.
-        type: dict
+        type: list
+        elements: dict
         required: true
         suboptions:
           name:
@@ -476,11 +477,14 @@ options:
                       - C(MULTI_SELECT_TREE) allows hierarchical multi-selection.
                       - C(SINGLE_SELECT_ARRAY) allows single value from array.
                       - C(TIME_RANGE) allows date/time range specification.
+                      - C(REGULAR) allows exact match filtering with single values for specific field types.
+                        Used primarily for Port Reclaim View filters like hostname and family.
                     choices:
                       - MULTI_SELECT
                       - MULTI_SELECT_TREE
                       - SINGLE_SELECT_ARRAY
                       - TIME_RANGE
+                      - REGULAR
                     type: str
                     required: false
                   value:
