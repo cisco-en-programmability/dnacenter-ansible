@@ -465,6 +465,15 @@ options:
               - Path to a local file containing the template content to be used during create or update operations.
               - Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
               - When provided, this field takes precedence over 'template_content'.
+              - Supports absolute and relative paths. Relative paths are resolved from the playbook's working 
+                directory (typically the directory where `ansible-playbook` is executed).
+              - Processing behavior:
+                - If the file extension is '.j2', the content is rendered using Jinja before being sent to CiscoCatalyst Center.
+                  Any variables and logic in the Jinja file are evaluated using the provided `template_params` and runtime context.
+                - If the file extension is '.txt', the content is passed transparently to the Cisco Catalyst Center APIs
+                  without evaluation or interpolation.
+                - Rendering errors (missing variables, invalid Jinja syntax) will cause the module to fail with a descriptive message.
+                - The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
             type: str
           template_params:
             description: The customization of the contents
@@ -1976,7 +1985,8 @@ EXAMPLES = r"""
         device_types:
           - product_family: "Switches and Hubs"
 
-- name: Create template using file path content
+- name: Create L2VN anycast template in Catalyst Center where
+    template content is stored in a file and its path is set in a ENV variable.
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
@@ -1985,35 +1995,45 @@ EXAMPLES = r"""
     dnac_verify: "{{ dnac_verify }}"
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
-    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log_level: DEBUG
     dnac_log: true
     config_verify: true
     state: merged
     config:
       - configuration_templates:
-          author: string
-          composite: true
-          custom_params_order: true
-          template_description: string
+          project_name: "evpn_l2vn_anycast"
+          template_name: "evpn_l2vn_anycast_template"
+          template_content_file_path: "{{ lookup('env', 'BGPEVPN_L2VNANYCAST_TEMPDIR_PATH') | mandatory }}/evpn_anycast.j2"
+          version_description: "Raw Jinja BGP EVPN L2VN anycast template"
+          language: JINJA
+          software_type: "IOS-XE"
           device_types:
-            - product_family: string
-              product_series: string
-              product_type: string
-          failure_policy: string
-          id: string
-          language: string
-          template_name: string
-          project_name: string
-          project_description: string
-          profile_names:
-            - string
-          software_type: string
-          software_version: string
-          tags:
-            - id: string
-              name: string
-          template_content_file_path: "/path/to/template/file"
-          version: string
+            - product_family: Switches and Hubs
+
+- name: Create L2VN anycast template in Catalyst Center where
+    template content is stored in a file and its relative path is provided.
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: DEBUG
+    dnac_log: true
+    config_verify: true
+    state: merged
+    config:
+      - configuration_templates:
+          project_name: "evpn_l2vn_anycast"
+          template_name: "evpn_l2vn_anycast_template"
+          template_content_file_path: "evpn_templates/evpn_anycast.j2"
+          version_description: "Raw Jinja BGP EVPN L2VN anycast template"
+          language: JINJA
+          software_type: "IOS-XE"
+          device_types:
+            - product_family: Switches and Hubs
 """
 
 RETURN = r"""
