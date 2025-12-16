@@ -1,0 +1,62 @@
+---
+create_accesspoint_location:
+  - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
+    access_points:
+      - accesspoint_name: IAC-TB4-SJ-AP1
+        accesspoint_model: CW9172H
+        position:
+          x_position: 30  # x-axis: from 0 to 100
+          y_position: 20  # y-axis: from 0 to 88
+          z_position: 8  # height: from 3.0 to 10
+        radios:  # Minimum Items: 1; Maximum Items: 4
+          - bands: ["2.4"]  # can be 2.4, 5 and 6
+            channel: 10
+            tx_power: 5  # Decibel milliwatts (dBm)
+            antenna:
+              antenna_name: Internal-CW9172H-x-2.4GHz
+              azimuth: 20  # support upto 360
+              elevation: 30  # support -90 upto 90
+          - bands: ["5"]  # can be 2.4, 5 and 6
+            channel: 44
+            tx_power: 6  # Decibel milliwatts (dBm)
+            antenna:
+              antenna_name: Internal-CW9172H-x-5GHz
+              azimuth: 10  # support upto 360
+              elevation: 30  # support -90 upto 90
+
+update_accesspoint_location:
+  - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
+    access_points:
+      - accesspoint_name: IAC-TB4-SJ-AP1
+        accesspoint_model: CW9172H
+        position:
+          x_position: 40  # x-axis: from 0 to 100
+          y_position: 20  # y-axis: from 0 to 88
+          z_position: 8  # height: from 3.0 to 10
+        radios:  # Minimum Items: 1; Maximum Items: 4
+          - bands: ["2.4"]  # can be 2.4, 5 and 6
+            channel: 10
+            tx_power: 5  # Decibel milliwatts (dBm)
+            antenna:
+              antenna_name: Internal-CW9172H-x-2.4GHz
+              azimuth: 10  # support upto 360
+              elevation: 30  # support -90 upto 90
+          - bands: ["5"]  # can be 2.4, 5 and 6
+            channel: 40
+            tx_power: 6  # Decibel milliwatts (dBm)
+            antenna:
+              antenna_name: Internal-CW9172H-x-5GHz
+              azimuth: 10  # support upto 360
+              elevation: 30  # support -90 upto 90
+
+delete_accesspoint_location:
+  - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
+    access_points:
+      - accesspoint_name: IAC-TB4-SJ-AP1
+
+assign_accesspoint_to_location:
+  - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
+    access_points:
+      - accesspoint_name: IAC-TB4-SJ-AP1
+        action: assign_planned  # Assign the planned location to the access point
+        mac_address: 54:8a:ba:22:eb:c0  # Optional
