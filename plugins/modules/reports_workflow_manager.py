@@ -2968,14 +2968,27 @@ class Reports(DnacBase):
             return True
 
         updated_values = []
+        processing_stats = {
+            "total_hostnames": len(filter_value),
+            "successful_resolutions": 0,
+            "failed_resolutions": 0
+        }
 
         for item_index, item in enumerate(filter_value):
+            self.log(
+                "Processing WLC hostname entry {0}/{1}".format(
+                    item_index + 1, len(filter_value)
+                ),
+                "DEBUG"
+            )
             # Validate structure
             if not isinstance(item, dict) or "value" not in item:
                 self.msg = "Each item in 'Wlc' filter value must contain 'value' (hostname)."
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
+
+            processing_stats["successful_resolutions"] += 1
 
             hostname = item["value"]
             display_value = item.get("display_value", hostname)
@@ -2988,6 +3001,7 @@ class Reports(DnacBase):
             # Resolve hostname → device ID
             device_id = self.get_device_id_by_hostname(hostname)
             if not device_id:
+                processing_stats["failed_resolutions"] += 1
                 self.msg = (
                     "Failed to retrieve device ID for WLC hostname: {0}".format(hostname)
                 )
@@ -3011,8 +3025,11 @@ class Reports(DnacBase):
         filter_entry["value"] = updated_values
 
         self.log(
-            "Successfully processed Wlc filter with {0} hostnames".format(
-                len(updated_values)
+            "WLC filter processing completed successfully - total: {0}, "
+            "resolved: {1}, failed: {2}".format(
+                processing_stats["total_hostnames"],
+                processing_stats["successful_resolutions"],
+                processing_stats["failed_resolutions"]
             ),
             "DEBUG"
         )
@@ -3021,7 +3038,7 @@ class Reports(DnacBase):
 
     def get_device_id_by_hostname(self, hostname):
         """
-        Retrieve the device ID for a given hostname using DNAC device list API.
+        Retrieve the device ID for a given hostname using Catalyst Center device list API.
 
         Args:
             hostname (str): The target device hostname to search.
@@ -3030,11 +3047,20 @@ class Reports(DnacBase):
             str: The deviceId for the given hostname.
             None: If the device is not found or an error occurs.
         """
+        self.log(
+            "Starting device ID resolution for hostname lookup operations",
+            "INFO"
+        )
 
         if not hostname:
             msg = "Hostname is required to fetch the device ID."
             self.set_operation_result("failed", False, msg, "ERROR")
             return None
+
+        self.log(
+            "Performing device ID lookup for hostname: {0}".format(hostname),
+            "DEBUG"
+        )
 
         # Prepare API params
         params = {"hostname": [hostname]}
@@ -3059,12 +3085,33 @@ class Reports(DnacBase):
             self.set_operation_result("failed", False, msg, "ERROR")
             return None
 
-        if not response.get("response"):
+        # Extract device information from response
+        device_list = response.get("response", [])
+        if not device_list:
+            self.log(
+                "No devices found for hostname '{0}' in device inventory".format(
+                    hostname
+                ),
+                "WARNING"
+            )
             return None
 
-        device_info = response["response"][0]
+        # Extract device ID from first matching device
+        device_info = device_list[0]
         device_id = device_info.get("id")
-        self.log(f"Device ID for hostname '{hostname}' is '{device_id}'", "DEBUG")
+        if not device_id:
+            self.log(
+                "Device ID not found in response for hostname '{0}'".format(hostname),
+                "WARNING"
+            )
+            return None
+
+        self.log(
+            "Successfully resolved hostname '{0}' to device ID: {1}".format(
+                hostname, device_id
+            ),
+            "INFO"
+        )
         return device_id
 
     def _process_ap_filter(self, filter_entry, filter_index):
@@ -3108,12 +3155,23 @@ class Reports(DnacBase):
             return True
 
         updated_values = []
+        processing_stats = {
+            "total_hostnames": len(filter_value),
+            "successful_resolutions": 0,
+            "failed_resolutions": 0,
+            "device_id_lookups": 0,
+            "mac_address_retrievals": 0
+        }
 
         for item_index, item in enumerate(filter_value):
+            self.log(
+                "Processing AP hostname entry {0}/{1} for MAC address resolution".format(
+                    item_index + 1, len(filter_value)
+                ),
+                "DEBUG"
+            )
 
-            # ----------------------------
             # Validate entry format
-            # ----------------------------
             if not isinstance(item, dict) or "value" not in item:
                 self.msg = "Each item in 'AP Name' filter value must contain 'value'."
                 self.log(self.msg, "ERROR")
@@ -3128,9 +3186,7 @@ class Reports(DnacBase):
                 "DEBUG"
             )
 
-            # ----------------------------
-            # Resolve hostname → device ID
-            # ----------------------------
+            # Step 1: Resolve hostname to device ID
             device_id = self.get_device_id_by_hostname(hostname)
             if not device_id:
                 self.msg = (
@@ -3147,9 +3203,13 @@ class Reports(DnacBase):
                 "DEBUG"
             )
 
-            # ----------------------------
-            # Fetch MAC address using device details API
-            # ----------------------------
+            # Step 2: Retrieve MAC address from device details
+            self.log(
+                "Fetching device details for MAC address extraction: {0}".format(
+                    device_id
+                ),
+                "DEBUG"
+            )
             try:
                 device_details = self.dnac._exec(
                     family="devices",
@@ -3163,6 +3223,7 @@ class Reports(DnacBase):
                     "DEBUG"
                 )
             except Exception as e:
+                processing_stats["failed_resolutions"] += 1
                 self.msg = "Failed performing device detail API lookup for hostname '{0}': {1}".format(
                     hostname, e
                 )
@@ -3174,7 +3235,9 @@ class Reports(DnacBase):
             mac_addr = None
             try:
                 mac_addr = device_details["response"]["macAddress"]
+                processing_stats["mac_address_retrievals"] += 1
             except Exception:
+                processing_stats["failed_resolutions"] += 1
                 mac_addr = None
 
             if not mac_addr:
@@ -3191,15 +3254,29 @@ class Reports(DnacBase):
                 "Resolved AP hostname '{0}' to MAC address: {1}".format(hostname, mac_addr),
                 "DEBUG"
             )
+            processing_stats["successful_resolutions"] += 1
 
             updated_values.append({
                 "value": mac_addr,
                 "display_value": display_value
             })
+            self.log(
+                "Successfully resolved AP hostname '{0}' to MAC address: {1}".format(
+                    hostname, mac_addr
+                ),
+                "DEBUG"
+            )
 
         filter_entry["value"] = updated_values
         self.log(
-            "Successfully processed AP filter with {0} AP entries".format(len(updated_values)),
+            "AP filter processing completed successfully - total: {0}, "
+            "resolved: {1}, failed: {2}, device_lookups: {3}, mac_retrievals: {4}".format(
+                processing_stats["total_hostnames"],
+                processing_stats["successful_resolutions"],
+                processing_stats["failed_resolutions"],
+                processing_stats["device_id_lookups"],
+                processing_stats["mac_address_retrievals"]
+            ),
             "DEBUG"
         )
         return True
