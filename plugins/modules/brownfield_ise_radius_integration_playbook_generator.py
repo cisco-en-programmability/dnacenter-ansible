@@ -15,13 +15,7 @@ module: ise_radius_integration_integration_playbook_generator
 short_description: Resource module for Authentication
   and Policy Servers
 description:
-  - Manage operations on Authentication and Policy Servers.
-  - API to create Authentication and Policy Server Access
-    Configuration.
-  - API to update Authentication and Policy Server Access
-    Configuration.
-  - API to delete Authentication and Policy Server Access
-    Configuration.
+  - It generates playbook for Authentication and Policy Servers which can be use to manage operations on Authentication and Policy Servers.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
