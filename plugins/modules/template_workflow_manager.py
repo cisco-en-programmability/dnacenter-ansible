@@ -209,6 +209,20 @@ options:
                 description: The actual script or code
                   constituting the body of the template.
                 type: str
+              template_content_file_path:
+                description:
+                  - Path to a local file containing the template content to be used during create or update operations.
+                  - Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+                  - When provided, this field takes precedence over 'template_content'.
+                  - Supports absolute and relative paths. Relative paths are resolved from the playbook's working
+                    directory (typically the directory where `ansible-playbook` is executed).
+                  - For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center;
+                    variables and logic are evaluated using the provided `template_params` and runtime context.
+                  - For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without
+                    evaluation or interpolation.
+                  - Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+                  - The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
+                type: str
               template_params:
                 description: The customization of the
                   contents within the template.
@@ -465,15 +479,14 @@ options:
               - Path to a local file containing the template content to be used during create or update operations.
               - Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
               - When provided, this field takes precedence over 'template_content'.
-              - Supports absolute and relative paths. Relative paths are resolved from the playbook's working 
+              - Supports absolute and relative paths. Relative paths are resolved from the playbook's working
                 directory (typically the directory where `ansible-playbook` is executed).
-              - Processing behavior:
-                - If the file extension is '.j2', the content is rendered using Jinja before being sent to CiscoCatalyst Center.
-                  Any variables and logic in the Jinja file are evaluated using the provided `template_params` and runtime context.
-                - If the file extension is '.txt', the content is passed transparently to the Cisco Catalyst Center APIs
-                  without evaluation or interpolation.
-                - Rendering errors (missing variables, invalid Jinja syntax) will cause the module to fail with a descriptive message.
-                - The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
+              - For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center;
+                variables and logic are evaluated using the provided `template_params` and runtime context.
+              - For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without
+                evaluation or interpolation.
+              - Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+              - The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
             type: str
           template_params:
             description: The customization of the contents
@@ -816,9 +829,17 @@ options:
                         type: str
                       template_content_file_path:
                         description:
-                          - Path to a local file containing the template content to be used during import operations.
+                          - Path to a local file containing the template content to be used during create or update operations.
                           - Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
                           - When provided, this field takes precedence over 'template_content'.
+                          - Supports absolute and relative paths. Relative paths are resolved from the playbook's working
+                            directory (typically the directory where `ansible-playbook` is executed).
+                          - For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center;
+                            variables and logic are evaluated using the provided `template_params` and runtime context.
+                          - For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without
+                            evaluation or interpolation.
+                          - Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+                          - The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
                         type: str
                       template_params:
                         description: The customization
@@ -1087,6 +1108,20 @@ options:
                     description: The actual script or
                       code constituting the body of
                       the template.
+                    type: str
+                  template_content_file_path:
+                    description:
+                      - Path to a local file containing the template content to be used during create or update operations.
+                      - Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+                      - When provided, this field takes precedence over 'template_content'.
+                      - Supports absolute and relative paths. Relative paths are resolved from the playbook's working
+                        directory (typically the directory where `ansible-playbook` is executed).
+                      - For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center;
+                        variables and logic are evaluated using the provided `template_params` and runtime context.
+                      - For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without
+                        evaluation or interpolation.
+                      - Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+                      - The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
                     type: str
                   template_params:
                     description: The customization of
