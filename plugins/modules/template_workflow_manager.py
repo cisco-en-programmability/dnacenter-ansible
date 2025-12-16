@@ -4200,63 +4200,63 @@ class Template(NetworkProfileFunctions):
         return creation_id, created
 
     def requires_containing_templates_update(self, current_obj, requested_obj):
-      """
-      Determines if an update is required for 'containingTemplates' based on 'name' and 'projectName' fields.
+        """
+        Determines if an update is required for 'containingTemplates' based on 'name' and 'projectName' fields.
 
-      Returns True if any requested containing template is missing from the current list,
-      or if any present template differs in any field (using dnac_compare_equality).
+        Returns True if any requested containing template is missing from the current list,
+        or if any present template differs in any field (using dnac_compare_equality).
 
-      Args:
-          current_obj (dict): The current template object (should contain 'containingTemplates' key).
-          requested_obj (dict): The requested template object (should contain 'containingTemplates' key).
+        Args:
+            current_obj (dict): The current template object (should contain 'containingTemplates' key).
+            requested_obj (dict): The requested template object (should contain 'containingTemplates' key).
 
-      Returns:
-          bool: True if an update is required, False otherwise.
-      """
-      self.log("Checking if containingTemplates requires update...", "DEBUG")
+        Returns:
+            bool: True if an update is required, False otherwise.
+        """
+        self.log("Checking if containingTemplates requires update...", "DEBUG")
 
-      current_list = current_obj.get("containingTemplates", [])
-      requested_list = requested_obj.get("containingTemplates", [])
+        current_list = current_obj.get("containingTemplates", [])
+        requested_list = requested_obj.get("containingTemplates", [])
 
-      self.log("Current containingTemplates: {0}".format(current_list), "DEBUG")
-      self.log("Requested containingTemplates: {0}".format(requested_list), "DEBUG")
+        self.log("Current containingTemplates: {0}".format(current_list), "DEBUG")
+        self.log("Requested containingTemplates: {0}".format(requested_list), "DEBUG")
 
-      # Build a dictionary for fast lookup by (name, projectName)
-      current_dict = {
-          (item.get("name"), item.get("projectName")): item
-          for item in current_list
-          if item.get("name") is not None and item.get("projectName") is not None
-      }
+        # Build a dictionary for fast lookup by (name, projectName)
+        current_dict = {
+            (item.get("name"), item.get("projectName")): item
+            for item in current_list
+            if item.get("name") is not None and item.get("projectName") is not None
+        }
 
-      for req in requested_list:
-          req_name = req.get("name")
-          req_project = req.get("projectName")
-          if req_name is None or req_project is None:
-              self.log(
-                  "Skipping requested containing template with missing 'name' or 'projectName': {0}".format(req),
-                  "WARNING"
-              )
-              continue
+        for req in requested_list:
+            req_name = req.get("name")
+            req_project = req.get("projectName")
+            if req_name is None or req_project is None:
+                self.log(
+                    "Skipping requested containing template with missing 'name' or 'projectName': {0}".format(req),
+                    "WARNING"
+                )
+                continue
 
-          req_key = (req_name, req_project)
-          if req_key not in current_dict:
-              self.log(
-                  "Containing template '{0}' under project '{1}' is missing in current state and requires update.".format(
-                      req_name, req_project
-                  ),
-                  "INFO"
-              )
-              return True
+            req_key = (req_name, req_project)
+            if req_key not in current_dict:
+                self.log(
+                    "Containing template '{0}' under project '{1}' is missing in current state and requires update.".format(
+                        req_name, req_project
+                    ),
+                    "INFO"
+                )
+                return True
 
-          if not dnac_compare_equality(current_dict[req_key], req):
-              self.log(
-                "Containing template '{}' in project '{}' differs. Current: {} | Requested: {}".format(
-                    req_name, req_project, current_dict[req_key], req
-                ), "INFO")
-              return True
+            if not dnac_compare_equality(current_dict[req_key], req):
+                self.log(
+                  "Containing template '{}' in project '{}' differs. Current: {} | Requested: {}".format(
+                      req_name, req_project, current_dict[req_key], req
+                  ), "INFO")
+                return True
 
-      self.log("No update required for containingTemplates.", "DEBUG")
-      return False
+        self.log("No update required for containingTemplates.", "DEBUG")
+        return False
 
     def requires_update(self):
         """
