@@ -66,7 +66,6 @@ options:
         - Global filters to apply when generating the YAML configuration file.
         - These filters apply to all components unless overridden by component-specific filters.
         type: dict
-        suboptions:
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration
