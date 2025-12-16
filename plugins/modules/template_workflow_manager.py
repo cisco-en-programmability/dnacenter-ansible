@@ -4250,9 +4250,9 @@ class Template(NetworkProfileFunctions):
 
             if not dnac_compare_equality(current_dict[req_key], req):
                 self.log(
-                  "Containing template '{}' in project '{}' differs. Current: {} | Requested: {}".format(
-                      req_name, req_project, current_dict[req_key], req
-                  ), "INFO")
+                    "Containing template '{0}' in project '{1}' differs. Current: {2} | Requested: {3}".format(
+                        req_name, req_project, current_dict[req_key], req
+                    ), "INFO")
                 return True
 
         self.log("No update required for containingTemplates.", "DEBUG")
