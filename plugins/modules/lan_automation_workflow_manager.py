@@ -1529,7 +1529,9 @@ class LanAutomation(DnacBase):
                 "destinationDeviceManagementIPAddress": port_channel_config.get(
                     "device2ManagementIPAddress"
                 ),
-                "portChannelNumber": port_channel_config.get("portChannelNumber"),
+                "portChannelNumber": port_channel_config.get(
+                    "device1PortChannelNumber"
+                ),
                 "id": port_channel_config.get("id"),
             }
             self.log(
@@ -4741,6 +4743,38 @@ class LanAutomation(DnacBase):
             ],
         }
 
+        self.log(
+            f"Initial update link payload before device order check: {self.pprint(update_port_channel_payload)}",
+            "DEBUG",
+        )
+
+        if self.check_if_device_order_needs_swapping(port_channel_config):
+            self.log(
+                "Device order swapping is required. Swapping device1Interface and device2Interface in all port channel members.",
+                "INFO",
+            )
+            for member in update_port_channel_payload["portChannelMembers"]:
+                original_device1 = member["device1Interface"]
+                original_device2 = member["device2Interface"]
+                member["device1Interface"], member["device2Interface"] = (
+                    member["device2Interface"],
+                    member["device1Interface"],
+                )
+                self.log(
+                    f"Swapped interfaces - Original: device1Interface='{original_device1}', device2Interface='{original_device2}' "
+                    f"-> Swapped: device1Interface='{member['device1Interface']}', device2Interface='{member['device2Interface']}'",
+                    "DEBUG",
+                )
+            self.log(
+                f"Device order swapping completed. Updated payload: {self.pprint(update_port_channel_payload)}",
+                "DEBUG",
+            )
+        else:
+            self.log(
+                "Device order matches Catalyst Center configuration. No swapping required.",
+                "DEBUG",
+            )
+
         task_name = "add_a_lan_automated_link_to_a_port_channel"
 
         self.log(
@@ -6130,6 +6164,179 @@ class LanAutomation(DnacBase):
         self.port_channel_deleted.append(port_channel_config)
         return self
 
+    def get_port_channel_details_by_id(self, port_channel_id):
+        """
+        Retrieve Port Channel configuration details by ID from Cisco Catalyst Center.
+
+        Parameters:
+            port_channel_id (str): Unique identifier of the port channel to retrieve.
+
+        Returns:
+            dict or None: Port Channel configuration dictionary if found, None if not found or error occurs.
+
+        Description:
+            Calls the Cisco Catalyst Center API to retrieve Port Channel configuration details
+            using the port channel ID. The method handles API response validation, logs detailed
+            information about the retrieval process, and returns None if no configuration is found
+            or if an error occurs during the API call.
+        """
+
+        self.log(
+            f"Initiating Port Channel retrieval by ID: '{port_channel_id}'",
+            "INFO",
+        )
+
+        if not port_channel_id:
+            self.log(
+                "Port channel ID is required to fetch Port Channel configuration.",
+                "ERROR",
+            )
+            return None
+
+        try:
+            self.log(
+                f"Calling 'get_port_channel_information_by_id' API with ID: '{port_channel_id}'",
+                "DEBUG",
+            )
+            response = self.dnac_apply["exec"](
+                family="lan_automation",
+                function="get_port_channel_information_by_id",
+                params={"id": port_channel_id},
+            )
+
+            self.log(
+                f"API call completed. Received API response from 'get_port_channel_information_by_id' "
+                f"for Port Channel ID: '{port_channel_id}': {response}",
+                "DEBUG",
+            )
+
+            if not response:
+                self.msg = (
+                    f"No port channel configuration retrieved for Port Channel ID: '{port_channel_id}'. "
+                    f"Response is empty."
+                )
+                self.log(self.msg, "DEBUG")
+                return None
+
+            port_channel_info = response.get("response")
+
+            if not port_channel_info:
+                self.log(
+                    f"No Port Channel configuration found for ID: '{port_channel_id}'.",
+                    "DEBUG",
+                )
+                return None
+
+            port_channel_info = port_channel_info[
+                0
+            ]  # Assuming the response is a list with one item
+            self.log(
+                f"Successfully retrieved Port Channel configuration for ID: '{port_channel_id}': "
+                f"{self.pprint(port_channel_info)}",
+                "INFO",
+            )
+            return port_channel_info
+
+        except Exception as e:
+            self.log(
+                f"Error retrieving Port Channel configuration by ID '{port_channel_id}': {str(e)}",
+                "ERROR",
+            )
+            return None
+
+    def check_if_device_order_needs_swapping(self, port_channel_config):
+        """
+        Checks if the device order in the port channel configuration needs swapping by comparing
+        with the actual port channel configuration from Cisco Catalyst Center.
+
+        Parameters:
+            port_channel_config (dict): Port channel configuration containing:
+                - 'id' (str): Unique identifier of the port channel.
+                - 'sourceDeviceManagementIPAddress' (str): IP address of the source device.
+                - 'destinationDeviceManagementIPAddress' (str): IP address of the destination device.
+
+        Returns:
+            bool: True if swapping is required, False if device order matches.
+
+        Description:
+            - Extracts the port channel ID from the configuration.
+            - Calls `get_port_channel_details_by_id` to fetch the actual configuration from Catalyst Center.
+            - Compares the source device IP address from our config with device1 IP from Catalyst Center.
+            - If they match, no swapping is required (returns False).
+            - If they don't match, swapping is required (returns True).
+            - Logs detailed information about the comparison process for traceability.
+        """
+
+        self.log(
+            f"Checking if device order needs swapping for port channel configuration: {self.pprint(port_channel_config)}",
+            "DEBUG",
+        )
+
+        port_channel_id = port_channel_config.get("id")
+        if not port_channel_id:
+            self.log(
+                "Port channel ID not found in configuration. Cannot check device order.",
+                "ERROR",
+            )
+            return False
+
+        self.log(
+            f"Retrieving port channel details from Catalyst Center using ID: '{port_channel_id}'",
+            "DEBUG",
+        )
+
+        catc_config = self.get_port_channel_details_by_id(port_channel_id)
+
+        if not catc_config:
+            self.log(
+                f"Failed to retrieve port channel configuration from Catalyst Center for ID: '{port_channel_id}'. "
+                f"Assuming no swapping is required.",
+                "WARNING",
+            )
+            return False
+
+        # Extract source device IP from our configuration
+        our_source_ip = port_channel_config.get("sourceDeviceManagementIPAddress")
+
+        # Extract device1 and device2 IPs from Catalyst Center configuration
+        catc_device1_ip = catc_config.get("device1ManagementIPAddress")
+        catc_device2_ip = catc_config.get("device2ManagementIPAddress")
+
+        self.log(
+            f"Comparing device order - Our source IP: '{our_source_ip}', "
+            f"Catalyst Center device1 IP: '{catc_device1_ip}', "
+            f"Catalyst Center device2 IP: '{catc_device2_ip}'",
+            "DEBUG",
+        )
+
+        if our_source_ip == catc_device1_ip:
+            self.log(
+                f"Source device IP {our_source_ip} matches Catalyst Center device1 IP {catc_device1_ip}. No swapping required.",
+                "DEBUG",
+            )
+            return False
+
+        if our_source_ip == catc_device2_ip:
+            self.log(
+                f"Source device IP {our_source_ip} matches Catalyst Center device2 IP {catc_device2_ip}. Swapping is required.",
+                "INFO",
+            )
+            return True
+
+        self.log(
+            f"Source device IP '{our_source_ip}' does not match either device1 IP '{catc_device1_ip}' "
+            f"or device2 IP '{catc_device2_ip}' from Catalyst Center configuration.",
+            "ERROR",
+        )
+        self.msg = (
+            f"Port channel configuration validation failed. Source device IP '{our_source_ip}' "
+            f"does not match the port channel devices in Catalyst Center. "
+            f"Port channel ID '{port_channel_id}' has devices: "
+            f"device1='{catc_device1_ip}', device2='{catc_device2_ip}'. "
+            f"Please verify the port channel configuration."
+        )
+        self.fail_and_exit(self.msg)
+
     def delete_lan_automated_link_from_a_port_channel(self, port_channel_config):
         """
         Deletes specific links from an existing port channel in Cisco Catalyst Center.
@@ -6179,6 +6386,41 @@ class LanAutomation(DnacBase):
             ],
         }
 
+        self.log(
+            f"Initial delete link payload before device order check: {self.pprint(delete_link_payload)}",
+            "DEBUG",
+        )
+        # This section is required due to the Catalyst Center API design.
+        # The get_port_channel API doesn't provide the exact device order
+        # as it was originally created. However, the remove and add APIs
+        # expect the interface details in the exact order.
+        if self.check_if_device_order_needs_swapping(port_channel_config):
+            self.log(
+                "Device order swapping is required. Swapping device1Interface and device2Interface in all port channel members.",
+                "INFO",
+            )
+            for member in delete_link_payload["portChannelMembers"]:
+                original_device1 = member["device1Interface"]
+                original_device2 = member["device2Interface"]
+                member["device1Interface"], member["device2Interface"] = (
+                    member["device2Interface"],
+                    member["device1Interface"],
+                )
+                self.log(
+                    f"Swapped interfaces - Original: device1Interface='{original_device1}', device2Interface='{original_device2}' "
+                    f"-> Swapped: device1Interface='{member['device1Interface']}', device2Interface='{member['device2Interface']}'",
+                    "DEBUG",
+                )
+
+            self.log(
+                f"Device order swapping completed. Updated payload: {self.pprint(delete_link_payload)}",
+                "DEBUG",
+            )
+        else:
+            self.log(
+                "Device order matches Catalyst Center configuration. No swapping required.",
+                "DEBUG",
+            )
         task_name = "remove_a_link_from_port_channel"
 
         self.log(
