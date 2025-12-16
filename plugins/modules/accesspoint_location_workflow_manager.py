@@ -71,6 +71,8 @@ options:
               Determines how the access point will be managed within the specified position.
               This field is only required when assigning or deleting real access point to/from an existing planned position.
               It is not required when creating, updating, or deleting a planned access point position itself.
+              Use C(assign_planned_ap) to assign a planned access point to an actual access point.
+              Use C(manage_real_ap) to udpate or delete the real access point from the position.
             type: str
             required: false
             choices:
