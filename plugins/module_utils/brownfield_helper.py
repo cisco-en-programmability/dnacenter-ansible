@@ -674,8 +674,12 @@ class BrownFieldHelper:
                                 ),
                                 "DEBUG",
                             )
-                            nested_result = self.modify_parameters(spec["options"], [value])
-                            if nested_result and nested_result[0]:  # Check if nested result is not empty
+                            nested_result = self.modify_parameters(
+                                spec["options"], [value]
+                            )
+                            if (
+                                nested_result and nested_result[0]
+                            ):  # Check if nested result is not empty
                                 mapped_detail[key] = nested_result[0]
                                 self.log(
                                     "Mapped nested dictionary for key '{0}': {1}".format(
@@ -1223,13 +1227,15 @@ class BrownFieldHelper:
             Exception: If an error occurs while retrieving the site name hierarchy.
         """
 
-        self.log(
-            "Retrieving site name hierarchy for all sites.", "DEBUG"
-        )
+        self.log("Retrieving site name hierarchy for all sites.", "DEBUG")
         self.log("Executing 'get_sites' API call to retrieve all sites.", "DEBUG")
         site_id = None
 
-        api_family, api_function, params = "site_design", "get_sites", {"nameHierarchy": site_name}
+        api_family, api_function, params = (
+            "site_design",
+            "get_sites",
+            {"nameHierarchy": site_name},
+        )
         site_details = self.execute_get_with_pagination(
             api_family, api_function, params
         )
@@ -1547,16 +1553,18 @@ class BrownFieldHelper:
             ),
             "DEBUG",
         )
-        
+
         try:
             # Use the existing pagination function to get all devices
-            self.log("Using execute_get_with_pagination to retrieve device list", "DEBUG")
+            self.log(
+                "Using execute_get_with_pagination to retrieve device list", "DEBUG"
+            )
             device_list = self.execute_get_with_pagination(
                 api_family="devices",
-                api_function="get_device_list", 
-                params=get_device_list_params
+                api_function="get_device_list",
+                params=get_device_list_params,
             )
-            
+
             if not device_list:
                 self.log(
                     "No devices were returned for the given parameters: {0}".format(
@@ -1570,17 +1578,13 @@ class BrownFieldHelper:
                 device_ip = device_info.get("managementIpAddress")
                 device_id = device_info.get("id")
                 self.log(
-                    "Processing device: IP={0}, ID={1}".format(
-                        device_ip, device_id
-                    ),
+                    "Processing device: IP={0}, ID={1}".format(device_ip, device_id),
                     "DEBUG",
                 )
-  
+
                 mgmt_id_to_device_ip_map[device_id] = device_ip
                 self.log(
-                    "Device '{0}' is added to the map.".format(
-                        device_ip
-                    ),
+                    "Device '{0}' is added to the map.".format(device_ip),
                     "INFO",
                 )
 
@@ -1591,13 +1595,13 @@ class BrownFieldHelper:
                 "Error: {1}".format(get_device_list_params, str(e)),
                 "ERROR",
             )
-            
+
         # Only fail and exit if no devices are found
         if not mgmt_id_to_device_ip_map:
-            self.msg = ("Unable to retrieve details for any devices matching parameters: {0}. "
-                    "Please verify the device parameters and ensure devices are reachable and managed.").format(
-                get_device_list_params
-            )
+            self.msg = (
+                "Unable to retrieve details for any devices matching parameters: {0}. "
+                "Please verify the device parameters and ensure devices are reachable and managed."
+            ).format(get_device_list_params)
             self.fail_and_exit(self.msg)
 
         return mgmt_id_to_device_ip_map
