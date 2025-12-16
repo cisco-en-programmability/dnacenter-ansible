@@ -33,8 +33,8 @@
             component_specific_filters:
               components_list: ["sda_fabric_transits"]
 
-          # ================================================
-          # Scenario 3: Fabric Transits - Component Specific Filters with Transit Type
+            # ================================================
+            # Scenario 3: Fabric Transits - Component Specific Filters with Transit Type
           # Tests behavior when component specific filters with transit type are provided
           # ================================================
           # - file_path: "demo1.yaml"
