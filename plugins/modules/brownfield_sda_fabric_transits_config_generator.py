@@ -66,7 +66,6 @@ options:
         - Global filters to apply when generating the YAML configuration file.
         - These filters apply to all components unless overridden by component-specific filters.
         type: dict
-        suboptions:
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration
@@ -257,8 +256,10 @@ from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
     validate_list_of_dicts,
 )
 import time
+
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
@@ -267,6 +268,7 @@ from collections import OrderedDict
 
 
 if HAS_YAML:
+
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
             return self.represent_mapping("tag:yaml.org,2002:map", data.items())
@@ -318,7 +320,11 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {"type": "bool", "required": False, "default": False},
+            "generate_all_configurations": {
+                "type": "bool",
+                "required": False,
+                "default": False,
+            },
             "file_path": {"type": "str", "required": False},
             "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
@@ -375,48 +381,46 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         fabric_transit = OrderedDict(
             {
-                "name": {
-                    "type": "str",
-                    "source_key": "name"
-                },
+                "name": {"type": "str", "source_key": "name"},
                 "transit_site_hierarchy": {
                     "type": "str",
                     "special_handling": True,
                     "transform": self.transform_transit_site_hierarchy,
                 },
-                "transit_type": {
-                    "type": "str",
-                    "source_key": "type"
-                },
+                "transit_type": {"type": "str", "source_key": "type"},
                 "ip_transit_settings": {
                     "type": "dict",
                     "source_key": "ipTransitSettings",
-                    "options": OrderedDict({
-                        "routing_protocol_name": {
-                            "type": "str",
-                            "source_key": "routingProtocolName"
-                        },
-                        "autonomous_system_number": {
-                            "type": "int",
-                            "source_key": "autonomousSystemNumber"
-                        },
-                    })
+                    "options": OrderedDict(
+                        {
+                            "routing_protocol_name": {
+                                "type": "str",
+                                "source_key": "routingProtocolName",
+                            },
+                            "autonomous_system_number": {
+                                "type": "int",
+                                "source_key": "autonomousSystemNumber",
+                            },
+                        }
+                    ),
                 },
                 "sda_transit_settings": {
                     "type": "dict",
                     "source_key": "sdaTransitSettings",
-                    "options": OrderedDict({
-                        "is_multicast_over_transit_enabled": {
-                            "type": "bool",
-                            "source_key": "isMulticastOverTransitEnabled"
-                        },
-                        "control_plane_network_device_ips": {
-                            "type": "list",
-                            "elements": "str",
-                            "special_handling": True,
-                            "transform": self.transform_control_plane_device_ids_to_ips,
-                        },
-                    })
+                    "options": OrderedDict(
+                        {
+                            "is_multicast_over_transit_enabled": {
+                                "type": "bool",
+                                "source_key": "isMulticastOverTransitEnabled",
+                            },
+                            "control_plane_network_device_ips": {
+                                "type": "list",
+                                "elements": "str",
+                                "special_handling": True,
+                                "transform": self.transform_control_plane_device_ids_to_ips,
+                            },
+                        }
+                    ),
                 },
             }
         )
@@ -436,8 +440,7 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         site_id = transit_details.get("siteId")
         self.log(
-            "Transforming site ID to site hierarchy name: {0}".format(site_id),
-            "DEBUG"
+            "Transforming site ID to site hierarchy name: {0}".format(site_id), "DEBUG"
         )
 
         if not site_id:
@@ -448,13 +451,15 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
         if not site_hierarchy_name:
             self.log(
                 "Site ID {0} not found in site ID to name mapping.".format(site_id),
-                "DEBUG"
+                "DEBUG",
             )
             return ""
 
         self.log(
-            "Transformed site ID {0} to site hierarchy name {1}".format(site_id, site_hierarchy_name),
-            "DEBUG"
+            "Transformed site ID {0} to site hierarchy name {1}".format(
+                site_id, site_hierarchy_name
+            ),
+            "DEBUG",
         )
 
         return site_hierarchy_name
@@ -471,20 +476,26 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
 
         self.log(
-            "Transforming control plane device IDs to IPs from SDA transit settings: {0}".format(sda_transit_settings),
-            "DEBUG"
+            "Transforming control plane device IDs to IPs from SDA transit settings: {0}".format(
+                sda_transit_settings
+            ),
+            "DEBUG",
         )
 
         # Extract controlPlaneNetworkDeviceIds from the settings
-        control_plane_device_ids = sda_transit_settings.get("controlPlaneNetworkDeviceIds", [])
+        control_plane_device_ids = sda_transit_settings.get(
+            "controlPlaneNetworkDeviceIds", []
+        )
 
         self.log(
             "Extracted control plane device IDs: {0}".format(control_plane_device_ids),
-            "DEBUG"
+            "DEBUG",
         )
 
         if not control_plane_device_ids:
-            self.log("No control plane device IDs found in SDA transit settings", "DEBUG")
+            self.log(
+                "No control plane device IDs found in SDA transit settings", "DEBUG"
+            )
             return []
 
         device_ips = []
@@ -493,25 +504,28 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
             device_ip = self.device_id_ip_mapping.get(device_id)
             if not device_ip:
                 self.log(
-                    "Device ID {0} not found in device ID to IP mapping.".format(device_id),
-                    "DEBUG"
+                    "Device ID {0} not found in device ID to IP mapping.".format(
+                        device_id
+                    ),
+                    "DEBUG",
                 )
                 continue
 
             self.log(
-                "Mapping device ID {0} to IP {1}".format(device_id, device_ip),
-                "DEBUG"
+                "Mapping device ID {0} to IP {1}".format(device_id, device_ip), "DEBUG"
             )
             device_ips.append(device_ip)
 
         self.log(
             "Transformed control plane device IDs to IPs: {0}".format(device_ips),
-            "DEBUG"
+            "DEBUG",
         )
 
         return sorted(device_ips) if device_ips else []
 
-    def get_fabric_transits_configuration(self, network_element, component_specific_filters=None):
+    def get_fabric_transits_configuration(
+        self, network_element, component_specific_filters=None
+    ):
         """
         Retrieves fabric transits based on the provided network element and component-specific filters.
 
@@ -545,7 +559,9 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
         params = {}
         if component_specific_filters:
             for filter_param in component_specific_filters:
-                self.log("Processing filter parameter: {0}".format(filter_param), "DEBUG")
+                self.log(
+                    "Processing filter parameter: {0}".format(filter_param), "DEBUG"
+                )
                 for key, value in filter_param.items():
                     if key == "name":
                         params["name"] = value
@@ -561,7 +577,12 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 fabric_transit_details = self.execute_get_with_pagination(
                     api_family, api_function, params
                 )
-                self.log("Retrieved fabric transit details: {0}".format(fabric_transit_details), "INFO")
+                self.log(
+                    "Retrieved fabric transit details: {0}".format(
+                        fabric_transit_details
+                    ),
+                    "INFO",
+                )
                 final_fabric_transits.extend(fabric_transit_details)
                 params.clear()
 
@@ -571,7 +592,10 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
             fabric_transit_details = self.execute_get_with_pagination(
                 api_family, api_function, params
             )
-            self.log("Retrieved fabric transit details: {0}".format(fabric_transit_details), "INFO")
+            self.log(
+                "Retrieved fabric transit details: {0}".format(fabric_transit_details),
+                "INFO",
+            )
             final_fabric_transits.extend(fabric_transit_details)
 
         # Modify fabric transit details using temp_spec
@@ -580,7 +604,7 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
             fabric_transit_temp_spec, final_fabric_transits
         )
         modified_fabric_transits_details = {}
-        modified_fabric_transits_details['fabric_transits'] = transit_details
+        modified_fabric_transits_details["fabric_transits"] = transit_details
 
         self.log(
             "Modified fabric transit details: {0}".format(
@@ -614,26 +638,42 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Check if generate_all_configurations mode is enabled
         generate_all = yaml_config_generator.get("generate_all_configurations", False)
         if generate_all:
-            self.log("Auto-discovery mode enabled - will process all devices and all features", "INFO")
+            self.log(
+                "Auto-discovery mode enabled - will process all devices and all features",
+                "INFO",
+            )
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
         file_path = yaml_config_generator.get("file_path")
         if not file_path:
-            self.log("No file_path provided by user, generating default filename", "DEBUG")
+            self.log(
+                "No file_path provided by user, generating default filename", "DEBUG"
+            )
             file_path = self.generate_filename()
         else:
             self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
 
-        self.log("YAML configuration file path determined: {0}".format(file_path), "DEBUG")
+        self.log(
+            "YAML configuration file path determined: {0}".format(file_path), "DEBUG"
+        )
 
         self.log("Initializing filter dictionaries", "DEBUG")
         if generate_all:
             # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
-            self.log("Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features", "INFO")
+            self.log(
+                "Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features",
+                "INFO",
+            )
             if yaml_config_generator.get("global_filters"):
-                self.log("Warning: global_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
+                self.log(
+                    "Warning: global_filters provided but will be ignored due to generate_all_configurations=True",
+                    "WARNING",
+                )
             if yaml_config_generator.get("component_specific_filters"):
-                self.log("Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
+                self.log(
+                    "Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True",
+                    "WARNING",
+                )
 
             # Set empty filters to retrieve everything
             global_filters = {}
@@ -641,7 +681,9 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
         else:
             # Use provided filters or default to empty
             global_filters = yaml_config_generator.get("global_filters") or {}
-            component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
+            component_specific_filters = (
+                yaml_config_generator.get("component_specific_filters") or {}
+            )
 
         # Retrieve the supported network elements for the module
         self.log("Retrieving supported network elements schema for the module", "DEBUG")
@@ -656,18 +698,30 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         self.log("Determining components list for processing", "DEBUG")
-        self.log("Component specific filters provided: {0}".format(component_specific_filters), "DEBUG")
+        self.log(
+            "Component specific filters provided: {0}".format(
+                component_specific_filters
+            ),
+            "DEBUG",
+        )
         components_list = component_specific_filters.get(
             "components_list", list(module_supported_network_elements.keys())
         )
 
         # If components_list is empty, default to all supported components
         if not components_list:
-            self.log("No components specified; processing all supported components.", "INFO")
+            self.log(
+                "No components specified; processing all supported components.", "INFO"
+            )
             components_list = list(module_supported_network_elements.keys())
 
         self.log("Components to process: {0}".format(components_list), "DEBUG")
-        self.log("Keys in module_supported_network_elements: {0}".format(module_supported_network_elements.keys()), "DEBUG")
+        self.log(
+            "Keys in module_supported_network_elements: {0}".format(
+                module_supported_network_elements.keys()
+            ),
+            "DEBUG",
+        )
 
         self.log("Initializing final configuration list", "DEBUG")
 
@@ -677,7 +731,9 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
             network_element = module_supported_network_elements.get(component)
             if not network_element:
                 self.log(
-                    "Component {0} not supported by module, skipping processing".format(component),
+                    "Component {0} not supported by module, skipping processing".format(
+                        component
+                    ),
                     "WARNING",
                 )
                 continue
@@ -692,7 +748,10 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 final_list.append(details)
 
         if not final_list:
-            self.log("No configurations found to process, setting appropriate result", "WARNING")
+            self.log(
+                "No configurations found to process, setting appropriate result",
+                "WARNING",
+            )
             self.msg = {
                 "message": "No configurations or components to process for module '{0}'. Verify input filters or configuration.".format(
                     self.module_name
@@ -839,7 +898,9 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_sda_fabric_transits_playbook_generator = SdaFabricTransitsPlaybookGenerator(module)
+    ccc_sda_fabric_transits_playbook_generator = SdaFabricTransitsPlaybookGenerator(
+        module
+    )
     if (
         ccc_sda_fabric_transits_playbook_generator.compare_dnac_versions(
             ccc_sda_fabric_transits_playbook_generator.get_ccc_version(), "2.3.7.9"
@@ -875,12 +936,7 @@ def main():
             "No valid configurations found in the provided parameters."
         )
         ccc_sda_fabric_transits_playbook_generator.validated_config = [
-            {
-                'component_specific_filters':
-                {
-                    'components_list': []
-                }
-            }
+            {"component_specific_filters": {"components_list": []}}
         ]
 
     # Iterate over the validated configuration parameters
