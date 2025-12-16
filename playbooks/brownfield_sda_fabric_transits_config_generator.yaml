@@ -29,9 +29,9 @@
           # Scenario 2: Fabric Transits - Component Specific Filters
           # Tests behavior when component specific filters are provided
           # ================================================
-          - file_path: "demo.yaml"
-            component_specific_filters:
-              components_list: ["sda_fabric_transits"]
+          # - file_path: "demo.yaml"
+          #   component_specific_filters:
+          #     components_list: ["sda_fabric_transits"]
 
           # ================================================
           # Scenario 3: Fabric Transits - Component Specific Filters with Transit Type
@@ -78,8 +78,8 @@
           # Scenario 7: Fabric Transits - Component Specific Filters with Transit Type SDA_LISP_BGP_TRANSIT
           # Tests behavior when component specific filters with transit type SDA_LISP_BGP_TRANSIT are provided
           # ================================================
-          # - file_path: "demo2.yaml"
-          #   component_specific_filters:
-          #     components_list: ["sda_fabric_transits"]
-          #     sda_fabric_transits:
-          #       - transit_type: "SDA_LISP_BGP_TRANSIT"
+          - file_path: "demo2.yaml"
+            component_specific_filters:
+              components_list: ["sda_fabric_transits"]
+              sda_fabric_transits:
+                - transit_type: "SDA_LISP_BGP_TRANSIT"
