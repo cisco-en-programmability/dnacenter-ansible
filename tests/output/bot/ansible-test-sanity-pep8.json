@@ -1,0 +1,10 @@
+{
+    "docs": "https://docs.ansible.com/ansible-core/2.15/dev_guide/testing/sanity/pep8.html", 
+    "results": [
+        {
+            "message": "The test `ansible-test sanity --test pep8` [[explain](https://docs.ansible.com/ansible-core/2.15/dev_guide/testing/sanity/pep8.html)] failed with 2 errors:", 
+            "output": "tests/unit/modules/dnac/test_brownfield_events_and_notifications_playbook_generator.py:96:29: W291: trailing whitespace\ntests/unit/modules/dnac/test_brownfield_events_and_notifications_playbook_generator.py:104:84: W291: trailing whitespace"
+        }
+    ], 
+    "verified": false
+}

@@ -88,10 +88,21 @@ class TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator(TestDnacModule):
 
     def test_brownfield_events_and_notifications_playbook_generate_all_configurations(self):
         """
-        Test the Application Policy Workflow Manager's profile creation process.
+        Test the Events and Notifications Playbook Generator's ability to generate all configurations.
 
-        This test verifies that the workflow correctly handles the creation of a new
-        application policy profile, ensuring proper validation and expected behavior.
+        This test verifies that the workflow correctly handles the generation of YAML configuration
+        for all available events and notifications components including:
+        - Webhook destinations
+        - Email destinations
+        - Syslog destinations
+        - SNMP destinations
+        - ITSM settings
+        - Webhook event notifications
+        - Email event notifications
+        - Syslog event notifications
+
+        The test ensures proper validation and successful YAML file generation when
+        generate_all_configurations is set to True.
         """
 
         set_module_args(
@@ -115,10 +126,12 @@ class TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator(TestDnacModule):
 
     def test_brownfield_events_and_notifications_playbook_component_specific_filters(self):
         """
-        Test the Application Policy Workflow Manager's profile creation process.
+        Test the Events and Notifications Playbook Generator's component-specific filtering capability.
 
-        This test verifies that the workflow correctly handles the creation of a new
-        application policy profile, ensuring proper validation and expected behavior.
+        This test verifies that the workflow correctly handles the generation of YAML configuration
+        for specific events and notifications components when component_specific_filters are provided.
+
+        This validates selective configuration extraction based on user-defined component filters.
         """
 
         set_module_args(
@@ -142,10 +155,10 @@ class TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator(TestDnacModule):
 
     def test_brownfield_events_and_notifications_playbook_invalid_filter(self):
         """
-        Test the Application Policy Workflow Manager's profile creation process.
+        Test the Events and Notifications Playbook Generator's validation of invalid component filters.
 
-        This test verifies that the workflow correctly handles the creation of a new
-        application policy profile, ensuring proper validation and expected behavior.
+        This test verifies that the workflow correctly handles and rejects invalid component names
+        in the component_specific_filters configuration.
         """
 
         set_module_args(
@@ -174,10 +187,13 @@ class TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator(TestDnacModule):
 
     def test_brownfield_events_and_notifications_playbook_specific_filter(self):
         """
-        Test the Application Policy Workflow Manager's profile creation process.
+       Test the Events and Notifications Playbook Generator's specific component filtering functionality.
 
-        This test verifies that the workflow correctly handles the creation of a new
-        application policy profile, ensuring proper validation and expected behavior.
+        This test verifies that the workflow correctly handles the generation of YAML configuration
+        for a single specific events and notifications component.
+
+        This validates targeted configuration extraction for specific events and notifications
+        components, enabling users to generate YAML for only the components they need.
         """
 
         set_module_args(

@@ -1,12 +1,12 @@
 ---
-- name: Generate YAML Configuration for NFS server details for storing backups
+- name: Generate YAML Configuration for Events and Notifications Management
   hosts: localhost
   connection: local
   gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Generate YAML Configuration for NFS server details for storing backups
+    - name: Generate YAML Configuration for Events and Notifications Settings
       cisco.dnac.brownfield_events_and_notifications_playbook_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
