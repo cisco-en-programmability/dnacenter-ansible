@@ -2455,26 +2455,61 @@ class Template(NetworkProfileFunctions):
             tags (dict) - Organized tags parameters.
         """
 
+        self.log(
+            "Starting template tag configuration processing for Cisco Catalyst Center operations",
+            "INFO"
+        )
+
         if _tags is None:
+            self.log(
+                "No tag configuration provided - returning None for template processing",
+                "DEBUG"
+            )
             return None
 
         tags = []
-        i = 0
-        for item in _tags:
-            tags.append({})
-            id = item.get("id")
-            if id is not None:
-                tags[i].update({"id": id})
 
-            name = item.get("name")
-            if name is not None:
-                tags[i].update({"name": name})
+        for index, tag_item in enumerate(_tags):
+            self.log(
+                "Processing tag configuration at index {0}: {1}".format(index, tag_item),
+                "DEBUG"
+            )
+
+            tags.append({})
+            tag_id = tag_item.get("id")
+            if tag_id is not None:
+                tags[index].update({"id": tag_id})
+                self.log(
+                    "Tag at index {0} includes ID: {1}".format(index, tag_id),
+                    "DEBUG"
+                )
+
+            # Process required tag name field
+            tag_name = tag_item.get("name")
+            if tag_name is not None:
+                tags[index].update({"name": tag_name})
+                self.log(
+                    "Tag at index {0} configured with name: {1}".format(index, tag_name),
+                    "DEBUG"
+                )
             else:
-                self.msg = "name is required in tags in location " + str(i)
+                error_msg = "Tag name is required but not provided for tag at index {0}".format(index)
+                self.log(error_msg, "ERROR")
+                self.msg = error_msg
                 self.status = "failed"
                 return self.check_return_status()
-            i = i + 1
 
+            self.log(
+                "Successfully processed tag configuration at index {0}".format(index),
+                "DEBUG"
+            )
+
+        self.log(
+            "Template tag configuration processing completed successfully - processed {0} tags".format(
+                len(tags)
+            ),
+            "INFO"
+        )
         return tags
 
     def get_device_types(self, device_types):
