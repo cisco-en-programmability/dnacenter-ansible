@@ -394,12 +394,12 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         )
         return ise_radius_integration
 
-    def filter_ise_radius_integration_details(self, api_response, filters=None):
+    def filter_ise_radius_integration_details(self, auth_server_details, filters=None):
         """
         Filter ISE RADIUS integration details based on server type and IP address.
         
         Args:
-            api_response (list): List of ISE RADIUS server configurations from API response.
+            auth_server_details (list): List of ISE RADIUS server configurations from API response.
             filters (dict): Filter criteria containing:
                 - server_type (str): Type to filter (e.g., "ISE", "AAA")
                 - server_ip_address (str): IP address to filter
@@ -412,15 +412,15 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
                 "server_type": "ISE",
                 "server_ip_address": "10.197.156.78"
             }
-            result = filter_ise_radius_integration_details(api_response, filters)
+            result = filter_ise_radius_integration_details(auth_server_details, filters)
         """
-        if not api_response:
+        if not auth_server_details:
             self.log("No API response to filter", "WARNING")
             return []
         
         if not filters:
             self.log("No filters provided, returning all API response data","DEBUG")
-            return api_response
+            return auth_server_details
         
         filtered_results = []
         server_type = filters.get("server_type")
@@ -428,7 +428,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         self.log("Filtering ISE RADIUS integration details with server_type: {0}, server_ip_address: {1}".format(
                 server_type, server_ip_address),"DEBUG")
 
-        for each_server_resp in api_response:
+        for each_server_resp in auth_server_details:
             # Check if the main server IP matches (if specified)
             self.log("Checking server response: {0} ".format(each_server_resp), "DEBUG")
             ip_match = True
@@ -495,7 +495,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             filtered = self.filter_ise_radius_integration_details(auth_server_details, filters)
             
             for server in filtered:
-                # Use instanceUuid as unique identifier to avoid duplicates
+                # Use server_ip_address as unique identifier to avoid duplicates
                 server_ip = server.get("server_ip_address")
                 self.log("Processing server ID: {0}, seen_servers set value: {1}".format(server_ip, seen_server_ips), "DEBUG")
                 if server_ip not in seen_server_ips:
