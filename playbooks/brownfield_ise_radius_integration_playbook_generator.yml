@@ -3,6 +3,7 @@
   hosts: dnac_servers
   vars_files:
     - credentials.yml
+    - credentials_policy_server.yml
   gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   connection: local
   tasks:    
@@ -17,6 +18,7 @@
         dnac_debug: "{{ dnac_debug }}"
         dnac_log_level: DEBUG
         dnac_log: true
+        policy_server_password: "{{ policy_server_password }}"
         state: gathered
         config:
           - generate_all_configurations: false
@@ -24,9 +26,9 @@
             component_specific_filters:
               components_list: ["authentication_policy_server"]
               authentication_policy_server: 
-                - server_type: ISE  # [ISE, AAA]
-                  server_ip_address: 1.1.10.10
-                - server_ip_address: 10.0.0.20
+                # - server_type: ISE  # [ISE, AAA]
+                  # server_ip_address: 10.197.156.78
+                - server_ip_address: 10.197.156.10
         # ====================================================================================
         # SCENARIO 1: Generate All ISE and AAA Configurations
         # Purpose: Retrieve and generate configurations for all authentication servers

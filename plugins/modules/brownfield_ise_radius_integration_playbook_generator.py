@@ -71,7 +71,7 @@ options:
               - type "server_type"
               - server ip Address "server_ip_address"
             - If not specified, all components are included.
-            - For example, ["server_type", "fabric_zones"].
+            - For example, ["server_type", "server_ip_address"].
             type: list
             elements: str
           server_type:
@@ -315,14 +315,12 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             fqdn = cisco_ise_dto.get("fqdn")
             ip_address = cisco_ise_dto.get("ipAddress")
             description = cisco_ise_dto.get("description")
-            sshkey = cisco_ise_dto.get("sshkey")
             cisco_ise_dtos_list.append({
                 "user_name": user_name,
-                "password": password,
+                "password": self.policy_server_password,
                 "fqdn": fqdn,
                 "ip_address": ip_address,
                 "description": description,
-                "sshkey": sshkey,
             })
         self.log(
                 "Final cisco_ise_dtos_list data :: {0}".format(cisco_ise_dtos_list),
@@ -346,64 +344,6 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             self.log("server_type in transform_server_type(): {0}".format(server_type), "DEBUG")
             break
         return server_type
-
-    def transform_external_cisco_ise_ip_addresses(self, external_cisco_ise_ip_addr_dto):
-        """
-            This function transforms the external_cisco_ise_ip_addresses details from the API response to match the YAML configuration structure.
-            Returns:
-                list: A list of transformed external_cisco_ise_ip_addresses details.
-        """
-        externalCiscoIseIpAddresses = external_cisco_ise_ip_addr_dto.get("externalCiscoIseIpAddresses")
-        if not externalCiscoIseIpAddresses:
-            return []
-            
-        self.log("ExternalCiscoIseIpAddresses: {0}".format(externalCiscoIseIpAddresses), "DEBUG")
-
-        if not externalCiscoIseIpAddresses:
-            return []
-
-        external_cisco_ise_ip_addresses_list = []    
-        for external_cisco_ise_ip_address in externalCiscoIseIpAddresses:
-            external_ip_address = external_cisco_ise_ip_address.get("externalIpAddress")
-            external_cisco_ise_ip_addresses_list.append({
-                "external_ip_address": external_ip_address
-            })
-        self.log(
-                "Final external_cisco_ise_ip_addresses_list data :: {0}".format(external_cisco_ise_ip_addresses_list),
-                "DEBUG",
-            )
-        return external_cisco_ise_ip_addresses_list
-
-    def transform_external_cisco_ise_ip_addr_dtos(self, ise_radius_integration_details):
-        """
-            This function transforms the external_cisco_ise_ip_addr_dtos details from the API response to match the YAML configuration structure.
-            Returns:
-                list: A list of transformed external_cisco_ise_ip_addr_dtos details.
-        """
-        external_cisco_ise_ip_addr_dtos = ise_radius_integration_details.get("externalCiscoIseIpAddrDtos")
-
-        self.log("externalCiscoIseIpAddrDtos: {0}".format(external_cisco_ise_ip_addr_dtos), "DEBUG")
-
-        if not external_cisco_ise_ip_addr_dtos:
-            return []
-
-        external_cisco_ise_ip_addr_dtos_list = []    
-        for external_cisco_ise_ip_addr_dto in external_cisco_ise_ip_addr_dtos:
-            external_cisco_ise_ip_addresses = external_cisco_ise_ip_addr_dto.get("externalCiscoIseIpAddresses")
-            ise_type = external_cisco_ise_ip_addr_dto.get("type")
-            
-            transformed_external_cisco_ise_ip_addresses = self.transform_external_cisco_ise_ip_addresses(external_cisco_ise_ip_addr_dto)
-            
-            external_cisco_ise_ip_addr_dtos_list.append({
-                "external_cisco_ise_ip_addresses": transformed_external_cisco_ise_ip_addresses,
-                "ise_type": ise_type
-            })
-
-        self.log(
-                "Final external_cisco_ise_ip_addr_dtos_list data :: {0}".format(external_cisco_ise_ip_addr_dtos_list),
-                "DEBUG",
-            )
-        return external_cisco_ise_ip_addr_dtos_list
 
     def ise_radius_integration_temp_spec(self):
         """
@@ -429,7 +369,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
                 "encryption_scheme": {"type": "str", "source_key": "encryptionScheme"},
                 "encryption_key": {"type": "str", "source_key": "encryptionKey"},
                 "message_authenticator_code_key": {"type": "str", "source_key": "messageKey"},
-                "authentication_port": {"type": "int", "source_key": "port"},
+                "authentication_port": {"type": "int", "source_key": "authenticationPort"},
                 "accounting_port": {"type": "int", "source_key": "accountingPort"},
                 "retries": {"type": "int", "source_key": "retries"},
                 "timeout": {"type": "int", "source_key": "timeoutSeconds"},
@@ -447,13 +387,6 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
                     "fqdn": {"type": "str"},
                     "ip_address": {"type": "str"},
                     "description": {"type": "str"},
-                    "sshkey": {"type": "str"},
-                },
-                "external_cisco_ise_ip_addr_dtos": { 
-                    "type": "list",
-                    "elements": "dict",
-                    "special_handling": True,
-                    "transform": self.transform_external_cisco_ise_ip_addr_dtos,
                 },
                 "trusted_server": {"type": "str", "source_key": "trustedServer"}, 
                 "ise_integration_wait_time": {"type": "str", "source_key": "iseIntegrationWaitTime"},
@@ -461,12 +394,297 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         )
         return ise_radius_integration
 
+    def filter_ise_radius_integration_response(self, auth_server_details, component_specific_filters=None):
+        """
+        Filter ISE RADIUS integration details based on server_type and server_ip_address.
+        
+        This function filters the API response from get_authentication_and_policy_servers
+        based on the provided component-specific filters.
+        
+        Args:
+            self: Instance of the class with logging capability
+            auth_server_details (list): List of authentication server configurations from API response
+            component_specific_filters (dict): Filter criteria containing:
+                - components_list (list): List of components to include
+                - authentication_policy_server (dict or list): Filter specifications with:
+                    - server_type (str): Type to filter (e.g., "ISE")
+                    - server_ip_address (str): IP address to filter
+                    - role (str, optional): Role to filter
+        
+        Returns:
+            list: Filtered list of authentication servers matching the criteria
+        
+        Example:
+            component_specific_filters = {
+                "components_list": ["authentication_policy_server"],
+                "authentication_policy_server": [
+                    {"server_type": "ISE", "server_ip_address": "10.197.156.78"},
+                    {"server_ip_address": "10.0.0.20"}
+                ]
+            }
+            result = filter_ise_radius_integration_response(auth_server_details, component_specific_filters)
+        """
+        self.log(
+            "Starting ISE RADIUS integration response filtering with filters: {0}".format(
+                component_specific_filters
+            ),
+            "DEBUG",
+        )
+        
+        if not auth_server_details:
+            self.log("No authentication server details to filter", "WARNING")
+            return []
+        
+        # If no filters provided, return all servers
+        if not component_specific_filters:
+            self.log(
+                "No component-specific filters provided, returning all servers",
+                "DEBUG",
+            )
+            return auth_server_details
+        
+        # Normalize filters to list format
+        if isinstance(component_specific_filters, dict):
+            component_specific_filters = [component_specific_filters]
+        
+        self.log(
+            "Normalized authentication_policy_server filters: {0}".format(
+                component_specific_filters
+            ),
+            "DEBUG",
+        )
+        
+        filtered_results = []
+        seen_servers = set()  # Track unique servers to avoid duplicates
+        
+        # Apply OR logic across multiple filter criteria
+        for filter_spec in component_specific_filters:
+            self.log(
+                "Applying filter specification: {0}".format(filter_spec),
+                "DEBUG",
+            )
+            
+            server_type_filter = filter_spec.get("server_type")
+            server_ip_filter = filter_spec.get("server_ip_address")
+            
+            self.log(
+                "Filter criteria - server_type: {0}, server_ip_address: {1}".format(
+                    server_type_filter, server_ip_filter
+                ),
+                "DEBUG",
+            )
+            
+            for server in auth_server_details:
+                server_id = server.get("instanceUuid")
+                
+                # Skip if we've already seen this server
+                if server_id in seen_servers:
+                    self.log(
+                        "Server {0} already filtered, skipping duplicate".format(server_id),
+                        "DEBUG",
+                    )
+                    continue
+                
+                # Check main server IP address
+                main_ip = server.get("ipAddress")
+                ip_match = True
+                if server_ip_filter:
+                    ip_match = main_ip == server_ip_filter
+                    self.log(
+                        "IP match check: {0} == {1} = {2}".format(
+                            main_ip, server_ip_filter, ip_match
+                        ),
+                        "DEBUG",
+                    )
+                
+                if not ip_match:
+                    continue
+                
+                # Check ciscoIseDtos for server_type and role
+                cisco_ise_dtos = server.get("ciscoIseDtos", [])
+                self.log(
+                    "Checking ciscoIseDtos ({0} items) for server {1}".format(
+                        len(cisco_ise_dtos), main_ip
+                    ),
+                    "DEBUG",
+                )
+                
+                if server_type_filter:
+                    # Filter ciscoIseDtos by type
+                    matching_dtos = [
+                        dto for dto in cisco_ise_dtos
+                        if dto.get("type") == server_type_filter
+                    ]
+                    
+                    # Further filter by role if specified
+                    if role_filter:
+                        matching_dtos = [
+                            dto for dto in matching_dtos
+                            if dto.get("role") == role_filter
+                        ]
+                    
+                    self.log(
+                        "Found {0} matching ciscoIseDtos for type '{1}' and role '{2}'".format(
+                            len(matching_dtos), server_type_filter, role_filter
+                        ),
+                        "DEBUG",
+                    )
+                    
+                    # If matching DTOs found, include this server with filtered DTOs
+                    if matching_dtos:
+                        filtered_server = server.copy()
+                        filtered_server["ciscoIseDtos"] = matching_dtos
+                        filtered_results.append(filtered_server)
+                        seen_servers.add(server_id)
+                        self.log(
+                            "Server {0} ({1}) added to filtered results".format(
+                                server_id, main_ip
+                            ),
+                            "DEBUG",
+                        )
+                else:
+                    # No server_type filter, include the entire server
+                    filtered_results.append(server)
+                    seen_servers.add(server_id)
+                    self.log(
+                        "Server {0} ({1}) added to filtered results (no server_type filter)".format(
+                            server_id, main_ip
+                        ),
+                        "DEBUG",
+                    )
+        
+        self.log(
+            "ISE RADIUS filtering complete. Filtered {0} servers from {1} total".format(
+                len(filtered_results), len(auth_server_details)
+            ),
+            "DEBUG",
+        )
+        
+        return filtered_results
+
+    def filter_ise_radius_integration_details(self, api_response, filters=None):
+        """
+        Filter ISE RADIUS integration details based on server type and IP address.
+        
+        Args:
+            api_response (list): List of ISE RADIUS server configurations from API response.
+            filters (dict): Filter criteria containing:
+                - server_type (str): Type to filter (e.g., "ISE", "AAA")
+                - server_ip_address (str): IP address to filter
+        
+        Returns:
+            list: Filtered list of ISE RADIUS configurations matching the criteria.
+        
+        Example:
+            filters = {
+                "server_type": "ISE",
+                "server_ip_address": "10.197.156.78"
+            }
+            result = filter_ise_radius_integration_details(api_response, filters)
+        """
+        if not api_response:
+            self.log("No API response to filter", "WARNING")
+            return []
+        
+        if not filters:
+            self.log("No filters provided, returning all API response data","DEBUG")
+            return api_response
+        
+        filtered_results = []
+        server_type = filters.get("server_type")
+        server_ip_address = filters.get("server_ip_address")
+        self.log("Filtering ISE RADIUS integration details with server_type: {0}, server_ip_address: {1}".format(
+                server_type, server_ip_address),"DEBUG")
+
+        for each_server_resp in api_response:
+            # Check if the main server IP matches (if specified)
+            self.log("Checking server response: {0} ".format(each_server_resp), "DEBUG")
+            ip_match = True
+            if server_ip_address:
+                ip_match = each_server_resp.get("server_ip_address") == server_ip_address
+            
+            if not ip_match:
+                self.log("Skipping server {0} due to IP address: {1} mismatch".format(each_server_resp, server_ip_address), "DEBUG")
+                continue
+         
+            if server_type:
+                matching_server_type = server_type == each_server_resp.get("server_type")
+                
+                # If matching DTOs found, include this server with filtered DTOs
+                if matching_server_type:
+                    self.log("Including server {0} with filtered server_type: {1}".format(each_server_resp, matching_server_type), 
+                    "DEBUG")  
+                    filtered_results.append(each_server_resp)
+            else:
+                # No server_type filter, include the entire server
+                self.log("Including entire server without server_type filter: {0}".format(each_server_resp), "DEBUG")
+                filtered_results.append(each_server_resp)
+        self.log("Filtering complete. Filtered servers response data {0}".format(
+                filtered_results
+            ),
+            "DEBUG",
+        )   
+        return filtered_results
+
+    def filter_ise_radius_by_criteria(self, auth_server_details, filter_list=None):
+        """
+        Filter ISE RADIUS integration details based on multiple filter criteria.
+        Supports OR logic for multiple filters and AND logic within each filter.
+        
+        Args:
+            api_response (list): List of ISE RADIUS server configurations from API response.
+            filter_list (list): List of filter criteria dicts. Each dict can contain:
+                - server_type (str): Type to filter (e.g., "ISE")
+                - server_ip_address (str): IP address to filter
+                
+                Multiple filters in the list are combined with OR logic.
+        
+        Returns:
+            list: Filtered list of ISE RADIUS configurations matching any of the criteria.
+        
+        Example:
+            filters = [
+                {"server_type": "ISE", "server_ip_address": "10.197.156.78"},
+                {"server_ip_address": "10.197.156.79"}
+            ]
+            result = filter_ise_radius_by_criteria(api_response, filters)
+        """
+        if not auth_server_details or not filter_list:
+            return auth_server_details if auth_server_details else []
+        
+        all_filtered_results = []
+        seen_server_ips = set()
+        self.log(
+            "Value of filter_list:: {0}".format(filter_list),
+            "DEBUG",
+        )
+
+        for filters in filter_list:
+            filtered = self.filter_ise_radius_integration_details(auth_server_details, filters)
+            
+            for server in filtered:
+                # Use instanceUuid as unique identifier to avoid duplicates
+                server_ip = server.get("server_ip_address")
+                self.log("Processing server ID: {0}, seen_servers set value: {1}".format(server_ip, seen_server_ips), "DEBUG")
+                if server_ip not in seen_server_ips:
+                    all_filtered_results.append(server)
+                    self.log(
+                        "Adding server {0} to final results, all_filtered_results : {1}".format(server_ip, all_filtered_results),
+                        "DEBUG",
+                    )   
+                    seen_server_ips.add(server_ip)
+        self.log(
+            "Final filtered ISE RADIUS integration details: {0}".format(all_filtered_results),      
+        )
+        self.log("Final filtered ISE RADIUS integration details all_filtered_results: {0}".format(all_filtered_results), "DEBUG")
+        return all_filtered_results
+
     def get_ise_radius_integration_configuration(self, network_element, component_specific_filters=None):
         """
          call catc to get authentication and policy server details.
         """
         self.log(
-            "Jeet----Calling Authentication and Policy Server details:",
+            "Calling Authentication and Policy Server details:",
             "DEBUG",
         )
 
@@ -503,8 +721,20 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         ise_radius_integration_details = self.modify_parameters(
             ise_radius_integration_temp_spec, auth_server_details
         )
+
+        self.log(
+            "ISE Radius Integration's details ise_radius_integration_details after modify_parameters: {0}".format(
+                ise_radius_integration_details
+            ),
+            "DEBUG",
+        )
+
+        filter_ise_radius_integration_response = self.filter_ise_radius_by_criteria(
+            ise_radius_integration_details, component_specific_filters
+        )
+
         modified_ise_radius_integration_details = {}
-        modified_ise_radius_integration_details['authentication_policy_server'] = ise_radius_integration_details
+        modified_ise_radius_integration_details['authentication_policy_server'] = filter_ise_radius_integration_response
 
         self.log(
             "Modified ISE Radius Integration's details: {0}".format(
@@ -754,6 +984,7 @@ def main():
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
+        "policy_server_password": {"required": True, "type": "str"},
     }
 
     # Initialize the Ansible module with the provided argument specifications
@@ -778,6 +1009,8 @@ def main():
 
     # Get the state parameter from the provided parameters
     state = ccc_brownfield_ise_radius_integration_playbook_generator.params.get("state")
+    policy_server_password = ccc_brownfield_ise_radius_integration_playbook_generator.params.get("policy_server_password")
+    ccc_brownfield_ise_radius_integration_playbook_generator.policy_server_password = policy_server_password
     # Check if the state is valid
     if state not in ccc_brownfield_ise_radius_integration_playbook_generator.supported_states:
         ccc_brownfield_ise_radius_integration_playbook_generator.status = "invalid"
