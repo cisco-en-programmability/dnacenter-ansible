@@ -191,9 +191,9 @@ EXAMPLES = r"""
     config:
       - file_path: "tmp/brownfield_accesspoint_location_workflow_playbook_site_base.yml"
         global_filters:
-            site_list:
-              - Global/USA/SAN JOSE/SJ_BLD20/FLOOR1
-              - Global/USA/SAN JOSE/SJ_BLD20/FLOOR2
+          site_list:
+            - Global/USA/SAN JOSE/SJ_BLD20/FLOOR1
+            - Global/USA/SAN JOSE/SJ_BLD20/FLOOR2
 
 - name: Generate YAML Configuration with file path based on planned access point list
   cisco.dnac.brownfield_accesspoint_location_playbook_generator:
