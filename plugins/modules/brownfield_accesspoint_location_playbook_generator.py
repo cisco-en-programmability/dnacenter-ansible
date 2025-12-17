@@ -1190,7 +1190,7 @@ class AccesspointLocationGenerator(DnacBase, BrownFieldHelper):
                 for floor in site_list:
                     ap_site_exist = self.find_multiple_dict_by_key_value(
                         self.have.get("all_config", []), "floor_site_hierarchy", floor)
-                    
+
                     if ap_site_exist:
                         prepare_planned_list.append(ap_site_exist[0])
                 final_list = prepare_planned_list
