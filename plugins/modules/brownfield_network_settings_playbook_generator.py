@@ -1182,9 +1182,9 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "transform": self.transform_ipv4_dns_servers
             },
             "ipv4_total_host": {"type": "int", "source_key": "ipV4AddressSpace.totalAddresses"},
-            "ipv4_unassignable_addresses": {"type": "int", "source_key": "ipV4AddressSpace.unassignableAddresses"},
-            "ipv4_assigned_addresses": {"type": "int", "source_key": "ipV4AddressSpace.assignedAddresses"},
-            "ipv4_default_assigned_addresses": {"type": "int", "source_key": "ipV4AddressSpace.defaultAssignedAddresses"},
+            # "ipv4_unassignable_addresses": {"type": "int", "source_key": "ipV4AddressSpace.unassignableAddresses"},
+            # "ipv4_assigned_addresses": {"type": "int", "source_key": "ipV4AddressSpace.assignedAddresses"},
+            # "ipv4_default_assigned_addresses": {"type": "int", "source_key": "ipV4AddressSpace.defaultAssignedAddresses"},
 
             # IPv6 address space
             "ipv6_global_pool": {
@@ -1216,9 +1216,9 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "transform": self.transform_ipv6_dns_servers
             },
             "ipv6_total_host": {"type": "int", "source_key": "ipV6AddressSpace.totalAddresses"},
-            "ipv6_unassignable_addresses": {"type": "int", "source_key": "ipV6AddressSpace.unassignableAddresses"},
-            "ipv6_assigned_addresses": {"type": "int", "source_key": "ipV6AddressSpace.assignedAddresses"},
-            "ipv6_default_assigned_addresses": {"type": "int", "source_key": "ipV6AddressSpace.defaultAssignedAddresses"},
+            # "ipv6_unassignable_addresses": {"type": "int", "source_key": "ipV6AddressSpace.unassignableAddresses"},
+            # "ipv6_assigned_addresses": {"type": "int", "source_key": "ipV6AddressSpace.assignedAddresses"},
+            # "ipv6_default_assigned_addresses": {"type": "int", "source_key": "ipV6AddressSpace.defaultAssignedAddresses"},
             "slaac_support": {"type": "bool", "source_key": "ipV6AddressSpace.slaacSupport"},
 
             # # Force delete flag (optional in schema)
