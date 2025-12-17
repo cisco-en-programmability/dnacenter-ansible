@@ -160,7 +160,7 @@ EXAMPLES = r"""
     config:
       - generate_all_configurations: true
 
-- name:  Auto-generate YAML Configuration for all Access Point Location with custom file path
+- name: Auto-generate YAML Configuration for all Access Point Location with custom file path
   cisco.dnac.brownfield_accesspoint_location_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
