@@ -26,8 +26,8 @@
             component_specific_filters:
               components_list: ["authentication_policy_server"]
               authentication_policy_server: 
-                # - server_type: ISE  # [ISE, AAA]
-                  # server_ip_address: 10.197.156.78
+                - server_type: ISE  # [ISE, AAA]
+                  server_ip_address: 10.197.156.78
                 - server_ip_address: 10.197.156.10
         # ====================================================================================
         # SCENARIO 1: Generate All ISE and AAA Configurations
