@@ -6213,7 +6213,11 @@ class Reports(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
-        if time_range_option in ["LAST_7_DAYS", "LAST_24_HOURS", "LAST_3_HOURS", "LAST_6_HOURS", "LAST_9_HOURS", "LAST_12_HOURS", "LAST_30_DAYS", "LAST_90_DAYS"]:
+        predefined_time_ranges = [
+            "LAST_7_DAYS", "LAST_24_HOURS", "LAST_3_HOURS", "LAST_6_HOURS",
+            "LAST_9_HOURS", "LAST_12_HOURS", "LAST_30_DAYS", "LAST_90_DAYS"
+        ]
+        if time_range_option in predefined_time_ranges:
             updated_value = {
                 "timeRangeOption": item.get("time_range_option", "Custom"),
                 "displayValue": filter_entry.get("display_value", filter_entry["name"]),
