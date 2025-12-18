@@ -11,7 +11,7 @@ __author__ = "Jeet Ram, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: ise_radius_integration_integration_playbook_generator
+module: brownfield_ise_radius_integration_playbook_generator
 short_description: Resource module for Authentication
   and Policy Servers
 description:
@@ -28,6 +28,16 @@ options:
       Center after applying the playbook config.
     type: bool
     default: false
+  policy_server_password:
+    description: Password for the policy server (ISE/RADIUS).
+    required: true
+    type: str
+    no_log: true
+  policy_server_password:
+    description: Password for the policy server (ISE/RADIUS).
+    required: true
+    type: str
+    no_log: true
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -176,7 +186,6 @@ EXAMPLES = r"""
       - generate_all_components: true
 """
 
-
 RETURN = r"""
 # Case_1: Success Scenario
 response_1:
@@ -209,7 +218,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 import time
 try:
@@ -220,16 +228,14 @@ except ImportError:
     yaml = None
 from collections import OrderedDict
 
-
 if HAS_YAML:
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
-            return self.represent_mapping("tag:yaml.org,2002:map", data.items())
+            return self.represent_mapping("tag:yaml.org, 2002:map", data.items())
 
     OrderedDumper.add_representer(OrderedDict, OrderedDumper.represent_dict)
 else:
     OrderedDumper = None
-
 
 
 class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
@@ -246,7 +252,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         Returns:
             The method does not return a value.
         """
-       
+
         self.supported_states = ["gathered"]
         super().__init__(module)
         self.log("Inside INIT function.", "DEBUG")
@@ -308,7 +314,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         self.log("ciscoIseDtos: {0}".format(cisco_ise_dtos), "DEBUG")
         if not cisco_ise_dtos:
             return []
-        cisco_ise_dtos_list = []    
+        cisco_ise_dtos_list = []
         for cisco_ise_dto in cisco_ise_dtos:
             user_name = cisco_ise_dto.get("userName")
             password = cisco_ise_dto.get("password")
@@ -337,7 +343,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         cisco_ise_dtos = ise_radius_integration_details.get("ciscoIseDtos")
         self.log("ciscoIseDtos in transform_server_type(): {0}".format(cisco_ise_dtos), "DEBUG")
         if not cisco_ise_dtos:
-            return None   
+            return None
         server_type = None
         for cisco_ise_dto in cisco_ise_dtos:
             server_type = cisco_ise_dto.get("type")
@@ -349,8 +355,8 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         """
         Constructs a temporary specification for authentication server, defining the structure and types of attributes
         that will be used in the YAML configuration file. This specification includes details such as server_type, server_ip_address,
-        shared_secret,protocol, encryption_scheme, encryption_key, message_authenticator_code_key etc.
-      
+        shared_secret, protocol, encryption_scheme, encryption_key, message_authenticator_code_key etc.
+
         Returns:
             dict: A dictionary containing the temporary specification.
         """
@@ -388,25 +394,25 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
                     "ip_address": {"type": "str"},
                     "description": {"type": "str"},
                 },
-                "trusted_server": {"type": "str", "source_key": "trustedServer"}, 
+                "trusted_server": {"type": "str", "source_key": "trustedServer"},
                 "ise_integration_wait_time": {"type": "str", "source_key": "iseIntegrationWaitTime"},
-            } 
+            }
         )
         return ise_radius_integration
 
     def filter_ise_radius_integration_details(self, auth_server_details, filters=None):
         """
         Filter ISE RADIUS integration details based on server type and IP address.
-        
+
         Args:
             auth_server_details (list): List of ISE RADIUS server configurations from API response.
             filters (dict): Filter criteria containing:
                 - server_type (str): Type to filter (e.g., "ISE", "AAA")
                 - server_ip_address (str): IP address to filter
-        
+
         Returns:
             list: Filtered list of ISE RADIUS configurations matching the criteria.
-        
+
         Example:
             filters = {
                 "server_type": "ISE",
@@ -417,16 +423,16 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         if not auth_server_details:
             self.log("No API response to filter", "WARNING")
             return []
-        
+
         if not filters:
-            self.log("No filters provided, returning all API response data","DEBUG")
+            self.log("No filters provided, returning all API response data", "DEBUG")
             return auth_server_details
-        
+
         filtered_results = []
         server_type = filters.get("server_type")
         server_ip_address = filters.get("server_ip_address")
         self.log("Filtering ISE RADIUS integration details with server_type: {0}, server_ip_address: {1}".format(
-                server_type, server_ip_address),"DEBUG")
+                server_type, server_ip_address), "DEBUG")
 
         for each_server_resp in auth_server_details:
             # Check if the main server IP matches (if specified)
@@ -434,18 +440,18 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             ip_match = True
             if server_ip_address:
                 ip_match = each_server_resp.get("server_ip_address") == server_ip_address
-            
+
             if not ip_match:
                 self.log("Skipping server {0} due to IP address: {1} mismatch".format(each_server_resp, server_ip_address), "DEBUG")
                 continue
-         
+
             if server_type:
                 matching_server_type = server_type == each_server_resp.get("server_type")
-                
+
                 # If matching DTOs found, include this server with filtered DTOs
                 if matching_server_type:
-                    self.log("Including server {0} with filtered server_type: {1}".format(each_server_resp, matching_server_type), 
-                    "DEBUG")  
+                    self.log("Including server {0} with filtered server_type: {1}".format(each_server_resp, matching_server_type),
+                    "DEBUG")
                     filtered_results.append(each_server_resp)
             else:
                 # No server_type filter, include the entire server
@@ -455,25 +461,25 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
                 filtered_results
             ),
             "DEBUG",
-        )   
+        )
         return filtered_results
 
     def filter_ise_radius_by_criteria(self, auth_server_details, filter_list=None):
         """
         Filter ISE RADIUS integration details based on multiple filter criteria.
         Supports OR logic for multiple filters and AND logic within each filter.
-        
+
         Args:
             api_response (list): List of ISE RADIUS server configurations from API response.
             filter_list (list): List of filter criteria dicts. Each dict can contain:
                 - server_type (str): Type to filter (e.g., "ISE")
                 - server_ip_address (str): IP address to filter
-                
+
                 Multiple filters in the list are combined with OR logic.
-        
+
         Returns:
             list: Filtered list of ISE RADIUS configurations matching any of the criteria.
-        
+
         Example:
             filters = [
                 {"server_type": "ISE", "server_ip_address": "10.197.156.78"},
@@ -483,7 +489,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         """
         if not auth_server_details or not filter_list:
             return auth_server_details if auth_server_details else []
-        
+
         all_filtered_results = []
         seen_server_ips = set()
         self.log(
@@ -493,7 +499,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
 
         for filters in filter_list:
             filtered = self.filter_ise_radius_integration_details(auth_server_details, filters)
-            
+
             for server in filtered:
                 # Use server_ip_address as unique identifier to avoid duplicates
                 server_ip = server.get("server_ip_address")
@@ -503,10 +509,10 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
                     self.log(
                         "Adding server {0} to final results, all_filtered_results : {1}".format(server_ip, all_filtered_results),
                         "DEBUG",
-                    )   
+                    )
                     seen_server_ips.add(server_ip)
         self.log(
-            "Final filtered ISE RADIUS integration details: {0}".format(all_filtered_results),      
+            "Final filtered ISE RADIUS integration details: {0}".format(all_filtered_results),
         )
         self.log("Final filtered ISE RADIUS integration details all_filtered_results: {0}".format(all_filtered_results), "DEBUG")
         return all_filtered_results
@@ -538,11 +544,11 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         auth_server_details = response.get("response")
         if not auth_server_details:
             self.log(
-                "Authentication and Policy Server {0} does not exist".format(ipAddress),
+                "Authentication and Policy Server does not exist",
                 "DEBUG",
             )
             return None
-            
+
         self.log(
             "Authentication and Policy Server details: {0}".format(auth_server_details),
             "DEBUG",
@@ -596,7 +602,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             },
             "global_filters": [],
         }
-        
+
     def yaml_config_generator(self, yaml_config_generator):
         """
         Generates a YAML configuration file based on the provided parameters.
@@ -640,7 +646,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
                 self.log("Warning: global_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
             if yaml_config_generator.get("component_specific_filters"):
                 self.log("Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
-            
+
             # Set empty filters to retrieve everything
             global_filters = {}
             component_specific_filters = {}
@@ -795,6 +801,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
 
         return self
 
+
 def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
@@ -853,10 +860,11 @@ def main():
 
     # Validate the input parameters and check the return statusk
     ccc_brownfield_ise_radius_integration_playbook_generator.validate_input().check_return_status()
-    
+
     # Iterate over the validated configuration parameters
     for config in ccc_brownfield_ise_radius_integration_playbook_generator.validated_config:
         ccc_brownfield_ise_radius_integration_playbook_generator.reset_values()
+
         ccc_brownfield_ise_radius_integration_playbook_generator.get_want(
             config, state
         ).check_return_status()
