@@ -24,7 +24,6 @@
           # ====================================================================================
           - generate_all_configurations: true
             file_path: "tmp/all_configurations.yml"
-
           # ====================================================================================
           # Scenario 2: Template Projects - Filter by project Name
           # Fetches template projects from Cisco Catalyst Center using project_name as filter
