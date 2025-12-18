@@ -68,14 +68,12 @@ class TestBrownfieldAccesspointLocationPlaybookGenerator(TestDnacModule):
         """
         Load fixtures for brownfield accesspoint location playbook generator tests.
         """
-        for each_filter_type in [
-            "generate_all_configurations",
-            "generate_global_filter_real",
-            "generate_global_filter_pap",
-            "generate_global_filter_site",
-            "generate_global_filter_model",
-            "generate_global_filter_mac"]:
-
+        for each_filter_type in ["generate_all_configurations",
+                                 "generate_global_filter_real",
+                                 "generate_global_filter_pap",
+                                 "generate_global_filter_site",
+                                 "generate_global_filter_model",
+                                 "generate_global_filter_mac"]:
             if each_filter_type in self._testMethodName:
                 self.run_dnac_exec.side_effect = [
                     self.test_data.get("all_site_details"),
