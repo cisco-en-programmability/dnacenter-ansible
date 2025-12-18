@@ -67,7 +67,7 @@
                 - CW9172I
 
           # ========================================================================================
-          # Scenario 6: Generate wireless profile configurations based on mac address list filters
+          # Scenario 6: Generate accesspoint location configurations based on mac address list filters
           # ========================================================================================
           - file_path: "tmp/brownfield_accesspoint_location_workflow_playbook_mac_address_base.yml"
             global_filters:
