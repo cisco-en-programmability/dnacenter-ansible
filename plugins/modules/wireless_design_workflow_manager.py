@@ -7596,6 +7596,7 @@ class WirelessDesign(DnacBase):
                         "required": False,
                         "options": {
                             "design_name": {"type": "str"},
+                            "new_design_name": {"type": "str"},
                             "called_station_id": {"type": "str"},
                             "unlocked_attributes": {"type": "bool", "required": False},
                         },
@@ -10952,6 +10953,7 @@ class WirelessDesign(DnacBase):
             aaa_attr_list (list): A list of dictionaries containing the requested AAA Radius Attribute parameters.
                 Each dictionary should contain:
                     - design_name (str): The unique design/profile name
+                    - new_design_name (str, optional): New name for the design (for rename operation)
                     - called_station_id (str): The called station ID value
                     - unlocked_attributes (bool, optional): Whether to unlock the calledStationId attribute
         Returns:
@@ -10978,7 +10980,13 @@ class WirelessDesign(DnacBase):
         # Iterate requested attributes
         for attr in aaa_attr_list:
             design_name = attr.get("design_name")
+            new_design_name = attr.get("new_design_name")
             called_station_id = attr.get("called_station_id")
+            called_station_id = called_station_id.upper()
+            self.log("Evaluating AAA Radius Attribute design: {0}".format(design_name), "DEBUG")
+            self.log("Requested called_station_id: {0}".format(called_station_id), "DEBUG")
+            if new_design_name:
+                self.log("New design name requested: {0}".format(new_design_name), "DEBUG")
             unlocked_attributes = attr.get("unlocked_attributes", False)
 
             # validate the called_station_id value
@@ -10992,21 +11000,14 @@ class WirelessDesign(DnacBase):
                     called_station_id, design_name, allowed_values))
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            # Build payload
-            payload = {
-                "designName": design_name,
-                "featureAttributes": {"calledStationId": called_station_id},
-            }
-            if unlocked_attributes:
-                payload["unlockedAttributes"] = ["calledStationId"]
-
+            # Check if design_name exists
             existing = existing_dict.get(design_name)
 
-            if not existing:
-                # CREATE payload
-                add_attrs.append(payload)
-                self.log("AAA Radius Attribute '{0}' scheduled for creation.".format(design_name), "DEBUG")
-            else:
+            # Case 1: design_name exists
+            if existing:
+                self.log("Design '{0}' exists in Cisco Catalyst Center.".format(design_name), "DEBUG")
+
+                # Get existing details for comparison
                 details = self.get_aaa_radius_attribute_details(existing["id"])
                 self.log("Details for {0}: {1}".format(design_name, details), "DEBUG")
 
@@ -11016,16 +11017,76 @@ class WirelessDesign(DnacBase):
                 # Desired unlocked (only set if explicitly requested True)
                 desired_unlocked = ["calledStationId"] if unlocked_attributes else []
 
-                # Compare both fields
-                if (
+                # Determine if update is needed (config changes or rename)
+                config_changed = (
                     existing_called != called_station_id
                     or set(existing_unlocked) != set(desired_unlocked)
-                ):
+                )
+
+                # Case 1a: new_design_name is provided - rename with potential config update
+                if new_design_name:
+                    self.log("Rename requested from '{0}' to '{1}'.".format(design_name, new_design_name), "INFO")
+
+                    # Check if new_design_name already exists (conflict check)
+                    if new_design_name in existing_dict and new_design_name != design_name:
+                        self.msg = ("Cannot rename design '{0}' to '{1}' - target name already exists.".format(
+                            design_name, new_design_name))
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                    # Build update payload with new name and potentially new config
+                    payload = {
+                        "id": existing["id"],
+                        "designName": new_design_name,  # Use new name
+                        "featureAttributes": {"calledStationId": called_station_id},
+                    }
+                    if unlocked_attributes:
+                        payload["unlockedAttributes"] = ["calledStationId"]
+
                     update_attrs.append(payload)
-                    self.log("AAA Radius Attribute '{0}' marked for update.".format(design_name), "DEBUG")
+                    self.log("AAA Radius Attribute '{0}' scheduled for rename to '{1}' with config update.".format(
+                        design_name, new_design_name), "DEBUG")
+
+                # Case 1b: No rename, but config changed
+                elif config_changed:
+                    payload = {
+                        "id": existing["id"],
+                        "designName": design_name,  # Keep original name
+                        "featureAttributes": {"calledStationId": called_station_id},
+                    }
+                    if unlocked_attributes:
+                        payload["unlockedAttributes"] = ["calledStationId"]
+
+                    update_attrs.append(payload)
+                    self.log("AAA Radius Attribute '{0}' marked for config update.".format(design_name), "DEBUG")
+
+                # Case 1c: No changes needed
                 else:
                     no_update_attrs.append(details)
                     self.log("AAA Radius Attribute '{0}' requires no update.".format(design_name), "DEBUG")
+
+            # Case 2: design_name does NOT exist
+            else:
+                self.log("Design '{0}' does not exist in Cisco Catalyst Center.".format(design_name), "DEBUG")
+
+                # Case 2a: new_design_name provided but design_name doesn't exist
+                # Per requirement: "take design name as priority and create it"
+                if new_design_name:
+                    self.log(
+                        "Design '{0}' does not exist. new_design_name '{1}' provided but will be ignored. "
+                        "Creating with original design_name '{0}' as priority.".format(design_name, new_design_name),
+                        "WARNING"
+                    )
+
+                # Create with design_name (prioritize design_name for creation)
+                payload = {
+                    "designName": design_name,
+                    "featureAttributes": {"calledStationId": called_station_id},
+                }
+                if unlocked_attributes:
+                    payload["unlockedAttributes"] = ["calledStationId"]
+
+                add_attrs.append(payload)
+                self.log("AAA Radius Attribute '{0}' scheduled for creation.".format(design_name), "DEBUG")
 
         self.log("AAA Radius Attributes to Add: {0}".format(add_attrs), "DEBUG")
         self.log("AAA Radius Attributes to Update: {0}".format(update_attrs), "DEBUG")
