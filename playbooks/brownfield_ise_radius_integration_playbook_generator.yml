@@ -76,4 +76,3 @@
                   - server_type: ISE  # [ISE, AAA]
                     server_ip_address: 10.197.156.78
                   - server_ip_address: 10.197.156.10
-                            
