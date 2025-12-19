@@ -69,43 +69,6 @@ options:
         - For example, "network_settings_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
         type: str
         required: false
-      global_filters:
-        description:
-        - Global filters to apply when generating the YAML configuration file.
-        - These filters identify which network settings to extract configurations from.
-        - At least one filter type must be specified to identify target settings.
-        type: dict
-        required: false
-        suboptions:
-          site_name_list:
-            description:
-            - List of site names to extract network settings from.
-            - HIGHEST PRIORITY - If provided, other site-based filters will be applied within these sites.
-            - Each site name must follow the hierarchical format (e.g., "Global/India/Mumbai").
-            - Sites must exist in Cisco Catalyst Center.
-            - Example ["Global/India/Mumbai", "Global/USA/NewYork", "Global/Headquarters"]
-            type: list
-            elements: str
-            required: false
-          pool_name_list:
-            description:
-            - List of IP pool names to extract configurations from.
-            - Can be applied to both global pools and reserve pools.
-            - Pool names must match those configured in Catalyst Center.
-            - Example ["Global_Pool_1", "Production_Pool", "Corporate_Pool"]
-            type: list
-            elements: str
-            required: false
-          pool_type_list:
-            description:
-            - List of pool types to extract configurations from.
-            - Valid values are ["Generic", "LAN", "WAN", "Management"].
-            - Can be applied to both global pools and reserve pools.
-            - Example ["LAN", "Management"]
-            type: list
-            elements: str
-            required: false
-            choices: ["Generic", "LAN", "WAN", "Management"]
       component_specific_filters:
         description:
         - Filters to specify which network settings components and features to include in the YAML configuration file.
@@ -146,25 +109,31 @@ options:
                 choices: ["Generic", "LAN", "WAN"]
           reserve_pool_details:
             description:
-            - Reserve IP Pools to filter by pool name, site, or pool type.
+            - Reserve IP Pools to filter by pool name, site, site hierarchy, or pool type.
             type: list
             elements: dict
             required: false
             suboptions:
               site_name:
                 description:
-                - Site name to filter reserve pools by site.
+                - Site name to filter reserve pools by specific site.
+                type: str
+                required: false
+              site_hierarchy:
+                description:
+                - Site hierarchy path to filter reserve pools by all child sites under the hierarchy.
+                - For example, "Global/USA" will include all sites under USA like "Global/USA/California", "Global/USA/New York", etc.
+                - This allows bulk extraction of reserve pools from multiple sites under a hierarchy.
                 type: str
                 required: false
           network_management_details:
             description:
             - Network management settings to filter by site.
-            - It is recommended to use 'site_name' filter within this component for accurate filtering.
             type: list
             elements: dict
             required: false
             suboptions:
-              site_name:
+              site_name_list:
                 description:
                 - Site name to filter network management settings by site.
                 type: str
@@ -270,7 +239,26 @@ EXAMPLES = r"""
     config:
       - file_path: "/tmp/network_settings_config.yml"
         component_specific_filters:
-          components_list: ["global_pool_details"]
+          components_list: ["device_controllability_details"]
+
+- name: Generate YAML Configuration for reserve pools using site hierarchy
+  cisco.dnac.brownfield_network_settings_playbook_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    config:
+      - file_path: "/tmp/reserve_pools_usa.yml"
+        component_specific_filters:
+          components_list: ["reserve_pool_details"]
+          reserve_pool_details:
+            - site_hierarchy: "Global/USA"
 """
 
 RETURN = r"""
@@ -665,8 +653,18 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return OrderedDict({
             "name": {"type": "str", "source_key": "name"},
             "pool_type": {"type": "str", "source_key": "poolType"},
-            "ip_address_space": {"type": "str", "source_key": None, "transform": self.transform_pool_to_address_space},
-            "cidr": {"type": "str", "source_key": None, "transform": self.transform_cidr},
+            "ip_address_space": {
+                "type": "str",
+                "source_key": None,
+                "special_handling": True,
+                "transform": self.transform_pool_to_address_space
+            },
+            "cidr": {
+                "type": "str",
+                "source_key": None,
+                "special_handling": True,
+                "transform": self.transform_cidr
+            },
             "gateway": {"type": "str", "source_key": "addressSpace.gatewayIpAddress"},
             "dhcp_server_ips": {"type": "list", "source_key": "addressSpace.dhcpServers"},
             "dns_server_ips": {"type": "list", "source_key": "addressSpace.dnsServers"},
@@ -764,37 +762,67 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             4. Look for IPv6-specific fields
         """
         if pool_details is None or not isinstance(pool_details, dict):
+            self.log("transform_pool_to_address_space: pool_details is None or not dict: {0}".format(pool_details), "DEBUG")
             return None
+
+        self.log("transform_pool_to_address_space: processing pool_details keys: {0}".format(list(pool_details.keys())), "DEBUG")
 
         # Method 1: Check explicit ipv6 field
         if "ipv6" in pool_details:
-            return "IPv6" if pool_details["ipv6"] else "IPv4"
+            result = "IPv6" if pool_details["ipv6"] else "IPv4"
+            self.log("transform_pool_to_address_space: found explicit ipv6 field, returning: {0}".format(result), "DEBUG")
+            return result
 
-        # Method 2: Check gateway format
+        # Method 2: Check gateway format (primary method for global pools)
         address_space = pool_details.get("addressSpace", {})
         gateway = address_space.get("gatewayIpAddress", "")
-        if gateway and ":" in gateway:
-            return "IPv6"
-        elif gateway:
-            return "IPv4"
+
+        # Also check direct gateway field for different API response formats
+        if not gateway:
+            gateway = pool_details.get("gateway", "")
+
+        if gateway:
+            if ":" in gateway:
+                self.log("transform_pool_to_address_space: detected IPv6 gateway: {0}".format(gateway), "DEBUG")
+                return "IPv6"
+            else:
+                self.log("transform_pool_to_address_space: detected IPv4 gateway: {0}".format(gateway), "DEBUG")
+                return "IPv4"
 
         # Method 3: Check subnet format
         subnet = address_space.get("subnet", "")
+        if not subnet:
+            subnet = pool_details.get("subnet", "")
+
         if subnet:
             if ":" in subnet:
+                self.log("transform_pool_to_address_space: detected IPv6 subnet: {0}".format(subnet), "DEBUG")
                 return "IPv6"
             else:
+                self.log("transform_pool_to_address_space: detected IPv4 subnet: {0}".format(subnet), "DEBUG")
                 return "IPv4"
 
         # Method 4: Check for poolType containing IPv6 indicators
         pool_type = pool_details.get("poolType", "")
         if "v6" in pool_type.lower() or "ipv6" in pool_type.lower():
+            self.log("transform_pool_to_address_space: detected IPv6 from poolType: {0}".format(pool_type), "DEBUG")
             return "IPv6"
 
+        # Method 5: Check DNS/DHCP servers for IPv6 format
+        dhcp_servers = address_space.get("dhcpServers", [])
+        dns_servers = address_space.get("dnsServers", [])
+
+        for server in dhcp_servers + dns_servers:
+            if server and ":" in str(server):
+                self.log("transform_pool_to_address_space: detected IPv6 from server addresses: {0}".format(server), "DEBUG")
+                return "IPv6"
+
         # Default to IPv4 if we have any address space info but can't determine type
-        if address_space:
+        if address_space or gateway:
+            self.log("transform_pool_to_address_space: defaulting to IPv4", "DEBUG")
             return "IPv4"
 
+        self.log("transform_pool_to_address_space: unable to determine address space, returning None", "DEBUG")
         return None
 
     def transform_cidr(self, pool_details):
@@ -831,14 +859,57 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             Missing data: {"addressSpace": {}} -> None
         """
         if pool_details is None:
+            self.log("transform_cidr: pool_details is None", "DEBUG")
             return None
 
         if isinstance(pool_details, dict):
+            self.log("transform_cidr: processing pool_details keys: {0}".format(list(pool_details.keys())), "DEBUG")
+
+            # Method 1: Check addressSpace structure (primary method)
             address_space = pool_details.get("addressSpace", {})
             subnet = address_space.get("subnet")
             prefix_length = address_space.get("prefixLength")
+
             if subnet and prefix_length:
-                return "{0}/{1}".format(subnet, prefix_length)
+                cidr = "{0}/{1}".format(subnet, prefix_length)
+                self.log("transform_cidr: found CIDR from addressSpace: {0}".format(cidr), "DEBUG")
+                return cidr
+
+            # Method 2: Check direct subnet and prefixLength fields
+            subnet = pool_details.get("subnet")
+            prefix_length = pool_details.get("prefixLength")
+
+            if subnet and prefix_length:
+                cidr = "{0}/{1}".format(subnet, prefix_length)
+                self.log("transform_cidr: found CIDR from direct fields: {0}".format(cidr), "DEBUG")
+                return cidr
+
+            # Method 3: Check for alternative field names
+            subnet = pool_details.get("ipSubnet") or pool_details.get("network")
+            prefix_length = pool_details.get("prefixLen") or pool_details.get("maskLength") or pool_details.get("subnetMask")
+
+            # Convert subnet mask to prefix length if needed
+            if prefix_length and isinstance(prefix_length, str) and "." in prefix_length:
+                # Convert subnet mask (e.g., "255.255.255.0") to prefix length (e.g., 24)
+                try:
+                    import ipaddress
+                    prefix_length = ipaddress.IPv4Network('0.0.0.0/' + prefix_length).prefixlen
+                except Exception:
+                    pass
+
+            if subnet and prefix_length:
+                cidr = "{0}/{1}".format(subnet, prefix_length)
+                self.log("transform_cidr: found CIDR from alternative fields: {0}".format(cidr), "DEBUG")
+                return cidr
+
+            # Method 4: Look for existing CIDR format
+            existing_cidr = pool_details.get("cidr") or pool_details.get("ipRange") or pool_details.get("range")
+            if existing_cidr and "/" in str(existing_cidr):
+                self.log("transform_cidr: found existing CIDR: {0}".format(existing_cidr), "DEBUG")
+                return existing_cidr
+
+            self.log("transform_cidr: no valid CIDR components found", "DEBUG")
+
         return None
 
     def transform_preserve_empty_list(self, data, field_path):
@@ -1156,11 +1227,13 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "ipv4_global_pool": {
                 "type": "str",
                 "source_key": None,
+                "special_handling": True,
                 "transform": self.transform_global_pool_id_to_cidr
             },
             "ipv4_global_pool_name": {
                 "type": "str",
                 "source_key": None,
+                "special_handling": True,
                 "transform": self.transform_global_pool_id_to_name
             },
             "ipv4_prefix": {
@@ -1322,6 +1395,11 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "type": "str",
                 "source_key": "settings.aaaNetwork.serverType"
             },
+            "network_aaa.pan_address": {
+                "type": "str",
+                "source_key": "settings.aaaNetwork.pan",
+                "optional": True
+            },
             "network_aaa.shared_secret": {
                 "type": "str",
                 "source_key": "settings.aaaNetwork.sharedSecret",
@@ -1347,6 +1425,11 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "client_and_endpoint_aaa.server_type": {
                 "type": "str",
                 "source_key": "settings.aaaClient.serverType"
+            },
+            "client_and_endpoint_aaa.pan_address": {
+                "type": "str",
+                "source_key": "settings.aaaClient.pan",
+                "optional": True
             },
             "client_and_endpoint_aaa.shared_secret": {
                 "type": "str",
@@ -1668,6 +1751,46 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "autocorrect_telemetry_config": {"type": "bool", "source_key": "autocorrectTelemetryConfig"},
         })
 
+    def get_child_sites_from_hierarchy(self, site_hierarchy):
+        """
+        Get all child sites under a given site hierarchy path.
+
+        Args:
+            site_hierarchy (str): Site hierarchy path (e.g., "Global/USA" or "Global/USA/California")
+
+        Returns:
+            list: List of dictionaries containing site_name and site_id for all child sites
+        """
+        self.log("Getting child sites for site hierarchy: {0}".format(site_hierarchy), "DEBUG")
+
+        child_sites = []
+
+        # Get site ID to name mapping if not already cached
+        if not hasattr(self, 'site_id_name_dict'):
+            self.site_id_name_dict = self.get_site_id_name_mapping()
+
+        # Create reverse mapping (name to ID)
+        site_name_to_id = {v: k for k, v in self.site_id_name_dict.items()}
+
+        # Find all sites that start with the hierarchy path
+        for site_id, site_name in self.site_id_name_dict.items():
+            # Check if this site is under the specified hierarchy
+            if site_name.startswith(site_hierarchy):
+                # Ensure it's actually a child (not the parent itself unless it's exact match)
+                if site_name == site_hierarchy or site_name.startswith(site_hierarchy + "/"):
+                    child_sites.append({
+                        "site_name": site_name,
+                        "site_id": site_id
+                    })
+                    self.log("Found child site: {0} (ID: {1})".format(site_name, site_id), "DEBUG")
+
+        if not child_sites:
+            self.log("No child sites found under hierarchy: {0}".format(site_hierarchy), "WARNING")
+        else:
+            self.log("Found {0} child sites under hierarchy: {1}".format(len(child_sites), site_hierarchy), "INFO")
+
+        return child_sites
+
     def transform_site_location(self, site_name_or_pool_details):
         """
         Transform site location information to hierarchical site name format for brownfield configurations.
@@ -1723,20 +1846,23 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             site_id = site_name_or_pool_details.get("siteId")
             site_name = site_name_or_pool_details.get("siteName")
 
-            # If we have a site name, use it directly
-            if site_name:
-                self.log("Using siteName from pool details: {0}".format(site_name), "DEBUG")
-                return site_name
-
-            # If we only have site ID, try to map it to name
+            # Always prioritize site ID lookup for full hierarchy over siteName (which may be just the short name)
             if site_id:
                 # Create site ID to name mapping if not exists
                 if not hasattr(self, 'site_id_name_dict'):
                     self.site_id_name_dict = self.get_site_id_name_mapping()
 
                 site_name_hierarchy = self.site_id_name_dict.get(site_id, None)
-                self.log("Mapped site ID {0} to hierarchy: {1}".format(site_id, site_name_hierarchy), "DEBUG")
-                return site_name_hierarchy
+                if site_name_hierarchy:
+                    self.log("Mapped site ID {0} to full hierarchy: {1}".format(site_id, site_name_hierarchy), "DEBUG")
+                    return site_name_hierarchy
+                else:
+                    self.log("Site ID {0} not found in mapping, falling back to siteName: {1}".format(site_id, site_name), "DEBUG")
+
+            # If we have a site name but no site ID mapping, use it directly
+            if site_name:
+                self.log("Using siteName from pool details as fallback: {0}".format(site_name), "DEBUG")
+                return site_name
 
         # If we can't process it, return None
         self.log("Unable to process input for site location transformation", "WARNING")
@@ -1909,12 +2035,12 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             # all_global_pools = self.execute_get_bulk_with_pagination(api_family, api_function, params={})
             self.log("Retrieved {0} total global pools using bulk API call".format(
                 len(all_global_pools)), "INFO")
-            
+
             # Add debug logging to see what pools were retrieved
             for i, pool in enumerate(all_global_pools):
                 self.log("Pool {0}: Name='{1}', Type='{2}', ID='{3}'".format(
-                    i + 1, 
-                    pool.get("name", "N/A"), 
+                    i + 1,
+                    pool.get("name", "N/A"),
                     pool.get("poolType", "N/A"),
                     pool.get("id", "N/A")
                 ), "DEBUG")
@@ -1937,7 +2063,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     if pool_name_list and pool.get("name") not in pool_name_list:
                         continue
 
-                    # Check pool type filter  
+                    # Check pool type filter
                     if pool_type_list and pool.get("poolType") not in pool_type_list:
                         continue
 
@@ -1948,55 +2074,55 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             # Apply component-specific filters
             if component_specific_filters:
                 self.log("Applying component-specific filters: {0}".format(component_specific_filters), "DEBUG")
-                
+
                 # Component filters should work as AND operation across all filter criteria
                 # Each pool must satisfy ALL the filter criteria to be included
                 final_filtered_pools = []
-                
+
                 # Collect all filter criteria from all filter objects
                 all_pool_name_filters = []
                 all_pool_type_filters = []
-                
+
                 for filter_param in component_specific_filters:
                     if "pool_name" in filter_param:
                         all_pool_name_filters.append(filter_param["pool_name"])
                     if "pool_type" in filter_param:
                         all_pool_type_filters.append(filter_param["pool_type"])
-                
+
                 self.log("Collected filter criteria - pool_names: {0}, pool_types: {1}".format(
                     all_pool_name_filters, all_pool_type_filters), "DEBUG")
-                
+
                 for pool in filtered_pools:
                     pool_name = pool.get("name")
                     pool_type = pool.get("poolType")
                     matches_all_criteria = True
-                    
+
                     # Check if pool matches ALL name filters (if any)
                     if all_pool_name_filters:
                         if pool_name not in all_pool_name_filters:
                             matches_all_criteria = False
                             self.log("Pool '{0}' does not match any name filter: {1}".format(
                                 pool_name, all_pool_name_filters), "DEBUG")
-                    
-                    # Check if pool matches ALL type filters (if any) 
+
+                    # Check if pool matches ALL type filters (if any)
                     if all_pool_type_filters and matches_all_criteria:
                         if pool_type not in all_pool_type_filters:
                             matches_all_criteria = False
                             self.log("Pool '{0}' (type: '{1}') does not match any type filter: {2}".format(
                                 pool_name, pool_type, all_pool_type_filters), "DEBUG")
-                    
-                    # Additional AND logic: if both name and type filters exist, 
+
+                    # Additional AND logic: if both name and type filters exist,
                     # pool must satisfy both criteria
                     if matches_all_criteria and all_pool_name_filters and all_pool_type_filters:
                         # Pool must match at least one name AND at least one type
                         name_match = pool_name in all_pool_name_filters
                         type_match = pool_type in all_pool_type_filters
-                        
+
                         if not (name_match and type_match):
                             matches_all_criteria = False
                             self.log("Pool '{0}' (type: '{1}') does not satisfy both name and type criteria".format(
                                 pool_name, pool_type), "DEBUG")
-                    
+
                     if matches_all_criteria:
                         final_filtered_pools.append(pool)
                         self.log("Pool '{0}' (type: '{1}') matched ALL filter criteria".format(
@@ -2054,7 +2180,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         # === Determine target sites (same logic as reserve pools) ===
         global_filters = filters.get("global_filters", {})
         component_specific_filters = filters.get("component_specific_filters", {}).get("network_management_details", [])
-        
+
         # Extract site_name_list from component specific filters
         site_name_list = []
         if component_specific_filters:
@@ -2063,7 +2189,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     site_name_list.extend(filter_param["site_name_list"])
                 elif "site_name" in filter_param:
                     site_name_list.append(filter_param["site_name"])
-        
+
         # If no component specific filters, check global filters
         if not site_name_list:
             site_name_list = global_filters.get("site_name_list", [])
@@ -2091,9 +2217,15 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "error_message": "Site not found in Catalyst Center"
                     })
         else:
-            # All sites
-            for sid, sname in self.site_id_name_dict.items():
-                target_sites.append({"site_name": sname, "site_id": sid})
+            # No specific sites requested - default to Global site only
+            global_site_id = site_name_to_id.get("Global")
+            if global_site_id:
+                target_sites.append({"site_name": "Global", "site_id": global_site_id})
+                self.log("No site filters provided - defaulting to Global site for network management details", "INFO")
+            else:
+                self.log("Global site not found - processing all sites as fallback", "WARNING")
+                for sid, sname in self.site_id_name_dict.items():
+                    target_sites.append({"site_name": sname, "site_id": sid})
 
         final_nm_details = []
 
@@ -2292,24 +2424,36 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         if not data:
             return {}
 
-        return {
+        result = {
             "primary_server_address": data.get("primaryServerIp", ""),
             "secondary_server_address": data.get("secondaryServerIp", ""),
             "protocol": data.get("protocol", ""),
             "server_type": data.get("serverType", ""),
         }
+
+        # Include pan_address field if available (required for ISE server type)
+        if data.get("pan"):
+            result["pan_address"] = data.get("pan")
+
+        return result
 
     def extract_client_aaa(self, entry):
         data = entry.get("aaaClient", {})
         if not data:
             return {}
 
-        return {
+        result = {
             "primary_server_address": data.get("primaryServerIp", ""),
             "secondary_server_address": data.get("secondaryServerIp", ""),
             "protocol": data.get("protocol", ""),
             "server_type": data.get("serverType", ""),
         }
+
+        # Include pan_address field if available (required for ISE server type)
+        if data.get("pan"):
+            result["pan_address"] = data.get("pan")
+
+        return result
 
     def extract_dhcp(self, entry):
         dhcp = entry.get("dhcp", {})
@@ -2481,7 +2625,8 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Check if we need site-specific filtering
         site_name_list = global_filters.get("site_name_list", [])
         has_site_specific_filters = site_name_list or any(
-            filter_param.get("site_name") for filter_param in component_specific_filters
+            filter_param.get("site_name") or filter_param.get("site_hierarchy")
+            for filter_param in component_specific_filters
         )
 
         # Performance optimization: Use bulk API call when no site-specific filters are present
@@ -2588,18 +2733,31 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                             "error_code": "SITE_NOT_FOUND"
                         })
 
-            # If component-specific filters contain site names but no global site filter, extract those sites
+            # If component-specific filters contain site names or site hierarchies but no global site filter, extract those sites
             if not target_sites and component_specific_filters:
                 if not hasattr(self, 'site_id_name_dict'):
                     self.site_id_name_dict = self.get_site_id_name_mapping()
                 site_name_to_id_dict = {v: k for k, v in self.site_id_name_dict.items()}
 
                 for filter_param in component_specific_filters:
+                    # Handle site_name filter
                     filter_site_name = filter_param.get("site_name")
                     if filter_site_name:
                         site_id = site_name_to_id_dict.get(filter_site_name)
                         if site_id and not any(s["site_name"] == filter_site_name for s in target_sites):
                             target_sites.append({"site_name": filter_site_name, "site_id": site_id})
+
+                    # Handle site_hierarchy filter
+                    filter_site_hierarchy = filter_param.get("site_hierarchy")
+                    if filter_site_hierarchy:
+                        self.log("Processing site hierarchy filter: {0}".format(filter_site_hierarchy), "INFO")
+                        child_sites = self.get_child_sites_from_hierarchy(filter_site_hierarchy)
+                        for child_site in child_sites:
+                            # Avoid duplicates
+                            if not any(s["site_name"] == child_site["site_name"] for s in target_sites):
+                                target_sites.append(child_site)
+                                self.log("Added child site from hierarchy: {0} (ID: {1})".format(
+                                    child_site["site_name"], child_site["site_id"]), "DEBUG")
 
             # Process each target site
             for site_info in target_sites:
@@ -2623,8 +2781,15 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         for filter_param in component_specific_filters:
                             # Check if filter applies to this site
                             filter_site_name = filter_param.get("site_name")
+                            filter_site_hierarchy = filter_param.get("site_hierarchy")
+
+                            # Skip if this filter is for a different specific site
                             if filter_site_name and filter_site_name != site_name:
-                                continue  # Skip this filter as it's for a different site
+                                continue
+
+                            # Check if this site matches the hierarchy filter
+                            if filter_site_hierarchy and not site_name.startswith(filter_site_hierarchy):
+                                continue
 
                             # Apply other filters
                             for pool in reserve_pool_details:
@@ -3263,8 +3428,11 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "INFO",
         )
 
+        # Device controllability is a global setting, not site-specific, so return as single dict instead of list
+        device_controllability_dict = settings_details[0] if settings_details else {}
+
         return {
-            "device_controllability_details": settings_details,
+            "device_controllability_details": device_controllability_dict,
             "operation_summary": self.get_operation_summary(),
         }
 

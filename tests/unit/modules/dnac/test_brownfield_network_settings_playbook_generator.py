@@ -202,7 +202,7 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
         Test case for brownfield network settings generator when generating all configurations.
 
         This test case checks the behavior when generate_all_configurations is set to True,
-        which should retrieve all global pools, reserve pools, network management, device 
+        which should retrieve all global pools, reserve pools, network management, device
         controllability, and AAA settings and generate a complete YAML playbook configuration file.
         """
         mock_exists.return_value = True
