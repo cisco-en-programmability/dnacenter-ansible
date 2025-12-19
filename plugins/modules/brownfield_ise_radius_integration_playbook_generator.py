@@ -28,16 +28,6 @@ options:
       Center after applying the playbook config.
     type: bool
     default: false
-  policy_server_password:
-    description: Password for the policy server (ISE/RADIUS).
-    required: true
-    type: str
-    no_log: true
-  policy_server_password:
-    description: Password for the policy server (ISE/RADIUS).
-    required: true
-    type: str
-    no_log: true
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -323,7 +313,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             description = cisco_ise_dto.get("description")
             cisco_ise_dtos_list.append({
                 "user_name": user_name,
-                "password": self.policy_server_password,
+                "password": self.generate_custom_variable_name(self.transform_server_type(ise_radius_integration_details), "policy_server_password"),
                 "fqdn": fqdn,
                 "ip_address": ip_address,
                 "description": description,
@@ -516,6 +506,55 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         )
         self.log("Final filtered ISE RADIUS integration details all_filtered_results: {0}".format(all_filtered_results), "DEBUG")
         return all_filtered_results
+
+    def generate_custom_variable_name(self, server_type, parameter_string):
+        """ 
+        Generate a custom variable name for a given server_type and parameter. 
+        Args: 
+            server_type (str): The type of the server (e.g., "ISE", "AAA").
+            parameter_string (str): The parameter for which to generate the variable name (e.g., "password").
+        Returns:
+            str: The generated custom variable name in the format "{{ server_type_parameter_string }}".
+        """
+        self.log(
+            "Generating custom variable name for server_type: {0}, parameter_string: {1}".format(
+                server_type, parameter_string
+            )
+        ),
+        
+        variable_placeholder_name = "{{ {0}_{1} }}".format(
+            server_type.lower(),
+            parameter_string.lower(),
+        )
+        custom_variable_placeholder_name = "{" + variable_placeholder_name + "}"
+        variable = "{0}_{1}".format(
+            server_type.lower(),
+            parameter_string.lower(),
+        )
+
+        self.log("Variable: {0}".format(variable), "DEBUG")
+        # Create YAML file with custom variable name
+        try:
+            yaml_variable_content = {variable: "REPLACE_WITH_ACTUAL_VALUE"}
+            yaml_filename = "{0}_variables.yml".format("{0}".format(parameter_string.lower(),))
+    
+            with open(yaml_filename, 'w') as yaml_file:
+                yaml.dump(yaml_variable_content, yaml_file, default_flow_style=False)
+            self.log(
+                "Created YAML file for custom variable: {0}".format(yaml_filename),
+                "DEBUG"
+            )
+        
+        except Exception as e:
+            self.log(
+                "Failed to create YAML file for custom variable: {0}".format(str(e)),
+                "WARNING"
+            )
+
+        self.log(
+            "Generated custom variable name: {0}".format(custom_variable_placeholder_name), "DEBUG",
+        )
+        return custom_variable_placeholder_name
 
     def get_ise_radius_integration_configuration(self, network_element, component_specific_filters=None):
         """
@@ -823,7 +862,6 @@ def main():
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
-        "policy_server_password": {"required": True, "type": "str"},
     }
 
     # Initialize the Ansible module with the provided argument specifications
@@ -848,8 +886,6 @@ def main():
 
     # Get the state parameter from the provided parameters
     state = ccc_brownfield_ise_radius_integration_playbook_generator.params.get("state")
-    policy_server_password = ccc_brownfield_ise_radius_integration_playbook_generator.params.get("policy_server_password")
-    ccc_brownfield_ise_radius_integration_playbook_generator.policy_server_password = policy_server_password
     # Check if the state is valid
     if state not in ccc_brownfield_ise_radius_integration_playbook_generator.supported_states:
         ccc_brownfield_ise_radius_integration_playbook_generator.status = "invalid"

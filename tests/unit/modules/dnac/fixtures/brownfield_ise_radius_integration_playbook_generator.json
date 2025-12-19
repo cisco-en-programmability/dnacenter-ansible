@@ -1,4 +1,57 @@
 {
+  "get_authentication_and_policy_servers": {
+    "response": [
+      {
+        "instanceUuid": "uuid-1",
+        "server_type": "ISE",
+        "ipAddress": "10.197.156.78",
+        "server_ip_address": "10.197.156.78",
+        "fqdn": "auto-tb4-ise.autoagni1.com",
+        "protocol": "RADIUS",
+        "authenticationPort": 1812,
+        "accountingPort": 1813,
+        "retries": 3,
+        "timeoutSeconds": 4,
+        "role": "primary",
+        "pxgridEnabled": true,
+        "useDnacCertForPxgrid": false,
+        "ciscoIseDtos": [
+          {
+            "userName": "admin",
+            "password": "ise_password",
+            "fqdn": "auto-tb4-ise.autoagni1.com",
+            "ipAddress": "10.197.156.78",
+            "type": "ISE",
+            "description": "CISCO ISE"
+          }
+        ]
+      },
+      {
+        "instanceUuid": "uuid-2",
+        "server_type": "AAA",
+        "ipAddress": "10.197.156.10",
+        "server_ip_address": "10.197.156.10",
+        "protocol": "RADIUS",
+        "authenticationPort": 1812,
+        "accountingPort": 1813,
+        "retries": 3,
+        "timeoutSeconds": 4,
+        "role": "secondary",
+        "pxgridEnabled": true,
+        "useDnacCertForPxgrid": false,
+        "ciscoIseDtos": [
+          {
+            "userName": "admin",
+            "password": "aaa_password",
+            "fqdn": "aaa-server.autoagni1.com",
+            "ipAddress": "10.197.156.10",
+            "type": "AAA",
+            "description": "AAA Server"
+          }
+        ]
+      }
+    ]
+  },
   "playbook_config_generate_all_configurations": [
     {
       "generate_all_configurations": true
@@ -6,16 +59,16 @@
   ],
   "playbook_config_with_file_path": [
     {
-      "generate_all_configurations": true,
       "file_path": "/tmp/ise_radius_integration_config.yaml"
     }
   ],
   "playbook_config_filter_by_server_type": [
     {
-      "generate_all_configurations": false,
-      "file_path": "/tmp/ise_servers_only.yaml",
+      "file_path": "/tmp/ise_servers_config.yaml",
       "component_specific_filters": {
-        "components_list": ["authentication_policy_server"],
+        "components_list": [
+          "authentication_policy_server"
+        ],
         "authentication_policy_server": [
           {
             "server_type": "ISE"
@@ -26,10 +79,11 @@
   ],
   "playbook_config_filter_by_server_ip": [
     {
-      "generate_all_configurations": false,
-      "file_path": "/tmp/specific_ip_server.yaml",
+      "file_path": "/tmp/specific_server_config.yaml",
       "component_specific_filters": {
-        "components_list": ["authentication_policy_server"],
+        "components_list": [
+          "authentication_policy_server"
+        ],
         "authentication_policy_server": [
           {
             "server_ip_address": "10.197.156.78"
@@ -40,10 +94,11 @@
   ],
   "playbook_config_filter_by_both": [
     {
-      "generate_all_configurations": false,
-      "file_path": "/tmp/ise_specific_ip.yaml",
+      "file_path": "/tmp/filtered_ise_server.yaml",
       "component_specific_filters": {
-        "components_list": ["authentication_policy_server"],
+        "components_list": [
+          "authentication_policy_server"
+        ],
         "authentication_policy_server": [
           {
             "server_type": "ISE",
@@ -55,14 +110,14 @@
   ],
   "playbook_config_multiple_filters": [
     {
-      "generate_all_configurations": false,
-      "file_path": "/tmp/multiple_filters.yaml",
+      "file_path": "/tmp/multiple_filters_config.yaml",
       "component_specific_filters": {
-        "components_list": ["authentication_policy_server"],
+        "components_list": [
+          "authentication_policy_server"
+        ],
         "authentication_policy_server": [
           {
-            "server_type": "ISE",
-            "server_ip_address": "10.197.156.78"
+            "server_type": "ISE"
           },
           {
             "server_ip_address": "10.197.156.10"
@@ -73,18 +128,21 @@
   ],
   "playbook_config_no_filters": [
     {
-      "generate_all_configurations": false,
+      "file_path": "/tmp/all_servers_config.yaml",
       "component_specific_filters": {
-        "components_list": ["authentication_policy_server"]
+        "components_list": [
+          "authentication_policy_server"
+        ]
       }
     }
   ],
   "playbook_config_invalid_server_type": [
     {
-      "generate_all_configurations": false,
       "file_path": "/tmp/invalid_server_type.yaml",
       "component_specific_filters": {
-        "components_list": ["authentication_policy_server"],
+        "components_list": [
+          "authentication_policy_server"
+        ],
         "authentication_policy_server": [
           {
             "server_type": "INVALID_TYPE"
@@ -93,100 +151,19 @@
       }
     }
   ],
-  "get_authentication_and_policy_servers": {
-    "response": [
-      {
-        "ipAddress": "10.197.156.78",
-        "sharedSecret": "shared_secret_value",
-        "protocol": "RADIUS",
-        "role": "primary",
-        "port": 49,
-        "authenticationPort": 1812,
-        "accountingPort": 1813,
-        "retries": 3,
-        "timeoutSeconds": 4,
-        "isIseEnabled": true,
-        "instanceUuid": "e4db5c09-8639-4e60-8642-bfdaca98ceb5",
-        "rbacUuid": "3cab7da6-6660-498f-9015-73e198ecdae5",
-        "state": "ACTIVE",
-        "ciscoIseDtos": [
-          {
-            "subscriberName": "pxgrid_client_1762509529",
-            "description": "",
-            "password": "encrypted_password",
-            "userName": "admin",
-            "fqdn": "auto-tb4-ise.autoagni1.com",
-            "ipAddress": "10.197.156.78",
-            "trustState": "TRUSTED",
-            "instanceUuid": "935e7c05-da1a-061d-a4ae-8becfef0d65d",
-            "sshkey": null,
-            "type": "ISE",
-            "failureReason": "",
-            "role": "PXGRID"
-          },
-          {
-            "subscriberName": "pxgrid_client_1762509529",
-            "description": "CISCO ISE",
-            "password": "encrypted_password",
-            "userName": "admin",
-            "fqdn": "auto-tb4-ise.autoagni1.com",
-            "ipAddress": "10.197.156.78",
-            "trustState": "TRUSTED",
-            "instanceUuid": "3d16b0d9-2291-464c-a76c-c71059929894",
-            "sshkey": null,
-            "type": "ISE",
-            "failureReason": "",
-            "role": "PRIMARY"
-          }
-        ],
-        "externalCiscoIseIpAddrDtos": [],
-        "encryptionScheme": "RADIUS",
-        "messageKey": "message_key_value",
-        "encryptionKey": "encryption_key_value",
-        "useDnacCertForPxgrid": false,
-        "iseEnabled": true,
-        "pxgridEnabled": true,
-        "multiDnacEnabled": false
-      },
-      {
-        "ipAddress": "10.197.156.10",
-        "sharedSecret": "shared_secret_value",
-        "protocol": "RADIUS",
-        "role": "secondary",
-        "port": 49,
-        "authenticationPort": 1812,
-        "accountingPort": 1813,
-        "retries": 3,
-        "timeoutSeconds": 4,
-        "isIseEnabled": false,
-        "instanceUuid": "f5ec6d10-9740-5f71-9753-cgdacb99fcb6",
-        "rbacUuid": "4dbc8eb7-7771-509g-0126-84f299fdebf6",
-        "state": "ACTIVE",
-        "ciscoIseDtos": [
-          {
-            "subscriberName": "radius_client_external",
-            "description": "External RADIUS",
-            "password": "encrypted_password",
-            "userName": "radius_user",
-            "fqdn": "external-radius.example.com",
-            "ipAddress": "10.197.156.10",
-            "trustState": "UNTRUSTED",
-            "instanceUuid": "a46c1f06-eb2b-172e-b5bf-9cdcgfg1e76e",
-            "sshkey": null,
-            "type": "AAA",
-            "failureReason": "",
-            "role": "SECONDARY"
-          }
-        ],
-        "externalCiscoIseIpAddrDtos": [],
-        "encryptionScheme": "RADIUS",
-        "messageKey": "message_key_value",
-        "encryptionKey": "encryption_key_value",
-        "useDnacCertForPxgrid": false,
-        "iseEnabled": false,
-        "pxgridEnabled": false,
-        "multiDnacEnabled": false
+  "playbook_config_invalid_state": [
+    {
+      "file_path": "/tmp/config.yaml"
+    }
+  ],
+  "playbook_config_missing_policy_server_password": [
+    {
+      "file_path": "/tmp/missing_password.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "authentication_policy_server"
+        ]
       }
-    ]
-  }
+    }
+  ]
 }
