@@ -215,14 +215,11 @@ except ImportError:
     yaml = None
 from collections import OrderedDict
 
+
 if HAS_YAML:
-
-
     class OrderedDumper(yaml.Dumper):
-
-
         def represent_dict(self, data):
-            return self.represent_mapping("tag:yaml.org, 2002:map", data.items())
+            return self.represent_mapping("tag:yaml.org,2002:map", data.items())
 
     OrderedDumper.add_representer(OrderedDict, OrderedDumper.represent_dict)
 else:
@@ -234,7 +231,6 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
       A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center using the GET APIs.
     """
     values_to_nullify = ["NOT CONFIGURED"]
-
 
     def __init__(self, module):
         """
@@ -932,7 +928,7 @@ def main():
         ]().check_return_status()
 
     module.exit_json(**ccc_brownfield_ise_radius_integration_playbook_generator.result)
+
+
 if __name__ == "__main__":
-
-
     main()
