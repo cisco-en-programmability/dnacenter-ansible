@@ -184,21 +184,18 @@ response_1:
   type: dict
   sample: >
     {
-      "response":
-        {
-          "response": String,
-          "version": String
+        "response": {
         },
-      "msg": String
+        "msg": {
+        }
     }
 # Case_2: Error Scenario
 response_2:
-  description: A string with the response returned by the Cisco Catalyst Center Python SDK
+  description: A string with the message returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: list
   sample: >
     {
-      "response": [],
       "msg": String
     }
 """
