@@ -2910,7 +2910,7 @@ class Reports(DnacBase):
                     return False
 
             # Process time range filters
-            if filter_entry.get("name") == "Time Range":
+            if filter_entry.get("name") == "TimeRange":
                 if not self._process_time_range_filter(filter_entry, filter_index):
                     return False
 
@@ -4779,6 +4779,17 @@ class Reports(DnacBase):
                     })
                     continue
 
+                # Case 3.5: value is given as display text (e.g. "AP Down")
+                if raw_val in VALID_EVENT_TYPES.values():
+                    for key, text in VALID_EVENT_TYPES.items():
+                        if raw_val == text:
+                            normalized_values.append({
+                                "value": key,
+                                "displayValue": text
+                            })
+                            break
+                    continue
+
                 # Case 4: Completely invalid event type
                 self.msg = (
                     f"Invalid eventType value: '{display_val}' "
@@ -6202,7 +6213,11 @@ class Reports(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
-        if time_range_option in ["LAST_7_DAYS", "LAST_24_HOURS", "LAST_3_HOURS"]:
+        predefined_time_ranges = [
+            "LAST_7_DAYS", "LAST_24_HOURS", "LAST_3_HOURS", "LAST_6_HOURS",
+            "LAST_9_HOURS", "LAST_12_HOURS", "LAST_30_DAYS", "LAST_90_DAYS"
+        ]
+        if time_range_option in predefined_time_ranges:
             updated_value = {
                 "timeRangeOption": item.get("time_range_option", "Custom"),
                 "displayValue": filter_entry.get("display_value", filter_entry["name"]),
