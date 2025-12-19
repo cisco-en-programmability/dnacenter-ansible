@@ -3044,82 +3044,82 @@ class ApplicationPolicy(DnacBase):
                         site_ids if is_update_required_for_site else current_site_ids
                     )
 
-                    for app_set in (
-                        final_want_business_relevant
-                        + final_want_business_irrelevant
-                        + final_want_default
-                    ):
-                        if app_set in final_want_business_relevant:
-                            relevance_level = "BUSINESS_RELEVANT"
+                for app_set in (
+                    final_want_business_relevant
+                    + final_want_business_irrelevant
+                    + final_want_default
+                ):
+                    if app_set in final_want_business_relevant:
+                        relevance_level = "BUSINESS_RELEVANT"
 
-                        elif app_set in final_want_business_irrelevant:
-                            relevance_level = "BUSINESS_IRRELEVANT"
+                    elif app_set in final_want_business_irrelevant:
+                        relevance_level = "BUSINESS_IRRELEVANT"
 
-                        elif app_set in final_want_default:
-                            relevance_level = "DEFAULT"
+                    elif app_set in final_want_default:
+                        relevance_level = "DEFAULT"
 
-                        if relevance_level and app_set in application_sets.get("name"):
-                            app_set_payload = {
-                                "id": application_sets.get("id"),
-                                "name": "{}_{}".format(
-                                    application_sets.get("policyScope"), app_set
+                    if relevance_level and app_set in application_sets.get("name"):
+                        app_set_payload = {
+                            "id": application_sets.get("id"),
+                            "name": "{}_{}".format(
+                                application_sets.get("policyScope"), app_set
+                            ),
+                            "deletePolicyStatus": application_sets.get(
+                                "deletePolicyStatus"
+                            ),
+                            "policyScope": application_sets.get("policyScope"),
+                            "priority": application_sets.get("priority"),
+                            "advancedPolicyScope": {
+                                "id": application_sets.get(
+                                    "advancedPolicyScope"
+                                ).get("id"),
+                                "name": application_sets.get(
+                                    "advancedPolicyScope"
+                                ).get("name"),
+                                "advancedPolicyScopeElement": [
+                                    {
+                                        "id": application_sets.get(
+                                            "advancedPolicyScope"
+                                        )
+                                        .get("advancedPolicyScopeElement")[0]
+                                        .get("id"),
+                                        "groupId": group_id,
+                                        "ssid": [],
+                                    }
+                                ],
+                            },
+                            "exclusiveContract": {
+                                "id": application_sets.get("exclusiveContract").get(
+                                    "id"
                                 ),
-                                "deletePolicyStatus": application_sets.get(
-                                    "deletePolicyStatus"
-                                ),
-                                "policyScope": application_sets.get("policyScope"),
-                                "priority": application_sets.get("priority"),
-                                "advancedPolicyScope": {
-                                    "id": application_sets.get(
-                                        "advancedPolicyScope"
-                                    ).get("id"),
-                                    "name": application_sets.get(
-                                        "advancedPolicyScope"
-                                    ).get("name"),
-                                    "advancedPolicyScopeElement": [
-                                        {
-                                            "id": application_sets.get(
-                                                "advancedPolicyScope"
-                                            )
-                                            .get("advancedPolicyScopeElement")[0]
-                                            .get("id"),
-                                            "groupId": group_id,
-                                            "ssid": [],
-                                        }
-                                    ],
-                                },
-                                "exclusiveContract": {
-                                    "id": application_sets.get("exclusiveContract").get(
-                                        "id"
-                                    ),
-                                    "clause": [
-                                        {
-                                            "id": application_sets.get(
-                                                "exclusiveContract"
-                                            )
-                                            .get("clause")[0]
-                                            .get("id"),
-                                            "type": application_sets.get(
-                                                "exclusiveContract"
-                                            )
-                                            .get("clause")[0]
-                                            .get("type"),
-                                            "relevanceLevel": relevance_level,
-                                        }
-                                    ],
-                                },
-                                "producer": {
-                                    "id": application_sets.get("producer").get("id"),
-                                    "scalableGroup": [
-                                        {
-                                            "idRef": application_sets.get("producer")
-                                            .get("scalableGroup")[0]
-                                            .get("idRef")
-                                        }
-                                    ],
-                                },
-                            }
-                            final_app_set_payload.append(app_set_payload)
+                                "clause": [
+                                    {
+                                        "id": application_sets.get(
+                                            "exclusiveContract"
+                                        )
+                                        .get("clause")[0]
+                                        .get("id"),
+                                        "type": application_sets.get(
+                                            "exclusiveContract"
+                                        )
+                                        .get("clause")[0]
+                                        .get("type"),
+                                        "relevanceLevel": relevance_level,
+                                    }
+                                ],
+                            },
+                            "producer": {
+                                "id": application_sets.get("producer").get("id"),
+                                "scalableGroup": [
+                                    {
+                                        "idRef": application_sets.get("producer")
+                                        .get("scalableGroup")[0]
+                                        .get("idRef")
+                                    }
+                                ],
+                            },
+                        }
+                        final_app_set_payload.append(app_set_payload)
 
             self.log(
                 "Final app set payload:\n{0}".format(
