@@ -216,7 +216,11 @@ except ImportError:
 from collections import OrderedDict
 
 if HAS_YAML:
+
+
     class OrderedDumper(yaml.Dumper):
+
+
         def represent_dict(self, data):
             return self.represent_mapping("tag:yaml.org, 2002:map", data.items())
 
@@ -230,6 +234,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
       A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center using the GET APIs.
     """
     values_to_nullify = ["NOT CONFIGURED"]
+
 
     def __init__(self, module):
         """
@@ -245,6 +250,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         self.log("Inside INIT function.", "DEBUG")
         self.module_schema = self.get_workflow_filters_schema()
         self.module_name = "brownfield_ise_radius_integration_playbook_generator"
+
 
     def validate_input(self):
         """
@@ -291,6 +297,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         self.set_operation_result("success", False, self.msg, "DEBUG")
         return self
 
+
     def transform_cisco_ise_dtos(self, ise_radius_integration_details):
         """
             This function transforms the cisco_ise_dtos details from the API response to match the YAML configuration structure.
@@ -318,8 +325,9 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         self.log(
             "Final cisco_ise_dtos_list data :: {0}".format(cisco_ise_dtos_list),
             "DEBUG",
-            )
+        )
         return cisco_ise_dtos_list
+
 
     def transform_server_type(self, ise_radius_integration_details):
         """
@@ -337,6 +345,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             self.log("server_type in transform_server_type(): {0}".format(server_type), "DEBUG")
             break
         return server_type
+
 
     def ise_radius_integration_temp_spec(self):
         """
@@ -387,6 +396,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         )
         return ise_radius_integration
 
+
     def filter_ise_radius_integration_details(self, auth_server_details, filters=None):
         """
         Filter ISE RADIUS integration details based on server type and IP address.
@@ -418,8 +428,13 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         filtered_results = []
         server_type = filters.get("server_type")
         server_ip_address = filters.get("server_ip_address")
-        self.log("Filtering ISE RADIUS integration details with server_type: {0}, server_ip_address: {1}".format(
-                server_type, server_ip_address), "DEBUG")
+        self.log(
+            "Filtering ISE RADIUS integration details with server_type: {0}, "
+            "server_ip_address: {1}".format(
+                server_type, server_ip_address
+            ),
+            "DEBUG"
+        )
 
         for each_server_resp in auth_server_details:
             # Check if the main server IP matches (if specified)
@@ -454,6 +469,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             "DEBUG",
         )
         return filtered_results
+
 
     def filter_ise_radius_by_criteria(self, auth_server_details, filter_list=None):
         """
@@ -508,6 +524,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         self.log("Final filtered ISE RADIUS integration details all_filtered_results: {0}".format(all_filtered_results), "DEBUG")
         return all_filtered_results
 
+
     def generate_custom_variable_name(self, server_type, parameter_string):
         """
         Generate a custom variable name for a given server_type and parameter.
@@ -556,6 +573,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             "Generated custom variable name: {0}".format(custom_variable_placeholder_name), "DEBUG",
         )
         return custom_variable_placeholder_name
+
 
     def get_ise_radius_integration_configuration(self, network_element, component_specific_filters=None):
         """
@@ -623,6 +641,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
 
         return modified_ise_radius_integration_details
 
+
     def get_workflow_filters_schema(self):
         """
         Description: Returns the schema for workflow filters supported by the module.
@@ -642,6 +661,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             },
             "global_filters": [],
         }
+
 
     def yaml_config_generator(self, yaml_config_generator):
         """
@@ -750,6 +770,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
 
         return self
 
+
     def get_want(self, config, state):
         """
         Creates parameters for API calls based on the specified state.
@@ -784,6 +805,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         self.msg = "Successfully collected all parameters from the playbook for Wireless Design operations."
         self.status = "success"
         return self
+
 
     def get_diff_gathered(self):
         """
