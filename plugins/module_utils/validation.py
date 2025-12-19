@@ -57,6 +57,32 @@ def validate_str(item, param_spec, param_name, invalid_params, module=None):
     return item
 
 
+def validate_float(item, param_spec, param_name, invalid_params, module=None):
+    """
+    This function checks that the input `item` is a valid float and conforms to
+    the constraints specified in `param_spec`. If the float is not valid or does
+    not meet the constraints, an error message is added to `invalid_params`.
+
+    Args:
+        item (float): The input float to be validated.
+        param_spec (dict): The parameter's specification, including validation constraints.
+        param_name (str): The name of the parameter being validated.
+        invalid_params (list): A list to collect validation error messages.
+        module (object, optional): Ansible module object, required if any parameter has `no_log` enabled.
+
+    Returns:
+        float: The validated float.
+    """
+    try:
+        item = validation.check_type_float(item)
+    except TypeError as e:
+        invalid_params.append(
+            f"'{param_name}': '{item}' is invalid. Reason: {str(e)}. "
+        )
+
+    return item
+
+
 def validate_integer_within_range(
     item, param_spec, param_name, invalid_params, module=None
 ):
@@ -265,6 +291,7 @@ def validate_dict(item, param_spec, param_name, invalid_params, module=None):
                 switch = {
                     "str": validate_str,
                     "int": validate_integer_within_range,
+                    "float": validate_float,
                     "bool": validate_bool,
                     "list": validate_list,
                     "dict": validate_dict,
@@ -343,6 +370,7 @@ def validate_list_of_dicts(param_list, spec, module=None):
             switch = {
                 "str": validate_str,
                 "int": validate_integer_within_range,
+                "float": validate_float,
                 "bool": validate_bool,
                 "list": validate_list,
                 "dict": validate_dict,
