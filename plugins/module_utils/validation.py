@@ -56,6 +56,7 @@ def validate_str(item, param_spec, param_name, invalid_params, module=None):
 
     return item
 
+
 def validate_float(item, param_spec, param_name, invalid_params, module=None):
     """
     This function checks that the input `item` is a valid float and conforms to
@@ -80,6 +81,7 @@ def validate_float(item, param_spec, param_name, invalid_params, module=None):
         )
 
     return item
+
 
 def validate_integer_within_range(
     item, param_spec, param_name, invalid_params, module=None
