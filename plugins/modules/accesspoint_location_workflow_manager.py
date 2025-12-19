@@ -94,13 +94,13 @@ options:
             suboptions:
               x_position:
                 description: >
-                  The X coordinate of the access point's position. allows from 0 to 100
-                type: int
+                  The X coordinate of the access point's position. allows from 0.0 to 100.0
+                type: float
                 required: true
               y_position:
                 description: >
-                  The Y coordinate of the access point's position. allows from 0 to 88
-                type: int
+                  The Y coordinate of the access point's position. allows from 0.0 to 100.0
+                type: float
                 required: true
               z_position:
                 description: >
@@ -233,8 +233,8 @@ EXAMPLES = r"""
               - accesspoint_name: AP687D.B402.1614-AP-location_Test6
                 accesspoint_model: AP9120E
                 position:
-                  x_position: 30  # x-axis: from 0 to 100
-                  y_position: 30  # y-axis: from 0 to 88
+                  x_position: 30  # x-axis: from 0.0 to 100.0
+                  y_position: 30  # y-axis: from 0.0 to 100.0
                   z_position: 8  # height: from 3.0 to 10
                 radios:  # Minimum Items: 1; Maximum Items: 4
                   - bands: ["2.4"]  # can be 2.4, 5 and 6
@@ -304,8 +304,8 @@ EXAMPLES = r"""
               - accesspoint_name: IAC-TB4-SJ-AP1
                 accesspoint_model: AP9120E
                 position:
-                  x_position: 30  # x-axis: from 0 to 100
-                  y_position: 30  # y-axis: from 0 to 88
+                  x_position: 30  # x-axis: from 0.0 to 100.0
+                  y_position: 30  # y-axis: from 0.0 to 100.0
                   z_position: 8  # height: from 3.0 to 10
                 radios:  # Minimum Items: 1; Maximum Items: 4
                   - bands: ["2.4"]  # can be 2.4, 5 and 6
@@ -374,8 +374,8 @@ EXAMPLES = r"""
                 mac_address: a4:88:73:d4:dd:80  # Required for real access point creation
                 accesspoint_model: AP9120E
                 position:
-                  x_position: 20  # x-axis: from 0 to 100
-                  y_position: 30  # y-axis: from 0 to 88
+                  x_position: 30  # x-axis: from 0.0 to 100.0
+                  y_position: 30  # y-axis: from 0.0 to 100.0
                   z_position: 8  # height: from 3.0 to 10
                 radios:  # Minimum Items: 1; Maximum Items: 4
                   - bands: ["2.4"]  # can be 2.4, 5 and 6
@@ -423,8 +423,8 @@ EXAMPLES = r"""
                 mac_address: a4:88:73:d4:dd:80  # Required for real access point creation
                 accesspoint_model: AP9120E
                 position:
-                  x_position: 20  # x-axis: from 0 to 100
-                  y_position: 30  # y-axis: from 0 to 88
+                  x_position: 30  # x-axis: from 0.0 to 100.0
+                  y_position: 30  # y-axis: from 0.0 to 100.0
                   z_position: 8  # height: from 3.0 to 10
                 radios:  # Minimum Items: 1; Maximum Items: 4
                   - bands: ["2.4"]  # can be 2.4, 5 and 6
@@ -726,9 +726,9 @@ class AccessPointLocation(DnacBase):
                 "accesspoint_model": {"type": "str", "required": False},
                 "position": {
                     "type": "dict",
-                    "x_position": {"type": "int", "required": False},  # 0-100 range
-                    "y_position": {"type": "int", "required": False},  # 0-88 range
-                    "z_position": {"type": "int", "required": False},  # 3.0-10.0 range
+                    "x_position": {"type": "float", "required": False},  # 0.0-100.0 range
+                    "y_position": {"type": "float", "required": False},  # 0.0-100.0 range
+                    "z_position": {"type": "float", "required": False},  # 3.0-10.0 range
                 },
                 "radios": {
                     "type": "list",
@@ -906,20 +906,20 @@ class AccessPointLocation(DnacBase):
                 x_position = position.get("x_position")
                 if x_position is None:
                     errormsg.append("x_position: X Position is missing in playbook.")
-                elif x_position and isinstance(x_position, int) and not (0 < x_position < 100):
-                    errormsg.append("x_position: X Position must be between 0 and 100.")
+                elif x_position and isinstance(x_position, (int, float)) and not (0 < x_position <= 100):
+                    errormsg.append("x_position: X Position must be between 0.0 and 100.0.")
 
                 y_position = position.get("y_position")
                 if y_position is None:
                     errormsg.append("y_position: Y Position is missing in playbook.")
-                elif y_position and isinstance(y_position, int) and not (0 < y_position < 88):
-                    errormsg.append("y_position: Y Position must be between 0 and 88.")
+                elif y_position and isinstance(y_position, (int, float)) and not (0 < y_position <= 100):
+                    errormsg.append("y_position: Y Position must be between 0.0 and 100.0.")
 
                 z_position = position.get("z_position")
                 if z_position is None:
                     errormsg.append("z_position: Z Position is missing in playbook.")
-                elif z_position and isinstance(z_position, (int, float)) and not (3 < z_position < 10):
-                    errormsg.append("z_position: Z Position must be between 3 and 10.")
+                elif z_position and isinstance(z_position, (int, float)) and not (3 <= z_position <= 10):
+                    errormsg.append("z_position: Z Position must be between 3.0 and 10.0.")
 
             radios = each_access_point.get("radios")
             if not radios:
