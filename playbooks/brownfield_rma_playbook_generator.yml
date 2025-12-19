@@ -22,4 +22,10 @@
         dnac_task_poll_interval: 1
         state: gathered
         config:
-          - generate_all_configurations: true
+          - file_path: "/Users/priyadharshini/Downloads/rma_info"
+            component_specific_filters:
+              components_list: ["device_replacement_workflows"]
+              device_replacement_workflows:
+                - replacement_device_serial_number: "9TRQFABSFR2"
+                - replacement_status: "REPLACED"
+           

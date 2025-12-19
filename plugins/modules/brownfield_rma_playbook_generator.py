@@ -363,28 +363,6 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
         })
         return device_replacement_workflows_details
 
-    def extract_nested_value(self, data, key_path):
-        """
-        Extracts value from nested dictionary using dot notation.
-        
-        Args:
-            data (dict): The source dictionary.
-            key_path (str): Dot-separated path to the value (e.g., "spec.server").
-            
-        Returns:
-            The value at the specified path, or None if not found.
-        """
-        try:
-            keys = key_path.split('.')
-            result = data
-            for key in keys:
-                result = result.get(key)
-                if result is None:
-                    return None
-            return result
-        except (AttributeError, TypeError):
-            return None
-
     def get_device_replacement_workflows(self, network_element, filters):
         """
         Retrieves device replacement workflow details based on the provided network element and component-specific filters.
@@ -426,7 +404,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
             
             # Log the raw response to debug
-            self.log("Raw API response: {0}".format(response), "DEBUG")
+            self.log("Received API response: {0}".format(response), "DEBUG")
             
             # Handle different response structures
             if isinstance(response, dict):
@@ -526,6 +504,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
                 params={"serialNumber": faulty_serial},
             )
+            self.log("Received API response for faulty device name: {0}".format(response), "DEBUG")
             
             if response and response.get("response"):
                 devices = response.get("response")
@@ -562,6 +541,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
                 params={"serialNumber": faulty_serial},
             )
+            self.log("Received API response for faulty device IP address: {0}".format(response), "DEBUG")
             
             if response and response.get("response"):
                 devices = response.get("response")
@@ -599,6 +579,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
                 params={"serialNumber": replacement_serial},
             )
+
             
             if response and response.get("response"):
                 devices = response.get("response")
@@ -615,6 +596,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
                 params={"serialNumber": replacement_serial},
             )
+            self.log("Received API response for replacement device name from PnP: {0}".format(pnp_response), "DEBUG")
             
             if pnp_response and len(pnp_response) > 0:
                 device_info = pnp_response[0].get("deviceInfo", {})
@@ -651,6 +633,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
                 params={"serialNumber": replacement_serial},
             )
+            self.log("Received API response for replacement device IP address: {0}".format(response), "DEBUG")
             
             if response and response.get("response"):
                 devices = response.get("response")
@@ -667,6 +650,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
                 params={"serialNumber": replacement_serial},
             )
+            self.log("Received API response for replacement device IP address from PnP: {0}".format(pnp_response), "DEBUG")
             
             if pnp_response and len(pnp_response) > 0:
                 device_info = pnp_response[0].get("deviceInfo", {})
