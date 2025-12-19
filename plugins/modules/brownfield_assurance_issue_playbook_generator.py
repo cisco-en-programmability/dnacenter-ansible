@@ -78,19 +78,13 @@ options:
           components_list:
             description:
             - List of components to include in the YAML configuration file.
-            - Valid values are ["assurance_issue", "assurance_user_defined_issue_settings", "assurance_system_issue_settings"]
+            - Valid values are ["assurance_user_defined_issue_settings", "assurance_system_issue_settings"]
             - If not specified, all supported components are included.
-            - Example ["assurance_issue", "assurance_user_defined_issue_settings", "assurance_system_issue_settings"]
+            - Example ["assurance_user_defined_issue_settings", "assurance_system_issue_settings"]
             type: list
             elements: str
             required: false
-            choices: ["assurance_issue", "assurance_user_defined_issue_settings", "assurance_system_issue_settings"]
-          assurance_issue:
-            description:
-            - Active assurance issues to filter by issue name, priority, status, device, or site.
-            type: list
-            elements: dict
-            required: false
+            choices: ["assurance_user_defined_issue_settings", "assurance_system_issue_settings"]
           assurance_user_defined_issue_settings:
             description:
             - User-defined issue settings to filter by issue name or enabled status.
@@ -448,34 +442,6 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         return {
             "issue_elements": {
-                "assurance_issue": {
-                    "filters": {
-                        "issue_name": {
-                            "type": "str",
-                            "required": False
-                        },
-                        "priority": {
-                            "type": "str",
-                            "required": False
-                        },
-                        "issue_status": {
-                            "type": "str",
-                            "required": False
-                        },
-                        "device_name": {
-                            "type": "str",
-                            "required": False
-                        },
-                        "site_hierarchy": {
-                            "type": "str",
-                            "required": False
-                        }
-                    },
-                    "reverse_mapping_function": self.active_issue_reverse_mapping_function,
-                    "api_function": "get_the_details_of_issues_for_given_set_of_filters",
-                    "api_family": "issues",
-                    "get_function_name": self.get_active_issues,
-                },
                 "assurance_user_defined_issue_settings": {
                     "filters": {
                         "name": {
@@ -574,30 +540,6 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "duration_in_minutes": {"type": "int", "source_key": "durationInMinutes"},
                 })
             },
-        })
-
-    def active_issue_reverse_mapping_function(self, requested_components=None):
-        """
-        Returns the reverse mapping specification for active issue configurations.
-        Args:
-            requested_components (list, optional): List of specific components to include
-        Returns:
-            dict: Reverse mapping specification for active issue details
-        """
-        self.log("Generating reverse mapping specification for active issues.", "DEBUG")
-
-        return OrderedDict({
-            "issue_name": {"type": "str", "source_key": "summary"},
-            "issue_process_type": {"type": "str", "source_key": "issueProcessType", "default": "resolution"},
-            "ignore_duration": {"type": "str", "source_key": "ignoreDuration"},
-            # "start_datetime": {"type": "str", "source_key": "firstOccurredTime"},
-            # "end_datetime": {"type": "str", "source_key": "mostRecentOccurredTime"},
-            "priority": {"type": "str", "source_key": "priority"},
-            "issue_status": {"type": "str", "source_key": "status"},
-            "site_hierarchy": {"type": "str", "source_key": "siteHierarchy"},
-            # "device_name": {"type": "str", "source_key": "nwDeviceName"},
-            # "mac_address": {"type": "str", "source_key": "macAddress"},
-            "network_device_ip_address": {"type": "str", "source_key": "managementIpAddr"},
         })
 
     def system_issue_reverse_mapping_function(self, requested_components=None):
@@ -720,161 +662,6 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return summary
 
-    def get_active_issues(self, issue_element, filters):
-        """
-        Retrieves active issues based on the provided filters.
-        Args:
-            issue_element (dict): A dictionary containing the API family and function for retrieving active issues.
-            filters (dict): A dictionary containing global_filters and component_specific_filters.
-        Returns:
-            dict: A dictionary containing the modified details of active issues.
-        """
-        self.log("Starting to retrieve active issues with filters: {0}".format(filters), "DEBUG")
-
-        # Ensure filters and issue_element are not None
-        if filters is None:
-            filters = {}
-        if issue_element is None:
-            issue_element = {}
-
-        api_family = issue_element.get("api_family")
-        api_function = issue_element.get("api_function")
-
-        self.log("Getting active issues using family '{0}' and function '{1}'.".format(
-            api_family, api_function), "INFO")
-
-        # Build API parameters from filters
-        params = {}
-
-        # Set required time parameters for active issues API
-        # Get issues from the last 24 hours by default
-        import time
-        current_time_ms = int(time.time() * 1000)  # Current time in milliseconds
-        twenty_four_hours_ms = 24 * 60 * 60 * 1000  # 24 hours in milliseconds
-        start_time_ms = current_time_ms - twenty_four_hours_ms
-
-        params["startTime"] = start_time_ms
-        params["endTime"] = current_time_ms
-        params["limit"] = 500  # Set a reasonable limit
-        params["offset"] = 0   # Start from beginning
-
-        self.log("Using time window: startTime={0}, endTime={1}".format(start_time_ms, current_time_ms), "DEBUG")
-
-        # Apply global filters if present
-        global_filters = filters.get("global_filters", {})
-        if global_filters is None:
-            global_filters = {}
-        if global_filters.get("issue_name_list"):
-            params["name"] = ",".join(global_filters["issue_name_list"])  # Changed from issueName to name
-
-        # Apply component-specific filters
-        component_specific_dict = filters.get("component_specific_filters", {})
-        if component_specific_dict is None:
-            component_specific_dict = {}
-        component_specific_filters = component_specific_dict.get("assurance_issue", [])
-        if component_specific_filters:
-            for filter_param in component_specific_filters:
-                for key, value in filter_param.items():
-                    if key == "issue_name":
-                        params["name"] = value  # Changed from issueName to name
-                    elif key == "priority":
-                        params["priority"] = value
-                    elif key == "issue_status":
-                        params["status"] = value  # Changed from issueStatus to status
-                    elif key == "device_name":
-                        params["deviceName"] = value
-                    elif key == "site_hierarchy":
-                        params["siteHierarchy"] = value
-
-        try:
-            # Use direct API call instead of pagination for debugging
-            self.log("Retrieving active issues using direct API call with parameters: {0}".format(params), "DEBUG")
-
-            # Try direct API call first to understand response structure
-            response = self.dnac._exec(
-                family=api_family,
-                function=api_function,
-                op_modifies=False,
-                params=params,
-            )
-
-            self.log("Raw API response type: {0}".format(type(response)), "DEBUG")
-            self.log("Raw API response: {0}".format(response), "DEBUG")
-
-            if response is None:
-                self.log("API call returned None. The API function may not be available.", "WARNING")
-                self.add_success("assurance_issue", {
-                    "issues_processed": 0,
-                    "message": "No data returned from API"
-                })
-                return {"assurance_issue": []}
-
-            # Extract data properly
-            if isinstance(response, dict):
-                active_issue_details = response.get("response", [])
-            elif isinstance(response, list):
-                active_issue_details = response
-            else:
-                active_issue_details = []
-
-            if not isinstance(active_issue_details, list):
-                active_issue_details = [active_issue_details] if active_issue_details else []
-
-            self.log("Retrieved active issue details: {0} issues".format(len(active_issue_details)), "INFO")
-            if active_issue_details:
-                self.log("First issue sample: {0}".format(active_issue_details[0]), "DEBUG")
-
-            # Track success
-            self.add_success("assurance_issue", {
-                "issues_processed": len(active_issue_details)
-            })
-
-            # Apply reverse mapping
-            reverse_mapping_function = issue_element.get("reverse_mapping_function")
-            reverse_mapping_spec = reverse_mapping_function()
-
-            self.log("Reverse mapping spec: {0}".format(reverse_mapping_spec), "DEBUG")
-
-            # Transform using inherited modify_parameters function
-            self.log("About to call modify_parameters with {0} active issue details".format(len(active_issue_details)), "DEBUG")
-            issue_details = self.modify_parameters(reverse_mapping_spec, active_issue_details)
-            self.log("modify_parameters completed successfully", "DEBUG")
-
-            # Post-process to convert epoch timestamps to datetime with better error handling
-            if issue_details and isinstance(issue_details, list):
-                for i, issue in enumerate(issue_details):
-                    if isinstance(issue, dict):
-                        try:
-                            if "start_datetime" in issue and issue["start_datetime"]:
-                                start_time = issue["start_datetime"]
-                                self.log("Converting start_datetime {0} (type: {1})".format(start_time, type(start_time)), "DEBUG")
-                                issue["start_datetime"] = self.epoch_to_datetime(start_time)
-                            if "end_datetime" in issue and issue["end_datetime"]:
-                                end_time = issue["end_datetime"]
-                                self.log("Converting end_datetime {0} (type: {1})".format(end_time, type(end_time)), "DEBUG")
-                                issue["end_datetime"] = self.epoch_to_datetime(end_time)
-                        except Exception as e:
-                            self.log("Error processing timestamps for issue {0}: {1}".format(i, str(e)), "ERROR")
-                            # Continue processing other issues even if timestamp conversion fails
-                    else:
-                        self.log("Warning: Issue {0} is not a dict, it's {1}: {2}".format(i, type(issue), issue), "WARNING")
-
-            return {
-                "assurance_issue": issue_details,
-            }
-
-        except Exception as e:
-            error_msg = "Failed to retrieve active issues: {0}".format(str(e))
-            self.log(error_msg, "ERROR")
-            self.add_failure("assurance_issue", {
-                "error_type": "api_error",
-                "error_message": error_msg,
-                "error_code": "ACTIVE_ISSUES_RETRIEVAL_FAILED"
-            })
-            return {
-                "assurance_issue": [],
-            }
-
     def get_user_defined_issues(self, issue_element, filters):
         """
         Retrieves user-defined issue definitions based on the provided filters.
@@ -889,7 +676,7 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         # Safety check for filters
         if not filters:
             filters = {}
-        
+
         final_user_issues = []
         api_family = issue_element.get("api_family")
         api_function = issue_element.get("api_function")
@@ -966,6 +753,18 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
             # Transform using inherited modify_parameters function
             issue_details = self.modify_parameters(reverse_mapping_spec, final_user_issues)
 
+            # Post-process to ensure severity values are integers, not strings
+            if issue_details and isinstance(issue_details, list):
+                for issue in issue_details:
+                    if isinstance(issue, dict) and "rules" in issue and isinstance(issue["rules"], list):
+                        for rule in issue["rules"]:
+                            if isinstance(rule, dict) and "severity" in rule:
+                                # Ensure severity is an integer
+                                try:
+                                    rule["severity"] = int(rule["severity"])
+                                except (ValueError, TypeError):
+                                    self.log("Warning: Could not convert severity to int: {0}".format(rule["severity"]), "WARNING")
+
             return {
                 "assurance_user_defined_issue_settings": issue_details,
                 "operation_summary": self.get_operation_summary()
@@ -1000,7 +799,7 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "assurance_system_issue_settings": [],
                 "operation_summary": self.get_operation_summary()
             }
-        
+
         if not filters:
             self.log("Error: filters is None or empty", "ERROR")
             return {
@@ -1027,7 +826,7 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         device_types = []
         global_filters = filters.get("global_filters") or {}
         device_type_list = global_filters.get("device_type_list", [])
-        
+
         component_specific_filters = filters.get("component_specific_filters") or {}
         component_specific_filters = component_specific_filters.get(
             "assurance_system_issue_settings", [])
@@ -1048,7 +847,7 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         try:
             # Try to get all system issues for each device type and enabled state
             self.log("Attempting to retrieve system issues for device types: {0}".format(device_types), "DEBUG")
-            
+
             for issue_enabled in ["true", "false"]:
                 for device_type in device_types:
                     try:
@@ -1059,10 +858,10 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                             api_function,
                             params
                         )
-                        
+
                         self.log("API response received for device_type {0}, issue_enabled {1}: {2}".format(
                             device_type, issue_enabled, type(response)), "DEBUG")
-                        
+
                         if response:
                             self.log("Retrieved {0} system issues for device_type {1}, issue_enabled {2}".format(
                                 len(response), device_type, issue_enabled), "DEBUG")
@@ -1090,7 +889,7 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "assurance_system_issue_settings": [],
                     "operation_summary": self.get_operation_summary()
                 }
-            
+
             reverse_mapping_spec = reverse_mapping_function()
             if not reverse_mapping_spec:
                 self.log("Error: reverse_mapping_spec is None", "ERROR")
@@ -1179,12 +978,12 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
             # Ensure module_schema is available and valid
             if not hasattr(self, 'module_schema') or not self.module_schema:
                 self.module_schema = self.get_workflow_elements_schema()
-            
+
             # Add debugging for schema structure
             self.log("Current module_schema structure: {0}".format(self.module_schema.keys()), "DEBUG")
             issue_elements = self.module_schema.get("issue_elements", {})
             self.log("Available issue_elements keys: {0}".format(list(issue_elements.keys())), "DEBUG")
-            
+
             issue_element = issue_elements.get(component_name)
             if not issue_element:
                 self.log("Component {0} not found in schema. Available components: {1}".format(
@@ -1204,7 +1003,7 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "global_filters": config.get("global_filters", {}),
                 "component_specific_filters": config.get("component_specific_filters", {})
             }
-            
+
             try:
                 result = get_function(issue_element, filters_structure)
                 self.log("Get function completed for component {0}, result type: {1}".format(component_name, type(result)), "DEBUG")
@@ -1224,14 +1023,14 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Generate final YAML structure
         yaml_config = []
-        
+
         # Always generate template structure when generate_all_configurations is True
         if self.generate_all_configurations:
             self.log("Building comprehensive YAML structure with all components using brownfield pattern", "DEBUG")
             # Create list of component configurations following brownfield pattern
             final_list = []
             issue_elements = self.module_schema.get("issue_elements", {})
-            
+
             for component_name in issue_elements.keys():
                 self.log("Processing component: {0}".format(component_name), "DEBUG")
                 # Check if we have data for this component
@@ -1240,19 +1039,19 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                     if component_name in config_item:
                         component_data = config_item[component_name]
                         break
-                
+
                 # Create component dictionary with proper structure
                 component_dict = {}
                 if component_data:
                     component_dict[component_name] = component_data
                 else:
                     component_dict[component_name] = []
-                    
+
                 final_list.append(component_dict)
-                    
+
             yaml_config.append({"config": final_list})
         elif all_configs:
-            # Create individual component dictionaries for non-generate_all mode  
+            # Create individual component dictionaries for non-generate_all mode
             final_list = []
             for config_item in all_configs:
                 final_list.append(config_item)

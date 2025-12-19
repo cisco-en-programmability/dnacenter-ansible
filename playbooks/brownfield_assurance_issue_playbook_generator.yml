@@ -21,7 +21,7 @@
         state: gathered
         config:
           - generate_all_configurations: true
-            file_path: "/tmp/active_issues_filtered.yml"
+            # file_path: "/tmp/active_issues_filtered.yml"
 
     # Example 2: Generate all components config 
     - name: Generate YAML configuration for all commponents 
@@ -37,9 +37,8 @@
         dnac_log_level: DEBUG
         state: gathered
         config:
-          -  component_specific_filters:
+          - component_specific_filters:
               components_list:
-                - assurance_issue
                 - assurance_user_defined_issue_settings
                 - assurance_system_issue_settings
 
@@ -86,22 +85,3 @@
               assurance_system_issue_settings:
                 - device_type: "UNIFIED_AP"
                 - device_type: "ROUTER"
-
-    # Example 5: Generate assurance_issue config
-    - name: Generate configuration for assurance_issue
-      cisco.dnac.brownfield_assurance_issue_playbook_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: INFO
-        state: gathered
-        config:
-          - file_path: "/tmp/enabled_user_issues.yml"
-            component_specific_filters:
-              components_list:
-                - assurance_issue
