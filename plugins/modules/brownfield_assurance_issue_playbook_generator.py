@@ -180,7 +180,6 @@ EXAMPLES = r"""
     config:
       - file_path: "/tmp/complete_assurance_config.yml"
         generate_all_configurations: true
-
 """
 
 RETURN = r"""

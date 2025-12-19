@@ -21,10 +21,10 @@
         state: gathered
         config:
           - generate_all_configurations: true
-            # file_path: "/tmp/active_issues_filtered.yml"
+            file_path: "/tmp/active_issues_filtered.yml"
 
-    # Example 2: Generate all components config 
-    - name: Generate YAML configuration for all commponents 
+    # Example 2: Generate all components config
+    - name: Generate YAML configuration for all commponents
       cisco.dnac.brownfield_assurance_issue_playbook_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
