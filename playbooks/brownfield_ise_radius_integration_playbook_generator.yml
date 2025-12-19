@@ -5,8 +5,8 @@
     - credentials.yml
   gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   connection: local
-  tasks:    
-    - name: Get Authentication and Policy Server.  
+  tasks:
+    - name: Get Authentication and Policy Server.
       cisco.dnac.brownfield_ise_radius_integration_playbook_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -23,11 +23,11 @@
             file_path: "authentication_policy_server_all_configurations.yaml"
             component_specific_filters:
               components_list: ["authentication_policy_server"]
-              authentication_policy_server: 
+              authentication_policy_server:
                 - server_type: ISE  # [ISE, AAA]
                   server_ip_address: 10.197.156.78
                 - server_ip_address: 10.197.156.10
-        # ====================================================================================
+        # Filter: Specific IP
         # SCENARIO 1: Generate All ISE and AAA Configurations
         # Purpose: Retrieve and generate configurations for all authentication servers
         # Use Case: Complete brownfield discovery and configuration generation
@@ -84,12 +84,12 @@
         #       authentication_policy_server:
         #         - role: primary  # Filter: Primary servers only
         # ====================================================================================
-          
-          # - generate_all_configurations: true
-          #   file_path: "/tmp/authentication_policy_server_all_configurations.yaml"
-          #   component_specific_filters:
-          #   - components_list: ["authentication_policy_server"]
-          #     authentication_policy_server: 
+
+        # - generate_all_configurations: true
+        #   file_path: "/tmp/authentication_policy_server_all_configurations.yaml"
+        #   component_specific_filters:
+        #   - components_list: ["authentication_policy_server"]
+        #     authentication_policy_server:
           #       - server_type: ISE  # [ISE, AAA]
           #         server_ip_address: 1.1.10.10
           #       - server_ip_address: 10.0.0.20

@@ -316,8 +316,8 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
                 "description": description,
             })
         self.log(
-                "Final cisco_ise_dtos_list data :: {0}".format(cisco_ise_dtos_list),
-                "DEBUG",
+            "Final cisco_ise_dtos_list data :: {0}".format(cisco_ise_dtos_list),
+            "DEBUG",
             )
         return cisco_ise_dtos_list
 
@@ -437,8 +437,12 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
 
                 # If matching DTOs found, include this server with filtered DTOs
                 if matching_server_type:
-                    self.log("Including server {0} with filtered server_type: {1}".format(each_server_resp, matching_server_type),
-                    "DEBUG")
+                    self.log(
+                        "Including server {0} with filtered server_type: {1}".format(
+                            each_server_resp, matching_server_type
+                        ),
+                        "DEBUG"
+                    )
                     filtered_results.append(each_server_resp)
             else:
                 # No server_type filter, include the entire server
@@ -505,9 +509,9 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         return all_filtered_results
 
     def generate_custom_variable_name(self, server_type, parameter_string):
-        """ 
-        Generate a custom variable name for a given server_type and parameter. 
-        Args: 
+        """
+        Generate a custom variable name for a given server_type and parameter.
+        Args:
             server_type (str): The type of the server (e.g., "ISE", "AAA").
             parameter_string (str): The parameter for which to generate the variable name (e.g., "password").
         Returns:
@@ -518,7 +522,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
                 server_type, parameter_string
             )
         ),
-        
+
         variable_placeholder_name = "{{ {0}_{1} }}".format(
             server_type.lower(),
             parameter_string.lower(),
@@ -534,14 +538,14 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         try:
             yaml_variable_content = {variable: "REPLACE_WITH_ACTUAL_VALUE"}
             yaml_filename = "{0}_variables.yml".format("{0}".format(parameter_string.lower(),))
-    
+
             with open(yaml_filename, 'w') as yaml_file:
                 yaml.dump(yaml_variable_content, yaml_file, default_flow_style=False)
             self.log(
                 "Created YAML file for custom variable: {0}".format(yaml_filename),
                 "DEBUG"
             )
-        
+
         except Exception as e:
             self.log(
                 "Failed to create YAML file for custom variable: {0}".format(str(e)),
@@ -906,6 +910,7 @@ def main():
         ]().check_return_status()
 
     module.exit_json(**ccc_brownfield_ise_radius_integration_playbook_generator.result)
-
 if __name__ == "__main__":
+
+
     main()
