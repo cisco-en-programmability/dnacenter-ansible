@@ -1263,11 +1263,13 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "ipv6_global_pool": {
                 "type": "str",
                 "source_key": None,
+                "special_handling": True,
                 "transform": self.transform_ipv6_global_pool_id_to_cidr
             },
             "ipv6_global_pool_name": {
                 "type": "str",
                 "source_key": None,
+                "special_handling": True,
                 "transform": self.transform_ipv6_global_pool_id_to_name
             },
             "ipv6_prefix": {
