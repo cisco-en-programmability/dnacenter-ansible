@@ -488,7 +488,7 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
     def get_have(self, config):
         """
         Retrieves the current state of access point configuration from the Cisco Catalyst Center.
-        This method fetches the existing configurations from Access Points 
+        This method fetches the existing configurations from Access Points
         such as accesspoint name, model, position and radio in the Cisco Catalyst Center.
         It logs detailed information about the retrieval process and updates the
         current state attributes accordingly.
@@ -524,115 +524,6 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
             if global_filters:
                 self.log(f"Collecting access point location details based on global filters: {global_filters}", "INFO")
                 self.have["all_ap_config"] = self.get_current_config(global_filters)
-
-                # site_list = global_filters.get("site_list", [])
-                # if site_list:
-                #     self.log(f"Collecting access point location details for site list: {site_list}", "INFO")
-
-                #     if len(site_list) == 1 and site_list[0].lower() == "all":
-                #         return self
-                #     else:
-                #         missing_floors = []
-                #         for floor_name in site_list:
-                #             self.log(f"Check access point location details exist for site: {floor_name}", "INFO")
-                #             floor_exist = self.find_dict_by_key_value(
-                #                 self.have["filtered_floor"], "floor_site_hierarchy", floor_name)
-
-                #             if not floor_exist:
-                #                 missing_floors.append(floor_name)
-                #                 self.log(f"Given floor site hierarchy not exist for the : {floor_name}", "WARNING")
-
-                #         if missing_floors:
-                #             self.msg = f"The following floor site hierarchies do not exist: {missing_floors}."
-                #             self.fail_and_exit(self.msg)
-
-                # planned_ap_list = global_filters.get("planned_accesspoint_list", [])
-                # if planned_ap_list:
-                #     self.log(f"Collecting access point location details for planned access point list: {planned_ap_list}",
-                #              "INFO")
-
-                #     if len(planned_ap_list) == 1 and planned_ap_list[0].lower() == "all":
-                #         return self
-                #     else:
-                #         missing_planned_aps = []
-                #         for planned_ap in planned_ap_list:
-                #             self.log(f"Check planned access point exist for : {planned_ap}", "INFO")
-                #             ap_exist = self.find_dict_by_key_value(
-                #                 self.have["all_detailed_config"], "accesspoint_name", planned_ap)
-
-                #             if not ap_exist or ap_exist.get("accesspoint_type") == "real":
-                #                 missing_planned_aps.append(planned_ap)
-                #                 self.log(f"Given planned access point not exist : {planned_ap}", "WARNING")
-
-                #         if missing_planned_aps:
-                #             self.msg = f"The following planned access points do not exist: {missing_planned_aps}."
-                #             self.fail_and_exit(self.msg)
-
-                # real_ap_list = global_filters.get("real_accesspoint_list", [])
-                # if real_ap_list:
-                #     self.log(f"Collecting access point location details for real access point list: {real_ap_list}",
-                #              "INFO")
-
-                #     if len(real_ap_list) == 1 and real_ap_list[0].lower() == "all":
-                #         return self
-                #     else:
-                #         missing_real_aps = []
-                #         for real_ap in real_ap_list:
-                #             self.log(f"Check real access point exist for : {real_ap}", "INFO")
-                #             ap_exist = self.find_dict_by_key_value(
-                #                 self.have["all_detailed_config"], "accesspoint_name", real_ap)
-
-                #             if not ap_exist or ap_exist.get("accesspoint_type") != "real":
-                #                 missing_real_aps.append(real_ap)
-                #                 self.log(f"Given real access point not exist : {real_ap}", "WARNING")
-
-                #         if missing_real_aps:
-                #             self.msg = f"The following real access points do not exist: {missing_real_aps}."
-                #             self.fail_and_exit(self.msg)
-
-                # model_list = global_filters.get("accesspoint_model_list", [])
-                # if model_list:
-                #     self.log(f"Collecting access point location details for access point model list: {model_list}",
-                #              "INFO")
-
-                #     if len(model_list) == 1 and model_list[0].lower() == "all":
-                #         return self
-                #     else:
-                #         missing_models = []
-                #         for model in model_list:
-                #             self.log(f"Check access point model exist for : {model}", "INFO")
-                #             aps_exist = self.find_multiple_dict_by_key_value(
-                #                 self.have["all_detailed_config"], "accesspoint_model", model)
-
-                #             if not aps_exist:
-                #                 missing_models.append(model)
-                #                 self.log(f"Given access point model not exist : {model}", "WARNING")
-
-                #         if missing_models:
-                #             self.msg = f"The following access point models do not exist: {missing_models}."
-                #             self.fail_and_exit(self.msg)
-
-                # mac_list = global_filters.get("mac_address_list", [])
-                # if mac_list:
-                #     self.log(f"Collecting access point location details for MAC address list: {mac_list}",
-                #              "INFO")
-
-                #     if len(mac_list) == 1 and mac_list[0].lower() == "all":
-                #         return self
-                #     else:
-                #         missing_macs = []
-                #         for mac in mac_list:
-                #             self.log(f"Check MAC address exist for : {mac}", "INFO")
-                #             aps_exist = self.find_multiple_dict_by_key_value(
-                #                 self.have["all_detailed_config"], "mac_address", mac)
-
-                #             if not aps_exist:
-                #                 missing_macs.append(mac)
-                #                 self.log(f"Given MAC address not exist : {mac}", "WARNING")
-
-                #         if missing_macs:
-                #             self.msg = f"The following MAC addresses do not exist: {missing_macs}."
-                #             self.fail_and_exit(self.msg)
 
         self.log("Current State (have): {0}".format(self.pprint(self.have)), "INFO")
         self.msg = "Successfully retrieved the details from the system"
@@ -744,12 +635,12 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
             self.msg = "No access point details found in Cisco Catalyst Center."
             self.status = "success"
             return
-        
+
         for ap_detail in current_configuration:
             eth_mac_address = ap_detail.get("eth_mac_address")
             current_eth_configuration = self.get_accesspoint_configuration(
                 eth_mac_address)
-            
+
             if not current_eth_configuration:
                 self.log(f"No configuration found for access point with MAC address: {eth_mac_address}",
                          "WARNING")
@@ -817,7 +708,7 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
         request_params = {param_key: "Unified AP", "offset": offset, "limit": limit}
         resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
         resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
-        
+
         while resync_retry_count > 0:
             self.log(f"Sending initial API request: Family='{api_family}', Function='{api_function}', Params={request_params}",
                      "DEBUG")
@@ -836,9 +727,6 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
                     self.pprint(device_list)), "DEBUG")
                 required_data_list = []
                 for device_response in device_list:
-                    if device_response.get("reachabilityStatus") != "Reachable":
-                        continue
-
                     required_data = {
                         "id": device_response.get("id"),
                         "associated_wlc_ip": device_response.get("associatedWlcIp"),
@@ -887,10 +775,10 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
 
         Parameters:
             eth_mac_address (str): The Ethernet MAC address of the access point.
-        
+
         Returns:
             dict: A dictionary containing the current configuration details of the access point.
-        
+
         Description:
             Queries the Cisco Catalyst Center for the configuration of an access point
             using its Ethernet MAC address. If found, it retrieves the current configuration
@@ -913,11 +801,11 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
         if not response:
             self.log("No data received from access point config API.", "DEBUG")
             return None
-        
+
         current_eth_configuration = self.camel_to_snake_case(response)
         self.log("Received API response from get_access_point_configuration: {0}".format(
             self.pprint(current_eth_configuration)), "INFO")
-        
+
         return current_eth_configuration
 
     def parse_accesspoint_configuration(self, accesspoint_config, ap_details):
@@ -969,9 +857,9 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
             else:
                 parsed_config[each_key] = accesspoint_config.get(each_key)
 
-        parsed_config["clean_air_si_2.4ghz"]= "Disabled"
-        parsed_config["clean_air_si_5ghz"]= "Disabled"
-        parsed_config["clean_air_si_6ghz"]= "Disabled"
+        parsed_config["clean_air_si_2.4ghz"] = "Disabled"
+        parsed_config["clean_air_si_5ghz"] = "Disabled"
+        parsed_config["clean_air_si_6ghz"] = "Disabled"
 
         radio_config = accesspoint_config.get("radio_dtos")
         if radio_config and isinstance(radio_config, list):
@@ -1005,16 +893,15 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
                     elif each_radio_key == "clean_air_si":
                         if radio.get(each_radio_key) == "Enabled":
                             if radio_config_key == "2.4ghz_radio":
-                                parsed_config["clean_air_si_2.4ghz"]= "Enabled"
+                                parsed_config["clean_air_si_2.4ghz"] = "Enabled"
                             elif radio_config_key == "5ghz_radio":
-                                parsed_config["clean_air_si_5ghz"]= "Enabled"
+                                parsed_config["clean_air_si_5ghz"] = "Enabled"
                             elif radio_config_key == "6ghz_radio":
-                                parsed_config["clean_air_si_6ghz"]= "Enabled"
-                    
+                                parsed_config["clean_air_si_6ghz"] = "Enabled"
                     else:
                         if radio.get(each_radio_key) is not None:
                             parsed_radio[each_radio_key] = radio.get(each_radio_key)
-                
+
                 if parsed_radio.get("power_assignment_mode") == "Global":
                     del parsed_radio["power_level"]
 
@@ -1026,14 +913,14 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
 
             parsed_config.update(parsed_all_radios)
 
-        if not accesspoint_config.get("provisioning_status"):
+        if accesspoint_config.get("provisioning_status"):
             self.log("Access point is provisioned, parsing additional configuration details.", "INFO")
             site_hierarchy = ap_details.get("site_hierarchy")
             if site_hierarchy and site_hierarchy not in ["default-location", "default location"]:
                 parent_path, floor = site_hierarchy.rsplit("/", 1)
-                parsed_config["rf_profile"]= "HIGH"
-                parsed_config["site"]= {}
-                parsed_config["site"]["floor"]= {}
+                parsed_config["rf_profile"] = "HIGH"
+                parsed_config["site"] = {}
+                parsed_config["site"]["floor"] = {}
                 parsed_config["site"]["floor"]["parent_name"] = parent_path
                 parsed_config["site"]["floor"]["name"] = floor
 
@@ -1361,7 +1248,7 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
                     self.log(f"Check access point configuration exist for : {each_mac}", "INFO")
                     ap_exist = self.find_multiple_dict_by_key_value(
                         self.have["all_ap_config"], "mac_address", each_mac)
-                    
+
                     if not ap_exist:
                         self.log(f"Given provision access point mac address not exist : {each_mac}", "WARNING")
                         unprocessed_aps.append(each_mac + ": Unable to find configuration for the MAC address in the catalyst center.")
