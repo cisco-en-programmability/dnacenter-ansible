@@ -659,34 +659,6 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
 
         return collect_all_config
 
-        # if input_config.get("site"):
-        #     site_exists, current_site = self.site_exists(input_config)
-        #     self.log("Site exists: {0}, Current site: {1}".format(site_exists, current_site), "INFO")
-
-        #     if site_exists:
-        #         self.payload.update({
-        #             "site_exists": site_exists,
-        #             "current_site": current_site,
-        #             "site_changes": self.get_site_device(current_site["site_id"],
-        #                                                  current_configuration["mac_address"],
-        #                                                  site_exists, current_site, current_configuration)
-        #         })
-        #         provision_status, wlc_details = self.verify_wlc_provision(
-        #             current_configuration["associated_wlc_ip"])
-        #         self.payload["wlc_provision_status"] = provision_status
-        #         self.log("WLC provision status: {0}".format(provision_status), "INFO")
-
-        #         if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
-        #             if current_eth_configuration.get("provisioning_status"):
-        #                 self.payload["ap_provision_status"] = "Provisioned"
-        #             else:
-        #                 self.payload["ap_provision_status"] = None
-        #             self.log("AP provision status: {0}".format(self.payload["ap_provision_status"]), "INFO")
-
-        # self.log("Completed retrieving current configuration. Access point exists: {0}, Current configuration: {1}"
-        #          .format(accesspoint_exists, current_eth_configuration), "INFO")
-        # return (accesspoint_exists, current_eth_configuration)
-
     def get_accesspoint_details(self):
         """
         Retrieves the current details of all access point devices in Cisco Catalyst Center.
@@ -1175,7 +1147,8 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
                 ap_config_list = copy.deepcopy(self.have.get("all_ap_config", []))
                 for each_ap in ap_config_list:
                     for key in keys_to_remove:
-                        del each_ap[key]
+                        if each_ap.get(key):
+                            del each_ap[key]
                 self.log(f"All access point configurations found for 'all' filter. {ap_config_list}", "INFO")
                 final_list = ap_config_list
             else:
@@ -1191,7 +1164,8 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
 
                     for each_ap in ap_exist:
                         for key in keys_to_remove:
-                            del each_ap[key]
+                            if each_ap.get(key):
+                                del each_ap[key]
 
                     ap_config_list.extend(ap_exist)
                     self.log(f"Given access point hostname exist : {ap_exist}", "INFO")
