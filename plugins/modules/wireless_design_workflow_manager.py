@@ -4042,6 +4042,7 @@ options:
               - Name of the 802.11be profile.
               - Must correspond to an existing design in Cisco Catalyst Center.
               - Profile name must not exceed 64 characters in length.
+              - profile name cannot be updated once created.
             type: str
             required: true
           ofdma_down_link:
@@ -4200,12 +4201,6 @@ EXAMPLES = r"""
       - feature_template_config:
           - dot11be_configuration:
               - design_name: "dot11be_24ghz_design"
-                feature_attributes:
-                  dot11be_status: false
-                  radio_band: "2_4GHZ"
-                unlocked_attributes:
-                  - "dot11be_status"
-                  - "radio_band"
 - name: Add dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4282,20 +4277,6 @@ EXAMPLES = r"""
       - feature_template_config:
           - dot11ax_configuration:
               - design_name: "dot11ax_24ghz_design"
-                feature_attributes:
-                  radio_band: "2_4GHZ"
-                  bss_color: true
-                  target_waketime_broadcast: true
-                  non_srg_obss_pd_max_threshold: -78
-                  target_wakeup_time_11ax: false
-                  obss_pd: true
-                unlocked_attributes:
-                  - "radio_band"
-                  - "bss_color"
-                  - "target_waketime_broadcast"
-                  - "non_srg_obss_pd_max_threshold"
-                  - "target_wakeup_time_11ax"
-                  - "obss_pd"
 - name: Add dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4372,20 +4353,7 @@ EXAMPLES = r"""
       - feature_template_config:
           - dot11ax_configuration:
               - design_name: "dot11ax_5ghz_design"
-                feature_attributes:
-                  radio_band: "5GHZ"
-                  bss_color: false
-                  target_waketime_broadcast: false
-                  non_srg_obss_pd_max_threshold: -75
-                  target_wakeup_time_11ax: true
-                  obss_pd: true
-                unlocked_attributes:
-                  - "radio_band"
-                  - "bss_color"
-                  - "target_waketime_broadcast"
-                  - "non_srg_obss_pd_max_threshold"
-                  - "target_wakeup_time_11ax"
-                  - "obss_pd"
+
 - name: Add dot11ax profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4458,18 +4426,7 @@ EXAMPLES = r"""
       - feature_template_config:
           - dot11ax_configuration:
               - design_name: "dot11ax_6ghz_design"
-                feature_attributes:
-                  radio_band: "6GHZ"
-                  bss_color: true
-                  target_waketime_broadcast: false
-                  multiple_bssid: true
-                  target_wakeup_time_11ax: true
-                unlocked_attributes:
-                  - "radio_band"
-                  - "bss_color"
-                  - "target_waketime_broadcast"
-                  - "multiple_bssid"
-                  - "target_wakeup_time_11ax"
+
 - name: Add cleanair profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4533,42 +4490,43 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-      - clean_air_configuration:
-          - design_name: "sample_cleanair_design_24ghz"
-            feature_attributes:
-              radio_band: 2_4GHZ   # enum: 2_4GHZ, 5GHZ, 6GHZ
-              clean_air: true
-              clean_air_device_reporting: true
-              persistent_device_propagation: false
-              description: "CleanAir profile for 2.4GHz office deployment"
-              # Interferers Features (map)
-              interferers_features:
-                ble_beacon: true                     # Only applicable for 2_4GHZ
-                bluetooth_paging_inquiry: false     # Only applicable for 2_4GHZ
-                bluetooth_sco_acl: false            # Only applicable for 2_4GHZ
-                continuous_transmitter: true       # Applicable for 2_4GHZ, 5GHZ, 6GHZ
-                generic_dect: false                 # 2_4GHZ and 5GHZ
-                generic_tdd: false                  # Only 2_4GHZ
-                jammer: false                       # 2_4GHZ and 5GHZ
-                microwave_oven: true                # Only 2_4GHZ
-                motorola_canopy: false              # 2_4GHZ and 5GHZ
-                si_fhss: false                      # 2_4GHZ and 5GHZ
-                spectrum80211_fh: false             # 2_4GHZ only
-                spectrum80211_non_standard_channel: false  # 2_4GHZ and 5GHZ
-                spectrum802154: false               # 2_4GHZ only
-                spectrum_inverted: false            # 2_4GHZ and 5GHZ
-                super_ag: true                     # 2_4GHZ and 5GHZ
-                video_camera: false                 # 2_4GHZ and 5GHZ
-                wimax_fixed: false                  # 2_4GHZ and 5GHZ
-                wimax_mobile: false                 # 2_4GHZ and 5GHZ
-                xbox: false                         # 2_4GHZ only
-            unlocked_attributes:
-              - "clean_air"
-              - "clean_air_device_reporting"
-              - "persistent_device_propagation"
-              - "description"
-              - "interferers_features.ble_beacon"
-              - "interferers_features.continuous_transmitter"
+      - feature_template_config:
+        - clean_air_configuration:
+            - design_name: "sample_cleanair_design_24ghz"
+              feature_attributes:
+                radio_band: 2_4GHZ   # enum: 2_4GHZ, 5GHZ, 6GHZ
+                clean_air: true
+                clean_air_device_reporting: true
+                persistent_device_propagation: false
+                description: "CleanAir profile for 2.4GHz office deployment"
+                # Interferers Features (map)
+                interferers_features:
+                  ble_beacon: true                     # Only applicable for 2_4GHZ
+                  bluetooth_paging_inquiry: false     # Only applicable for 2_4GHZ
+                  bluetooth_sco_acl: false            # Only applicable for 2_4GHZ
+                  continuous_transmitter: true       # Applicable for 2_4GHZ, 5GHZ, 6GHZ
+                  generic_dect: false                 # 2_4GHZ and 5GHZ
+                  generic_tdd: false                  # Only 2_4GHZ
+                  jammer: false                       # 2_4GHZ and 5GHZ
+                  microwave_oven: true                # Only 2_4GHZ
+                  motorola_canopy: false              # 2_4GHZ and 5GHZ
+                  si_fhss: false                      # 2_4GHZ and 5GHZ
+                  spectrum80211_fh: false             # 2_4GHZ only
+                  spectrum80211_non_standard_channel: false  # 2_4GHZ and 5GHZ
+                  spectrum802154: false               # 2_4GHZ only
+                  spectrum_inverted: false            # 2_4GHZ and 5GHZ
+                  super_ag: true                     # 2_4GHZ and 5GHZ
+                  video_camera: false                 # 2_4GHZ and 5GHZ
+                  wimax_fixed: false                  # 2_4GHZ and 5GHZ
+                  wimax_mobile: false                 # 2_4GHZ and 5GHZ
+                  xbox: false                         # 2_4GHZ only
+              unlocked_attributes:
+                - "clean_air"
+                - "clean_air_device_reporting"
+                - "persistent_device_propagation"
+                - "description"
+                - "interferers_features.ble_beacon"
+                - "interferers_features.continuous_transmitter"
 - name: Delete cleanair profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4582,42 +4540,10 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
     config:
-      - clean_air_configuration:
-          - design_name: "sample_cleanair_design_24ghz"
-            feature_attributes:
-              radio_band: 2_4GHZ   # enum: 2_4GHZ, 5GHZ, 6GHZ
-              clean_air: true
-              clean_air_device_reporting: true
-              persistent_device_propagation: false
-              description: "CleanAir profile for 2.4GHz office deployment"
-              # Interferers Features (map)
-              interferers_features:
-                ble_beacon: true                     # Only applicable for 2_4GHZ
-                bluetooth_paging_inquiry: false     # Only applicable for 2_4GHZ
-                bluetooth_sco_acl: false            # Only applicable for 2_4GHZ
-                continuous_transmitter: true       # Applicable for 2_4GHZ, 5GHZ, 6GHZ
-                generic_dect: false                 # 2_4GHZ and 5GHZ
-                generic_tdd: false                  # Only 2_4GHZ
-                jammer: false                       # 2_4GHZ and 5GHZ
-                microwave_oven: true                # Only 2_4GHZ
-                motorola_canopy: false              # 2_4GHZ and 5GHZ
-                si_fhss: false                      # 2_4GHZ and 5GHZ
-                spectrum80211_fh: false             # 2_4GHZ only
-                spectrum80211_non_standard_channel: false  # 2_4GHZ and 5GHZ
-                spectrum802154: false               # 2_4GHZ only
-                spectrum_inverted: false            # 2_4GHZ and 5GHZ
-                super_ag: true                     # 2_4GHZ and 5GHZ
-                video_camera: false                 # 2_4GHZ and 5GHZ
-                wimax_fixed: false                  # 2_4GHZ and 5GHZ
-                wimax_mobile: false                 # 2_4GHZ and 5GHZ
-                xbox: false                         # 2_4GHZ only
-            unlocked_attributes:
-              - "clean_air"
-              - "clean_air_device_reporting"
-              - "persistent_device_propagation"
-              - "description"
-              - "interferers_features.ble_beacon"
-              - "interferers_features.continuous_transmitter"
+      - feature_template_config:
+        - clean_air_configuration:
+            - design_name: "sample_cleanair_design_24ghz"
+
 - name: Add event driven rrm profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4684,15 +4610,7 @@ EXAMPLES = r"""
       - feature_template_config:
           - event_driven_rrm_configuration:
               - design_name: "edrrm_2_4ghz_design"
-                feature_attributes:
-                  radio_band: "2_4GHZ"  # 2_4GHZ, 5GHZ
-                  event_driven_rrm_enable: false
-                  event_driven_rrm_threshold_level: "HIGH"   # LOW, MEDIUM, HIGH, CUSTOM
-                  # event_driven_rrm_custom_threshold_val: 50   # must be between 1–99
-                unlocked_attributes:
-                  - "event_driven_rrm_enable"
-                  - "event_driven_rrm_threshold_level"
-                  - "event_driven_rrm_custom_threshold_val"
+
 - name: Add multicast profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4765,18 +4683,7 @@ EXAMPLES = r"""
       - feature_template_config:
           - multicast_configuration:
               - design_name: "multicast_office_profile_1"
-                feature_attributes:
-                  global_multicast_enabled: false
-                  multicast_ipv4_mode: "MULTICAST"     # UNICAST or MULTICAST
-                  multicast_ipv4_address: "239.1.1.25"  # must be in 224.0.0.0 - 239.255.255.255 if mode=MULTICAST
-                  multicast_ipv6_mode: "MULTICAST"    # UNICAST or MULTICAST
-                  multicast_ipv6_address: "FF05::1"   # must follow FF[0/1][1-5,8,E] rule if mode=MULTICAST
-                unlocked_attributes:
-                  - "global_multicast_enabled"
-                  - "multicast_ipv4_mode"
-                  - "multicast_ipv4_address"
-                  - "multicast_ipv6_mode"
-                  - "multicast_ipv6_address"
+
 - name: Add rrm fra profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4847,17 +4754,7 @@ EXAMPLES = r"""
       - feature_template_config:
           - rrm_fra_configuration:
               - design_name: "fra_design_1"
-                feature_attributes:
-                  radio_band: "2_4GHZ_5GHZ"
-                  fra_freeze: true
-                  fra_status: false
-                  fra_interval: 12
-                  fra_sensitivity: "HIGH"
-                unlocked_attributes:
-                  - fra_freeze
-                  - fra_status
-                  - fra_interval
-                  - fra_sensitivity
+
 - name: Add rrm general profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4924,15 +4821,7 @@ EXAMPLES = r"""
       - feature_template_config:
           - rrm_general_configuration:
               - design_name: "rrm_general_24ghz_country_scope"
-                feature_attributes:
-                  radio_band: "2_4GHZ"                          # supported only on IOS-XE >= 17.9.1
-                  monitoring_channels: "MONITORING_CHANNELS_COUNTRY"
-                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"
-                  throughput_threshold: 150000
-                  coverage_hole_detection: false
-                unlocked_attributes:
-                  - "monitoring_channels"
-                  - "coverage_hole_detection"
+
 - name: Add rrm general profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -5003,17 +4892,7 @@ EXAMPLES = r"""
       - feature_template_config:
           - rrm_general_configuration:
               - design_name: "rrm_general_5ghz_default"
-                feature_attributes:
-                  radio_band: "5GHZ"                           # enum: 2_4GHZ, 5GHZ, 6GHZ
-                  monitoring_channels: "MONITORING_CHANNELS_DCA"   # enum: MONITORING_CHANNELS_ALL, MONITORING_CHANNELS_COUNTRY, MONITORING_CHANNELS_DCA
-                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT"  # enum: NEIGHBOR_DISCOVER_TYPE_TRANSPARENT, NEIGHBOR_DISCOVER_TYPE_PROTECTED
-                  throughput_threshold: 500000                  # 1000..10000000
-                  coverage_hole_detection: false
-                unlocked_attributes:
-                  - "monitoring_channels"
-                  - "neighbor_discover_type"
-                  - "throughput_threshold"
-                  - "coverage_hole_detection"
+
 - name: Add rrm general profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -5078,14 +4957,7 @@ EXAMPLES = r"""
       - feature_template_config:
           - rrm_general_configuration:
               - design_name: "rrm_general_6ghz_high_thr"
-                feature_attributes:
-                  radio_band: "6GHZ"
-                  monitoring_channels: "MONITORING_CHANNELS_ALL"
-                  neighbor_discover_type: "NEIGHBOR_DISCOVER_TYPE_PROTECTED"
-                  throughput_threshold: 2500000
-                  coverage_hole_detection: true
-                unlocked_attributes:
-                  - "throughput_threshold"
+
 - name: Add flexconnect profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -5142,10 +5014,7 @@ EXAMPLES = r"""
       - feature_template_config:
           - flexconnect_configuration:
               - design_name: "flexconnect_branch_office"
-                feature_attributes:
-                  overlap_ip_enable: false
-                unlocked_attributes:
-                  - "overlap_ip_enable"
+
 - name: Add aaa radius profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -5200,9 +5069,7 @@ EXAMPLES = r"""
       - feature_template_config:
           - aaa_radius_attribute:
               - design_name: "sample_designnn"
-                called_station_id: "sample_id"
-                unlocked_attributes:
-                  - "calledStationId"
+
 - name: Add advanced ssid profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -5391,76 +5258,7 @@ EXAMPLES = r"""
     - feature_template_config:
         - advanced_ssid:
             - design_name: "sample_advanced_ssid_design"
-              feature_attributes:
-                peer2peer_blocking: "DISABLE"   # enum: DROP, FORWARD_UP, ALLOW_PVT_GROUP, DISABLE
-                passive_client: false
-                prediction_optimization: false
-                dual_band_neighbor_list: false
-                radius_nac_state: true
-                dhcp_required: true
-                dhcp_server: "10.10.10.5"
-                flex_local_auth: false
-                target_wakeup_time: true
-                downlink_ofdma: true
-                uplink_ofdma: true
-                downlink_mu_mimo: true
-                uplink_mu_mimo: true
-                dot11ax: true
-                aironet_ie_support: true
-                load_balancing: false
-                dtim_period_5ghz: 2   # 1-255
-                dtim_period_24ghz: 2  # 1-255
-                scan_defer_time: 100
-                max_clients: 200
-                max_clients_per_radio: 100   # 0-500
-                max_clients_per_ap: 300      # 0-1200
-                wmm_policy: "ALLOWED"        # DISABLED, REQUIRED, ALLOWED
-                multicast_buffer: true
-                multicast_buffer_value: 50
-                media_stream_multicast_direct: true
-                mu_mimo_11ac: true
-                wifi_to_cellular_steering: false
-                wifi_alliance_agile_multiband: false
-                fastlane_asr: false
-                dot11v_bss_max_idle_protected: false
-                universal_ap_admin: false
-                opportunistic_key_caching: false
-                ip_source_guard: false
-                dhcp_opt82_remote_id_sub_option: true
-                vlan_central_switching: true
-                call_snooping: false
-                send_disassociate: false
-                sent_486_busy: false
-                ip_mac_binding: false
-                idle_threshold: 300
-                defer_priority_0: false
-                defer_priority_1: false
-                defer_priority_2: false
-                defer_priority_3: false
-                defer_priority_4: false
-                defer_priority_5: false
-                defer_priority_6: false
-                defer_priority_7: false
-                share_data_with_client: false
-                advertise_support: false
-                advertise_pc_analytics_support: false
-                send_beacon_on_association: false
-                send_beacon_on_roam: false
-                fast_transition_reassociation_timeout: 200
-                mdns_mode: "MDNS_SD_BRIDGING"  # MDNS_SD_BRIDGING, MDNS_SD_DROP, MDNS_SD_GATEWAY
-              unlocked_attributes:
-                - "peer2peer_blocking"
-                - "passive_client"
-                - "dot11ax"
-                - "load_balancing"
-                - "max_clients"
-                - "max_clients_per_radio"
-                - "max_clients_per_ap"
-                - "wmm_policy"
-                - "dtim_period_5ghz"
-                - "dtim_period_24ghz"
-                - "scan_defer_time"
-                - "mdns_mode"
+
 - name: Add SSIDs
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -10710,9 +10508,23 @@ class WirelessDesign(DnacBase):
 
                 normalized_feature_attrs[target_key] = raw_val
 
-            payload = {"designName": design_name, "featureAttributes": normalized_feature_attrs}
+            # **FIX: Normalize unlocked_attributes from snake_case to camelCase**
+            normalized_unlocked = []
             if requested_unlocked:
-                payload["unlockedAttributes"] = requested_unlocked
+                for attr in requested_unlocked:
+                    if attr in key_name_map:
+                        normalized_unlocked.append(key_name_map[attr])
+                    else:
+                        # fallback: snake_case to camelCase conversion
+                        if "_" in attr:
+                            parts = attr.split("_")
+                            normalized_unlocked.append(parts[0] + "".join(p.capitalize() for p in parts[1:]))
+                        else:
+                            normalized_unlocked.append(attr)
+
+            payload = {"designName": design_name, "featureAttributes": normalized_feature_attrs}
+            if normalized_unlocked:
+                payload["unlockedAttributes"] = normalized_unlocked
 
             self.log("Evaluating design: {0} (field_to_check={1})".format(design_name, field_to_check), "DEBUG")
 
@@ -10762,7 +10574,6 @@ class WirelessDesign(DnacBase):
                             self.log("Diff for {0}: existing({1}) != requested({2})".format(attr_key, exist_value, req_value), "DEBUG")
                             per_design_diffs.append((attr_key, exist_value, req_value))
                             needs_update = True
-                            # continue scanning to capture all diffs
                             continue
 
                     # wmmPolicy tolerant (case-insensitive)
@@ -10800,21 +10611,21 @@ class WirelessDesign(DnacBase):
                             continue
 
                 # If still no difference found, compare unlocked attributes
-                if set(existing_unlocked) != set(requested_unlocked):
-                    self.log("Unlocked attrs differ: existing({0}) != requested({1})".format(existing_unlocked, requested_unlocked), "DEBUG")
-                    per_design_diffs.append(("unlockedAttributes", existing_unlocked, requested_unlocked))
+                if set(existing_unlocked) != set(normalized_unlocked):
+                    self.log("Unlocked attrs differ: existing({0}) != requested({1})".format(existing_unlocked, normalized_unlocked), "DEBUG")
+                    per_design_diffs.append(("unlockedAttributes", existing_unlocked, normalized_unlocked))
                     needs_update = True
 
             else:
                 # Only compare the single requested field or unlocked attributes
                 if field_to_check in ("unlocked_attributes", "unlockedAttributes") or field_check_key == "unlockedAttributes":
-                    if set(existing_unlocked) != set(requested_unlocked):
+                    if set(existing_unlocked) != set(normalized_unlocked):
                         self.log(
                             "Unlocked attrs differ (single-field check): "
-                            "existing({0}) != requested({1})".format(existing_unlocked, requested_unlocked),
+                            "existing({0}) != requested({1})".format(existing_unlocked, normalized_unlocked),
                             "DEBUG",
                         )
-                        per_design_diffs.append(("unlockedAttributes", existing_unlocked, requested_unlocked))
+                        per_design_diffs.append(("unlockedAttributes", existing_unlocked, normalized_unlocked))
                         needs_update = True
                 else:
                     # if the requested payload didn't include the field to check, treat as NO-UPDATE
@@ -10870,9 +10681,30 @@ class WirelessDesign(DnacBase):
                                 per_design_diffs.append((field_check_key, exist_value, req_value))
                                 needs_update = True
 
-            # Finalize lists
+            # Finalize lists - **FIX: Always ensure unlockedAttributes is in the update payload when it differs**
             if needs_update:
                 payload["id"] = existing_entry.get("id")
+
+                # **FIX: Ensure unlockedAttributes is always included in update payload when there's a difference**
+                if "unlockedAttributes" not in payload:
+                    if normalized_unlocked:
+                        payload["unlockedAttributes"] = normalized_unlocked
+                        self.log(
+                            "Design '{0}': Adding unlockedAttributes to update payload: {1}".format(
+                                design_name, normalized_unlocked
+                            ),
+                            "INFO"
+                        )
+                    elif existing_unlocked:
+                        # Explicitly clear unlocked attributes if playbook wants empty list
+                        payload["unlockedAttributes"] = []
+                        self.log(
+                            "Design '{0}': Clearing unlockedAttributes in update payload (was: {1})".format(
+                                design_name, existing_unlocked
+                            ),
+                            "INFO"
+                        )
+
                 update_payloads.append(payload)
                 update_diffs[design_name] = per_design_diffs
                 self.log("Design '{0}' marked for UPDATE. Diffs: {1}".format(design_name, per_design_diffs), "INFO")
@@ -25036,7 +24868,6 @@ class WirelessDesign(DnacBase):
 
         return delete_profiles, no_delete_profiles
 
-
     def verify_create_update_80211be_profiles_requirement(self, be_profiles):
         """
         Compares desired 802.11be profiles against existing ones and determines
@@ -25202,7 +25033,6 @@ class WirelessDesign(DnacBase):
 
         return add_profiles, update_profiles, no_update_profiles
 
-
     def get_80211be_profile_details(self, profile_id):
         """
         Retrieves details of a specific 802.11be (Wi-Fi 7) profile by ID.
@@ -25238,6 +25068,7 @@ class WirelessDesign(DnacBase):
                 function="get80211be_profile_by_id",
                 params={"id": profile_id},
             )
+            self.log(f"received API response for {response}", "DEBUG")
         except Exception as exc:
             self.msg = (
                 "Failed to fetch 802.11be profile details for id '{0}': {1}".format(
@@ -25273,7 +25104,6 @@ class WirelessDesign(DnacBase):
             "ofdmaMultiRu": data.get("ofdmaMultiRu"),
         }
 
-    
     def get_80211be_profiles(self, profile_name=None, limit=500, offset=0):
         """
         Fetch existing 802.11be (Wi-Fi 7) profiles from Cisco Catalyst Center.
@@ -25318,6 +25148,8 @@ class WirelessDesign(DnacBase):
                 function="get80211be_profiles",
                 params=params
             )
+            self.log(f"Received API response for {response}", "DEBUG")
+
         except Exception as e:
             self.msg = "Failed to fetch 802.11be profiles: {0}".format(str(e))
             self.set_operation_result(
