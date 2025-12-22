@@ -6697,12 +6697,18 @@ class NetworkSettings(DnacBase):
                     self.status = "failed"
                     return self
 
-                want_network_aaa = self.want.get("wantNetwork")[network_management_index].get("settings", {}).get("network_aaa", {})
+                want_settings = self.want.get("wantNetwork")[network_management_index].get("settings", {})
+                network_aaa_provided = "network_aaa" in want_settings
+                want_network_aaa = want_settings.get("network_aaa")
                 have_net_details = self.have.get("network")[network_management_index].get("net_details")
                 have_aaa_primary_ip = have_net_details.get("settings", {}).get("network_aaa", {}).get("primaryServerIp", "")
 
                 # RESET CASE (both empty)
-                if want_network_aaa == {} and have_aaa_primary_ip not in ("", None):
+                if (
+                    network_aaa_provided
+                    and want_network_aaa == {}
+                    and have_aaa_primary_ip not in ("", None)
+                ):
                     self.msg = "Network AAA Primary IP update not applied on Cisco Catalyst Center"
                     self.status = "failed"
                     return self
