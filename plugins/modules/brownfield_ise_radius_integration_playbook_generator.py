@@ -224,6 +224,7 @@ if HAS_YAML:
 else:
     OrderedDumper = None
 
+
 class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
     """
       A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center using the GET APIs.
@@ -844,6 +845,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         )
 
         return self
+
 
 def main():
     """main entry point for module execution"""
