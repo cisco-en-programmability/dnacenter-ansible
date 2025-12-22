@@ -1392,7 +1392,8 @@ class Inventory(DnacBase):
             self.maintenance_scheduled,
             self.maintenance_updated,
             self.no_update_in_maintenance,
-        ) = ([], [], [])
+            self.ip_not_found,
+        ) = ([], [], [], [])
         self.maintenance_deleted, self.no_maintenance_schedule = [], []
         (
             self.ip_address_for_update,
@@ -3684,6 +3685,13 @@ class Inventory(DnacBase):
                 if response:
                     response = response.get("response")
                     if not response:
+                        self.ip_not_found.append(device_ip)
+                        self.log(
+                            "Device with IP address '{0}' not found in Cisco Catalyst Center.".format(
+                                device_ip
+                            ),
+                            "ERROR",
+                        )
                         continue
                     device_id = response[0]["id"]
                     device_ids.append(device_id)
@@ -6600,6 +6608,15 @@ class Inventory(DnacBase):
                 self.fail_and_exit(self.msg)
 
             network_device_ids = self.get_device_ids(network_device_ips)
+            if not network_device_ids:
+                self.msg = (
+                    "None of the provided device IPs: {0} exist in Cisco Catalyst Center.".format(
+                        network_device_ips
+                    )
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
             device_ip_id_map = self.get_device_ips_from_device_ids(network_device_ids)
             # Find out the devices for which maintenance already schedule and not schedule yet
             schedule_device_ids, unscheduled_device_ids = (
@@ -7489,6 +7506,7 @@ class Inventory(DnacBase):
         self.result["changed"] = False
         result_msg_list_not_changed = []
         result_msg_list_changed = []
+        absent_scheduled_msg = None
 
         if self.provisioned_device:
             provisioned_device = "device(s) '{0}' provisioned successfully in Cisco Catalyst Center.".format(
@@ -7677,6 +7695,18 @@ class Inventory(DnacBase):
             absent_scheduled_msg = "Maintenance schedule for the devices {0} not present in the Catalyst Center.".format(
                 self.no_maintenance_schedule
             )
+            result_msg_list_not_changed.append(absent_scheduled_msg)
+
+        if self.ip_not_found:
+            self.ip_not_found = list(set(self.ip_not_found))
+            if absent_scheduled_msg:
+                absent_scheduled_msg += " and Given IP address {0} not present in the Catalyst Center.".format(
+                    self.ip_not_found
+                )
+            else:
+                absent_scheduled_msg = "Given IP address {0} not present in the Catalyst Center.".format(
+                    self.ip_not_found
+                )
             result_msg_list_not_changed.append(absent_scheduled_msg)
 
         if result_msg_list_not_changed and result_msg_list_changed:
