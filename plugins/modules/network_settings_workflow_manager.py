@@ -1222,6 +1222,8 @@ class NetworkSettings(DnacBase):
                     ("ipv6DnsServers", "ipv6DnsServers"),
                     ("ipv4TotalHost", "ipv4TotalHost"),
                     ("slaacSupport", "slaacSupport"),
+                    ("ipV6AddressSpace", "ipV6AddressSpace"),
+                    ("ipV4AddressSpace", "ipV4AddressSpace"),
                 ]
             elif get_object == "Network":
                 obj_params = [
@@ -5419,7 +5421,7 @@ class NetworkSettings(DnacBase):
 
             # Check pool exist, if not create and return
             self.log("IPv4 reserved pool '{0}': {1}"
-                     .format(name, self.want.get("wantReserve")[reserve_pool_index].get("ipv4GlobalPool")), "DEBUG")
+                     .format(name, self.want.get("wantReserve")[reserve_pool_index].get("ipV4AddressSpace")), "DEBUG")
             site_name = item.get("site_name")
             reserve_params = self.want.get("wantReserve")[reserve_pool_index]
             site_exist, site_id = self.get_site_id(site_name)
