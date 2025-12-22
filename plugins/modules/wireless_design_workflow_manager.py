@@ -4492,41 +4492,41 @@ EXAMPLES = r"""
     config:
       - feature_template_config:
         - clean_air_configuration:
-            - design_name: "sample_cleanair_design_24ghz"
-              feature_attributes:
-                radio_band: 2_4GHZ   # enum: 2_4GHZ, 5GHZ, 6GHZ
-                clean_air: true
-                clean_air_device_reporting: true
-                persistent_device_propagation: false
-                description: "CleanAir profile for 2.4GHz office deployment"
-                # Interferers Features (map)
-                interferers_features:
-                  ble_beacon: true                     # Only applicable for 2_4GHZ
-                  bluetooth_paging_inquiry: false     # Only applicable for 2_4GHZ
-                  bluetooth_sco_acl: false            # Only applicable for 2_4GHZ
-                  continuous_transmitter: true       # Applicable for 2_4GHZ, 5GHZ, 6GHZ
-                  generic_dect: false                 # 2_4GHZ and 5GHZ
-                  generic_tdd: false                  # Only 2_4GHZ
-                  jammer: false                       # 2_4GHZ and 5GHZ
-                  microwave_oven: true                # Only 2_4GHZ
-                  motorola_canopy: false              # 2_4GHZ and 5GHZ
-                  si_fhss: false                      # 2_4GHZ and 5GHZ
-                  spectrum80211_fh: false             # 2_4GHZ only
-                  spectrum80211_non_standard_channel: false  # 2_4GHZ and 5GHZ
-                  spectrum802154: false               # 2_4GHZ only
-                  spectrum_inverted: false            # 2_4GHZ and 5GHZ
-                  super_ag: true                     # 2_4GHZ and 5GHZ
-                  video_camera: false                 # 2_4GHZ and 5GHZ
-                  wimax_fixed: false                  # 2_4GHZ and 5GHZ
-                  wimax_mobile: false                 # 2_4GHZ and 5GHZ
-                  xbox: false                         # 2_4GHZ only
-              unlocked_attributes:
-                - "clean_air"
-                - "clean_air_device_reporting"
-                - "persistent_device_propagation"
-                - "description"
-                - "interferers_features.ble_beacon"
-                - "interferers_features.continuous_transmitter"
+          - design_name: "sample_cleanair_design_24ghz"
+            feature_attributes:
+              radio_band: 2_4GHZ   # enum: 2_4GHZ, 5GHZ, 6GHZ
+              clean_air: true
+              clean_air_device_reporting: true
+              persistent_device_propagation: false
+              description: "CleanAir profile for 2.4GHz office deployment"
+              # Interferers Features (map)
+              interferers_features:
+                ble_beacon: true                     # Only applicable for 2_4GHZ
+                bluetooth_paging_inquiry: false     # Only applicable for 2_4GHZ
+                bluetooth_sco_acl: false            # Only applicable for 2_4GHZ
+                continuous_transmitter: true       # Applicable for 2_4GHZ, 5GHZ, 6GHZ
+                generic_dect: false                 # 2_4GHZ and 5GHZ
+                generic_tdd: false                  # Only 2_4GHZ
+                jammer: false                       # 2_4GHZ and 5GHZ
+                microwave_oven: true                # Only 2_4GHZ
+                motorola_canopy: false              # 2_4GHZ and 5GHZ
+                si_fhss: false                      # 2_4GHZ and 5GHZ
+                spectrum80211_fh: false             # 2_4GHZ only
+                spectrum80211_non_standard_channel: false  # 2_4GHZ and 5GHZ
+                spectrum802154: false               # 2_4GHZ only
+                spectrum_inverted: false            # 2_4GHZ and 5GHZ
+                super_ag: true                     # 2_4GHZ and 5GHZ
+                video_camera: false                 # 2_4GHZ and 5GHZ
+                wimax_fixed: false                  # 2_4GHZ and 5GHZ
+                wimax_mobile: false                 # 2_4GHZ and 5GHZ
+                xbox: false                         # 2_4GHZ only
+            unlocked_attributes:
+              - "clean_air"
+              - "clean_air_device_reporting"
+              - "persistent_device_propagation"
+              - "description"
+              - "interferers_features.ble_beacon"
+              - "interferers_features.continuous_transmitter"
 - name: Delete cleanair profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -4542,7 +4542,7 @@ EXAMPLES = r"""
     config:
       - feature_template_config:
         - clean_air_configuration:
-            - design_name: "sample_cleanair_design_24ghz"
+          - design_name: "sample_cleanair_design_24ghz"
 
 - name: Add event driven rrm profiles
   cisco.dnac.wireless_design_workflow_manager:
@@ -7054,7 +7054,7 @@ EXAMPLES = r"""
     state: deleted
     config:
       - 802_11_be_profiles:
-          - profile_name: "wifi7_office_profile"
+        - profile_name: "wifi7_office_profile"
 
 """
 
