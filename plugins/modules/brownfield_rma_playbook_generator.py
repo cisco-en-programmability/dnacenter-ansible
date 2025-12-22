@@ -14,13 +14,13 @@ DOCUMENTATION = r"""
 module: brownfield_rma_playbook_generator
 short_description: Generate YAML playbook for 'rma_workflow_manager' module from existing RMA configurations.
 description:
-- Generates YAML configurations compatible with the `rma_workflow_manager` module, 
+- Generates YAML configurations compatible with the `rma_workflow_manager` module,
   reducing the effort required to manually create Ansible playbooks for device replacement workflows.
 - The YAML configurations generated represent the RMA device replacement configurations
   for faulty and replacement devices configured on the Cisco Catalyst Center.
 - Supports extraction of device replacement workflows, marked devices for replacement,
   and replacement device details with their current status.
-- Enables migration, backup, and replication of RMA configurations across different 
+- Enables migration, backup, and replication of RMA configurations across different
   Cisco Catalyst Center instances.
 version_added: '6.31.0'
 extends_documentation_fragment:
@@ -160,7 +160,7 @@ EXAMPLES = r"""
     config:
       - file_path: "/tmp/rma_replacement_device_workflows.yaml"
         component_specific_filters:
-          components_list: ["device_replacement_workflows"] 
+          components_list: ["device_replacement_workflows"]
           device_replacement_workflows:
             - replacement_device_serial_number: "FCW2225C020"
 """
@@ -190,7 +190,9 @@ response_2:
   sample: >
     {
       "response": [],
-      "msg": "No configurations found to process for module 'rma_workflow_manager'. This may be because:\n- No device replacement workflows are configured in Catalyst Center\n- The API is not available in this version\n- User lacks required permissions\n- API function names have changed"
+      "msg": "No configurations found to process for module 'rma_workflow_manager'.
+      This may be because:\n- No device replacement workflows are configured in Catalyst Center\n- The API is not available in this version\n-
+      User lacks required permissions\n- API function names have changed"
     }
 """
 
@@ -224,7 +226,7 @@ else:
 
 class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
     """
-    A class for generating playbook files for RMA (Return Material Authorization) workflows 
+    A class for generating playbook files for RMA (Return Material Authorization) workflows
     in Cisco Catalyst Center using the GET APIs.
     """
 
@@ -330,7 +332,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def device_replacement_workflows_temp_spec(self):
         """
-        Constructs a temporary specification for device replacement workflow details, defining the structure and types 
+        Constructs a temporary specification for device replacement workflow details, defining the structure and types
         of attributes that will be used in the YAML configuration file.
 
         Returns:
@@ -339,13 +341,13 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Generating temporary specification for device replacement workflow details.", "DEBUG")
         device_replacement_workflows_details = OrderedDict({
             "faulty_device_name": {
-                "type": "str", 
+                "type": "str",
                 "special_handling": True,
                 "transform": self.get_faulty_device_name,
             },
             "faulty_device_ip_address": {
                 "type": "str",
-                "special_handling": True, 
+                "special_handling": True,
                 "transform": self.get_faulty_device_ip_address,
             },
             "faulty_device_serial_number": {"type": "str", "source_key": "faultyDeviceSerialNumber"},
@@ -387,7 +389,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
         final_workflow_configs = []
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
-        
+
         self.log(
             "Getting device replacement workflows using family '{0}' and function '{1}'.".format(
                 api_family, api_function
@@ -402,10 +404,10 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 function=api_function,
                 op_modifies=False,
             )
-            
+
             # Log the raw response to debug
             self.log("Received API response: {0}".format(response), "DEBUG")
-            
+
             # Handle different response structures
             if isinstance(response, dict):
                 workflow_configs = response.get("response", [])
@@ -414,7 +416,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                     workflow_configs = response.get("data", [])
             else:
                 workflow_configs = response if isinstance(response, list) else []
-                
+
             self.log("Retrieved {0} device replacement workflows from Catalyst Center".format(len(workflow_configs)), "INFO")
 
             # Log the structure of the first config if available
@@ -426,7 +428,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 for filter_param in workflow_filters:
                     for config in workflow_configs:
                         match = True
-                        
+
                         for key, value in filter_param.items():
                             config_value = None
                             if key == "faulty_device_serial_number":
@@ -435,14 +437,14 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                                 config_value = config.get("replacementDeviceSerialNumber")
                             elif key == "replacement_status":
                                 config_value = config.get("replacementStatus")
-                            
+
                             if config_value != value:
                                 match = False
                                 break
-                        
+
                         if match and config not in filtered_configs:
                             filtered_configs.append(config)
-                
+
                 final_workflow_configs = filtered_configs
             else:
                 final_workflow_configs = workflow_configs
@@ -455,12 +457,12 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Modify device replacement workflow details using temp_spec
         workflow_temp_spec = self.device_replacement_workflows_temp_spec()
-        
+
         # Custom parameter modification to handle device name and IP resolution
         modified_workflow_configs = []
         for config in final_workflow_configs:
             mapped_config = OrderedDict()
-            
+
             for key, spec_def in workflow_temp_spec.items():
                 if spec_def.get("special_handling"):
                     transform_func = spec_def.get("transform")
@@ -469,13 +471,13 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 else:
                     source_key = spec_def.get("source_key", key)
                     value = config.get(source_key)
-                
+
                 if value is not None:
                     mapped_config[key] = value
-            
+
             if mapped_config:  # Only add if we have valid data
                 modified_workflow_configs.append(mapped_config)
-        
+
         modified_workflow_details = {"device_replacement_workflows": modified_workflow_configs}
         self.log("Modified device replacement workflow details: {0}".format(modified_workflow_details), "INFO")
 
@@ -484,19 +486,19 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_faulty_device_name(self, workflow_config):
         """
         Get the faulty device name from the workflow configuration by resolving the serial number.
-        
+
         Args:
             workflow_config (dict): The device replacement workflow configuration.
-            
+
         Returns:
             str or None: The faulty device name if found, None otherwise.
         """
         faulty_serial = workflow_config.get("faultyDeviceSerialNumber")
         if not faulty_serial:
             return None
-            
+
         self.log("Resolving faulty device name for serial number: {0}".format(faulty_serial), "DEBUG")
-        
+
         try:
             response = self.dnac._exec(
                 family="devices",
@@ -505,35 +507,35 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 params={"serialNumber": faulty_serial},
             )
             self.log("Received API response for faulty device name: {0}".format(response), "DEBUG")
-            
+
             if response and response.get("response"):
                 devices = response.get("response")
                 if devices and len(devices) > 0:
                     device_name = devices[0].get("hostname")
                     self.log("Found faulty device name: {0}".format(device_name), "DEBUG")
                     return device_name
-                    
+
         except Exception as e:
             self.log("Error resolving faulty device name: {0}".format(str(e)), "WARNING")
-            
+
         return None
 
     def get_faulty_device_ip_address(self, workflow_config):
         """
         Get the faulty device IP address from the workflow configuration by resolving the serial number.
-        
+
         Args:
             workflow_config (dict): The device replacement workflow configuration.
-            
+
         Returns:
             str or None: The faulty device IP address if found, None otherwise.
         """
         faulty_serial = workflow_config.get("faultyDeviceSerialNumber")
         if not faulty_serial:
             return None
-            
+
         self.log("Resolving faulty device IP address for serial number: {0}".format(faulty_serial), "DEBUG")
-        
+
         try:
             response = self.dnac._exec(
                 family="devices",
@@ -542,35 +544,35 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 params={"serialNumber": faulty_serial},
             )
             self.log("Received API response for faulty device IP address: {0}".format(response), "DEBUG")
-            
+
             if response and response.get("response"):
                 devices = response.get("response")
                 if devices and len(devices) > 0:
                     device_ip = devices[0].get("managementIpAddress")
                     self.log("Found faulty device IP address: {0}".format(device_ip), "DEBUG")
                     return device_ip
-                    
+
         except Exception as e:
             self.log("Error resolving faulty device IP address: {0}".format(str(e)), "WARNING")
-            
+
         return None
 
     def get_replacement_device_name(self, workflow_config):
         """
         Get the replacement device name from the workflow configuration by resolving the serial number.
-        
+
         Args:
             workflow_config (dict): The device replacement workflow configuration.
-            
+
         Returns:
             str or None: The replacement device name if found, None otherwise.
         """
         replacement_serial = workflow_config.get("replacementDeviceSerialNumber")
         if not replacement_serial:
             return None
-            
+
         self.log("Resolving replacement device name for serial number: {0}".format(replacement_serial), "DEBUG")
-        
+
         try:
             # First try regular device inventory
             response = self.dnac._exec(
@@ -580,14 +582,13 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 params={"serialNumber": replacement_serial},
             )
 
-            
             if response and response.get("response"):
                 devices = response.get("response")
                 if devices and len(devices) > 0:
                     device_name = devices[0].get("hostname")
                     self.log("Found replacement device name in inventory: {0}".format(device_name), "DEBUG")
                     return device_name
-            
+
             # If not found in regular inventory, try PnP
             self.log("Device not found in inventory, checking PnP for replacement device", "DEBUG")
             pnp_response = self.dnac._exec(
@@ -597,34 +598,34 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 params={"serialNumber": replacement_serial},
             )
             self.log("Received API response for replacement device name from PnP: {0}".format(pnp_response), "DEBUG")
-            
+
             if pnp_response and len(pnp_response) > 0:
                 device_info = pnp_response[0].get("deviceInfo", {})
                 device_name = device_info.get("hostname")
                 self.log("Found replacement device name in PnP: {0}".format(device_name), "DEBUG")
                 return device_name
-                    
+
         except Exception as e:
             self.log("Error resolving replacement device name: {0}".format(str(e)), "WARNING")
-            
+
         return None
 
     def get_replacement_device_ip_address(self, workflow_config):
         """
         Get the replacement device IP address from the workflow configuration by resolving the serial number.
-        
+
         Args:
             workflow_config (dict): The device replacement workflow configuration.
-            
+
         Returns:
             str or None: The replacement device IP address if found, None otherwise.
         """
         replacement_serial = workflow_config.get("replacementDeviceSerialNumber")
         if not replacement_serial:
             return None
-            
+
         self.log("Resolving replacement device IP address for serial number: {0}".format(replacement_serial), "DEBUG")
-        
+
         try:
             # First try regular device inventory
             response = self.dnac._exec(
@@ -634,14 +635,14 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 params={"serialNumber": replacement_serial},
             )
             self.log("Received API response for replacement device IP address: {0}".format(response), "DEBUG")
-            
+
             if response and response.get("response"):
                 devices = response.get("response")
                 if devices and len(devices) > 0:
                     device_ip = devices[0].get("managementIpAddress")
                     self.log("Found replacement device IP address in inventory: {0}".format(device_ip), "DEBUG")
                     return device_ip
-            
+
             # If not found in regular inventory, try PnP
             self.log("Device not found in inventory, checking PnP for replacement device IP", "DEBUG")
             pnp_response = self.dnac._exec(
@@ -651,7 +652,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 params={"serialNumber": replacement_serial},
             )
             self.log("Received API response for replacement device IP address from PnP: {0}".format(pnp_response), "DEBUG")
-            
+
             if pnp_response and len(pnp_response) > 0:
                 device_info = pnp_response[0].get("deviceInfo", {})
                 # PnP devices may not have IP addresses assigned yet
@@ -659,10 +660,10 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 if device_ip:
                     self.log("Found replacement device IP address in PnP: {0}".format(device_ip), "DEBUG")
                     return device_ip
-                    
+
         except Exception as e:
             self.log("Error resolving replacement device IP address: {0}".format(str(e)), "WARNING")
-            
+
         return None
 
     def yaml_config_generator(self, yaml_config_generator):
@@ -675,17 +676,17 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
             ),
             "DEBUG",
         )
-        
+
         # Fix: Properly handle file_path when it's None
         file_path = yaml_config_generator.get("file_path")
         if not file_path:  # Changed from yaml_config_generator.get("file_path", self.generate_filename())
             file_path = self.generate_filename()
-        
+
         self.log("File path determined: {0}".format(file_path), "DEBUG")
 
         # Handle generate_all_configurations flag
         generate_all_configurations = yaml_config_generator.get("generate_all_configurations", False)
-        
+
         component_specific_filters = (
             yaml_config_generator.get("component_specific_filters") or {}
         )
@@ -700,7 +701,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Retrieve the supported network elements for the module
         module_supported_network_elements = self.module_schema.get("network_elements", {})
-        
+
         # Determine which components to process
         if generate_all_configurations:
             components_list = list(module_supported_network_elements.keys())
@@ -709,16 +710,16 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
             components_list = component_specific_filters.get(
                 "components_list", list(module_supported_network_elements.keys())
             )
-        
+
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
         # Create the structured configuration
         config_list = []
         components_processed = 0
-        
+
         for component in components_list:
             self.log("Processing component: {0}".format(component), "INFO")
-            
+
             network_element = module_supported_network_elements.get(component)
             if not network_element:
                 self.log(
@@ -731,10 +732,10 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "global_filters": yaml_config_generator.get("global_filters", {}),
                 "component_specific_filters": component_specific_filters
             }
-            
+
             operation_func = network_element.get("get_function_name")
             self.log("Operation function for {0}: {1}".format(component, operation_func), "DEBUG")
-            
+
             if callable(operation_func):
                 try:
                     self.log("Calling operation function for component: {0}".format(component), "INFO")
@@ -742,7 +743,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                     self.log(
                         "Details retrieved for {0}: {1}".format(component, details), "DEBUG"
                     )
-                    
+
                     # Add the component data to config list
                     if component in details and details[component]:
                         # For RMA, we want to generate a config list where each item is a device replacement workflow
@@ -755,10 +756,10 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                         self.log(
                             "No data found for component: {0}".format(component), "WARNING"
                         )
-                        
+
                 except Exception as e:
                     self.log(
-                        "Error retrieving data for component {0}: {1}".format(component, str(e)), 
+                        "Error retrieving data for component {0}: {1}".format(component, str(e)),
                         "ERROR"
                     )
                     import traceback
@@ -769,12 +770,17 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Processing summary: {0} components processed successfully".format(components_processed), "INFO")
 
         if not config_list:
-            self.msg = "No configurations found to process for module '{0}'. This may be because:\n- No device replacement workflows are configured in Catalyst Center\n- The API is not available in this version\n- User lacks required permissions\n- API function names have changed".format(
-                self.module_name
-            )
+            self.msg = (
+                "No configurations found to process for module '{0}'. "
+                "This may be because:\n"
+                "- No device replacement workflows are configured in Catalyst Center\n"
+                "- The API is not available in this version\n"
+                "- User lacks required permissions\n"
+                "- API function names have changed"
+            ).format(self.module_name)
             self.set_operation_result("ok", False, self.msg, "INFO")
             return self
-        
+
         # Create the final structure for RMA workflows
         final_dict = {"config": config_list}
         self.log("Final dictionary created with {0} device replacement workflow configurations".format(len(config_list)), "DEBUG")
@@ -799,7 +805,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_want(self, config, state):
         """
         Creates parameters for API calls based on the specified state.
-        
+
         Args:
             config (dict): The configuration data for the RMA elements.
             state (str): The desired state ('gathered').
@@ -831,7 +837,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         start_time = time.time()
         self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
-        
+
         operations = [
             (
                 "yaml_config_generator",
@@ -904,10 +910,10 @@ def main():
 
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
-    
+
     # Initialize the RMAPlaybookGenerator object with the module
     ccc_rma_playbook_generator = RMAPlaybookGenerator(module)
-    
+
     # Check version compatibility
     if (
         ccc_rma_playbook_generator.compare_dnac_versions(
@@ -939,7 +945,7 @@ def main():
     # Validate the input parameters and check the return status
     ccc_rma_playbook_generator.validate_input().check_return_status()
     config = ccc_rma_playbook_generator.validated_config
-    
+
     # Handle default case when no filters are specified
     for config_item in config:
         if config_item.get("generate_all_configurations"):

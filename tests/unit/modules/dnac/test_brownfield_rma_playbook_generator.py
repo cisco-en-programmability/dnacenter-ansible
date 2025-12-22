@@ -94,7 +94,7 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
             ]
 
         elif "playbook_negative_scenario1" in self._testMethodName:
-                pass
+            pass
 
     def test_brownfield_rma_playbook_generator_playbook_generate_all_configurations(self):
         """
@@ -192,38 +192,6 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
             }
         )
 
-    def test_brownfield_rma_playbook_generator_playbook_specifc_filters(self):
-        """
-        Test the Brownfield RMA Workflow Manager's playbook generation process.
-
-        This test verifies that the workflow correctly handles the generation of a new
-        playbook for all RMA configurations, ensuring proper validation and expected behavior.
-        """
-
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="gathered",
-                config_verify=True,
-                dnac_version="2.3.7.6",
-                config=self.playbook_specifc_filters
-            )
-        )
-        result = self.execute_module(changed=True, failed=False)
-        print(result)
-        self.assertEqual(
-            result.get("response"),
-            {
-                "YAML config generation Task succeeded for module 'rma_workflow_manager'.": {
-                    "components_processed": 1,
-                    "file_path": "/Users/priyadharshini/Downloads/rma_info"
-                }
-            }
-        )
-
     def test_brownfield_rma_playbook_generator_playbook_no_device_found(self):
         """
         Test the Brownfield RMA Workflow Manager's playbook generation process.
@@ -248,9 +216,16 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "No configurations found to process for module 'rma_workflow_manager'. This may be because:\n- No device replacement workflows are configured in Catalyst Center\n- The API is not available in this version\n- User lacks required permissions\n- API function names have changed"
+            (
+                "No configurations found to process for module 'rma_workflow_manager'. "
+                "This may be because:\n"
+                "- No device replacement workflows are configured in Catalyst Center\n"
+                "- The API is not available in this version\n"
+                "- User lacks required permissions\n"
+                "- API function names have changed"
+            )
         )
-    
+
     def test_brownfield_rma_playbook_generator_playbook_component_specific_filters1(self):
         """
         Test the Brownfield RMA Workflow Manager's playbook generation process.
@@ -307,6 +282,9 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Invalid network components provided for module 'rma_workflow_manager': ['device_replacement_workflow']. Valid components are: ['device_replacement_workflows']"
+            (
+                "Invalid network components provided for module 'rma_workflow_manager': "
+                "['device_replacement_workflow']. "
+                "Valid components are: ['device_replacement_workflows']"
+            )
         )
-

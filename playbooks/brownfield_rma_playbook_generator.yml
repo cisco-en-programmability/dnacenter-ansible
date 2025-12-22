@@ -1,5 +1,5 @@
 ---
-- name:  Generate YAML Configuration for Return Material Authorization(RMA)
+- name: Generate YAML Configuration for Return Material Authorization(RMA)
   hosts: localhost
   connection: local
   gather_facts: false
@@ -28,4 +28,3 @@
               device_replacement_workflows:
                 - replacement_device_serial_number: "9TRQFABSFR2"
                 - replacement_status: "REPLACED"
-           
