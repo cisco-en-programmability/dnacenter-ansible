@@ -2349,7 +2349,7 @@ class Reports(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
-        epoch_time = self.convert_to_epoch(date_time)
+        epoch_time = self.convert_to_epoch(date_time, entry["schedule"].get("time_zone", "UTC"))
         if epoch_time is None:
             self.msg = "Invalid date_time format. Expected 'YYYY-MM-DD HH:MM AM/PM'."
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -2414,7 +2414,7 @@ class Reports(DnacBase):
             return False
 
         # Convert date_time to epoch and set time/start_date
-        epoch_time = self.convert_to_epoch(date_time)
+        epoch_time = self.convert_to_epoch(date_time, schedule.get("time_zone", "UTC"))
         if epoch_time is None:
             self.msg = "Invalid date_time format for SCHEDULE_RECURRENCE."
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -2575,7 +2575,7 @@ class Reports(DnacBase):
         self.log("Monthly recurrence validated successfully", "DEBUG")
         return True
 
-    def convert_to_epoch(self, date_str):
+    def convert_to_epoch(self, date_str, time_zone="UTC"):
         """
         Convert a date string in the format 'YYYY-MM-DD HH:MM AM/PM' to epoch time in milliseconds.
 
@@ -2590,8 +2590,16 @@ class Reports(DnacBase):
 
         """
         try:
-            time_struct = time.strptime(date_str, "%Y-%m-%d %I:%M %p")
-            return int(time.mktime(time_struct) * 1000)
+            # Parse naive datetime
+            dt = datetime.strptime(date_str, "%Y-%m-%d %I:%M %p")
+            # Load timezone
+            tz = pytz.timezone(time_zone)
+            # Localize (handle DST safely)
+            localized_dt = tz.localize(dt, is_dst=None)
+            # Convert to epoch milliseconds
+            epoch_ms = int(localized_dt.timestamp() * 1000)
+            return epoch_ms
+
         except ValueError:
             self.log(f"exception occurred while converting date string to epoch time: {ValueError}", "ERROR")
             return None
@@ -6247,8 +6255,8 @@ class Reports(DnacBase):
         start_str, end_str = item["start_date_time"], item["end_date_time"]
         self.log(f"Converting time range: start={start_str}, end={end_str}", "DEBUG")
 
-        start_epoch = self.convert_to_epoch(start_str)
-        end_epoch = self.convert_to_epoch(end_str)
+        start_epoch = self.convert_to_epoch(start_str, time_zone)
+        end_epoch = self.convert_to_epoch(end_str, time_zone)
 
         if start_epoch is None or end_epoch is None:
             self.msg = (
