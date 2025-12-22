@@ -62,7 +62,7 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
         if "playbook_generate_all_configurations" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("response1"),
-                self.test_data.get("device name"),
+                self.test_data.get("response2"),
                 self.test_data.get("response3"),
                 self.test_data.get("response4"),
             ]
