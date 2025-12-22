@@ -421,7 +421,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         self.log(
             "Filtering ISE RADIUS integration details with server_type: {0}, "
             "server_ip_address: {1}".format(
-            server_type, server_ip_address
+                server_type, server_ip_address
             ),
             "DEBUG"
         )
@@ -453,7 +453,8 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
                 # No server_type filter, include the entire server
                 self.log("Including entire server without server_type filter: {0}".format(each_server_resp), "DEBUG")
                 filtered_results.append(each_server_resp)
-        self.log("Filtering complete. Filtered servers response data {0}".format(
+        self.log(
+            "Filtering complete. Filtered servers response data {0}".format(
                 filtered_results
             ),
             "DEBUG",
@@ -524,7 +525,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         """
         self.log(
             "Generating custom variable name for server_type: {0}, parameter_string: {1}".format(
-            server_type, parameter_string
+                server_type, parameter_string
             )
         ),
 
@@ -547,13 +548,13 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             with open(yaml_filename, 'w') as yaml_file:
                 yaml.dump(yaml_variable_content, yaml_file, default_flow_style=False)
             self.log(
-            "Created YAML file for custom variable: {0}".format(yaml_filename),
+                "Created YAML file for custom variable: {0}".format(yaml_filename),
                 "DEBUG"
             )
 
         except Exception as e:
             self.log(
-            "Failed to create YAML file for custom variable: {0}".format(str(e)),
+                "Failed to create YAML file for custom variable: {0}".format(str(e)),
                 "WARNING"
             )
 
@@ -580,7 +581,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         )
         if not isinstance(response, dict):
             self.log(
-            "Failed to retrieve the Authentication and Policy Server details - "
+                "Failed to retrieve the Authentication and Policy Server details - "
                 "Response is not a dictionary",
                 "CRITICAL",
             )
@@ -589,7 +590,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         auth_server_details = response.get("response")
         if not auth_server_details:
             self.log(
-            "Authentication and Policy Server does not exist",
+                "Authentication and Policy Server does not exist",
                 "DEBUG",
             )
             return None
@@ -607,7 +608,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
 
         self.log(
             "ISE Radius Integration's details ise_radius_integration_details after modify_parameters: {0}".format(
-            ise_radius_integration_details
+                ise_radius_integration_details
             ),
             "DEBUG",
         )
@@ -621,7 +622,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
 
         self.log(
             "Modified ISE Radius Integration's details: {0}".format(
-            modified_ise_radius_integration_details
+                modified_ise_radius_integration_details
             ),
             "DEBUG",
         )
@@ -663,7 +664,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
 
         self.log(
             "Starting YAML config generation with parameters: {0}".format(
-            yaml_config_generator
+                yaml_config_generator
             ),
             "DEBUG",
         )
@@ -730,7 +731,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
 
         if not final_list:
             self.msg = "No configurations or components to process for module '{0}'. Verify input filters or configuration.".format(
-            self.module_name
+                self.module_name
             )
             self.set_operation_result("ok", False, self.msg, "DEBUG")
             return self
@@ -779,7 +780,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         want["yaml_config_generator"] = config
         self.log(
             "yaml_config_generator added to want: {0}".format(
-            want["yaml_config_generator"]
+                want["yaml_config_generator"]
             ),
             "DEBUG",
         )
@@ -802,7 +803,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
         operations = [
             (
-            "yaml_config_generator",
+                "yaml_config_generator",
                 "YAML Config Generator",
                 self.yaml_config_generator,
             )
@@ -814,7 +815,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             operations, start=1
         ):
             self.log(
-            "Iteration {0}: Checking parameters for {1} operation with param_key '{2}'.".format(
+                "Iteration {0}: Checking parameters for {1} operation with param_key '{2}'.".format(
                     index, operation_name, param_key
                 ),
                 "DEBUG",
@@ -839,7 +840,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         end_time = time.time()
         self.log(
             "Completed 'get_diff_merged' operation in {0:.2f} seconds.".format(
-            end_time - start_time
+                end_time - start_time
             ),
             "DEBUG",
         )
@@ -883,7 +884,7 @@ def main():
         ccc_brownfield_ise_radius_integration_playbook_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
             "for BrownfieldIseRadiusIntegrationPlaybookGenerator Module. Supported versions start from '2.3.7.9' onwards. ".format(
-            ccc_brownfield_ise_radius_integration_playbook_generator.get_ccc_version()
+                ccc_brownfield_ise_radius_integration_playbook_generator.get_ccc_version()
             )
         )
         ccc_brownfield_ise_radius_integration_playbook_generator.set_operation_result(
@@ -915,6 +916,7 @@ def main():
         ]().check_return_status()
 
     module.exit_json(**ccc_brownfield_ise_radius_integration_playbook_generator.result)
+
 
 if __name__ == "__main__":
     main()
