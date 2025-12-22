@@ -24,8 +24,8 @@
             # Purpose: Retrieve and generate configurations for all authentication servers
             # Use Case: Complete brownfield discovery and configuration generation
             # ====================================================================================
-            # - generate_all_configurations: true
-            #   file_path: "/tmp/all_configurations.yaml"
+            - generate_all_configurations: true
+              file_path: "/tmp/all_configurations.yaml"
             # ====================================================================================
             # SCENARIO 2: Filter ISE Servers Only
             # Purpose: Generate configuration for Cisco ISE servers only
@@ -68,11 +68,16 @@
             # Purpose: Generate configuration for primary authentication servers
             # Use Case: When primary server configuration is needed
             # ====================================================================================
-            - generate_all_configurations: false
-              file_path: "authentication_policy_server_all_configurations.yaml"
-              component_specific_filters:
-                components_list: ["authentication_policy_server"]
-                authentication_policy_server:
-                  - server_type: ISE  # [ISE, AAA]
-                    server_ip_address: 10.197.156.78
-                  - server_ip_address: 10.197.156.10
+            # - generate_all_configurations: false
+            #   file_path: "authentication_policy_server_all_configurations.yaml"
+            #   component_specific_filters:
+            #     components_list: ["authentication_policy_server"]
+            #     authentication_policy_server:
+            #       - server_type: ISE  # [ISE, AAA]
+            #         server_ip_address: 10.197.156.78
+            #       - server_ip_address: 10.197.156.10
+
+      register: result
+
+      tags:
+        - brownfield_templates_generator_testing
