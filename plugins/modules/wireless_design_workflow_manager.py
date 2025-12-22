@@ -4028,6 +4028,68 @@ options:
                 type: list
                 elements: str
                 required: false
+      802_11_be_profiles:
+        description:
+          - Configuration for 802.11be (Wi-Fi 7) profile settings.
+          - Enables advanced Wi-Fi 7 features for improved performance and efficiency.
+          - Controls OFDMA and MU-MIMO settings for both downlink and uplink transmission.
+        type: list
+        elements: dict
+        required: false
+        suboptions:
+          profile_name:
+            description:
+              - Name of the 802.11be profile.
+              - Must correspond to an existing design in Cisco Catalyst Center.
+              - Profile name must not exceed 64 characters in length.
+            type: str
+            required: true
+          ofdma_down_link:
+            description:
+              - Enable or disable OFDMA (Orthogonal Frequency Division Multiple Access) for downlink transmission.
+              - When enabled, allows multiple clients to be served simultaneously on different subcarriers.
+              - Improves spectral efficiency and network capacity in high-density environments.
+              - OFDMA downlink is a Wi-Fi 7 feature that enhances performance for multiple concurrent users.
+            type: bool
+            default: true
+            required: false
+          ofdma_up_link:
+            description:
+              - Enable or disable OFDMA for uplink transmission.
+              - When enabled, multiple clients can transmit simultaneously on different subcarriers.
+              - Reduces latency and improves efficiency for uplink traffic.
+              - Particularly beneficial for applications requiring low latency and high reliability.
+            type: bool
+            default: true
+            required: false
+          mu_mimo_down_link:
+            description:
+              - Enable or disable Multi-User Multiple-Input Multiple-Output for downlink transmission.
+              - When enabled, allows simultaneous transmission to multiple clients.
+              - Increases overall network throughput and spectral efficiency.
+              - MU-MIMO downlink works in conjunction with OFDMA for optimal Wi-Fi 7 performance.
+            type: bool
+            default: false
+            required: false
+          mu_mimo_up_link:
+            description:
+              - Enable or disable MU-MIMO for uplink transmission.
+              - When enabled, multiple clients can transmit to the access point simultaneously.
+              - Improves upload capacity and reduces contention in high-density environments.
+              - Enhances performance for applications with heavy uplink traffic requirements.
+            type: bool
+            default: false
+            required: false
+          ofdma_multi_ru:
+            description:
+              - Enable or disable OFDMA Multi-RU (Resource Unit) allocation.
+              - Multi-RU allows a single client to use multiple non-contiguous resource units.
+              - Provides more flexible spectrum utilization and improved throughput for individual clients.
+              - This is an advanced Wi-Fi 7 feature that optimizes resource allocation dynamically.
+              - When enabled, clients can benefit from aggregated bandwidth across multiple RUs.
+            type: bool
+            default: false
+            required: false
 
 requirements:
   - dnacentersdk >= 2.10.3
@@ -7134,6 +7196,68 @@ EXAMPLES = r"""
           - anchor_group_name: "Enterprise_Anchor_Group"
           - anchor_group_name: "Branch_Anchor_Group"
           - anchor_group_name: "DataCenter_Anchor_Group"
+
+# Create 802.11be profiles
+- name: Add 802.11be profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - 802_11_be_profiles:
+          - profile_name: "wifi7_office_profile"
+            ofdma_down_link: true
+            ofdma_up_link: true
+            mu_mimo_down_link: false
+            mu_mimo_up_link: false
+            ofdma_multi_ru: false
+
+# Update 802.11be profiles
+- name: Update 802.11be profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - 802_11_be_profiles:
+          - profile_name: "wifi7_office_profile"
+            ofdma_down_link: true
+            ofdma_up_link: true              # Changed from false to true
+            mu_mimo_down_link: true          # Changed from false to true
+            mu_mimo_up_link: false
+            ofdma_multi_ru: false
+
+# Delete 802.11be profiles
+- name: Delete 802.11be profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - 802_11_be_profiles:
+          - profile_name: "wifi7_office_profile"
+
 """
 
 RETURN = r"""
@@ -7975,6 +8099,19 @@ class WirelessDesign(DnacBase):
                     }
                 },
             },
+            "802_11_be_profiles": {
+                "type": "list",
+                "elements": "dict",
+                "required": False,
+                "options": {
+                    "profile_name": {"type": "str"},
+                    "ofdma_down_link": {"type": "bool", "default": True},
+                    "ofdma_up_link": {"type": "bool", "default": True},
+                    "mu_mimo_down_link": {"type": "bool", "default": False},
+                    "mu_mimo_up_link": {"type": "bool", "default": False},
+                    "ofdma_multi_ru": {"type": "bool", "default": False},
+                },
+            }
         }
 
         # Validate params against the expected schema
@@ -12938,6 +13075,154 @@ class WirelessDesign(DnacBase):
             self.msg = {"aaa_radius_attributes_delete": "Exception during delete: {0}".format(str(e))}
             self.status = "failed"
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+    def process_add_802_11_be_profile(self, params):
+        """
+        Handles the creation of 802.11be (Wi-Fi 7) profiles in Cisco Catalyst Center.
+
+        Args:
+            params (list): A list of 802.11be payloads to create.
+                        Each payload should include 'profileName' and 'featureAttributes'.
+
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing ADD for 802.11be Profiles.", "INFO")
+        self.log("Params for ADD: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                profile_name = payload.get("profileName") or "<unknown>"
+                self.log("Creating 802.11be profile: {0}".format(profile_name), "DEBUG")
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="create_a80211be_profile",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+
+                    # Validate async task
+                    self.check_tasks_response_status(response, "create80211beProfile")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[profile_name] = "Successfully created 802.11be profile."
+                    else:
+                        fail_reason = self.msg
+                        results[profile_name] = (
+                            "Failed to create 802.11be profile: {0}".format(fail_reason)
+                        )
+                        self.log(results[profile_name], "ERROR")
+
+                except Exception as exc:
+                    results[profile_name] = (
+                        "Exception while creating 802.11be profile: {0}".format(str(exc))
+                    )
+                    self.log(results[profile_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"80211be_add": results}
+            self.status = (
+                "failed"
+                if all(("Failed" in v or "Exception" in v) for v in results.values())
+                else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"80211be_add": "Exception during add: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
+            return self
+
+    def process_update_802_11_be_profile(self, params):
+        """
+        Handles the update of 802.11be (Wi-Fi 7) profiles in Cisco Catalyst Center.
+
+        Args:
+            params (list): A list of 802.11be payloads to update.
+                        Each payload must include 'id' and may include
+                        'profileName' and 'featureAttributes'.
+
+        Returns:
+            self (with self.msg and self.status set)
+        """
+        self.log("Processing UPDATE for 802.11be Profiles.", "INFO")
+        self.log("Params for UPDATE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                profile_name = payload.get("profileName") or "<unknown>"
+                profile_id = payload.get("id")
+
+                self.log(
+                    "Updating 802.11be profile: profile='{0}', id='{1}'".format(
+                        profile_name, profile_id
+                    ),
+                    "DEBUG",
+                )
+
+                if not profile_id:
+                    results[profile_name] = "Skipped update: missing 'id' in payload."
+                    self.log(results[profile_name], "ERROR")
+                    continue
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="update80211be_profile",
+                        op_modifies=True,
+                        params=payload,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+
+                    # Validate async task
+                    self.check_tasks_response_status(response, "update80211beProfile")
+
+                    if self.status not in ["failed", "exited"]:
+                        results[profile_name] = "Successfully updated 802.11be profile."
+                    else:
+                        fail_reason = self.msg
+                        results[profile_name] = (
+                            "Failed to update 802.11be profile: {0}".format(fail_reason)
+                        )
+                        self.log(results[profile_name], "ERROR")
+
+                except Exception as exc:
+                    results[profile_name] = (
+                        "Exception while updating 802.11be profile: {0}".format(str(exc))
+                    )
+                    self.log(results[profile_name], "ERROR")
+
+            # Final aggregated message
+            self.msg = {"80211be_update": results}
+            self.status = (
+                "failed"
+                if all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
+                else "success"
+            )
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {"80211be_update": "Exception during update: {0}".format(str(exc))}
+            self.status = "failed"
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def validate_required_ssid_params(self, ssid, state="merged"):
@@ -24028,6 +24313,58 @@ class WirelessDesign(DnacBase):
                 elif state == "deleted":
                     have["delete_{0}".format(config_key)] = deleted_func(elements)
 
+        # --- New logic for 802.11be profiles ---
+        if config.get("802_11_be_profiles", []):
+            be_profiles_list = []
+
+            # Normalize config
+            raw_config = config
+            if isinstance(raw_config, dict):
+                config_list = [raw_config]
+            elif isinstance(raw_config, list):
+                config_list = raw_config
+            else:
+                self.msg = "Invalid config format for 802.11be profiles"
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            for item in config_list:
+                if not isinstance(item, dict):
+                    continue
+
+                if "802_11_be_profiles" in item:
+                    be_profiles_list.extend(item.get("802_11_be_profiles", []))
+
+            if be_profiles_list:
+                self.log(
+                    "Processing 802.11be profiles configuration for state: {0}".format(state),
+                    "DEBUG"
+                )
+
+                if state == "merged":
+                    add_be_profiles, update_be_profiles, no_update_be_profiles = (
+                        self.verify_create_update_80211be_profiles_requirement(be_profiles_list)
+                    )
+
+                    have.update(
+                        {
+                            "add_80211be_profiles": add_be_profiles,
+                            "update_80211be_profiles": update_be_profiles,
+                            "no_update_80211be_profiles": no_update_be_profiles,
+                        }
+                    )
+
+                elif state == "deleted":
+                    delete_be_profiles, no_delete_be_profiles = (
+                        self.verify_delete_80211be_profiles_requirement(be_profiles_list)
+                    )
+
+                    have.update(
+                        {
+                            "delete_80211be_profiles": delete_be_profiles,
+                            "no_delete_80211be_profiles": no_delete_be_profiles,
+                        }
+                    )
+
         # --- New logic for AAA Radius Attributes ---
         if config.get("feature_template_config", []):
             aaa_attr_list = []
@@ -24456,6 +24793,18 @@ class WirelessDesign(DnacBase):
                     "update_rrm_general_configuration_params",
                     self.have.get("update_rrm_general_configuration"),
                 ),
+                # -- 802_11_be_profiles --
+                (
+                    "add_80211be_profiles",
+                    "add_80211be_profiles_params",
+                    self.have.get("add_80211be_profiles"),
+                ),
+                (
+                    "update_80211be_profiles",
+                    "update_80211be_profiles_params",
+                    self.have.get("update_80211be_profiles"),
+                ),
+
             ],
             "deleted": [
                 ("delete_ssids", "delete_ssids_params", self.have.get("delete_ssids")),
@@ -24548,6 +24897,12 @@ class WirelessDesign(DnacBase):
                     "delete_rrm_general_configuration_params",
                     self.have.get("delete_rrm_general_configuration"),
                 ),
+                # -- 802_11_be_profiles --
+                (
+                    "delete_80211be_profiles",
+                    "delete_80211be_profiles_params",
+                    self.have.get("delete_80211be_profiles"),
+                ),
             ],
         }
 
@@ -24578,6 +24933,412 @@ class WirelessDesign(DnacBase):
         self.msg = "Successfully collected all parameters from the playbook for Wireless Design operations."
         self.status = "success"
         return self
+
+    def verify_delete_80211be_profiles_requirement(self, be_profiles):
+        """
+        Determines which 802.11be profiles should be deleted based on the requested configuration.
+        Delete is decided ONLY by profile name presence.
+        """
+
+        delete_profiles, no_delete_profiles = [], []
+
+        # ------------------------------------------------------------------
+        # Fetch existing profiles
+        # ------------------------------------------------------------------
+        existing_blocks = self.get_80211be_profiles()
+        self.log(
+            "Existing 802.11be Profiles RAW: {0}".format(existing_blocks),
+            "DEBUG"
+        )
+
+        # ------------------------------------------------------------------
+        # Normalize existing profiles into dict { profileName: profile }
+        # ------------------------------------------------------------------
+        existing_dict = {}
+
+        for block in existing_blocks or []:
+            # Flat response (Wi-Fi 7)
+            if isinstance(block, dict) and block.get("profileName"):
+                existing_dict[block["profileName"]] = block
+
+            # Legacy instances[] response
+            elif isinstance(block, dict):
+                for inst in block.get("instances", []):
+                    if inst.get("profileName"):
+                        existing_dict[inst["profileName"]] = inst
+
+        self.log(
+            "Detected existing 802.11be profiles for delete: {0}"
+            .format(list(existing_dict.keys())),
+            "DEBUG"
+        )
+
+        # ------------------------------------------------------------------
+        # Process delete requests
+        # ------------------------------------------------------------------
+        for profile in be_profiles or []:
+            profile_name = profile.get("profile_name")
+
+            if not profile_name:
+                self.msg = "Missing required field 'profile_name' for 802.11be delete."
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+
+            self.log(
+                "Evaluating delete request for 802.11be profile: {0}"
+                .format(profile_name),
+                "DEBUG"
+            )
+
+            existing = existing_dict.get(profile_name)
+
+            # =========================
+            # Case 1: Profile exists → DELETE
+            # =========================
+            if existing:
+                delete_profiles.append(
+                    {
+                        "id": existing["id"],
+                        "profileName": profile_name,
+                    }
+                )
+
+                self.log(
+                    "802.11be profile '{0}' scheduled for deletion."
+                    .format(profile_name),
+                    "DEBUG"
+                )
+
+            # =========================
+            # Case 2: Profile does not exist
+            # =========================
+            else:
+                no_delete_profiles.append(profile_name)
+                self.log(
+                    "802.11be profile '{0}' does not exist. Nothing to delete."
+                    .format(profile_name),
+                    "INFO"
+                )
+
+        # ------------------------------------------------------------------
+        # Final logs
+        # ------------------------------------------------------------------
+        self.log(
+            "802.11be Profiles to Delete: {0}".format(delete_profiles),
+            "DEBUG"
+        )
+        self.log(
+            "802.11be Profiles not found for deletion: {0}"
+            .format(no_delete_profiles),
+            "DEBUG"
+        )
+
+        return delete_profiles, no_delete_profiles
+
+
+    def verify_create_update_80211be_profiles_requirement(self, be_profiles):
+        """
+        Compares desired 802.11be profiles against existing ones and determines
+        which need to be created, updated, or left unchanged.
+        """
+
+        add_profiles, update_profiles, no_update_profiles = [], [], []
+
+        # ------------------------------------------------------------------
+        # Fetch existing profiles
+        # ------------------------------------------------------------------
+        existing_blocks = self.get_80211be_profiles()
+        self.log("Existing 802.11be Profiles RAW: {0}".format(existing_blocks), "DEBUG")
+
+        # ------------------------------------------------------------------
+        # Normalize existing profiles into dict { profileName: profile }
+        # Handles BOTH:
+        #   1) Flat API response (Wi-Fi 7)
+        #   2) Wrapped instances[] (older patterns)
+        # ------------------------------------------------------------------
+        existing_dict = {}
+
+        for block in existing_blocks or []:
+            # Case 1: Flat profile object
+            if isinstance(block, dict) and block.get("profileName"):
+                existing_dict[block["profileName"]] = block
+
+            # Case 2: Wrapped instances[]
+            elif isinstance(block, dict):
+                for inst in block.get("instances", []):
+                    if inst.get("profileName"):
+                        existing_dict[inst["profileName"]] = inst
+
+        self.log(
+            "Detected existing 802.11be profiles: {0}".format(list(existing_dict.keys())),
+            "DEBUG"
+        )
+
+        # ------------------------------------------------------------------
+        # Process desired profiles
+        # ------------------------------------------------------------------
+        for profile in be_profiles or []:
+            profile_name = profile.get("profile_name")
+            new_profile_name = profile.get("new_profile_name")
+
+            if not profile_name:
+                self.msg = "Missing required field 'profile_name' for 802.11be profile."
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+
+            self.log("Evaluating 802.11be profile: {0}".format(profile_name), "DEBUG")
+
+            # Desired config (FLAT, API-READY)
+            desired_config = {
+                "ofdmaDownLink": profile.get("ofdma_down_link", True),
+                "ofdmaUpLink": profile.get("ofdma_up_link", True),
+                "muMimoDownLink": profile.get("mu_mimo_down_link", False),
+                "muMimoUpLink": profile.get("mu_mimo_up_link", False),
+                "ofdmaMultiRu": profile.get("ofdma_multi_ru", False),
+            }
+
+            existing = existing_dict.get(profile_name)
+
+            # ==============================================================
+            # CASE 1: Profile EXISTS → UPDATE / RENAME / NO-CHANGE
+            # ==============================================================
+            if existing:
+                self.log(
+                    "802.11be profile '{0}' already exists.".format(profile_name),
+                    "DEBUG"
+                )
+
+                details = self.get_80211be_profile_details(existing.get("id")) or {}
+
+                existing_config = {
+                    k: details.get(k)
+                    for k in desired_config.keys()
+                }
+
+                config_changed = existing_config != desired_config
+
+                # ------------------ Rename (with optional config update)
+                if new_profile_name:
+                    if (
+                        new_profile_name in existing_dict
+                        and new_profile_name != profile_name
+                    ):
+                        self.msg = (
+                            "Cannot rename 802.11be profile '{0}' to '{1}' "
+                            "- target name already exists."
+                            .format(profile_name, new_profile_name)
+                        )
+                        self.set_operation_result(
+                            "failed", False, self.msg, "ERROR"
+                        ).check_return_status()
+
+                    update_profiles.append(
+                        {
+                            "id": existing["id"],
+                            "profileName": new_profile_name,
+                            **desired_config,
+                        }
+                    )
+
+                    self.log(
+                        "802.11be profile '{0}' scheduled for rename/update."
+                        .format(profile_name),
+                        "DEBUG"
+                    )
+
+                # ------------------ Config update only
+                elif config_changed:
+                    update_profiles.append(
+                        {
+                            "id": existing["id"],
+                            "profileName": profile_name,
+                            **desired_config,
+                        }
+                    )
+
+                    self.log(
+                        "802.11be profile '{0}' marked for config update."
+                        .format(profile_name),
+                        "DEBUG"
+                    )
+
+                # ------------------ No change
+                else:
+                    no_update_profiles.append(details)
+                    self.log(
+                        "802.11be profile '{0}' requires no update."
+                        .format(profile_name),
+                        "DEBUG"
+                    )
+
+            # ==============================================================
+            # CASE 2: Profile DOES NOT EXIST → ADD
+            # ==============================================================
+            else:
+                add_profiles.append(
+                    {
+                        "profileName": profile_name,
+                        **desired_config,
+                    }
+                )
+
+                self.log(
+                    "802.11be profile '{0}' scheduled for creation."
+                    .format(profile_name),
+                    "DEBUG"
+                )
+
+        # ------------------------------------------------------------------
+        # Final logs
+        # ------------------------------------------------------------------
+        self.log("802.11be Profiles to Add: {0}".format(add_profiles), "DEBUG")
+        self.log("802.11be Profiles to Update: {0}".format(update_profiles), "DEBUG")
+        self.log(
+            "802.11be Profiles with No Changes: {0}".format(no_update_profiles),
+            "DEBUG",
+        )
+
+        return add_profiles, update_profiles, no_update_profiles
+
+
+    def get_80211be_profile_details(self, profile_id):
+        """
+        Retrieves details of a specific 802.11be (Wi-Fi 7) profile by ID.
+
+        Args:
+            profile_id (str): UUID of the 802.11be profile.
+
+        Returns:
+            dict: Flat profile details.
+                Example:
+                {
+                    "id": "<uuid>",
+                    "profileName": "sample_design",
+                    "ofdmaDownLink": True,
+                    "ofdmaUpLink": True,
+                    "muMimoDownLink": True,
+                    "muMimoUpLink": True,
+                    "ofdmaMultiRu": False
+                }
+        """
+
+        if not profile_id:
+            return {}
+
+        self.log(
+            "Fetching 802.11be profile details for id: {0}".format(profile_id),
+            "DEBUG"
+        )
+
+        try:
+            response = self.dnac._exec(
+                family="wireless",
+                function="get80211be_profile_by_id",
+                params={"id": profile_id},
+            )
+        except Exception as exc:
+            self.msg = (
+                "Failed to fetch 802.11be profile details for id '{0}': {1}".format(
+                    profile_id, str(exc)
+                )
+            )
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
+
+        self.log(
+            "Raw get80211beProfileById API response: {0}".format(response),
+            "DEBUG"
+        )
+
+        data = response.get("response")
+
+        if not data:
+            return {}
+
+        # Some DNAC versions return a list
+        if isinstance(data, list):
+            data = data[0] if data else {}
+
+        # Return FLAT structure (important for diff comparison)
+        return {
+            "id": data.get("id"),
+            "profileName": data.get("profileName"),
+            "ofdmaDownLink": data.get("ofdmaDownLink"),
+            "ofdmaUpLink": data.get("ofdmaUpLink"),
+            "muMimoDownLink": data.get("muMimoDownLink"),
+            "muMimoUpLink": data.get("muMimoUpLink"),
+            "ofdmaMultiRu": data.get("ofdmaMultiRu"),
+        }
+
+    
+    def get_80211be_profiles(self, profile_name=None, limit=500, offset=0):
+        """
+        Fetch existing 802.11be (Wi-Fi 7) profiles from Cisco Catalyst Center.
+
+        Args:
+            profile_name (str, optional): Profile name to filter results.
+            limit (int, optional): Number of records to fetch.
+            offset (int, optional): Pagination offset.
+
+        Returns:
+            list: List of profile blocks with instances.
+                Example:
+                [
+                    {
+                        "instances": [
+                            {
+                                "id": "<uuid>",
+                                "profileName": "<name>",
+                                ...
+                            }
+                        ]
+                    }
+                ]
+        """
+
+        self.log("Fetching 802.11be profiles from Cisco Catalyst Center", "DEBUG")
+
+        # Build params (ONLY profileName + pagination)
+        params = {}
+
+        if profile_name:
+            params["profileName"] = profile_name
+
+        self.log(
+            "get80211beProfiles request params: {0}".format(params),
+            "DEBUG"
+        )
+
+        try:
+            response = self.dnac._exec(
+                family="wireless",
+                function="get80211be_profiles",
+                params=params
+            )
+        except Exception as e:
+            self.msg = "Failed to fetch 802.11be profiles: {0}".format(str(e))
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
+
+        self.log(
+            "Raw get80211beProfiles API response: {0}".format(response),
+            "DEBUG"
+        )
+
+        # Normalize response safely
+        profiles = response.get("response", [])
+
+        if profiles is None:
+            return []
+
+        if not isinstance(profiles, list):
+            profiles = [profiles]
+
+        return profiles
 
     def get_diff_merged(self):
         """
@@ -24752,6 +25513,18 @@ class WirelessDesign(DnacBase):
                 "UPDATE RRM General Configurations",
                 self.process_update_rrm_general,
             ),
+            # -- 802_11_be_profiles --
+            (
+                "add_80211be_profiles_params",
+                "ADD 802.11be Profiles",
+                self.process_add_802_11_be_profile,
+            ),
+            (
+                "update_80211be_profiles_params",
+                "UPDATE 802.11be Profiles",
+                self.process_update_802_11_be_profile,
+            ),
+
         ]
 
         # Iterate over operations and process them
@@ -24908,6 +25681,13 @@ class WirelessDesign(DnacBase):
                 "DELETE RRM-General Configurations",
                 self.process_delete_rrm_general,
             ),
+            # --- 802.11be Profiles ---
+            (
+                "delete_80211be_profiles_params",
+                "DELETE 802.11be Profiles",
+                self.process_delete_802_11_be_profile,
+            ),
+
         ]
 
         # Iterate over operations and process deletions
@@ -24967,6 +25747,105 @@ class WirelessDesign(DnacBase):
         )
         self.set_operation_result(final_status, is_changed, self.msg, "INFO")
         return self
+
+    def process_delete_802_11_be_profile(self, params):
+        """
+        Handles deletion of 802.11be (Wi-Fi 7) profiles in Cisco Catalyst Center.
+
+        Args:
+            params (list): List of payloads returned by
+                        verify_delete_80211be_profiles_requirement().
+                        Each payload must include:
+                            - id (str)
+                            - profileName (str)
+
+        Returns:
+            self (with self.msg and self.status set)
+        """
+
+        self.log("Processing DELETE for 802.11be Profiles.", "INFO")
+        self.log("Params for DELETE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                profile_name = payload.get("profileName") or "<unknown>"
+                profile_id = payload.get("id")
+
+                self.log(
+                    "Deleting 802.11be profile: profile='{0}', id='{1}'"
+                    .format(profile_name, profile_id),
+                    "DEBUG"
+                )
+
+                # Safety check
+                if not profile_id:
+                    results[profile_name] = "Skipped delete: missing 'id' in payload."
+                    self.log(results[profile_name], "ERROR")
+                    continue
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="delete_a80211be_profile",
+                        op_modifies=True,
+                        params={"id": profile_id},
+                    )
+
+                    self.log(
+                        "Received API response for delete: {0}".format(response),
+                        "DEBUG"
+                    )
+
+                    # Validate async task (DNAC standard)
+                    self.check_tasks_response_status(
+                        response, "delete_a80211be_profile"
+                    )
+
+                    if self.status not in ["failed", "exited"]:
+                        results[profile_name] = "Successfully deleted 802.11be profile."
+                    else:
+                        fail_reason = self.msg
+                        results[profile_name] = (
+                            "Failed to delete 802.11be profile: {0}".format(fail_reason)
+                        )
+                        self.log(results[profile_name], "ERROR")
+
+                except Exception as exc:
+                    results[profile_name] = (
+                        "Exception while deleting 802.11be profile: {0}".format(str(exc))
+                    )
+                    self.log(results[profile_name], "ERROR")
+
+            # --------------------------------------------------
+            # Final aggregated result
+            # --------------------------------------------------
+            self.msg = {"80211be_delete": results}
+
+            # If ALL failed / skipped → failed, else success
+            self.status = (
+                "failed"
+                if results
+                and all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
+                else "success"
+            )
+
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {
+                "80211be_delete": "Exception during delete: {0}".format(str(exc))
+            }
+            self.status = "failed"
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
+            return self
 
     def verify_diff_merged(self):
         """
