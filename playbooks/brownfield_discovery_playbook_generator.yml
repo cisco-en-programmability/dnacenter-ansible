@@ -1,0 +1,446 @@
+---
+# ===================================================================================================
+# BROWNFIELD DISCOVERY PLAYBOOK GENERATOR - EXAMPLE PLAYBOOK
+# ===================================================================================================
+#
+# This playbook demonstrates comprehensive usage examples for the Brownfield Discovery
+# Playbook Generator module. It includes various scenarios for generating YAML
+# configurations from existing discovery tasks with different filtering options.
+#
+# ===================================================================================================
+
+- name: Cisco DNA Center Brownfield Discovery Playbook Generator Examples
+  hosts: dnac_servers
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  connection: local
+  vars:
+    # DNA Center connection parameters
+    dnac_login: &dnac_login
+      dnac_host: "{{ dnac_host }}"
+      dnac_username: "{{ dnac_username }}"
+      dnac_password: "{{ dnac_password }}"
+      dnac_verify: "{{ dnac_verify }}"
+      dnac_port: "{{ dnac_port }}"
+      dnac_version: "{{ dnac_version }}"
+      dnac_debug: "{{ dnac_debug }}"
+      dnac_log: true
+      dnac_log_level: INFO
+      dnac_log_append: false
+      config_verify: true
+
+  tasks:
+    # =============================================================================
+    # COMPLETE DISCOVERY CONFIGURATION GENERATION
+    # =============================================================================
+
+    - name: "EXAMPLE: Auto-generate YAML Configuration for all discovery tasks"
+      cisco.dnac.brownfield_discovery_playbook_generator:
+        <<: *dnac_login
+        state: gathered
+        config:
+          - generate_all_configurations: true
+    #   register: result_generate_all
+    #   tags: [generate_all, complete]
+
+    # - name: "EXAMPLE: Auto-generate YAML Configuration with custom file path"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/complete_discovery_config.yml"
+    #         generate_all_configurations: true
+    #   register: result_custom_path
+    #   tags: [generate_all, custom_path]
+
+    # # =============================================================================
+    # # DISCOVERY FILTERING BY NAME
+    # # =============================================================================
+
+    # - name: "EXAMPLE: Generate YAML Configuration for specific discoveries by name"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/specific_discoveries.yml"
+    #         global_filters:
+    #           discovery_name_list:
+    #             - "Multi_global"
+    #             - "Single IP Discovery"
+    #             - "CDP_Test_1"
+    #   register: result_name_filter
+    #   tags: [discovery_filtering, by_name]
+
+    # - name: "EXAMPLE: Generate configuration for single discovery task"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/single_discovery_config.yml"
+    #         global_filters:
+    #           discovery_name_list: ["Multi_global"]
+    #   register: result_single_discovery
+    #   tags: [discovery_filtering, single_task]
+
+    # # =============================================================================
+    # # DISCOVERY FILTERING BY TYPE
+    # # =============================================================================
+
+    # - name: "EXAMPLE: Generate YAML Configuration for CDP and LLDP discoveries"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/cdp_lldp_discoveries.yml"
+    #         global_filters:
+    #           discovery_type_list:
+    #             - "CDP"
+    #             - "LLDP"
+    #   register: result_cdp_lldp_filter
+    #   tags: [discovery_filtering, by_type, protocols]
+
+    # - name: "EXAMPLE: Generate configuration for multi-range discoveries only"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/multi_range_discoveries.yml"
+    #         global_filters:
+    #           discovery_type_list: ["MULTI RANGE"]
+    #   register: result_multi_range
+    #   tags: [discovery_filtering, multi_range]
+
+    # - name: "EXAMPLE: Generate configuration for single IP discoveries"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/single_ip_discoveries.yml"
+    #         global_filters:
+    #           discovery_type_list: ["SINGLE"]
+    #   register: result_single_ip
+    #   tags: [discovery_filtering, single_ip]
+
+    # - name: "EXAMPLE: Generate configuration for range-based discoveries"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/range_discoveries.yml"
+    #         global_filters:
+    #           discovery_type_list:
+    #             - "RANGE"
+    #             - "MULTI RANGE"
+    #             - "CIDR"
+    #   register: result_range_discoveries
+    #   tags: [discovery_filtering, ranges]
+
+    # # =============================================================================
+    # # COMPONENT-SPECIFIC FILTERING
+    # # =============================================================================
+
+    # - name: "EXAMPLE: Generate YAML Configuration using explicit components list"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/discovery_details_only.yml"
+    #         component_specific_filters:
+    #           components_list: ["discovery_details"]
+    #   register: result_components_list
+    #   tags: [component_filtering, discovery_details]
+
+    # - name: "EXAMPLE: Generate configuration excluding credential information"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/discoveries_no_credentials.yml"
+    #         component_specific_filters:
+    #           include_credentials: false
+    #   register: result_no_credentials
+    #   tags: [component_filtering, security, no_credentials]
+
+    # - name: "EXAMPLE: Generate configuration excluding global credentials only"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/discoveries_no_global_creds.yml"
+    #         component_specific_filters:
+    #           include_global_credentials: false
+    #   register: result_no_global_creds
+    #   tags: [component_filtering, security, no_global_creds]
+
+    # # =============================================================================
+    # # STATUS-BASED FILTERING
+    # # =============================================================================
+
+    # - name: "EXAMPLE: Generate configuration for completed discoveries only"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/completed_discoveries.yml"
+    #         component_specific_filters:
+    #           discovery_status_filter: ["Complete"]
+    #   register: result_completed_only
+    #   tags: [status_filtering, completed]
+
+    # - name: "EXAMPLE: Generate configuration for active and in-progress discoveries"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/active_discoveries.yml"
+    #         component_specific_filters:
+    #           discovery_status_filter:
+    #             - "Complete"
+    #             - "In Progress"
+    #   register: result_active_discoveries
+    #   tags: [status_filtering, active]
+
+    # - name: "EXAMPLE: Generate configuration for failed and aborted discoveries"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/failed_discoveries.yml"
+    #         component_specific_filters:
+    #           discovery_status_filter:
+    #             - "Failed"
+    #             - "Aborted"
+    #   register: result_failed_discoveries
+    #   tags: [status_filtering, failed]
+
+    # # =============================================================================
+    # # COMPREHENSIVE FILTERING COMBINATIONS
+    # # =============================================================================
+
+    # - name: "EXAMPLE: Generate configuration with comprehensive filtering"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/comprehensive_filtered_config.yml"
+    #         global_filters:
+    #           discovery_type_list:
+    #             - "MULTI RANGE"
+    #             - "CDP"
+    #             - "LLDP"
+    #         component_specific_filters:
+    #           components_list: ["discovery_details"]
+    #           include_credentials: true
+    #           include_global_credentials: true
+    #           discovery_status_filter: ["Complete"]
+    #   register: result_comprehensive_filtering
+    #   tags: [comprehensive, multi_filter]
+
+    # - name: "EXAMPLE: Generate secure configuration (no credentials, completed only)"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/secure_discoveries_config.yml"
+    #         component_specific_filters:
+    #           include_credentials: false
+    #           discovery_status_filter: ["Complete"]
+    #   register: result_secure_config
+    #   tags: [comprehensive, secure]
+
+    # - name: "EXAMPLE: Generate configuration for audit purposes"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/audit_discoveries_config.yml"
+    #         component_specific_filters:
+    #           components_list: ["discovery_details"]
+    #           include_global_credentials: true
+    #           discovery_status_filter:
+    #             - "Complete"
+    #             - "Failed"
+    #             - "Aborted"
+    #   register: result_audit_config
+    #   tags: [comprehensive, audit]
+
+    # # =============================================================================
+    # # PROTOCOL-SPECIFIC CONFIGURATIONS
+    # # =============================================================================
+
+    # - name: "EXAMPLE: Generate configuration for protocol-based discoveries"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/protocol_discoveries.yml"
+    #         global_filters:
+    #           discovery_type_list:
+    #             - "CDP"
+    #             - "LLDP"
+    #         component_specific_filters:
+    #           discovery_status_filter: ["Complete"]
+    #   register: result_protocol_discoveries
+    #   tags: [protocol_filtering, discovery_protocols]
+
+    # - name: "EXAMPLE: Generate configuration for topology discoveries"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/topology_discoveries.yml"
+    #         global_filters:
+    #           discovery_type_list:
+    #             - "CDP"
+    #             - "LLDP"
+    #         component_specific_filters:
+    #           include_credentials: false
+    #   register: result_topology_discoveries
+    #   tags: [protocol_filtering, topology]
+
+    # # =============================================================================
+    # # IP RANGE DISCOVERIES
+    # # =============================================================================
+
+    # - name: "EXAMPLE: Generate configuration for IP range-based discoveries"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/ip_range_discoveries.yml"
+    #         global_filters:
+    #           discovery_type_list:
+    #             - "RANGE"
+    #             - "MULTI RANGE"
+    #             - "CIDR"
+    #             - "SINGLE"
+    #   register: result_ip_range_discoveries
+    #   tags: [ip_filtering, range_based]
+
+    # # =============================================================================
+    # # DEFAULT FILE PATH SCENARIOS
+    # # =============================================================================
+
+    # - name: "EXAMPLE: Generate configuration with default file path"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - global_filters:
+    #           discovery_name_list: ["Multi_global"]
+    #   register: result_default_path
+    #   tags: [default_settings, default_path]
+
+    # - name: "EXAMPLE: Generate minimal configuration with defaults"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - component_specific_filters:
+    #           discovery_status_filter: ["Complete"]
+    #   register: result_minimal_config
+    #   tags: [default_settings, minimal]
+
+    # # =============================================================================
+    # # SPECIALIZED USE CASES
+    # # =============================================================================
+
+    # - name: "EXAMPLE: Generate configuration for network documentation"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/network_documentation_discoveries.yml"
+    #         component_specific_filters:
+    #           include_credentials: false
+    #           discovery_status_filter: ["Complete"]
+    #   register: result_documentation
+    #   tags: [documentation, network_mapping]
+
+    # - name: "EXAMPLE: Generate configuration for credential audit"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/credential_audit_discoveries.yml"
+    #         component_specific_filters:
+    #           include_credentials: true
+    #           include_global_credentials: true
+    #   register: result_credential_audit
+    #   tags: [security, credential_audit]
+
+    # - name: "EXAMPLE: Generate configuration for troubleshooting failed discoveries"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/failed_discovery_troubleshoot.yml"
+    #         component_specific_filters:
+    #           discovery_status_filter:
+    #             - "Failed"
+    #             - "Aborted"
+    #           include_credentials: true
+    #   register: result_troubleshoot_failed
+    #   tags: [troubleshooting, failed_analysis]
+
+    # # =============================================================================
+    # # MAINTENANCE AND MIGRATION SCENARIOS
+    # # =============================================================================
+
+    # - name: "EXAMPLE: Generate configuration for environment migration"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/migration_discoveries.yml"
+    #         component_specific_filters:
+    #           discovery_status_filter: ["Complete"]
+    #           include_credentials: true
+    #           include_global_credentials: true
+    #   register: result_migration_config
+    #   tags: [migration, environment_backup]
+
+    # - name: "EXAMPLE: Generate backup configuration for disaster recovery"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/dr_backup_discoveries.yml"
+    #         component_specific_filters:
+    #           include_credentials: true
+    #           include_global_credentials: true
+    #   register: result_dr_backup
+    #   tags: [disaster_recovery, backup]
+
+    # - name: "EXAMPLE: Generate configuration for compliance reporting"
+    #   cisco.dnac.brownfield_discovery_playbook_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/compliance_discoveries.yml"
+    #         component_specific_filters:
+    #           components_list: ["discovery_details"]
+    #           include_credentials: false
+    #           discovery_status_filter: ["Complete"]
+    #   register: result_compliance_report
+    #   tags: [compliance, reporting]
+
+    # # =============================================================================
+    # # RESULTS DISPLAY (OPTIONAL)
+    # # =============================================================================
+
+    # - name: "Display generation results summary"
+    #   debug:
+    #     msg: |
+    #       Discovery Configuration Generation Summary:
+    #       - Total discoveries processed: {{ item.response.total_discoveries_processed | default('N/A') }}
+    #       - Configuration file path: {{ item.response.file_path | default('N/A') }}
+    #       - Generation status: {{ item.response.status | default('N/A') }}
+    #   loop:
+    #     - "{{ result_generate_all }}"
+    #     - "{{ result_name_filter }}"
+    #     - "{{ result_cdp_lldp_filter }}"
+    #   when: item.response is defined
+    #   tags: [results, summary]
+    
