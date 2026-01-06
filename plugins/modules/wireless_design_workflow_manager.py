@@ -4091,6 +4091,46 @@ options:
             type: bool
             default: false
             required: false
+      flex_connect_configuration:
+        description:
+          - Configuration for FlexConnect Native VLAN settings at site level.
+          - Allows updating the Native VLAN ID for FlexConnect-enabled access points.
+          - FlexConnect configurations can only be UPDATED or DELETED, not created.
+          - The Native VLAN setting controls which VLAN is used for untagged traffic on FlexConnect APs.
+          - Changes apply to the specified site and optionally to child sites in the hierarchy.
+        type: list
+        elements: dict
+        required: false
+        suboptions:
+          site_name_hierarchy:
+            description:
+              - Full hierarchical path of the site where FlexConnect Native VLAN should be configured.
+              - Must be an existing site in Cisco Catalyst Center (e.g., "Global/USA/San Jose/Building1").
+              - The site must have FlexConnect capability enabled.
+              - FlexConnect settings are inherited from parent sites if not overridden.
+              - Required for both update and delete operations.
+            type: str
+            required: true
+          vlan_id:
+            description:
+              - Native VLAN ID to be configured for FlexConnect at the specified site.
+              - Must be a valid VLAN ID between 1 and 4094.
+              - This VLAN is used for untagged traffic on FlexConnect access points.
+              - Changes to this value update the existing FlexConnect configuration.
+              - Required for update operations only (not needed for delete).
+            type: int
+            required: false
+          remove_override_in_hierarchy:
+            description:
+              - Controls whether to remove FlexConnect overrides from child sites during deletion.
+              - When set to true, removes the Native VLAN override from the specified site AND all child sites.
+              - When set to false, only removes the override from the specified site, leaving child site overrides intact.
+              - Applies only to delete operations (state=deleted).
+              - If not specified, defaults to true to maintain consistency across the site hierarchy.
+              - Has no effect during update operations (state=merged).
+            type: bool
+            default: true
+            required: false
 
 requirements:
   - dnacentersdk >= 2.10.3
@@ -7055,6 +7095,44 @@ EXAMPLES = r"""
     config:
       - 802_11_be_profiles:
           - profile_name: "wifi7_office_profile"
+
+# Update flex connect configuration
+- name: Delete 802.11be profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - flex_connect_configuration:
+          - site_name_hierarchy: Global/USA/SAN-FRANCISCO/SF_BLD2
+            vlan_id: 200
+
+# Delete flex connect configuration
+- name: Delete flex connect configuration
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - flex_connect_configuration:
+          - site_name_hierarchy: Global/USA/SAN-FRANCISCO/SF_BLD3
+            vlan_id: 200
+            remove_override_in_hierarchy: true # only for deleted state
+
 """
 
 RETURN = r"""
@@ -7908,6 +7986,16 @@ class WirelessDesign(DnacBase):
                     "mu_mimo_up_link": {"type": "bool", "default": False},
                     "ofdma_multi_ru": {"type": "bool", "default": False},
                 },
+            },
+            "flex_connect_configuration": {
+                "type": "list",
+                "elements": "dict",
+                "required": False,
+                "options": {
+                    "site_name_hierarchy": {"type": "str"},
+                    "vlan_id": {"type": "int"},
+                    "remove_override_in_hierarchy": {"type": "bool", "default": True}
+                }
             }
         }
 
@@ -24045,6 +24133,340 @@ class WirelessDesign(DnacBase):
             )
             return "success", True
 
+    def verify_create_update_flex_connect_requirement(self, flex_connect_list):
+        """
+        Compares desired Flex Connect configuration against existing Catalyst Center
+        configuration and determines which entries need to be updated or left unchanged.
+
+        IMPORTANT:
+        - Flex Connect configuration CANNOT be created.
+        - Payloads MUST use siteId resolved via get_site_id().
+        """
+
+        add_configs = []   # Always empty (creation not supported)
+        update_configs = []
+        no_update_configs = []
+
+        # ---------------------------------------------------------
+        # Iterate requested Flex Connect configurations
+        # ---------------------------------------------------------
+        for req in flex_connect_list:
+            site_hierarchy = req.get("site_name_hierarchy")
+            vlan_id = req.get("vlan_id")
+
+            self.log(
+                "Evaluating Flex Connect config for site hierarchy: {0}".format(site_hierarchy),
+                "DEBUG"
+            )
+
+            # Basic validation
+            if not site_hierarchy or vlan_id is None:
+                self.msg = (
+                    "Invalid Flex Connect configuration. "
+                    "Both 'site_name_hierarchy' and 'vlan_id' are required."
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+
+            # ---------------------------------------------------------
+            # Resolve siteId FIRST
+            # ---------------------------------------------------------
+            site_exists, site_id = self.get_site_id(site_hierarchy)
+
+            if not site_exists or not site_id:
+                self.msg = (
+                    "Site '{0}' does not exist or siteId could not be resolved."
+                    .format(site_hierarchy)
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+
+            self.log(
+                "Resolved siteId '{0}' for site hierarchy '{1}'.".format(site_id, site_hierarchy),
+                "DEBUG"
+            )
+
+            # ---------------------------------------------------------
+            # Fetch existing Flex Connect config for THIS siteId
+            # ---------------------------------------------------------
+            existing_response = self.get_flex_connect_configuration(site_id)
+            self.log(
+                "Existing Flex Connect config for siteId '{0}': {1}".format(
+                    site_id, existing_response
+                ),
+                "DEBUG"
+            )
+
+            # **FIX: Handle the API response structure correctly**
+            # The API returns: {'nativeVlanId': 7, 'inheritedSiteUUID': '...', 'inheritedSiteNameHierarchy': '...'}
+            # NOT a list!
+            existing = None
+
+            if existing_response:
+                # If it's a dict with nativeVlanId, use it directly
+                if isinstance(existing_response, dict) and 'nativeVlanId' in existing_response:
+                    existing = existing_response
+                # If it's a list (some DNAC versions), take first entry
+                elif isinstance(existing_response, list) and len(existing_response) > 0:
+                    existing = existing_response[0]
+
+            # ---------------------------------------------------------
+            # Case 1: Flex Connect config exists → compare & update
+            # ---------------------------------------------------------
+            if existing and 'nativeVlanId' in existing:
+                self.log(
+                    "Flex Connect configuration exists for siteId '{0}'.".format(site_id),
+                    "DEBUG"
+                )
+
+                existing_vlan = existing.get("nativeVlanId")
+
+                self.log(
+                    "Comparing VLANs for siteId '{0}': existing={1}, requested={2}".format(
+                        site_id, existing_vlan, vlan_id
+                    ),
+                    "DEBUG"
+                )
+
+                if existing_vlan != vlan_id:
+                    payload = {
+                        "siteId": site_id,
+                        "vlanId": vlan_id
+                    }
+
+                    update_configs.append(payload)
+
+                    self.log(
+                        "Flex Connect config for siteId '{0}' marked for update "
+                        "(existing VLAN: {1}, requested VLAN: {2}).".format(
+                            site_id, existing_vlan, vlan_id
+                        ),
+                        "INFO"
+                    )
+                else:
+                    no_update_configs.append(existing)
+                    self.log(
+                        "Flex Connect config for siteId '{0}' requires no update "
+                        "(VLAN already set to {1}).".format(site_id, vlan_id),
+                        "INFO"
+                    )
+
+            # ---------------------------------------------------------
+            # Case 2: Flex Connect config does NOT exist → NO CREATE
+            # ---------------------------------------------------------
+            else:
+                self.log(
+                    "Flex Connect configuration does not exist for siteId '{0}'. "
+                    "Creation is not supported — skipping.".format(site_id),
+                    "WARNING"
+                )
+
+                no_update_configs.append(
+                    {
+                        "siteId": site_id,
+                        "vlanId": vlan_id,
+                        "reason": "Flex Connect configuration does not exist; creation not supported"
+                    }
+                )
+
+        # ---------------------------------------------------------
+        # Final logs
+        # ---------------------------------------------------------
+        self.log(
+            "Flex Connect configs to ADD (always empty): {0}".format(add_configs),
+            "DEBUG"
+        )
+        self.log(
+            "Flex Connect configs to UPDATE: {0}".format(update_configs),
+            "DEBUG"
+        )
+        self.log(
+            "Flex Connect configs with NO UPDATE: {0}".format(no_update_configs),
+            "DEBUG"
+        )
+
+        return add_configs, update_configs, no_update_configs
+
+    def get_flex_connect_configuration(self, site_id=None):
+        """
+        Retrieve existing Flex Connect (Native VLAN) configuration from
+        Cisco Catalyst Center.
+
+        Args:
+            site_id (str, optional): Specific siteId to filter the native VLAN settings.
+
+        Returns:
+            list: A list of existing Flex Connect configuration dicts
+                (the API 'response' list), or [] on failure.
+        """
+        self.log("Fetching existing Flex Connect (Native VLAN) configuration from DNAC.", "DEBUG")
+
+        try:
+            params = {}
+            if site_id:
+                params["site_id"] = site_id
+
+            response = self.execute_get_request(
+                "wireless",
+                "get_native_vlan_settings_by_site",
+                params
+            )
+
+            self.log("Received API response: {0}".format(response), "DEBUG")
+
+            existing_configs = response.get("response", [])
+
+            self.log(
+                "Retrieved {0} Flex Connect configuration entries.".format(
+                    len(existing_configs)
+                ),
+                "DEBUG",
+            )
+
+            return existing_configs
+
+        except Exception as e:
+            self.log(
+                "Failed to fetch Flex Connect (Native VLAN) configuration: {0}".format(
+                    str(e)
+                ),
+                "ERROR",
+            )
+            return []
+
+    def verify_delete_flex_connect_requirement(self, flex_connect_list):
+        """
+        Determines which Flex Connect configurations need to be deleted/reset
+        based on the requested parameters.
+
+        IMPORTANT:
+        - Flex Connect configurations are reset via Native VLAN delete/reset API.
+        - Creation is not supported; delete means removing overrides.
+
+        Args:
+            flex_connect_list (list): List of Flex Connect delete requests.
+                Each dictionary must contain:
+                    - site_name_hierarchy (str)
+                    - remove_override_in_hierarchy (bool, optional)
+
+        Returns:
+            tuple:
+                - delete_configs (list)
+                - no_delete_configs (list)
+        """
+
+        delete_configs = []
+        no_delete_configs = []
+
+        self.log(
+            "Starting verification of Flex Connect configurations for deletion.",
+            "INFO"
+        )
+
+        for req in flex_connect_list or []:
+            site_hierarchy = req.get("site_name_hierarchy")
+            remove_override = req.get("remove_override_in_hierarchy", True)
+
+            if not site_hierarchy:
+                self.msg = (
+                    "Invalid Flex Connect deletion request. "
+                    "'site_name_hierarchy' is required."
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+
+            self.log(
+                "Evaluating Flex Connect deletion for site hierarchy: {0}".format(
+                    site_hierarchy
+                ),
+                "DEBUG"
+            )
+
+            # -------------------------------------------------
+            # Resolve siteId
+            # -------------------------------------------------
+            site_exists, site_id = self.get_site_id(site_hierarchy)
+
+            if not site_exists or not site_id:
+                self.log(
+                    "Site '{0}' does not exist. Skipping deletion.".format(
+                        site_hierarchy
+                    ),
+                    "WARNING"
+                )
+                no_delete_configs.append(
+                    {
+                        "site_name_hierarchy": site_hierarchy,
+                        "reason": "Site does not exist"
+                    }
+                )
+                continue
+
+            self.log(
+                "Resolved siteId '{0}' for site hierarchy '{1}'.".format(
+                    site_id, site_hierarchy
+                ),
+                "DEBUG"
+            )
+
+            # -------------------------------------------------
+            # Fetch existing Flex Connect config for this site
+            # -------------------------------------------------
+            existing_configs = self.get_flex_connect_configuration(site_id)
+
+            self.log(
+                "Existing Flex Connect configs for siteId '{0}': {1}".format(
+                    site_id, existing_configs
+                ),
+                "DEBUG"
+            )
+
+            # -------------------------------------------------
+            # Determine delete vs no-delete
+            # -------------------------------------------------
+            if existing_configs:
+                delete_configs.append(
+                    {
+                        "siteId": site_id,
+                        "removeOverrideInHierarchy": remove_override
+                    }
+                )
+
+                self.log(
+                    "Flex Connect config for site '{0}' scheduled for deletion/reset. "
+                    "Remove hierarchy overrides: {1}".format(
+                        site_hierarchy, remove_override
+                    ),
+                    "INFO"
+                )
+            else:
+                self.log(
+                    "No Flex Connect configuration exists for site '{0}'. "
+                    "Nothing to delete.".format(site_hierarchy),
+                    "INFO"
+                )
+                no_delete_configs.append(
+                    {
+                        "site_name_hierarchy": site_hierarchy,
+                        "siteId": site_id,
+                        "reason": "Flex Connect configuration does not exist"
+                    }
+                )
+
+        self.log(
+            "Flex Connect configs to DELETE: {0}".format(delete_configs),
+            "DEBUG"
+        )
+        self.log(
+            "Flex Connect configs with NO DELETE required: {0}".format(no_delete_configs),
+            "DEBUG"
+        )
+
+        return delete_configs, no_delete_configs
+
     def get_have(self, config, state):
         """
         Constructs the 'have' dictionary representing the current state of network configurations.
@@ -24143,6 +24565,69 @@ class WirelessDesign(DnacBase):
                     )
                 elif state == "deleted":
                     have["delete_{0}".format(config_key)] = deleted_func(elements)
+
+        # --- New logic for Flex Connect configuration ---
+        if config.get("flex_connect_configuration", []):
+            flex_connect_list = []
+
+            # Normalize config
+            raw_config = config
+            if isinstance(raw_config, dict):
+                config_list = [raw_config]
+            elif isinstance(raw_config, list):
+                config_list = raw_config
+            else:
+                self.msg = "Invalid config format for flex_connect_configuration"
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+
+            for item in config_list:
+                if not isinstance(item, dict):
+                    continue
+
+                if "flex_connect_configuration" in item:
+                    flex_connect_list.extend(
+                        item.get("flex_connect_configuration", [])
+                    )
+
+            if flex_connect_list:
+                self.log(
+                    "Processing Flex Connect configuration for state: {0}".format(state),
+                    "DEBUG"
+                )
+
+                if state == "merged":
+                    (
+                        add_flex_configs,
+                        update_flex_configs,
+                        no_update_flex_configs,
+                    ) = self.verify_create_update_flex_connect_requirement(
+                        flex_connect_list
+                    )
+
+                    have.update(
+                        {
+                            "add_flex_connect_configuration": add_flex_configs,
+                            "update_flex_connect_configuration": update_flex_configs,
+                            "no_update_flex_connect_configuration": no_update_flex_configs,
+                        }
+                    )
+
+                elif state == "deleted":
+                    (
+                        delete_flex_configs,
+                        no_delete_flex_configs,
+                    ) = self.verify_delete_flex_connect_requirement(
+                        flex_connect_list
+                    )
+
+                    have.update(
+                        {
+                            "delete_flex_connect_configuration": delete_flex_configs,
+                            "no_delete_flex_connect_configuration": no_delete_flex_configs,
+                        }
+                    )
 
         # --- New logic for 802.11be profiles ---
         if config.get("802_11_be_profiles", []):
@@ -24635,7 +25120,12 @@ class WirelessDesign(DnacBase):
                     "update_80211be_profiles_params",
                     self.have.get("update_80211be_profiles"),
                 ),
-
+                # -- flex_connect
+                (
+                    "update_flex_connect_configuration",
+                    "update_flex_connect_configuration_params",
+                    self.have.get("update_flex_connect_configuration"),
+                ),
             ],
             "deleted": [
                 ("delete_ssids", "delete_ssids_params", self.have.get("delete_ssids")),
@@ -24733,6 +25223,12 @@ class WirelessDesign(DnacBase):
                     "delete_80211be_profiles",
                     "delete_80211be_profiles_params",
                     self.have.get("delete_80211be_profiles"),
+                ),
+                # -- Flex Connect (Native VLAN) --
+                (
+                    "delete_flex_connect_configuration",
+                    "delete_flex_connect_configuration_params",
+                    self.have.get("delete_flex_connect_configuration"),
                 ),
             ],
         }
@@ -25171,6 +25667,125 @@ class WirelessDesign(DnacBase):
 
         return profiles
 
+    def process_update_flex_connect_configuration(self, params):
+        """
+        Handles the update of Flex Connect (Native VLAN) configuration
+        in Cisco Catalyst Center.
+
+        Args:
+            params (list): A list of Flex Connect payloads to update.
+                        Each payload must include:
+                            - siteId (str)
+                            - vlanId (int)
+
+        Returns:
+            self (with self.msg and self.status set)
+        """
+
+        self.log("Processing UPDATE for Flex Connect Configuration.", "INFO")
+        self.log("Params for UPDATE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                site_id = payload.get("siteId")
+                vlan_id = payload.get("vlanId")
+                site_key = site_id or "<unknown-site>"
+
+                self.log(
+                    "Updating Flex Connect config: siteId='{0}', vlanId='{1}'".format(
+                        site_id, vlan_id
+                    ),
+                    "DEBUG",
+                )
+
+                # -------------------------------------------------
+                # Validate payload
+                # -------------------------------------------------
+                if not site_id or vlan_id is None:
+                    results[site_key] = (
+                        "Skipped update: missing 'siteId' or 'vlanId' in payload."
+                    )
+                    self.log(results[site_key], "ERROR")
+                    continue
+
+                # -------------------------------------------------
+                # Build API payload (DNAC expects nativeVlanId)
+                # -------------------------------------------------
+                api_payload = {
+                    "site_id": site_id,
+                    "nativeVlanId": vlan_id
+                }
+                self.log(
+                    "Constructed API payload for Flex Connect update: {0}"
+                    .format(api_payload),
+                    "DEBUG"
+                )
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="update_native_vlan_settings_by_site",
+                        op_modifies=True,
+                        params=api_payload,
+                    )
+
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+
+                    # -------------------------------------------------
+                    # Validate async task
+                    # -------------------------------------------------
+                    self.check_tasks_response_status(
+                        response,
+                        "updateNativeVlanSettingsBySite"
+                    )
+
+                    if self.status not in ["failed", "exited"]:
+                        results[site_key] = (
+                            "Successfully updated Flex Connect configuration."
+                        )
+                    else:
+                        fail_reason = self.msg
+                        results[site_key] = (
+                            "Failed to update Flex Connect configuration: {0}"
+                            .format(fail_reason)
+                        )
+                        self.log(results[site_key], "ERROR")
+
+                except Exception as exc:
+                    results[site_key] = (
+                        "Exception while updating Flex Connect configuration: {0}"
+                        .format(str(exc))
+                    )
+                    self.log(results[site_key], "ERROR")
+
+            # -----------------------------------------------------
+            # Final aggregated result
+            # -----------------------------------------------------
+            self.msg = {"flex_connect_update": results}
+            self.status = (
+                "failed"
+                if all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
+                else "success"
+            )
+
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {
+                "flex_connect_update": "Exception during update: {0}".format(str(exc))
+            }
+            self.status = "failed"
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
+            return self
+
     def get_diff_merged(self):
         """
         Executes the merge operations for various network configurations in the Cisco Catalyst Center.
@@ -25355,7 +25970,12 @@ class WirelessDesign(DnacBase):
                 "UPDATE 802.11be Profiles",
                 self.process_update_802_11_be_profile,
             ),
-
+            # -- Flex Connect (Native VLAN) --
+            (
+                "update_flex_connect_configuration_params",
+                "UPDATE Flex Connect Configuration",
+                self.process_update_flex_connect_configuration,
+            ),
         ]
 
         # Iterate over operations and process them
@@ -25518,6 +26138,12 @@ class WirelessDesign(DnacBase):
                 "DELETE 802.11be Profiles",
                 self.process_delete_802_11_be_profile,
             ),
+            # --- Flex Connect (Native VLAN) ---
+            (
+                "delete_flex_connect_configuration_params",
+                "DELETE Flex Connect Configuration",
+                self.process_delete_flex_connect_configuration,
+            ),
 
         ]
 
@@ -25578,6 +26204,124 @@ class WirelessDesign(DnacBase):
         )
         self.set_operation_result(final_status, is_changed, self.msg, "INFO")
         return self
+
+    def process_delete_flex_connect_configuration(self, params):
+        """
+        Handles deletion/reset of Flex Connect (Native VLAN) configuration
+        in Cisco Catalyst Center.
+
+        Args:
+            params (list): A list of Flex Connect delete/reset payloads.
+                        Each payload must include:
+                            - siteId (str)
+                            - removeOverrideInHierarchy (bool)
+
+        Returns:
+            self (with self.msg and self.status set)
+        """
+
+        self.log("Processing DELETE for Flex Connect Configuration.", "INFO")
+        self.log("Params for DELETE: {0}".format(params), "DEBUG")
+
+        results = {}
+
+        try:
+            for payload in params or []:
+                site_id = payload.get("siteId")
+                remove_override = payload.get("removeOverrideInHierarchy", True)
+                site_key = site_id or "<unknown-site>"
+
+                self.log(
+                    "Deleting Flex Connect config: siteId='{0}', removeOverrideInHierarchy='{1}'"
+                    .format(site_id, remove_override),
+                    "DEBUG",
+                )
+
+                # -------------------------------------------------
+                # Validate payload
+                # -------------------------------------------------
+                if not site_id:
+                    results[site_key] = (
+                        "Skipped delete: missing 'siteId' in payload."
+                    )
+                    self.log(results[site_key], "ERROR")
+                    continue
+
+                # -------------------------------------------------
+                # Build API payload
+                # -------------------------------------------------
+                api_payload = {
+                    "site_id": site_id,
+                    "removeOverrideInHierarchy": remove_override
+                }
+                self.log(
+                    "Constructed API payload for Flex Connect delete: {0}"
+                    .format(api_payload),
+                    "DEBUG"
+                )
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="delete_native_vlan_settings_by_site",
+                        op_modifies=True,
+                        params=api_payload,
+                    )
+
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+
+                    # -------------------------------------------------
+                    # Validate async task
+                    # -------------------------------------------------
+                    self.check_tasks_response_status(
+                        response,
+                        "deleteNativeVlanSettingsBySite"
+                    )
+
+                    if self.status not in ["failed", "exited"]:
+                        results[site_key] = (
+                            "Successfully deleted/reset Flex Connect configuration."
+                        )
+                    else:
+                        fail_reason = self.msg
+                        results[site_key] = (
+                            "Failed to delete/reset Flex Connect configuration: {0}"
+                            .format(fail_reason)
+                        )
+                        self.log(results[site_key], "ERROR")
+
+                except Exception as exc:
+                    results[site_key] = (
+                        "Exception while deleting Flex Connect configuration: {0}"
+                        .format(str(exc))
+                    )
+                    self.log(results[site_key], "ERROR")
+
+            # -----------------------------------------------------
+            # Final aggregated result
+            # -----------------------------------------------------
+            self.msg = {"flex_connect_delete": results}
+            self.status = (
+                "failed"
+                if all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
+                else "success"
+            )
+
+            self.set_operation_result(self.status, True, self.msg, "INFO")
+            return self
+
+        except Exception as exc:
+            self.msg = {
+                "flex_connect_delete": "Exception during delete: {0}".format(str(exc))
+            }
+            self.status = "failed"
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
+            return self
 
     def process_delete_802_11_be_profile(self, params):
         """
