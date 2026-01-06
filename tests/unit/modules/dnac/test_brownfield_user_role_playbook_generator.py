@@ -264,7 +264,7 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 config_verify=True,
-                dnac_version="2.3.7.9",
+                dnac_version="3.1.3.0",
                 config=self.playbook_all_role_details
             )
         )

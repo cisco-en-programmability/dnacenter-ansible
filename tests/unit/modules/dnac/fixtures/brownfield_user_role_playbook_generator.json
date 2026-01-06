@@ -1710,10 +1710,10 @@
         ],
         "user_details": [
           {
-            "role_name": "Test_role_1"
+            "role_name": ["Test_role_1"]
           },
           {
-            "email": "ajith@gmail.com"
+            "email": ["ajith@gmail.com"]
           }
         ]
       },
@@ -2652,7 +2652,7 @@
         ],
         "role_details": [
           {
-            "role_name": "Test_role_1"
+            "role_name": ["Test_role_1"]
           }
         ]
       },

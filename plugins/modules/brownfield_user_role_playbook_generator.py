@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2024, Cisco Systems
+# Copyright (c) 2025, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML playbook for User and Role Management in Cisco Catalyst Center."""
@@ -89,16 +89,19 @@ options:
             suboptions:
               username:
                 description:
-                  - Username to filter users by username.
-                type: str
+                  - List of usernames to filter users by username.
+                type: list
+                elements: str
               email:
                 description:
-                  - Email to filter users by email address.
-                type: str
+                  - List of emails to filter users by email address.
+                type: list
+                elements: str
               role_name:
                 description:
-                  - Role name to filter users by assigned role.
-                type: str
+                  - List of role names to filter users by assigned role.
+                type: list
+                elements: str
           role_details:
             description:
               - Role details to filter roles by role name.
@@ -107,8 +110,9 @@ options:
             suboptions:
               role_name:
                 description:
-                  - Role name to filter roles by role name.
-                type: str
+                  - List of role names to filter roles by role name.
+                type: list
+                elements: str
 requirements:
 - dnacentersdk >= 2.7.2
 - python >= 3.9
@@ -188,8 +192,7 @@ EXAMPLES = r"""
         component_specific_filters:
           components_list: ["user_details"]
           user_details:
-            - username: "testuser1"
-            - username: "testuser2"
+            - username: ["testuser1", "testuser2"]
 
 - name: Generate YAML Configuration for roles with role name filter
   cisco.dnac.brownfield_user_role_playbook_generator:
@@ -208,8 +211,7 @@ EXAMPLES = r"""
         component_specific_filters:
           components_list: ["role_details"]
           role_details:
-            - role_name: "Custom-Admin-Role"
-            - role_name: "Network-Operator-Role"
+            - role_name: ["Custom-Admin-Role", "Network-Operator-Role"]
 
 - name: Generate YAML Configuration for all components with no filters
   cisco.dnac.brownfield_user_role_playbook_generator:
@@ -374,9 +376,9 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             "network_elements": {
                 "user_details": {
                     "filters": {
-                        "username": {"type": "str", "required": False},
-                        "email": {"type": "str", "required": False},
-                        "role_name": {"type": "str", "required": False},
+                        "username": {"type": "list", "required": False},
+                        "email": {"type": "list", "required": False},
+                        "role_name": {"type": "list", "required": False},
                     },
                     "reverse_mapping_function": self.user_details_reverse_mapping_function,
                     "api_function": "get_users_api",
@@ -385,7 +387,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                 },
                 "role_details": {
                     "filters": {
-                        "role_name": {"type": "str", "required": False},
+                        "role_name": {"type": "list", "required": False},
                     },
                     "reverse_mapping_function": self.role_details_reverse_mapping_function,
                     "api_function": "get_roles_api",
@@ -731,67 +733,6 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         })
         return user_details
 
-    def role_details_temp_spec(self):
-        """
-        Constructs a temporary specification for role details, defining the structure and types of attributes
-        that will be used in the YAML configuration file.
-
-        Returns:
-            OrderedDict: An ordered dictionary defining the structure of role detail attributes.
-        """
-        self.log("Generating temporary specification for role details.", "DEBUG")
-        role_details = OrderedDict({
-            "role_name": {"type": "str", "source_key": "name"},
-            "description": {"type": "str", "source_key": "description"},
-            # Transform resource types into structured permissions
-            "assurance": {
-                "type": "list",
-                "special_handling": True,
-                "transform": lambda x: self.transform_role_resource_types(x).get("assurance", [{}]),
-            },
-            "network_analytics": {
-                "type": "list",
-                "special_handling": True,
-                "transform": lambda x: self.transform_role_resource_types(x).get("network_analytics", [{}]),
-            },
-            "network_design": {
-                "type": "list",
-                "special_handling": True,
-                "transform": lambda x: self.transform_role_resource_types(x).get("network_design", [{}]),
-            },
-            "network_provision": {
-                "type": "list",
-                "special_handling": True,
-                "transform": lambda x: self.transform_role_resource_types(x).get("network_provision", [{}]),
-            },
-            "network_services": {
-                "type": "list",
-                "special_handling": True,
-                "transform": lambda x: self.transform_role_resource_types(x).get("network_services", [{}]),
-            },
-            "platform": {
-                "type": "list",
-                "special_handling": True,
-                "transform": lambda x: self.transform_role_resource_types(x).get("platform", [{}]),
-            },
-            "security": {
-                "type": "list",
-                "special_handling": True,
-                "transform": lambda x: self.transform_role_resource_types(x).get("security", [{}]),
-            },
-            "system": {
-                "type": "list",
-                "special_handling": True,
-                "transform": lambda x: self.transform_role_resource_types(x).get("system", [{}]),
-            },
-            "utilities": {
-                "type": "list",
-                "special_handling": True,
-                "transform": lambda x: self.transform_role_resource_types(x).get("utilities", [{}]),
-            },
-        })
-        return role_details
-
     def get_users(self, network_element, filters):
         """
         Retrieves user details based on the provided network element and component-specific filters.
@@ -843,15 +784,30 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                     for user in users:
                         match = True
                         for key, value in filter_param.items():
-                            if key == "username" and user.get("username", "").lower() != value.lower():
-                                match = False
-                                break
-                            elif key == "email" and user.get("email", "") != value:
-                                match = False
-                                break
+                            # Value is always expected to be a list
+                            if not isinstance(value, list):
+                                self.msg = (
+                                    "Invalid format for '{0}' in user_details filter. "
+                                    "Expected list of strings, got {1}. "
+                                ).format(key, type(value).__name__)
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                            value_list = [v.lower() if isinstance(v, str) else str(v).lower() for v in value]
+
+                            if key == "username":
+                                user_username = user.get("username", "").lower()
+                                if user_username not in value_list:
+                                    match = False
+                                    break
+                            elif key == "email":
+                                user_email = user.get("email", "").lower()
+                                if user_email not in value_list:
+                                    match = False
+                                    break
                             elif key == "role_name":
                                 user_role_names = self.transform_user_role_list(user)
-                                if value not in user_role_names:
+                                user_role_names_lower = [role.lower() for role in user_role_names]
+                                if not any(filter_role in user_role_names_lower for filter_role in value_list):
                                     match = False
                                     break
 
@@ -931,9 +887,19 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
 
                         match = True
                         for key, value in filter_param.items():
-                            if key == "role_name" and role.get("name", "") != value:
-                                match = False
-                                break
+                            # Value is always expected to be a list
+                            if not isinstance(value, list):
+                                self.msg = (
+                                    "Invalid format for 'role_name' in role_details filter. "
+                                    "Expected list of strings, got {0}. "
+                                ).format(type(value).__name__)
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                            if key == "role_name":
+                                role_name = role.get("name", "")
+                                if role_name not in value:
+                                    match = False
+                                    break
 
                         if match and role not in filtered_roles:
                             filtered_roles.append(role)
