@@ -7131,8 +7131,7 @@ EXAMPLES = r"""
       - flex_connect_configuration:
           - site_name_hierarchy: Global/USA/SAN-FRANCISCO/SF_BLD3
             vlan_id: 200
-            remove_override_in_hierarchy: true # only for deleted state
-
+            remove_override_in_hierarchy: true  # only for deleted state
 """
 
 RETURN = r"""
