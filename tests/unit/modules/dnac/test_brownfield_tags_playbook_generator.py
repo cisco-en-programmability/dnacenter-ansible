@@ -137,7 +137,7 @@ class TestDnacBrownfieldTagsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_log_level="DEBUG",
                 config=self.playbook_config_generate_all_configurations_case_1,
