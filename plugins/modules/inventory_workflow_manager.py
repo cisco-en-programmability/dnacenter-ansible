@@ -3482,7 +3482,11 @@ class Inventory(DnacBase):
                 "http_username",
                 "http_password",
             ],
-            "THIRD_PARTY_DEVICE": ["ip_address_list"],
+            "THIRD_PARTY_DEVICE": [
+                "ip_address_list",
+                "type",
+                "snmp_version",
+            ],
         }
 
         params_list = params_dict.get(device_type, [])
@@ -5660,7 +5664,7 @@ class Inventory(DnacBase):
 
         return self
 
-    def parse_for_add_network_device_params(self, device_params):
+    def parse_for_add_network_device_params(self, device_params, type=None):
         """
         Parse the network device parameters from the provided dictionary.
 
@@ -5721,6 +5725,11 @@ class Inventory(DnacBase):
                 device_params.pop("snmpPrivPassphrase", None)
                 device_params.pop("snmpPrivProtocol", None)
 
+        if type:
+            device_params["type"] = type
+
+        self.log("Parsed network device parameters: {0}".format(
+            self.pprint(device_params)), "INFO")
         return device_params
 
     def parse_for_add_compute_device_params(self, device_params):
@@ -5758,6 +5767,9 @@ class Inventory(DnacBase):
         for param in params_to_remove:
             device_params.pop(param, None)
 
+        device_params["type"] = "COMPUTE_DEVICE"
+        self.log("Parsed compute device parameters: {0}".format(
+            self.pprint(device_params)), "INFO")
         return device_params
 
     def add_inventory_device(self, device_params, devices_to_add, device_to_add_in_ccc):
@@ -5772,7 +5784,7 @@ class Inventory(DnacBase):
         Returns:
             object: An instance of the class with updated results and status.
         """
-        self.log("Adding device to inventory: {0}".format(str(device_params)), "INFO")
+        self.log("Adding device to inventory: {0}".format(self.pprint(device_params)), "INFO")
 
         try:
             response = self.dnac._exec(
@@ -6232,6 +6244,8 @@ class Inventory(DnacBase):
                 self.parse_for_add_network_device_params(device_params)
             elif device_type == "COMPUTE_DEVICE":
                 self.parse_for_add_compute_device_params(device_params)
+            elif device_type == "THIRD_PARTY_DEVICE":
+                self.parse_for_add_network_device_params(device_params, "THIRD_PARTY_DEVICE")
 
             device_params["ipAddress"] = config["ip_address_list"]
             device_to_add_in_ccc = device_params["ipAddress"]
