@@ -758,13 +758,16 @@ options:
                 date/time and the current time.
               - Format - "YYYY-MM-DD HH:MM:SS".
             type: str
+            required: false
           recurrence_interval:
             description:
               - Days between recurring maintenance windows.
               - Interval for recurrence in days. The interval must be longer than
                 the duration of the maintenance schedules and must be within the
                 range 1 to 365 (inclusive).
+              - recurrence_interval is required if recurrence_end_time is provided.
             type: int
+            required: false
 requirements:
   - dnacentersdk >= 2.7.2
   - python >= 3.9
@@ -6639,6 +6642,8 @@ class Inventory(DnacBase):
                 )
             )
 
+            self.validate_device_maintenance_params(maintenance_config)
+
             if unscheduled_device_ids:
                 device_ips = []
                 for device_id in unscheduled_device_ids:
@@ -6651,7 +6656,7 @@ class Inventory(DnacBase):
                     ),
                     "INFO",
                 )
-                self.validate_device_maintenance_params(maintenance_config)
+
                 maintenance_payload = self.create_schedule_maintenance_payload(
                     maintenance_config, unscheduled_device_ids, device_ips
                 )
