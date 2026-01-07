@@ -20,10 +20,8 @@
         config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        state: gathered
+        state: gathered 
         config:
-          - file_path: "/tmp/brownfield_provision_workflow_playbook.yml"
+          - file_path: "/Users/syedkahm/ansible/dnac/work/collections/ansible_collections/cisco/dnac/playbooks/brownfield_provision_workflow_playbook.yml"
             component_specific_filters:
-              components_list: ["provisioned_devices"]
-              provisioned_devices:
-                - management_ip_address: 204.1.2.5
+              components_list: ["wired", "wireless"]

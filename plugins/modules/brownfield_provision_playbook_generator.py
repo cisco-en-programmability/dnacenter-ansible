@@ -7,7 +7,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = "Madhan Sankaranarayanan, Syed Khadeer Ahmed, Ajith Andrew J"
+__author__ = "Syed Khadeer Ahmed, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
@@ -23,10 +23,8 @@ version_added: 6.31.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 author:
-- Abinash Mishra (@abimishr)
-- Madhan Sankaranarayanan (@madhansansel)
 - Syed Khadeer Ahmed (@syed-khadeerahmed)
-- Ajith Andrew J (@ajithandrewj)
+- Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst
