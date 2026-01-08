@@ -213,7 +213,6 @@ EXAMPLES = r"""
       - file_path: "/tmp/legacy_device_health_score_settings.yml"
         component_specific_filters:
           device_families: ["UNIFIED_AP", "ROUTER"]
-
 """
 
 RETURN = r"""

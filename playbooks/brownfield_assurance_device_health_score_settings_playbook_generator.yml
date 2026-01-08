@@ -23,9 +23,9 @@
         dnac_task_poll_interval: 1
         state: gathered
         config_verify: true
-        config: 
+        config:
           - file_path: /Users/temp/Desktop/specific_device_health_score_settings_new.yml
             component_specific_filters:
-               components_list: ["device_health_score_settings"]
-               device_health_score_settings:
-                  device_families: [ "WIRELESS_CLIENT","WIRED_CLIENT"]
+              components_list: ["device_health_score_settings"]
+              device_health_score_settings:
+                device_families: ["WIRELESS_CLIENT", "WIRED_CLIENT"]
