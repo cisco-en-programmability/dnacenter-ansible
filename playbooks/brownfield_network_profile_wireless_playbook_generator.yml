@@ -1,6 +1,6 @@
 ---
 # Generate playbook configuration for network wireless profiles workflow on Cisco Catalyst Center
-- name: Generate the playbook for the Network Wireless Profiles workflow manger
+- name: Generate the playbook for the Network Wireless Profile workflow manager
   hosts: localhost
   connection: local
   gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
