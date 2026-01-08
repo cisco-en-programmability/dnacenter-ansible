@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # Copyright (c) 2024 Cisco and/or its affiliates.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,18 +21,10 @@ import unittest
 import json
 import os
 import sys
-import tempfile
 from unittest.mock import patch, mock_open, MagicMock
 
 # Add the plugins path to the system path
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../../../plugins/modules'))
-
-try:
-    import brownfield_assurance_device_health_score_settings_playbook_generator
-    MODULE_IMPORTED = True
-except ImportError as e:
-    print(f"Could not import module: {e}")
-    MODULE_IMPORTED = False
 
 
 def get_mock_module():
@@ -48,11 +38,11 @@ def get_mock_module():
         'dnac_port': 443,
         'dnac_version': '2.3.7.6',
         'dnac_debug': False,
-        'state': 'merged',
+        'state': 'gathered',
         'config': [{'generate_all_configurations': True}]
     }
     mock_module.exit_json = MagicMock()
-    mock_module.fail_json = MagicMock() 
+    mock_module.fail_json = MagicMock()
     return mock_module
 
 
@@ -72,8 +62,9 @@ def set_module_args(**kwargs):
     global test_params
     test_params = kwargs
     return kwargs
-import time
-from unittest.mock import patch, mock_open, MagicMock, call
+
+
+from unittest.mock import patch, mock_open, MagicMock
 from collections import OrderedDict
 
 # Add module path
@@ -86,7 +77,7 @@ import brownfield_assurance_device_health_score_settings_playbook_generator as t
 
 # Simplified test class without dependency on complex test infrastructure
 class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
-    
+
     def setUp(self):
         """Set up test fixtures"""
         # Load test data
@@ -107,21 +98,24 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
 
         # Mock patches
         self.mock_patches = []        # Mock AnsibleModule
-        mock_ansible_module = patch('ansible_collections.cisco.dnac.plugins.modules.brownfield_assurance_device_health_score_settings_playbook_generator.AnsibleModule')
+        mock_ansible_module = patch(
+            'ansible_collections.cisco.dnac.plugins.modules.'
+            'brownfield_assurance_device_health_score_settings_playbook_generator.AnsibleModule'
+        )
         self.mock_ansible_module = mock_ansible_module.start()
         self.mock_ansible_module.return_value = get_mock_module()
         self.mock_patches.append(mock_ansible_module)
-        
+
         # Mock file operations
         mock_open_file = patch("builtins.open", mock_open())
         self.mock_open_file = mock_open_file.start()
         self.mock_patches.append(mock_open_file)
-        
+
         # Mock os operations
         mock_makedirs = patch("os.makedirs")
         self.mock_makedirs = mock_makedirs.start()
         self.mock_patches.append(mock_makedirs)
-        
+
         mock_exists = patch("os.path.exists")
         self.mock_exists = mock_exists.start()
         self.mock_exists.return_value = True
@@ -136,24 +130,24 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         """Test that the module can be imported without errors"""
         try:
             from ansible_collections.cisco.dnac.plugins.modules import brownfield_assurance_device_health_score_settings_playbook_generator
-            self.assertTrue(True, "Module imported successfully")
+            self.assertIsNotNone(brownfield_assurance_device_health_score_settings_playbook_generator)
         except ImportError as e:
             self.fail(f"Module import failed: {e}")
 
     def test_module_has_required_documentation(self):
         """Test that module has required documentation attributes"""
         from ansible_collections.cisco.dnac.plugins.modules import brownfield_assurance_device_health_score_settings_playbook_generator as module
-        
+
         # Check for required documentation
         self.assertTrue(hasattr(module, 'DOCUMENTATION'))
-        self.assertTrue(hasattr(module, 'EXAMPLES'))  
+        self.assertTrue(hasattr(module, 'EXAMPLES'))
         self.assertTrue(hasattr(module, 'RETURN'))
-        
+
         # Verify documentation is not empty
         self.assertIsNotNone(module.DOCUMENTATION)
         self.assertIsNotNone(module.EXAMPLES)
         self.assertIsNotNone(module.RETURN)
-        
+
         # Check documentation contains key information
         self.assertIn('brownfield_assurance_device_health_score_settings_playbook_generator', module.DOCUMENTATION)
         self.assertIn('config', module.DOCUMENTATION)
@@ -167,7 +161,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             "dnac_password": "C1sco12345",
             "dnac_verify": False,
             "dnac_version": "2.3.7.6",
-            "state": "merged",
+            "state": "gathered",
             "config": [
                 {
                     "generate_all_configurations": True,
@@ -175,35 +169,36 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
                 }
             ]
         }
-        
-        global test_params
+
         set_module_args(**valid_params)
-        
+
         # This test verifies that the parameters are properly structured
-        self.assertEqual(test_params["state"], "merged")
+        self.assertEqual(test_params["state"], "gathered")
         self.assertEqual(test_params["dnac_host"], "198.18.129.100")
         self.assertTrue(isinstance(test_params["config"], list))
 
-    @patch('ansible_collections.cisco.dnac.plugins.modules.brownfield_assurance_device_health_score_settings_playbook_generator.AssuranceDeviceHealthScoreSettingsPlaybookGenerator')
+    @patch('ansible_collections.cisco.dnac.plugins.modules.'
+           'brownfield_assurance_device_health_score_settings_playbook_generator.'
+           'BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator')
     def test_module_main_function_execution(self, mock_generator_class):
         """Test main function execution flow"""
-        from ansible_collections.cisco.dnac.plugins.modules import brownfield_assurance_device_health_score_settings_playbook_generator as module
-        
+        from ansible_collections.cisco.dnac.plugins.modules import \
+            brownfield_assurance_device_health_score_settings_playbook_generator as module
+
         # Mock the generator class
         mock_generator = MagicMock()
-        mock_generator.get_diff_merged.return_value = mock_generator
+        mock_generator.get_diff_gathered.return_value = mock_generator
         mock_generator.check_return_status.return_value = None
         mock_generator_class.return_value = mock_generator
-        
+
         # Set up test parameters
-        global test_params
         set_module_args(
             dnac_host="198.18.129.100",
-            dnac_username="admin", 
+            dnac_username="admin",
             dnac_password="C1sco12345",
             dnac_verify=False,
             dnac_version="2.3.7.6",
-            state="merged",
+            state="gathered",
             config=[
                 {
                     "generate_all_configurations": True,
@@ -211,34 +206,36 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
                 }
             ]
         )
-        
+
         # Verify that set_module_args worked
         self.assertIn("dnac_host", test_params)
         self.assertEqual(test_params["dnac_host"], "198.18.129.100")
-        
+
         # Test that main function exists
         self.assertTrue(hasattr(module, 'main'))
         print("Main function execution test completed")
 
     def test_class_initialization(self):
         """Test that the main class can be initialized"""
-        from ansible_collections.cisco.dnac.plugins.modules.brownfield_assurance_device_health_score_settings_playbook_generator import AssuranceDeviceHealthScoreSettingsPlaybookGenerator
-        
+        from ansible_collections.cisco.dnac.plugins.modules.\
+            brownfield_assurance_device_health_score_settings_playbook_generator import \
+            BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator
+
         # Mock the parent class initialization
         with patch('ansible_collections.cisco.dnac.plugins.module_utils.dnac.DnacBase.__init__') as mock_dnac_init:
             with patch('ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper.BrownFieldHelper.__init__') as mock_helper_init:
                 mock_dnac_init.return_value = None
                 mock_helper_init.return_value = None
-                
+
                 # Create mock module
                 mock_module = MagicMock()
                 mock_module.params = {
                     "config": [{"generate_all_configurations": True}]
                 }
-                
+
                 # Test class instantiation
                 try:
-                    generator = AssuranceDeviceHealthScoreSettingsPlaybookGenerator(mock_module)
+                    generator = BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(mock_module)
                     self.assertIsNotNone(generator)
                     self.assertTrue(hasattr(generator, 'module_name'))
                     self.assertEqual(generator.module_name, "assurance_device_health_score_settings_workflow_manager")
@@ -247,27 +244,33 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
 
     def test_supported_states(self):
         """Test that the module supports the correct states"""
-        from ansible_collections.cisco.dnac.plugins.modules.brownfield_assurance_device_health_score_settings_playbook_generator import AssuranceDeviceHealthScoreSettingsPlaybookGenerator
-        
+        from ansible_collections.cisco.dnac.plugins.modules.\
+            brownfield_assurance_device_health_score_settings_playbook_generator import \
+            BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator
+
         with patch('ansible_collections.cisco.dnac.plugins.module_utils.dnac.DnacBase.__init__'):
             with patch('ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper.BrownFieldHelper.__init__'):
                 mock_module = MagicMock()
                 mock_module.params = {"config": []}
-                
+
                 try:
-                    generator = AssuranceDeviceHealthScoreSettingsPlaybookGenerator(mock_module)
-                    self.assertEqual(generator.supported_states, ["merged"])
+                    generator = BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(mock_module)
+                    self.assertEqual(generator.supported_states, ["gathered"])
                 except Exception as e:
-                    # If initialization fails due to missing dependencies, 
+                    # If initialization fails due to missing dependencies,
                     # we still know the class structure is correct
-                    self.assertTrue(True, "Class structure validation passed")
+                    pass
 
     def test_workflow_elements_schema_method(self):
         """Test that the workflow elements schema method exists"""
-        from ansible_collections.cisco.dnac.plugins.modules.brownfield_assurance_device_health_score_settings_playbook_generator import AssuranceDeviceHealthScoreSettingsPlaybookGenerator
-        
+        from ansible_collections.cisco.dnac.plugins.modules.\
+            brownfield_assurance_device_health_score_settings_playbook_generator import \
+            BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator
+
         # Test that the method exists in the class
-        self.assertTrue(hasattr(AssuranceDeviceHealthScoreSettingsPlaybookGenerator, 'get_workflow_elements_schema'))
+        self.assertTrue(
+            hasattr(BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator, 'get_workflow_elements_schema')
+        )
 
     def test_file_path_handling(self):
         """Test file path validation and handling"""
@@ -278,7 +281,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             "./relative/path/config.yml",
             "simple_filename.yml"
         ]
-        
+
         for path in valid_paths:
             # Basic path validation (ends with .yml or .yaml)
             self.assertTrue(
@@ -291,11 +294,11 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         # These should be the supported device families
         expected_families = [
             "UNIFIED_AP",
-            "ROUTER", 
+            "ROUTER",
             "SWITCH",
             "WIRELESS_CONTROLLER"
         ]
-        
+
         # Test that these are valid strings
         for family in expected_families:
             self.assertIsInstance(family, str)
@@ -314,7 +317,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             "Interference 5 GHz",
             "Interference 6 GHz"
         ]
-        
+
         # Test that these are valid strings
         for kpi in expected_kpis:
             self.assertIsInstance(kpi, str)
@@ -326,31 +329,30 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             "config": [
                 {
                     "device_family": "UNIFIED_AP",
-                    "kpi_name": "CPU Utilization", 
+                    "kpi_name": "CPU Utilization",
                     "threshold_value": 80,
                     "include_for_overall_health": True,
                     "sync_with_issue_threshold": False
                 }
             ]
         }
-        
+
         # Validate structure
         self.assertIn("config", expected_structure)
         self.assertIsInstance(expected_structure["config"], list)
-        
+
         if expected_structure["config"]:
             config_item = expected_structure["config"][0]
             required_keys = [
-                "device_family", 
+                "device_family",
                 "kpi_name",
                 "threshold_value",
-                "include_for_overall_health", 
+                "include_for_overall_health",
                 "sync_with_issue_threshold"
             ]
-            
+
             for key in required_keys:
                 self.assertIn(key, config_item, f"Required key '{key}' missing from config structure")
-
 
     def test_yaml_formatting_and_structure(self):
         """Test YAML formatting and structure validation."""
@@ -358,21 +360,21 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         if test_module.HAS_YAML and test_module.OrderedDumper:
             from io import StringIO
             test_data = OrderedDict([('key1', 'value1'), ('key2', 'value2')])
-            
+
             # Create OrderedDumper with required stream parameter
             stream = StringIO()
             dumper = test_module.OrderedDumper(stream)
-            
+
             # Test represent_dict method exists
             self.assertTrue(hasattr(dumper, 'represent_dict'))
-            
+
             # Test that it can handle OrderedDict
             result = dumper.represent_dict(test_data)
             self.assertIsNotNone(result)
-        
+
         # Test YAML constants
         self.assertIsInstance(test_module.HAS_YAML, bool)
-        
+
         print("YAML formatting and structure validation completed")
 
     def test_edge_cases_and_boundary_conditions(self):
@@ -381,14 +383,14 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         self.assertIsNotNone(test_module.DOCUMENTATION)
         self.assertIsNotNone(test_module.EXAMPLES)
         self.assertIsNotNone(test_module.RETURN)
-        
+
         # Test module constants
         self.assertTrue(hasattr(test_module, 'HAS_YAML'))
         self.assertIsInstance(test_module.HAS_YAML, bool)
-        
+
         # Test that module can be imported without basic errors
-        self.assertTrue(MODULE_IMPORTED)
-        
+        self.assertIsNotNone(test_module)
+
         print("Edge cases and boundary conditions tested")
 
     def test_values_to_nullify_processing(self):
@@ -397,15 +399,15 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         try:
             # Import with proper mocking to avoid metaclass issues
             self.assertTrue(hasattr(test_module, 'DOCUMENTATION'))
-            
+
             # Test that common null values are handled
             null_values = ["NOT CONFIGURED", "None", ""]
             self.assertIsInstance(null_values, list)
-            
+
         except Exception as e:
             # If there are import issues, at least verify module structure
-            self.assertTrue(MODULE_IMPORTED)
-            
+            self.assertIsNotNone(test_module)
+
         print("Values to nullify processing tested")
 
     def test_module_constants_and_metadata(self):
@@ -414,10 +416,10 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         self.assertEqual(test_module.__metaclass__, type)
         self.assertIn("Megha Kandari", test_module.__author__)
         self.assertIn("Madhan Sankaranarayanan", test_module.__author__)
-        
+
         # Test HAS_YAML flag
         self.assertIsInstance(test_module.HAS_YAML, bool)
-        
+
         if test_module.HAS_YAML:
             self.assertIsNotNone(test_module.yaml)
             self.assertIsNotNone(test_module.OrderedDumper)
@@ -434,7 +436,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             'dnac_password': 'password',
             'dnac_verify': False,
             'dnac_version': '2.3.7.6',
-            'state': 'merged',
+            'state': 'gathered',
             'config_verify': True,
             'config': [{
                 'file_path': '/tmp/comprehensive_test.yml',
@@ -444,33 +446,33 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
                 }
             }]
         }
-        
+
         # Test comprehensive integration scenario without class instantiation
         # This tests the module structure and constants comprehensively
-        
+
         # Test documentation comprehensiveness
         self.assertIn('module:', test_module.DOCUMENTATION)
         self.assertIn('description:', test_module.DOCUMENTATION)
         self.assertIn('version_added:', test_module.DOCUMENTATION)
         self.assertIn('options:', test_module.DOCUMENTATION)
-        
-        # Test examples completeness  
+
+        # Test examples completeness
         self.assertIn('cisco.dnac.brownfield_assurance_device_health_score_settings_playbook_generator:', test_module.EXAMPLES)
         self.assertIn('config:', test_module.EXAMPLES)
-        
+
         # Test return documentation
         self.assertIn('response', test_module.RETURN)
         self.assertIn('operation_summary', test_module.RETURN)
-        
+
         # Test module structure
         self.assertTrue(hasattr(test_module, 'main'))
-        self.assertTrue(hasattr(test_module, 'AssuranceDeviceHealthScoreSettingsPlaybookGenerator'))
-        
+        self.assertTrue(hasattr(test_module, 'BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator'))
+
         # Test constants
         self.assertIsInstance(test_module.HAS_YAML, bool)
         if test_module.HAS_YAML:
             self.assertTrue(hasattr(test_module, 'OrderedDumper'))
-        
+
         print("Comprehensive integration scenario tested")
 
 
@@ -479,5 +481,5 @@ if __name__ == '__main__':
     print("🧪 Running Comprehensive Brownfield Device Health Score Settings Tests")
     print("Target: 90%+ Code Coverage")
     print("=" * 80)
-    
+
     unittest.main(verbosity=2)
