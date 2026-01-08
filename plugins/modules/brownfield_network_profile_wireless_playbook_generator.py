@@ -12,12 +12,12 @@ __author__ = ("A Mohamed Rafeek, Madhan Sankaranarayanan")
 DOCUMENTATION = r"""
 ---
 module: brownfield_network_profile_wireless_playbook_generator
-short_description: Generate YAML configurations playbook for 'brownfield_network_profile_wireless_playbook_generator' module.
+short_description: Generate YAML configurations playbook for 'network_profile_wireless_workflow_manager' module.
 description:
-  - Generates YAML configurations compatible with the 'brownfield_network_profile_wireless_playbook_generator'
+  - Generates YAML configurations compatible with the 'network_profile_wireless_workflow_manager'
     module, reducing the effort required to manually create Ansible playbooks and
     enabling programmatic modifications.
-version_added: 6.43.0
+version_added: 6.45.0
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
@@ -133,17 +133,6 @@ options:
             type: list
             elements: str
             required: false
-      component_specific_filters:
-        description:
-        - Filters to specify which components to include in the YAML configuration file.
-        - If "components_list" is specified, only those components are included,
-          regardless of other filters.
-        type: dict
-        suboptions:
-          components_list:
-            description:
-            - List of components to include in the YAML configuration file.
-            - Valid values are
 requirements:
   - dnacentersdk >= 2.10.10
   - python >= 3.9
@@ -208,7 +197,7 @@ EXAMPLES = r"""
     state: gathered
     config:
       - global_filters:
-          profile_name_list: ["Campus_Switch_Profile", "Enterprise_Switch_Profile"]
+          profile_name_list: ["Campus_Wireless_Profile", "Enterprise_Wireless_Profile"]
 
 - name: Generate YAML Configuration with default file path based on Day-N templates filters
   cisco.dnac.brownfield_network_profile_wireless_playbook_generator:
@@ -583,9 +572,7 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
                         "ERROR",
                     )
                     not_exist_profile = ", ".join(non_existing_profiles)
-                    self.fail_and_exit(
-                        self.fail_and_exit(f"Wireless profile(s) '{not_exist_profile}' does not exist in Cisco Catalyst Center.")
-                    )
+                    self.fail_and_exit(f"Wireless profile(s) '{not_exist_profile}' does not exist in Cisco Catalyst Center.")
 
                 if filtered_profiles:
                     self.log(
@@ -720,11 +707,11 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
                         "name", profile, "id",
                     )
                     if profile_id:
-                        each_porfile_config = self.process_profile_info(profile_id, final_list)
-                        self.log(f"Processed configuration for profile ID '{profile_id}': {each_porfile_config}",
+                        each_profile_config = self.process_profile_info(profile_id, final_list)
+                        self.log(f"Processed configuration for profile ID '{profile_id}': {each_profile_config}",
                                  "DEBUG")
 
-            self.log(f"Profile configurations collected for site list: {final_list}", "DEBUG")
+            self.log(f"Profile configurations are collected based on profile name list: {final_list}", "DEBUG")
 
         elif day_n_templates and isinstance(day_n_templates, list):
             self.log(f"Filtering wireless profiles based on day_n_template_list: {day_n_templates}",
@@ -732,11 +719,11 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
 
             for profile_id, templates in self.have.get("wireless_profile_templates", {}).items():
                 if any(template in templates for template in day_n_templates):
-                    each_porfile_config = self.process_profile_info(profile_id, final_list)
-                    self.log(f"Processed configuration for profile ID '{profile_id}': {each_porfile_config}",
+                    each_profile_config = self.process_profile_info(profile_id, final_list)
+                    self.log(f"Processed configuration for profile ID '{profile_id}': {each_profile_config}",
                              "DEBUG")
 
-            self.log(f"Profile configurations collected for site list: {final_list}", "DEBUG")
+            self.log(f"Profile configurations are collected based on day n template list: {final_list}", "DEBUG")
 
         elif site_list and isinstance(site_list, list):
             self.log(f"Filtering wireless profiles based on site_list: {site_list}",
@@ -744,11 +731,11 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
 
             for profile_id, sites in self.have.get("wireless_profile_sites", {}).items():
                 if any(site in sites.values() for site in site_list):
-                    each_porfile_config = self.process_profile_info(profile_id, final_list)
-                    self.log(f"Processed configuration for profile ID '{profile_id}': {each_porfile_config}",
+                    each_profile_config = self.process_profile_info(profile_id, final_list)
+                    self.log(f"Processed configuration for profile ID '{profile_id}': {each_profile_config}",
                              "DEBUG")
 
-            self.log(f"Profile configurations collected for site list: {final_list}", "DEBUG")
+            self.log(f"Profile configurations are collected based on site list: {final_list}", "DEBUG")
 
         elif ssid_list and isinstance(ssid_list, list):
             self.log(f"Filtering wireless profiles based on ssid_list: {ssid_list}",
@@ -757,11 +744,11 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
             for profile_id, profile_info in self.have.get("wireless_profile_info", {}).items():
                 ssid_details = profile_info.get("ssidDetails", "")
                 if any(ssid.get("ssidName") in ssid_list for ssid in ssid_details):
-                    each_porfile_config = self.process_profile_info(profile_id, final_list)
-                    self.log(f"Processed configuration for profile ID '{profile_id}': {each_porfile_config}",
+                    each_profile_config = self.process_profile_info(profile_id, final_list)
+                    self.log(f"Processed configuration for profile ID '{profile_id}': {each_profile_config}",
                              "DEBUG")
 
-            self.log(f"Profile configurations collected for site list: {final_list}", "DEBUG")
+            self.log(f"Profile configurations are collected based on ssid list: {final_list}", "DEBUG")
 
         elif ap_zone_list and isinstance(ap_zone_list, list):
             self.log(f"Filtering wireless profiles based on ap_zone_list: {ap_zone_list}", "DEBUG")
@@ -769,11 +756,11 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
             for profile_id, profile_info in self.have.get("wireless_profile_info", {}).items():
                 ap_zones = profile_info.get("apZones", "")
                 if any(ap_zone.get("apZoneName") in ap_zone_list for ap_zone in ap_zones):
-                    each_porfile_config = self.process_profile_info(profile_id, final_list)
-                    self.log(f"Processed configuration for profile ID '{profile_id}': {each_porfile_config}",
+                    each_profile_config = self.process_profile_info(profile_id, final_list)
+                    self.log(f"Processed configuration for profile ID '{profile_id}': {each_profile_config}",
                              "DEBUG")
 
-            self.log(f"Profile configurations collected for ap zone list: {final_list}", "DEBUG")
+            self.log(f"Profile configurations are collected based on ap zone list: {final_list}", "DEBUG")
 
         elif feature_template_list and isinstance(feature_template_list, list):
             self.log(f"Filtering wireless profiles based on feature_template_list: {feature_template_list}",
@@ -783,11 +770,11 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
                 feature_templates = profile_info.get("featureTemplates", "")
                 if any(feature_template.get("designName") in feature_template_list
                        for feature_template in feature_templates):
-                    each_porfile_config = self.process_profile_info(profile_id, final_list)
-                    self.log(f"Processed configuration for profile ID '{profile_id}': {each_porfile_config}",
+                    each_profile_config = self.process_profile_info(profile_id, final_list)
+                    self.log(f"Processed configuration for profile ID '{profile_id}': {each_profile_config}",
                              "DEBUG")
 
-            self.log(f"Profile configurations collected for feature template list: {final_list}", "DEBUG")
+            self.log(f"Profile configurations are collected based on feature template list: {final_list}", "DEBUG")
 
         elif additional_interface_list and isinstance(additional_interface_list, list):
             self.log(f"Filtering wireless profiles based on additional_interface_list: {additional_interface_list}",
@@ -797,11 +784,11 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
                 additional_interfaces = profile_info.get("additionalInterfaces", "")
                 if any(interface in additional_interface_list
                        for interface in additional_interfaces):
-                    each_porfile_config = self.process_profile_info(profile_id, final_list)
-                    self.log(f"Processed configuration for profile ID '{profile_id}': {each_porfile_config}",
+                    each_profile_config = self.process_profile_info(profile_id, final_list)
+                    self.log(f"Processed configuration for profile ID '{profile_id}': {each_profile_config}",
                              "DEBUG")
 
-            self.log(f"Profile configurations collected for additional interface list: {final_list}", "DEBUG")
+            self.log(f"Profile configurations are collected based on additional interface list: {final_list}", "DEBUG")
         else:
             self.log("No specific global filters provided, processing all profiles", "DEBUG")
 
@@ -823,43 +810,43 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
             dict: Updated configuration dictionary with core details.
         """
         self.log(f"Processing core details for profile ID: '{profile_id}'", "DEBUG")
-        each_porfile_config = {}
+        each_profile_config = {}
 
         profile_info = self.have.get("wireless_profile_info", {}).get(profile_id)
         if not profile_info:
             self.log(f"No profile information found for profile ID: '{profile_id}'. Skipping parsing details.",
                      "WARNING")
-            return each_porfile_config
+            return each_profile_config
 
         cli_template_details = self.have.get(
             "wireless_profile_templates", {}).get(profile_id)
         if cli_template_details and isinstance(cli_template_details, list):
-            each_porfile_config["day_n_templates"] = cli_template_details
+            each_profile_config["day_n_templates"] = cli_template_details
 
         site_details = self.have.get(
             "wireless_profile_sites", {}).get(profile_id)
         if site_details and isinstance(site_details, dict):
-            each_porfile_config["sites"] = list(site_details.values())
+            each_profile_config["sites"] = list(site_details.values())
 
-        each_porfile_config["profile_name"] = profile_info.get("wirelessProfileName")
+        each_profile_config["profile_name"] = profile_info.get("wirelessProfileName")
         ssid_details = profile_info.get("ssidDetails", "")
         additional_interfaces = profile_info.get("additionalInterfaces", "")
         ap_zones = profile_info.get("apZones", "")
         feature_template_designs = profile_info.get("featureTemplates", "")
 
-        each_porfile_config["ssid_details"] = self.parse_profile_info(ssid_details, "ssid_details")
-        each_porfile_config["additional_interfaces"] = self.parse_profile_info(
+        each_profile_config["ssid_details"] = self.parse_profile_info(ssid_details, "ssid_details")
+        each_profile_config["additional_interfaces"] = self.parse_profile_info(
             additional_interfaces, "additional_interfaces")
-        each_porfile_config["ap_zone_list"] = self.parse_profile_info(ap_zones, "ap_zones")
-        each_porfile_config["feature_template_designs"] = self.parse_profile_info(
+        each_profile_config["ap_zone_list"] = self.parse_profile_info(ap_zones, "ap_zones")
+        each_profile_config["feature_template_designs"] = self.parse_profile_info(
             feature_template_designs, "feature_template_designs")
 
-        if each_porfile_config:
+        if each_profile_config:
             self.log("Processed configuration for profile '{0}': {1}".format(
-                each_porfile_config["profile_name"], each_porfile_config), "DEBUG")
-            final_list.append(each_porfile_config)
+                each_profile_config["profile_name"], each_profile_config), "DEBUG")
+            final_list.append(each_profile_config)
 
-        return each_porfile_config
+        return each_profile_config
 
     def yaml_config_generator(self, yaml_config_generator):
         """
@@ -904,10 +891,10 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
             self.log("Preparing to collect all configurations for wireless profile.",
                      "DEBUG")
             for each_profile_name in self.have.get("wireless_profile_names", []):
-                each_porfile_config = {}
-                each_porfile_config["profile_name"] = each_profile_name
-                each_porfile_config["day_n_templates"] = []
-                each_porfile_config["sites"] = []
+                each_profile_config = {}
+                each_profile_config["profile_name"] = each_profile_name
+                each_profile_config["day_n_templates"] = []
+                each_profile_config["sites"] = []
 
                 profile_id = self.get_value_by_key(
                     self.have["wireless_profile_list"],
@@ -919,16 +906,16 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
                     cli_template_details = self.have.get(
                         "wireless_profile_templates", {}).get(profile_id)
                     if cli_template_details and isinstance(cli_template_details, list):
-                        each_porfile_config["day_n_templates"] = cli_template_details
+                        each_profile_config["day_n_templates"] = cli_template_details
                         self.log("CLI template details added for profile '{0}': {1}".format(
                             each_profile_name, cli_template_details), "DEBUG")
 
                     site_details = self.have.get(
                         "wireless_profile_sites", {}).get(profile_id)
                     if site_details and isinstance(site_details, dict):
-                        each_porfile_config["sites"] = list(site_details.values())
+                        each_profile_config["sites"] = list(site_details.values())
                         self.log("Site details added for profile '{0}': {1}".format(
-                            each_profile_name, each_porfile_config["sites"]), "DEBUG")
+                            each_profile_name, each_profile_config["sites"]), "DEBUG")
 
                     profile_info = self.have.get("wireless_profile_info", {}).get(profile_id)
                     self.log("Processing profile information for profile '{0}': {1}".format(
@@ -939,14 +926,14 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
                         ap_zones = profile_info.get("apZones", "")
                         feature_template_designs = profile_info.get("featureTemplates", "")
 
-                        each_porfile_config["ssid_details"] = self.parse_profile_info(ssid_details, "ssid_details")
-                        each_porfile_config["additional_interfaces"] = self.parse_profile_info(
+                        each_profile_config["ssid_details"] = self.parse_profile_info(ssid_details, "ssid_details")
+                        each_profile_config["additional_interfaces"] = self.parse_profile_info(
                             additional_interfaces, "additional_interfaces")
-                        each_porfile_config["ap_zone_list"] = self.parse_profile_info(ap_zones, "ap_zones")
-                        each_porfile_config["feature_template_designs"] = self.parse_profile_info(
+                        each_profile_config["ap_zone_list"] = self.parse_profile_info(ap_zones, "ap_zones")
+                        each_profile_config["feature_template_designs"] = self.parse_profile_info(
                             feature_template_designs, "feature_template_designs")
 
-                    final_list.append(each_porfile_config)
+                    final_list.append(each_profile_config)
             self.log("All configurations collected for generate_all_configurations mode: {0}".format(
                 final_list), "DEBUG")
         else:
