@@ -12,9 +12,9 @@ __author__ = ("A Mohamed Rafeek, Madhan Sankaranarayanan")
 DOCUMENTATION = r"""
 ---
 module: brownfield_accesspoint_playbook_generator
-short_description: Generate YAML configurations playbook for 'brownfield_accesspoint_playbook_generator' module.
+short_description: Generate YAML configurations playbook for 'accesspoint_workflow_manager' module.
 description:
-  - Generates YAML configurations compatible with the 'brownfield_accesspoint_playbook_generator'
+  - Generates YAML configurations compatible with the 'accesspoint_workflow_manager'
     module, reducing the effort required to manually create Ansible playbooks and
     enabling programmatic modifications.
 version_added: 6.45.0
@@ -118,23 +118,12 @@ options:
             type: list
             elements: str
             required: false
-      component_specific_filters:
-        description:
-        - Filters to specify which components to include in the YAML configuration file.
-        - If "components_list" is specified, only those components are included,
-          regardless of other filters.
-        type: dict
-        suboptions:
-          components_list:
-            description:
-            - List of components to include in the YAML configuration file.
-            - Valid values are
 requirements:
   - dnacentersdk >= 2.10.10
   - python >= 3.9
 notes:
     # Version Compatibility
-  - Minimum Catalyst Center version 3.1.3.0 required for accesspoint configuration generator.
+  - Minimum Catalyst Center version 2.3.5.3 required for accesspoint configuration generator.
 
   - This module utilizes the following SDK methods
     devices.get_device_list
@@ -607,7 +596,7 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
 
     def get_current_config(self, input_config):
         """
-        Retrieves the current configuration of an access point and site releated details
+        Retrieves the current configuration of an access point and site related details
         from Cisco Catalyst Center.
 
         Parameters:
@@ -658,34 +647,6 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
         self.have["all_detailed_config"] = copy.deepcopy(collect_all_config_details)
 
         return collect_all_config
-
-        # if input_config.get("site"):
-        #     site_exists, current_site = self.site_exists(input_config)
-        #     self.log("Site exists: {0}, Current site: {1}".format(site_exists, current_site), "INFO")
-
-        #     if site_exists:
-        #         self.payload.update({
-        #             "site_exists": site_exists,
-        #             "current_site": current_site,
-        #             "site_changes": self.get_site_device(current_site["site_id"],
-        #                                                  current_configuration["mac_address"],
-        #                                                  site_exists, current_site, current_configuration)
-        #         })
-        #         provision_status, wlc_details = self.verify_wlc_provision(
-        #             current_configuration["associated_wlc_ip"])
-        #         self.payload["wlc_provision_status"] = provision_status
-        #         self.log("WLC provision status: {0}".format(provision_status), "INFO")
-
-        #         if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
-        #             if current_eth_configuration.get("provisioning_status"):
-        #                 self.payload["ap_provision_status"] = "Provisioned"
-        #             else:
-        #                 self.payload["ap_provision_status"] = None
-        #             self.log("AP provision status: {0}".format(self.payload["ap_provision_status"]), "INFO")
-
-        # self.log("Completed retrieving current configuration. Access point exists: {0}, Current configuration: {1}"
-        #          .format(accesspoint_exists, current_eth_configuration), "INFO")
-        # return (accesspoint_exists, current_eth_configuration)
 
     def get_accesspoint_details(self):
         """
@@ -1051,7 +1012,7 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
             self.msg = "No configurations or components to process for module '{0}'. Verify input filters or configuration.".format(
                 self.module_name
             )
-            self.set_operation_result("ok", False, self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         final_dict = {"config": final_list}
@@ -1313,13 +1274,13 @@ def main():
     ccc_accesspoint_playbook_generator = AccesspointGenerator(module)
     if (
         ccc_accesspoint_playbook_generator.compare_dnac_versions(
-            ccc_accesspoint_playbook_generator.get_ccc_version(), "3.1.3.0"
+            ccc_accesspoint_playbook_generator.get_ccc_version(), "2.3.5.3"
         )
         < 0
     ):
         ccc_accesspoint_playbook_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
-            "for <module_name_caps> Module. Supported versions start from '3.1.3.0' onwards. ".format(
+            "for <module_name_caps> Module. Supported versions start from '2.3.5.3' onwards. ".format(
                 ccc_accesspoint_playbook_generator.get_ccc_version()
             )
         )
