@@ -3151,10 +3151,6 @@ class Swim(DnacBase):
                 "BORDER_ROUTER": "BORDER_ROUTER",
             }
 
-            # -----------------------------------------------------
-            # STEP X: Normalize device roles (case-insensitive)
-            # -----------------------------------------------------
-
             if raw_roles.lower() == "all":
                 desired_roles = [
                     "CORE",
@@ -3257,7 +3253,7 @@ class Swim(DnacBase):
                 return self
             
             if not tagging_details.get("device_image_family_name"):
-                self.msg = "Device image family name is required in tagging details."
+                self.msg = "Device image family name is required in tagging details from the version 3.1.3.0."
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             product_name_ordinal = self.get_product_name_ordinal_from_image_name(
