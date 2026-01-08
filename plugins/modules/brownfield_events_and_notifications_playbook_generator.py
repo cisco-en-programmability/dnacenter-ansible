@@ -935,7 +935,24 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return None
 
     def get_webhook_destinations(self, network_element, filters):
-        """Retrieves webhook destination details based on the provided filters."""
+        """
+        Retrieves webhook destination configurations from Cisco Catalyst Center.
+        
+        Description:
+            This method fetches webhook destination details from the Cisco Catalyst Center using the API.
+            It applies smart filtering where if destination names are provided and matches are found,
+            only matching destinations are returned. If no matches are found, all webhook destinations
+            are returned to ensure comprehensive configuration coverage.
+
+        Args:
+            network_element (dict): Configuration mapping containing API family and function details.
+            filters (dict): Filter criteria containing component-specific filters for destinations.
+
+        Returns:
+            dict: A dictionary containing:
+                - webhook_destinations (list): List of webhook destination configurations with transformed
+                parameters according to the webhook destinations specification.
+        """
         self.log("Starting to retrieve webhook destinations", "DEBUG")
 
         component_specific_filters = filters.get("component_specific_filters", {})
@@ -971,7 +988,23 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return result
 
     def get_email_destinations(self, network_element, filters):
-        """Retrieves email destination details based on the provided filters."""
+        """
+        Retrieves email destination configurations from Cisco Catalyst Center.
+        
+        Description:
+            This method fetches email destination details including SMTP configurations from the 
+            Cisco Catalyst Center API. It applies smart filtering based on destination names if provided.
+            The method preserves essential SMTP configuration structures even when some values are None.
+
+        Args:
+            network_element (dict): Configuration mapping containing API family and function details.
+            filters (dict): Filter criteria containing component-specific filters for destinations.
+
+        Returns:
+            dict: A dictionary containing:
+                - email_destinations (list): List of email destination configurations including
+                primary and secondary SMTP settings with transformed parameters.
+        """
         self.log("Starting to retrieve email destinations", "DEBUG")
 
         component_specific_filters = filters.get("component_specific_filters", {})
@@ -1007,7 +1040,23 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return result
 
     def get_syslog_destinations(self, network_element, filters):
-        """Retrieves syslog destination details based on the provided filters."""
+        """
+        Retrieves syslog destination configurations from Cisco Catalyst Center.
+        
+        Description:
+            This method fetches syslog destination details from the Cisco Catalyst Center API.
+            It supports filtering by destination names and applies smart matching logic where
+            configurations are filtered only when matching destinations exist.
+
+        Args:
+            network_element (dict): Configuration mapping containing API family and function details.
+            filters (dict): Filter criteria containing component-specific filters for destinations.
+
+        Returns:
+            dict: A dictionary containing:
+                - syslog_destinations (list): List of syslog destination configurations with
+                server details, protocols, and ports according to the syslog specification.
+        """
         self.log("Starting to retrieve syslog destinations", "DEBUG")
 
         component_specific_filters = filters.get("component_specific_filters", {})
@@ -1043,7 +1092,23 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return result
 
     def get_snmp_destinations(self, network_element, filters):
-        """Retrieves SNMP destination details based on the provided filters."""
+        """
+        Retrieves SNMP destination configurations from Cisco Catalyst Center.
+        
+        Description:
+            This method fetches SNMP destination details from the Cisco Catalyst Center API.
+            It handles pagination for large datasets and applies destination name filtering
+            when matches are found, otherwise returns all available SNMP destinations.
+
+        Args:
+            network_element (dict): Configuration mapping containing API family and function details.
+            filters (dict): Filter criteria containing component-specific filters for destinations.
+
+        Returns:
+            dict: A dictionary containing:
+                - snmp_destinations (list): List of SNMP destination configurations including
+                version, community strings, authentication, and privacy settings.
+        """
         self.log("Starting to retrieve SNMP destinations", "DEBUG")
 
         component_specific_filters = filters.get("component_specific_filters", {})
@@ -1079,7 +1144,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return result
 
     def get_all_webhook_destinations(self, api_family, api_function):
-        """Helper method to get all webhook destinations."""
+        """
+        Retrieves all webhook destinations using pagination from the API.
+        
+        Description:
+            This helper method makes paginated API calls to fetch all webhook destination
+            configurations from Cisco Catalyst Center. It handles API response variations
+            and continues pagination until all destinations are retrieved.
+
+        Args:
+            api_family (str): The API family identifier for webhook destinations.
+            api_function (str): The specific API function name for retrieving webhook destinations.
+
+        Returns:
+            list: A list of webhook destination dictionaries containing all available
+            webhook configurations from the Cisco Catalyst Center.
+        """
         try:
             offset = 0
             limit = 10
@@ -1112,7 +1192,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             return []
 
     def get_all_email_destinations(self, api_family, api_function):
-        """Helper method to get all email destinations."""
+        """
+        Retrieves all email destinations from the API.
+        
+        Description:
+            This helper method fetches email destination configurations from Cisco Catalyst Center.
+            It handles different response formats and extracts email configuration data including
+            SMTP settings from the API response.
+
+        Args:
+            api_family (str): The API family identifier for email destinations.
+            api_function (str): The specific API function name for retrieving email destinations.
+
+        Returns:
+            list: A list of email destination dictionaries containing all available
+            email configurations including SMTP server details.
+        """
         try:
             response = self.dnac._exec(
                 family=api_family,
@@ -1133,7 +1228,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             return []
 
     def get_all_syslog_destinations(self, api_family, api_function):
-        """Helper method to get all syslog destinations."""
+        """
+        Retrieves all syslog destinations from the API.
+        
+        Description:
+            This helper method fetches syslog destination configurations from Cisco Catalyst Center.
+            It extracts syslog configuration data from the API response and handles various
+            response formats to ensure consistent data retrieval.
+
+        Args:
+            api_family (str): The API family identifier for syslog destinations.
+            api_function (str): The specific API function name for retrieving syslog destinations.
+
+        Returns:
+            list: A list of syslog destination dictionaries containing server addresses,
+            protocols, ports, and other syslog configuration parameters.
+        """
         try:
             response = self.dnac._exec(
                 family=api_family,
@@ -1151,7 +1261,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             return []
 
     def get_all_snmp_destinations(self, api_family, api_function):
-        """Helper method to get all SNMP destinations."""
+        """
+        Retrieves all SNMP destinations using pagination from the API.
+        
+        Description:
+            This helper method makes paginated API calls to fetch all SNMP destination
+            configurations from Cisco Catalyst Center. It handles pagination limits
+            and continues until all SNMP destinations are retrieved.
+
+        Args:
+            api_family (str): The API family identifier for SNMP destinations.
+            api_function (str): The specific API function name for retrieving SNMP destinations.
+
+        Returns:
+            list: A list of SNMP destination dictionaries containing IP addresses,
+            ports, SNMP versions, community strings, and authentication details.
+        """
         try:
             offset = 0
             limit = 10
@@ -1189,7 +1314,23 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             return []
 
     def get_itsm_settings(self, network_element, filters):
-        """Retrieves ITSM settings details based on the provided filters."""
+        """
+        Retrieves ITSM integration settings from Cisco Catalyst Center.
+        
+        Description:
+            This method fetches ITSM (IT Service Management) integration configurations
+            from the Cisco Catalyst Center API. It supports filtering by instance names
+            and retrieves connection settings and authentication details.
+
+        Args:
+            network_element (dict): Configuration mapping containing API family and function details.
+            filters (dict): Filter criteria containing ITSM-specific filters for instance names.
+
+        Returns:
+            dict: A dictionary containing:
+                - itsm_settings (list): List of ITSM integration configurations including
+                connection settings, URLs, and authentication parameters.
+        """
         self.log("Starting to retrieve ITSM settings", "DEBUG")
 
         component_specific_filters = filters.get("component_specific_filters", {})
@@ -1220,7 +1361,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return result
 
     def get_all_itsm_settings(self, api_family, api_function):
-        """Helper method to get all ITSM settings."""
+        """
+        Retrieves all ITSM integration settings from the API.
+        
+        Description:
+            This helper method fetches ITSM integration configurations from Cisco Catalyst Center.
+            It handles different response formats and extracts ITSM configuration data
+            including connection settings and authentication details.
+
+        Args:
+            api_family (str): The API family identifier for ITSM settings.
+            api_function (str): The specific API function name for retrieving ITSM settings.
+
+        Returns:
+            list: A list of ITSM setting dictionaries containing instance names,
+            descriptions, and connection configuration details.
+        """
         try:
             response = self.dnac._exec(
                 family=api_family,
@@ -1242,7 +1398,23 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             return []
 
     def get_webhook_event_notifications(self, network_element, filters):
-        """Retrieves webhook event notification details based on the provided filters."""
+        """
+        Retrieves webhook event notification subscriptions from Cisco Catalyst Center.
+        
+        Description:
+            This method fetches webhook event notification configurations from the API.
+            It supports filtering by subscription names and retrieves event subscription
+            details including sites, events, and destination mappings.
+
+        Args:
+            network_element (dict): Configuration mapping containing API family and function details.
+            filters (dict): Filter criteria containing notification-specific filters.
+
+        Returns:
+            dict: A dictionary containing:
+                - webhook_event_notifications (list): List of webhook event subscription
+                configurations with sites, events, and destination details.
+        """
         self.log("Starting to retrieve webhook event notifications", "DEBUG")
 
         component_specific_filters = filters.get("component_specific_filters", {})
@@ -1273,7 +1445,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return result
 
     def get_all_webhook_event_notifications(self, api_family, api_function):
-        """Helper method to get all webhook event notifications."""
+        """
+        Retrieves all webhook event notifications using pagination from the API.
+        
+        Description:
+            This helper method makes paginated API calls to fetch all webhook event
+            notification subscriptions from Cisco Catalyst Center. It handles various
+            response formats and continues pagination until all notifications are retrieved.
+
+        Args:
+            api_family (str): The API family identifier for webhook event notifications.
+            api_function (str): The specific API function name for retrieving webhook notifications.
+
+        Returns:
+            list: A list of webhook event notification dictionaries containing subscription
+            details, event types, sites, and endpoint configurations.
+        """
         try:
             offset = 0
             limit = 10
@@ -1317,7 +1504,23 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             return []
 
     def get_email_event_notifications(self, network_element, filters):
-        """Retrieves email event notification details based on the provided filters."""
+        """
+        Retrieves email event notification subscriptions from Cisco Catalyst Center.
+        
+        Description:
+            This method fetches email event notification configurations from the API.
+            It processes subscription endpoints to extract email-specific details including
+            sender addresses, recipient lists, and subject templates.
+
+        Args:
+            network_element (dict): Configuration mapping containing API family and function details.
+            filters (dict): Filter criteria containing notification-specific filters.
+
+        Returns:
+            dict: A dictionary containing:
+                - email_event_notifications (list): List of email event subscription
+                configurations with email addresses, subjects, and event details.
+        """
         self.log("Starting to retrieve email event notifications", "DEBUG")
 
         component_specific_filters = filters.get("component_specific_filters", {})
@@ -1348,7 +1551,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return result
 
     def get_all_email_event_notifications(self, api_family, api_function):
-        """Helper method to get all email event notifications."""
+        """
+        Retrieves all email event notifications from the API.
+        
+        Description:
+            This helper method fetches email event notification configurations from
+            Cisco Catalyst Center. It handles different response formats and extracts
+            email subscription data from the API response.
+
+        Args:
+            api_family (str): The API family identifier for email event notifications.
+            api_function (str): The specific API function name for retrieving email notifications.
+
+        Returns:
+            list: A list of email event notification dictionaries containing subscription
+            endpoints, event filters, and email configuration details.
+        """
         try:
             response = self.dnac._exec(
                 family=api_family,
@@ -1372,7 +1590,23 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             return []
 
     def get_syslog_event_notifications(self, network_element, filters):
-        """Retrieves syslog event notification details based on the provided filters."""
+        """
+        Retrieves syslog event notification subscriptions from Cisco Catalyst Center.
+        
+        Description:
+            This method fetches syslog event notification configurations from the API.
+            It supports filtering by subscription names and retrieves event subscription
+            details including sites, events, and syslog destination mappings.
+
+        Args:
+            network_element (dict): Configuration mapping containing API family and function details.
+            filters (dict): Filter criteria containing notification-specific filters.
+
+        Returns:
+            dict: A dictionary containing:
+                - syslog_event_notifications (list): List of syslog event subscription
+                configurations with sites, events, and destination details.
+        """
         self.log("Starting to retrieve syslog event notifications", "DEBUG")
 
         component_specific_filters = filters.get("component_specific_filters", {})
@@ -1403,7 +1637,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return result
 
     def get_all_syslog_event_notifications(self, api_family, api_function):
-        """Helper method to get all syslog event notifications."""
+        """
+        Retrieves all syslog event notifications using pagination from the API.
+        
+        Description:
+            This helper method makes paginated API calls to fetch all syslog event
+            notification subscriptions from Cisco Catalyst Center. It handles pagination
+            and various response formats until all notifications are retrieved.
+
+        Args:
+            api_family (str): The API family identifier for syslog event notifications.
+            api_function (str): The specific API function name for retrieving syslog notifications.
+
+        Returns:
+            list: A list of syslog event notification dictionaries containing subscription
+            details, event types, sites, and syslog destination configurations.
+        """
         try:
             offset = 0
             limit = 10
@@ -1448,8 +1697,24 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def modify_parameters(self, temp_spec, details_list):
         """
-        Transforms API response data according to the provided specification.
-        This version removes parameters with null values to keep the YAML clean.
+        Transforms API response data according to specification while removing null values.
+        
+        Description:
+            This method converts raw API response data into structured configurations based
+            on the provided specification. It removes parameters with null values to keep
+            the generated YAML clean and handles nested configurations like SMTP settings
+            and headers. The method preserves essential structures while filtering out
+            unnecessary null entries.
+
+        Args:
+            temp_spec (OrderedDict): Specification defining the structure and transformation
+                rules for converting API data to playbook format.
+            details_list (list): List of dictionaries containing raw API response data
+                to be transformed.
+
+        Returns:
+            list: A list of transformed configuration dictionaries with null values removed
+            and parameters mapped according to the specification rules.
         """
         self.log("Details list: {0}".format(details_list), "DEBUG")
         self.log("Starting modification of parameters based on temp_spec.", "INFO")
