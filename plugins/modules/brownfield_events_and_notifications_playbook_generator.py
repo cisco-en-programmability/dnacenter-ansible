@@ -937,7 +937,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_webhook_destinations(self, network_element, filters):
         """
         Retrieves webhook destination configurations from Cisco Catalyst Center.
-        
+
         Description:
             This method fetches webhook destination details from the Cisco Catalyst Center using the API.
             It applies smart filtering where if destination names are provided and matches are found,
@@ -990,9 +990,9 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_email_destinations(self, network_element, filters):
         """
         Retrieves email destination configurations from Cisco Catalyst Center.
-        
+
         Description:
-            This method fetches email destination details including SMTP configurations from the 
+            This method fetches email destination details including SMTP configurations from the
             Cisco Catalyst Center API. It applies smart filtering based on destination names if provided.
             The method preserves essential SMTP configuration structures even when some values are None.
 
@@ -1042,7 +1042,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_syslog_destinations(self, network_element, filters):
         """
         Retrieves syslog destination configurations from Cisco Catalyst Center.
-        
+
         Description:
             This method fetches syslog destination details from the Cisco Catalyst Center API.
             It supports filtering by destination names and applies smart matching logic where
@@ -1094,7 +1094,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_snmp_destinations(self, network_element, filters):
         """
         Retrieves SNMP destination configurations from Cisco Catalyst Center.
-        
+
         Description:
             This method fetches SNMP destination details from the Cisco Catalyst Center API.
             It handles pagination for large datasets and applies destination name filtering
@@ -1146,7 +1146,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_all_webhook_destinations(self, api_family, api_function):
         """
         Retrieves all webhook destinations using pagination from the API.
-        
+
         Description:
             This helper method makes paginated API calls to fetch all webhook destination
             configurations from Cisco Catalyst Center. It handles API response variations
@@ -1194,7 +1194,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_all_email_destinations(self, api_family, api_function):
         """
         Retrieves all email destinations from the API.
-        
+
         Description:
             This helper method fetches email destination configurations from Cisco Catalyst Center.
             It handles different response formats and extracts email configuration data including
@@ -1230,7 +1230,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_all_syslog_destinations(self, api_family, api_function):
         """
         Retrieves all syslog destinations from the API.
-        
+
         Description:
             This helper method fetches syslog destination configurations from Cisco Catalyst Center.
             It extracts syslog configuration data from the API response and handles various
@@ -1263,7 +1263,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_all_snmp_destinations(self, api_family, api_function):
         """
         Retrieves all SNMP destinations using pagination from the API.
-        
+
         Description:
             This helper method makes paginated API calls to fetch all SNMP destination
             configurations from Cisco Catalyst Center. It handles pagination limits
@@ -1316,7 +1316,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_itsm_settings(self, network_element, filters):
         """
         Retrieves ITSM integration settings from Cisco Catalyst Center.
-        
+
         Description:
             This method fetches ITSM (IT Service Management) integration configurations
             from the Cisco Catalyst Center API. It supports filtering by instance names
@@ -1363,7 +1363,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_all_itsm_settings(self, api_family, api_function):
         """
         Retrieves all ITSM integration settings from the API.
-        
+
         Description:
             This helper method fetches ITSM integration configurations from Cisco Catalyst Center.
             It handles different response formats and extracts ITSM configuration data
@@ -1400,7 +1400,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_webhook_event_notifications(self, network_element, filters):
         """
         Retrieves webhook event notification subscriptions from Cisco Catalyst Center.
-        
+
         Description:
             This method fetches webhook event notification configurations from the API.
             It supports filtering by subscription names and retrieves event subscription
@@ -1447,7 +1447,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_all_webhook_event_notifications(self, api_family, api_function):
         """
         Retrieves all webhook event notifications using pagination from the API.
-        
+
         Description:
             This helper method makes paginated API calls to fetch all webhook event
             notification subscriptions from Cisco Catalyst Center. It handles various
@@ -1506,7 +1506,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_email_event_notifications(self, network_element, filters):
         """
         Retrieves email event notification subscriptions from Cisco Catalyst Center.
-        
+
         Description:
             This method fetches email event notification configurations from the API.
             It processes subscription endpoints to extract email-specific details including
@@ -1553,7 +1553,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_all_email_event_notifications(self, api_family, api_function):
         """
         Retrieves all email event notifications from the API.
-        
+
         Description:
             This helper method fetches email event notification configurations from
             Cisco Catalyst Center. It handles different response formats and extracts
@@ -1592,7 +1592,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_syslog_event_notifications(self, network_element, filters):
         """
         Retrieves syslog event notification subscriptions from Cisco Catalyst Center.
-        
+
         Description:
             This method fetches syslog event notification configurations from the API.
             It supports filtering by subscription names and retrieves event subscription
@@ -1639,7 +1639,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_all_syslog_event_notifications(self, api_family, api_function):
         """
         Retrieves all syslog event notifications using pagination from the API.
-        
+
         Description:
             This helper method makes paginated API calls to fetch all syslog event
             notification subscriptions from Cisco Catalyst Center. It handles pagination
@@ -1698,7 +1698,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def modify_parameters(self, temp_spec, details_list):
         """
         Transforms API response data according to specification while removing null values.
-        
+
         Description:
             This method converts raw API response data into structured configurations based
             on the provided specification. It removes parameters with null values to keep

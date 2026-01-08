@@ -1,0 +1,10 @@
+{
+    "docs": "https://docs.ansible.com/ansible-core/2.15/dev_guide/testing/sanity/import.html", 
+    "results": [
+        {
+            "message": "The test `ansible-test sanity --test import --python 3.11` [[explain](https://docs.ansible.com/ansible-core/2.15/dev_guide/testing/sanity/import.html)] failed with 1 error:", 
+            "output": "plugins/modules/brownfield_events_and_notifications_playbook_generator.py:239:0: traceback: ModuleNotFoundError: No module named 'ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper'"
+        }
+    ], 
+    "verified": false
+}
