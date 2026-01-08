@@ -348,6 +348,10 @@ options:
               not provided, SWIM image will be mapped
               to global site.
             type: str
+          supervisor_product_name_ordinal:
+            description: Supervisor Product Name
+              Ordinal value.
+            type: int
           tagging:
             description: Booelan value to tag/untag
               SWIM image as golden If True then the
