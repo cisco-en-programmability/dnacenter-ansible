@@ -3193,10 +3193,10 @@ class Swim(DnacBase):
             self.log("Fetching software images to identify golden status", "DEBUG")
 
             images_response = self.dnac._exec(
-                    family="software_image_management_swim",
-                    function="returns_list_of_software_images",
-                    params={"payload": {"siteId": self.have.get("site_id")}},
-                )
+                family="software_image_management_swim",
+                function="returns_list_of_software_images",
+                params={"payload": {"siteId": self.have.get("site_id")}},
+            )
 
             self.log("Received images response: {0}".format(images_response), "DEBUG")
             if not images_response or "response" not in images_response:
@@ -3251,7 +3251,7 @@ class Swim(DnacBase):
                 )
                 self.set_operation_result("success", False, self.msg, "INFO")
                 return self
-            
+
             if not tagging_details.get("device_image_family_name"):
                 self.msg = "Device image family name is required in tagging details from the version 3.1.3.0."
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
@@ -3533,9 +3533,9 @@ class Swim(DnacBase):
         try:
             # Get the tag ID from the tag name
             self.log("Retrieving tag ID for tag name: '{0}'".format(device_tag), "DEBUG")
-            
+
             tag_id = self.get_network_device_tag_id(device_tag)
-            
+
             if not tag_id:
                 self.log(
                     "Tag '{0}' not found in Cisco Catalyst Center. Unable to filter devices.".format(
@@ -3544,7 +3544,7 @@ class Swim(DnacBase):
                     "ERROR"
                 )
                 return []
-            
+
             self.log("Successfully retrieved tag ID '{0}' for tag '{1}'".format(tag_id, device_tag), "DEBUG")
 
             # Fetch all tag associations from the API with pagination
@@ -3552,11 +3552,11 @@ class Swim(DnacBase):
                 "Fetching all tag associations using 'retrieve_tags_associated_with_network_devices' API with pagination",
                 "DEBUG"
             )
-            
+
             limit = 500
             offset = 1
             all_tag_associations = []
-            
+
             while True:
                 try:
                     response = self.dnac._exec(
@@ -3574,23 +3574,23 @@ class Swim(DnacBase):
                     )
 
                     tag_associations = response.get("response", [])
-                    
+
                     if not tag_associations:
                         self.log(
                             "No more device-tag associations returned at offset {0}".format(offset),
                             "DEBUG"
                         )
                         break
-                    
+
                     all_tag_associations.extend(tag_associations)
-                    
+
                     self.log(
                         "Retrieved {0} device-tag association entries in this batch (offset: {1})".format(
                             len(tag_associations), offset
                         ),
                         "DEBUG"
                     )
-                    
+
                     # Check if we received fewer results than the limit (indicates last page)
                     if len(tag_associations) < limit:
                         self.log(
@@ -3600,10 +3600,10 @@ class Swim(DnacBase):
                             "DEBUG"
                         )
                         break
-                    
+
                     # Move to next page
                     offset += limit
-                    
+
                 except Exception as e:
                     self.log(
                         "Exception occurred while fetching tag associations at offset {0}: {1}".format(
@@ -3612,7 +3612,7 @@ class Swim(DnacBase):
                         "ERROR"
                     )
                     break
-            
+
             if not all_tag_associations:
                 self.log(
                     "No device-tag associations found in Cisco Catalyst Center after fetching all pages",
@@ -3629,22 +3629,22 @@ class Swim(DnacBase):
 
             # Build a mapping of device IDs to their associated tag IDs
             device_tag_map = {}
-            
+
             for association in all_tag_associations:
                 device_id = association.get("id")
                 tags = association.get("tags", [])
-                
+
                 if not device_id:
                     self.log(
                         "Skipping association entry with missing device ID: {0}".format(association),
                         "WARNING"
                     )
                     continue
-                
+
                 # Store all tag IDs for this device
                 if device_id not in device_tag_map:
                     device_tag_map[device_id] = set()
-                
+
                 for tag in tags:
                     tag_entry_id = tag.get("id")
                     if tag_entry_id:
@@ -3662,7 +3662,7 @@ class Swim(DnacBase):
             for device_id, tag_ids in device_tag_map.items():
                 if tag_id in tag_ids:
                     tagged_device_ids.add(device_id)
-            
+
             self.log(
                 "Found {0} devices associated with tag '{1}' (ID: {2})".format(
                     len(tagged_device_ids), device_tag, tag_id
@@ -3762,7 +3762,6 @@ class Swim(DnacBase):
         )
 
         return filtered_device_uuids
-    
 
     def get_diff_distribution(self):
         """
