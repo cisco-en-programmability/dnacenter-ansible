@@ -12,9 +12,9 @@ __author__ = ("A Mohamed Rafeek, Madhan Sankaranarayanan")
 DOCUMENTATION = r"""
 ---
 module: brownfield_accesspoint_location_playbook_generator
-short_description: Generate YAML configurations playbook for 'brownfield_accesspoint_location_playbook_generator' module.
+short_description: Generate YAML configurations playbook for 'accesspoint_location_workflow_manager' module.
 description:
-  - Generates YAML configurations compatible with the 'brownfield_accesspoint_location_playbook_generator'
+  - Generates YAML configurations compatible with the 'accesspoint_location_workflow_manager'
     module, reducing the effort required to manually create Ansible playbooks and
     enabling programmatic modifications.
 version_added: 6.45.0
@@ -118,17 +118,6 @@ options:
             type: list
             elements: str
             required: false
-      component_specific_filters:
-        description:
-        - Filters to specify which components to include in the YAML configuration file.
-        - If "components_list" is specified, only those components are included,
-          regardless of other filters.
-        type: dict
-        suboptions:
-          components_list:
-            description:
-            - List of components to include in the YAML configuration file.
-            - Valid values are
 requirements:
   - dnacentersdk >= 2.10.10
   - python >= 3.9
@@ -771,7 +760,7 @@ class AccesspointLocationGenerator(DnacBase, BrownFieldHelper):
 
         return response_all
 
-    def get_access_point_posisiton(self, floor_id, floor_name, ap_type=False):
+    def get_access_point_position(self, floor_id, floor_name, ap_type=False):
         """
         Retrieve access point position information from Cisco Catalyst Center.
 
@@ -953,7 +942,7 @@ class AccesspointLocationGenerator(DnacBase, BrownFieldHelper):
                 floor_site_hierarchy = floor.get("floor_site_hierarchy")
                 collect_each_floor_config = []
 
-                planned_ap_response = self.get_access_point_posisiton(floor_id, floor_site_hierarchy)
+                planned_ap_response = self.get_access_point_position(floor_id, floor_site_hierarchy)
                 if planned_ap_response:
                     self.log(
                         "Planned Access Point Position Response for floor '{0}': {1}".format(
@@ -973,7 +962,7 @@ class AccesspointLocationGenerator(DnacBase, BrownFieldHelper):
                         }
                         collect_planned_config.append(planned_floor_data)
 
-                real_ap_response = self.get_access_point_posisiton(floor_id, floor_site_hierarchy, ap_type="real")
+                real_ap_response = self.get_access_point_position(floor_id, floor_site_hierarchy, ap_type="real")
                 if real_ap_response:
                     self.log(
                         "Real Access Point Position Response for floor '{0}': {1}".format(
@@ -1134,7 +1123,7 @@ class AccesspointLocationGenerator(DnacBase, BrownFieldHelper):
             self.msg = "No configurations or components to process for module '{0}'. Verify input filters or configuration.".format(
                 self.module_name
             )
-            self.set_operation_result("ok", False, self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         final_dict = {"config": final_list}
