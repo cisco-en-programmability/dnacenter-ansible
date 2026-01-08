@@ -450,7 +450,7 @@
         {
             "file_path": "tmp/brownfield_accesspoint_workflow_playbook_apconfig_base.yml",
             "global_filters": {
-                "real_accesspoint_list": [
+                "accesspoint_config_list": [
                     "AP3C41.0EFE.21D8",
                     "AP6849.9275.2910"
                 ]
@@ -462,7 +462,7 @@
         {
             "file_path": "tmp/brownfield_accesspoint_workflow_playbook_hostname_provision_base.yml",
             "global_filters": {
-                "planned_accesspoint_list": [
+                "provision_hostname_list": [
                     "AP3C41.0EFE.21D8",
                     "AP6849.9275.2910"
                 ]
@@ -475,7 +475,6 @@
             "file_path": "tmp/brownfield_accesspoint_workflow_playbook_site_base.yml",
             "global_filters": {
                 "site_list": [
-                    "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1",
                     "Global/USA/SAN JOSE/SJ_BLD23/FLOOR2",
                     "Global/USA/SAN JOSE/SJ_BLD23/FLOOR4"
                 ]

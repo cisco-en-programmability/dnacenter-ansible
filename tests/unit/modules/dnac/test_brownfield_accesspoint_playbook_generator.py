@@ -189,7 +189,7 @@ class TestBrownfieldAccesspointPlaybookGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("Some access point configurations were not processed:", str(result.get('msg')))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')

@@ -1136,7 +1136,8 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
                 ap_config_list = copy.deepcopy(self.have.get("all_ap_config", []))
                 for each_ap in ap_config_list:
                     for key in keys_to_remove:
-                        del each_ap[key]
+                        if each_ap.get(key):
+                            del each_ap[key]
                 self.log(f"All access point configurations found for 'all' filter. {ap_config_list}", "INFO")
                 final_list = ap_config_list
             else:
@@ -1152,7 +1153,8 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
 
                     for each_ap in ap_exist:
                         for key in keys_to_remove:
-                            del each_ap[key]
+                            if each_ap.get(key):
+                                del each_ap[key]
 
                     ap_config_list.extend(ap_exist)
                     self.log(f"Given access point hostname exist : {ap_exist}", "INFO")
