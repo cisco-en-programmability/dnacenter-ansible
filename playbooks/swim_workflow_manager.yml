@@ -22,49 +22,34 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         config:
-          - tagging_details:
-              # image_name: cat9k_iosxe_npe.17.15.04.SPA.bin #already tagged - cat9k_iosxe.17.12.01.SPA.bin  site - usa/sanjose/bgl_18
-              # image_name: cat9k_iosxe.17.12.01.SPA.bin #already tagged - cat9k_iosxe.17.12.01.SPA.bin  site - usa/sanjose/bgl_18
-              image_name: cat9k_iosxe.17.17.01.SPA.bin #already tagged - cat9k_iosxe.17.12.01.SPA.bin  site - usa/sanjose/bgl_18
-              device_role: "all"
-              device_image_family_name: Cisco Catalyst 9300 Switch # high level or low level 
-              device_tags: ["a", "b"] # device 
-              # supervisor_product_name_ordinal: 286321396
-              site_name: Global/USA/SAN JOSE
+          - import_image_details:
+              type: remote
+              url_details:
+                payload:
+                  - source_url:
+                      - "http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin"
+                third_party: false
+            tagging_details:
+              image_name: cat9k_iosxe.17.12.02.SPA.bin
+              device_role: ALL
+              device_image_family_name: Cisco Catalyst 9300 Switch
+              site_name: "{{ item.site_name }}"
               tagging: true
+            # image_distribution_details:
+            #   image_name: cat9k_iosxe.17.12.02.SPA.bin
+            #   site_name: "{{item.site_name}}"
+            #   device_role: "{{ item.device_role }}"
+            #   device_family_name: "{{ item.device_family_name }}"
+            #   device_series_name: "Catalyst 9300 Series"
+            image_activation_details:
+              image_name: cat9k_iosxe.17.12.02.SPA.bin
+              site_name: "{{ item.site_name }}"
+              device_role: "{{ item.device_role }}"
+              device_family_name: "{{ item.device_family_name }}"
+              device_series_name: "Catalyst 9300 Series"
+              scehdule_validate: false
+              distribute_if_needed: true
 
-          # - image_distribution_details:
-          #     image_name: cat9k_iosxe.17.12.05.SPA.bin
-          #     device_tag: a
-          #     site_name: Global/USA/SAN JOSE/SJ_BLD23
-
-          # - tagging_details:
-          #       image_name: cat9k_iosxe.17.12.01.SPA.bin 
-          #       site_name: Global/USA/SAN JOSE
-          #       tagging: true
-          #       product_name_ordinal: # New - obtained from device_image_family_name
-          #       supervisor_product_name_ordinal: # New
-          #       device_tag: # New
-          #       device_role:
-
-
-
-# Cisco Catalyst 9600 Series Supervisor Engine 1
-# Cisco Catalyst 9600 Series Supervisor Engine 2
-# Cisco Catalyst 9300 Switch 
-# Cisco Catalyst 9606R Switch
-# Cisco Catalyst C9500X-60L4D Switch
-# Cisco Catalyst C9500-48Y4C Switch
-# Cisco Catalyst C9500-32QC Switch
-# Cisco Catalyst C9500-24Y4C Switch
-# Cisco Catalyst 9300L Switch Stack
-# Cisco Catalyst 9500X SVL Switch
-# Cisco Catalyst 9400 Supervisor Engine-1XL-Y
-# Cisco Catalyst 9400X Supervisor Engine-2
-# Cisco Catalyst 9400X Supervisor Engine-2XL
-# Cisco Catalyst C9500 SVL Switch
-# Cisco Catalyst 9400 Supervisor Engine-1XL
-# Cisco Catalyst C9500-32C Switch
-# Cisco Catalyst 9400 Supervisor Engine-1
-# Cisco Catalyst 9500 Switch
-# Cisco Catalyst C9500X-28C8D Switch
+      with_items: "{{ image_details }}"
+      tags:
+        - swim
