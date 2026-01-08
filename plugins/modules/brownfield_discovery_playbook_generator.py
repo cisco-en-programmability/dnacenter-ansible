@@ -404,6 +404,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_global_credentials_lookup(self):
         """
         Create a lookup mapping of global credential IDs to their details.
+        Uses the same approach as discovery_workflow_manager.py for consistency.
 
         Returns:
             dict: Mapping of credential IDs to credential information
@@ -415,105 +416,86 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         self._global_credentials_lookup = {}
 
         try:
-            # Try the v1 API first (same as discovery_workflow_manager)
+            # Use the same approach as discovery_workflow_manager.py
+            headers = {}
             response = self.dnac._exec(
                 family="discovery",
                 function="get_all_global_credentials",
-                params={},
-                op_modifies=True
+                params=headers,
+                op_modifies=True,
             )
-
-            self.log(f"Global credentials API response type: {type(response)}", "DEBUG")
-            self.log(f"Global credentials API response content: {response}", "DEBUG")
-
-            # Handle different response structures
-            credentials = []
-            if response:
-                if isinstance(response, dict):
-                    # Standard response structure
-                    credentials = response.get("response", [])
-                    if not isinstance(credentials, list):
-                        # Handle nested response structures
-                        if isinstance(credentials, dict):
-                            # Check for nested response
-                            if "response" in credentials:
-                                credentials = credentials.get("response", [])
-                            else:
-                                # Might be a single credential object
-                                credentials = [credentials] if credentials else []
-                        elif isinstance(credentials, str):
-                            # Handle error messages
-                            self.log(f"API returned string response: {credentials}", "WARNING")
-                            credentials = []
-                        else:
-                            credentials = []
-                elif isinstance(response, list):
-                    # Direct list response
-                    credentials = response
-                elif isinstance(response, str):
-                    # Handle string responses (errors)
-                    self.log(f"API returned string response: {response}", "WARNING")
-                    credentials = []
-                else:
-                    self.log(f"Unexpected response type: {type(response)}, content: {response}", "WARNING")
-                    credentials = []
             
-            self.log(f"Retrieved {len(credentials)} global credentials", "DEBUG")
-            
-            if credentials and isinstance(credentials, list):
-                for cred in credentials:
-                    if isinstance(cred, dict):
-                        cred_id = cred.get('id')
-                        if cred_id:
-                            self._global_credentials_lookup[cred_id] = {
-                                "id": cred_id,
-                                "description": cred.get('description', ''),
-                                "username": cred.get('username', ''),
-                                "credentialType": cred.get('credentialType', ''),
-                                "comments": cred.get('comments', ''),
-                                "instanceTenantId": cred.get('instanceTenantId', ''),
-                                "instanceUuid": cred.get('instanceUuid', '')
-                            }
-                            self.log(f"Added credential: {cred_id} - {cred.get('description', '')}", "DEBUG")
-                    else:
-                        self.log(f"Skipping non-dict credential: {cred} (type: {type(cred)})", "DEBUG")
-            else:
-                self.log(f"No credentials found or invalid format. Response: {credentials}", "WARNING")
+            # Extract response data
+            response_data = response
+            if isinstance(response, dict) and "response" in response:
+                response_data = response.get("response")
 
-            # Fallback: try v2 API if v1 returns empty
+            self.log(f"Global credentials API response type: {type(response_data)}", "DEBUG")
+            self.log(f"Global credentials API response content: {response_data}", "DEBUG")
+
+            if response_data and isinstance(response_data, dict):
+                # Process different credential types
+                credential_types = [
+                    'cliCredential', 'snmpV2cRead', 'snmpV2cWrite', 
+                    'snmpV3', 'httpsRead', 'httpsWrite', 'netconfCredential'
+                ]
+                
+                for cred_type in credential_types:
+                    credentials_list = response_data.get(cred_type, [])
+                    self.log(f"Processing {cred_type} credentials: found {len(credentials_list) if credentials_list else 0} entries", "DEBUG")
+                    if credentials_list and isinstance(credentials_list, list):
+                        for cred in credentials_list:
+                            if isinstance(cred, dict) and cred.get('id'):
+                                cred_id = cred.get('id')
+                                cred_description = cred.get('description', '')
+                                cred_username = cred.get('username', '')
+                                
+                                self._global_credentials_lookup[cred_id] = {
+                                    "id": cred_id,
+                                    "description": cred_description,
+                                    "username": cred_username,
+                                    "credentialType": cred_type,  # Use the API field name as type
+                                    "comments": cred.get('comments', ''),
+                                    "instanceTenantId": cred.get('instanceTenantId', ''),
+                                    "instanceUuid": cred.get('instanceUuid', '')
+                                }
+                                self.log(f"CREDENTIAL_MAPPING: ID={cred_id} -> Type={cred_type}, Description='{cred_description}', Username='{cred_username}'", "INFO")
+            
+            # Fallback: try v2 API if v1 returns empty results
             if not self._global_credentials_lookup:
-                self.log("Trying v2 global credentials API", "DEBUG")
+                self.log("Trying v2 global credentials API as fallback", "DEBUG")
                 try:
                     alt_response = self.dnac._exec(
                         family="discovery",
                         function="get_all_global_credentials_v2",
-                        params={}
+                        params=headers
                     )
-                    self.log(f"V2 API response: {alt_response}", "DEBUG")
                     
-                    # Process v2 API response
-                    alt_credentials = []
-                    if alt_response:
-                        if isinstance(alt_response, dict):
-                            alt_credentials = alt_response.get("response", [])
-                        elif isinstance(alt_response, list):
-                            alt_credentials = alt_response
-                            
-                    if alt_credentials:
-                        for cred in alt_credentials:
-                            if isinstance(cred, dict):
+                    alt_response_data = alt_response
+                    if isinstance(alt_response, dict) and "response" in alt_response:
+                        alt_response_data = alt_response.get("response")
+                    
+                    self.log(f"V2 API response: {alt_response_data}", "DEBUG")
+                    
+                    if alt_response_data and isinstance(alt_response_data, list):
+                        self.log(f"V2 API returned {len(alt_response_data)} credentials", "DEBUG")
+                        for cred in alt_response_data:
+                            if isinstance(cred, dict) and cred.get('id'):
                                 cred_id = cred.get('id')
-                                if cred_id:
-                                    self._global_credentials_lookup[cred_id] = {
-                                        "id": cred_id,
-                                        "description": cred.get('description', ''),
-                                        "username": cred.get('username', ''),
-                                        "credentialType": cred.get('credentialType', ''),
-                                        "comments": cred.get('comments', ''),
-                                        "instanceTenantId": cred.get('instanceTenantId', ''),
-                                        "instanceUuid": cred.get('instanceUuid', '')
-                                    }
-                                    self.log(f"Added credential from V2 API: {cred_id} - {cred.get('description', '')}", "DEBUG")
+                                cred_description = cred.get('description', '')
+                                cred_username = cred.get('username', '')
+                                cred_type = cred.get('credentialType', '')
+                                
+                                self._global_credentials_lookup[cred_id] = {
+                                    "id": cred_id,
+                                    "description": cred_description,
+                                    "username": cred_username,
+                                    "credentialType": cred_type,
+                                    "comments": cred.get('comments', ''),
+                                    "instanceTenantId": cred.get('instanceTenantId', ''),
+                                    "instanceUuid": cred.get('instanceUuid', '')
+                                }
+                                self.log(f"V2_CREDENTIAL_MAPPING: ID={cred_id} -> Type={cred_type}, Description='{cred_description}', Username='{cred_username}'", "INFO")
                 except Exception as alt_e:
                     self.log(f"V2 API also failed: {str(alt_e)}", "DEBUG")
 
@@ -581,12 +563,13 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
     def transform_global_credentials_list(self, discovery_data):
         """
         Transform global credential ID lists to credential descriptions and usernames.
+        Maps credential IDs to their proper names and usernames for playbook generation.
 
         Args:
             discovery_data (dict): Discovery configuration data
 
         Returns:
-            dict: Transformed global credentials structure
+            dict: Transformed global credentials structure compatible with discovery_workflow_manager
         """
         if not discovery_data or not isinstance(discovery_data, dict):
             return {}
@@ -597,7 +580,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log(f"Transforming {len(global_cred_ids)} global credential IDs", "DEBUG")
 
-        # Group credentials by type
+        # Group credentials by type - using the same structure as discovery_workflow_manager
         credentials = {
             "cli_credentials_list": [],
             "http_read_credential_list": [],
@@ -608,39 +591,90 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         }
 
         lookup = self.get_global_credentials_lookup()
+        self.log(f"Available credential IDs in lookup: {list(lookup.keys())}", "DEBUG")
+        self.log(f"Discovery credential IDs to transform: {global_cred_ids}", "DEBUG")
 
         for cred_id in global_cred_ids:
             cred_info = lookup.get(cred_id, {})
-            cred_type = cred_info.get('credentialType', '').upper()
+            cred_type = cred_info.get('credentialType', '')
             description = cred_info.get('description', cred_id)
             username = cred_info.get('username', '')
+            
+            self.log(f"TRANSFORM_DEBUG: Processing credential ID {cred_id}", "DEBUG")
+            self.log(f"TRANSFORM_DEBUG: Found info: {cred_info}", "DEBUG")
 
-            cred_entry = {
-                "description": description,
-                "username": username
-            }
+            # Skip credentials without proper description (still showing IDs)
+            if description == cred_id and not cred_info:
+                self.log(f"CREDENTIAL_NOT_FOUND: ID={cred_id} not found in lookup table, skipping", "WARNING")
+                continue
 
-            # Improved credential type mapping
-            if 'CLI' in cred_type or cred_type == 'GLOBAL':
+            # Build credential entry, excluding username if it's empty
+            cred_entry = {"description": description}
+            if username:  # Only include username if it's not empty
+                cred_entry["username"] = username
+            
+            self.log(f"CREDENTIAL_TRANSFORM: ID={cred_id} -> Entry={cred_entry}, Type='{cred_type}'", "INFO")
+
+            # Map credential types based on API field names (same as discovery_workflow_manager.py)
+            if cred_type == 'cliCredential':
                 credentials["cli_credentials_list"].append(cred_entry)
-            elif 'HTTP_READ' in cred_type or 'HTTPS_READ' in cred_type:
+                self.log(f"MAPPED_TO: cli_credentials_list - {description}", "DEBUG")
+            elif cred_type == 'httpsRead':
                 credentials["http_read_credential_list"].append(cred_entry)
-            elif 'HTTP_WRITE' in cred_type or 'HTTPS_WRITE' in cred_type:
+                self.log(f"MAPPED_TO: http_read_credential_list - {description}", "DEBUG")
+            elif cred_type == 'httpsWrite':
                 credentials["http_write_credential_list"].append(cred_entry)
-            elif 'SNMPV2_READ' in cred_type or 'SNMPv2_READ' in cred_type:
+                self.log(f"MAPPED_TO: http_write_credential_list - {description}", "DEBUG")
+            elif cred_type == 'snmpV2cRead':
                 credentials["snmp_v2_read_credential_list"].append(cred_entry)
-            elif 'SNMPV2_WRITE' in cred_type or 'SNMPv2_WRITE' in cred_type:
+                self.log(f"MAPPED_TO: snmp_v2_read_credential_list - {description}", "DEBUG")
+            elif cred_type == 'snmpV2cWrite':
                 credentials["snmp_v2_write_credential_list"].append(cred_entry)
-            elif 'SNMPV3' in cred_type or 'SNMPv3' in cred_type:
+                self.log(f"MAPPED_TO: snmp_v2_write_credential_list - {description}", "DEBUG")
+            elif cred_type == 'snmpV3':
                 credentials["snmp_v3_credential_list"].append(cred_entry)
+                self.log(f"MAPPED_TO: snmp_v3_credential_list - {description}", "DEBUG")
             else:
-                # Default to CLI if type is unknown but still include it
-                self.log(f"Unknown credential type '{cred_type}' for ID {cred_id}, defaulting to CLI", "DEBUG")
-                credentials["cli_credentials_list"].append(cred_entry)
+                # Try to infer from description or fallback to CLI
+                cred_type_upper = cred_type.upper()
+                self.log(f"FALLBACK_MAPPING: Processing unknown cred_type='{cred_type}' (upper='{cred_type_upper}') for ID={cred_id}", "DEBUG")
+                
+                if 'CLI' in cred_type_upper or cred_type_upper == 'GLOBAL':
+                    credentials["cli_credentials_list"].append(cred_entry)
+                    self.log(f"FALLBACK_MAPPED_TO: cli_credentials_list (CLI/GLOBAL match) - {description}", "DEBUG")
+                elif 'HTTP_READ' in cred_type_upper or 'HTTPS_READ' in cred_type_upper:
+                    credentials["http_read_credential_list"].append(cred_entry)
+                    self.log(f"FALLBACK_MAPPED_TO: http_read_credential_list (HTTP_READ match) - {description}", "DEBUG")
+                elif 'HTTP_WRITE' in cred_type_upper or 'HTTPS_WRITE' in cred_type_upper:
+                    credentials["http_write_credential_list"].append(cred_entry)
+                    self.log(f"FALLBACK_MAPPED_TO: http_write_credential_list (HTTP_WRITE match) - {description}", "DEBUG")
+                elif 'SNMPV2_READ' in cred_type_upper or 'SNMPv2_READ' in cred_type_upper:
+                    credentials["snmp_v2_read_credential_list"].append(cred_entry)
+                    self.log(f"FALLBACK_MAPPED_TO: snmp_v2_read_credential_list (SNMPV2_READ match) - {description}", "DEBUG")
+                elif 'SNMPV2_WRITE' in cred_type_upper or 'SNMPv2_WRITE' in cred_type_upper:
+                    credentials["snmp_v2_write_credential_list"].append(cred_entry)
+                    self.log(f"FALLBACK_MAPPED_TO: snmp_v2_write_credential_list (SNMPV2_WRITE match) - {description}", "DEBUG")
+                elif 'SNMPV3' in cred_type_upper or 'SNMPv3' in cred_type_upper:
+                    credentials["snmp_v3_credential_list"].append(cred_entry)
+                    self.log(f"FALLBACK_MAPPED_TO: snmp_v3_credential_list (SNMPV3 match) - {description}", "DEBUG")
+                else:
+                    # Default to CLI if type is unknown but we have valid description
+                    self.log(f"FALLBACK_DEFAULT: Unknown credential type '{cred_type}' for ID {cred_id}, defaulting to CLI - {description}", "INFO")
+                    credentials["cli_credentials_list"].append(cred_entry)
 
-        # Remove empty credential lists
+        # Remove empty credential lists to keep output clean
+        credentials_before_filter = dict(credentials)
         credentials = {k: v for k, v in credentials.items() if v}
-
+        
+        self.log(f"TRANSFORM_SUMMARY: Input IDs count: {len(global_cred_ids)}", "INFO")
+        self.log(f"TRANSFORM_SUMMARY: Credentials before filtering: {credentials_before_filter}", "DEBUG")
+        self.log(f"TRANSFORM_SUMMARY: Final transformed credentials: {credentials}", "INFO")
+        
+        # Log summary by credential type
+        for cred_type, cred_list in credentials.items():
+            descriptions = [c.get('description', 'N/A') for c in cred_list]
+            self.log(f"FINAL_{cred_type.upper()}: {len(cred_list)} entries - {descriptions}", "INFO")
+        
         return credentials if credentials else {}
 
     def transform_ip_address_list(self, discovery_data):
@@ -970,13 +1004,9 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Transform discovery data
         discovery_details = self.modify_parameters(reverse_mapping_spec, discoveries_data)
 
-        # Build final YAML structure
+        # Build final YAML structure matching discovery_workflow_manager format
         yaml_data = {
-            "config": [
-                {
-                    "discovery_details": discovery_details
-                }
-            ],
+            "config": discovery_details,
             "operation_summary": {
                 "total_discoveries_processed": len(discoveries_data),
                 "total_components_processed": 1,
