@@ -414,47 +414,46 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         }
 
     # Reverse mapping functions for temp specs
-    def webhook_destinations_reverse_mapping_function(self, requested_features=None):
+    def webhook_destinations_reverse_mapping_function(self):
         """Returns the reverse mapping specification for webhook destination details."""
         self.log("Generating reverse mapping specification for webhook destination details", "DEBUG")
         return self.webhook_destinations_temp_spec()
 
-    def email_destinations_reverse_mapping_function(self, requested_features=None):
+    def email_destinations_reverse_mapping_function(self):
         """Returns the reverse mapping specification for email destination details."""
         self.log("Generating reverse mapping specification for email destination details", "DEBUG")
         return self.email_destinations_temp_spec()
 
-    def syslog_destinations_reverse_mapping_function(self, requested_features=None):
+    def syslog_destinations_reverse_mapping_function(self):
         """Returns the reverse mapping specification for syslog destination details."""
         self.log("Generating reverse mapping specification for syslog destination details", "DEBUG")
         return self.syslog_destinations_temp_spec()
 
-    def snmp_destinations_reverse_mapping_function(self, requested_features=None):
+    def snmp_destinations_reverse_mapping_function(self):
         """Returns the reverse mapping specification for SNMP destination details."""
         self.log("Generating reverse mapping specification for SNMP destination details", "DEBUG")
         return self.snmp_destinations_temp_spec()
 
-    def itsm_settings_reverse_mapping_function(self, requested_features=None):
+    def itsm_settings_reverse_mapping_function(self):
         """Returns the reverse mapping specification for ITSM settings details."""
         self.log("Generating reverse mapping specification for ITSM settings details", "DEBUG")
         return self.itsm_settings_temp_spec()
 
-    def webhook_event_notifications_reverse_mapping_function(self, requested_features=None):
+    def webhook_event_notifications_reverse_mapping_function(self):
         """Returns the reverse mapping specification for webhook event notification details."""
         self.log("Generating reverse mapping specification for webhook event notification details", "DEBUG")
         return self.webhook_event_notifications_temp_spec()
 
-    def email_event_notifications_reverse_mapping_function(self, requested_features=None):
+    def email_event_notifications_reverse_mapping_function(self):
         """Returns the reverse mapping specification for email event notification details."""
         self.log("Generating reverse mapping specification for email event notification details", "DEBUG")
         return self.email_event_notifications_temp_spec()
 
-    def syslog_event_notifications_reverse_mapping_function(self, requested_features=None):
+    def syslog_event_notifications_reverse_mapping_function(self):
         """Returns the reverse mapping specification for syslog event notification details."""
         self.log("Generating reverse mapping specification for syslog event notification details", "DEBUG")
         return self.syslog_event_notifications_temp_spec()
 
-    # Temp spec functions
     def webhook_destinations_temp_spec(self):
         """Constructs a temporary specification for webhook destination details."""
         self.log("Generating temporary specification for webhook destination details.", "DEBUG")
@@ -600,7 +599,6 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         if not notification or not isinstance(notification, dict):
             return None
 
-        # Extract from subscriptionEndpoints for EMAIL connector
         subscription_endpoints = notification.get("subscriptionEndpoints", [])
         for endpoint in subscription_endpoints:
             subscription_details = endpoint.get("subscriptionDetails", {})
@@ -614,7 +612,6 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         if not notification or not isinstance(notification, dict):
             return None
 
-        # Extract from subscriptionEndpoints for EMAIL connector
         subscription_endpoints = notification.get("subscriptionEndpoints", [])
         for endpoint in subscription_endpoints:
             subscription_details = endpoint.get("subscriptionDetails", {})
@@ -628,14 +625,12 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         if not notification or not isinstance(notification, dict):
             return []
 
-        # Get event IDs from filter
         filter_obj = notification.get("filter", {})
         event_ids = filter_obj.get("eventIds", [])
 
         if not event_ids:
             return []
 
-        # Resolve event IDs to event names using Get Event Artifacts API
         event_names = []
         for event_id in event_ids:
             try:
@@ -643,10 +638,10 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 if event_name:
                     event_names.append(event_name)
                 else:
-                    event_names.append(event_id)  # Fallback to event ID
+                    event_names.append(event_id)
             except Exception as e:
                 self.log("Error resolving event ID {0}: {1}".format(event_id, str(e)), "WARNING")
-                event_names.append(event_id)  # Fallback to event ID
+                event_names.append(event_id)
 
         return event_names
 
@@ -656,7 +651,6 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             return None
 
         try:
-            # Try the Get Event Artifacts API
             response = self.dnac._exec(
                 family="event_management",
                 function="get_event_artifacts",
@@ -667,16 +661,13 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             self.log("Event Artifacts API response for {0}: {1}".format(event_id, response), "DEBUG")
 
-            # Parse the response for event name
-            # The response is directly a list, not wrapped in a "response" key
             if isinstance(response, list) and len(response) > 0:
-                event_info = response[0]  # Get the first item from the list
-                event_name = event_info.get("name")  # Extract the "name" field
+                event_info = response[0]
+                event_name = event_info.get("name")
                 if event_name:
                     self.log("Successfully resolved event ID {0} to name: {1}".format(event_id, event_name), "INFO")
                     return event_name
 
-            # If response is a dict (fallback)
             elif isinstance(response, dict):
                 events = response.get("response") or response.get("events") or []
                 if events and len(events) > 0:
@@ -686,17 +677,31 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         self.log("Successfully resolved event ID {0} to name: {1}".format(event_id, event_name), "INFO")
                         return event_name
 
-            # If no event name found, return the event_id itself
             self.log("No event name found in API response for {0}, returning event ID".format(event_id), "WARNING")
             return event_id
 
         except Exception as e:
             self.log("Error calling event artifacts API for event ID {0}: {1}".format(event_id, str(e)), "WARNING")
-            # Return the event_id itself if API fails
             return event_id
 
     def extract_sites_from_filter(self, filter_data):
-        """Extract site names from filter data."""
+        """
+        Extracts site names from filter data structures.
+
+        Description:
+            This method processes filter data to extract site information, handling both site names
+            and site IDs. When site IDs are found, it attempts to resolve them to site names using
+            the site ID to name mapping. The method handles various data formats including dictionaries
+            and lists to ensure comprehensive site extraction.
+
+        Args:
+            filter_data (dict or list): Filter data containing site information, either as site names
+                directly or as site IDs that need to be resolved.
+
+        Returns:
+            list: A list of site names extracted from the filter data. Returns an empty list
+            if no sites are found or if an error occurs during extraction.
+        """
         if not filter_data:
             return []
         try:
@@ -720,7 +725,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return []
 
     def extract_webhook_destination_name(self, notification):
-        """Extract webhook destination name from subscriptionEndpoints."""
+        """
+        Extracts webhook destination name from notification subscription endpoints.
+
+        Description:
+            This method searches through subscription endpoints in a notification to find
+            webhook (REST) connector types and extracts the destination name. It iterates
+            through all subscription endpoints and returns the first matching webhook destination name.
+
+        Args:
+            notification (dict): Notification dictionary containing subscription endpoints
+                with connector details.
+
+        Returns:
+            str or None: The webhook destination name if found, otherwise None.
+            Returns None if the notification is invalid or no webhook destination is found.
+        """
         if not notification:
             return None
 
@@ -732,7 +752,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return None
 
     def extract_syslog_destination_name(self, notification):
-        """Extract syslog destination name from subscriptionEndpoints."""
+        """
+        Extracts syslog destination name from notification subscription endpoints.
+
+        Description:
+            This method searches through subscription endpoints in a notification to find
+            syslog connector types and extracts the destination name. It processes the
+            subscription details to identify syslog-specific configurations.
+
+        Args:
+            notification (dict): Notification dictionary containing subscription endpoints
+                with connector details.
+
+        Returns:
+            str or None: The syslog destination name if found, otherwise None.
+            Returns None if the notification is invalid or no syslog destination is found.
+        """
         if not notification:
             return None
 
@@ -744,7 +779,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return None
 
     def extract_sender_email(self, notification):
-        """Extract sender email from subscriptionEndpoints."""
+        """
+        Extracts sender email address from notification subscription endpoints.
+
+        Description:
+            This method processes subscription endpoints to find email connector types
+            and extracts the sender email address (fromEmailAddress). It searches through
+            all endpoints to locate email-specific configuration details.
+
+        Args:
+            notification (dict): Notification dictionary containing subscription endpoints
+                with email configuration details.
+
+        Returns:
+            str or None: The sender email address if found, otherwise None.
+            Returns None if the notification is invalid or no email configuration is found.
+        """
         if not notification:
             return None
 
@@ -756,7 +806,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return None
 
     def extract_recipient_emails(self, notification):
-        """Extract recipient emails from subscriptionEndpoints."""
+        """
+        Extracts recipient email addresses from notification subscription endpoints.
+
+        Description:
+            This method processes subscription endpoints to find email connector types
+            and extracts the list of recipient email addresses (toEmailAddresses). It
+            searches through all endpoints to locate email-specific recipient configurations.
+
+        Args:
+            notification (dict): Notification dictionary containing subscription endpoints
+                with email configuration details.
+
+        Returns:
+            list: A list of recipient email addresses if found, otherwise an empty list.
+            Returns an empty list if the notification is invalid or no email configuration is found.
+        """
         if not notification:
             return []
 
@@ -768,7 +833,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return []
 
     def extract_subject(self, notification):
-        """Extract subject from subscriptionEndpoints."""
+        """
+        Extracts email subject from notification subscription endpoints.
+
+        Description:
+            This method processes subscription endpoints to find email connector types
+            and extracts the email subject line. It searches through all endpoints to
+            locate email-specific subject configuration details.
+
+        Args:
+            notification (dict): Notification dictionary containing subscription endpoints
+                with email configuration details.
+
+        Returns:
+            str or None: The email subject if found, otherwise None.
+            Returns None if the notification is invalid or no email configuration is found.
+        """
         if not notification:
             return None
 
@@ -779,92 +859,81 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 return subscription_details.get("subject")
         return None
 
-    def modify_parameters(self, temp_spec, details_list):
+    def redact_password(self, password):
         """
-        Transforms API response data according to the provided specification.
+        Redacts sensitive password information for security purposes.
+
+        Description:
+            This method replaces actual password values with a redacted placeholder
+            to prevent sensitive information from appearing in generated YAML files
+            or logs. It ensures security by masking credentials while maintaining
+            the structure of the configuration.
+
+        Args:
+            password (str): The password string to be redacted.
+
+        Returns:
+            str or None: Returns "***REDACTED***" if password exists, otherwise None.
+            This ensures sensitive data is not exposed in configuration files.
         """
-        self.log("Details list: {0}".format(details_list), "DEBUG")
-        self.log("Starting modification of parameters based on temp_spec.", "INFO")
+        return "***REDACTED***" if password else None
 
-        if not details_list:
-            self.log("No details to process", "DEBUG")
-            return []
+    def create_instance_name(self, notification):
+        """
+        Creates instance name from email subscription endpoint details.
 
-        modified_configs = []
+        Description:
+            This method extracts the instance name from email subscription endpoints
+            by searching for EMAIL connector types and retrieving the name field.
+            This is used to create meaningful instance identifiers for email notifications.
 
-        for detail in details_list:
-            if not isinstance(detail, dict):
-                continue
+        Args:
+            notification (dict): Notification dictionary containing subscription endpoints
+                with email instance details.
 
-            mapped_config = OrderedDict()
+        Returns:
+            str or None: The instance name if found in email subscription details,
+            otherwise None if no email connector or name is found.
+        """
+        if not notification or not isinstance(notification, dict):
+            return None
 
-            for key, spec_def in temp_spec.items():
-                source_key = spec_def.get("source_key", key)
-                value = detail.get(source_key)
+        subscription_endpoints = notification.get("subscriptionEndpoints", [])
+        for endpoint in subscription_endpoints:
+            subscription_details = endpoint.get("subscriptionDetails", {})
+            if subscription_details.get("connectorType") == "EMAIL":
+                return subscription_details.get("name")
 
-                # Handle nested options (like headers in webhook destinations)
-                if spec_def.get("options") and isinstance(value, list):
-                    nested_list = []
-                    for item in value:
-                        if isinstance(item, dict):
-                            nested_mapped = OrderedDict()
-                            for nested_key, nested_spec in spec_def["options"].items():
-                                nested_source_key = nested_spec.get("source_key", nested_key)
-                                nested_value = item.get(nested_source_key)
+        return None
 
-                                if nested_value is not None:
-                                    # Apply transformation if specified
-                                    transform = nested_spec.get("transform")
-                                    if transform and callable(transform):
-                                        nested_value = transform(nested_value)
-                                    nested_mapped[nested_key] = nested_value
+    def create_instance_description(self, notification):
+        """
+        Creates instance description from email subscription endpoint details.
 
-                            if nested_mapped:
-                                nested_list.append(nested_mapped)
+        Description:
+            This method extracts the instance description from email subscription endpoints
+            by searching for EMAIL connector types and retrieving the description field.
+            This provides descriptive information for email notification instances.
 
-                    if nested_list:
-                        mapped_config[key] = nested_list
+        Args:
+            notification (dict): Notification dictionary containing subscription endpoints
+                with email instance details.
 
-                # Handle nested dictionaries (like SMTP configs in email destinations)
-                elif spec_def.get("options") and isinstance(value, dict):
-                    nested_mapped = OrderedDict()
-                    for nested_key, nested_spec in spec_def["options"].items():
-                        nested_source_key = nested_spec.get("source_key", nested_key)
-                        nested_value = value.get(nested_source_key)
+        Returns:
+            str or None: The instance description if found in email subscription details,
+            otherwise None if no email connector or description is found.
+        """
+        if not notification or not isinstance(notification, dict):
+            return None
 
-                        if nested_value is not None:
-                            # Apply transformation if specified
-                            transform = nested_spec.get("transform")
-                            if transform and callable(transform):
-                                nested_value = transform(nested_value)
-                            nested_mapped[nested_key] = nested_value
+        subscription_endpoints = notification.get("subscriptionEndpoints", [])
+        for endpoint in subscription_endpoints:
+            subscription_details = endpoint.get("subscriptionDetails", {})
+            if subscription_details.get("connectorType") == "EMAIL":
+                return subscription_details.get("description")
 
-                    if nested_mapped:
-                        mapped_config[key] = nested_mapped
+        return None
 
-                else:
-                    # Handle simple values and transform functions
-                    if value is not None:
-                        # Apply transformation if specified
-                        transform = spec_def.get("transform")
-                        if transform and callable(transform):
-                            value = transform(detail)  # Changed from transform(value) to transform(detail)
-                        mapped_config[key] = value
-                    # CRITICAL FIX: Handle transform functions even when source value is None/missing
-                    elif spec_def.get("transform"):
-                        transform = spec_def.get("transform")
-                        if transform and callable(transform):
-                            transformed_value = transform(detail)  # Pass entire detail object
-                            if transformed_value is not None:
-                                mapped_config[key] = transformed_value
-
-            if mapped_config:
-                modified_configs.append(mapped_config)
-
-        self.log("Completed modification of all details.", "INFO")
-        return modified_configs
-
-    # Data retrieval functions
     def get_webhook_destinations(self, network_element, filters):
         """Retrieves webhook destination details based on the provided filters."""
         self.log("Starting to retrieve webhook destinations", "DEBUG")
@@ -873,12 +942,20 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         destination_filters = component_specific_filters.get("destination_filters", {})
         destination_names = destination_filters.get("destination_names", [])
 
+        api_family = network_element.get("api_family")
+        api_function = network_element.get("api_function")
+
         try:
-            webhook_configs = self.get_all_webhook_destinations()
+            webhook_configs = self.get_all_webhook_destinations(api_family, api_function)
 
             if destination_names:
-                self.log("Applying destination name filters: {0}".format(destination_names), "DEBUG")
-                final_webhook_configs = [config for config in webhook_configs if config.get("name") in destination_names]
+                matching_configs = [config for config in webhook_configs if config.get("name") in destination_names]
+                if matching_configs:
+                    self.log("Found matching webhook destinations for filter: {0}".format(destination_names), "DEBUG")
+                    final_webhook_configs = matching_configs
+                else:
+                    self.log("No matching webhook destinations found for filter - including all", "DEBUG")
+                    final_webhook_configs = webhook_configs
             else:
                 final_webhook_configs = webhook_configs
 
@@ -893,7 +970,115 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Final webhook destinations result: {0} configs transformed".format(len(modified_webhook_configs)), "INFO")
         return result
 
-    def get_all_webhook_destinations(self):
+    def get_email_destinations(self, network_element, filters):
+        """Retrieves email destination details based on the provided filters."""
+        self.log("Starting to retrieve email destinations", "DEBUG")
+
+        component_specific_filters = filters.get("component_specific_filters", {})
+        destination_filters = component_specific_filters.get("destination_filters", {})
+        destination_names = destination_filters.get("destination_names", [])
+
+        api_family = network_element.get("api_family")
+        api_function = network_element.get("api_function")
+
+        try:
+            email_configs = self.get_all_email_destinations(api_family, api_function)
+
+            if destination_names:
+                matching_configs = [config for config in email_configs if config.get("name") in destination_names]
+                if matching_configs:
+                    self.log("Found matching email destinations for filter: {0}".format(destination_names), "DEBUG")
+                    final_email_configs = matching_configs
+                else:
+                    self.log("No matching email destinations found for filter - including all", "DEBUG")
+                    final_email_configs = email_configs
+            else:
+                final_email_configs = email_configs
+
+        except Exception as e:
+            self.log("Failed to retrieve email destinations: {0}".format(str(e)), "ERROR")
+            final_email_configs = []
+
+        email_destinations_temp_spec = self.email_destinations_temp_spec()
+        modified_email_configs = self.modify_parameters(email_destinations_temp_spec, final_email_configs)
+
+        result = {"email_destinations": modified_email_configs}
+        self.log("Final email destinations result: {0} configs transformed".format(len(modified_email_configs)), "INFO")
+        return result
+
+    def get_syslog_destinations(self, network_element, filters):
+        """Retrieves syslog destination details based on the provided filters."""
+        self.log("Starting to retrieve syslog destinations", "DEBUG")
+
+        component_specific_filters = filters.get("component_specific_filters", {})
+        destination_filters = component_specific_filters.get("destination_filters", {})
+        destination_names = destination_filters.get("destination_names", [])
+
+        api_family = network_element.get("api_family")
+        api_function = network_element.get("api_function")
+
+        try:
+            syslog_configs = self.get_all_syslog_destinations(api_family, api_function)
+
+            if destination_names:
+                matching_configs = [config for config in syslog_configs if config.get("name") in destination_names]
+                if matching_configs:
+                    self.log("Found matching syslog destinations for filter: {0}".format(destination_names), "DEBUG")
+                    final_syslog_configs = matching_configs
+                else:
+                    self.log("No matching syslog destinations found for filter - including all", "DEBUG")
+                    final_syslog_configs = syslog_configs
+            else:
+                final_syslog_configs = syslog_configs
+
+        except Exception as e:
+            self.log("Failed to retrieve syslog destinations: {0}".format(str(e)), "ERROR")
+            final_syslog_configs = []
+
+        syslog_destinations_temp_spec = self.syslog_destinations_temp_spec()
+        modified_syslog_configs = self.modify_parameters(syslog_destinations_temp_spec, final_syslog_configs)
+
+        result = {"syslog_destinations": modified_syslog_configs}
+        self.log("Final syslog destinations result: {0} configs transformed".format(len(modified_syslog_configs)), "INFO")
+        return result
+
+    def get_snmp_destinations(self, network_element, filters):
+        """Retrieves SNMP destination details based on the provided filters."""
+        self.log("Starting to retrieve SNMP destinations", "DEBUG")
+
+        component_specific_filters = filters.get("component_specific_filters", {})
+        destination_filters = component_specific_filters.get("destination_filters", {})
+        destination_names = destination_filters.get("destination_names", [])
+
+        api_family = network_element.get("api_family")
+        api_function = network_element.get("api_function")
+
+        try:
+            snmp_configs = self.get_all_snmp_destinations(api_family, api_function)
+
+            if destination_names:
+                matching_configs = [config for config in snmp_configs if config.get("name") in destination_names]
+                if matching_configs:
+                    self.log("Found matching SNMP destinations for filter: {0}".format(destination_names), "DEBUG")
+                    final_snmp_configs = matching_configs
+                else:
+                    self.log("No matching SNMP destinations found for filter - including all", "DEBUG")
+                    final_snmp_configs = snmp_configs
+            else:
+                final_snmp_configs = snmp_configs
+
+        except Exception as e:
+            self.log("Failed to retrieve SNMP destinations: {0}".format(str(e)), "ERROR")
+            final_snmp_configs = []
+
+        snmp_destinations_temp_spec = self.snmp_destinations_temp_spec()
+        modified_snmp_configs = self.modify_parameters(snmp_destinations_temp_spec, final_snmp_configs)
+
+        result = {"snmp_destinations": modified_snmp_configs}
+        self.log("Final SNMP destinations result: {0} configs transformed".format(len(modified_snmp_configs)), "INFO")
+        return result
+
+    def get_all_webhook_destinations(self, api_family, api_function):
         """Helper method to get all webhook destinations."""
         try:
             offset = 0
@@ -902,8 +1087,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             while True:
                 response = self.dnac._exec(
-                    family="event_management",
-                    function="get_webhook_destination",
+                    family=api_family,
+                    function=api_function,
                     op_modifies=False,
                     params={"offset": offset * limit, "limit": limit},
                 )
@@ -926,30 +1111,12 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Error retrieving webhook destinations: {0}".format(str(e)), "WARNING")
             return []
 
-    def get_email_destinations(self, network_element, filters):
-        """Retrieves email destination details based on the provided filters."""
-        self.log("Starting to retrieve email destinations", "DEBUG")
-
-        try:
-            email_configs = self.get_all_email_destinations()
-
-        except Exception as e:
-            self.log("Failed to retrieve email destinations: {0}".format(str(e)), "ERROR")
-            email_configs = []
-
-        email_destinations_temp_spec = self.email_destinations_temp_spec()
-        modified_email_configs = self.modify_parameters(email_destinations_temp_spec, email_configs)
-
-        result = {"email_destinations": modified_email_configs}
-        self.log("Final email destinations result: {0} configs transformed".format(len(modified_email_configs)), "INFO")
-        return result
-
-    def get_all_email_destinations(self):
+    def get_all_email_destinations(self, api_family, api_function):
         """Helper method to get all email destinations."""
         try:
             response = self.dnac._exec(
-                family="event_management",
-                function="get_email_destination",
+                family=api_family,
+                function=api_function,
                 op_modifies=False,
             )
             self.log("Received API response for email destinations: {0}".format(response), "DEBUG")
@@ -965,40 +1132,12 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Error retrieving email destinations: {0}".format(str(e)), "WARNING")
             return []
 
-    def get_syslog_destinations(self, network_element, filters):
-        """Retrieves syslog destination details based on the provided filters."""
-        self.log("Starting to retrieve syslog destinations", "DEBUG")
-
-        component_specific_filters = filters.get("component_specific_filters", {})
-        destination_filters = component_specific_filters.get("destination_filters", {})
-        destination_names = destination_filters.get("destination_names", [])
-
-        try:
-            syslog_configs = self.get_all_syslog_destinations()
-
-            if destination_names:
-                self.log("Applying destination name filters: {0}".format(destination_names), "DEBUG")
-                final_syslog_configs = [config for config in syslog_configs if config.get("name") in destination_names]
-            else:
-                final_syslog_configs = syslog_configs
-
-        except Exception as e:
-            self.log("Failed to retrieve syslog destinations: {0}".format(str(e)), "ERROR")
-            final_syslog_configs = []
-
-        syslog_destinations_temp_spec = self.syslog_destinations_temp_spec()
-        modified_syslog_configs = self.modify_parameters(syslog_destinations_temp_spec, final_syslog_configs)
-
-        result = {"syslog_destinations": modified_syslog_configs}
-        self.log("Final syslog destinations result: {0} configs transformed".format(len(modified_syslog_configs)), "INFO")
-        return result
-
-    def get_all_syslog_destinations(self):
+    def get_all_syslog_destinations(self, api_family, api_function):
         """Helper method to get all syslog destinations."""
         try:
             response = self.dnac._exec(
-                family="event_management",
-                function="get_syslog_destination",
+                family=api_family,
+                function=api_function,
                 op_modifies=False,
                 params={},
             )
@@ -1011,35 +1150,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Error retrieving syslog destinations: {0}".format(str(e)), "WARNING")
             return []
 
-    def get_snmp_destinations(self, network_element, filters):
-        """Retrieves SNMP destination details based on the provided filters."""
-        self.log("Starting to retrieve SNMP destinations", "DEBUG")
-
-        component_specific_filters = filters.get("component_specific_filters", {})
-        destination_filters = component_specific_filters.get("destination_filters", {})
-        destination_names = destination_filters.get("destination_names", [])
-
-        try:
-            snmp_configs = self.get_all_snmp_destinations()
-
-            if destination_names:
-                self.log("Applying destination name filters: {0}".format(destination_names), "DEBUG")
-                final_snmp_configs = [config for config in snmp_configs if config.get("name") in destination_names]
-            else:
-                final_snmp_configs = snmp_configs
-
-        except Exception as e:
-            self.log("Failed to retrieve SNMP destinations: {0}".format(str(e)), "ERROR")
-            final_snmp_configs = []
-
-        snmp_destinations_temp_spec = self.snmp_destinations_temp_spec()
-        modified_snmp_configs = self.modify_parameters(snmp_destinations_temp_spec, final_snmp_configs)
-
-        result = {"snmp_destinations": modified_snmp_configs}
-        self.log("Final SNMP destinations result: {0} configs transformed".format(len(modified_snmp_configs)), "INFO")
-        return result
-
-    def get_all_snmp_destinations(self):
+    def get_all_snmp_destinations(self, api_family, api_function):
         """Helper method to get all SNMP destinations."""
         try:
             offset = 0
@@ -1049,8 +1160,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             while True:
                 try:
                     response = self.dnac._exec(
-                        family="event_management",
-                        function="get_snmp_destination",
+                        family=api_family,
+                        function=api_function,
                         op_modifies=False,
                         params={"offset": offset * limit, "limit": limit},
                     )
@@ -1085,8 +1196,11 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         itsm_filters = component_specific_filters.get("itsm_filters", {})
         instance_names = itsm_filters.get("instance_names", [])
 
+        api_family = network_element.get("api_family")
+        api_function = network_element.get("api_function")
+
         try:
-            itsm_configs = self.get_all_itsm_settings()
+            itsm_configs = self.get_all_itsm_settings(api_family, api_function)
 
             if instance_names:
                 self.log("Applying instance name filters: {0}".format(instance_names), "DEBUG")
@@ -1105,12 +1219,12 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Final ITSM settings result: {0} configs transformed".format(len(modified_itsm_configs)), "INFO")
         return result
 
-    def get_all_itsm_settings(self):
+    def get_all_itsm_settings(self, api_family, api_function):
         """Helper method to get all ITSM settings."""
         try:
             response = self.dnac._exec(
-                family="event_management",
-                function="get_all_itsm_integration_settings",
+                family=api_family,
+                function=api_function,
                 op_modifies=False,
             )
             self.log("Received API response for ITSM settings: {0}".format(response), "DEBUG")
@@ -1127,7 +1241,38 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Error retrieving ITSM settings: {0}".format(str(e)), "WARNING")
             return []
 
-    def get_all_webhook_event_notifications(self):
+    def get_webhook_event_notifications(self, network_element, filters):
+        """Retrieves webhook event notification details based on the provided filters."""
+        self.log("Starting to retrieve webhook event notifications", "DEBUG")
+
+        component_specific_filters = filters.get("component_specific_filters", {})
+        notification_filters = component_specific_filters.get("notification_filters", {})
+        subscription_names = notification_filters.get("subscription_names", [])
+
+        api_family = network_element.get("api_family")
+        api_function = network_element.get("api_function")
+
+        try:
+            notification_configs = self.get_all_webhook_event_notifications(api_family, api_function)
+
+            if subscription_names:
+                self.log("Applying subscription name filters: {0}".format(subscription_names), "DEBUG")
+                final_notification_configs = [config for config in notification_configs if config.get("name") in subscription_names]
+            else:
+                final_notification_configs = notification_configs
+
+        except Exception as e:
+            self.log("Failed to retrieve webhook event notifications: {0}".format(str(e)), "ERROR")
+            final_notification_configs = []
+
+        webhook_event_notifications_temp_spec = self.webhook_event_notifications_temp_spec()
+        modified_notification_configs = self.modify_parameters(webhook_event_notifications_temp_spec, final_notification_configs)
+
+        result = {"webhook_event_notifications": modified_notification_configs}
+        self.log("Final webhook event notifications result: {0} configs transformed".format(len(modified_notification_configs)), "INFO")
+        return result
+
+    def get_all_webhook_event_notifications(self, api_family, api_function):
         """Helper method to get all webhook event notifications."""
         try:
             offset = 0
@@ -1137,8 +1282,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             while True:
                 try:
                     response = self.dnac._exec(
-                        family="event_management",
-                        function="get_rest_webhook_event_subscriptions",
+                        family=api_family,
+                        function=api_function,
                         op_modifies=False,
                         params={"offset": offset, "limit": limit},
                     )
@@ -1171,19 +1316,47 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Error retrieving webhook event notifications: {0}".format(str(e)), "WARNING")
             return []
 
-    def get_all_email_event_notifications(self):
+    def get_email_event_notifications(self, network_element, filters):
+        """Retrieves email event notification details based on the provided filters."""
+        self.log("Starting to retrieve email event notifications", "DEBUG")
+
+        component_specific_filters = filters.get("component_specific_filters", {})
+        notification_filters = component_specific_filters.get("notification_filters", {})
+        subscription_names = notification_filters.get("subscription_names", [])
+
+        api_family = network_element.get("api_family")
+        api_function = network_element.get("api_function")
+
+        try:
+            notification_configs = self.get_all_email_event_notifications(api_family, api_function)
+
+            if subscription_names:
+                self.log("Applying subscription name filters: {0}".format(subscription_names), "DEBUG")
+                final_notification_configs = [config for config in notification_configs if config.get("name") in subscription_names]
+            else:
+                final_notification_configs = notification_configs
+
+        except Exception as e:
+            self.log("Failed to retrieve email event notifications: {0}".format(str(e)), "ERROR")
+            final_notification_configs = []
+
+        email_event_notifications_temp_spec = self.email_event_notifications_temp_spec()
+        modified_notification_configs = self.modify_parameters(email_event_notifications_temp_spec, final_notification_configs)
+
+        result = {"email_event_notifications": modified_notification_configs}
+        self.log("Final email event notifications result: {0} configs transformed".format(len(modified_notification_configs)), "INFO")
+        return result
+
+    def get_all_email_event_notifications(self, api_family, api_function):
         """Helper method to get all email event notifications."""
         try:
             response = self.dnac._exec(
-                family="event_management",
-                function="get_email_event_subscriptions",
+                family=api_family,
+                function=api_function,
                 op_modifies=False,
                 params={}
             )
             self.log("Received API response for email event notifications: {0}".format(response), "DEBUG")
-
-            # DEBUG: Log the actual API response structure
-            self.log("Email event notifications API response: {0}".format(response), "DEBUG")
 
             if isinstance(response, list):
                 notifications = response
@@ -1191,11 +1364,6 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 notifications = response.get("response", [])
             else:
                 notifications = []
-
-            # DEBUG: Log each notification's structure
-            for i, notification in enumerate(notifications):
-                self.log("Email notification {0} fields: {1}".format(i, list(notification.keys())), "DEBUG")
-                self.log("Full notification data: {0}".format(notification), "DEBUG")
 
             return notifications
 
@@ -1211,8 +1379,11 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         notification_filters = component_specific_filters.get("notification_filters", {})
         subscription_names = notification_filters.get("subscription_names", [])
 
+        api_family = network_element.get("api_family")
+        api_function = network_element.get("api_function")
+
         try:
-            notification_configs = self.get_all_syslog_event_notifications()
+            notification_configs = self.get_all_syslog_event_notifications(api_family, api_function)
 
             if subscription_names:
                 self.log("Applying subscription name filters: {0}".format(subscription_names), "DEBUG")
@@ -1231,7 +1402,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Final syslog event notifications result: {0} configs transformed".format(len(modified_notification_configs)), "INFO")
         return result
 
-    def get_all_syslog_event_notifications(self):
+    def get_all_syslog_event_notifications(self, api_family, api_function):
         """Helper method to get all syslog event notifications."""
         try:
             offset = 0
@@ -1241,8 +1412,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             while True:
                 try:
                     response = self.dnac._exec(
-                        family="event_management",
-                        function="get_syslog_event_subscriptions",
+                        family=api_family,
+                        function=api_function,
                         op_modifies=False,
                         params={"offset": offset, "limit": limit},
                     )
@@ -1275,65 +1446,123 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Error retrieving syslog event notifications: {0}".format(str(e)), "WARNING")
             return []
 
-    def get_webhook_event_notifications(self, network_element, filters):
-        """Retrieves webhook event notification details based on the provided filters."""
-        self.log("Starting to retrieve webhook event notifications", "DEBUG")
+    def modify_parameters(self, temp_spec, details_list):
+        """
+        Transforms API response data according to the provided specification.
+        This version removes parameters with null values to keep the YAML clean.
+        """
+        self.log("Details list: {0}".format(details_list), "DEBUG")
+        self.log("Starting modification of parameters based on temp_spec.", "INFO")
 
-        component_specific_filters = filters.get("component_specific_filters", {})
-        notification_filters = component_specific_filters.get("notification_filters", {})
-        subscription_names = notification_filters.get("subscription_names", [])
+        if not details_list:
+            self.log("No details to process", "DEBUG")
+            return []
 
-        try:
-            notification_configs = self.get_all_webhook_event_notifications()
+        modified_configs = []
 
-            if subscription_names:
-                self.log("Applying subscription name filters: {0}".format(subscription_names), "DEBUG")
-                final_notification_configs = [config for config in notification_configs if config.get("name") in subscription_names]
-            else:
-                final_notification_configs = notification_configs
+        for detail in details_list:
+            if not isinstance(detail, dict):
+                continue
 
-        except Exception as e:
-            self.log("Failed to retrieve webhook event notifications: {0}".format(str(e)), "ERROR")
-            final_notification_configs = []
+            mapped_config = OrderedDict()
 
-        webhook_event_notifications_temp_spec = self.webhook_event_notifications_temp_spec()
-        modified_notification_configs = self.modify_parameters(webhook_event_notifications_temp_spec, final_notification_configs)
+            for key, spec_def in temp_spec.items():
+                source_key = spec_def.get("source_key", key)
+                value = detail.get(source_key)
 
-        result = {"webhook_event_notifications": modified_notification_configs}
-        self.log("Final webhook event notifications result: {0} configs transformed".format(len(modified_notification_configs)), "INFO")
-        return result
+                if spec_def.get("options") and isinstance(value, list):
+                    nested_list = []
+                    for item in value:
+                        if isinstance(item, dict):
+                            nested_mapped = OrderedDict()
+                            for nested_key, nested_spec in spec_def["options"].items():
+                                nested_source_key = nested_spec.get("source_key", nested_key)
+                                nested_value = item.get(nested_source_key)
 
-    def get_email_event_notifications(self, network_element, filters):
-        """Retrieves email event notification details based on the provided filters."""
-        self.log("Starting to retrieve email event notifications", "DEBUG")
+                                transform = nested_spec.get("transform")
+                                if transform and callable(transform):
+                                    nested_value = transform(nested_value)
 
-        component_specific_filters = filters.get("component_specific_filters", {})
-        notification_filters = component_specific_filters.get("notification_filters", {})
-        subscription_names = notification_filters.get("subscription_names", [])
+                                if nested_value is not None:
+                                    nested_mapped[nested_key] = nested_value
 
-        try:
-            notification_configs = self.get_all_email_event_notifications()
+                            if nested_mapped:
+                                nested_list.append(nested_mapped)
 
-            if subscription_names:
-                self.log("Applying subscription name filters: {0}".format(subscription_names), "DEBUG")
-                final_notification_configs = [config for config in notification_configs if config.get("name") in subscription_names]
-            else:
-                final_notification_configs = notification_configs
+                    if nested_list:
+                        mapped_config[key] = nested_list
 
-        except Exception as e:
-            self.log("Failed to retrieve email event notifications: {0}".format(str(e)), "ERROR")
-            final_notification_configs = []
+                elif spec_def.get("options") and isinstance(value, dict):
+                    nested_mapped = OrderedDict()
+                    has_non_null_values = False
 
-        email_event_notifications_temp_spec = self.email_event_notifications_temp_spec()
-        modified_notification_configs = self.modify_parameters(email_event_notifications_temp_spec, final_notification_configs)
+                    for nested_key, nested_spec in spec_def["options"].items():
+                        nested_source_key = nested_spec.get("source_key", nested_key)
+                        nested_value = value.get(nested_source_key)
 
-        result = {"email_event_notifications": modified_notification_configs}
-        self.log("Final email event notifications result: {0} configs transformed".format(len(modified_notification_configs)), "INFO")
-        return result
+                        transform = nested_spec.get("transform")
+                        if transform and callable(transform):
+                            nested_value = transform(nested_value)
+
+                        if nested_value is not None:
+                            nested_mapped[nested_key] = nested_value
+                            has_non_null_values = True
+
+                    if has_non_null_values and nested_mapped:
+                        mapped_config[key] = nested_mapped
+
+                elif spec_def.get("options") and value is None:
+                    if key == "primary_smtp_config":
+                        smtp_keys = ["primarySMTPConfig", "fromEmail", "toEmail"]
+                        if any(detail.get(smtp_key) for smtp_key in smtp_keys):
+                            nested_mapped = OrderedDict()
+                            for nested_key, nested_spec in spec_def["options"].items():
+                                if nested_key in ["server_address", "smtp_type", "port"]:
+                                    nested_mapped[nested_key] = None
+                            if nested_mapped:
+                                mapped_config[key] = nested_mapped
+
+                else:
+                    if value is not None:
+                        transform = spec_def.get("transform")
+                        if transform and callable(transform):
+                            transformed_value = transform(detail)
+                            if transformed_value is not None:
+                                mapped_config[key] = transformed_value
+                        else:
+                            mapped_config[key] = value
+
+                    elif spec_def.get("transform"):
+                        transform = spec_def.get("transform")
+                        if transform and callable(transform):
+                            transformed_value = transform(detail)
+                            if transformed_value is not None:
+                                mapped_config[key] = transformed_value
+
+            if mapped_config:
+                modified_configs.append(mapped_config)
+
+        self.log("Completed modification of all details.", "INFO")
+        return modified_configs
 
     def yaml_config_generator(self, yaml_config_generator):
         """
-        Generates a YAML configuration file based on the provided parameters.
+        Generates comprehensive YAML configuration files for events and notifications.
+
+        Description:
+            This method orchestrates the complete YAML generation process by processing
+            configuration parameters, retrieving data for specified components, and
+            creating structured YAML files. It handles component validation, data
+            retrieval coordination, and file generation with proper error handling
+            and logging throughout the process.
+
+        Args:
+            yaml_config_generator (dict): Configuration parameters including file path,
+                component filters, and generation options.
+
+        Returns:
+            object: Self instance with updated status and results. Sets operation
+            result to success with file path information or failure with error details.
         """
         self.log("Starting YAML config generation with parameters: {0}".format(yaml_config_generator), "DEBUG")
 
@@ -1342,7 +1571,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         file_path = yaml_config_generator.get("file_path")
 
         if not file_path:
-            file_path = self.generate_filename()  # ← Uses BrownFieldHelper.generate_filename()
+            file_path = self.generate_filename()
             self.log("No file_path provided, generated default: {0}".format(file_path), "DEBUG")
         else:
             self.log("File path determined: {0}".format(file_path), "DEBUG")
@@ -1382,7 +1611,6 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.set_operation_result("failed", True, self.msg, "ERROR")
                 return self
 
-        # Generate configurations manually
         try:
             self.log("Generating configurations for components: {0}".format(components_list), "DEBUG")
             final_config = {}
@@ -1395,13 +1623,11 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     if get_function and callable(get_function):
                         self.log("Processing component: {0}".format(component), "DEBUG")
                         try:
-                            # Call the component's get function
-                            result = get_function(component, {"component_specific_filters": component_specific_filters})
+                            result = get_function(component_info, {"component_specific_filters": component_specific_filters})
 
-                            # Merge result into final_config
                             if isinstance(result, dict):
                                 for key, value in result.items():
-                                    if value:  # Only add non-empty configurations
+                                    if value:
                                         final_config[key] = value
                                         self.log("Added {0} configurations: {1} items".format(key, len(value) if isinstance(value, list) else 1), "DEBUG")
 
@@ -1417,16 +1643,14 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log("Successfully generated configurations for {0} components".format(len(final_config)), "INFO")
                 playbook_data = self.generate_playbook_structure(final_config, file_path)
 
-                # Use the helper function instead of custom write_yaml_file
-                self.write_dict_to_yaml(playbook_data, file_path)  # ← Use BrownFieldHelper method
+                self.write_dict_to_yaml(playbook_data, file_path)
 
-                self.result["changed"] = True
                 self.msg = "YAML config generation Task succeeded for module '{0}'.".format(self.module_name)
                 self.result["response"] = {"file_path": file_path}
                 self.set_operation_result("success", True, self.msg, "INFO")
             else:
                 self.msg = "No configurations found to generate. Verify that the components exist and have data."
-                self.set_operation_result("failed", False, self.msg, "INFO")
+                self.set_operation_result("success", False, self.msg, "INFO")
 
         except Exception as e:
             self.msg = "Error during YAML config generation: {0}".format(str(e))
@@ -1435,9 +1659,24 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return self
 
     def generate_playbook_structure(self, configurations, file_path):
-        """Generate the complete playbook structure with ALL configurations in ONE single task."""
+        """
+        Generates structured playbook format from configuration data.
 
-        # Build ONLY the config list with ALL items
+        Description:
+            This method transforms retrieved configuration data into a properly
+            structured playbook format compatible with the events_and_notifications_workflow_manager
+            module. It organizes all configuration types (destinations, settings, notifications)
+            into a unified structure suitable for Ansible execution.
+
+        Args:
+            configurations (dict): Dictionary containing all retrieved configuration
+                data organized by component type.
+            file_path (str): The target file path for the generated playbook.
+
+        Returns:
+            dict: A structured dictionary containing the complete playbook configuration
+            with all components organized in the proper format for YAML serialization.
+        """
         config_list = []
 
         # Add ALL webhook destinations to the same config block
@@ -1504,15 +1743,27 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     ("syslog_event_notification", syslog_notif)
                 ]))
 
-        # Return ONLY the config data
         return {"config": config_list}
 
     def get_want(self, config, state):
         """
-        Creates parameters for API calls based on the configuration.
+        Processes and validates configuration parameters for API operations.
+
+        Description:
+            This method transforms input configuration parameters into the internal
+            'want' structure used throughout the module. It validates the state
+            parameter and prepares configuration data for subsequent processing
+            steps in the YAML generation workflow.
+
         Args:
-            config (dict): The configuration data for events and notifications.
-            state (str): The desired state ('gathered').
+            config (dict): The configuration data containing generation parameters
+                and component filters.
+            state (str): The desired state for the operation (should be 'gathered').
+
+        Returns:
+            object: Self instance with the 'want' attribute populated and status
+            set to success. The 'want' structure contains validated configuration
+            ready for processing.
         """
         self.log("Creating Parameters for API Calls with state: {0}".format(state), "INFO")
 
@@ -1528,7 +1779,18 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Generates the YAML configuration based on the provided filters.
+        Executes the configuration gathering and YAML generation process.
+
+        Description:
+            This method implements the main execution logic for the 'gathered' state.
+            It retrieves the YAML configuration generator from the 'want' structure
+            and initiates the complete configuration generation process. This method
+            serves as the primary entry point for processing gathered configurations.
+
+        Returns:
+            object: Self instance with updated operation results. Returns success
+            status when YAML generation completes successfully, or failure status
+            with error information when issues occur.
         """
         if not self.want:
             self.msg = "No configuration found in 'want' for processing"
@@ -1569,13 +1831,10 @@ def main():
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
-    # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
 
-    # Initialize the EventsNotificationsPlaybookGenerator object with the module
     ccc_events_and_notifications_playbook_generator = EventsNotificationsPlaybookGenerator(module)
 
-    # Check version compatibility (add this check)
     if (
         ccc_events_and_notifications_playbook_generator.compare_dnac_versions(
             ccc_events_and_notifications_playbook_generator.get_ccc_version(), "2.3.5.3"
@@ -1639,10 +1898,9 @@ def main():
                 }
             ]
 
-    # Iterate over the validated configuration parameters
     for config in ccc_events_and_notifications_playbook_generator.validated_config:
         ccc_events_and_notifications_playbook_generator.reset_values()
-        ccc_events_and_notifications_playbook_generator.get_want(config, state).check_return_status()  # ← This is correct now
+        ccc_events_and_notifications_playbook_generator.get_want(config, state).check_return_status()
         ccc_events_and_notifications_playbook_generator.get_diff_state_apply[state]().check_return_status()
 
     module.exit_json(**ccc_events_and_notifications_playbook_generator.result)
