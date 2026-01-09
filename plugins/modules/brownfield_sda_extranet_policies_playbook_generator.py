@@ -78,10 +78,111 @@ options:
             description:
             - List of components to include in the YAML configuration file.
             - Valid values are
+              - Extranet Policies "extranet_policies"
+            - If not specified, all components are included.
+            - For example, ["extranet_policies"].
+            type: list
+            elements: str
+          extranet_policies:
+            description:
+            - Extranet Policies to filter by extranet policy name.
+            type: list
+            elements: dict
+            suboptions:
+              extranet_policy_name:
+                description:
+                - Extranet Policy name to filter extranet policies by policy name.
+                type: str
+requirements:
+- dnacentersdk >= 2.10.10
+- python >= 3.9
+notes:
+- SDK Methods used are
+    - sites.Sites.get_site
+    - sda.Sda.get_extranet_policies
+    - sda.Sda.get_fabric_sites
+    - sda.Sda.get_fabric_zones
+    - sda.Sda.get_fabric_sites_by_id
+    - sda.Sda.get_fabric_zones_by_id
+- Paths used are
+    - GET /dna/intent/api/v1/sites
+    - GET /dna/intent/api/v1/sda/extranet-policies
+    - GET /dna/intent/api/v1/sda/fabric-sites
+    - GET /dna/intent/api/v1/sda/fabric-zones
+    - GET /dna/intent/api/v1/sda/fabric-sites/{id}
+    - GET /dna/intent/api/v1/sda/fabric-zones/{id}
 """
 
 EXAMPLES = r"""
+- name: Generate YAML playbook for all SDA extranet policies
+  cisco.dnac.brownfield_sda_extranet_policies_playbook_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    state: merged
+    config:
+      - generate_all_configurations: true
 
+- name: Generate YAML playbook for all SDA extranet policies with custom file path
+  cisco.dnac.brownfield_sda_extranet_policies_playbook_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    state: merged
+    config:
+      - generate_all_configurations: true
+        file_path: "/tmp/all_extranet_policies.yml"
+
+- name: Generate YAML playbook for specific extranet policy by name
+  cisco.dnac.brownfield_sda_extranet_policies_playbook_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    state: merged
+    config:
+      - component_specific_filters:
+          components_list: ["extranet_policies"]
+          extranet_policies:
+            - extranet_policy_name: "Test_1"
+
+- name: Generate YAML playbook for multiple specific extranet policies
+  cisco.dnac.brownfield_sda_extranet_policies_playbook_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    state: merged
+    config:
+      - file_path: "/tmp/selected_extranet_policies.yml"
+        component_specific_filters:
+          components_list: ["extranet_policies"]
+          extranet_policies:
+            - extranet_policy_name: "Test_1"
+            - extranet_policy_name: "Test_2"
+            - extranet_policy_name: "Test_3"
 """
 
 
