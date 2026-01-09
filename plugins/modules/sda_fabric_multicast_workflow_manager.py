@@ -53,6 +53,7 @@ options:
           fabric site.
         type: list
         elements: dict
+        required: true
         suboptions:
           fabric_name:
             description:
@@ -164,7 +165,7 @@ options:
               - To delete only the SSM or ASM configurations,
                 provide the respective 'ssm' or 'asm'
                 parameter.
-            type: str
+            type: dict
             suboptions:
               ipv4_ssm_ranges:
                 description:
@@ -200,7 +201,7 @@ options:
               - To delete only the SSM or ASM configurations,
                 provide the respective 'ssm' or 'asm'
                 parameter.
-            type: str
+            type: list
             suboptions:
               rp_device_location:
                 description:
