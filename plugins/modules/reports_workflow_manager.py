@@ -286,9 +286,9 @@ options:
                 - C(IN_PROGRESS) notifies when report execution starts.
                 - C(COMPLETED) notifies when report execution finishes.
                 choices:
-                    - C(IN_QUEUE)
-                    - C(IN_PROGRESS)
-                    - C(COMPLETED)
+                    - IN_QUEUE
+                    - IN_PROGRESS
+                    - COMPLETED
                 type: list
                 elements: str
                 required: false
@@ -1482,7 +1482,7 @@ EXAMPLES = r'''
     config:
       - generate_report:
           - name: "Sample Inventory report"
-            data_category: "Inventory"
+            view_group_name: "Inventory"
             view_group_version: "2.0.0"
             view:
               view_name: "All Data"
@@ -1588,7 +1588,7 @@ EXAMPLES = r'''
                   filter_type: "MULTI_SELECT_TREE"
                   value:
                     - value: "Global/India"
-                      display_value: "Routers"
+                      display_value: "Global/India"
 
 - name: Schedule a report for later execution
   cisco.dnac.reports_workflow_manager:
@@ -1669,6 +1669,7 @@ EXAMPLES = r'''
                   filter_type: "MULTI_SELECT_TREE"
                   value:
                     - value: "Global/US/California"
+                      display_value: "Global/US/California"
 
 - name: Create monthly report with time range filter
   cisco.dnac.reports_workflow_manager:
@@ -1706,7 +1707,7 @@ EXAMPLES = r'''
                 - name: "Time Range"
                   filter_type: "TIME_RANGE"
                   value:
-                    time_range_option: "LAST_30_DAYS"
+                    - time_range_option: "LAST_30_DAYS"
 
 - name: Create monthly report with time range CUSTOM filter
   cisco.dnac.reports_workflow_manager:
@@ -1745,10 +1746,10 @@ EXAMPLES = r'''
                 - name: "Time Range"
                   filter_type: "TIME_RANGE"
                   value:
-                    time_range_option: "CUSTOM"
-                    start_date_time: "2025-10-09 07:30 PM"
-                    end_date_time: "2025-10-31 11:59 PM"
-                    time_zone: "Asia/Calcutta"
+                    - time_range_option: "CUSTOM"
+                      start_date_time: "2025-10-09 07:30 PM"
+                      end_date_time: "2025-10-31 11:59 PM"
+                      time_zone: "Asia/Calcutta"
 
 - name: Delete a report from Catalyst Center
   cisco.dnac.reports_workflow_manager:
@@ -1782,9 +1783,12 @@ response_create_or_schedule_a_report:
       {
         "create_report": {
           "response": {
-            "reportId": "1234567890abcdef12345678",
-            "viewGroupId": "network-device-compliance",
-            "viewsId": "compliance-view-id"
+            "report_id": "1234567890abcdef12345678",
+            "report_name": "compliance_report",
+            "view_group_id": "network-device-compliance",
+            "view_group_name": "Compliance",
+            "view_id": "compliance-view-id",
+            "view_name": "Network Device Compliance"
           },
           "msg": "Successfully created or scheduled report 'compliance_report'."
         }
@@ -1802,7 +1806,10 @@ response_delete_a_scheduled_report:
     "response": [
       {
         "delete_report": {
-          "response": {},
+          "response": {
+            "report_id": "1234567890abcdef12345678",
+            "report_name": "compliance_report"
+          },
           "msg": "Report 'compliance_report' has been successfully deleted."
         }
       }
@@ -1820,9 +1827,9 @@ response_download_report_content:
       {
         "download_report": {
           "response": {
-            "reportId": "1234567890abcdef12345678",
-            "reportName": "compliance_report",
-            "filePath": "/Users/xyz/Desktop"
+            "report_id": "1234567890abcdef12345678",
+            "report_name": "compliance_report",
+            "file_path": "/Users/xyz/Desktop"
           },
           "msg": "Successfully downloaded report 'compliance_report' to
             '/Users/xyz/Desktop'."
@@ -1843,8 +1850,11 @@ response_existing_report:
         "create_report": {
           "response": {
             "report_id": "existing1234567890abcdef",
+            "report_name": "compliance_report",
             "view_group_id": "network-device-compliance",
-            "view_id": "compliance-view-id"
+            "view_group_name": "Compliance",
+            "view_id": "compliance-view-id",
+            "view_name": "Network Device Compliance"
           },
           "msg": "Report 'compliance_report' already exists."
         }
@@ -2282,8 +2292,8 @@ class Reports(DnacBase):
             return False
 
         if time_zone not in pytz.all_timezones:
-            self.msg = f"Invalid time_zone '{time_zone}'.\
-                        Please provide a valid timezone as per the IANA timezone database (e.g., 'Asia/Calcutta')."
+            self.msg = (f"Invalid time_zone '{time_zone}'."
+                        "Please provide a valid timezone as per the timezone database (e.g., 'Asia/Calcutta').")
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
@@ -7067,8 +7077,11 @@ class Reports(DnacBase):
                     result = {
                         "response": {
                             "report_id": report_id,
+                            "name": report_name,
                             "view_group_id": report_entry.get("view_group_id"),
+                            "view_group_name": report_entry.get("view_group_name"),
                             "view_id": report_entry.get("view", {}).get("view_id"),
+                            "view_name": report_entry.get("view", {}).get("view_name"),
                         },
                         "msg": "Report '{0}' already exists.".format(report_name),
                     }
@@ -7341,8 +7354,11 @@ class Reports(DnacBase):
         result = {
             "response": {
                 "report_id": report_id,
+                "report_name": report_name,
                 "view_group_id": report_entry.get("view_group_id"),
+                "view_group_name": report_entry.get("view_group_name"),
                 "view_id": report_entry.get("view", {}).get("view_id"),
+                "view_name": report_entry.get("view", {}).get("view_name"),
             },
             "msg": "Report '{0}' already exists.".format(report_name),
         }
@@ -7503,12 +7519,17 @@ class Reports(DnacBase):
         """
         report_name = report_entry.get("name")
         report_id = response.get("reportId")
+        view_group_name = report_entry.get("view_group_name")
+        view_name = report_entry.get("view", {}).get("view_name")
 
         result = {
             "response": {
-                "reportId": report_id,
-                "viewGroupId": response.get("viewGroupId"),
-                "viewsId": response.get("view", {}).get("viewId"),
+                "report_id": report_id,
+                "report_name": report_name,
+                "view_group_id": response.get("viewGroupId"),
+                "view_group_name": view_group_name,
+                "view_id": response.get("view", {}).get("viewId"),
+                "view_name": view_name,
             },
             "msg": "Successfully created or scheduled report '{0}'.".format(report_name)
         }
@@ -7897,9 +7918,9 @@ class Reports(DnacBase):
 
             result = {
                 "response": {
-                    "reportId": report_id,
-                    "reportName": report_entry.get("name"),
-                    "filePath": file_path
+                    "report_id": report_id,
+                    "report_name": report_entry.get("name"),
+                    "file_path": file_path
                 },
                 "msg": "Successfully downloaded report '{0}' to '{1}'.".format(report_entry.get("name"), file_path),
             }
@@ -7983,7 +8004,10 @@ class Reports(DnacBase):
                     return self
 
                 result = {
-                    "response": {"report_id": report_entry.get("report_id")},
+                    "response": {
+                        "report_id": report_entry.get("report_id"),
+                        "report_name": report_entry.get("name")
+                    },
                     "msg": "Report '{0}' has been successfully deleted.".format(report_entry.get("name")),
                 }
                 self.result["response"].append({"delete_report": result})
