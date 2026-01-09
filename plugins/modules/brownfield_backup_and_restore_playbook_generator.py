@@ -310,11 +310,15 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def __init__(self, module):
         """
-        Initialize an instance of the class.
+        Initialize an instance of the BackupRestorePlaybookGenerator class.
+
+        Description:
+            Sets up the class instance with module configuration, supported states,
+            module schema mapping, and module name for backup and restore operations.
+
         Args:
-            module: The module associated with the class instance.
-        Returns:
-            The method does not return a value.
+            module (AnsibleModule): The Ansible module instance containing configuration
+                parameters and methods for module execution.
         """
         self.supported_states = ["gathered"]
         super().__init__(module)
@@ -323,12 +327,21 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def validate_input(self):
         """
-        Validates the input configuration parameters for the playbook.
+        Validates the input configuration parameters for the backup and restore playbook.
+
+        Description:
+            Performs comprehensive validation of input configuration parameters to ensure
+            they conform to the expected schema. Validates parameter types, requirements,
+            and structure for backup and restore configuration generation.
+
+        Args:
+            None: Uses self.config from the instance.
+
         Returns:
-            object: An instance of the class with updated attributes:
-                self.msg: A message describing the validation result.
-                self.status: The status of the validation (either "success" or "failed").
-                self.validated_config: If successful, a validated version of the "config" parameter.
+            object: Self instance with updated attributes:
+                - self.msg (str): Message describing the validation result.
+                - self.status (str): Status of validation ("success" or "failed").
+                - self.validated_config (list): Validated configuration parameters if successful.
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
@@ -365,20 +378,22 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def backup_restore_workflow_manager_mapping(self):
         """
-        Constructs and returns a structured mapping for managing backup and restore NFS configuration elements.
-        This mapping includes associated filters, temporary specification functions, API details,
-        and fetch function references used in the backup and restore workflow orchestration process.
+        Constructs comprehensive mapping configuration for backup and restore components.
+
+        Description:
+            Creates a structured mapping that defines all supported backup and restore
+            components, their associated API functions, filter specifications, and
+            processing functions. This mapping serves as the central configuration
+            registry for the backup and restore workflow orchestration process.
+
+        Args:
+            None: Uses class methods and instance configuration.
 
         Returns:
-            dict: A dictionary with the following structure:
-                - "network_elements": A nested dictionary where each key represents a component
-                (e.g., 'nfs_configuration') and maps to:
-                    - "filters": List of filter keys relevant to the component.
-                    - "reverse_mapping_function": Reference to the function that generates temp specs for the component.
-                    - "api_function": Name of the API to be called for the component.
-                    - "api_family": API family name (e.g., 'backup').
-                    - "get_function_name": Reference to the internal function used to retrieve the component data.
-                - "global_filters": An empty list reserved for global filters applicable across all elements.
+            dict: A comprehensive mapping dictionary containing:
+                - network_elements (dict): Component configurations with API details,
+                  filter specifications, and processing function references.
+                - global_filters (dict): Global filter configuration options.
         """
         return {
             "network_elements": {
@@ -405,24 +420,41 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
             "global_filters": {},
         }
 
-    def nfs_configuration_reverse_mapping_function(self, requested_features=None):
+    def nfs_configuration_reverse_mapping_function(self):
         """
-        Returns the reverse mapping specification for NFS configuration details.
+        Provides reverse mapping specification for NFS configuration transformations.
+
+        Description:
+            Returns the reverse mapping specification used to transform NFS configuration
+            API responses into structured configuration format. This specification defines
+            how API response fields should be mapped to the desired YAML structure.
+
         Args:
-            requested_features (list, optional): List of specific features to include (not used for NFS configs).
+            requested_features (list, optional): List of specific features to include.
+                Currently not used for NFS configurations but reserved for future use.
+
         Returns:
-            dict: A dictionary containing reverse mapping specifications for NFS configuration details
+            OrderedDict: The NFS configuration temporary specification containing
+            field mappings, data types, and transformation rules.
         """
         self.log("Generating reverse mapping specification for NFS configuration details", "DEBUG")
         return self.nfs_configuration_temp_spec()
 
     def nfs_configuration_temp_spec(self):
         """
-        Constructs a temporary specification for NFS configuration details, defining the structure and types of attributes
-        that will be used in the YAML configuration file.
+        Constructs detailed specification for NFS configuration data transformation.
+
+        Description:
+            Creates a comprehensive specification that defines how NFS configuration
+            API response fields should be mapped, transformed, and structured in the
+            final YAML configuration. Includes server details, paths, ports, and version information.
+
+        Args:
+            None: Uses logging methods from the instance.
 
         Returns:
-            OrderedDict: An ordered dictionary defining the structure of NFS configuration detail attributes.
+            OrderedDict: A detailed specification containing field mappings, data types,
+            and source key references for NFS configuration transformations.
         """
         self.log("Generating temporary specification for NFS configuration details.", "DEBUG")
         nfs_configuration_details = OrderedDict({
@@ -436,14 +468,20 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def extract_nested_value(self, data, key_path):
         """
-        Extracts value from nested dictionary using dot notation.
+        Extracts values from nested dictionaries using dot notation paths.
+
+        Description:
+            Navigates through nested dictionary structures using dot-separated paths
+            to extract specific values. Handles missing keys gracefully by returning
+            None when paths don't exist or when encountering type errors.
 
         Args:
-            data (dict): The source dictionary.
-            key_path (str): Dot-separated path to the value (e.g., "spec.server").
+            data (dict): The source dictionary containing nested data structures.
+            key_path (str): Dot-separated path to the desired value (e.g., "spec.server").
 
         Returns:
-            The value at the specified path, or None if not found.
+            any: The value found at the specified path, or None if the path doesn't exist
+            or if a type error occurs during navigation.
         """
         try:
             keys = key_path.split('.')
@@ -458,14 +496,24 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_nfs_configurations(self, network_element, filters):
         """
-        Retrieves NFS configuration details based on the provided network element and component-specific filters.
+        Retrieves NFS configuration details from Cisco Catalyst Center.
+
+        Description:
+            Fetches NFS configuration data from the API and applies component-specific
+            filters. Validates that both server_ip and source_path are provided together
+            for filtering operations. Transforms API responses into structured format
+            suitable for YAML generation.
 
         Args:
-            network_element (dict): A dictionary containing the API family and function for retrieving NFS configurations.
-            filters (dict): A dictionary containing global_filters and component_specific_filters.
+            network_element (dict): Configuration mapping containing API family and
+                function details for NFS configuration retrieval.
+            filters (dict): Filter criteria containing component-specific filters
+                for NFS configurations.
 
         Returns:
-            dict: A dictionary containing the modified details of NFS configurations.
+            dict: A dictionary containing:
+                - nfs_configuration (list): List of NFS configuration dictionaries
+                  with transformed parameters according to the specification.
         """
         self.log(
             "Starting to retrieve NFS configurations with network element: {0} and filters: {1}".format(
@@ -516,12 +564,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
             if isinstance(response, dict):
                 nfs_configs = response.get("response", [])
-                # Some APIs return data directly in response
-                if not nfs_configs and "data" in response:
-                    nfs_configs = response.get("data", [])
-                # Some APIs return configurations directly
-                if not nfs_configs and "configurations" in response:
-                    nfs_configs = response.get("configurations", [])
+
             else:
                 nfs_configs = response if isinstance(response, list) else []
 
@@ -537,11 +580,9 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                     for config in nfs_configs:
                         match = True
 
-                        # Handle different possible structures
                         spec = config.get("spec", config)
                         self.log("Checking NFS config spec: {0}".format(spec), "DEBUG")
 
-                        # Check both server_ip and source_path together
                         server_ip_match = spec.get("server") == filter_param.get("server_ip")
                         source_path_match = spec.get("sourcePath") == filter_param.get("source_path")
 
@@ -570,7 +611,6 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("API call failed, returning empty NFS configuration list", "WARNING")
             final_nfs_configs = []
 
-        # Modify NFS configuration details using temp_spec
         nfs_configuration_temp_spec = self.nfs_configuration_temp_spec()
 
         modified_nfs_configs = []
@@ -588,27 +628,20 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                         )
                     elif key == "source_path":
                         value = (
-                            config.get("spec", {}).get("sourcePath") or
-                            config.get("sourcePath")
+                            config.get("spec", {}).get("sourcePath")
                         )
                     elif key == "nfs_port":
                         value = (
-                            config.get("spec", {}).get("nfsPort") or
-                            config.get("nfsPort") or
-                            config.get("nfs_port", 2049)
-                        )  # Default NFS port
+                            config.get("spec", {}).get("nfsPort")
+                        )
                     elif key == "nfs_version":
                         value = (
-                            config.get("spec", {}).get("nfsVersion") or
-                            config.get("nfsVersion") or
-                            config.get("nfs_version", "nfs4")
-                        )  # Default version
+                            config.get("spec", {}).get("nfsVersion")
+                        )
                     elif key == "nfs_portmapper_port":
                         value = (
-                            config.get("spec", {}).get("portMapperPort") or
-                            config.get("portMapperPort") or
-                            config.get("nfs_portmapper_port", 111)
-                        )  # Default portmapper port
+                            config.get("spec", {}).get("portMapperPort")
+                        )
 
                 if value is not None:
                     # Apply any transformation if specified
@@ -623,16 +656,41 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return modified_nfs_configuration_details
 
-    def backup_storage_configuration_reverse_mapping_function(self, requested_features=None):
+    def backup_storage_configuration_reverse_mapping_function(self):
         """
-        Returns the reverse mapping specification for backup storage configuration details.
+        Provides reverse mapping specification for backup storage configuration transformations.
+
+        Description:
+            Returns the reverse mapping specification used to transform backup storage
+            configuration API responses into structured configuration format. This specification
+            handles complex backup storage settings including NFS details and encryption.
+
+        Args:
+            requested_features (list, optional): List of specific features to include.
+                Currently not used but reserved for future functionality.
+
+        Returns:
+            OrderedDict: The backup storage configuration temporary specification containing
+            field mappings, transformation rules, and special handling directives.
         """
         self.log("Generating reverse mapping specification for backup storage configuration details", "DEBUG")
         return self.backup_storage_configuration_temp_spec()
 
     def backup_storage_configuration_temp_spec(self):
         """
-        Constructs a temporary specification for backup storage configuration details.
+        Constructs detailed specification for backup storage configuration data transformation.
+
+        Description:
+            Creates a comprehensive specification for backup storage configurations,
+            handling server types, NFS details, retention policies, and encryption settings.
+            Includes special transformation functions for complex nested data structures.
+
+        Args:
+            None: Uses instance methods for transformation functions.
+
+        Returns:
+            OrderedDict: A detailed specification containing field mappings, data types,
+            transformation functions, and security handling directives.
         """
         self.log("Generating temporary specification for backup storage configuration details.", "DEBUG")
         backup_storage_config_details = OrderedDict({
@@ -649,12 +707,28 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def transform_nfs_details(self, config):
         """
-        Transforms backup configuration to extract NFS details.
+        Transforms backup configuration data to extract NFS connection details.
+
+        Description:
+            Processes backup configuration to extract and correlate NFS details by
+            matching mount paths with existing NFS configurations. Creates comprehensive
+            NFS connection information including server details, ports, and versions.
+
+        Args:
+            config (dict): Backup configuration dictionary containing mount path and
+                other backup-related settings.
+
+        Returns:
+            dict: A dictionary containing NFS connection details:
+                - server_ip (str): NFS server IP address.
+                - source_path (str): NFS source path.
+                - nfs_port (int): NFS service port.
+                - nfs_version (str): NFS protocol version.
+                - nfs_portmapper_port (int): NFS portmapper port.
         """
         self.log("Transforming NFS details from backup configuration", "DEBUG")
         self.log("Input backup config: {0}".format(config), "DEBUG")
 
-        # Get current NFS configurations to match mount path with server details
         current_nfs_configs = self.get_nfs_configuration_details()
         mount_path = config.get("mountPath")
 
@@ -669,7 +743,6 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
             "nfs_portmapper_port": 111
         }
 
-        # Find matching NFS configuration by mount path
         match_found = False
         for nfs_config in current_nfs_configs:
             nfs_mount_path = nfs_config.get("status", {}).get("destinationPath")
@@ -689,50 +762,32 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log("Found matching NFS config", "INFO")
                 break
 
-        # If no match found, try to extract from backup config directly
         if not match_found:
-            self.log("No matching NFS config found, trying direct extraction from backup config", "WARNING")
-
-            # Try to extract NFS details directly from backup configuration
-            if "nfs" in config.get("type", "").lower():
-                # Sometimes backup config contains NFS details directly
-                nfs_details.update({
-                    "server_ip": (
-                        config.get("server") or
-                        config.get("nfs", {}).get("server")
-                    ),
-                    "source_path": (
-                        config.get("sourcePath") or
-                        config.get("nfs", {}).get("sourcePath")
-                    ),
-                    "nfs_port": (
-                        config.get("nfsPort") or
-                        config.get("nfs", {}).get("port") or
-                        2049
-                    ),
-                    "nfs_version": (
-                        config.get("nfsVersion") or
-                        config.get("nfs", {}).get("version") or
-                        "nfs4"
-                    ),
-                    "nfs_portmapper_port": (
-                        config.get("portMapperPort") or
-                        config.get("nfs", {}).get("portMapperPort") or
-                        111
-                    )
-                })
-
-                for key, value in nfs_details.items():
-                    if value is not None:
-                        self.log("Extracted {0}: {1} from backup config directly".format(key, value), "INFO")
+            self.log("No matching NFS config found", "WARNING")
 
         self.log("Final transformed NFS details: {0}".format(nfs_details), "INFO")
         return nfs_details
 
     def get_backup_storage_configurations(self, network_element, filters):
         """
-        Retrieves backup storage configuration details based on filters.
-        Only server_type filtering is supported.
+        Retrieves backup storage configuration details from Cisco Catalyst Center.
+
+        Description:
+            Fetches backup storage configuration data from the API and applies
+            component-specific filters. Only supports server_type filtering for
+            backup storage configurations. Transforms API responses into structured
+            format suitable for YAML generation.
+
+        Args:
+            network_element (dict): Configuration mapping containing API family and
+                function details for backup storage configuration retrieval.
+            filters (dict): Filter criteria containing component-specific filters
+                for backup storage configurations.
+
+        Returns:
+            dict: A dictionary containing:
+                - backup_storage_configuration (list): List of backup storage
+                  configuration dictionaries with transformed parameters.
         """
         self.log("Starting to retrieve backup storage configurations", "DEBUG")
 
@@ -760,10 +815,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 backup_config = {}
             elif isinstance(response, dict):
                 backup_config = response.get("response", {})
-                if not backup_config:
-                    backup_config = response.get("data", {})
-                    if not backup_config:
-                        backup_config = response
+
             else:
                 backup_config = response if isinstance(response, dict) else {}
 
@@ -788,10 +840,8 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                                 "Invalid filter: {1}".format(unsupported_filters, filter_param)
                             )
                             self.log(error_msg, "ERROR")
-                            # Set error result AND explicitly update msg
                             result = self.set_operation_result("failed", False, error_msg, "ERROR")
 
-                            # Explicitly ensure msg field is updated to overwrite any previous success message
                             self.msg = error_msg
                             self.result["msg"] = error_msg
 
@@ -868,19 +918,30 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_nfs_configuration_details(self):
         """
-        Helper method to get all NFS configurations for backup storage configuration mapping.
+        Retrieves all NFS configurations for backup storage configuration mapping.
+
+        Description:
+            Helper method that fetches all available NFS configurations from the
+            Cisco Catalyst Center API. Used internally for correlating backup storage
+            configurations with their corresponding NFS server details.
+
+        Args:
+            None: Uses instance API connection and logging methods.
+
+        Returns:
+            list: A list of NFS configuration dictionaries containing server details,
+            paths, and connection information. Returns an empty list if no configurations
+            are found or if API calls fail.
         """
         self.log("Getting NFS configuration details for backup storage mapping", "DEBUG")
 
         try:
-            # Try multiple possible API function names
             api_functions = [
                 "get_nfs_configurations",
                 "get_all_n_f_s_configurations"
             ]
 
             response = None
-            successful_function = None
 
             for api_function in api_functions:
                 try:
@@ -890,25 +951,16 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                         function=api_function,
                         op_modifies=False,
                     )
-                    successful_function = api_function
                     self.log("Received API response using function {0}: {1}".format(api_function, response), "DEBUG")
                     break
+
                 except Exception as e:
-                    self.log("API function {0} failed: {1}".format(api_function, str(e)), "DEBUG")
+                    self.msg = ("API function {0} failed: {1}".format(api_function, str(e)), "DEBUG")
                     continue
-
-            if response is None:
-                self.log("All NFS API function attempts failed", "WARNING")
-                return []
-
-            self.log("Raw NFS API response: {0}".format(response), "DEBUG")
 
             if isinstance(response, dict):
                 nfs_configs = (
-                    response.get("response", []) or
-                    response.get("data", []) or
-                    response.get("configurations", []) or
-                    []
+                    response.get("response", [])
                 )
             else:
                 nfs_configs = response if isinstance(response, list) else []
@@ -921,13 +973,29 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
             return nfs_configs
 
         except Exception as e:
-            self.log("Error retrieving NFS configurations for backup mapping: {0}".format(str(e)), "WARNING")
-            self.log("Exception details: {0}".format(type(e).__name__), "DEBUG")
-            return []
+            self.msg = ("Error retrieving NFS configurations for backup mapping: {0}".format(str(e)), "WARNING")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
 
     def yaml_config_generator(self, yaml_config_generator):
         """
-        Generates a YAML configuration file based on the provided parameters.
+        Generates comprehensive YAML configuration files for backup and restore settings.
+
+        Description:
+            Orchestrates the complete YAML generation process by processing configuration
+            parameters, retrieving data for specified components, and creating structured
+            YAML files. Handles component validation, data retrieval coordination, and
+            file generation with comprehensive error handling and status reporting.
+
+        Args:
+            yaml_config_generator (dict): Configuration parameters including:
+                - file_path (str, optional): Target file path for YAML output.
+                - component_specific_filters (dict): Component filtering options.
+                - generate_all_configurations (bool): Flag for including all components.
+
+        Returns:
+            object: Self instance with updated status and results:
+                - Sets operation result to success with file path information.
+                - Sets operation result to failure with error details if issues occur.
         """
         self.log(
             "Starting YAML config generation with parameters: {0}".format(
@@ -943,7 +1011,6 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
             yaml_config_generator.get("component_specific_filters") or {}
         )
 
-        # Handle generate_all_configurations flag
         generate_all_configurations = yaml_config_generator.get("generate_all_configurations", False)
 
         self.log(
@@ -955,10 +1022,8 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
 
-        # Retrieve the supported network elements for the module
         module_supported_network_elements = self.module_schema.get("network_elements", {})
 
-        # Determine which components to process
         if generate_all_configurations:
             components_list = list(module_supported_network_elements.keys())
             self.log("Using all available components due to generate_all_configurations=True: {0}".format(components_list), "INFO")
@@ -969,7 +1034,6 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
-        # Create the structured configuration
         config_list = []
         components_processed = 0
 
@@ -994,52 +1058,25 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
             if callable(operation_func):
                 try:
-                    self.log("Calling operation function for component: {0}".format(component), "INFO")
+                    self.log("Retrieving {0} configurations".format(component), "INFO")
                     result = operation_func(network_element, filters)
 
-                    if result is self:
-
-                        self.log("Validation error occurred in component: {0}".format(component), "ERROR")
-                        return self
-
-                    details = result
-                    self.log(
-                        "Details retrieved for {0}: {1}".format(component, details), "DEBUG"
-                    )
-
-                    # Add the component data as a separate list item
-                    if component in details and details[component]:
-                        # Create a list item with the component as key
-                        component_dict = {component: details[component]}
-                        config_list.append(component_dict)
+                    if component in result and result[component]:
+                        config_list.append({component: result[component]})
                         components_processed += 1
-                        self.log("Successfully added {0} configurations for component {1}".format(
-                            len(details[component]), component), "INFO")
-                    else:
-                        self.log(
-                            "No data found for component: {0}".format(component), "WARNING"
-                        )
-                        # Only add empty component if generate_all_configurations is True
-                        if generate_all_configurations:
-                            component_dict = {component: []}
-                            config_list.append(component_dict)
+                        self.log("Added {0} {1} configurations".format(len(result[component]), component), "INFO")
+                    elif generate_all_configurations:
+                        config_list.append({component: []})
+                        self.log("No {0} configurations found - added empty list".format(component), "WARNING")
 
                 except Exception as e:
-                    self.log(
-                        "Error retrieving data for component {0}: {1}".format(component, str(e)),
-                        "ERROR"
-                    )
-                    import traceback
-                    self.log("Full traceback: {0}".format(traceback.format_exc()), "DEBUG")
+                    self.log("Failed to retrieve {0}: {1}".format(component, str(e)), "ERROR")
                     if generate_all_configurations:
-                        component_dict = {component: []}
-                        config_list.append(component_dict)
+                        config_list.append({component: []})
             else:
-                self.log("No callable operation function for component: {0}".format(component), "ERROR")
-                # Add empty component if generate_all_configurations is True
+                self.log("Invalid operation function for {0}".format(component), "ERROR")
                 if generate_all_configurations:
-                    component_dict = {component: []}
-                    config_list.append(component_dict)
+                    config_list.append({component: []})
 
         self.log("Processing summary: {0} components processed successfully out of {1}".format(
             components_processed, len(components_list)), "INFO")
@@ -1049,7 +1086,6 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log("Component '{0}': {1} configurations".format(component, len(data)), "INFO")
 
         if not config_list:
-            # Only set this message if there's no existing error status
             if self.status != "failed":
                 self.msg = (
                     "No configurations found to process for module '{0}'. This may be because:\n"
@@ -1058,15 +1094,13 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "- User lacks required permissions\n"
                     "- API function names have changed"
                 ).format(self.module_name)
-                self.set_operation_result("ok", False, self.msg, "INFO")
+                self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
-        # Use the config_list directly (each component is already a separate list item)
         final_dict = config_list
         self.log("Final dictionary created with {0} component items".format(len(config_list)), "DEBUG")
 
         if self.write_dict_to_yaml(final_dict, file_path):
-            # Only set success message if there's no existing error
             if self.status != "failed":
                 self.msg = {
                     "YAML config generation Task succeeded for module '{0}'.".format(
@@ -1075,7 +1109,6 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 }
                 self.set_operation_result("success", True, self.msg, "INFO")
         else:
-            # Only set this failure if there's no existing error (don't overwrite validation errors)
             if self.status != "failed":
                 self.msg = {
                     "YAML config generation Task failed for module '{0}'.".format(
@@ -1088,11 +1121,22 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_want(self, config, state):
         """
-        Creates parameters for API calls based on the specified state.
+        Processes and validates configuration parameters for API operations.
+
+        Description:
+            Transforms input configuration parameters into the internal 'want' structure
+            used throughout the module. Validates parameters and prepares configuration
+            data for subsequent processing steps in the backup and restore workflow.
 
         Args:
-            config (dict): The configuration data for the backup/restore elements.
-            state (str): The desired state ('gathered').
+            config (dict): The configuration data containing generation parameters,
+                component filters, and backup/restore settings.
+            state (str): The desired state for the operation (should be 'gathered').
+
+        Returns:
+            object: Self instance with updated attributes:
+                - self.want (dict): Contains validated configuration ready for processing.
+                - Status set to success after parameter validation and preparation.
         """
         self.log(
             "Creating Parameters for API Calls with state: {0}".format(state), "INFO"
@@ -1116,7 +1160,21 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Executes the merge operations for backup and restore configurations in the Cisco Catalyst Center.
+        Executes the configuration gathering and YAML generation process for backup and restore.
+
+        Description:
+            Implements the main execution logic for the 'gathered' state in backup and restore
+            operations. Orchestrates the complete workflow from parameter validation through
+            YAML file generation, with comprehensive error handling and status reporting.
+
+        Args:
+            None: Uses instance attributes and methods for operation execution.
+
+        Returns:
+            object: Self instance with updated operation results:
+                - Returns success status when YAML generation completes successfully.
+                - Returns failure status with error information when issues occur.
+                - Includes execution timing and operation statistics.
         """
         start_time = time.time()
         self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
