@@ -64,14 +64,14 @@ options:
         Offset query parameter. The offset of the first
         application in the returned data (optionally
         used with siteId only).
-    type: float
+    type: int
   limit:
     description:
       - >
         Limit query parameter. The max number of application
         entries in returned data 1, 1000 (optionally
         used with siteId only).
-    type: float
+    type: int
   applicationName:
     description:
       - ApplicationName query parameter. The name of

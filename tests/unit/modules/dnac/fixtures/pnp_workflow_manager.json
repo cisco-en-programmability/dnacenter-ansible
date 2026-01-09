@@ -8599,7 +8599,8 @@
                     "serial_number": "KWC24160JLL",
                     "hostname": "SJ-EWLC-1",
                     "state": "Unclaimed",
-                    "pid": "C9500-16X"
+                    "pid": "C9500-16X",
+                    "authorize": true
                 }
             ],
             "pnp_type": "CatalystWLC",
@@ -8906,6 +8907,32 @@
         }
     ],
 
+    "playbook_config_bulk_pnp": [
+        {
+        "device_info": [
+            {
+                "serial_number": "AJC272127LW",
+                "state": "Unclaimed",
+                "pid": "C9300-48UN",
+                "is_sudi_required": false,
+                "hostname": "Test_pnp11",
+                "authorize": true
+            },
+            {
+                "serial_number": "BJC272127LW",
+                "state": "Unclaimed",
+                "pid": "C9300-48S",
+                "hostname": "Test_pnp12"
+            }
+        ]
+        }
+    ],
+
+    "get_device_empty": {
+        "response": [],
+        "version": "1.0"
+    },
+
     "playbook_config_pnp_site": [{
             "device_info": [
             {
@@ -8931,8 +8958,8 @@
         {
             "version": 0,
             "deviceInfo": {
-            "serialNumber": "FJC24501BK",
-            "name": "FJC24501BK2",
+            "serialNumber": "AJC272127LW",
+            "name": "Test_pnp11",
             "deviceType": "Switch",
             "dnacDeviceType": "NETWORK",
             "pid": "C9300-48UN",
@@ -8943,7 +8970,7 @@
             "lastContact": 0,
             "lastContactDuration": 0,
             "provisionedOn": 0,
-            "state": "Unclaimed",
+            "state": "Pending Authorization",
             "onbState": "Not Contacted",
             "cmState": "Not Contacted",
             "source": "User",
@@ -9000,7 +9027,7 @@
         {
             "version": 0,
             "deviceInfo": {
-            "serialNumber": "FJC24441MSV",
+            "serialNumber": "BJC272127LW",
             "name": "FJC24441MSV",
             "deviceType": "Switch",
             "dnacDeviceType": "NETWORK",
@@ -9069,6 +9096,88 @@
         }
         ],
         "failureList": []
+    },
+
+    "get_device_detail_bulk_authorize": [{
+        "version": 0,
+        "deviceInfo": {
+            "serialNumber": "AJC272127LW",
+            "name": "FOC2439LA89",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-24UXB",
+            "lastSyncTime": 0,
+            "addedOn": 1729830280825,
+            "lastUpdateOn": 1729830280825,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Pending Authorization",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "hostname": "SJ-EN-10-9300",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "NONE",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_NONE",
+            "hseclicense": false,
+            "sudiRequired": false,
+            "stack": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+        },
+        "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+        },
+        "workflowParameters": {},
+        "dayNCmdQueue": [],
+        "runSummaryList": [
+            {
+                "timestamp": 1729830280826,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+        ],
+        "tenantId": "66ea0af5c60db15238522111",
+        "id": "671b1d88c301a454b89d2c84"
+    }],
+
+    "authorize_response": {
+        "jsonResponse": {
+            "empty": ""
+        },
+        "message": "string",
+        "statusCode": "200",
+        "jsonArrayResponse": [
+            "string"
+        ]
     },
 
     "get_device_detail_exist1": [{
@@ -9350,5 +9459,553 @@
         "response":{
             "status": "Device reset done Successfully"
         }
-    }]
+    }],
+
+    "playbook_config_wrong_serial_pnp": [
+        {
+        "device_info": [
+            {
+                "serial_number": "AJC272127LW",
+                "state": "Unclaimed",
+                "pid": "",
+                "is_sudi_required": false,
+                "hostname": "Test_pnp11",
+                "authorize": true
+            },
+            {
+                "serial_number": "BJC272127LW",
+                "state": "Unclaimed",
+                "pid": "C9300-48S",
+                "hostname": "Test_pnp12"
+            },
+            {
+                "serial_number": "BJC272127LW",
+                "state": "Unclaimed",
+                "pid": "C9300-48S",
+                "hostname": "Test_pnp12"
+            },
+            {
+                "serial_number": "",
+                "state": "Unclaimed",
+                "pid": "C9300-48S",
+                "hostname": "Test_pnp12"
+            }
+        ]
+        }
+    ],
+
+    "get_device_detail_ewlc": [{
+        "version": 0,
+        "deviceInfo": {
+            "serialNumber": "KWC24160JLL",
+            "name": "KWC24160JLL",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-24UXB",
+            "lastSyncTime": 0,
+            "addedOn": 1729830280825,
+            "lastUpdateOn": 1729830280825,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Pending Authorization",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "hostname": "SJ-EN-10-9300",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "NONE",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "Pending Authorization",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_NONE",
+            "hseclicense": false,
+            "sudiRequired": false,
+            "stack": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+        },
+        "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+        },
+        "workflowParameters": {},
+        "dayNCmdQueue": [],
+        "runSummaryList": [
+            {
+                "timestamp": 1729830280826,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+        ],
+        "tenantId": "66ea0af5c60db15238522111",
+        "id": "671b1d88c301a454b89d2c84"
+    }],
+
+    "get_device_detail_router": [{
+        "version": 0,
+        "deviceInfo": {
+            "serialNumber": "FJC2402A0TX",
+            "name": "FJC2402A0TX",
+            "deviceType": "Router",
+            "dnacDeviceType": "NETWORK",
+            "pid": "ISR4451-X/K9",
+            "lastSyncTime": 0,
+            "addedOn": 1732092524685,
+            "lastUpdateOn": 1732092524685,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Unclaimed",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "hostname": "SJ-RTR-01-ISR4451",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "NONE",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_NONE",
+            "stack": false,
+            "sudiRequired": true,
+            "hseclicense": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+        },
+        "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+        },
+        "workflowParameters": {},
+        "dayNCmdQueue": [],
+        "runSummaryList": [
+            {
+                "timestamp": 1732092524686,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+        ],
+        "tenantId": "66ea0af5c60db15238522111",
+        "id": "673da26cf8a6d518470c7361"
+    }],
+
+    "get_software_image_detail_router": {
+        "response": [
+            {
+                "imageUuid": "0593a30f-8d0b-4a1d-936e-838b8068c1a7",
+                "name": "isr4400-universalk9.17.12.04.SPA.bin",
+                "family": "ISR4400",
+                "version": "17.12.04.0.4826",
+                "displayVersion": "17.12.04",
+                "md5Checksum": "f3a3d053fe3e5d874b409760318d42ef",
+                "shaCheckSum": "d423272f02f96267bdbf03368a09fa7b2e5580638d9a60fef267b561f71312f8e37175a0b46a00fe0709a03892f7d7a300dd0e1185d864e87a1a2f11d7e1ae55",
+                "createdTime": "2024-11-05 01:45:47.177",
+                "imageType": "SYSTEM_SW",
+                "fileSize": "784049832 bytes",
+                "imageName": "isr4400-universalk9.17.12.04.SPA.bin",
+                "applicationType": "",
+                "feature": "",
+                "fileServiceId": "9c01cbd5-0ed3-4052-9a33-6777fbbe1abc",
+                "isTaggedGolden": true,
+                "imageSource": "CCO",
+                "vendor": "CISCO",
+                "imageIntegrityStatus": "VERIFIED"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_device_detail_multiple": [
+        {
+            "version": 0,
+            "deviceInfo": {
+                "serialNumber": "FJC24501AA1",
+                "name": "FJC24501AA1",
+                "deviceType": "Switch",
+                "pid": "C9300-48T",
+                "state": "Unclaimed",
+                "hostname": "SW-01"
+            }
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+                "serialNumber": "FJC24501AA2",
+                "name": "FJC24501AA2",
+                "deviceType": "Switch",
+                "pid": "C9300-48T",
+                "state": "Unclaimed",
+                "hostname": "SW-02"
+            }
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+                "serialNumber": "FJC24501AA3",
+                "name": "FJC24501AA3",
+                "deviceType": "AP",
+                "pid": "C9130AXI-I",
+                "state": "Unclaimed",
+                "hostname": "AP-01"
+            }
+        }
+    ],
+
+    "claim_multiple_partial_success": {
+        "response": "2 devices claimed successfully, 1 device failed to claim",
+        "success_count": 2,
+        "failure_count": 1,
+        "details": {
+            "successful": ["FJC24501AA1", "FJC24501AA2"],
+            "failed": ["FJC24501AA3"]
+        }
+    },
+
+    "playbook_config_network_timeout": [
+        {
+            "device_info": [
+                {
+                    "serial_number": "FJC24501TM1",
+                    "hostname": "TIMEOUT-TEST",
+                    "state": "Unclaimed",
+                    "pid": "C9300-48T"
+                }
+            ]
+        }
+    ],
+
+    "get_device_detail_after_retry": [{
+        "version": 0,
+        "deviceInfo": {
+            "serialNumber": "FJC24501TM1",
+            "name": "FJC24501TM1",
+            "deviceType": "Switch",
+            "pid": "C9300-48T",
+            "state": "Unclaimed",
+            "hostname": "TIMEOUT-TEST"
+        }
+    }],
+
+    "successful_operation_after_retry": {
+        "response": "Operation completed successfully after retry",
+        "version": "1.0"
+    },
+
+    "get_device_detail_duplicate": [{
+        "version": 0,
+        "deviceInfo": {
+            "serialNumber": "KWC24160JLL",
+            "name": "KWC24160JLL",
+            "deviceType": "Switch",
+            "pid": "C9300-48T",
+            "state": "Claimed",
+            "hostname": "EXISTING-DEVICE"
+        }
+    }],
+
+    "duplicate_serial_error": {
+        "response": "Device with serial number KWC24160JLL already exists",
+        "errorCode": "DUPLICATE_SERIAL_NUMBER",
+        "version": "1.0"
+    },
+
+    "playbook_config_invalid_site": [
+        {
+            "device_info": [
+                {
+                    "serial_number": "FJC24501IS1",
+                    "hostname": "INVALID-SITE-TEST",
+                    "state": "Unclaimed",
+                    "pid": "C9300-48T"
+                }
+            ],
+            "site_name": "Global/INVALID/SITE/PATH"
+        }
+    ],
+
+    "get_site_detail_invalid": {
+        "response": [],
+        "error": "Site not found: Global/INVALID/SITE/PATH",
+        "version": "1.0"
+    },
+
+    "get_device_detail_rollback": [{
+        "version": 0,
+        "deviceInfo": {
+            "serialNumber": "FJC24501PF1",
+            "name": "FJC24501PF1",
+            "deviceType": "Switch",
+            "pid": "C9300-48T",
+            "state": "Unclaimed",
+            "hostname": "PARTIAL-FAIL-TEST"
+        }
+    }],
+
+    "start_operation_rollback": {
+        "response": "Operation started",
+        "operationId": "op-12345"
+    },
+
+    "operation_partial_failure": {
+        "response": "Operation partially failed",
+        "operationId": "op-12345",
+        "status": "PARTIAL_FAILURE"
+    },
+
+    "rollback_initiated": {
+        "response": "Rollback initiated",
+        "rollbackId": "rb-12345"
+    },
+
+    "rollback_completed": {
+        "response": "Rollback completed successfully",
+        "rollbackId": "rb-12345",
+        "status": "COMPLETED"
+    },
+
+    "get_device_detail_template": [{
+        "version": 0,
+        "deviceInfo": {
+            "serialNumber": "FJC24501TB1",
+            "name": "FJC24501TB1",
+            "deviceType": "Switch",
+            "pid": "C9300-48T",
+            "state": "Unclaimed",
+            "hostname": "TEMPLATE-BIND-TEST"
+        }
+    }],
+
+    "get_template_configuration_invalid": [],
+
+    "template_validation_error": {
+        "response": "Template 'INVALID-TEMPLATE' not found in project 'Onboarding Configuration'",
+        "errorCode": "TEMPLATE_NOT_FOUND",
+        "version": "1.0"
+    },
+
+    "get_device_detail_upgrade": [{
+        "version": 0,
+        "deviceInfo": {
+            "serialNumber": "FJC24501IU1",
+            "name": "FJC24501IU1",
+            "deviceType": "Switch",
+            "pid": "C9300-48T",
+            "state": "Unclaimed",
+            "hostname": "IMAGE-UPGRADE-TEST"
+        }
+    }],
+
+    "start_image_upgrade": {
+        "response": "Image upgrade initiated",
+        "upgradeId": "img-upgrade-12345",
+        "status": "IN_PROGRESS"
+    },
+
+    "monitor_upgrade_progress": {
+        "response": "Upgrade in progress",
+        "upgradeId": "img-upgrade-12345",
+        "status": "IN_PROGRESS",
+        "progress": 75
+    },
+
+    "upgrade_completion_success": {
+        "response": "Image upgrade completed successfully",
+        "upgradeId": "img-upgrade-12345",
+        "status": "COMPLETED",
+        "progress": 100
+    },
+
+    "get_device_detail_workflow": [{
+        "version": 0,
+        "deviceInfo": {
+            "serialNumber": "FJC24501WE1",
+            "name": "FJC24501WE1",
+            "deviceType": "Switch",
+            "pid": "C9300-48T",
+            "state": "Unclaimed",
+            "hostname": "WORKFLOW-EXEC-TEST"
+        }
+    }],
+
+    "start_workflow_execution": {
+        "response": "Workflow execution started",
+        "workflowId": "wf-exec-12345",
+        "status": "STARTED"
+    },
+
+    "workflow_status_in_progress": {
+        "response": "Workflow in progress",
+        "workflowId": "wf-exec-12345",
+        "status": "IN_PROGRESS",
+        "currentStep": "Configuration deployment"
+    },
+
+    "workflow_status_completed": {
+        "response": "Workflow completed successfully",
+        "workflowId": "wf-exec-12345",
+        "status": "COMPLETED",
+        "result": "SUCCESS"
+    },
+
+    "api_error_response": {
+        "response": {
+            "errorCode": "INTERNAL_SERVER_ERROR",
+            "message": "An internal server error occurred",
+            "details": "Database connection failed"
+        },
+        "status": 500
+    },
+
+    "validation_error_response": {
+        "response": {
+            "errorCode": "VALIDATION_ERROR",
+            "message": "Invalid input parameters",
+            "details": {
+                "serial_number": "Serial number is required",
+                "hostname": "Hostname must be alphanumeric"
+            }
+        },
+        "status": 400
+    },
+
+    "authentication_error_response": {
+        "response": {
+            "errorCode": "AUTHENTICATION_FAILED",
+            "message": "Invalid credentials"
+        },
+        "status": 401
+    },
+
+    "authorization_error_response": {
+        "response": {
+            "errorCode": "INSUFFICIENT_PRIVILEGES",
+            "message": "User does not have permission to perform this operation"
+        },
+        "status": 403
+    },
+
+    "resource_not_found_response": {
+        "response": {
+            "errorCode": "RESOURCE_NOT_FOUND",
+            "message": "Requested resource not found"
+        },
+        "status": 404
+    },
+
+    "bulk_operation_success": {
+        "response": {
+            "message": "Bulk operation completed successfully",
+            "processed": 10,
+            "successful": 8,
+            "failed": 2,
+            "details": {
+                "successful_devices": ["FJC24501AA1", "FJC24501AA2", "FJC24501AA3"],
+                "failed_devices": ["FJC24501AA4", "FJC24501AA5"]
+            }
+        },
+        "status": 200
+    },
+
+    "workflow_success_response": {
+        "response": {
+            "message": "Workflow completed successfully",
+            "workflowId": "wf-12345",
+            "duration": "00:05:30",
+            "steps_completed": 5,
+            "final_status": "SUCCESS"
+        },
+        "status": 200
+    },
+
+    "version_2_3_5_3_features": {
+        "supported_features": [
+            "basic_pnp",
+            "device_claim",
+            "template_deployment"
+        ],
+        "version": "2.3.5.3"
+    },
+
+    "version_3_1_0_features": {
+        "supported_features": [
+            "basic_pnp",
+            "device_claim",
+            "template_deployment",
+            "bulk_operations",
+            "advanced_workflows",
+            "enhanced_monitoring"
+        ],
+        "version": "3.1.0.0"
+    },
+
+    "large_device_list": {
+        "device_info": [
+
+        ]
+    },
+
+    "cleanup_response": {
+        "response": {
+            "message": "Cleanup completed successfully",
+            "devices_removed": 5,
+            "workflows_cancelled": 2
+        },
+        "status": 200
+    },
+
+    "inventory_sync_response": {
+        "response": {
+            "message": "Inventory synchronized successfully",
+            "devices_updated": 15,
+            "last_sync": "2024-11-20T10:30:00Z"
+        },
+        "status": 200
+    }
 }

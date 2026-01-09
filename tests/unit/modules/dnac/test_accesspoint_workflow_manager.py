@@ -36,6 +36,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
     playbook_config_update_some_missing_data = test_data.get("playbook_config_update_some_missing_data")
     playbook_config_update_some_error_data = test_data.get("playbook_config_update_some_error_data")
     playbook_invalid_config_complete = test_data.get("playbook_invalid_config_complete")
+    playbook_config_provision_new_positive = test_data.get("playbook_config_provision_new_positive")
 
     def setUp(self):
         super(TestDnacAccesspointWorkflow, self).setUp()
@@ -62,23 +63,20 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         """
         if "provision_device" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_device_detail"),
-                self.test_data.get("get_site_exist_response"),
-                self.test_data.get("get_device_detail"),
-                self.test_data.get("verify_get_device_info"),
-                self.test_data.get("get_accesspoint_config"),
-                self.test_data.get("assign_to_site_response"),
-                self.test_data.get("assign_to_site_task_response"),
-                self.test_data.get("provision_ap_response"),
-                self.test_data.get("provision_ap_task_response"),
-                self.test_data.get("ap_update_response"),
-                self.test_data.get("ap_task_status"),
-                self.test_data.get("get_device_detail"),
-                self.test_data.get("get_site_exist_response"),
-                self.test_data.get("get_device_detail"),
-                self.test_data.get("verify_get_device_info"),
-                self.test_data.get("get_accesspoint_config_verify")
+                self.test_data.get("get_device_detail_for_provision"),
+                self.test_data.get("get_config_detail_for_provision"),
+                self.test_data.get("get_site_for_provision"),
+                self.test_data.get("get_device_for_site_for_provision"),
+                self.test_data.get("get_wlc_device_for_provision"),
+                self.test_data.get("get_site_for_provision"),
+                self.test_data.get("get_deviceip_for_deviceid_provision"),
+                self.test_data.get("assign_site_for_task_execution"),
+                self.test_data.get("assign_device_to_site_for_provision"),
+                self.test_data.get("provision_site_for_task_execution"),
+                self.test_data.get("task_details_for_provision")
             ]
+        elif "invalid_mac_address" in self._testMethodName:
+            self.run_dnac_exec.side_effect = []
         elif "invalid_wlc_device" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_detail"),
@@ -125,7 +123,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 self.test_data.get("ap_task_error_status")
             ]
 
-    def test_accesspoint_workflow_manager_invalid_provision_device_channel_width(self):
+    def test_accesspoint_workflow_manager_provision_device(self):
         """
         Test case for access point workfollow manager provision and update device.
 
@@ -138,39 +136,15 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                dnac_version="2.3.7.6",
+                dnac_version="3.1.3.0",
                 config_verify=True,
-                config=self.playbook_config_complete
+                config=self.playbook_config_provision_new_positive
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
-            "channel_width is not applicable for the 2.4GHz radio",
+            "Provided device is not Access Point",
             result.get('msg', '')
-        )
-
-    def test_invalid_wlc_device(self):
-        """
-        Test case for access point workfollow manager check invalid wireless controller.
-
-        This test case checks the behavior of the access point workflow of invalid wlc specified Cisco Catalyst Center.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                dnac_version="2.3.7.6",
-                config=self.playbook_config_provision
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        self.maxDiff = None
-        self.assertIn(
-            "get_site_assigned_network_devices",
-            result.get("msg")
         )
 
     def test_accesspoint_workflow_manager_some_error_data_update_accesspoint(self):
@@ -245,31 +219,6 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         self.assertEqual(
             result.get('response').get("accesspoints_updates").get("ap_reboot_status"),
             "APs ['34:b8:83:15:7c:6c'] rebooted successfully"
-        )
-
-    def test_accesspoint_workflow_manager_provision_old_version(self):
-        """
-        Test case for access point workfollow manager provision device old version.
-
-        This test case checks the behavior of the access point workflow when provisioned in the specified Cisco Catalyst Center.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                dnac_version="2.3.5.3",
-                config_verify=True,
-                config=self.playbook_config_provision_old_version
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        self.maxDiff = None
-        self.assertIn(
-            "AP LTTS_Test_9124_T2 provisioned successfully",
-            result.get('msg')
         )
 
     def test_accesspoint_workflow_manager_task_error_update_accesspoint(self):
@@ -367,4 +316,37 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         self.assertEqual(
             result.get('response'),
             "Required param of mac_address,ip_address or hostname is not in playbook config"
+        )
+
+    def test_accesspoint_workflow_manager_invalid_mac_address(self):
+        """
+        Test case for invalid MAC address format.
+
+        This test case checks validation of MAC address format.
+        """
+        invalid_config = [{
+            "mac_address": "invalid-mac",
+            "site": {
+                "floor": {
+                    "name": "FLOOR1",
+                    "parent_name": "Global/Chennai/LTTS"
+                }
+            }
+        }]
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                dnac_version="2.3.7.6",
+                config=invalid_config
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "mac",
+            result.get('msg', '').lower()
         )

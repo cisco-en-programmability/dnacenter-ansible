@@ -34,14 +34,14 @@ options:
       - Offset query parameter. The starting point or
         index from where the paginated results should
         begin.
-    type: float
+    type: int
   limit:
     description:
       - >
         Limit query parameter. The limit which is the
         maximum number of items to include in a single
         page of results, max value 500.
-    type: float
+    type: int
 requirements:
   - dnacentersdk >= 2.10.1
   - python >= 3.5

@@ -1,0 +1,1766 @@
+# ---
+# # Common device information
+# device_info: &device_info
+#   ip_address: "204.1.2.3"
+#   device_collection_status_check: false
+
+# ###################################################################################################################
+# # Negative Validation Tests for Port Configuration
+
+# #############################################
+# #        Port Configuration Structure Tests #
+# #############################################
+
+# # Test invalid port configuration - string instead of list
+# test_port_config_invalid_list_type:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration: "invalid_string"  # Invalid: string instead of list
+
+# # Test invalid port configuration - dictionary instead of list
+# test_port_config_invalid_dict_type:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration: {"invalid": "dict"}  # Invalid: dictionary instead of list
+
+# # Test invalid port configuration item - string instead of dictionary
+# test_port_config_item_invalid_dict_type:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - "invalid_item_string"  # Invalid: string instead of dictionary
+
+# # Test missing interface_name - required field
+# test_port_config_missing_interface_name:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - # interface_name is missing - should fail
+#         switchport_interface_config:
+#           switchport_description: "Test Port"
+
+# # Test invalid interface_name - integer instead of string
+# test_port_config_interface_name_integer:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: 123  # Invalid: integer instead of string
+#         switchport_interface_config:
+#           switchport_description: "Test Port"
+
+# # Test invalid interface_name - empty string
+# test_port_config_interface_name_empty:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: ""  # Invalid: empty string
+#         switchport_interface_config:
+#           switchport_description: "Test Port"
+
+# #############################################
+# #        Switchport Interface Config Tests #
+# #############################################
+
+# # Test invalid switchport_interface_config - string instead of dict
+# test_switchport_config_invalid_dict_type:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config: "invalid_string"  # Invalid: string instead of dict
+
+# # Test invalid switchport_description - integer instead of string
+# test_switchport_description_integer:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           switchport_description: 123  # Invalid: integer instead of string
+
+# # Test invalid switchport_description - exceeds maximum length
+# test_switchport_description_max_length:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           switchport_description: "{{ 'x' * 231 }}"  # Invalid: exceeds 230 chars
+
+# # Test invalid switchport_mode - invalid choice
+# test_switchport_mode_invalid:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           switchport_mode: "INVALID_MODE"  # Invalid: not in choices
+
+# # Test invalid switchport_mode - integer instead of string
+# test_switchport_mode_integer:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           switchport_mode: 1  # Invalid: integer instead of string
+
+# # Test invalid access_vlan - string instead of integer
+# test_access_vlan_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           access_vlan: "100"  # Invalid: string instead of integer
+
+# # Test invalid access_vlan - negative value
+# test_access_vlan_negative:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           access_vlan: -1  # Invalid: negative value
+
+# # Test invalid access_vlan - exceeds maximum value
+# test_access_vlan_max:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           access_vlan: 4095  # Invalid: exceeds maximum of 4094
+
+# # Test invalid access_vlan - zero value
+# test_access_vlan_zero:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           access_vlan: 0  # Invalid: zero value
+
+# # Test invalid admin_status - string instead of boolean
+# test_admin_status_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           admin_status: "true"  # Invalid: string instead of boolean
+
+# # Test invalid admin_status - integer instead of boolean
+# test_admin_status_integer:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           admin_status: 1  # Invalid: integer instead of boolean
+
+# # Test invalid voice_vlan - string instead of integer
+# test_voice_vlan_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           voice_vlan: "200"  # Invalid: string instead of integer
+
+# # Test invalid voice_vlan - negative value
+# test_voice_vlan_negative:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           voice_vlan: -1  # Invalid: negative value
+
+# # Test invalid voice_vlan - exceeds maximum value
+# test_voice_vlan_max:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           voice_vlan: 4095  # Invalid: exceeds maximum of 4094
+
+# # Test invalid voice_vlan - zero value
+# test_voice_vlan_zero:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           voice_vlan: 0  # Invalid: zero value (outside range 1-4094)
+
+# # Test invalid allowed_vlans - string instead of list
+# test_allowed_vlans_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           allowed_vlans: "100,200,300"  # Invalid: string instead of list
+
+# # Test invalid allowed_vlans - non-integer elements
+# test_allowed_vlans_non_integer:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           allowed_vlans: ["100", "200", "300"]  # Invalid: strings instead of integers
+
+# # Test invalid allowed_vlans - out of range values
+# test_allowed_vlans_out_of_range:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           allowed_vlans: [0, 100, 4095]  # Invalid: 0 and 4095 out of range
+
+# # Test invalid native_vlan_id - string instead of integer
+# test_native_vlan_id_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           native_vlan_id: "1"  # Invalid: string instead of integer
+
+# # Test invalid native_vlan_id - negative value
+# test_native_vlan_id_negative:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           native_vlan_id: -1  # Invalid: negative value
+
+# # Test invalid native_vlan_id - exceeds maximum value
+# test_native_vlan_id_max:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           native_vlan_id: 4095  # Invalid: exceeds maximum of 4094
+
+# # Test invalid native_vlan_id - zero value
+# test_native_vlan_id_zero:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         switchport_interface_config:
+#           native_vlan_id: 0  # Invalid: zero value (outside range 1-4094)
+
+# #############################################
+# #        VLAN Trunking Interface Config Tests #
+# #############################################
+
+# # Test invalid vlan_trunking_interface_config - string instead of dict
+# test_vlan_trunking_config_invalid_dict_type:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         vlan_trunking_interface_config: "invalid_string"  # Invalid: string instead of dict
+
+# # Test invalid dtp_negotiation - invalid choice
+# test_dtp_negotiation_invalid:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         vlan_trunking_interface_config:
+#           enable_dtp_negotiation: "INVALID_MODE"  # Invalid: not in choices
+
+# # Test invalid dtp_negotiation - integer instead of string
+# test_dtp_negotiation_integer:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         vlan_trunking_interface_config:
+#           enable_dtp_negotiation: 1  # Invalid: integer instead of string
+
+# # Test invalid protected - string instead of boolean
+# test_protected_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         vlan_trunking_interface_config:
+#           protected: "true"  # Invalid: string instead of boolean
+
+# # Test invalid protected - integer instead of boolean
+# test_protected_integer:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         vlan_trunking_interface_config:
+#           protected: 1  # Invalid: integer instead of boolean
+
+# # Test invalid pruning_vlan_ids - string instead of list
+# test_pruning_vlan_ids_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         vlan_trunking_interface_config:
+#           pruning_vlan_ids: "100,200"  # Invalid: string instead of list
+
+# # Test invalid pruning_vlan_ids - out of range values
+# test_pruning_vlan_ids_out_of_range:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         vlan_trunking_interface_config:
+#           pruning_vlan_ids: [0, 100, 4095]  # Invalid: 0 and 4095 out of range
+
+# #############################################
+# #        802.1X Interface Config Tests     #
+# #############################################
+
+# # Test invalid dot1x_interface_config - string instead of dict
+# test_dot1x_config_invalid_dict_type:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config: "invalid_string"  # Invalid: string instead of dict
+
+# # Test invalid authentication_order - string instead of list
+# test_authentication_order_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_authentication_order: "DOT1X"  # Invalid: string instead of list
+
+# # Test invalid authentication_order - invalid choice in list
+# test_authentication_order_invalid_choice:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_authentication_order: ["DOT1X", "INVALID_METHOD"]  # Invalid: INVALID_METHOD not in choices
+
+# # Test invalid authentication_order - non-string elements
+# test_authentication_order_non_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_authentication_order: [1, 2, 3]  # Invalid: integers instead of strings
+
+# # Test invalid authentication_order - exceeds maximum items
+# test_authentication_order_max_items:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_authentication_order: ["DOT1X", "MAB", "WEBAUTH", "EXTRA"]  # Invalid: exceeds max of 3
+
+# # Invalid authentication mode choice
+# test_invalid_authentication_mode:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_authentication_mode: "INVALID_MODE"  # Should be OPEN or CLOSED
+
+# # Authentication mode as non-string
+# test_authentication_mode_non_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_authentication_mode: 123  # Should be string
+
+# # Invalid PAE type choice
+# test_invalid_pae_type:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_pae_type: "INVALID_PAE"  # Should be NONE, AUTHENTICATOR, SUPPLICANT, BOTH
+
+# # Invalid control direction choice
+# test_invalid_control_direction:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_control_direction: "INVALID_DIR"  # Should be IN or BOTH
+
+# # Invalid host mode choice
+# test_invalid_host_mode:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_host_mode: "INVALID_HOST"  # Should be MULTI_AUTHENTICATION, MULTI_HOST, SINGLE_HOST, MULTI_DOMAIN
+
+# # Invalid port control choice
+# test_invalid_port_control:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_port_control: "INVALID_CONTROL"  # Should be AUTO, FORCE_AUTHORIZED, FORCE_UNAUTHORIZED
+
+# # Invalid inactivity timer - below range
+# test_inactivity_timer_below_range:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_inactivity_timer: -1  # Should be 0-65535
+
+# # Invalid inactivity timer - above range
+# test_inactivity_timer_above_range:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_inactivity_timer: 70000  # Should be 0-65535
+
+# # Invalid max reauth requests - below range
+# test_max_reauth_below_range:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_max_reauth_requests: 0  # Should be 1-10
+
+# # Invalid reauth timer - below range
+# test_reauth_timer_below_range:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_reauth_timer: 0  # Should be 1-1073741823
+
+# # Invalid tx period - below range
+# test_tx_period_below_range:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_tx_period: 0  # Should be 1-65535
+
+# # Boolean parameters as non-boolean
+# test_boolean_as_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_inactivity_timer_from_server: "true"  # Should be boolean
+
+# test_boolean_as_integer:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_reauthentication: 1  # Should be boolean
+
+# # Invalid priority - exceeds max items
+# test_priority_max_items:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_priority: ["DOT1X", "MAB", "WEBAUTH", "EXTRA"]  # Should be max 3
+
+# # Invalid priority - invalid choice
+# test_priority_invalid_choice:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dot1x_interface_config:
+#           dot1x_interface_priority: ["DOT1X", "INVALID_PRIORITY"]  # Invalid choice
+
+
+# #############################################
+# #        MAB Interface Config Tests        #
+# #############################################
+
+# # Test invalid mab_interface_config - string instead of dict
+# test_mab_config_invalid_dict_type:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         mab_interface_config: "invalid_string"  # Invalid: string instead of dict
+
+# # Test invalid enable_mab - string instead of boolean
+# test_enable_mab_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         mab_interface_config:
+#           enable_mab: "true"  # Invalid: string instead of boolean
+
+# # Test invalid enable_mab - integer instead of boolean
+# test_enable_mab_integer:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         mab_interface_config:
+#           enable_mab: 1  # Invalid: integer instead of boolean
+
+# #############################################
+# #        STP Interface Config Tests        #
+# #############################################
+
+# # Test invalid stp_interface_config - string instead of dict
+# test_stp_interface_config_invalid_dict_type:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         stp_interface_config: "invalid_string"  # Invalid: string instead of dict
+
+# # Test invalid stp_interface_portfast_mode - invalid choice
+# test_stp_interface_portfast_mode_invalid:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         stp_interface_config:
+#           stp_interface_portfast_mode: "INVALID_MODE"  # Invalid: not in choices
+
+# # Test invalid stp_interface_portfast_mode - integer instead of string
+# test_stp_interface_portfast_mode_integer:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         stp_interface_config:
+#           stp_interface_portfast_mode: 1  # Invalid: integer instead of string
+
+# # Test invalid stp_interface_bpdu_filter - string instead of boolean
+# test_stp_interface_bpdu_filter_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         stp_interface_config:
+#           stp_interface_bpdu_filter: "true"  # Invalid: string instead of boolean
+
+# # Test invalid stp_interface_bpdu_guard - string instead of boolean
+# test_stp_interface_bpdu_guard_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         stp_interface_config:
+#           stp_interface_bpdu_guard: "false"  # Invalid: string instead of boolean
+
+# # Test invalid stp_interface_cost - string instead of integer
+# test_stp_interface_cost_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         stp_interface_config:
+#           stp_interface_cost: "100"  # Invalid: string instead of integer
+
+# # Test invalid stp_interface_cost - negative value
+# test_stp_interface_cost_negative:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         stp_interface_config:
+#           stp_interface_cost: -1  # Invalid: negative value
+
+# # Test invalid stp_interface_cost - exceeds maximum value
+# test_stp_interface_cost_max:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         stp_interface_config:
+#           stp_interface_cost: 20000001  # Invalid: exceeds maximum of 20000000
+
+# # Test invalid stp_interface_guard - invalid choice
+# test_stp_interface_guard_invalid:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         stp_interface_config:
+#           stp_interface_guard: "INVALID_GUARD"  # Invalid: not in choices
+
+# # Test invalid stp_interface_priority - string instead of integer
+# test_stp_interface_priority_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         stp_interface_config:
+#           stp_interface_priority: "128"  # Invalid: string instead of integer
+
+# # Test invalid stp_interface_priority - negative value
+# test_stp_interface_priority_negative:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         stp_interface_config:
+#           stp_interface_priority: -1  # Invalid: negative value
+
+# # Test invalid stp_interface_priority - exceeds maximum value
+# test_stp_interface_priority_max:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         stp_interface_config:
+#           stp_interface_priority: 241  # Invalid: exceeds maximum of 240
+
+# # Test invalid stp_interface_priority - not multiple of 16
+# test_stp_interface_priority_not_multiple:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         stp_interface_config:
+#           stp_interface_priority: 129  # Invalid: not multiple of 16
+
+# # Test invalid stp_interface_per_vlan_cost - string instead of dict
+# test_stp_interface_per_vlan_cost_invalid_dict:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         stp_interface_config:
+#           stp_interface_per_vlan_cost: "invalid_string"  # Invalid: string instead of dict
+
+# # Test invalid stp_interface_per_vlan_cost priority - string instead of integer
+# test_stp_interface_per_vlan_cost_priority_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         stp_interface_config:
+#           stp_interface_per_vlan_cost:
+#             priority: "100"  # Invalid: string instead of integer
+#             vlan_ids: [100, 200]
+
+# # Test invalid stp_interface_per_vlan_cost vlan_ids - string instead of list
+# test_stp_interface_per_vlan_cost_vlan_ids_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         stp_interface_config:
+#           stp_interface_per_vlan_cost:
+#             priority: 100
+#             vlan_ids: "100,200"  # Invalid: string instead of list
+
+# # Test invalid stp_interface_per_vlan_priority - string instead of dict
+# test_stp_interface_per_vlan_priority_invalid_dict:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         stp_interface_config:
+#           stp_interface_per_vlan_priority: "invalid_string"  # Invalid: string instead of dict
+
+# #############################################
+# #        DHCP Snooping Interface Config Tests #
+# #############################################
+
+# # Test invalid dhcp_snooping_interface_config - string instead of dict
+# test_dhcp_snooping_interface_config_invalid_dict_type:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dhcp_snooping_interface_config: "invalid_string"  # Invalid: string instead of dict
+
+# # Test invalid dhcp_snooping_interface_rate - string instead of integer
+# test_dhcp_snooping_interface_rate_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dhcp_snooping_interface_config:
+#           dhcp_snooping_interface_rate: "100"  # Invalid: string instead of integer
+
+# # Test invalid dhcp_snooping_interface_rate - negative value
+# test_dhcp_snooping_interface_rate_negative:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dhcp_snooping_interface_config:
+#           dhcp_snooping_interface_rate: -1  # Invalid: negative value
+
+# # Test invalid dhcp_snooping_interface_rate - exceeds maximum value
+# test_dhcp_snooping_interface_rate_max:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dhcp_snooping_interface_config:
+#           dhcp_snooping_interface_rate: 2049  # Invalid: exceeds maximum of 2048
+
+# # Test invalid dhcp_snooping_interface_trust - string instead of boolean
+# test_dhcp_snooping_interface_trust_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         dhcp_snooping_interface_config:
+#           dhcp_snooping_interface_trust: "true"  # Invalid: string instead of boolean
+
+# #############################################
+# #        CDP Interface Config Tests        #
+# #############################################
+
+# # Test invalid cdp_interface_config - string instead of dict
+# test_cdp_interface_config_invalid_dict_type:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         cdp_interface_config: "invalid_string"  # Invalid: string instead of dict
+
+# # Test invalid cdp_interface_admin_status - string instead of boolean
+# test_cdp_interface_admin_status_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         cdp_interface_config:
+#           cdp_interface_admin_status: "true"  # Invalid: string instead of boolean
+
+# # Test invalid cdp_interface_log_duplex_mismatch - string instead of boolean
+# test_cdp_interface_log_duplex_mismatch_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         cdp_interface_config:
+#           cdp_interface_log_duplex_mismatch: "false"  # Invalid: string instead of boolean
+
+# #############################################
+# #        LLDP Interface Config Tests       #
+# #############################################
+
+# # Test invalid lldp_interface_config - string instead of dict
+# test_lldp_interface_config_invalid_dict_type:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         lldp_interface_config: "invalid_string"  # Invalid: string instead of dict
+
+# # Test invalid lldp_interface_receive_transmit - invalid choice
+# test_lldp_interface_receive_transmit_invalid:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         lldp_interface_config:
+#           lldp_interface_receive_transmit: "INVALID_MODE"  # Invalid: not in choices
+
+# # Test invalid lldp_interface_receive_transmit - integer instead of string
+# test_lldp_interface_receive_transmit_integer:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         lldp_interface_config:
+#           lldp_interface_receive_transmit: 1  # Invalid: integer instead of string
+
+# #############################################
+# #        VTP Interface Config Tests        #
+# #############################################
+
+# # Test invalid vtp_interface_config - string instead of dict
+# test_vtp_interface_config_invalid_dict_type:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         vtp_interface_config: "invalid_string"  # Invalid: string instead of dict
+
+# # Test invalid vtp_interface_admin_status - string instead of boolean
+# test_vtp_interface_admin_status_string:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/1"
+#         vtp_interface_config:
+#           vtp_interface_admin_status: "true"  # Invalid: string instead of boolean
+
+# ###################################################################################################################
+# # Positive Validation Tests for Port Configuration
+
+# #############################################
+# #        POSITIVE TEST CASES - CREATE      #
+# #############################################
+
+# # Test port configuration CREATE - minimal switchport only
+# test_port_config_create_minimal_switchport:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/1/1"
+#         switchport_interface_config:
+#           switchport_mode: "TRUNK"
+#       - interface_name: "GigabitEthernet1/1/2"
+#         switchport_interface_config:
+#           switchport_mode: "TRUNK"
+#       - interface_name: "GigabitEthernet1/1/3"
+#         switchport_interface_config:
+#           switchport_mode: "TRUNK"
+#       - interface_name: "GigabitEthernet1/0/10"
+#         switchport_interface_config:
+#           switchport_mode: "TRUNK"
+#       - interface_name: "GigabitEthernet1/0/11"
+#         switchport_interface_config:
+#           switchport_mode: "TRUNK"
+#       - interface_name: "GigabitEthernet1/0/12"
+#         switchport_interface_config:
+#           switchport_mode: "TRUNK"
+#       - interface_name: "GigabitEthernet1/0/13"
+#         switchport_interface_config:
+#           switchport_mode: "TRUNK"
+#       - interface_name: "GigabitEthernet1/0/14"
+#         switchport_interface_config:
+#           switchport_mode: "TRUNK"
+#       - interface_name: "GigabitEthernet1/0/15"
+#         switchport_interface_config:
+#           switchport_mode: "TRUNK"
+#       - interface_name: "GigabitEthernet1/0/11"
+#         switchport_interface_config:
+#           switchport_mode: "TRUNK"
+#       - interface_name: "GigabitEthernet1/0/11"
+#         switchport_interface_config:
+#           switchport_mode: "TRUNK"
+#       - interface_name: "GigabitEthernet1/0/11"
+#         switchport_interface_config:
+#           switchport_mode: "TRUNK"
+#       - interface_name: "GigabitEthernet1/0/11"
+#         switchport_interface_config:
+#           switchport_mode: "TRUNK"
+#       - interface_name: "GigabitEthernet1/0/11"
+#         switchport_interface_config:
+#           switchport_mode: "TRUNK"
+#       - interface_name: "GigabitEthernet1/0/11"
+#         switchport_interface_config:
+#           switchport_mode: "TRUNK"
+#       - interface_name: "GigabitEthernet1/0/11"
+#         switchport_interface_config:
+#           switchport_mode: "TRUNK"
+# # Test port configuration CREATE - comprehensive switchport access
+# test_port_config_create_comprehensive_switchport_access:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/1/2"
+#         switchport_interface_config:
+#           switchport_description: "Comprehensive Access Port for Sales Department"
+#           switchport_mode: "TRUNK"
+#           access_vlan: 98
+#           voice_vlan: 99
+#           admin_status: true
+
+# # Test port configuration CREATE - comprehensive switchport trunk
+# test_port_config_create_comprehensive_switchport_trunk:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/1/3"
+#         switchport_interface_config:
+#           switchport_description: "Comprehensive Trunk Port for Inter-Switch Link"
+#           switchport_mode: "TRUNK"
+#           allowed_vlans: [98, 99, 400, 402, 202]
+#           native_vlan_id: 98
+#           admin_status: true
+
+# # Test port configuration CREATE - switchport with vlan trunking
+# test_port_config_create_switchport_with_trunking:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/10"
+#         switchport_interface_config:
+#           switchport_description: "Trunk Port with DTP Configuration"
+#           switchport_mode: "TRUNK"
+#           allowed_vlans: [98, 99, 400]
+#           native_vlan_id: 1
+#           admin_status: true
+#         vlan_trunking_interface_config:
+#           enable_dtp_negotiation: false
+#           protected: false
+#           pruning_vlan_ids: [98, 99]
+
+# # Test port configuration CREATE - access port with 802.1X
+# test_port_config_create_access_with_dot1x:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/11"
+#         switchport_interface_config:
+#           switchport_description: "Access Port with 802.1X Authentication"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 400
+#           admin_status: true
+#         dot1x_interface_config:
+#           dot1x_interface_authentication_order: ["DOT1X", "MAB"]
+
+# # Test port configuration CREATE - access port with MAB
+# test_port_config_create_access_with_mab:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/12"
+#         switchport_interface_config:
+#           switchport_description: "Access Port with MAB Authentication"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 402
+#           admin_status: true
+#         mab_interface_config:
+#           enable_mab: true
+
+# # Test port configuration CREATE - access port with STP configuration
+# test_port_config_create_access_with_stp:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/13"
+#         switchport_interface_config:
+#           switchport_description: "Access Port with STP Configuration"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 202
+#           admin_status: true
+#         stp_interface_config:
+#           stp_interface_portfast_mode: "EDGE"
+#           stp_interface_bpdu_guard: true
+#           stp_interface_bpdu_filter: false
+#           stp_interface_cost: 19
+#           stp_interface_priority: 128
+
+# # Test port configuration CREATE - access port with DHCP snooping
+# test_port_config_create_access_with_dhcp_snooping:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/14"
+#         switchport_interface_config:
+#           switchport_description: "Access Port with DHCP Snooping"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 401
+#           admin_status: true
+#         dhcp_snooping_interface_config:
+#           dhcp_snooping_interface_rate: 50
+#           dhcp_snooping_interface_trust: false
+
+# # Test port configuration CREATE - access port with CDP and LLDP
+# test_port_config_create_access_with_cdp_lldp:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/15"
+#         switchport_interface_config:
+#           switchport_description: "Access Port with CDP and LLDP"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 98
+#           admin_status: true
+#         cdp_interface_config:
+#           cdp_interface_admin_status: true
+#           cdp_interface_log_duplex_mismatch: true
+#         lldp_interface_config:
+#           lldp_interface_receive_transmit: "TRANSMIT_AND_RECEIVE"
+
+# # Test port configuration CREATE - comprehensive all features single port
+# test_port_config_create_comprehensive_all_features:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/16"
+#         switchport_interface_config:
+#           switchport_description: "Comprehensive Port with All Features"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 99
+#           voice_vlan: 400
+#           admin_status: true
+#         vlan_trunking_interface_config:
+#           protected: true
+#         dot1x_interface_config:
+#           dot1x_interface_authentication_order: ["DOT1X", "MAB", "WEBAUTH"]
+#         mab_interface_config:
+#           enable_mab: true
+#         stp_interface_config:
+#           stp_interface_portfast_mode: "EDGE"
+#           stp_interface_bpdu_guard: true
+#           stp_interface_bpdu_filter: false
+#           stp_interface_cost: 100
+#           stp_interface_guard: "ROOT"
+#           stp_interface_priority: 64
+#         dhcp_snooping_interface_config:
+#           dhcp_snooping_interface_rate: 100
+#           dhcp_snooping_interface_trust: false
+#         cdp_interface_config:
+#           cdp_interface_admin_status: true
+#           cdp_interface_log_duplex_mismatch: true
+#         lldp_interface_config:
+#           lldp_interface_receive_transmit: "TRANSMIT_AND_RECEIVE"
+#         vtp_interface_config:
+#           vtp_interface_admin_status: true
+
+# # Test port configuration CREATE - multiple ports different configurations
+# test_port_config_create_multiple_ports_different:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/17"
+#         switchport_interface_config:
+#           switchport_description: "Access Port 1"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 402
+#           admin_status: true
+#       - interface_name: "GigabitEthernet1/0/18"
+#         switchport_interface_config:
+#           switchport_description: "Trunk Port 1"
+#           switchport_mode: "TRUNK"
+#           allowed_vlans: [98, 99, 202]
+#           native_vlan_id: 1
+#           admin_status: true
+#       - interface_name: "GigabitEthernet1/0/19"
+#         switchport_interface_config:
+#           switchport_description: "Voice Port 1"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 202
+#           voice_vlan: 401
+#           admin_status: true
+#         dot1x_interface_config:
+#           dot1x_interface_authentication_order: ["DOT1X"]
+
+# # Test port configuration CREATE - multiple ports same configuration
+# test_port_config_create_multiple_ports_same:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/20"
+#         switchport_interface_config:
+#           switchport_description: "Standard Access Port 1"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 400
+#           admin_status: true
+#         stp_interface_config:
+#           stp_interface_portfast_mode: "EDGE"
+#           stp_interface_bpdu_guard: true
+#       - interface_name: "GigabitEthernet1/0/21"
+#         switchport_interface_config:
+#           switchport_description: "Standard Access Port 2"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 400
+#           admin_status: true
+#         stp_interface_config:
+#           stp_interface_portfast_mode: "EDGE"
+#           stp_interface_bpdu_guard: true
+
+# # Test port configuration CREATE - dynamic mode configurations
+# test_port_config_create_dynamic_modes:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/22"
+#         switchport_interface_config:
+#           switchport_description: "Dynamic Auto Port"
+#           switchport_mode: "DYNAMIC_AUTO"
+#           admin_status: true
+#       - interface_name: "GigabitEthernet1/0/23"
+#         switchport_interface_config:
+#           switchport_description: "Dynamic Desirable Port"
+#           switchport_mode: "DYNAMIC_DESIRABLE"
+#           admin_status: true
+
+# #############################################
+# #        POSITIVE TEST CASES - UPDATE      #
+# #############################################
+
+# # Test port configuration UPDATE - modify switchport description
+# test_port_config_update_description:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/1/1"
+#         switchport_interface_config:
+#           switchport_description: "Updated Minimal Access Port Description"
+
+# # Test port configuration UPDATE - change access VLAN
+# test_port_config_update_access_vlan:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/1/2"
+#         switchport_interface_config:
+#           access_vlan: 402  # Changed from 98
+
+# # Test port configuration UPDATE - change switchport mode from access to trunk
+# test_port_config_update_mode_access_to_trunk:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/12"
+#         switchport_interface_config:
+#           switchport_description: "Changed to Trunk Port"
+#           switchport_mode: "TRUNK"  # Changed from ACCESS
+#           allowed_vlans: [98, 99, 400]
+#           native_vlan_id: 1
+
+# # Test port configuration UPDATE - change switchport mode from trunk to access
+# test_port_config_update_mode_trunk_to_access:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/1/3"
+#         switchport_interface_config:
+#           switchport_description: "Changed to Access Port"
+#           switchport_mode: "ACCESS"  # Changed from TRUNK
+#           access_vlan: 401
+
+# # Test port configuration UPDATE - modify trunk allowed VLANs
+# test_port_config_update_trunk_allowed_vlans:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/10"
+#         switchport_interface_config:
+#           allowed_vlans: [98, 99, 400, 402, 202]  # Updated VLAN list
+
+# # Test port configuration UPDATE - add voice VLAN to access port
+# test_port_config_update_add_voice_vlan:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/11"
+#         switchport_interface_config:
+#           voice_vlan: 401  # Added voice VLAN
+
+# # Test port configuration UPDATE - modify admin status
+# test_port_config_update_admin_status:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/13"
+#         switchport_interface_config:
+#           admin_status: false  # Changed from true
+
+# # Test port configuration UPDATE - add 802.1X to existing port
+# test_port_config_update_add_dot1x:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/14"
+#         dot1x_interface_config:
+#           dot1x_interface_authentication_order: ["DOT1X", "MAB"]  # Added 802.1X config
+
+# # Test port configuration UPDATE - modify STP settings
+# test_port_config_update_stp_settings:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/13"
+#         stp_interface_config:
+#           stp_interface_portfast_mode: "DISABLE"  # Changed from EDGE
+#           stp_interface_bpdu_guard: false  # Changed from true
+#           stp_interface_cost: 200  # Changed from 19
+
+# # Test port configuration UPDATE - modify DHCP snooping trust
+# test_port_config_update_dhcp_snooping_trust:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/14"
+#         dhcp_snooping_interface_config:
+#           dhcp_snooping_interface_trust: true  # Changed from false
+
+# # Test port configuration UPDATE - modify CDP and LLDP settings
+# test_port_config_update_cdp_lldp:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/15"
+#         cdp_interface_config:
+#           cdp_interface_admin_status: false  # Changed from true
+#         lldp_interface_config:
+#           lldp_interface_receive_transmit: "DISABLED"  # Changed from TRANSMIT_AND_RECEIVE
+
+# # Test port configuration UPDATE - add multiple features to simple port
+# test_port_config_update_add_multiple_features:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/1/1"
+#         switchport_interface_config:
+#           switchport_description: "Updated with Multiple Features"
+#           access_vlan: 202  # Updated VLAN
+#         stp_interface_config:
+#           stp_interface_portfast_mode: "EDGE"
+#           stp_interface_bpdu_guard: true
+#         dhcp_snooping_interface_config:
+#           dhcp_snooping_interface_rate: 75
+#           dhcp_snooping_interface_trust: false
+
+# # Test port configuration UPDATE - comprehensive update all features
+# test_port_config_update_comprehensive_all_features:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/16"
+#         switchport_interface_config:
+#           switchport_description: "Updated Comprehensive Port with All Features"
+#           access_vlan: 402  # Updated VLAN
+#           voice_vlan: 202  # Updated voice VLAN
+#         vlan_trunking_interface_config:
+#           protected: false  # Changed from true
+#         dot1x_interface_config:
+#           dot1x_interface_authentication_order: ["MAB", "DOT1X"]  # Changed order
+#         mab_interface_config:
+#           enable_mab: false  # Changed from true
+#         stp_interface_config:
+#           stp_interface_portfast_mode: "DISABLE"  # Changed from EDGE
+#           stp_interface_bpdu_guard: false  # Changed from true
+#           stp_interface_cost: 200  # Changed from 100
+#           stp_interface_guard: "LOOP"  # Changed from ROOT
+#           stp_interface_priority: 32  # Changed from 64
+#         dhcp_snooping_interface_config:
+#           dhcp_snooping_interface_rate: 200  # Changed from 100
+#           dhcp_snooping_interface_trust: true  # Changed from false
+#         cdp_interface_config:
+#           cdp_interface_admin_status: false  # Changed from true
+#         lldp_interface_config:
+#           lldp_interface_receive_transmit: "RECEIVE_ONLY"  # Changed from TRANSMIT_AND_RECEIVE
+#         vtp_interface_config:
+#           vtp_interface_admin_status: false  # Changed from true
+
+# # Test port configuration UPDATE - modify multiple ports simultaneously
+# test_port_config_update_multiple_ports:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/17"
+#         switchport_interface_config:
+#           switchport_description: "Updated Access Port 1"
+#           access_vlan: 98  # Changed from 402
+#       - interface_name: "GigabitEthernet1/0/18"
+#         switchport_interface_config:
+#           switchport_description: "Updated Trunk Port 1"
+#           allowed_vlans: [400, 401, 402]  # Updated VLAN list
+#       - interface_name: "GigabitEthernet1/0/19"
+#         switchport_interface_config:
+#           voice_vlan: 99  # Changed from 401
+
+# #############################################
+# #        POSITIVE TEST CASES - BOUNDARY    #
+# #############################################
+
+# # Test port configuration BOUNDARY - minimum VLAN values
+# test_port_config_boundary_min_vlans:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/10"
+#         switchport_interface_config:
+#           switchport_description: "Minimum VLAN Values Port"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 1  # Minimum VLAN ID
+#           voice_vlan: 1  # Minimum VLAN ID
+#           admin_status: true
+
+# # Test port configuration BOUNDARY - maximum VLAN values (using available VLANs)
+# test_port_config_boundary_max_vlans:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/11"
+#         switchport_interface_config:
+#           switchport_description: "Maximum VLAN Values Port"
+#           switchport_mode: "TRUNK"
+#           allowed_vlans: [402]  # Highest available VLAN ID
+#           native_vlan_id: 402  # Highest available VLAN ID
+#           admin_status: true
+
+# # Test port configuration BOUNDARY - minimum STP cost
+# test_port_config_boundary_min_stp_cost:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/12"
+#         switchport_interface_config:
+#           switchport_description: "Minimum STP Cost Port"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 98
+#           admin_status: true
+#         stp_interface_config:
+#           stp_interface_cost: 1  # Minimum STP cost
+
+# # Test port configuration BOUNDARY - maximum STP cost
+# test_port_config_boundary_max_stp_cost:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/13"
+#         switchport_interface_config:
+#           switchport_description: "Maximum STP Cost Port"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 99
+#           admin_status: true
+#         stp_interface_config:
+#           stp_interface_cost: 20000000  # Maximum STP cost
+
+# # Test port configuration BOUNDARY - minimum STP priority
+# test_port_config_boundary_min_stp_priority:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/14"
+#         switchport_interface_config:
+#           switchport_description: "Minimum STP Priority Port"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 400
+#           admin_status: true
+#         stp_interface_config:
+#           stp_interface_priority: 0  # Minimum STP priority
+
+# # Test port configuration BOUNDARY - maximum STP priority
+# test_port_config_boundary_max_stp_priority:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/15"
+#         switchport_interface_config:
+#           switchport_description: "Maximum STP Priority Port"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 402
+#           admin_status: true
+#         stp_interface_config:
+#           stp_interface_priority: 240  # Maximum STP priority
+
+# # Test port configuration BOUNDARY - minimum DHCP snooping rate
+# test_port_config_boundary_min_dhcp_rate:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/16"
+#         switchport_interface_config:
+#           switchport_description: "Minimum DHCP Rate Port"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 202
+#           admin_status: true
+#         dhcp_snooping_interface_config:
+#           dhcp_snooping_interface_rate: 1  # Minimum rate
+
+# # Test port configuration BOUNDARY - maximum DHCP snooping rate
+# test_port_config_boundary_max_dhcp_rate:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/17"
+#         switchport_interface_config:
+#           switchport_description: "Maximum DHCP Rate Port"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 401
+#           admin_status: true
+#         dhcp_snooping_interface_config:
+#           dhcp_snooping_interface_rate: 2048  # Maximum rate
+
+# # Test port configuration BOUNDARY - maximum description length
+# test_port_config_boundary_max_description_length:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/18"
+#         switchport_interface_config:
+#           switchport_description: "{{ 'A' * 230 }}"  # Maximum 230 characters
+#           switchport_mode: "ACCESS"
+#           access_vlan: 98
+#           admin_status: true
+
+# # Test port configuration BOUNDARY - maximum allowed VLANs list
+# test_port_config_boundary_max_allowed_vlans:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/19"
+#         switchport_interface_config:
+#           switchport_description: "Maximum Allowed VLANs Port"
+#           switchport_mode: "TRUNK"
+#           allowed_vlans: [98, 99, 400, 402, 202, 401]  # All available VLANs
+#           native_vlan_id: 1
+#           admin_status: true
+
+# #############################################
+# #        POSITIVE TEST CASES - SPECIAL     #
+# #############################################
+
+# # Test port configuration SPECIAL - all switchport modes
+# test_port_config_special_all_switchport_modes:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/20"
+#         switchport_interface_config:
+#           switchport_description: "Access Mode Port"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 98
+#           admin_status: true
+#       - interface_name: "GigabitEthernet1/0/21"
+#         switchport_interface_config:
+#           switchport_description: "Trunk Mode Port"
+#           switchport_mode: "TRUNK"
+#           allowed_vlans: [99, 400, 402]
+#           native_vlan_id: 1
+#           admin_status: true
+#       - interface_name: "GigabitEthernet1/0/22"
+#         switchport_interface_config:
+#           switchport_description: "Dynamic Auto Mode Port"
+#           switchport_mode: "DYNAMIC_AUTO"
+#           admin_status: true
+#       - interface_name: "GigabitEthernet1/0/23"
+#         switchport_interface_config:
+#           switchport_description: "Dynamic Desirable Mode Port"
+#           switchport_mode: "DYNAMIC_DESIRABLE"
+#           admin_status: true
+#       - interface_name: "GigabitEthernet1/0/24"
+#         switchport_interface_config:
+#           switchport_description: "Dot1Q Tunnel Mode Port"
+#           switchport_mode: "DOT1Q_TUNNEL"
+#           admin_status: true
+
+
+# # Test port configuration SPECIAL - all STP guard modes
+# test_port_config_special_all_stp_guard_modes:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/11"
+#         switchport_interface_config:
+#           switchport_description: "STP Loop Guard"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 402
+#         stp_interface_config:
+#           stp_interface_guard: "LOOP"
+#       - interface_name: "GigabitEthernet1/0/12"
+#         switchport_interface_config:
+#           switchport_description: "STP Root Guard"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 202
+#         stp_interface_config:
+#           stp_interface_guard: "ROOT"
+#       - interface_name: "GigabitEthernet1/0/13"
+#         switchport_interface_config:
+#           switchport_description: "STP No Guard"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 401
+#         stp_interface_config:
+#           stp_interface_guard: "NONE"
+
+# # Test port configuration SPECIAL - all LLDP modes
+# test_port_config_special_all_lldp_modes:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/14"
+#         switchport_interface_config:
+#           switchport_description: "LLDP Transmit Only"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 98
+#         lldp_interface_config:
+#           lldp_interface_receive_transmit: "TRANSMIT_ONLY"
+#       - interface_name: "GigabitEthernet1/0/15"
+#         switchport_interface_config:
+#           switchport_description: "LLDP Receive Only"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 99
+#         lldp_interface_config:
+#           lldp_interface_receive_transmit: "RECEIVE_ONLY"
+#       - interface_name: "GigabitEthernet1/0/16"
+#         switchport_interface_config:
+#           switchport_description: "LLDP Transmit and Receive"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 400
+#         lldp_interface_config:
+#           lldp_interface_receive_transmit: "TRANSMIT_AND_RECEIVE"
+#       - interface_name: "GigabitEthernet1/0/17"
+#         switchport_interface_config:
+#           switchport_description: "LLDP Disabled"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 402
+#         lldp_interface_config:
+#           lldp_interface_receive_transmit: "DISABLED"
+
+# # Test port configuration SPECIAL - all boolean combinations
+# test_port_config_special_all_boolean_combinations:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/18"
+#         switchport_interface_config:
+#           switchport_description: "All True Booleans"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 202
+#           admin_status: true
+#         vlan_trunking_interface_config:
+#           protected: true
+#         mab_interface_config:
+#           enable_mab: true
+#         stp_interface_config:
+#           stp_interface_bpdu_filter: true
+#           stp_interface_bpdu_guard: true
+#         dhcp_snooping_interface_config:
+#           dhcp_snooping_interface_trust: true
+#         cdp_interface_config:
+#           cdp_interface_admin_status: true
+#           cdp_interface_log_duplex_mismatch: true
+#         vtp_interface_config:
+#           vtp_interface_admin_status: true
+#       - interface_name: "GigabitEthernet1/0/19"
+#         switchport_interface_config:
+#           switchport_description: "All False Booleans"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 401
+#           admin_status: false
+#         vlan_trunking_interface_config:
+#           protected: false
+#         mab_interface_config:
+#           enable_mab: false
+#         stp_interface_config:
+#           stp_interface_bpdu_filter: false
+#           stp_interface_bpdu_guard: false
+#         dhcp_snooping_interface_config:
+#           dhcp_snooping_interface_trust: false
+#         cdp_interface_config:
+#           cdp_interface_admin_status: false
+#           cdp_interface_log_duplex_mismatch: false
+#         vtp_interface_config:
+#           vtp_interface_admin_status: false
+
+# # Test port configuration SPECIAL - comprehensive large scale configuration
+# test_port_config_special_large_scale:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/20"
+#         switchport_interface_config:
+#           switchport_description: "Large Scale Port 1"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 98
+#       - interface_name: "GigabitEthernet1/0/21"
+#         switchport_interface_config:
+#           switchport_description: "Large Scale Port 2"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 99
+#       - interface_name: "GigabitEthernet1/0/22"
+#         switchport_interface_config:
+#           switchport_description: "Large Scale Port 3"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 400
+#       - interface_name: "GigabitEthernet1/0/23"
+#         switchport_interface_config:
+#           switchport_description: "Large Scale Trunk 1"
+#           switchport_mode: "TRUNK"
+#           allowed_vlans: [98, 99, 400]
+#       - interface_name: "GigabitEthernet1/0/24"
+#         switchport_interface_config:
+#           switchport_description: "Large Scale Trunk 2"
+#           switchport_mode: "TRUNK"
+#           allowed_vlans: [402, 202, 401]
+#       - interface_name: "GigabitEthernet1/1/1"
+#         switchport_interface_config:
+#           switchport_description: "Large Scale Voice Port"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 402
+#           voice_vlan: 202
+#       - interface_name: "GigabitEthernet1/1/2"
+#         switchport_interface_config:
+#           switchport_description: "Large Scale Comprehensive Port"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 401
+#           voice_vlan: 98
+#           admin_status: true
+#         dot1x_interface_config:
+#           dot1x_interface_authentication_order: ["DOT1X", "MAB"]
+#         stp_interface_config:
+#           stp_interface_portfast_mode: "EDGE"
+#           stp_interface_bpdu_guard: true
+
+
+# #############################################
+# #        POSITIVE TEST CASES - DELETE      #
+# #############################################
+
+# # Test port configuration DELETE - remove single feature (STP only)
+# test_port_config_delete_single_feature_stp:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/13"
+#         stp_interface_config: {}  # Remove STP configuration only
+
+# # Test port configuration DELETE - remove single feature (802.1X only)
+# test_port_config_delete_single_feature_dot1x:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/11"
+#         dot1x_interface_config: {}  # Remove 802.1X configuration only
+
+# # Test port configuration DELETE - remove single feature (MAB only)
+# test_port_config_delete_single_feature_mab:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/12"
+#         mab_interface_config: {}  # Remove MAB configuration only
+
+# # Test port configuration DELETE - remove single feature (DHCP Snooping only)
+# test_port_config_delete_single_feature_dhcp_snooping:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/14"
+#         dhcp_snooping_interface_config: {}  # Remove DHCP Snooping configuration only
+
+# # Test port configuration DELETE - remove multiple specific features
+# test_port_config_delete_multiple_features:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/16"
+#         dot1x_interface_config: {}  # Remove 802.1X configuration
+#         mab_interface_config: {}  # Remove MAB configuration
+#         stp_interface_config: {}  # Remove STP configuration
+#         dhcp_snooping_interface_config: {}  # Remove DHCP Snooping configuration
+
+# # Test port configuration DELETE - remove all features except switchport (comprehensive port)
+# test_port_config_delete_all_features_except_switchport:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/16"
+#         vlan_trunking_interface_config: {}
+#         dot1x_interface_config: {}
+#         mab_interface_config: {}
+#         stp_interface_config: {}
+#         dhcp_snooping_interface_config: {}
+#         cdp_interface_config: {}
+#         lldp_interface_config: {}
+#         vtp_interface_config: {}
+
+# # Test port configuration DELETE - remove CDP and LLDP features
+# test_port_config_delete_cdp_lldp_features:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/15"
+#         cdp_interface_config: {}  # Remove CDP configuration
+#         lldp_interface_config: {}  # Remove LLDP configuration
+
+# # Test port configuration DELETE - remove VLAN trunking feature
+# test_port_config_delete_vlan_trunking_feature:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/10"
+#         vlan_trunking_interface_config: {}  # Remove VLAN trunking configuration
+
+# # Test port configuration DELETE - remove VTP feature
+# test_port_config_delete_vtp_feature:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/16"
+#         vtp_interface_config: {}  # Remove VTP configuration
+
+# # Test port configuration DELETE - remove features from multiple ports
+# test_port_config_delete_features_multiple_ports:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/0/20"
+#         stp_interface_config: {}  # Remove STP from port 20
+#       - interface_name: "GigabitEthernet1/0/21"
+#         stp_interface_config: {}  # Remove STP from port 21
+#       - interface_name: "GigabitEthernet1/0/19"
+#         dot1x_interface_config: {}  # Remove 802.1X from port 19
+
+# # Test port configuration DELETE - remove complete interface configurations by interface name list
+# test_port_config_delete_complete_interfaces:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/1/2"
+#         # No feature configs specified - removes all configuration for this interface
+#       - interface_name: "GigabitEthernet1/0/22"
+#         switchport_interface_config:
+#           switchport_description: "Large Scale Port 3"
+#           switchport_mode: "ACCESS"
+#           access_vlan: 400
+#       - interface_name: "GigabitEthernet1/0/23"
+#         # No feature configs specified - removes all configuration for this interface
+
+# #############################################
+# #        CLEANUP TEST CASES                #
+# #############################################
+
+# # Test port configuration CLEANUP - final cleanup for all remaining test interfaces
+# test_port_config_final_cleanup_all_interfaces:
+#   <<: *device_info
+#   layer2_configuration:
+#     port_configuration:
+#       - interface_name: "GigabitEthernet1/1/1"
+#       - interface_name: "GigabitEthernet1/1/2"
+#       - interface_name: "GigabitEthernet1/1/3"
+#       - interface_name: "GigabitEthernet1/0/10"
+#       - interface_name: "GigabitEthernet1/0/11"
+#       - interface_name: "GigabitEthernet1/0/12"
+#       - interface_name: "GigabitEthernet1/0/13"
+#       - interface_name: "GigabitEthernet1/0/14"
+#       - interface_name: "GigabitEthernet1/0/15"
+#       - interface_name: "GigabitEthernet1/0/16"
+#       - interface_name: "GigabitEthernet1/0/17"
+#       - interface_name: "GigabitEthernet1/0/18"
+#       - interface_name: "GigabitEthernet1/0/19"
+#       - interface_name: "GigabitEthernet1/0/20"
+#       - interface_name: "GigabitEthernet1/0/21"
+#       - interface_name: "GigabitEthernet1/0/22"
+#       - interface_name: "GigabitEthernet1/0/23"
+#       - interface_name: "GigabitEthernet1/0/24"

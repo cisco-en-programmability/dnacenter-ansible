@@ -58,6 +58,7 @@ class DnacBase():
         self.dnac = DNACSDK(params=dnac_params)
         self.dnac_apply = {'exec': self.dnac._exec}
         self.get_diff_state_apply = {'merged': self.get_diff_merged,
+                                     'queried': self.get_diff_queried,
                                      'deleted': self.get_diff_deleted,
                                      'replaced': self.get_diff_replaced,
                                      'overridden': self.get_diff_overridden,
@@ -117,7 +118,7 @@ class DnacBase():
         masked_config = self.get_safe_log_config(masked_config)
 
         self.log('Cisco Catalyst Center parameters: {0}'.format(masked_config), "DEBUG")
-        self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
+        self.supported_states = ["merged", "queried", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 
     def compare_dnac_versions(self, version1, version2):
@@ -190,6 +191,11 @@ class DnacBase():
     def get_diff_merged(self):
         # Implement logic to merge the resource configuration
         self.merged = True
+        return self
+
+    def get_diff_queried(self):
+        # Implement logic to query the resource configuration
+        self.queried = True
         return self
 
     def get_diff_deleted(self):
@@ -902,7 +908,10 @@ class DnacBase():
 
             # Check if the response is empty
             if response is None:
-                self.msg = "No site details retrieved for site name: {0}".format(site_name)
+                self.msg = (
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "Please create the site using the 'cisco.dnac.site_workflow_manager' module."
+                )
                 self.fail_and_exit(self.msg)
 
             self.log("Site details retrieved for site '{0}'': {1}".format(site_name, str(response)), "DEBUG")
@@ -1892,6 +1901,115 @@ class DnacBase():
 
         return self
 
+    def remove_nulls(self, obj):
+        """
+        Recursively remove keys or elements with None values from dictionaries and lists.
+
+        This function traverses the given object and removes:
+        - Any dictionary key-value pairs where the value is None.
+        - Any list elements that are None.
+        Nested dictionaries and lists are processed recursively.
+
+        Parameters:
+            obj (dict | list | any): The object to clean. Can be a dictionary,
+                a list, or any other type. Non-dict/list values are returned as-is.
+
+        Returns:
+            dict | list | any: A new object of the same type as `obj`, but with
+            all None values removed. If `obj` is a dict or list, the result
+            will also be a dict or list with cleaned contents. For other types,
+            the object is returned unchanged.
+
+        Description:
+            - Recursively processes nested data structures to remove null values
+            - Preserves original data structure while cleaning null entries
+            - Handles complex nested combinations of dictionaries and lists
+            - Logs processing workflow for traceability
+        """
+        self.log(
+            "Starting null value removal for data structure of type={0}".format(type(obj).__name__),
+            "DEBUG"
+        )
+
+        if isinstance(obj, dict):
+            self.log("Processing dictionary with {0} keys for null removal".format(len(obj)), "DEBUG")
+            cleaned_dict = {}
+            removed_keys = []
+
+            for k, v in obj.items():
+                if v is not None:
+                    cleaned_dict[k] = self.remove_nulls(v)
+                else:
+                    removed_keys.append(k)
+
+            if removed_keys:
+                self.log(
+                    "Removed {0} null keys from dictionary: {1}".format(
+                        len(removed_keys), removed_keys
+                    ),
+                    "DEBUG"
+                )
+
+            self.log(
+                "Completed dictionary null removal: {0} keys retained from {1} original keys".format(
+                    len(cleaned_dict), len(obj)
+                ),
+                "DEBUG"
+            )
+            return cleaned_dict
+
+        if isinstance(obj, list):
+            self.log("Processing list with {0} elements for null removal".format(len(obj)), "DEBUG")
+            cleaned_list = []
+            removed_count = 0
+
+            for v in obj:
+                if v is not None:
+                    cleaned_list.append(self.remove_nulls(v))
+                else:
+                    removed_count += 1
+
+            if removed_count > 0:
+                self.log(
+                    "Removed {0} null elements from list".format(removed_count),
+                    "DEBUG"
+                )
+
+            self.log(
+                "Completed list null removal: {0} elements retained from {1} original elements".format(
+                    len(cleaned_list), len(obj)
+                ),
+                "DEBUG"
+            )
+            return cleaned_list
+
+        self.log(
+            "Processing non-container type {0} - returning as-is".format(type(obj).__name__),
+            "DEBUG"
+        )
+        return obj
+
+    def snake_to_camel(self, snake_str):
+        """Convert snake_case string to camelCase."""
+        parts = snake_str.split('_')
+        return parts[0] + ''.join(word.capitalize() for word in parts[1:])
+
+    def convert_keys_to_camel_case(self, data):
+        """
+        Recursively convert all dict keys from snake_case to camelCase.
+        Handles dicts, lists, and nested structures.
+        """
+        if isinstance(data, dict):
+            new_dict = {}
+            for k, v in data.items():
+                new_key = self.snake_to_camel(k)
+                new_dict[new_key] = self.convert_keys_to_camel_case(v)
+            return new_dict
+        elif isinstance(data, list):
+            return [self.convert_keys_to_camel_case(item) for item in data]
+        else:
+            return data
+
     def set_operation_result(self, operation_status, is_changed, status_message, log_level, additional_info=None):
         """
         Update the result of the operation with the provided status, message, and log level.
@@ -2421,6 +2539,30 @@ class DnacBase():
 
         self.log(f"No matching item found for key '{key}' with value '{value}'.", "DEBUG")
         return None
+
+    def find_duplicate_value(self, config_list, key_name):
+        """
+        Identifies duplicate values for a given key in a list of dictionaries.
+
+        Parameters:
+            config_list (list of dict): A list where each dictionary contains key-value pairs.
+            key_name (str): The key whose values need to be checked for duplicates.
+
+        Returns:
+            list: A list of duplicate key_name values found in the input list.
+        """
+        seen = set()
+        duplicates = set()
+
+        for item in config_list:  # Ensure the item is a dictionary
+            value = item.get(key_name)
+            if value:
+                if value in seen:
+                    duplicates.add(value)
+                else:
+                    seen.add(value)
+
+        return list(duplicates)
 
 
 def is_list_complex(x):
