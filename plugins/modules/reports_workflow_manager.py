@@ -1707,7 +1707,7 @@ EXAMPLES = r'''
                 - name: "Time Range"
                   filter_type: "TIME_RANGE"
                   value:
-                    - time_range_option: "LAST_30_DAYS"
+                    time_range_option: "LAST_30_DAYS"
 
 - name: Create monthly report with time range CUSTOM filter
   cisco.dnac.reports_workflow_manager:
@@ -1746,10 +1746,10 @@ EXAMPLES = r'''
                 - name: "Time Range"
                   filter_type: "TIME_RANGE"
                   value:
-                    - time_range_option: "CUSTOM"
-                      start_date_time: "2025-10-09 07:30 PM"
-                      end_date_time: "2025-10-31 11:59 PM"
-                      time_zone: "Asia/Calcutta"
+                    time_range_option: "CUSTOM"
+                    start_date_time: "2025-10-09 07:30 PM"
+                    end_date_time: "2025-10-31 11:59 PM"
+                    time_zone: "Asia/Calcutta"
 
 - name: Delete a report from Catalyst Center
   cisco.dnac.reports_workflow_manager:
