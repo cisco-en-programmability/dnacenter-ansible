@@ -1741,3 +1741,67 @@ releases:
         - Removed attribute 'slot' in assurance_icap_settings_workflow_manager module
         - Added attribute 'transit_site_hierarchy' in sda_fabric_transits_workflow_manager module
         - Added attributes 'wireless_flooding_enable', 'resource_guard_enable', 'flooding_address_assignment', 'flooding_address' in sda_fabric_transits_workflow_manager module
+
+  6.41.0:
+    release_date: "2025-10-26"
+    changes:
+      release_summary: Enhancements in workflow manager modules
+      minor_changes:
+        - Changes limit and offset from float to int in all info modules
+        - Changes in network_settings_workflow_manager module
+        - Changes in path_trace_workflow_manager module
+        - Changes in sda_fabric_virtual_networks_workflow_manager module
+        - Changes in sda_host_port_onboarding_workflow_manager module
+        - Changes in template_workflow_manager module
+        - Added attribute native_vlan_id and allowed_vlan_ranges in sda_host_port_onboarding_workflow_manager module
+
+  6.42.0:
+    release_date: "2025-11-17"
+    changes:
+      release_summary: Enhancements in workflow manager modules
+      minor_changes:
+        - New module 'backup_and_restore_workflow_manager' for backup and restore workflow management
+        - New module 'fabric_devices_info_workflow_manager' for gathering fabric device information
+        - New module 'network_devices_info_workflow_manager' for gathering network device information
+        - New module 'reports_workflow_manager' for managing reports
+        - New module 'wired_campus_automation_workflow_manager' for managing wired campus automation
+        - Enhancements in 'lan_automation_workflow_manager' to support port channel
+        - Enhancements in 'pnp_workflow_manager' to support authorization
+        - Changes in accesspoint_workflow_manager module
+        - Changes in application_policy_workflow_manager module
+        - Changes in ise_radius_integration_workflow_manager module
+        - Changes in network_profile_wireless_workflow_manager module
+        - Changes in network_settings_workflow_manager module
+        - Changes in provision_workflow_manager module
+        - Changes in sda_fabric_sites_zones_workflow_manager module
+        - Changes in swim_workflow_manager module
+        - Changes in template_workflow_manager module
+        - Changes in wireless_design_workflow_manager module
+        - Added 'feature_template_designs' attribute in network_profile_wireless_workflow_manager module
+        - Added 'authorize' attribute in network_profile_wireless_workflow_manager module
+        - Added 'ap_authorization_list_name', 'authorize_mesh_and_non_mesh_aps', 'feature_template'  attributes in provision_workflow_manager module
+        - Added 'image_name', sync_cco, image_distribution_timeout, device_tag, image_activation_timeout, compatible_devices in swim_workflow_manager module
+        - Added 'profile_names' in template_workflow_manager module 
+
+  6.43.0:
+    release_date: "2025-12-08"
+    changes:
+      release_summary: Enhancements in workflow manager modules
+      minor_changes:
+        - New module 'accesspoint_location_workflow_manager' to manage Access point planned position in the floor
+        - Changes in accesspoint_workflow_manager module
+        - Changes in backup_and_restore_workflow_manager module
+        - Changes in inventory_workflow_manager module
+        - Changes in lan_automation_workflow_manager module
+        - Changes in network_devices_info_workflow_manager module
+        - Changes in network_profile_wireless_workflow_manager module
+        - Changes in pnp_workflow_manager module
+        - Changes in reports_workflow_manager module
+        - Changes in sda_fabric_virtual_networks_workflow_manager module
+        - Changes in sda_host_port_onboarding_workflow_manager module
+        - Changes in swim_workflow_manager module
+        - Changes in wireless_design_workflow_manager module
+        - Added 'backup_task_timeout' and 'restore_task_timeout'  attributes in backup_and_restore_workflow_manager module
+        - Added 'sda_fabric_port_channel_limit'  attribute in sda_host_port_onboarding_workflow_manager module
+        - Added 'convert_to_wlc'  attribute in swim_workflow_manager module
+        - Added 'feature_template_config'  attribute in wireless_design_workflow_manager module

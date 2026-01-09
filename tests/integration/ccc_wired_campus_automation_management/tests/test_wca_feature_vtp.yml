@@ -1,0 +1,1212 @@
+# ---
+# # ===================================================================================================
+# # VTP FEATURE TESTS SUMMARY
+# # ===================================================================================================
+# #
+# # This test suite validates VTP (VLAN Trunking Protocol) configuration functionality for Wired Campus Automation.
+# #
+# # TEST CATEGORIES:
+# #
+# # 1. NEGATIVE VALIDATION TESTS (Lines 75-450)
+# #    - VTP Mode validation (invalid choices, integer/boolean instead of string)
+# #    - VTP Version validation (invalid choices, integer/boolean instead of string)
+# #    - VTP Domain Name validation (integer/boolean instead of string, exceeds maximum length)
+# #    - VTP Pruning validation (string/integer instead of boolean)
+# #    - VTP Configuration File Name validation (integer/boolean instead of string, exceeds maximum length)
+# #    - VTP Source Interface validation (integer/boolean instead of string)
+# #    - Data type and structure validation (invalid dict/list types)
+# #
+# # 2. POSITIVE VALIDATION TESTS (Lines 450-1100)
+# #    a) VTP Creation Tests
+# #       - Mode only configuration
+# #       - Version only configuration
+# #       - Pruning only configuration
+# #       - Domain name only configuration
+# #       - All parameters configuration
+# #
+# #    b) VTP Update Tests (Merged State)
+# #       - Mode changes (SERVER, CLIENT, TRANSPARENT, OFF)
+# #       - Version changes (VERSION_1, VERSION_2, VERSION_3)
+# #       - Enable/disable pruning
+# #       - Configuration file name updates
+# #       - Source interface updates
+# #
+# #    c) VTP Reset Tests (Deleted State)
+# #       - Empty configuration reset (resets to defaults)
+# #       - Configuration with parameters reset
+# #
+# #    d) Boundary Value Tests
+# #       - Maximum length domain names
+# #       - Maximum length configuration file names
+# #       - Minimal configurations
+# #
+# #    e) Special Configuration Tests
+# #       - Version-specific configurations (VERSION_1, VERSION_2 with pruning)
+# #       - Mode-specific settings (server, transparent mode comprehensive)
+# #
+# #    f) Advanced Test Scenarios
+# #       - Idempotency tests (same config applied twice)
+# #       - Cleanup operations
+# #
+# # VALIDATION RANGES:
+# # - VTP Mode: string choices ["SERVER", "CLIENT", "TRANSPARENT", "OFF"]
+# # - VTP Version: string choices ["VERSION_1", "VERSION_2", "VERSION_3"]
+# # - VTP Domain Name: string (maximum length validation)
+# # - VTP Pruning: boolean (true/false)
+# # - VTP Configuration File Name: string (maximum length validation)
+# # - VTP Source Interface: string (interface name)
+# #
+# # EXPECTED BEHAVIORS:
+# # - Negative tests should fail with appropriate error messages
+# # - Positive tests should succeed with 'Successfully' in response
+# # - Idempotency: First run changes=true, second run changes=false
+# # - All tests include proper pause times for configuration settlement
+# # - Deleted state resets VTP to default configuration
+# # - VTP pruning is typically used with VERSION_2 and higher
+# #
+# # ===================================================================================================
+
+# - debug: msg="Starting VTP feature tests for Wired Campus Automation"
+# - debug: msg="Role Path {{ role_path }}"
+
+# - block:
+#     - name: Load VTP test variables
+#       include_vars:
+#         file: "{{ role_path }}/vars/vars_wca_test_feature_vtp.yml"
+#         name: vtp_vars_map
+#       vars:
+#         dnac_login: &dnac_login
+#           dnac_host: "{{ dnac_host }}"
+#           dnac_username: "{{ dnac_username }}"
+#           dnac_password: "{{ dnac_password }}"
+#           dnac_verify: "{{ dnac_verify }}"
+#           dnac_port: "{{ dnac_port }}"
+#           dnac_version: "{{ dnac_version }}"
+#           dnac_debug: "{{ dnac_debug }}"
+#           dnac_log: true
+#           dnac_log_level: "DEBUG"
+#           config_verify: true
+#           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
+#           dnac_log_append: false
+
+#     # #############################################
+#     #        Cleanup Test Configurations
+#     # #############################################
+
+#     - name: Cleanup - Reset VTP to default configuration
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - ip_address: "204.1.2.3"
+#             device_collection_status_check: false
+#             layer2_configuration:
+#               vtp: {}
+#       register: result_vtp_cleanup
+#       ignore_errors: true
+#       tags: [cleanup, vtp]
+
+#     # =============================================================================
+#     # Negative Validation Tests for VTP
+#     # =============================================================================
+
+#     # #############################################
+#     #        VTP Mode Tests
+#     # #############################################
+
+#     - name: Test VTP mode validation - invalid choice should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_mode_invalid_choice }}"
+#       register: result_vtp_mode_invalid_choice
+#       ignore_errors: true
+#       tags: [negative, vtp, mode]
+
+#     - name: Assert VTP mode invalid choice validation failed
+#       assert:
+#         that:
+#           - result_vtp_mode_invalid_choice.failed == true
+#           - "'must be one of' in result_vtp_mode_invalid_choice.msg"
+#         fail_msg: "VTP mode invalid choice validation should have failed"
+#         success_msg: "VTP mode invalid choice validation correctly failed"
+#       tags: [negative, vtp, mode]
+
+#     - name: Test VTP mode validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_mode_integer }}"
+#       register: result_vtp_mode_integer
+#       ignore_errors: true
+#       tags: [negative, vtp, mode]
+
+#     - name: Assert VTP mode integer validation failed
+#       assert:
+#         that:
+#           - result_vtp_mode_integer.failed == true
+#           - "'must be of type string' in result_vtp_mode_integer.msg"
+#         fail_msg: "VTP mode integer validation should have failed"
+#         success_msg: "VTP mode integer validation correctly failed"
+#       tags: [negative, vtp, mode]
+
+#     - name: Test VTP mode validation - boolean value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_mode_boolean }}"
+#       register: result_vtp_mode_boolean
+#       ignore_errors: true
+#       tags: [negative, vtp, mode]
+
+#     - name: Assert VTP mode boolean validation failed
+#       assert:
+#         that:
+#           - result_vtp_mode_boolean.failed == true
+#           - "'must be of type string' in result_vtp_mode_boolean.msg"
+#         fail_msg: "VTP mode boolean validation should have failed"
+#         success_msg: "VTP mode boolean validation correctly failed"
+#       tags: [negative, vtp, mode]
+
+#     # #############################################
+#     #        VTP Version Tests
+#     # #############################################
+
+#     - name: Test VTP version validation - invalid choice should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_version_invalid_choice }}"
+#       register: result_vtp_version_invalid_choice
+#       ignore_errors: true
+#       tags: [negative, vtp, version]
+
+#     - name: Assert VTP version invalid choice validation failed
+#       assert:
+#         that:
+#           - result_vtp_version_invalid_choice.failed == true
+#           - "'must be one of' in result_vtp_version_invalid_choice.msg"
+#         fail_msg: "VTP version invalid choice validation should have failed"
+#         success_msg: "VTP version invalid choice validation correctly failed"
+#       tags: [negative, vtp, version]
+
+#     - name: Test VTP version validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_version_integer }}"
+#       register: result_vtp_version_integer
+#       ignore_errors: true
+#       tags: [negative, vtp, version]
+
+#     - name: Assert VTP version integer validation failed
+#       assert:
+#         that:
+#           - result_vtp_version_integer.failed == true
+#           - "'must be of type string' in result_vtp_version_integer.msg"
+#         fail_msg: "VTP version integer validation should have failed"
+#         success_msg: "VTP version integer validation correctly failed"
+#       tags: [negative, vtp, version]
+
+#     - name: Test VTP version validation - boolean value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_version_boolean }}"
+#       register: result_vtp_version_boolean
+#       ignore_errors: true
+#       tags: [negative, vtp, version]
+
+#     - name: Assert VTP version boolean validation failed
+#       assert:
+#         that:
+#           - result_vtp_version_boolean.failed == true
+#           - "'must be of type string' in result_vtp_version_boolean.msg"
+#         fail_msg: "VTP version boolean validation should have failed"
+#         success_msg: "VTP version boolean validation correctly failed"
+#       tags: [negative, vtp, version]
+
+#     # #############################################
+#     #        VTP Domain Name Tests
+#     # #############################################
+
+#     - name: Test VTP domain name validation - exceeds maximum length should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_domain_name_max_length }}"
+#       register: result_vtp_domain_name_max_length
+#       ignore_errors: true
+#       tags: [negative, vtp, domain_name]
+
+#     - name: Assert VTP domain name max length validation failed
+#       assert:
+#         that:
+#           - result_vtp_domain_name_max_length.failed == true
+#           - "'exceeds maximum length' in result_vtp_domain_name_max_length.msg"
+#         fail_msg: "VTP domain name max length validation should have failed"
+#         success_msg: "VTP domain name max length validation correctly failed"
+#       tags: [negative, vtp, domain_name]
+
+#     - name: Test VTP domain name validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_domain_name_integer }}"
+#       register: result_vtp_domain_name_integer
+#       ignore_errors: true
+#       tags: [negative, vtp, domain_name]
+
+#     - name: Assert VTP domain name integer validation failed
+#       assert:
+#         that:
+#           - result_vtp_domain_name_integer.failed == true
+#           - "'must be of type string' in result_vtp_domain_name_integer.msg"
+#         fail_msg: "VTP domain name integer validation should have failed"
+#         success_msg: "VTP domain name integer validation correctly failed"
+#       tags: [negative, vtp, domain_name]
+
+#     - name: Test VTP domain name validation - boolean value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_domain_name_boolean }}"
+#       register: result_vtp_domain_name_boolean
+#       ignore_errors: true
+#       tags: [negative, vtp, domain_name]
+
+#     - name: Assert VTP domain name boolean validation failed
+#       assert:
+#         that:
+#           - result_vtp_domain_name_boolean.failed == true
+#           - "'must be of type string' in result_vtp_domain_name_boolean.msg"
+#         fail_msg: "VTP domain name boolean validation should have failed"
+#         success_msg: "VTP domain name boolean validation correctly failed"
+#       tags: [negative, vtp, domain_name]
+
+#     # #############################################
+#     #        VTP Pruning Tests
+#     # #############################################
+
+#     - name: Test VTP pruning validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_pruning_string }}"
+#       register: result_vtp_pruning_string
+#       ignore_errors: true
+#       tags: [negative, vtp, pruning]
+
+#     - name: Assert VTP pruning string validation failed
+#       assert:
+#         that:
+#           - result_vtp_pruning_string.failed == true
+#           - "'must be of type boolean' in result_vtp_pruning_string.msg"
+#         fail_msg: "VTP pruning string validation should have failed"
+#         success_msg: "VTP pruning string validation correctly failed"
+#       tags: [negative, vtp, pruning]
+
+#     - name: Test VTP pruning validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_pruning_integer }}"
+#       register: result_vtp_pruning_integer
+#       ignore_errors: true
+#       tags: [negative, vtp, pruning]
+
+#     - name: Assert VTP pruning integer validation failed
+#       assert:
+#         that:
+#           - result_vtp_pruning_integer.failed == true
+#           - "'must be of type boolean' in result_vtp_pruning_integer.msg"
+#         fail_msg: "VTP pruning integer validation should have failed"
+#         success_msg: "VTP pruning integer validation correctly failed"
+#       tags: [negative, vtp, pruning]
+
+#     # #############################################
+#     #        VTP Configuration File Name Tests
+#     # #############################################
+
+#     - name: Test VTP configuration file name validation - exceeds maximum length should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_config_file_name_max_length }}"
+#       register: result_vtp_config_file_name_max_length
+#       ignore_errors: true
+#       tags: [negative, vtp, config_file_name]
+
+#     - name: Assert VTP configuration file name max length validation failed
+#       assert:
+#         that:
+#           - result_vtp_config_file_name_max_length.failed == true
+#           - "'exceeds maximum length' in result_vtp_config_file_name_max_length.msg"
+#         fail_msg: "VTP configuration file name max length validation should have failed"
+#         success_msg: "VTP configuration file name max length validation correctly failed"
+#       tags: [negative, vtp, config_file_name]
+
+#     - name: Test VTP configuration file name validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_config_file_name_integer }}"
+#       register: result_vtp_config_file_name_integer
+#       ignore_errors: true
+#       tags: [negative, vtp, config_file_name]
+
+#     - name: Assert VTP configuration file name integer validation failed
+#       assert:
+#         that:
+#           - result_vtp_config_file_name_integer.failed == true
+#           - "'must be of type string' in result_vtp_config_file_name_integer.msg"
+#         fail_msg: "VTP configuration file name integer validation should have failed"
+#         success_msg: "VTP configuration file name integer validation correctly failed"
+#       tags: [negative, vtp, config_file_name]
+
+#     - name: Test VTP configuration file name validation - boolean value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_config_file_name_boolean }}"
+#       register: result_vtp_config_file_name_boolean
+#       ignore_errors: true
+#       tags: [negative, vtp, config_file_name]
+
+#     - name: Assert VTP configuration file name boolean validation failed
+#       assert:
+#         that:
+#           - result_vtp_config_file_name_boolean.failed == true
+#           - "'must be of type string' in result_vtp_config_file_name_boolean.msg"
+#         fail_msg: "VTP configuration file name boolean validation should have failed"
+#         success_msg: "VTP configuration file name boolean validation correctly failed"
+#       tags: [negative, vtp, config_file_name]
+
+#     # #############################################
+#     #        VTP Source Interface Tests
+#     # #############################################
+
+#     - name: Test VTP source interface validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_source_interface_integer }}"
+#       register: result_vtp_source_interface_integer
+#       ignore_errors: true
+#       tags: [negative, vtp, source_interface]
+
+#     - name: Assert VTP source interface integer validation failed
+#       assert:
+#         that:
+#           - result_vtp_source_interface_integer.failed == true
+#           - "'must be of type string' in result_vtp_source_interface_integer.msg"
+#         fail_msg: "VTP source interface integer validation should have failed"
+#         success_msg: "VTP source interface integer validation correctly failed"
+#       tags: [negative, vtp, source_interface]
+
+#     - name: Test VTP source interface validation - boolean value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_source_interface_boolean }}"
+#       register: result_vtp_source_interface_boolean
+#       ignore_errors: true
+#       tags: [negative, vtp, source_interface]
+
+#     - name: Assert VTP source interface boolean validation failed
+#       assert:
+#         that:
+#           - result_vtp_source_interface_boolean.failed == true
+#           - "'must be of type string' in result_vtp_source_interface_boolean.msg"
+#         fail_msg: "VTP source interface boolean validation should have failed"
+#         success_msg: "VTP source interface boolean validation correctly failed"
+#       tags: [negative, vtp, source_interface]
+
+#     # #############################################
+#     #        Data Type and Structure Tests
+#     # #############################################
+
+#     - name: Test VTP structure validation - string instead of dict should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_invalid_dict_type }}"
+#       register: result_vtp_invalid_dict_type
+#       ignore_errors: true
+#       tags: [negative, vtp, structure]
+
+#     - name: Assert VTP invalid dict type validation failed
+#       assert:
+#         that:
+#           - result_vtp_invalid_dict_type.failed == true
+#           - "'must be of type dictionary' in result_vtp_invalid_dict_type.msg"
+#         fail_msg: "VTP invalid dict type validation should have failed"
+#         success_msg: "VTP invalid dict type validation correctly failed"
+#       tags: [negative, vtp, structure]
+
+#     - name: Test VTP structure validation - list instead of dict should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_invalid_list_type }}"
+#       register: result_vtp_invalid_list_type
+#       ignore_errors: true
+#       tags: [negative, vtp, structure]
+
+#     - name: Assert VTP invalid list type validation failed
+#       assert:
+#         that:
+#           - result_vtp_invalid_list_type.failed == true
+#           - "'must be of type dictionary' in result_vtp_invalid_list_type.msg"
+#         fail_msg: "VTP invalid list type validation should have failed"
+#         success_msg: "VTP invalid list type validation correctly failed"
+#       tags: [negative, vtp, structure]
+
+#     - name: Display negative test summary
+#       debug:
+#         msg: "VTP negative validation tests completed successfully"
+#       tags: [negative, vtp]
+
+#     # =============================================================================
+#     # POSITIVE TEST CASES - VTP CREATION (MERGED STATE)
+#     # =============================================================================
+
+#     # #############################################
+#     #        Single VTP Parameter Tests
+#     #############################################
+
+#     - name: Test VTP configuration with mode only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_create_mode_only }}"
+#       register: result_vtp_create_mode_only
+#       tags: [positive, vtp, create, mode]
+
+#     - name: Assert VTP mode only configuration succeeded
+#       assert:
+#         that:
+#           - result_vtp_create_mode_only.failed == false
+#           - result_vtp_create_mode_only.changed == true
+#           - "'Successfully' in result_vtp_create_mode_only.response"
+#         fail_msg: "VTP mode only configuration should have succeeded"
+#         success_msg: "VTP mode only configuration succeeded"
+#       tags: [positive, vtp, create, mode]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, create]
+
+#     - name: Test VTP configuration with version only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_create_version_only }}"
+#       register: result_vtp_create_version_only
+#       tags: [positive, vtp, create, version]
+
+#     - name: Assert VTP version only configuration succeeded
+#       assert:
+#         that:
+#           - result_vtp_create_version_only.failed == false
+#           - result_vtp_create_version_only.changed == true
+#           - "'Successfully' in result_vtp_create_version_only.response"
+#         fail_msg: "VTP version only configuration should have succeeded"
+#         success_msg: "VTP version only configuration succeeded"
+#       tags: [positive, vtp, create, version]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, create]
+
+#     - name: Test VTP configuration with domain name only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_create_domain_name_only }}"
+#       register: result_vtp_create_domain_name_only
+#       tags: [positive, vtp, create, domain_name]
+
+#     - name: Assert VTP domain name only configuration succeeded
+#       assert:
+#         that:
+#           - result_vtp_create_domain_name_only.failed == false
+#           - result_vtp_create_domain_name_only.changed == true
+#           - "'Successfully' in result_vtp_create_domain_name_only.response"
+#         fail_msg: "VTP domain name only configuration should have succeeded"
+#         success_msg: "VTP domain name only configuration succeeded"
+#       tags: [positive, vtp, create, domain_name]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, create]
+
+#     - name: Test VTP configuration with all parameters
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_create_all_params }}"
+#       register: result_vtp_create_all_params
+#       tags: [positive, vtp, create, all_params]
+
+#     - name: Assert VTP all parameters configuration succeeded
+#       assert:
+#         that:
+#           - result_vtp_create_all_params.failed == false
+#           - result_vtp_create_all_params.changed == true
+#           - "'Successfully' in result_vtp_create_all_params.response"
+#         fail_msg: "VTP all parameters configuration should have succeeded"
+#         success_msg: "VTP all parameters configuration succeeded"
+#       tags: [positive, vtp, create, all_params]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, create]
+
+#     # =============================================================================
+#     # POSITIVE TEST CASES - VTP UPDATE (MERGED STATE)
+#     # =============================================================================
+
+#     # #############################################
+#     #        VTP Mode Update Tests
+#     # #############################################
+
+#     - name: Test VTP update - change mode to CLIENT
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_update_mode_client }}"
+#       register: result_vtp_update_mode_client
+#       tags: [positive, vtp, update, mode]
+
+#     - name: Assert VTP mode update to CLIENT succeeded
+#       assert:
+#         that:
+#           - result_vtp_update_mode_client.failed == false
+#           - result_vtp_update_mode_client.changed == true
+#           - "'Successfully' in result_vtp_update_mode_client.response"
+#         fail_msg: "VTP mode update to CLIENT should have succeeded"
+#         success_msg: "VTP mode update to CLIENT succeeded"
+#       tags: [positive, vtp, update, mode]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, update]
+
+#     - name: Test VTP update - change mode to TRANSPARENT
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_update_mode_transparent }}"
+#       register: result_vtp_update_mode_transparent
+#       tags: [positive, vtp, update, mode]
+
+#     - name: Assert VTP mode update to TRANSPARENT succeeded
+#       assert:
+#         that:
+#           - result_vtp_update_mode_transparent.failed == false
+#           - result_vtp_update_mode_transparent.changed == true
+#           - "'Successfully' in result_vtp_update_mode_transparent.response"
+#         fail_msg: "VTP mode update to TRANSPARENT should have succeeded"
+#         success_msg: "VTP mode update to TRANSPARENT succeeded"
+#       tags: [positive, vtp, update, mode]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, update]
+
+#     - name: Test VTP update - change mode to OFF
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_update_mode_off }}"
+#       register: result_vtp_update_mode_off
+#       tags: [positive, vtp, update, mode]
+
+#     - name: Assert VTP mode update to OFF succeeded
+#       assert:
+#         that:
+#           - result_vtp_update_mode_off.failed == false
+#           - result_vtp_update_mode_off.changed == true
+#           - "'Successfully' in result_vtp_update_mode_off.response"
+#         fail_msg: "VTP mode update to OFF should have succeeded"
+#         success_msg: "VTP mode update to OFF succeeded"
+#       tags: [positive, vtp, update, mode]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, update]
+
+#     # #############################################
+#     #        VTP Version Update Tests
+#     # #############################################
+
+#     - name: Test VTP update - change version to VERSION_1
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_update_version_1 }}"
+#       register: result_vtp_update_version_1
+#       tags: [positive, vtp, update, version]
+
+#     - name: Assert VTP version update to VERSION_1 succeeded
+#       assert:
+#         that:
+#           - result_vtp_update_version_1.failed == false
+#           - result_vtp_update_version_1.changed == true
+#           - "'Successfully' in result_vtp_update_version_1.response"
+#         fail_msg: "VTP version update to VERSION_1 should have succeeded"
+#         success_msg: "VTP version update to VERSION_1 succeeded"
+#       tags: [positive, vtp, update, version]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, update]
+
+#     - name: Test VTP update - change version to VERSION_2
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_update_version_2 }}"
+#       register: result_vtp_update_version_2
+#       tags: [positive, vtp, update, version]
+
+#     - name: Assert VTP version update to VERSION_2 succeeded
+#       assert:
+#         that:
+#           - result_vtp_update_version_2.failed == false
+#           - result_vtp_update_version_2.changed == true
+#           - "'Successfully' in result_vtp_update_version_2.response"
+#         fail_msg: "VTP version update to VERSION_2 should have succeeded"
+#         success_msg: "VTP version update to VERSION_2 succeeded"
+#       tags: [positive, vtp, update, version]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, update]
+
+#     - name: Test VTP update - change version to VERSION_3
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_update_version_3 }}"
+#       register: result_vtp_update_version_3
+#       tags: [positive, vtp, update, version]
+
+#     - name: Assert VTP version update to VERSION_3 succeeded
+#       assert:
+#         that:
+#           - result_vtp_update_version_3.failed == false
+#           - result_vtp_update_version_3.changed == true
+#           - "'Successfully' in result_vtp_update_version_3.response"
+#         fail_msg: "VTP version update to VERSION_3 should have succeeded"
+#         success_msg: "VTP version update to VERSION_3 succeeded"
+#       tags: [positive, vtp, update, version]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, update]
+
+#     # #############################################
+#     #        VTP Pruning Update Tests
+#     # #############################################
+
+#     - name: Test VTP update - enable pruning
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_update_enable_pruning }}"
+#       register: result_vtp_update_enable_pruning
+#       tags: [positive, vtp, update, pruning]
+
+#     - name: Assert VTP enable pruning succeeded
+#       assert:
+#         that:
+#           - result_vtp_update_enable_pruning.failed == false
+#           - result_vtp_update_enable_pruning.changed == true
+#           - "'Successfully' in result_vtp_update_enable_pruning.response"
+#         fail_msg: "VTP enable pruning should have succeeded"
+#         success_msg: "VTP enable pruning succeeded"
+#       tags: [positive, vtp, update, pruning]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, update]
+
+#     - name: Test VTP update - disable pruning
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_update_disable_pruning }}"
+#       register: result_vtp_update_disable_pruning
+#       tags: [positive, vtp, update, pruning]
+
+#     - name: Assert VTP disable pruning succeeded
+#       assert:
+#         that:
+#           - result_vtp_update_disable_pruning.failed == false
+#           - result_vtp_update_disable_pruning.changed == true
+#           - "'Successfully' in result_vtp_update_disable_pruning.response"
+#         fail_msg: "VTP disable pruning should have succeeded"
+#         success_msg: "VTP disable pruning succeeded"
+#       tags: [positive, vtp, update, pruning]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, update]
+
+#     # #############################################
+#     #     VTP File and Interface Update Tests
+#     # #############################################
+
+#     - name: Test VTP update - update configuration file name
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_update_config_file_name }}"
+#       register: result_vtp_update_config_file_name
+#       tags: [positive, vtp, update, config_file_name]
+#       ignore_errors: true
+
+#     - name: Assert VTP configuration file name update succeeded
+#       assert:
+#         that:
+#           - result_vtp_update_config_file_name.failed == true
+#           - result_vtp_update_config_file_name.changed == false
+#           - "'Must match ASCII' in result_vtp_update_config_file_name.response"
+#         fail_msg: "VTP configuration file name update should have succeeded"
+#         success_msg: "VTP configuration file name update succeeded"
+#       tags: [positive, vtp, update, config_file_name]
+
+#     - name: Test VTP update - update source interface
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_update_source_interface }}"
+#       register: result_vtp_update_source_interface
+#       tags: [positive, vtp, update, source_interface]
+#       ignore_errors: true
+
+#     - name: Assert VTP source interface update succeeded
+#       assert:
+#         that:
+#           - result_vtp_update_source_interface.failed == true
+#           - result_vtp_update_source_interface.changed == false
+#           - "'Payload format is invalid' in result_vtp_update_source_interface.response"
+#         fail_msg: "VTP source interface update should have succeeded"
+#         success_msg: "VTP source interface update succeeded"
+#       tags: [positive, vtp, update, source_interface]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, update]
+
+#     # #############################################
+#     #        Cleanup Test Configurations
+#     # #############################################
+
+#     # Clean up after setting empty cause the deployed returns empty.
+#     - name: Cleanup - Reset VTP to default configuration
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - ip_address: "204.1.2.3"
+#             device_collection_status_check: false
+#             layer2_configuration:
+#               vtp: {}
+#       register: result_vtp_cleanup
+#       ignore_errors: true
+#       tags: [cleanup, vtp]
+
+#     # #############################################
+#     #        VTP Domain Name Modification Tests
+#     # #############################################
+
+#     - name: Test VTP domain name empty string update - should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_domain_name_empty_string }}"
+#       register: result_vtp_domain_name_empty_string
+#       ignore_errors: true
+#       tags: [negative, vtp, domain_name, empty_string]
+
+#     - name: Assert VTP domain name empty string update failed
+#       assert:
+#         that:
+#           - result_vtp_domain_name_empty_string.failed == true
+#           - "'Must match ASCII characters' in result_vtp_domain_name_empty_string.msg"
+#         fail_msg: "VTP domain name empty string update should have failed"
+#         success_msg: "VTP domain name empty string update correctly failed"
+#       tags: [negative, vtp, domain_name, empty_string]
+
+#     # =============================================================================
+#     # POSITIVE TEST CASES - VTP RESET (DELETED STATE)
+#     # =============================================================================
+
+#     # #############################################
+#     #        VTP Reset Tests
+#     # #############################################
+
+#     - name: Test VTP reset - empty configuration (deleted state resets to defaults)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_reset_empty }}"
+#       register: result_vtp_reset_empty
+#       tags: [positive, vtp, reset, empty]
+
+#     - name: Assert VTP empty reset succeeded
+#       assert:
+#         that:
+#           - result_vtp_reset_empty.failed == false
+#           - result_vtp_reset_empty.changed == true
+#           - "'Successfully' in result_vtp_reset_empty.response"
+#         fail_msg: "VTP empty reset should have succeeded"
+#         success_msg: "VTP empty reset succeeded"
+#       tags: [positive, vtp, reset, empty]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, reset]
+
+#     - name: Test VTP update - all parameters (setup for reset test)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_create_all_params }}"
+#       register: result_vtp_update_all_params_setup
+#       tags: [positive, vtp, reset]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, reset]
+
+#     - name: Test VTP reset - with existing parameters (deleted state resets to defaults)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_reset_with_params }}"
+#       register: result_vtp_reset_with_params
+#       tags: [positive, vtp, reset, params]
+
+#     - name: Assert VTP reset with params succeeded
+#       assert:
+#         that:
+#           - result_vtp_reset_with_params.failed == false
+#           - result_vtp_reset_with_params.changed == true
+#           - "'Successfully' in result_vtp_reset_with_params.response"
+#         fail_msg: "VTP reset with params should have succeeded"
+#         success_msg: "VTP reset with params succeeded"
+#       tags: [positive, vtp, reset, params]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, reset]
+
+#     # =============================================================================
+#     # BOUNDARY VALUE TESTS
+#     # =============================================================================
+
+#     # #############################################
+#     #        Boundary Value Tests
+#     # #############################################
+
+#     - name: Test VTP with maximum length domain name
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_boundary_max_domain_name }}"
+#       register: result_vtp_boundary_max_domain_name
+#       tags: [positive, vtp, boundary, max_domain]
+
+#     - name: Assert VTP maximum domain name configuration succeeded
+#       assert:
+#         that:
+#           - result_vtp_boundary_max_domain_name.failed == false
+#           - result_vtp_boundary_max_domain_name.changed == true
+#           - "'Successfully' in result_vtp_boundary_max_domain_name.response"
+#         fail_msg: "VTP maximum domain name configuration should have succeeded"
+#         success_msg: "VTP maximum domain name configuration succeeded"
+#       tags: [positive, vtp, boundary, max_domain]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, boundary]
+
+#     - name: Test VTP with maximum length configuration file name
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_boundary_max_config_file_name }}"
+#       register: result_vtp_boundary_max_config_file_name
+#       tags: [positive, vtp, boundary, max_config_file]
+
+#     - name: Assert VTP maximum configuration file name succeeded
+#       assert:
+#         that:
+#           - result_vtp_boundary_max_config_file_name.failed == false
+#           - result_vtp_boundary_max_config_file_name.changed == true
+#           - "'Successfully' in result_vtp_boundary_max_config_file_name.response"
+#         fail_msg: "VTP maximum configuration file name should have succeeded"
+#         success_msg: "VTP maximum configuration file name succeeded"
+#       tags: [positive, vtp, boundary, max_config_file]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, boundary]
+
+#     - name: Test VTP with minimal configuration
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_boundary_minimal_config }}"
+#       register: result_vtp_boundary_minimal_config
+#       tags: [positive, vtp, boundary, minimal]
+
+#     - name: Assert VTP minimal configuration succeeded
+#       assert:
+#         that:
+#           - result_vtp_boundary_minimal_config.failed == false
+#           - result_vtp_boundary_minimal_config.changed == true
+#           - "'Successfully' in result_vtp_boundary_minimal_config.response"
+#         fail_msg: "VTP minimal configuration should have succeeded"
+#         success_msg: "VTP minimal configuration succeeded"
+#       tags: [positive, vtp, boundary, minimal]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, boundary]
+
+#     # =============================================================================
+#     # SPECIAL CONFIGURATION TESTS
+#     # =============================================================================
+
+#     # #############################################
+#     #        Special Configuration Tests
+#     # #############################################
+
+#     - name: Test VTP with version-specific configuration (VERSION_1 with specific features)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_version_1_specific }}"
+#       register: result_vtp_version_1_specific
+#       tags: [positive, vtp, special, version_specific]
+
+#     - name: Assert VTP VERSION_1 specific configuration succeeded
+#       assert:
+#         that:
+#           - result_vtp_version_1_specific.failed == false
+#           - result_vtp_version_1_specific.changed == true
+#           - "'Successfully' in result_vtp_version_1_specific.response"
+#         fail_msg: "VTP VERSION_1 specific configuration should have succeeded"
+#         success_msg: "VTP VERSION_1 specific configuration succeeded"
+#       tags: [positive, vtp, special, version_specific]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, special]
+
+#     - name: Test VTP with version-specific configuration (VERSION_2 with pruning)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_version_2_with_pruning }}"
+#       register: result_vtp_version_2_with_pruning
+#       tags: [positive, vtp, special, version_specific]
+
+#     - name: Assert VTP VERSION_2 with pruning configuration succeeded
+#       assert:
+#         that:
+#           - result_vtp_version_2_with_pruning.failed == false
+#           - result_vtp_version_2_with_pruning.changed == true
+#           - "'Successfully' in result_vtp_version_2_with_pruning.response"
+#         fail_msg: "VTP VERSION_2 with pruning configuration should have succeeded"
+#         success_msg: "VTP VERSION_2 with pruning configuration succeeded"
+#       tags: [positive, vtp, special, version_specific]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, special]
+
+#     - name: Test VTP with server mode comprehensive configuration
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_server_mode_comprehensive }}"
+#       register: result_vtp_server_mode_comprehensive
+#       tags: [positive, vtp, special, server_mode]
+
+#     - name: Assert VTP server mode comprehensive configuration succeeded
+#       assert:
+#         that:
+#           - result_vtp_server_mode_comprehensive.failed == false
+#           - result_vtp_server_mode_comprehensive.changed == true
+#           - "'Successfully' in result_vtp_server_mode_comprehensive.response"
+#         fail_msg: "VTP server mode comprehensive configuration should have succeeded"
+#         success_msg: "VTP server mode comprehensive configuration succeeded"
+#       tags: [positive, vtp, special, server_mode]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, special]
+
+#     - name: Test VTP with transparent mode configuration
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_transparent_mode_config }}"
+#       register: result_vtp_transparent_mode_config
+#       tags: [positive, vtp, special, transparent_mode]
+
+#     - name: Assert VTP transparent mode configuration succeeded
+#       assert:
+#         that:
+#           - result_vtp_transparent_mode_config.failed == false
+#           - result_vtp_transparent_mode_config.changed == true
+#           - "'Successfully' in result_vtp_transparent_mode_config.response"
+#         fail_msg: "VTP transparent mode configuration should have succeeded"
+#         success_msg: "VTP transparent mode configuration succeeded"
+#       tags: [positive, vtp, special, transparent_mode]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, vtp, special]
+
+#     # =============================================================================
+#     # ADVANCED POSITIVE TEST SCENARIOS
+#     # =============================================================================
+
+#     # #############################################
+#     #        Idempotency Tests
+#     # #############################################
+
+#     - name: Test VTP Idempotency - Configure same VTP settings twice
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_create_all_params }}"
+#       register: result_vtp_idempotency_first
+#       tags: [positive, vtp, idempotency]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 40
+#       tags: [positive, vtp, idempotency]
+
+#     - name: Test VTP Idempotency - Configure same VTP settings again (should be idempotent)
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_create_all_params }}"
+#       register: result_vtp_idempotency_second
+#       tags: [positive, vtp, idempotency]
+
+#     - name: Assert VTP Idempotency - Second configuration should not change
+#       assert:
+#         that:
+#           - result_vtp_idempotency_second.failed == false
+#           - result_vtp_idempotency_second.changed == false
+#         fail_msg: "VTP idempotency test failed"
+#         success_msg: "VTP idempotency test succeeded"
+#       tags: [positive, vtp, idempotency]
+
+#     # #############################################
+#     #        Cleanup Test Configurations
+#     # #############################################
+
+#     - name: Cleanup - Reset VTP to default configuration
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: deleted
+#         config:
+#           - ip_address: "204.1.2.3"
+#             device_collection_status_check: false
+#             layer2_configuration:
+#               vtp: {}
+#       register: result_vtp_cleanup
+#       ignore_errors: true
+#       tags: [cleanup, vtp]
+
+#     # #############################################
+#     #        Final Reset to Transparent Mode
+#     # #############################################
+
+#     - name: Test VTP update - change mode to TRANSPARENT
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ vtp_vars_map.test_vtp_update_mode_transparent }}"
+#       register: result_vtp_update_mode_transparent
+#       tags: [positive, vtp, update, mode]

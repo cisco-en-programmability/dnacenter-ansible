@@ -758,13 +758,16 @@ options:
                 date/time and the current time.
               - Format - "YYYY-MM-DD HH:MM:SS".
             type: str
+            required: false
           recurrence_interval:
             description:
               - Days between recurring maintenance windows.
               - Interval for recurrence in days. The interval must be longer than
                 the duration of the maintenance schedules and must be within the
                 range 1 to 365 (inclusive).
+              - recurrence_interval is required if recurrence_end_time is provided.
             type: int
+            required: false
 requirements:
   - dnacentersdk >= 2.7.2
   - python >= 3.9
@@ -1233,7 +1236,7 @@ EXAMPLES = r"""
               devices"
             start_time: "2025-04-05 10:30:00"
             end_time: "2025-04-05 11:30:00"
-            ime_zone: "Asia/Kolkata"
+            time_zone: "Asia/Kolkata"
             recurrence_end_time: "2025-04-10 11:40:00"
             recurrence_interval: 2
 - name: Update the maintenance schedule for the devices.
@@ -1392,7 +1395,8 @@ class Inventory(DnacBase):
             self.maintenance_scheduled,
             self.maintenance_updated,
             self.no_update_in_maintenance,
-        ) = ([], [], [])
+            self.ip_not_found,
+        ) = ([], [], [], [])
         self.maintenance_deleted, self.no_maintenance_schedule = [], []
         (
             self.ip_address_for_update,
@@ -1499,7 +1503,7 @@ class Inventory(DnacBase):
             "devices_maintenance_schedule": {
                 "type": "list",
                 "elements": "dict",
-                "device_ips": {"type": "list", "elements": "str"},
+                "device_ips": {"type": "list", "elements": "str", "required": True},
                 "description": {"type": "str"},
                 "start_time": {"type": "str"},
                 "time_zone": {"type": "str"},
@@ -2031,7 +2035,7 @@ class Inventory(DnacBase):
             self.msg = "Error while exporting device details into CSV file for device(s): '{0}'".format(
                 str(device_ips)
             )
-            self.log(self.msg, "ERROR")
+            self.log(self.msg + str(e), "ERROR")
             self.status = "failed"
 
         return self
@@ -3481,7 +3485,11 @@ class Inventory(DnacBase):
                 "http_username",
                 "http_password",
             ],
-            "THIRD_PARTY_DEVICE": ["ip_address_list"],
+            "THIRD_PARTY_DEVICE": [
+                "ip_address_list",
+                "type",
+                "snmp_version",
+            ],
         }
 
         params_list = params_dict.get(device_type, [])
@@ -3684,6 +3692,13 @@ class Inventory(DnacBase):
                 if response:
                     response = response.get("response")
                     if not response:
+                        self.ip_not_found.append(device_ip)
+                        self.log(
+                            "Device with IP address '{0}' not found in Cisco Catalyst Center.".format(
+                                device_ip
+                            ),
+                            "ERROR",
+                        )
                         continue
                     device_id = response[0]["id"]
                     device_ids.append(device_id)
@@ -4753,8 +4768,7 @@ class Inventory(DnacBase):
                 - recurrence_interval (int, optional): The recurrence interval in days (if applicable).
 
         Returns:
-            None: The function does not return a value. It either validates the parameters successfully or
-                terminates execution with an error message if validation fails.
+            self: The instance of the class with updated validation status.
 
         Description:
             This function performs the following validations:
@@ -4772,117 +4786,231 @@ class Inventory(DnacBase):
             - Handles unexpected exceptions and logs an appropriate error message.
         """
 
+        if not devices_maintenance or not isinstance(devices_maintenance, dict):
+            self.msg = "Invalid devices_maintenance parameter. Expected a dictionary."
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        self.log(
+            "Starting device maintenance parameter validation for {0} device(s)".format(
+                len(devices_maintenance.get("device_ips", []))
+            ),
+            "INFO"
+        )
+
         try:
-            device_ips = devices_maintenance.get("device_ips")
-            start_time = devices_maintenance.get("start_time")
-            end_time = devices_maintenance.get("end_time")
-            time_zone = devices_maintenance.get("time_zone")
-            to_validate_params = {
-                "device_ips": device_ips,
-                "start_time": start_time,
-                "end_time": end_time,
-                "time_zone": time_zone,
+            # Define required parameters with their descriptions
+            required_params = {
+                "device_ips": "List of device IP addresses for maintenance scheduling",
+                "start_time": "Maintenance window start time in YYYY-MM-DD HH:MM:SS format",
+                "end_time": "Maintenance window end time in YYYY-MM-DD HH:MM:SS format",
+                "time_zone": "Time zone identifier for the maintenance schedule"
             }
-            invalid_params = []
-            for key, value in to_validate_params.items():
-                if value is None:
-                    self.log(
-                        "Required parameter '{0}' is missing from playbook for scheduling the device maintenance.".format(
-                            key
-                        ),
-                        "ERROR",
-                    )
-                    invalid_params.append(key)
 
             self.log(
-                "Checking if any of the above parameter is not provided in the playbook or not...",
-                "DEBUG",
+                "Validating presence of required parameters: {0}".format(list(required_params.keys())),
+                "DEBUG"
             )
-            if invalid_params:
+
+            # Validate required parameters presence and format
+            missing_params = []
+            for param_name, description in required_params.items():
+                value = devices_maintenance.get(param_name)
+                if value is None or (isinstance(value, (list, str)) and not value):
+                    self.log(
+                        "Required parameter '{0}' ({1}) is missing or empty".format(param_name, description),
+                        "ERROR"
+                    )
+                    missing_params.append(param_name)
+
+            if missing_params:
+                device_ips = devices_maintenance.get("device_ips", [])
                 self.msg = (
-                    "Required parameter(s) '{0}' missing from playbook for scheduling the device maintenance "
-                    "for device(s): {1}.".format(invalid_params, device_ips)
+                    "Required parameter(s) {0} are missing from playbook for scheduling device maintenance "
+                    "for device(s): {1}".format(missing_params, device_ips)
                 )
                 self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
-            epoch_start_time = self.to_epoch_timezone(start_time, time_zone)
-            epoch_end_time = self.to_epoch_timezone(end_time, time_zone)
-            epoch_current_time = self.get_current_time_in_timezone(time_zone)
+            self.log("All required parameters are present and valid", "DEBUG")
 
-            # Add the validation for the recurrence end time and recurrence interval
+            # Extract validated parameters
+            device_ips = devices_maintenance["device_ips"]
+            start_time = devices_maintenance["start_time"]
+            end_time = devices_maintenance["end_time"]
+            time_zone = devices_maintenance["time_zone"]
+
+            self.log(
+                "Validating time parameters - start_time: {0}, end_time: {1}, timezone: {2}".format(
+                    start_time, end_time, time_zone
+                ),
+                "DEBUG"
+            )
+
+            # Validate time parameters
+            self._validate_time_parameters(start_time, end_time, time_zone)
+
+            # Validate recurrence parameters if provided
             recurrence_end_time = devices_maintenance.get("recurrence_end_time")
-            if recurrence_end_time:
-                interval = devices_maintenance.get("recurrence_interval")
-                if not interval:
-                    self.msg = "Parameter 'recurrence_interval' is required field for the maintenance schedule"
-                    self.log(self.msg, "ERROR")
-                    self.fail_and_exit(self.msg)
+            recurrence_interval = devices_maintenance.get("recurrence_interval")
 
-                if interval <= 0 or interval > 365:
-                    self.msg = "Invalid 'recurrence_interval': {0}. It must be between 1 and 365 days.".format(
-                        interval
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.fail_and_exit(self.msg)
-
-                schedule_duration_days = (epoch_end_time - epoch_start_time) / (
-                    24 * 3600 * 1000
+            if recurrence_end_time or recurrence_interval:
+                self._validate_recurrence_parameters(
+                    start_time, end_time, time_zone,
+                    recurrence_end_time, recurrence_interval
                 )
-                if interval < schedule_duration_days:
-                    self.msg = "Recurrence interval ({0} days) must be longer than the maintenance duration ({1} days).".format(
-                        interval, schedule_duration_days
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.fail_and_exit(self.msg)
 
-                epoch_recurr_end_time = self.to_epoch_timezone(
-                    recurrence_end_time, time_zone
-                )
-                if epoch_recurr_end_time < epoch_end_time:
-                    self.msg = (
-                        "Given 'recurrence_end_time' {0} is less than device maintenance end date/time {1}. "
-                        "It should be greater than maintenance end date/time.".format(
-                            recurrence_end_time, end_time
-                        )
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.fail_and_exit(self.msg)
-
-                if epoch_recurr_end_time < epoch_current_time:
-                    self.msg = (
-                        "Given 'recurrence_end_time' {0} is less than the current date/time. It should be"
-                        " greater than the current date/time.".format(
-                            recurrence_end_time
-                        )
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.fail_and_exit(self.msg)
-            else:
-                self.log(
-                    "Add the validation to check start time, end time should be greater than current time",
-                    "DEBUG",
-                )
-                if epoch_start_time < epoch_current_time:
-                    self.msg = (
-                        "Parameter 'start_time' must be greater than the current time."
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.fail_and_exit(self.msg)
-
-                if epoch_end_time < epoch_current_time:
-                    self.msg = (
-                        "Parameter 'end_time' must be greater than the current time."
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.fail_and_exit(self.msg)
+            self.log("Device maintenance parameters validated successfully", "INFO")
 
         except Exception as e:
-            self.msg = "An exception occured while validating the device maintenance params: {0}".format(
-                str(e)
+            self.msg = f"Validation failed for device maintenance parameters: {str(e)}"
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        return self
+
+    def _validate_time_parameters(self, start_time, end_time, time_zone):
+        """
+        Validate time parameters and their relationships.
+
+        Args:
+            start_time (str): Maintenance start time
+            end_time (str): Maintenance end time
+            time_zone (str): Time zone for the schedule
+
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        """
+        self.log(
+            "Starting time parameter validation for maintenance schedule",
+            "INFO"
+        )
+        self.log(
+            "Validating time parameters - start_time: {0}, end_time: {1}, timezone: {2}".format(
+                start_time, end_time, time_zone
+            ),
+            "DEBUG"
+        )
+
+        # Convert times to epoch timestamps
+        epoch_start_time = self.to_epoch_timezone(start_time, time_zone)
+        epoch_end_time = self.to_epoch_timezone(end_time, time_zone)
+        epoch_current_time = self.get_current_time_in_timezone(time_zone)
+
+        # Validate time relationships
+        time_validations = [
+            (
+                epoch_start_time < epoch_current_time,
+                "start_time must be greater than the current time"
+            ),
+            (
+                epoch_end_time < epoch_current_time,
+                "end_time must be greater than the current time"
+            ),
+            (
+                epoch_end_time <= epoch_start_time,
+                "end_time must be greater than start_time"
+            )
+        ]
+
+        for condition, error_msg in time_validations:
+            if condition:
+                self.msg = f"Time validation failed: {error_msg}"
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+        self.log(
+            "Time parameter validation completed successfully",
+            "DEBUG"
+        )
+
+        return self
+
+    def _validate_recurrence_parameters(self, start_time, end_time, time_zone,
+                                        recurrence_end_time, recurrence_interval):
+        """
+        Validate recurrence-related parameters.
+
+        Args:
+            start_time (str): Maintenance start time
+            end_time (str): Maintenance end time
+            time_zone (str): Time zone for the schedule
+            recurrence_end_time (str): End time for recurring maintenance
+            recurrence_interval (int): Recurrence interval in days
+
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+
+        """
+        self.log(
+            "Starting recurrence parameter validation for maintenance schedule",
+            "INFO"
+        )
+        self.log(
+            "Validating recurrence parameters - start_time: {0}, end_time: {1}, timezone: {2}, "
+            "recurrence_end_time: {3}, recurrence_interval: {4}".format(
+                start_time, end_time, time_zone, recurrence_end_time, recurrence_interval
+            ),
+            "DEBUG"
+        )
+
+        # Both recurrence parameters must be provided together
+        if recurrence_interval and not recurrence_end_time:
+            self.msg = "Parameter 'recurrence_end_time' is required when 'recurrence_interval' is specified"
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        if recurrence_end_time and not recurrence_interval:
+            self.msg = "Parameter 'recurrence_interval' is required when 'recurrence_end_time' is specified"
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        if not (recurrence_end_time and recurrence_interval):
+            return  # No recurrence parameters to validate
+
+        # Validate recurrence interval range
+        if not isinstance(recurrence_interval, int) or not (1 <= recurrence_interval <= 365):
+            self.msg = f"Invalid 'recurrence_interval': {recurrence_interval}. Must be an integer between 1 and 365 days"
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        # Calculate maintenance duration and validate against interval
+        epoch_start_time = self.to_epoch_timezone(start_time, time_zone)
+        epoch_end_time = self.to_epoch_timezone(end_time, time_zone)
+        epoch_recurr_end_time = self.to_epoch_timezone(recurrence_end_time, time_zone)
+        epoch_current_time = self.get_current_time_in_timezone(time_zone)
+
+        # Validate maintenance duration vs recurrence interval
+        schedule_duration_days = (epoch_end_time - epoch_start_time) / (24 * 3600 * 1000)
+        if recurrence_interval <= schedule_duration_days:
+            self.msg = (
+                f"Recurrence interval ({recurrence_interval} days) must be longer than "
+                f"the maintenance duration ({schedule_duration_days:.2f} days)"
             )
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
+
+        # Validate recurrence end time relationships
+        recurrence_validations = [
+            (
+                epoch_recurr_end_time < epoch_end_time,
+                f"recurrence_end_time ({recurrence_end_time}) must be later than "
+                f"maintenance end_time ({end_time})"
+            ),
+            (
+                epoch_recurr_end_time < epoch_current_time,
+                f"recurrence_end_time ({recurrence_end_time}) must be later than current time"
+            )
+        ]
+
+        for condition, error_msg in recurrence_validations:
+            if condition:
+                self.msg = f"Recurrence validation failed: {error_msg}"
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+        self.log("Recurrence parameters validated successfully", "DEBUG")
+        return self
 
     def create_schedule_maintenance_payload(
         self, devices_maintenance, unscheduled_device_ids, device_ips
@@ -5539,7 +5667,7 @@ class Inventory(DnacBase):
 
         return self
 
-    def parse_for_add_network_device_params(self, device_params):
+    def parse_for_add_network_device_params(self, device_params, type=None):
         """
         Parse the network device parameters from the provided dictionary.
 
@@ -5600,6 +5728,11 @@ class Inventory(DnacBase):
                 device_params.pop("snmpPrivPassphrase", None)
                 device_params.pop("snmpPrivProtocol", None)
 
+        if type:
+            device_params["type"] = type
+
+        self.log("Parsed network device parameters: {0}".format(
+            self.pprint(device_params)), "INFO")
         return device_params
 
     def parse_for_add_compute_device_params(self, device_params):
@@ -5637,6 +5770,9 @@ class Inventory(DnacBase):
         for param in params_to_remove:
             device_params.pop(param, None)
 
+        device_params["type"] = "COMPUTE_DEVICE"
+        self.log("Parsed compute device parameters: {0}".format(
+            self.pprint(device_params)), "INFO")
         return device_params
 
     def add_inventory_device(self, device_params, devices_to_add, device_to_add_in_ccc):
@@ -5651,7 +5787,7 @@ class Inventory(DnacBase):
         Returns:
             object: An instance of the class with updated results and status.
         """
-        self.log("Adding device to inventory: {0}".format(str(device_params)), "INFO")
+        self.log("Adding device to inventory: {0}".format(self.pprint(device_params)), "INFO")
 
         try:
             response = self.dnac._exec(
@@ -5771,6 +5907,12 @@ class Inventory(DnacBase):
             else:
                 playbook_params["snmpMode"] = "NOAUTHNOPRIV"
 
+        if playbook_params.get("snmpVersion") not in ["v2", "v3"]:
+            if device_data["snmp_version"] == "3":
+                playbook_params["snmpVersion"] = "v3"
+            else:
+                playbook_params["snmpVersion"] = "v2"
+
         if not playbook_params["cliTransport"]:
             if device_data["protocol"] == "ssh2":
                 playbook_params["cliTransport"] = "ssh"
@@ -5852,7 +5994,7 @@ class Inventory(DnacBase):
                 "DEBUG",
             )
             self.cred_updated_not_required.append(device_ip)
-            return device_data
+            return None
 
         device_key_mapping = {
             "username": "userName",
@@ -5922,12 +6064,6 @@ class Inventory(DnacBase):
                 "DEBUG",
             )
             playbook_params["netconfPort"] = None
-
-        if not playbook_params["snmpVersion"]:
-            if device_data["snmp_version"] == "3":
-                playbook_params["snmpVersion"] = "v3"
-            else:
-                playbook_params["snmpVersion"] = "v2"
 
         if playbook_params["snmpVersion"] == "v2":
             params_to_remove = [
@@ -6111,6 +6247,8 @@ class Inventory(DnacBase):
                 self.parse_for_add_network_device_params(device_params)
             elif device_type == "COMPUTE_DEVICE":
                 self.parse_for_add_compute_device_params(device_params)
+            elif device_type == "THIRD_PARTY_DEVICE":
+                self.parse_for_add_network_device_params(device_params, "THIRD_PARTY_DEVICE")
 
             device_params["ipAddress"] = config["ip_address_list"]
             device_to_add_in_ccc = device_params["ipAddress"]
@@ -6266,9 +6404,17 @@ class Inventory(DnacBase):
                 device_data = device_details[device_ip]
 
                 if device_type == "NETWORK_DEVICE":
-                    self.parse_for_update_network_device_params(
+                    parse_status = self.parse_for_update_network_device_params(
                         playbook_params, device_data, device_ip
                     )
+                    if not parse_status:
+                        self.log(
+                            "Credentials for device {0} do not require an update.".format(
+                                device_ip
+                            ),
+                            "DEBUG",
+                        )
+                        continue
 
                 if not playbook_params["httpUserName"]:
                     playbook_params["httpUserName"] = device_data.get(
@@ -6479,6 +6625,15 @@ class Inventory(DnacBase):
                 self.fail_and_exit(self.msg)
 
             network_device_ids = self.get_device_ids(network_device_ips)
+            if not network_device_ids:
+                self.msg = (
+                    "None of the provided device IPs: {0} exist in Cisco Catalyst Center.".format(
+                        network_device_ips
+                    )
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
             device_ip_id_map = self.get_device_ips_from_device_ids(network_device_ids)
             # Find out the devices for which maintenance already schedule and not schedule yet
             schedule_device_ids, unscheduled_device_ids = (
@@ -6486,6 +6641,8 @@ class Inventory(DnacBase):
                     network_device_ids, device_ip_id_map
                 )
             )
+
+            self.validate_device_maintenance_params(maintenance_config)
 
             if unscheduled_device_ids:
                 device_ips = []
@@ -6499,7 +6656,7 @@ class Inventory(DnacBase):
                     ),
                     "INFO",
                 )
-                self.validate_device_maintenance_params(maintenance_config)
+
                 maintenance_payload = self.create_schedule_maintenance_payload(
                     maintenance_config, unscheduled_device_ids, device_ips
                 )
@@ -6576,7 +6733,7 @@ class Inventory(DnacBase):
                         is_schedule_type_change = self.is_recurrence_type_changed(
                             maintenance_config, schedule_details
                         )
-                        if is_schedule_type_change:
+                        if is_schedule_type_change or status == "IN_PROGRESS":
                             self.log(
                                 "Maintenance schedule type has been changed so need to delete the current schedule "
                                 "and create the new device maintenance schedule.",
@@ -7368,6 +7525,7 @@ class Inventory(DnacBase):
         self.result["changed"] = False
         result_msg_list_not_changed = []
         result_msg_list_changed = []
+        absent_scheduled_msg = None
 
         if self.provisioned_device:
             provisioned_device = "device(s) '{0}' provisioned successfully in Cisco Catalyst Center.".format(
@@ -7556,6 +7714,18 @@ class Inventory(DnacBase):
             absent_scheduled_msg = "Maintenance schedule for the devices {0} not present in the Catalyst Center.".format(
                 self.no_maintenance_schedule
             )
+            result_msg_list_not_changed.append(absent_scheduled_msg)
+
+        if self.ip_not_found:
+            self.ip_not_found = list(set(self.ip_not_found))
+            if absent_scheduled_msg:
+                absent_scheduled_msg += " and Given IP address {0} not present in the Catalyst Center.".format(
+                    self.ip_not_found
+                )
+            else:
+                absent_scheduled_msg = "Given IP address {0} not present in the Catalyst Center.".format(
+                    self.ip_not_found
+                )
             result_msg_list_not_changed.append(absent_scheduled_msg)
 
         if result_msg_list_not_changed and result_msg_list_changed:
