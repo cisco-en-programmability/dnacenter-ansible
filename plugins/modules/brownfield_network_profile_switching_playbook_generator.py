@@ -11,12 +11,12 @@ __author__ = ("A Mohamed Rafeek, Madhan Sankaranarayanan")
 DOCUMENTATION = r"""
 ---
 module: brownfield_network_profile_switching_playbook_generator
-short_description: Generate YAML configurations playbook for 'brownfield_network_profile_switching_playbook_generator' module.
+short_description: Generate YAML configurations playbook for 'network_profile_switching_workflow_manager' module.
 description:
-  - Generates YAML configurations compatible with the 'brownfield_network_profile_switching_playbook_generator'
+  - Generates YAML configurations compatible with the 'network_profile_switching_workflow_manager'
     module, reducing the effort required to manually create Ansible playbooks and
     enabling programmatic modifications.
-version_added: 6.43.0
+version_added: 6.45.0
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
@@ -96,17 +96,6 @@ options:
             type: list
             elements: str
             required: false
-      component_specific_filters:
-        description:
-        - Filters to specify which components to include in the YAML configuration file.
-        - If "components_list" is specified, only those components are included,
-          regardless of other filters.
-        type: dict
-        suboptions:
-          components_list:
-            description:
-            - List of components to include in the YAML configuration file.
-            - Valid values are
 requirements:
   - dnacentersdk >= 2.10.10
   - python >= 3.9
@@ -325,7 +314,6 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
         temp_spec = {
             "generate_all_configurations": {"type": "bool", "required": False, "default": False},
             "file_path": {"type": "str", "required": False},
-            "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "elements": "dict", "required": False},
         }
 
@@ -742,7 +730,7 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
             self.msg = "No configurations or components to process for module '{0}'. Verify input filters or configuration.".format(
                 self.module_name
             )
-            self.set_operation_result("ok", False, self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         final_dict = {"config": final_list}
