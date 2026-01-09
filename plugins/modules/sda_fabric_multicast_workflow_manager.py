@@ -202,6 +202,7 @@ options:
                 provide the respective 'ssm' or 'asm'
                 parameter.
             type: list
+            elements: dict
             suboptions:
               rp_device_location:
                 description:
