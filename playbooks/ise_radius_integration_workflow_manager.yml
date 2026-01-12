@@ -3,6 +3,7 @@
   hosts: dnac_servers
   vars_files:
     - credentials.yml
+    - policy_server_password_variables.yml
   gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   connection: local
   tasks:
@@ -14,6 +15,7 @@
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         dnac_log_append: true
@@ -43,6 +45,7 @@
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         dnac_log_append: true
@@ -61,6 +64,7 @@
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         dnac_log_append: true
@@ -85,7 +89,7 @@
                 use_dnac_cert_for_pxgrid: false
                 cisco_ise_dtos:  # use this for creating the Cisco ISE Server
                   - user_name: admin
-                    password: abcd
+                    password: '{{ policy_server_password }}'
                     fqdn: abc.cisco.com
                     ip_address: 10.195.243.59
                     description: CISCO ISE
@@ -100,6 +104,7 @@
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         dnac_log_append: true

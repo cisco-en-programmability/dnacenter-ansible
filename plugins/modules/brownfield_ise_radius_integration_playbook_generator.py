@@ -529,13 +529,11 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             )
         ),
 
-        variable_placeholder_name = "{{ {0}_{1} }}".format(
-            server_type.lower(),
+        variable_placeholder_name = "{{ {0} }}".format(
             parameter_string.lower(),
         )
         custom_variable_placeholder_name = "{" + variable_placeholder_name + "}"
-        variable = "{0}_{1}".format(
-            server_type.lower(),
+        variable = "{0}".format(
             parameter_string.lower(),
         )
 
