@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2024, Cisco Systems
+# Copyright (c) 2025, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Discovery Workflow Manager Module."""
@@ -424,7 +424,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 params=headers,
                 op_modifies=True,
             )
-            
+
             # Extract response data
             response_data = response
             if isinstance(response, dict) and "response" in response:
@@ -436,10 +436,10 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             if response_data and isinstance(response_data, dict):
                 # Process different credential types
                 credential_types = [
-                    'cliCredential', 'snmpV2cRead', 'snmpV2cWrite', 
+                    'cliCredential', 'snmpV2cRead', 'snmpV2cWrite',
                     'snmpV3', 'httpsRead', 'httpsWrite', 'netconfCredential'
                 ]
-                
+
                 for cred_type in credential_types:
                     credentials_list = response_data.get(cred_type, [])
                     self.log(f"Processing {cred_type} credentials: found {len(credentials_list) if credentials_list else 0} entries", "DEBUG")
@@ -449,7 +449,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                                 cred_id = cred.get('id')
                                 cred_description = cred.get('description', '')
                                 cred_username = cred.get('username', '')
-                                
+
                                 self._global_credentials_lookup[cred_id] = {
                                     "id": cred_id,
                                     "description": cred_description,
@@ -459,8 +459,12 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                                     "instanceTenantId": cred.get('instanceTenantId', ''),
                                     "instanceUuid": cred.get('instanceUuid', '')
                                 }
-                                self.log(f"CREDENTIAL_MAPPING: ID={cred_id} -> Type={cred_type}, Description='{cred_description}', Username='{cred_username}'", "INFO")
-            
+                                self.log(
+                                    f"CREDENTIAL_MAPPING: ID={cred_id} -> Type={cred_type}, "
+                                    f"Description='{cred_description}', Username='{cred_username}'",
+                                    "INFO"
+                                )
+
             # Fallback: try v2 API if v1 returns empty results
             if not self._global_credentials_lookup:
                 self.log("Trying v2 global credentials API as fallback", "DEBUG")
@@ -470,13 +474,13 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                         function="get_all_global_credentials_v2",
                         params=headers
                     )
-                    
+
                     alt_response_data = alt_response
                     if isinstance(alt_response, dict) and "response" in alt_response:
                         alt_response_data = alt_response.get("response")
-                    
+
                     self.log(f"V2 API response: {alt_response_data}", "DEBUG")
-                    
+
                     if alt_response_data and isinstance(alt_response_data, list):
                         self.log(f"V2 API returned {len(alt_response_data)} credentials", "DEBUG")
                         for cred in alt_response_data:
@@ -485,7 +489,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                                 cred_description = cred.get('description', '')
                                 cred_username = cred.get('username', '')
                                 cred_type = cred.get('credentialType', '')
-                                
+
                                 self._global_credentials_lookup[cred_id] = {
                                     "id": cred_id,
                                     "description": cred_description,
@@ -495,7 +499,11 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                                     "instanceTenantId": cred.get('instanceTenantId', ''),
                                     "instanceUuid": cred.get('instanceUuid', '')
                                 }
-                                self.log(f"V2_CREDENTIAL_MAPPING: ID={cred_id} -> Type={cred_type}, Description='{cred_description}', Username='{cred_username}'", "INFO")
+                                self.log(
+                                    f"V2_CREDENTIAL_MAPPING: ID={cred_id} -> Type={cred_type}, "
+                                    f"Description='{cred_description}', Username='{cred_username}'",
+                                    "INFO"
+                                )
                 except Exception as alt_e:
                     self.log(f"V2 API also failed: {str(alt_e)}", "DEBUG")
 
@@ -505,7 +513,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             try:
                 if 'response' in locals():
                     self.log(f"Full response that caused error: {response}", "DEBUG")
-            except:
+            except Exception:
                 self.log("Could not log the problematic response", "DEBUG")
             self._global_credentials_lookup = {}
 
@@ -599,7 +607,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             cred_type = cred_info.get('credentialType', '')
             description = cred_info.get('description', cred_id)
             username = cred_info.get('username', '')
-            
+
             self.log(f"TRANSFORM_DEBUG: Processing credential ID {cred_id}", "DEBUG")
             self.log(f"TRANSFORM_DEBUG: Found info: {cred_info}", "DEBUG")
 
@@ -612,7 +620,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             cred_entry = {"description": description}
             if username:  # Only include username if it's not empty
                 cred_entry["username"] = username
-            
+
             self.log(f"CREDENTIAL_TRANSFORM: ID={cred_id} -> Entry={cred_entry}, Type='{cred_type}'", "INFO")
 
             # Map credential types based on API field names (same as discovery_workflow_manager.py)
@@ -638,7 +646,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 # Try to infer from description or fallback to CLI
                 cred_type_upper = cred_type.upper()
                 self.log(f"FALLBACK_MAPPING: Processing unknown cred_type='{cred_type}' (upper='{cred_type_upper}') for ID={cred_id}", "DEBUG")
-                
+
                 if 'CLI' in cred_type_upper or cred_type_upper == 'GLOBAL':
                     credentials["cli_credentials_list"].append(cred_entry)
                     self.log(f"FALLBACK_MAPPED_TO: cli_credentials_list (CLI/GLOBAL match) - {description}", "DEBUG")
@@ -665,16 +673,16 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Remove empty credential lists to keep output clean
         credentials_before_filter = dict(credentials)
         credentials = {k: v for k, v in credentials.items() if v}
-        
+
         self.log(f"TRANSFORM_SUMMARY: Input IDs count: {len(global_cred_ids)}", "INFO")
         self.log(f"TRANSFORM_SUMMARY: Credentials before filtering: {credentials_before_filter}", "DEBUG")
         self.log(f"TRANSFORM_SUMMARY: Final transformed credentials: {credentials}", "INFO")
-        
+
         # Log summary by credential type
         for cred_type, cred_list in credentials.items():
             descriptions = [c.get('description', 'N/A') for c in cred_list]
             self.log(f"FINAL_{cred_type.upper()}: {len(cred_list)} entries - {descriptions}", "INFO")
-        
+
         return credentials if credentials else {}
 
     def transform_ip_address_list(self, discovery_data):
@@ -824,44 +832,44 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             # The discovery API expects 'startIndex' and 'recordsToReturn' parameters
             api_family = "discovery"
             api_function = "get_discoveries_by_range"
-            
+
             # Base parameters - the pagination helper will add offset/limit
             # but we need to map them to startIndex/recordsToReturn for this specific API
             params = {}
-            
+
             # Get all discoveries using manual pagination since discovery API has specific parameter names
             all_discoveries = []
             start_index = 1  # Discovery API starts from 1
             records_per_page = 500
-            
+
             while True:
                 # Build parameters specific to discovery API
                 api_params = {
                     "start_index": start_index,
                     "records_to_return": records_per_page
                 }
-                
+
                 self.log(f"Calling discovery API with startIndex={start_index}, recordsToReturn={records_per_page}", "DEBUG")
-                
+
                 response = self.dnac._exec(
                     family=api_family,
                     function=api_function,
                     params=api_params
                 )
-                
+
                 discoveries = response.get("response", [])
                 if not discoveries:
                     self.log("No more discoveries found, ending pagination", "DEBUG")
                     break
-                
+
                 all_discoveries.extend(discoveries)
                 self.log(f"Retrieved {len(discoveries)} discoveries in this batch", "DEBUG")
-                
+
                 # If we got fewer than requested, we've reached the end
                 if len(discoveries) < records_per_page:
                     self.log("Received fewer records than requested, ending pagination", "DEBUG")
                     break
-                
+
                 start_index += records_per_page
 
             self.log(f"Retrieved {len(all_discoveries)} total discoveries", "INFO")
@@ -947,6 +955,127 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return filtered_discoveries
 
+    def generate_yaml_header_comments(self, discoveries_data):
+        """
+        Generate header comments for the YAML file.
+
+        Args:
+            discoveries_data (list): List of discovery configurations
+
+        Returns:
+            str: Header comments to be added to the YAML file
+        """
+        import datetime
+
+        # Get Catalyst Center host information
+        dnac_host = self.params.get('dnac_host', 'Unknown')
+        dnac_version = self.params.get('dnac_version', 'Unknown')
+
+        # Generate summary statistics
+        discovery_types = {}
+        ip_ranges_count = 0
+        credential_types = set()
+
+        for discovery in discoveries_data:
+            # Count discovery types
+            disc_type = discovery.get('discoveryType', 'Unknown')
+            discovery_types[disc_type] = discovery_types.get(disc_type, 0) + 1
+
+            # Count IP ranges
+            ip_ranges = discovery.get('ipAddressList', [])
+            if ip_ranges:
+                if isinstance(ip_ranges, str):
+                    ip_ranges_count += len(ip_ranges.split(','))
+                elif isinstance(ip_ranges, list):
+                    ip_ranges_count += len(ip_ranges)
+
+            # Collect credential types
+            if discovery.get('globalCredentialIdList'):
+                credential_types.add('Global Credentials')
+            if discovery.get('discoverySpecificCredentials'):
+                credential_types.add('Discovery Specific Credentials')
+
+        # Build header comments
+        header = []
+        header.append("# Generated Discovery Playbook Configuration")
+        header.append("# ===========================================")
+        header.append("#")
+        header.append(f"# Source Catalyst Center: {dnac_host}")
+        header.append(f"# Catalyst Center Version: {dnac_version}")
+        header.append(f"# Generated on: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        header.append("#")
+        header.append("# Configuration Summary:")
+        header.append(f"# - Total Discoveries: {len(discoveries_data)}")
+        header.append(f"# - Total IP Ranges: {ip_ranges_count}")
+
+        if discovery_types:
+            header.append("# - Discovery Types:")
+            for disc_type, count in discovery_types.items():
+                header.append(f"#   - {disc_type}: {count}")
+
+        if credential_types:
+            header.append("# - Credential Types: {0}".format(', '.join(sorted(credential_types))))
+
+        header.append("#")
+        header.append("# This configuration is compatible with the 'discovery_workflow_manager' module.")
+        header.append("# Use this playbook to recreate or manage discovery configurations in Catalyst Center.")
+        header.append("#")
+
+        return '\n'.join(header)
+
+    def write_yaml_with_comments(self, yaml_data, file_path, header_comments):
+        """
+        Write YAML data to file with header comments and proper formatting.
+
+        Args:
+            yaml_data (dict): The data to write as YAML
+            file_path (str): Path to the output file
+            header_comments (str): Header comments to add at the beginning
+
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        try:
+            import yaml
+
+            # Configure YAML dumper to avoid Python object references
+            yaml.add_representer(OrderedDict, lambda dumper, data: dumper.represent_dict(data.items()))
+
+            # Convert OrderedDict to regular dict to avoid Python object serialization
+            def convert_ordereddict(obj):
+                if isinstance(obj, OrderedDict):
+                    return dict(obj)
+                elif isinstance(obj, list):
+                    return [convert_ordereddict(item) for item in obj]
+                elif isinstance(obj, dict):
+                    return {key: convert_ordereddict(value) for key, value in obj.items()}
+                return obj
+
+            clean_data = convert_ordereddict(yaml_data)
+
+            # Generate clean YAML content
+            yaml_content = yaml.dump(
+                clean_data,
+                default_flow_style=False,
+                sort_keys=False,
+                indent=2,
+                allow_unicode=True
+            )
+
+            # Combine header comments with YAML content
+            full_content = header_comments + '\n\n' + yaml_content
+
+            # Write to file
+            with open(file_path, 'w', encoding='utf-8') as file:
+                file.write(full_content)
+
+            self.log(f"Successfully wrote YAML file with comments: {file_path}", "DEBUG")
+            return True
+
+        except Exception as e:
+            self.log(f"Error writing YAML file with comments: {str(e)}", "ERROR")
+            return False
+
     def generate_discovery_playbook(self):
         """
         Generate YAML playbook for discovery configurations.
@@ -1022,8 +1151,11 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             }
         }
 
-        # Write YAML file
-        success = self.write_dict_to_yaml(yaml_data, file_path)
+        # Generate header comments
+        header_comments = self.generate_yaml_header_comments(discoveries_data)
+
+        # Write YAML file with comments
+        success = self.write_yaml_with_comments(yaml_data, file_path, header_comments)
 
         if success:
             self.result["response"] = {

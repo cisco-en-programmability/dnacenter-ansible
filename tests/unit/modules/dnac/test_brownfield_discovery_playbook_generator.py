@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Cisco and/or its affiliates.
+# Copyright (c) 2025 Cisco and/or its affiliates.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -41,11 +41,11 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK._exec"
         )
         self.run_dnac_exec = self.mock_dnac_exec.start()
-        
+
         # Mock file operations
         self.mock_open = patch("builtins.open")
         self.run_mock_open = self.mock_open.start()
-        
+
         # Mock yaml dump
         self.mock_yaml_dump = patch("yaml.dump")
         self.run_yaml_dump = self.mock_yaml_dump.start()
@@ -63,7 +63,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         """
         Load fixtures for brownfield discovery playbook generator tests.
         """
-        
+
         if "generate_all_configurations" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_discoveries_response_success"),
@@ -480,7 +480,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
     def test_brownfield_discovery_playbook_generator_unsupported_state(self):
         """
         Test case for unsupported state parameter.
-        
+
         This test case checks the behavior when an unsupported state is provided.
         """
         set_module_args(
@@ -504,7 +504,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
     def test_brownfield_discovery_playbook_generator_v2_api_fallback(self):
         """
         Test case for V2 API fallback when V1 credentials API fails.
-        
+
         This test case checks the behavior when V1 API returns empty and V2 is used.
         """
         self.load_fixtures(['empty_credentials_v1_fallback_v2'])
@@ -528,7 +528,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
     def test_brownfield_discovery_playbook_generator_credential_api_failure(self):
         """
         Test case for handling credential API failures.
-        
+
         This test case checks the behavior when both V1 and V2 credential APIs fail.
         """
         self.load_fixtures(['credentials_api_failure'])
@@ -552,7 +552,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
     def test_brownfield_discovery_playbook_generator_complex_credential_mapping(self):
         """
         Test case for complex credential mapping with various types.
-        
+
         This test case checks the behavior with multiple credential types and fallback mapping.
         """
         self.load_fixtures(['complex_credential_mapping'])
@@ -585,7 +585,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
     def test_brownfield_discovery_playbook_generator_file_operations(self):
         """
         Test case for file operations with custom paths.
-        
+
         This test case checks the behavior when custom file paths are specified.
         """
         set_module_args(
@@ -614,7 +614,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
     def test_brownfield_discovery_playbook_generator_advanced_status_filtering(self):
         """
         Test case for advanced discovery status filtering.
-        
+
         This test case checks filtering by multiple discovery statuses.
         """
         set_module_args(
@@ -644,7 +644,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
     def test_brownfield_discovery_playbook_generator_empty_credential_id_handling(self):
         """
         Test case for handling empty or None credential IDs.
-        
+
         This test case checks the behavior when credential IDs are empty or None.
         """
         set_module_args(
@@ -675,7 +675,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
     def test_brownfield_discovery_playbook_generator_credential_not_found(self):
         """
         Test case for handling credentials not found in lookup table.
-        
+
         This test case checks the behavior when credentials are referenced but not found.
         """
         self.load_fixtures(['credentials_not_found'])
@@ -707,7 +707,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
     def test_brownfield_discovery_playbook_generator_unknown_credential_type(self):
         """
         Test case for handling unknown credential types.
-        
+
         This test case checks the behavior when credentials have unknown types.
         """
         self.load_fixtures(['unknown_credential_types'])
@@ -739,7 +739,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
     def test_brownfield_discovery_playbook_generator_malformed_api_response(self):
         """
         Test case for handling malformed API responses.
-        
+
         This test case checks the behavior when API returns malformed data.
         """
         self.load_fixtures(['malformed_api_response'])
@@ -763,7 +763,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
     def test_brownfield_discovery_playbook_generator_mixed_discovery_types(self):
         """
         Test case for handling mixed discovery types in single request.
-        
+
         This test case checks the behavior with multiple discovery types.
         """
         self.load_fixtures(['mixed_discovery_types'])
@@ -796,7 +796,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
     def test_brownfield_discovery_playbook_generator_credential_transform_edge_cases(self):
         """
         Test case for credential transformation edge cases.
-        
+
         This test case checks the behavior with edge cases in credential transformation.
         """
         set_module_args(
@@ -831,7 +831,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
     def test_brownfield_discovery_playbook_generator_api_error_conditions(self):
         """
         Test case for API error conditions and recovery.
-        
+
         This test case checks various API error conditions and recovery mechanisms.
         """
         self.load_fixtures(['api_error_conditions'])
@@ -864,7 +864,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
     def test_brownfield_discovery_playbook_generator_comprehensive_filtering(self):
         """
         Test case for comprehensive filtering with all options.
-        
+
         This test case checks behavior with all filtering options enabled.
         """
         set_module_args(
