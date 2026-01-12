@@ -2946,7 +2946,6 @@ class Swim(DnacBase):
                 response = self.dnac._exec(
                     family="software_image_management_swim",
                     function="get_golden_tag_status_of_an_image",
-                    op_modifies=True,
                     params=image_params,
                 )
                 self.log(
