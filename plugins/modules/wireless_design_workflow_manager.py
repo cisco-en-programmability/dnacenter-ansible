@@ -3461,15 +3461,6 @@ options:
                   - Must correspond to an existing design in Cisco Catalyst Center.
                 type: str
                 required: true
-              radio_band:
-                description:
-                  - Radio frequency band for CleanAir monitoring and interference detection.
-                  - 2_4GHZ monitors 2.4 GHz spectrum for interference sources.
-                  - 5GHZ monitors 5 GHz spectrum for interference sources.
-                  - 6GHZ monitors 6 GHz spectrum for interference sources.
-                type: str
-                required: true
-                choices: ["2_4GHZ", "5GHZ", "6GHZ"]
               feature_attributes:
                 description:
                   - CleanAir feature settings and interference detection parameters.
@@ -3477,6 +3468,15 @@ options:
                 type: dict
                 required: false
                 suboptions:
+                  radio_band:
+                    description:
+                      - Radio frequency band for CleanAir monitoring and interference detection.
+                      - 2_4GHZ monitors 2.4 GHz spectrum for interference sources.
+                      - 5GHZ monitors 5 GHz spectrum for interference sources.
+                      - 6GHZ monitors 6 GHz spectrum for interference sources.
+                    type: str
+                    required: true
+                    choices: ["2_4GHZ", "5GHZ", "6GHZ"]
                   clean_air:
                     description:
                       - Enable CleanAir spectrum intelligence functionality.
@@ -3504,6 +3504,16 @@ options:
                     description:
                       - Specific interference source detection and classification settings.
                       - Controls which types of interference sources are monitored.
+                      - "IMPORTANT - Band Compatibility Limitations:"
+                      - "6GHz band does NOT support any interferer detection (interferersFeatures must be empty or omitted)."
+                      - "5GHz band supports only - continuous_transmitter, generic_dect, generic_tdd, jammer,"
+                      - "spectrum80211_fh, spectrum80211_non_standard_channel, spectrum802154, spectrum_inverted,"
+                      - "super_ag, video_camera, wimax_fixed, wimax_mobile."
+                      - "2.4GHz band supports - ble_beacon, bluetooth_paging_inquiry, bluetooth_sco_acl,"
+                      - "continuous_transmitter, generic_dect, generic_tdd, jammer, microwave_oven,"
+                      - "motorola_canopy, si_fhss, spectrum80211_fh, spectrum80211_non_standard_channel,"
+                      - "spectrum802154, spectrum_inverted, super_ag, video_camera, wimax_fixed, wimax_mobile, xbox."
+                      - "The module will raise an error if you attempt to enable an interferer on an incompatible band."
                     type: dict
                     required: false
                     suboptions:
@@ -10030,6 +10040,74 @@ class WirelessDesign(DnacBase):
 
         return delete_clean_air_list
 
+    def _validate_clean_air_interferer_band_compatibility(self, design_name, radio_band, interferers_features):
+        """
+        Validate that interferer types are compatible with the specified radio band.
+        Args:
+            design_name (str): Name of the design for error reporting
+            radio_band (str): Radio band (2_4GHZ, 5GHZ, or 6GHZ)
+            interferers_features (dict): Dictionary of interferer settings
+        Raises:
+            Sets self.status to "failed" and raises check_return_status() if validation fails
+        """
+        if not interferers_features:
+            return  # No interferers configured, nothing to validate
+
+        # 6GHz does not support ANY interferer detection
+        if radio_band == "6GHZ":
+            # Check if any interferer is enabled (set to True)
+            enabled_interferers = [k for k, v in interferers_features.items() if v is True]
+            if enabled_interferers:
+                self.msg = (
+                    "Invalid CleanAir configuration for design '{0}': 6GHz band does not support "
+                    "interferer detection. The following interferers are enabled but not supported: {1}. "
+                    "Remove all interferer configurations for 6GHz band."
+                ).format(design_name, ", ".join(enabled_interferers))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return
+
+        # Define interferers supported by each band (snake_case keys)
+        # 2.4GHz supports all interferers
+        interferers_24ghz = {
+            "ble_beacon", "bluetooth_paging_inquiry", "bluetooth_sco_acl",
+            "continuous_transmitter", "generic_dect", "generic_tdd", "jammer",
+            "microwave_oven", "motorola_canopy", "si_fhss", "spectrum80211_fh",
+            "spectrum80211_non_standard_channel", "spectrum802154", "spectrum_inverted",
+            "super_ag", "video_camera", "wimax_fixed", "wimax_mobile", "xbox"
+        }
+
+        # 5GHz supports subset (no BLE, Bluetooth variants, microwave_oven, motorola_canopy, si_fhss, xbox)
+        interferers_5ghz = {
+            "continuous_transmitter", "generic_dect", "generic_tdd", "jammer",
+            "spectrum80211_fh", "spectrum80211_non_standard_channel", "spectrum802154",
+            "spectrum_inverted", "super_ag", "video_camera", "wimax_fixed", "wimax_mobile"
+        }
+
+        # Determine which interferers are allowed for this band
+        if radio_band == "2_4GHZ":
+            allowed_interferers = interferers_24ghz
+        elif radio_band == "5GHZ":
+            allowed_interferers = interferers_5ghz
+        else:
+            # Unknown band, skip validation (let API handle it)
+            return
+
+        # Check if any enabled interferers are not supported by this band
+        invalid_interferers = []
+        for interferer_key, interferer_value in interferers_features.items():
+            # Only check interferers that are enabled (set to True)
+            if interferer_value is True and interferer_key not in allowed_interferers:
+                invalid_interferers.append(interferer_key)
+
+        if invalid_interferers:
+            band_display = radio_band.replace("_", ".")
+            self.msg = (
+                "Invalid CleanAir configuration for design '{0}': The following interferers are not "
+                "supported on {1} band: {2}. Please refer to the module documentation for the complete "
+                "band/interferer compatibility matrix."
+            ).format(design_name, band_display, ", ".join(invalid_interferers))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
     def _normalize_clean_air_payload(self, requested_entry, key_name_map, snake_to_camel):
         """
         Normalize a requested CleanAir entry into controller payload format.
@@ -10045,6 +10123,11 @@ class WirelessDesign(DnacBase):
         requested_features_raw = requested_entry.get("feature_attributes") or {}
         requested_unlocked = requested_entry.get("unlocked_attributes")
         requested_unlocked = [] if requested_unlocked is None else requested_unlocked
+
+        # Validate interferer/band compatibility
+        interferers_features = requested_features_raw.get("interferers_features")
+        if interferers_features:
+            self._validate_clean_air_interferer_band_compatibility(design_name, radio_band, interferers_features)
 
         # Build normalized features (convert top-level keys)
         normalized_features = {}
