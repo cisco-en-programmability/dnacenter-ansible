@@ -228,7 +228,8 @@ options:
           - The specified template must exist in Cisco Catalyst Center before it can be applied during provisioning.
           - Feature templates can include WLAN configurations, security policies, QoS settings, and other wireless controller parameters.
           - Supported from Cisco Catalyst Center release version 3.1.3.0 onwards for wireless controller provisioning.
-        type: dict
+        type: list
+        elements: dict
         required: false
         suboptions:
           design_name:
@@ -281,6 +282,10 @@ options:
               '["radius_server_config", "certificate_settings"]',
               '["qos_policies", "traffic_shaping"]',
               '["mesh_configuration", "ap_group_settings"]']
+      clean_config:
+        description: A flag that indicates whether to clean the configuration during un-provisioning a device.
+        type: bool
+        default: false
       application_telemetry:
         description: |
           - A list of settings for enabling or disabling application telemetry on a group of network devices.
