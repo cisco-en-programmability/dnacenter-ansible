@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2024, Cisco Systems
+# Copyright (c) 2025, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML playbooks for Assurance Issue Operations in Cisco Catalyst Center."""
@@ -17,9 +17,9 @@ description:
 - Generates YAML configurations compatible with the `assurance_issue_workflow_manager`
   module, reducing the effort required to manually create Ansible playbooks and
   enabling programmatic modifications.
-- The YAML configurations generated represent the user-defined issue definitions and
-  system issue settings configured on the Cisco Catalyst Center.
-- Supports extraction of User-Defined Issue Definitions and System Issue Settings configurations.
+- The YAML configurations generated represent the user-defined issue definitions
+  configured on the Cisco Catalyst Center.
+- Supports extraction of User-Defined Issue Definitions configurations.
 version_added: 6.20.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
@@ -55,7 +55,7 @@ options:
         - When enabled, the config parameter becomes optional and will use default values if not provided.
         - A default filename will be generated automatically if file_path is not specified.
         - This is useful for complete brownfield assurance issue discovery and documentation.
-        - Includes User-Defined Issue Definitions and System Issue Settings.
+        - Includes User-Defined Issue Definitions only.
         type: bool
         required: false
         default: false
@@ -78,13 +78,13 @@ options:
           components_list:
             description:
             - List of components to include in the YAML configuration file.
-            - Valid values are ["assurance_user_defined_issue_settings", "assurance_system_issue_settings"]
+            - Valid values are ["assurance_user_defined_issue_settings"]
             - If not specified, all supported components are included.
-            - Example ["assurance_user_defined_issue_settings", "assurance_system_issue_settings"]
+            - Example ["assurance_user_defined_issue_settings"]
             type: list
             elements: str
             required: false
-            choices: ["assurance_user_defined_issue_settings", "assurance_system_issue_settings"]
+            choices: ["assurance_user_defined_issue_settings",]
           assurance_user_defined_issue_settings:
             description:
             - User-defined issue settings to filter by issue name or enabled status.
@@ -102,28 +102,17 @@ options:
                 - Filter by enabled status (true/false).
                 type: bool
                 required: false
-          assurance_system_issue_settings:
-            description:
-            - System issue settings to filter by device type or issue name.
-            type: list
-            elements: dict
-            required: false
-            suboptions:
-              device_type:
-                description:
-                - Device type to filter system issues (e.g., ROUTER, SWITCH, UNIFIED_AP).
-                type: str
-                required: false
+
 requirements:
 - dnacentersdk >= 2.10.10
 - python >= 3.9
 notes:
 - SDK Methods used are
     - issues.AssuranceSettings.get_all_the_custom_issue_definitions_based_on_the_given_filters
-    - issues.AssuranceSettings.returns_all_issue_trigger_definitions_for_given_filters
+
 - Paths used are
     - GET /dna/intent/api/v1/customIssueDefinitions
-    - GET /dna/intent/api/v1/systemIssueDefinitions
+
 """
 
 EXAMPLES = r"""
@@ -144,28 +133,8 @@ EXAMPLES = r"""
       - component_specific_filters:
           components_list: ["assurance_user_defined_issue_settings"]
 
-# Generate YAML Configuration for system issues with specific device types
-- name: Generate YAML Configuration for system issues
-  cisco.dnac.brownfield_assurance_issue_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/assurance_issue_config.yml"
-        global_filters:
-          device_type_list: ["UNIFIED_AP", "ROUTER"]
-        component_specific_filters:
-          components_list: ["assurance_system_issue_settings"]
-
-# Generate YAML Configuration for all assurance issue components
-- name: Generate complete assurance issue configuration
+# Generate YAML Configuration for all user-defined issue components
+- name: Generate complete user-defined issue configuration
   cisco.dnac.brownfield_assurance_issue_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -256,19 +225,15 @@ response_3:
             "total_failed_operations": 1,
             "components_with_complete_success": ["assurance_user_defined_issue_settings"],
             "components_with_partial_success": [],
-            "components_with_complete_failure": ["assurance_system_issue_settings"],
-            "success_details": [],
-            "failure_details": [
+            "components_with_complete_failure": [],
+            "success_details": [
               {
-                "component": "assurance_system_issue_settings",
-                "status": "failed",
-                "error_info": {
-                  "error_type": "api_error",
-                  "error_message": "Failed to retrieve system issue definitions",
-                  "error_code": "API_ERROR"
-                }
+                "component": "assurance_user_defined_issue_settings",
+                "status": "success",
+                "issues_processed": 10
               }
-            ]
+            ],
+            "failure_details": []
           }
         },
       "msg": "YAML config generation failed for module 'assurance_issue_workflow_manager'."
@@ -457,22 +422,7 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "api_family": "issues",
                     "get_function_name": self.get_user_defined_issues,
                 },
-                "assurance_system_issue_settings": {
-                    "filters": {
-                        "name": {
-                            "type": "str",
-                            "required": False
-                        },
-                        "device_type": {
-                            "type": "str",
-                            "required": False
-                        }
-                    },
-                    "reverse_mapping_function": self.system_issue_reverse_mapping_function,
-                    "api_function": "returns_all_issue_trigger_definitions_for_given_filters",
-                    "api_family": "issues",
-                    "get_function_name": self.get_system_issues,
-                },
+
             },
             "global_filters": {
                 "issue_name_list": {
@@ -511,6 +461,115 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
             pass
         return None
 
+    def convert_ordereddict(self, data):
+        """
+        Recursively convert OrderedDict to regular dict for clean YAML output.
+        Args:
+            data: Data structure that may contain OrderedDict objects
+        Returns:
+            Data structure with OrderedDict converted to regular dict
+        """
+        if isinstance(data, OrderedDict):
+            return {key: self.convert_ordereddict(value) for key, value in data.items()}
+        elif isinstance(data, list):
+            return [self.convert_ordereddict(item) for item in data]
+        elif isinstance(data, dict):
+            return {key: self.convert_ordereddict(value) for key, value in data.items()}
+        else:
+            return data
+
+    def generate_yaml_header_comments(self, file_path, operation_summary):
+        """
+        Generate header comments with Catalyst Center source information and summary statistics.
+        Args:
+            file_path (str): Path where the YAML file will be saved
+            operation_summary (dict): Summary of operations performed
+        Returns:
+            str: Formatted header comments
+        """
+        try:
+            from datetime import datetime
+
+            # Get current timestamp
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+            # Get Catalyst Center connection details (safely)
+            dnac_host = getattr(self, 'dnac_host', 'Unknown')
+            dnac_version = getattr(self, 'dnac_version', 'Unknown')
+
+            # Build header comments
+            header_lines = [
+                "# " + "=" * 80,
+                "# Cisco Catalyst Center - Assurance Issue Configuration Export",
+                "# " + "=" * 80,
+                "#",
+                "# Generated by: Brownfield Assurance Issue Playbook Generator",
+                "# Generation Date: {}".format(timestamp),
+                "# Source Catalyst Center: {}".format(dnac_host),
+                "# Catalyst Center Version: {}".format(dnac_version),
+                "# Target Module: assurance_issue_workflow_manager",
+                "#",
+                "# Summary Statistics:",
+                "#   - Total Components Processed: {}".format(operation_summary.get('total_components_processed', 0)),
+                "#   - Successful Operations: {}".format(operation_summary.get('total_successful_operations', 0)),
+                "#   - Failed Operations: {}".format(operation_summary.get('total_failed_operations', 0)),
+                "#   - Output File: {}".format(file_path),
+                "#",
+                "# Components with Complete Success: {}".format(', '.join(operation_summary.get('components_with_complete_success', []))),
+                "# Components with Partial Success: {}".format(', '.join(operation_summary.get('components_with_partial_success', []))),
+                "# Components with Complete Failure: {}".format(', '.join(operation_summary.get('components_with_complete_failure', []))),
+                "#",
+                "# Note: This configuration represents user-defined issue settings",
+                "#       exported from Cisco Catalyst Center.",
+                "#       Review and modify as needed before applying.",
+                "# " + "=" * 80,
+                ""
+            ]
+
+            return "\n".join(header_lines)
+
+        except Exception as e:
+            self.log("Error generating header comments: {}".format(str(e)), "WARNING")
+            return "# Generated by Brownfield Assurance Issue Playbook Generator\n"
+
+    def write_yaml_with_comments(self, data, file_path, operation_summary):
+        """
+        Write YAML data to file with header comments and clean formatting.
+        Args:
+            data: Data to write to YAML file
+            file_path (str): Path where the YAML file will be saved
+            operation_summary (dict): Summary of operations for header
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        try:
+            # Convert OrderedDict to regular dict for clean output
+            clean_data = self.convert_ordereddict(data)
+
+            # Generate header comments
+            header_comments = self.generate_yaml_header_comments(file_path, operation_summary)
+
+            # Generate YAML content
+            if HAS_YAML:
+                yaml_content = yaml.dump(clean_data, default_flow_style=False, indent=2, width=120, allow_unicode=True)
+            else:
+                # Fallback to basic string representation
+                yaml_content = str(clean_data)
+
+            # Combine header and content
+            full_content = header_comments + yaml_content
+
+            # Write to file
+            with open(file_path, 'w', encoding='utf-8') as file:
+                file.write(full_content)
+
+            self.log("Successfully wrote YAML with header comments to: {}".format(file_path), "INFO")
+            return True
+
+        except Exception as e:
+            self.log("Error writing YAML with comments: {}".format(str(e)), "ERROR")
+            return False
+
     def user_defined_issue_reverse_mapping_function(self, requested_components=None):
         """
         Returns the reverse mapping specification for user-defined issue configurations.
@@ -539,26 +598,6 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "duration_in_minutes": {"type": "int", "source_key": "durationInMinutes"},
                 })
             },
-        })
-
-    def system_issue_reverse_mapping_function(self, requested_components=None):
-        """
-        Returns the reverse mapping specification for system issue configurations.
-        Args:
-            requested_components (list, optional): List of specific components to include
-        Returns:
-            dict: Reverse mapping specification for system issue details
-        """
-        self.log("Generating reverse mapping specification for system issues.", "DEBUG")
-
-        return OrderedDict({
-            "name": {"type": "str", "source_key": "displayName"},
-            "device_type": {"type": "str", "source_key": "deviceType"},
-            "description": {"type": "str", "source_key": "description"},
-            "issue_enabled": {"type": "bool", "source_key": "issueEnabled"},
-            "priority": {"type": "str", "source_key": "priority"},
-            "synchronize_to_health_threshold": {"type": "bool", "source_key": "synchronizeToHealthThreshold"},
-            "threshold_value": {"type": "str", "source_key": "thresholdValue"},
         })
 
     def reset_operation_tracking(self):
@@ -780,152 +819,6 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "operation_summary": self.get_operation_summary()
             }
 
-    def get_system_issues(self, issue_element, filters):
-        """
-        Retrieves system issue definitions based on the provided filters.
-        Args:
-            issue_element (dict): A dictionary containing the API family and function for retrieving system issues.
-            filters (dict): A dictionary containing global_filters and component_specific_filters.
-        Returns:
-            dict: A dictionary containing the modified details of system issues.
-        """
-        self.log("Starting to retrieve system issues with filters: {0}".format(filters), "DEBUG")
-
-        # Add null checks
-        if not issue_element:
-            self.log("Error: issue_element is None or empty", "ERROR")
-            return {
-                "assurance_system_issue_settings": [],
-                "operation_summary": self.get_operation_summary()
-            }
-
-        if not filters:
-            self.log("Error: filters is None or empty", "ERROR")
-            return {
-                "assurance_system_issue_settings": [],
-                "operation_summary": self.get_operation_summary()
-            }
-
-        final_system_issues = []
-        api_family = issue_element.get("api_family")
-        api_function = issue_element.get("api_function")
-
-        if not api_family or not api_function:
-            self.log("Error: api_family or api_function is missing. api_family={0}, api_function={1}".format(
-                api_family, api_function), "ERROR")
-            return {
-                "assurance_system_issue_settings": [],
-                "operation_summary": self.get_operation_summary()
-            }
-
-        self.log("Getting system issues using family '{0}' and function '{1}'.".format(
-            api_family, api_function), "INFO")
-
-        # Determine device types to query
-        device_types = []
-        global_filters = filters.get("global_filters") or {}
-        device_type_list = global_filters.get("device_type_list", [])
-
-        component_specific_filters = filters.get("component_specific_filters") or {}
-        component_specific_filters = component_specific_filters.get(
-            "assurance_system_issue_settings", [])
-
-        if device_type_list:
-            device_types = device_type_list
-        elif component_specific_filters:
-            for filter_param in component_specific_filters:
-                device_type = filter_param.get("device_type")
-                if device_type and device_type not in device_types:
-                    device_types.append(device_type)
-
-        # If no device types specified, use common device types
-        if not device_types:
-            device_types = ["UNIFIED_AP", "SWITCH_AND_HUB", "ROUTER", "WIRELESS_CONTROLLER", "WIRELESS_CLIENT", "WIRED_CLIENT"]
-            self.log("No device types specified, using default device types: {0}".format(device_types), "DEBUG")
-
-        try:
-            # Try to get all system issues for each device type and enabled state
-            self.log("Attempting to retrieve system issues for device types: {0}".format(device_types), "DEBUG")
-
-            for issue_enabled in ["true", "false"]:
-                for device_type in device_types:
-                    try:
-                        self.log("Calling API for device_type: {0}, issue_enabled: {1}".format(device_type, issue_enabled), "DEBUG")
-                        params = {"deviceType": device_type, "issueEnabled": issue_enabled}
-                        response = self.execute_get_with_pagination(
-                            api_family,
-                            api_function,
-                            params
-                        )
-
-                        self.log("API response received for device_type {0}, issue_enabled {1}: {2}".format(
-                            device_type, issue_enabled, type(response)), "DEBUG")
-
-                        if response:
-                            self.log("Retrieved {0} system issues for device_type {1}, issue_enabled {2}".format(
-                                len(response), device_type, issue_enabled), "DEBUG")
-                            final_system_issues.extend(response)
-                        else:
-                            self.log("No response for device_type {0}, issue_enabled {1}".format(
-                                device_type, issue_enabled), "DEBUG")
-                    except Exception as api_error:
-                        self.log("API error for device_type {0}, issue_enabled {1}: {2}".format(
-                            device_type, issue_enabled, str(api_error)), "WARNING")
-                        continue
-
-            self.log("Total system issues retrieved: {0}".format(len(final_system_issues)), "INFO")
-
-            # Track success
-            self.add_success("assurance_system_issue_settings", {
-                "issues_processed": len(final_system_issues)
-            })
-
-            # Apply reverse mapping
-            reverse_mapping_function = issue_element.get("reverse_mapping_function")
-            if not reverse_mapping_function:
-                self.log("Error: reverse_mapping_function is None for issue_element", "ERROR")
-                return {
-                    "assurance_system_issue_settings": [],
-                    "operation_summary": self.get_operation_summary()
-                }
-
-            reverse_mapping_spec = reverse_mapping_function()
-            if not reverse_mapping_spec:
-                self.log("Error: reverse_mapping_spec is None", "ERROR")
-                return {
-                    "assurance_system_issue_settings": [],
-                    "operation_summary": self.get_operation_summary()
-                }
-
-            # Transform using inherited modify_parameters function
-            self.log("About to call modify_parameters with reverse_mapping_spec: {0}, final_system_issues count: {1}".format(
-                type(reverse_mapping_spec), len(final_system_issues)), "DEBUG")
-            issue_details = self.modify_parameters(reverse_mapping_spec, final_system_issues)
-            self.log("modify_parameters returned: {0}".format(type(issue_details)), "DEBUG")
-
-            if issue_details is None:
-                self.log("Error: modify_parameters returned None", "ERROR")
-                return {
-                    "assurance_system_issue_settings": [],
-                    "operation_summary": self.get_operation_summary()
-                }
-
-            return {
-                "assurance_system_issue_settings": issue_details,
-                "operation_summary": self.get_operation_summary()
-            }
-
-        except Exception as e:
-            self.log("Error retrieving system issues: {0}".format(str(e)), "ERROR")
-            self.add_failure("assurance_system_issue_settings", {
-                "error_type": "api_error",
-                "error_message": str(e)
-            })
-            return {
-                "assurance_system_issue_settings": [],
-                "operation_summary": self.get_operation_summary()
-            }
-
     def get_diff_gathered(self):
         """
         Gathers assurance issue configurations from Cisco Catalyst Center and generates YAML playbook.
@@ -1021,7 +914,7 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                 all_configs.append({component_name: component_data})
 
         # Generate final YAML structure
-        yaml_config = []
+        yaml_config = {}
 
         # Always generate template structure when generate_all_configurations is True
         if self.generate_all_configurations:
@@ -1048,14 +941,14 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
 
                 final_list.append(component_dict)
 
-            yaml_config.append({"config": final_list})
+            yaml_config = {"config": final_list}
         elif all_configs:
             # Create individual component dictionaries for non-generate_all mode
             final_list = []
             for config_item in all_configs:
                 final_list.append(config_item)
 
-            yaml_config.append({"config": final_list})
+            yaml_config = {"config": final_list}
         else:
             # Generate empty template structure when no configurations found and not in generate_all mode
             final_list = []
@@ -1063,13 +956,13 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
             for component_name in issue_elements.keys():
                 component_dict = {component_name: []}
                 final_list.append(component_dict)
-            yaml_config.append({"config": final_list})
+            yaml_config = {"config": final_list}
 
-        # Write to YAML file
+        # Write to YAML file with header comments
         if yaml_config:
-            success = self.write_dict_to_yaml(yaml_config, file_path)
+            operation_summary = self.get_operation_summary()
+            success = self.write_yaml_with_comments(yaml_config, file_path, operation_summary)
             if success:
-                operation_summary = self.get_operation_summary()
                 if all_configs:
                     self.msg = "YAML config generation succeeded for module '{0}'.".format(self.module_name)
                 else:

@@ -40,7 +40,6 @@
           - component_specific_filters:
               components_list:
                 - assurance_user_defined_issue_settings
-                - assurance_system_issue_settings
 
     # Example 3: Generate user-defined issue settings with filters
     - name: Generate YAML configuration for user-defined issues
@@ -63,25 +62,3 @@
               assurance_user_defined_issue_settings:
                 - name: "Custom Network Latency Alert"
                 - is_enabled: true
-
-    # # Example 4: Generate system issue settings with device type filters
-    - name: Generate YAML configuration for system issues
-      cisco.dnac.brownfield_assurance_issue_playbook_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        state: gathered
-        config:
-          - file_path: "/tmp/system_issues.yml"
-            component_specific_filters:
-              components_list:
-                - assurance_system_issue_settings
-              assurance_system_issue_settings:
-                - device_type: "UNIFIED_AP"
-                - device_type: "ROUTER"
