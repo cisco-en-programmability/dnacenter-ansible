@@ -3644,48 +3644,64 @@ options:
                   radio_band:
                     description:
                       - Radio frequency band for 802.11ax feature application.
-                      - Specifies which band should use these Wi-Fi 6 settings.
+                      - Supported values are 2_4GHZ, 5GHZ, 6GHZ.
+                      - 6GHZ is supported only on Cisco IOS-XE based Wireless Controllers running 17.7.1 and above.
                     type: str
                   bss_color:
                     description:
                       - Enable BSS (Basic Service Set) coloring for spatial reuse.
                       - Helps distinguish between overlapping BSSs to reduce interference.
+                      - Supported on Cisco IOS-XE based Wireless Controllers running 17.1 and above.
+                      - Supported radio bands are 2_4GHZ, 5GHZ, 6GHZ.
                     type: bool
                     default: False
                   target_waketime_broadcast:
                     description:
                       - Enable broadcast Target Wake Time (TWT) announcements.
                       - Coordinates sleep schedules for multiple clients simultaneously.
+                      - Supported on Cisco IOS-XE based Wireless Controllers running 17.3.1 and above.
+                      - Supported radio bands are 2_4GHZ, 5GHZ, 6GHZ.
                     type: bool
                     default: False
                   non_srg_obss_pd_max_threshold:
                     description:
                       - Maximum threshold for non-SRG OBSS Packet Detection in dBm.
                       - Controls sensitivity for detecting overlapping BSS transmissions.
-                      - Range typically -82 to -62 dBm.
+                      - Valid range is between -82 to -62 dBm.
+                      - Supported on Cisco IOS-XE based Wireless Controllers running 17.4 and above.
+                      - Supported radio bands are 2_4GHZ and 5GHZ only.
+                      - Not supported for 6GHZ.
                     type: int
                   target_wakeup_time_11ax:
                     description:
                       - Enable Target Wake Time feature for 802.11ax clients.
                       - Allows clients to negotiate sleep schedules to save power.
+                      - Supported on Cisco IOS-XE based Wireless Controllers running 17.1 and above.
+                      - Supported radio bands are 2_4GHZ, 5GHZ, 6GHZ.
                     type: bool
                     default: False
                   obss_pd:
                     description:
                       - Enable Overlapping BSS Packet Detection for spatial reuse.
                       - Improves spectrum efficiency in dense deployments.
+                      - Supported on Cisco IOS-XE based Wireless Controllers running 17.4 and above.
+                      - Supported radio bands are 2_4GHZ and 5GHZ only.
+                      - Not supported for 6GHZ.
                     type: bool
                     default: False
                   multiple_bssid:
                     description:
                       - Enable Multiple BSSID feature for 802.11ax.
                       - Allows transmission of multiple SSID beacons efficiently.
+                      - Supported on Cisco IOS-XE based Wireless Controllers running 17.7.1 and above.
+                      - Supported radio bands are 6GHZ only.
                     type: bool
                     default: False
               unlocked_attributes:
                 description:
                   - List of 802.11ax attribute names unlocked for manual configuration.
                   - Allows selective override of Wi-Fi 6 template settings.
+                  - Only attributes defined under feature_attributes are allowed.
                 type: list
                 elements: str
                 required: false
@@ -5132,80 +5148,80 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-  config:
-    - feature_template_config:
-        - advanced_ssid:
-            - design_name: "sample_advanced_ssid_design"
-              feature_attributes:
-                peer2peer_blocking: "DISABLE"   # enum: DROP, FORWARD_UP, ALLOW_PVT_GROUP, DISABLE
-                passive_client: false
-                prediction_optimization: false
-                dual_band_neighbor_list: false
-                radius_nac_state: true
-                dhcp_required: true
-                dhcp_server: "10.10.10.5"
-                flex_local_auth: false
-                target_wakeup_time: true
-                downlink_ofdma: true
-                uplink_ofdma: true
-                downlink_mu_mimo: true
-                uplink_mu_mimo: true
-                dot11ax: true
-                aironet_ie_support: true
-                load_balancing: false
-                dtim_period_5ghz: 2   # 1-255
-                dtim_period_24ghz: 2  # 1-255
-                scan_defer_time: 100
-                max_clients: 200
-                max_clients_per_radio: 100   # 0-500
-                max_clients_per_ap: 300      # 0-1200
-                wmm_policy: "ALLOWED"        # DISABLED, REQUIRED, ALLOWED
-                multicast_buffer: true
-                multicast_buffer_value: 50
-                media_stream_multicast_direct: true
-                mu_mimo_11ac: true
-                wifi_to_cellular_steering: false
-                wifi_alliance_agile_multiband: false
-                fastlane_asr: false
-                dot11v_bss_max_idle_protected: false
-                universal_ap_admin: false
-                opportunistic_key_caching: false
-                ip_source_guard: false
-                dhcp_opt82_remote_id_sub_option: false
-                vlan_central_switching: false
-                call_snooping: false
-                send_disassociate: false
-                sent_486_busy: false
-                ip_mac_binding: false
-                idle_threshold: 300
-                defer_priority_0: false
-                defer_priority_1: false
-                defer_priority_2: false
-                defer_priority_3: false
-                defer_priority_4: false
-                defer_priority_5: false
-                defer_priority_6: false
-                defer_priority_7: false
-                share_data_with_client: false
-                advertise_support: false
-                advertise_pc_analytics_support: false
-                send_beacon_on_association: false
-                send_beacon_on_roam: false
-                fast_transition_reassociation_timeout: 200
-                mdns_mode: "MDNS_SD_BRIDGING"  # MDNS_SD_BRIDGING, MDNS_SD_DROP, MDNS_SD_GATEWAY
-              unlocked_attributes:
-                - "peer2peer_blocking"
-                - "passive_client"
-                - "dot11ax"
-                - "load_balancing"
-                - "max_clients"
-                - "max_clients_per_radio"
-                - "max_clients_per_ap"
-                - "wmm_policy"
-                - "dtim_period_5ghz"
-                - "dtim_period_24ghz"
-                - "scan_defer_time"
-                - "mdns_mode"
+    config:
+      - feature_template_config:
+          - advanced_ssid:
+              - design_name: "sample_advanced_ssid_design"
+                feature_attributes:
+                  peer2peer_blocking: "DISABLE"   # enum: DROP, FORWARD_UP, ALLOW_PVT_GROUP, DISABLE
+                  passive_client: false
+                  prediction_optimization: false
+                  dual_band_neighbor_list: false
+                  radius_nac_state: true
+                  dhcp_required: true
+                  dhcp_server: "10.10.10.5"
+                  flex_local_auth: false
+                  target_wakeup_time: true
+                  downlink_ofdma: true
+                  uplink_ofdma: true
+                  downlink_mu_mimo: true
+                  uplink_mu_mimo: true
+                  dot11ax: true
+                  aironet_ie_support: true
+                  load_balancing: false
+                  dtim_period_5ghz: 2   # 1-255
+                  dtim_period_24ghz: 2  # 1-255
+                  scan_defer_time: 100
+                  max_clients: 200
+                  max_clients_per_radio: 100   # 0-500
+                  max_clients_per_ap: 300      # 0-1200
+                  wmm_policy: "ALLOWED"        # DISABLED, REQUIRED, ALLOWED
+                  multicast_buffer: true
+                  multicast_buffer_value: 50
+                  media_stream_multicast_direct: true
+                  mu_mimo_11ac: true
+                  wifi_to_cellular_steering: false
+                  wifi_alliance_agile_multiband: false
+                  fastlane_asr: false
+                  dot11v_bss_max_idle_protected: false
+                  universal_ap_admin: false
+                  opportunistic_key_caching: false
+                  ip_source_guard: false
+                  dhcp_opt82_remote_id_sub_option: false
+                  vlan_central_switching: false
+                  call_snooping: false
+                  send_disassociate: false
+                  sent_486_busy: false
+                  ip_mac_binding: false
+                  idle_threshold: 300
+                  defer_priority_0: false
+                  defer_priority_1: false
+                  defer_priority_2: false
+                  defer_priority_3: false
+                  defer_priority_4: false
+                  defer_priority_5: false
+                  defer_priority_6: false
+                  defer_priority_7: false
+                  share_data_with_client: false
+                  advertise_support: false
+                  advertise_pc_analytics_support: false
+                  send_beacon_on_association: false
+                  send_beacon_on_roam: false
+                  fast_transition_reassociation_timeout: 200
+                  mdns_mode: "MDNS_SD_BRIDGING"  # MDNS_SD_BRIDGING, MDNS_SD_DROP, MDNS_SD_GATEWAY
+                unlocked_attributes:
+                  - "peer2peer_blocking"
+                  - "passive_client"
+                  - "dot11ax"
+                  - "load_balancing"
+                  - "max_clients"
+                  - "max_clients_per_radio"
+                  - "max_clients_per_ap"
+                  - "wmm_policy"
+                  - "dtim_period_5ghz"
+                  - "dtim_period_24ghz"
+                  - "scan_defer_time"
+                  - "mdns_mode"
 - name: Update advanced ssid profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -7692,14 +7708,14 @@ class WirelessDesign(DnacBase):
                         "required": False,
                         "options": {
                             "design_name": {"type": "str"},
-                            "radio_band": {
-                                "type": "str",
-                                "choices": ["2_4GHZ", "5GHZ", "6GHZ"]
-                            },
                             "feature_attributes": {
                                 "type": "dict",
                                 "required": False,
                                 "options": {
+                                    "radio_band": {
+                                        "type": "str",
+                                        "choices": ["2_4GHZ", "5GHZ", "6GHZ"]
+                                    },
                                     "clean_air": {"type": "bool", "default": False},
                                     "clean_air_device_reporting": {"type": "bool", "default": False},
                                     "persistent_device_propagation": {"type": "bool", "default": False},
