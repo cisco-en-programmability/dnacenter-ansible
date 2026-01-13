@@ -559,8 +559,6 @@ Rogue Additional Detail                         TimeRange                       
 Security Advisories Data                        N/A                                 DeviceType, Location, Impact
 
 # The above available filters are for according to the Inspected UI api payload data as of Jan 2026.
-# These may vary based on the Catalyst Center version and view updates.
-# Please refer to the latest Catalyst Center API documentation for up-to-date filter mappings
 
 # Following are additional view names and their filters according to UI data as of Jan 2026.
 Audit Log                                       N/A                                 Domain, Category, Sort By, Order By, Time Range
