@@ -2,7 +2,7 @@
 - name: Configure device credentials on Cisco Catalyst Center
   hosts: localhost
   connection: local
-  gather_facts: no  # Fixed
+  gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
@@ -20,7 +20,7 @@
         config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        state: gathered 
+        state: gathered
         config:
           - file_path: "/Users/syedkahm/ansible/dnac/work/collections/ansible_collections/cisco/dnac/playbooks/brownfield_provision_workflow_playbook.yml"
             component_specific_filters:
