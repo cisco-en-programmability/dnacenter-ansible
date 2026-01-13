@@ -533,87 +533,89 @@ notes:
 """
 Mapping of View Names to Mandatory Filters and Available Filters:
 
-View Name                                         Mandatory Filters                     Available Filters
----------                                         -----------------                     -----------------
-Network Device Availability                      Location, TimeRange                  Location, TimeRange, NwDeviceType
-Channel Change Count                              Location, TimeRange                  Location, Band, TimeRange
-Transmit Power Change Count                       Location, TimeRange                  Location, Band, TimeRange
-VLAN                                              N/A                                  Location, DeviceFamily, DeviceType
-Port Capacity                                     utilizationLevel                     Location, DeviceFamily, Devicerole, utilizationLevel
-Energy Management                                 TimeRange                            Locations, DeviceCategory, TimeRange
-PoE                                               Location                             Location
-Device CPU and Memory Utilization                Location, SortBy, Limit, TimeRange  Location, DeviceFamily, DeviceRole, SortBy, Limit, TimeRange
-Network Interface Utilization                    All                                  Location, SortBy, SortOrder, Limit, TimeRange
-Executive Summary                                 N/A                                  Location, TimeRange, SSID, Band, GroupBy
-All Data (inventory)                             N/A                                  Location, DeviceFamily, DeviceType, SoftwareVersion
-All Data Version 2.0 (inventory)                 N/A                                  siteId, deviceType, deviceFamily, softwareVersion
-Port Reclaim View                                 N/A                                  family, hostname
-AP                                                Location, TimeRange                  Location, Wlc, AP, TimeRange
-AP Radio                                          Location, SortBy, Limit, TimeRange  Location, Wlc, AP, Band, SortBy, Limit, TimeRange
-AP - Usage and Client Breakdown                   Location, AP, TimeRange             Location, Wlc, AP, TimeRange
-Worst Interferers                                 Location, TimeRange                  Location, Wlc, AP, Band, TimeRange
-AP RRM Events                                     Location, TimeRange                  Location, Wlc, AP, eventType, Band, TimeRange
-Threat Detail                                     TimeRange                            Location, ThreatType, ThreatLevel, TimeRange
-New Threat                                        TimeRange                            Location, ThreatLevel, ThreatType, TimeRange
-Rogue Additional Detail                           TimeRange                            Location, ThreatType, ThreatLevel, TimeRange
-Security Advisories Data                          N/A                                  DeviceType, Location, Impact
+View Name                                       Mandatory Filters                   Available Filters
+---------                                       -----------------                   -----------------
+Network Device Availability                     Location, TimeRange                 Location, TimeRange, NwDeviceType
+Channel Change Count                            Location, TimeRange                 Location, Band, TimeRange
+Transmit Power Change Count                     Location, TimeRange                 Location, Band, TimeRange
+VLAN                                            N/A                                 Location, DeviceFamily, DeviceType
+Port Capacity                                   utilizationLevel                    Location, DeviceFamily, Devicerole, utilizationLevel
+Energy Management                               TimeRange                           Locations, DeviceCategory, TimeRange
+PoE                                             Location                            Location
+Device CPU and Memory Utilization               Location, SortBy, Limit, TimeRange  Location, DeviceFamily, DeviceRole, SortBy, Limit, TimeRange
+Network Interface Utilization                   All                                 Location, SortBy, SortOrder, Limit, TimeRange
+Executive Summary                               N/A                                 Location, TimeRange, SSID, Band, GroupBy
+All Data (inventory)                            N/A                                 Location, DeviceFamily, DeviceType, SoftwareVersion
+All Data Version 2.0 (inventory)                N/A                                 siteId, deviceType, deviceFamily, softwareVersion
+Port Reclaim View                               N/A                                 family, hostname
+AP                                              Location, TimeRange                 Location, Wlc, AP, TimeRange
+AP Radio                                        Location, SortBy, Limit, TimeRange  Location, Wlc, AP, Band, SortBy, Limit, TimeRange
+AP - Usage and Client Breakdown                 Location, AP, TimeRange             Location, Wlc, AP, TimeRange
+Worst Interferers                               Location, TimeRange                 Location, Wlc, AP, Band, TimeRange
+AP RRM Events                                   Location, TimeRange                 Location, Wlc, AP, eventType, Band, TimeRange
+Threat Detail                                   TimeRange                           Location, ThreatType, ThreatLevel, TimeRange
+New Threat                                      TimeRange                           Location, ThreatLevel, ThreatType, TimeRange
+Rogue Additional Detail                         TimeRange                           Location, ThreatType, ThreatLevel, TimeRange
+Security Advisories Data                        N/A                                 DeviceType, Location, Impact
 
 # The above available filters are for according to the Inspected UI api payload data as of Jan 2026.
 # These may vary based on the Catalyst Center version and view updates.
 # Please refer to the latest Catalyst Center API documentation for up-to-date filter mappings
 
 # Following are additional view names and their filters according to UI data as of Jan 2026.
-Audit Log                                         N/A                                  Domain, Category, Sort By, Order By, Time Range
-Client Summary                                    Location, Group By, Time Range      Location, Client MAC, Device Type, SSID, Band, Group By, Time Range
-Top N Summary                                     Location, Group By, Time Range      Location, Client MAC, Device Type, SSID, Band, Group By, Time Range
-Client Detail                                     Location, Time Range                 Location, Client MAC, Device Type, SSID, Band, Time Range
-Client Trend                                      Location, Time Range                 Location, Client MAC, Device Type, SSID, Band, Time Range
-Client Session                                    Location, Time Range                 Location, Client MAC, SSID, Band, Time Range
-Busiest Client                                    Location, Time Range, Sort By, Limit Location, Client MAC, Device Type, SSID, Band, Sort By, Limit, Time Range
-Unique Clients and Users Summary                  Location, Time Range                 Location, Client MAC, Device Type, SSID, Band, Time Range
-Network Device Compliance                         N/A                                  Compliance Status, Compliance Category, Device Family, Device Type, Compliance Status
+Audit Log                                       N/A                                 Domain, Category, Sort By, Order By, Time Range
+Client Summary                                  Location, Group By, Time Range      Location, Client MAC, Device Type, SSID, Band, Group By, Time Range
+Top N Summary                                   Location, Group By, Time Range      Location, Client MAC, Device Type, SSID, Band, Group By, Time Range
+Client Detail                                   Location, Time Range                Location, Client MAC, Device Type, SSID, Band, Time Range
+Client Trend                                    Location, Time Range                Location, Client MAC, Device Type, SSID, Band, Time Range
+Client Session                                  Location, Time Range                Location, Client MAC, SSID, Band, Time Range
+Busiest Client                                 Location, Time Range, Sort By, Limit Location, Client MAC, Device Type, SSID, Band, Sort By, Limit, Time Range
+Unique Clients and Users Summary                Location, Time Range                Location, Client MAC, Device Type, SSID, Band, Time Range
+Network Device Compliance                        N/A                                Compliance Status, Compliance Category, Device Family,
+                                                                                    Device Type, Compliance Status
+Configuration Archive                            N/A                                Category, Device Family, Device Type
+EoX Data                                         N/A                                Device Type, Location
 
-Long Term AP Detail                               Location                             Location, AP Name, Controller, Time Range
-Long Term AP Radio                                Location                             Location, AP Name, Radio Band, Time Range
-Long Term AP Usage and Client Breakdown           Location, AP Name                    Location, AP Name, Time Range
-Long Term Client Detail                           Location, Time Range                 Location, Client MAC, User Name, Time Range
-Long Term Client Session                          Location, Time Range                 Location, Client MAC, Session ID, Time Range
-Long Term Network Device Availability             Location                             Location, Device Type, Time Range
-Security Group to Security Group                 Source/Destination SGT              SGT, VN, Time Range
-Security Group to ISE Endpoint Profile Group     SGT, Endpoint Profile               SGT, Endpoint Profile, VN, Time Range
-Security Group to Host Group                     SGT, Host Group                     SGT, Host Group, VN, Time Range
-ISE Endpoint Profile Group to Security Group     Endpoint Profile, SGT               Endpoint Profile, SGT, VN, Time Range
+# Group Communication Summary and Analytics Reports
+Host Group to Host Group                        All                               Host Group Name, Direction, Time Range
+Host Group to Security Group                    Host Group, SGT                   Host Group, SGT, VN, Time Range
+Host Group to ISE Endpoint Profile Group        Host Group, Endpoint Profile      Host Group, Endpoint Profile, VN, Time Range
+ISE Endpoint Profile Group to Security Group    Endpoint Profile, SGT             Endpoint Profile, SGT, VN, Time Range
 ISE Endpoint Profile Group to
-    ISE Endpoint Profile Group                    Endpoint Profile                     Endpoint Profile, VN, Time Range
-ISE Endpoint Profile Group to Host Group         Endpoint Profile, Host Group        Endpoint Profile, Host Group, VN, Time Range
-Host Group to Security Group                     Host Group, SGT                     Host Group, SGT, VN, Time Range
-Host Group to ISE Endpoint Profile Group         Host Group, Endpoint Profile        Host Group, Endpoint Profile, VN, Time Range
-Host Group to Host Group                          Host Group                          Host Group, VN, Time Range
-Device Lifecycle Information                      Location                            Location, Device Type, Hardware Info
-Security Group to Security Groups                SGT                                 SGT, VN, Time Range
-Security Group to ISE Endpoint Profile Groups    SGT, Endpoint Profile              SGT, Endpoint Profile, VN, Time Range
-Security Group to Host Groups                    SGT, Host Group                    SGT, Host Group, VN, Time Range
-ISE Endpoint Profile Group to Security Groups    Endpoint Profile, SGT              Endpoint Profile, SGT, VN, Time Range
+    ISE Endpoint Profile Group                  Endpoint Profile                  Endpoint Profile, VN, Time Range
+ISE Endpoint Profile Group to Host Group        Endpoint Profile, Host Group      Endpoint Profile, Host Group, VN, Time Range
+Security Group to Security Group                Source/Destination SGT            SGT, VN, Time Range
+Security Group to ISE Endpoint Profile Group    SGT, Endpoint Profile             SGT, Endpoint Profile, VN, Time Range
+Security Group to Host Group                    SGT, Host Group                   SGT, Host Group, VN, Time Range
+Non Compliant Devices                           N/A                               N/A
+Non Compliance Summary                          N/A                               N/A
+AireOS Controllers Licenses                     N/A                               N/A
+License Usage Upload Details                    N/A                               N/A
+License Historical Usage                        All                               Smart Account User, Frequency, Time Range
+AP Performance Report                           Location                          Location, AP Name, Time Range
+Long Term AP Detail                             Location                          Location, AP Name, Controller, Time Range
+Long Term AP Radio                              Location                          Location, AP Name, Radio Band, Time Range
+Long Term AP Usage and Client Breakdown         Location, AP Name                 Location, AP Name, Time Range
+Long Term Client Detail                         Location, Time Range              Location, Client MAC, User Name, Time Range
+Long Term Client Session                        Location, Time Range              Location, Client MAC, Session ID, Time Range
+Long Term Network Device Availability           Location                          Location, Device Type, Time Range
+All Data (swim)                                 N/A                               Location, Device Family, Device Role
+All Data Version 2.0 (swim)                     N/A                               Location, Device Family, Device Role
+Device Lifecycle Information                    Location                          Location, Device Type, Hardware Info
+
+# Group Pair Communication Analytics Reports
+Security Group to Security Groups               SGT                               SGT, VN, Time Range
+Security Group to ISE Endpoint Profile Groups  SGT, Endpoint Profile              SGT, Endpoint Profile, VN, Time Range
+Security Group to Host Groups                  SGT, Host Group                    SGT, Host Group, VN, Time Range
+ISE Endpoint Profile Group to Security Groups  Endpoint Profile, SGT              Endpoint Profile, SGT, VN, Time Range
 ISE Endpoint Profile Group to
-    ISE Endpoint Profile Groups                   Endpoint Profile                   Endpoint Profile, VN, Time Range
-ISE Endpoint Profile Group to Host Groups        Endpoint Profile, Host Group       Endpoint Profile, Host Group, VN, Time Range
-Host Group to Security Groups                    Host Group, SGT                    Host Group, SGT, VN, Time Range
-Host Group to ISE Endpoint Profile Group         Host Group, Endpoint Profile       Host Group, Endpoint Profile, VN, Time Range
-Host Group to Host Group                          Host Group                         Host Group, VN, Time Range
-EoX Data                                          N/A                                Device Type, EoX Type, Bulletin ID
+    ISE Endpoint Profile Groups                 Endpoint Profile                  Endpoint Profile, VN, Time Range
+ISE Endpoint Profile Group to Host Groups      Endpoint Profile, Host Group       Endpoint Profile, Host Group, VN, Time Range
+Host Group to Security Groups                  Host Group, SGT                    Host Group, SGT, VN, Time Range
+Host Group to ISE Endpoint Profile Group       Host Group, Endpoint Profile       Host Group, Endpoint Profile, VN, Time Range
+Host Group to Host Group                        Host Group                        Host Group, VN, Time Range
+Endpoint Profiling                              Location                          Location, Device Type, Profile Name, Time Range
 
-Non Compliant Devices                             Location                           Location, Device Type, License Type
-Non Compliance Summary                            Location                           Location, License Type, Compliance Status
-AireOS Controllers Licenses                       N/A                               Controller Name, License Type, Status
-License Usage Upload Details                      N/A                               Upload Date, License Type, Status
-License Historical Usage                          N/A                               License Type, Time Range, Usage Type
-Endpoint Profiling                                Location                           Location, Device Type, Profile Name, Time Range
-
-Configuration Archive                             Device, Time Range                 Device Name, Location, Archive Status, Time Range
-Client                                            Location                           Location, Client MAC, Device Type
-
-All Data (swim)                                   N/A                                Device Type, Image Name, Software Version
-All Data Version 2.0 (swim)                      N/A                                Device Type, Image Name, Software Version
 """
 
 """Filter types for each filter category in Cisco Catalyst Center Reports:
