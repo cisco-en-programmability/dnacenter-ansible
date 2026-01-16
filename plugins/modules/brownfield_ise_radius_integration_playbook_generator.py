@@ -207,8 +207,10 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
 )
 import time
+
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
@@ -216,6 +218,7 @@ except ImportError:
 from collections import OrderedDict
 
 if HAS_YAML:
+
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
             return self.represent_mapping("tag:yaml.org,2002:map", data.items())
@@ -227,8 +230,9 @@ else:
 
 class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
     """
-      A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center using the GET APIs.
+    A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center using the GET APIs.
     """
+
     values_to_nullify = ["NOT CONFIGURED"]
 
     def __init__(self, module):
@@ -266,14 +270,20 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {"type": "bool", "required": False, "default": False},
+            "generate_all_configurations": {
+                "type": "bool",
+                "required": False,
+                "default": False,
+            },
             "file_path": {"type": "str", "required": False},
             "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
 
         # Import validate_list_of_dicts function here to avoid circular imports
-        from ansible_collections.cisco.dnac.plugins.module_utils.dnac import validate_list_of_dicts
+        from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+            validate_list_of_dicts,
+        )
 
         # Validate params
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
@@ -293,9 +303,9 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
 
     def transform_cisco_ise_dtos(self, ise_radius_integration_details):
         """
-            This function transforms the cisco_ise_dtos details from the API response to match the YAML configuration structure.
-            Returns:
-                list: A list of transformed cisco_ise_dtos details.
+        This function transforms the cisco_ise_dtos details from the API response to match the YAML configuration structure.
+        Returns:
+            list: A list of transformed cisco_ise_dtos details.
         """
         cisco_ise_dtos = ise_radius_integration_details.get("ciscoIseDtos")
         self.log("ciscoIseDtos: {0}".format(cisco_ise_dtos), "DEBUG")
@@ -308,13 +318,21 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             fqdn = cisco_ise_dto.get("fqdn")
             ip_address = cisco_ise_dto.get("ipAddress")
             description = cisco_ise_dto.get("description")
-            cisco_ise_dtos_list.append({
-                "user_name": user_name,
-                "password": self.generate_custom_variable_name(self.transform_server_type(ise_radius_integration_details), "policy_server_password"),
-                "fqdn": fqdn,
-                "ip_address": ip_address,
-                "description": description,
-            })
+            ssh_key = cisco_ise_dto.get("sshKey")
+            cisco_ise_dtos_list.append(
+                {
+                    "user_name": user_name,
+                    "password": self.generate_custom_variable_name(
+                        self.transform_server_type(ise_radius_integration_details),
+                        "policy_server_password",
+                    ),
+                    "fqdn": fqdn,
+                    "ip_address": ip_address,
+                    "description": description,
+                    "ssh_key": ssh_key,
+                }
+            )
+            break
         self.log(
             "Final cisco_ise_dtos_list data :: {0}".format(cisco_ise_dtos_list),
             "DEBUG",
@@ -323,18 +341,24 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
 
     def transform_server_type(self, ise_radius_integration_details):
         """
-            This function transforms the server_type details from the API response to match the YAML configuration structure.
-            Returns:
-                str: The transformed server_type detail.
+        This function transforms the server_type details from the API response to match the YAML configuration structure.
+        Returns:
+            str: The transformed server_type detail.
         """
         cisco_ise_dtos = ise_radius_integration_details.get("ciscoIseDtos")
-        self.log("ciscoIseDtos in transform_server_type(): {0}".format(cisco_ise_dtos), "DEBUG")
+        self.log(
+            "ciscoIseDtos in transform_server_type(): {0}".format(cisco_ise_dtos),
+            "DEBUG",
+        )
         if not cisco_ise_dtos:
             return None
         server_type = None
         for cisco_ise_dto in cisco_ise_dtos:
             server_type = cisco_ise_dto.get("type")
-            self.log("server_type in transform_server_type(): {0}".format(server_type), "DEBUG")
+            self.log(
+                "server_type in transform_server_type(): {0}".format(server_type),
+                "DEBUG",
+            )
             break
         return server_type
 
@@ -347,11 +371,14 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         Returns:
             dict: A dictionary containing the temporary specification.
         """
-        self.log("Generating temporary specification for ISE Radius Integration.", "DEBUG")
+        self.log(
+            "Generating temporary specification for ISE Radius Integration.", "DEBUG"
+        )
         ise_radius_integration = OrderedDict(
             {
                 "server_type": {
-                    "type": "str", "source_key": "server_type",
+                    "type": "str",
+                    "source_key": "server_type",
                     "elements": "dict",
                     "special_handling": True,
                     "transform": self.transform_server_type,
@@ -361,14 +388,23 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
                 "protocol": {"type": "str", "source_key": "protocol"},
                 "encryption_scheme": {"type": "str", "source_key": "encryptionScheme"},
                 "encryption_key": {"type": "str", "source_key": "encryptionKey"},
-                "message_authenticator_code_key": {"type": "str", "source_key": "messageKey"},
-                "authentication_port": {"type": "int", "source_key": "authenticationPort"},
+                "message_authenticator_code_key": {
+                    "type": "str",
+                    "source_key": "messageKey",
+                },
+                "authentication_port": {
+                    "type": "int",
+                    "source_key": "authenticationPort",
+                },
                 "accounting_port": {"type": "int", "source_key": "accountingPort"},
                 "retries": {"type": "int", "source_key": "retries"},
                 "timeout": {"type": "int", "source_key": "timeoutSeconds"},
                 "role": {"type": "int", "source_key": "role"},
                 "pxgrid_enabled": {"type": "bool", "source_key": "pxgridEnabled"},
-                "use_dnac_cert_for_pxgrid": {"type": "bool", "source_key": "useDnacCertForPxgrid"},
+                "use_dnac_cert_for_pxgrid": {
+                    "type": "bool",
+                    "source_key": "useDnacCertForPxgrid",
+                },
                 "cisco_ise_dtos": {
                     "type": "list",
                     "elements": "dict",
@@ -380,9 +416,13 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
                     "fqdn": {"type": "str"},
                     "ip_address": {"type": "str"},
                     "description": {"type": "str"},
+                    "ssh_key": {"type": "str", "source_key": "sshKey"},
                 },
                 "trusted_server": {"type": "str", "source_key": "trustedServer"},
-                "ise_integration_wait_time": {"type": "str", "source_key": "iseIntegrationWaitTime"},
+                "ise_integration_wait_time": {
+                    "type": "str",
+                    "source_key": "iseIntegrationWaitTime",
+                },
             }
         )
         return ise_radius_integration
@@ -420,10 +460,8 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         server_ip_address = filters.get("server_ip_address")
         self.log(
             "Filtering ISE RADIUS integration details with server_type: {0}, "
-            "server_ip_address: {1}".format(
-                server_type, server_ip_address
-            ),
-            "DEBUG"
+            "server_ip_address: {1}".format(server_type, server_ip_address),
+            "DEBUG",
         )
 
         for each_server_resp in auth_server_details:
@@ -431,14 +469,23 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             self.log("Checking server response: {0} ".format(each_server_resp), "DEBUG")
             ip_match = True
             if server_ip_address:
-                ip_match = each_server_resp.get("server_ip_address") == server_ip_address
+                ip_match = (
+                    each_server_resp.get("server_ip_address") == server_ip_address
+                )
 
             if not ip_match:
-                self.log("Skipping server {0} due to IP address: {1} mismatch".format(each_server_resp, server_ip_address), "DEBUG")
+                self.log(
+                    "Skipping server {0} due to IP address: {1} mismatch".format(
+                        each_server_resp, server_ip_address
+                    ),
+                    "DEBUG",
+                )
                 continue
 
             if server_type:
-                matching_server_type = server_type == each_server_resp.get("server_type")
+                matching_server_type = server_type == each_server_resp.get(
+                    "server_type"
+                )
 
                 # If matching DTOs found, include this server with filtered DTOs
                 if matching_server_type:
@@ -446,12 +493,17 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
                         "Including server {0} with filtered server_type: {1}".format(
                             each_server_resp, matching_server_type
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     filtered_results.append(each_server_resp)
             else:
                 # No server_type filter, include the entire server
-                self.log("Including entire server without server_type filter: {0}".format(each_server_resp), "DEBUG")
+                self.log(
+                    "Including entire server without server_type filter: {0}".format(
+                        each_server_resp
+                    ),
+                    "DEBUG",
+                )
                 filtered_results.append(each_server_resp)
         self.log(
             "Filtering complete. Filtered servers response data {0}".format(
@@ -495,23 +547,39 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         )
 
         for filters in filter_list:
-            filtered = self.filter_ise_radius_integration_details(auth_server_details, filters)
+            filtered = self.filter_ise_radius_integration_details(
+                auth_server_details, filters
+            )
 
             for server in filtered:
                 # Use server_ip_address as unique identifier to avoid duplicates
                 server_ip = server.get("server_ip_address")
-                self.log("Processing server ID: {0}, seen_servers set value: {1}".format(server_ip, seen_server_ips), "DEBUG")
+                self.log(
+                    "Processing server ID: {0}, seen_servers set value: {1}".format(
+                        server_ip, seen_server_ips
+                    ),
+                    "DEBUG",
+                )
                 if server_ip not in seen_server_ips:
                     all_filtered_results.append(server)
                     self.log(
-                        "Adding server {0} to final results, all_filtered_results : {1}".format(server_ip, all_filtered_results),
+                        "Adding server {0} to final results, all_filtered_results : {1}".format(
+                            server_ip, all_filtered_results
+                        ),
                         "DEBUG",
                     )
                     seen_server_ips.add(server_ip)
         self.log(
-            "Final filtered ISE RADIUS integration details: {0}".format(all_filtered_results),
+            "Final filtered ISE RADIUS integration details: {0}".format(
+                all_filtered_results
+            ),
         )
-        self.log("Final filtered ISE RADIUS integration details all_filtered_results: {0}".format(all_filtered_results), "DEBUG")
+        self.log(
+            "Final filtered ISE RADIUS integration details all_filtered_results: {0}".format(
+                all_filtered_results
+            ),
+            "DEBUG",
+        )
         return all_filtered_results
 
     def generate_custom_variable_name(self, server_type, parameter_string):
@@ -533,37 +601,14 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             parameter_string.lower(),
         )
         custom_variable_placeholder_name = "{" + variable_placeholder_name + "}"
-        variable = "{0}".format(
-            parameter_string.lower(),
-        )
 
-        self.log("Variable: {0}".format(variable), "DEBUG")
-        # Create YAML file with custom variable name
-        try:
-            yaml_variable_content = {variable: "REPLACE_WITH_ACTUAL_VALUE"}
-            yaml_filename = "{0}_variables.yml".format("{0}".format(parameter_string.lower(),))
-
-            with open(yaml_filename, 'w') as yaml_file:
-                yaml.dump(yaml_variable_content, yaml_file, default_flow_style=False)
-            self.log(
-                "Created YAML file for custom variable: {0}".format(yaml_filename),
-                "DEBUG"
-            )
-
-        except Exception as e:
-            self.log(
-                "Failed to create YAML file for custom variable: {0}".format(str(e)),
-                "WARNING"
-            )
-
-        self.log(
-            "Generated custom variable name: {0}".format(custom_variable_placeholder_name), "DEBUG",
-        )
         return custom_variable_placeholder_name
 
-    def get_ise_radius_integration_configuration(self, network_element, component_specific_filters=None):
+    def get_ise_radius_integration_configuration(
+        self, network_element, component_specific_filters=None
+    ):
         """
-         call catc to get authentication and policy server details.
+        call catc to get authentication and policy server details.
         """
         self.log(
             "Calling Authentication and Policy Server details:",
@@ -616,7 +661,9 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         )
 
         modified_ise_radius_integration_details = {}
-        modified_ise_radius_integration_details['authentication_policy_server'] = filter_ise_radius_integration_response
+        modified_ise_radius_integration_details["authentication_policy_server"] = (
+            filter_ise_radius_integration_response
+        )
 
         self.log(
             "Modified ISE Radius Integration's details: {0}".format(
@@ -670,26 +717,42 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         # Check if generate_all_configurations mode is enabled
         generate_all = yaml_config_generator.get("generate_all_configurations", False)
         if generate_all:
-            self.log("Auto-discovery mode enabled - will process all devices and all features", "DEBUG")
+            self.log(
+                "Auto-discovery mode enabled - will process all devices and all features",
+                "DEBUG",
+            )
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
         file_path = yaml_config_generator.get("file_path")
         if not file_path:
-            self.log("No file_path provided by user, generating default filename", "DEBUG")
+            self.log(
+                "No file_path provided by user, generating default filename", "DEBUG"
+            )
             file_path = self.generate_filename()
         else:
             self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
 
-        self.log("YAML configuration file path determined: {0}".format(file_path), "DEBUG")
+        self.log(
+            "YAML configuration file path determined: {0}".format(file_path), "DEBUG"
+        )
 
         self.log("Initializing filter dictionaries", "DEBUG")
         if generate_all:
             # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
-            self.log("Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features", "DEBUG")
+            self.log(
+                "Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features",
+                "DEBUG",
+            )
             if yaml_config_generator.get("global_filters"):
-                self.log("Warning: global_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
+                self.log(
+                    "Warning: global_filters provided but will be ignored due to generate_all_configurations=True",
+                    "WARNING",
+                )
             if yaml_config_generator.get("component_specific_filters"):
-                self.log("Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
+                self.log(
+                    "Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True",
+                    "WARNING",
+                )
 
             # Set empty filters to retrieve everything
             global_filters = {}
@@ -697,7 +760,9 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         else:
             # Use provided filters or default to empty
             global_filters = yaml_config_generator.get("global_filters") or {}
-            component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
+            component_specific_filters = (
+                yaml_config_generator.get("component_specific_filters") or {}
+            )
 
         # Retrieve the supported network elements for the module
         module_supported_network_elements = self.module_schema.get(
@@ -872,10 +937,13 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_brownfield_ise_radius_integration_playbook_generator = BrownfieldIseRadiusIntegrationPlaybookGenerator(module)
+    ccc_brownfield_ise_radius_integration_playbook_generator = (
+        BrownfieldIseRadiusIntegrationPlaybookGenerator(module)
+    )
     if (
         ccc_brownfield_ise_radius_integration_playbook_generator.compare_dnac_versions(
-            ccc_brownfield_ise_radius_integration_playbook_generator.get_ccc_version(), "2.3.7.9"
+            ccc_brownfield_ise_radius_integration_playbook_generator.get_ccc_version(),
+            "2.3.7.9",
         )
         < 0
     ):
@@ -886,16 +954,22 @@ def main():
             )
         )
         ccc_brownfield_ise_radius_integration_playbook_generator.set_operation_result(
-            "failed", False, ccc_brownfield_ise_radius_integration_playbook_generator.msg, "ERROR"
+            "failed",
+            False,
+            ccc_brownfield_ise_radius_integration_playbook_generator.msg,
+            "ERROR",
         ).check_return_status()
 
     # Get the state parameter from the provided parameters
     state = ccc_brownfield_ise_radius_integration_playbook_generator.params.get("state")
     # Check if the state is valid
-    if state not in ccc_brownfield_ise_radius_integration_playbook_generator.supported_states:
+    if (
+        state
+        not in ccc_brownfield_ise_radius_integration_playbook_generator.supported_states
+    ):
         ccc_brownfield_ise_radius_integration_playbook_generator.status = "invalid"
-        ccc_brownfield_ise_radius_integration_playbook_generator.msg = "State {0} is invalid".format(
-            state
+        ccc_brownfield_ise_radius_integration_playbook_generator.msg = (
+            "State {0} is invalid".format(state)
         )
         ccc_brownfield_ise_radius_integration_playbook_generator.check_return_status()
 
@@ -903,7 +977,9 @@ def main():
     ccc_brownfield_ise_radius_integration_playbook_generator.validate_input().check_return_status()
 
     # Iterate over the validated configuration parameters
-    for config in ccc_brownfield_ise_radius_integration_playbook_generator.validated_config:
+    for (
+        config
+    ) in ccc_brownfield_ise_radius_integration_playbook_generator.validated_config:
         ccc_brownfield_ise_radius_integration_playbook_generator.reset_values()
 
         ccc_brownfield_ise_radius_integration_playbook_generator.get_want(
