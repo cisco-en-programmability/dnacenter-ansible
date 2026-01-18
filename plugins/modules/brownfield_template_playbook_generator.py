@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2025, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Template Module."""
@@ -12,14 +12,14 @@ __author__ = "Sunil Shatagopa, Madhan Sankaranarayanan"
 DOCUMENTATION = r"""
 ---
 module: brownfield_template_playbook_generator
-short_description: Generate YAML playbook for 'brownfield_template_playbook_generator' module.
+short_description: Generate YAML playbook for C(template_workflow_manager) module.
 description:
-- Generates YAML configurations compatible with the `brownfield_template_playbook_generator`
+- Generates YAML configurations compatible with the C(template_workflow_manager)
   module, reducing the effort required to manually create Ansible playbooks and
   enabling programmatic modifications.
 - The YAML configurations generated represent the template projects and configuration templates
   configured on the Cisco Catalyst Center.
-version_added: 6.17.0
+version_added: 6.44.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 author:
@@ -38,16 +38,16 @@ options:
     default: gathered
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `brownfield_template_playbook_generator` module.
+    - A list of filters for generating YAML playbook compatible with the `template_workflow_manager` module.
     - Filters specify which components to include in the YAML configuration file.
-    - If "components_list" is specified, only those components are included, regardless of the filters.
+    - If C(components_list) is specified, only those components are included, regardless of the filters.
     type: list
     elements: dict
     required: true
     suboptions:
       generate_all_configurations:
         description:
-        - When set to true, the module generates configurations for all templates and projects
+        - When set to C(true), the module generates configurations for all templates and projects
           in the Cisco Catalyst Center, ignoring any provided filters.
         - When enabled, the config parameter becomes optional and will use default values if not provided.
         - A default filename will be generated automatically if file_path is not specified.
@@ -55,7 +55,7 @@ options:
         - When set to false, the module uses provided filters to generate a targeted YAML configuration.
         - IMPORTANT NOTE - When generate_all_configurations is enabled, it will only retrieve committed templates.
           It does not include uncommitted templates. To include uncommitted templates, set generate_all_configurations to false
-          and use the appropriate filters(such as include_uncommitted under configuration_templates).
+          and use the appropriate filters such as include_uncommitted under configuration_templates.
         type: bool
         required: false
         default: false
@@ -63,14 +63,14 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  "<module_name>_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "brownfield_template_playbook_generator_playbook_22_Apr_2025_21_43_26_379.yml".
+          a default file name  C(<module_name>_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml).
+        - For example, C(template_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml).
         type: str
       component_specific_filters:
         description:
-          - Filters to specify which components to include in the YAML configuration
+        - Filters to specify which components to include in the YAML configuration
             file.
-          - If "components_list" is specified, only those components are included,
+        - If C(components_list) is specified, only those components are included,
             regardless of other filters.
         type: dict
         suboptions:
@@ -78,10 +78,10 @@ options:
             description:
             - List of components to include in the YAML configuration file.
             - Valid values are
-              - Template Projects "projects"
-              - Templates "configuration_templates"
-            - If not specified, all components are included.
+              - Template Projects C(projects)
+              - Templates C(configuration_templates)
             - For example, ["projects", "configuration_templates"].
+            - If not specified, all components are included.
             type: list
             elements: str
           projects:
@@ -132,75 +132,79 @@ EXAMPLES = r"""
 - name: Auto-generate YAML Configuration for all components which
      includes template projects and configuration templates.
   cisco.dnac.brownfield_template_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
       - generate_all_configurations: true
+
 - name: Generate YAML Configuration with File Path specified
   cisco.dnac.brownfield_template_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
       - file_path: "tmp/catc_templates_config.yml"
+
 - name: Generate YAML Configuration with specific template projects only
   cisco.dnac.brownfield_template_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
       - file_path: "tmp/catc_templates_config.yml"
         component_specific_filters:
           components_list: ["projects"]
+
 - name: Generate YAML Configuration with specific configuration templates only
   cisco.dnac.brownfield_template_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
       - file_path: "tmp/catc_templates_config.yml"
         component_specific_filters:
           components_list: ["configuration_templates"]
+
 - name: Generate YAML Configuration for projects with project name filter
   cisco.dnac.brownfield_template_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
       - file_path: "tmp/catc_templates_config.yml"
@@ -209,17 +213,18 @@ EXAMPLES = r"""
           projects:
             - name: "Project_A"
             - name: "Project_B"
+
 - name: Generate YAML Configuration for templates with template name filter
   cisco.dnac.brownfield_template_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
       - file_path: "tmp/catc_templates_config.yml"
@@ -228,36 +233,18 @@ EXAMPLES = r"""
           configuration_templates:
             - template_name: "Template_1"
             - template_name: "Template_2"
-- name: Generate YAML Configuration for templates with template id filter
-  cisco.dnac.brownfield_template_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "tmp/catc_templates_config.yml"
-        component_specific_filters:
-          components_list: ["configuration_templates"]
-          configuration_templates:
-            - id: "template-id-123"
-            - id: "template-id-456"
+
 - name: Generate YAML Configuration for templates with project name filter
   cisco.dnac.brownfield_template_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
       - file_path: "tmp/catc_templates_config.yml"
@@ -266,17 +253,18 @@ EXAMPLES = r"""
           configuration_templates:
             - project_name: "Project_A"
             - project_name: "Project_B"
+
 - name: Generate YAML Configuration for templates with uncommitted filter
   cisco.dnac.brownfield_template_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
       - file_path: "tmp/catc_templates_config.yml"
@@ -284,17 +272,18 @@ EXAMPLES = r"""
           components_list: ["configuration_templates"]
           configuration_templates:
             - include_uncommitted: true
+
 - name: Generate YAML Configuration for templates with template name and project name
   cisco.dnac.brownfield_template_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
       - file_path: "tmp/catc_templates_config.yml"
@@ -303,17 +292,18 @@ EXAMPLES = r"""
           configuration_templates:
             - project_name: "Project_A"
               template_name: "Template_1"
+
 - name: Generate YAML Configuration for templates with comprehensive filters
   cisco.dnac.brownfield_template_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
       - file_path: "tmp/catc_templates_config.yml"
@@ -409,7 +399,7 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
         self.supported_states = ["gathered"]
         super().__init__(module)
         self.module_schema = self.get_workflow_elements_schema()
-        self.module_name = "brownfield_template_playbook_generator"
+        self.module_name = "template_workflow_manager"
 
         # Initialize generate_all_configurations as class-level parameter
         self.generate_all_configurations = False
@@ -477,7 +467,12 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
                     - "api_family": API family name (e.g., 'configuration_templates').
                     - "get_function_name": Reference to the internal function used to retrieve the component data.
         """
-        return {
+
+        self.log(
+            "Retrieving workflow filters schema for template module.", "DEBUG"
+        )
+
+        schema = {
             "network_elements": {
                 "projects": {
                     "filters": ["name"],
@@ -501,6 +496,14 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
             }
         }
 
+        network_elements = list(schema["network_elements"].keys())
+        self.log(
+            f"Workflow filters schema generated successfully with {len(network_elements)} network element(s): {network_elements}",
+            "INFO",
+        )
+
+        return schema
+
     def transform_device_types(self, template_details):
         """
         Transforms device types information for a given template by extracting and mapping
@@ -517,7 +520,7 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
         """
 
         self.log(
-            "Transforming device types for template details: {0}".format(template_details),
+            "Transforming device types for template details: \n{0}".format(self.pprint(template_details)),
             "DEBUG"
         )
         device_types = template_details.get("deviceTypes", [])
@@ -551,7 +554,7 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
         """
 
         self.log(
-            "Transforming tags for template details: {0}".format(template_details),
+            "Transforming tags for template details: \n{0}".format(self.pprint(template_details)),
             "DEBUG"
         )
         tags = template_details.get("tags", [])
@@ -581,7 +584,7 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
             str: The transformed template content, wrapped in Jinja raw tags if the language is JINJA.
         """
         self.log(
-            "Transforming template content for template details: {0}".format(template_details),
+            "Transforming template content for template details: \n{0}".format(self.pprint(template_details)),
             "DEBUG"
         )
         template_language = template_details.get("language")
@@ -589,7 +592,7 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         if template_content and template_language == "JINJA":
             # Strip leading/trailing whitespace and ensure exactly one newline at the end
-            return f'{{% raw %}}{template_content}{{% endraw %}}'
+            template_content = f'{{% raw %}}{template_content}{{% endraw %}}'
 
         self.log("Transformed Template Content: {0}".format(template_content), "INFO")
 
@@ -624,7 +627,7 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Constructs a temporary specification for containing templates, defining the structure and types of attributes
         that will be used in the YAML configuration file. This specification includes details such as template name,
-        template id, template description, project name, composite status, and language attributes.
+        template description, project name, composite status, and language attributes.
 
         Returns:
             OrderedDict: An ordered dictionary defining the structure of containing templates attributes.
@@ -634,7 +637,6 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
         containing_templates = OrderedDict(
             {
                 "name": {"type": "str"},
-                "id": {"type": "str"},
                 "description": {"type": "str"},
                 "project_name": {"type": "str", "source_key": "projectName"},
                 "composite": {"type": "bool"},
@@ -666,7 +668,7 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Constructs a temporary specification for templates, defining the structure and types of attributes
         that will be used in the YAML configuration file. This specification includes details such as template name,
-        template id, template description, project name, author, language and various other attributes.
+        template description, project name, author, language and various other attributes.
 
         Returns:
             OrderedDict: An ordered dictionary defining the structure of template attributes.
@@ -676,7 +678,6 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
         template_details = OrderedDict(
             {
                 "template_name": {"type": "str", "source_key": "name"},
-                "id": {"type": "str"},
                 "template_description": {"type": "str", "source_key": "description"},
                 "project_name": {"type": "str", "source_key": "projectName"},
                 "author": {"type": "str"},
@@ -828,6 +829,8 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
                             "Ignoring unsupported filter parameter: {0}".format(key),
                             "DEBUG",
                         )
+
+                self.log(f"Calling API with params: {params}", "DEBUG")
                 template_details = self.execute_get_with_pagination(
                     api_family, api_function, params
                 )
@@ -1151,7 +1154,7 @@ def main():
     ):
         ccc_template_playbook_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
-            "for <module_name_caps> Module. Supported versions start from '2.3.7.9' onwards. ".format(
+            "for TEMPLATE Module. Supported versions start from '2.3.7.9' onwards. ".format(
                 ccc_template_playbook_generator.get_ccc_version()
             )
         )
