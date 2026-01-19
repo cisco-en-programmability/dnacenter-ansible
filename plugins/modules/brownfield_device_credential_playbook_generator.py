@@ -91,14 +91,6 @@ options:
                   description:
                     description: Description of the CLI credential.
                     type: str
-                            netconf:
-                                description: NETCONF credentials to be included.
-                                type: list
-                                elements: dict
-                                suboptions:
-                                    description:
-                                        description: Description of the NETCONF credential.
-                                        type: str
               https_read:
                 description: HTTPS Read credentials to be included.
                 type: list
@@ -706,6 +698,7 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: Subset of `source` with only matching items per group.
         """
+        self.log("Starting filter_credentials with source: {0} and filters: {1}".format(source, filters), "DEBUG")
         key_map = {
             'cli_credential': 'cliCredential',
             'https_read': 'httpsRead',
@@ -713,7 +706,6 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
             'snmp_v2c_read': 'snmpV2cRead',
             'snmp_v2c_write': 'snmpV2cWrite',
             'snmp_v3': 'snmpV3',
-            'netconf_credential': 'netconfCredential',
         }
         result = {}
         for f_key, wanted_list in filters.items():
