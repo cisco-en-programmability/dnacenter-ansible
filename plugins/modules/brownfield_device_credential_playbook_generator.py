@@ -155,111 +155,110 @@ notes:
 """
 
 EXAMPLES = r"""
-    - name: Generate YAML playbook for device credential workflow manager
-        which includes all global credentials and site assignments
-      cisco.dnac.brownfield_device_credential_playbook_generator:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        state: gathered
-        config:
-          - generate_all_configurations: true
+- name: Generate YAML playbook for device credential workflow manager which includes all global credentials and site assignments
+  cisco.dnac.brownfield_device_credential_playbook_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    state: gathered
+    config:
+      - generate_all_configurations: true
 
-    - name: Generate YAML Configuration with File Path specified
-      cisco.dnac.brownfield_device_credential_playbook_generator:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        state: gathered
-        config:
-          - generate_all_configurations: true
-            file_path: "device_credential_config.yml"
+- name: Generate YAML Configuration with File Path specified
+  cisco.dnac.brownfield_device_credential_playbook_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    state: gathered
+    config:
+      - generate_all_configurations: true
+        file_path: "device_credential_config.yml"
 
-    - name: Generate YAML Configuration with specific component global credential filters
-      cisco.dnac.brownfield_device_credential_playbook_generator:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        state: gathered
-        config:
-            - generate_all_configurations: false
-              file_path: "device_credential_config.yml"
-              component_specific_filters:
-                components_list: ["global_credential_details"]
-                global_credential_details:
-                    cli_credential :
-                      - description: test
-                    https_read :
-                      - description: http_read
-                    https_write :
-                      - description: http_write
+- name: Generate YAML Configuration with specific component global credential filters
+  cisco.dnac.brownfield_device_credential_playbook_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    state: gathered
+    config:
+      - generate_all_configurations: false
+        file_path: "device_credential_config.yml"
+        component_specific_filters:
+          components_list: ["global_credential_details"]
+          global_credential_details:
+            cli_credential:
+              - description: test
+            https_read:
+              - description: http_read
+            https_write:
+              - description: http_write
 
-    - name: Generate YAML Configuration with specific component assign credentials to site filters
-      cisco.dnac.brownfield_device_credential_playbook_generator:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        state: gathered
-        config:
-            - file_path: "device_credential_config.yml"
-              component_specific_filters:
-                components_list: ["assign_credentials_to_site"]
-                assign_credentials_to_site:
-                    site_name:
-                        - "Global/India/Assam"
-                        - "Global/India/Haryana"
+- name: Generate YAML Configuration with specific component assign credentials to site filters
+  cisco.dnac.brownfield_device_credential_playbook_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    state: gathered
+    config:
+      - file_path: "device_credential_config.yml"
+        component_specific_filters:
+          components_list: ["assign_credentials_to_site"]
+          assign_credentials_to_site:
+            site_name:
+              - "Global/India/Assam"
+              - "Global/India/Haryana"
 
-    - name: Generate YAML Configuration with both global credential and assign credentials to site filters
-      cisco.dnac.brownfield_device_credential_playbook_generator:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        state: gathered
-        config:
-            - file_path: "device_credential_config.yml"
-              component_specific_filters:
-                components_list: ["global_credential_details", "assign_credentials_to_site"]
-                global_credential_details:
-                    cli_credential :
-                        - description: test
-                    https_read :
-                    - description: http_read
-                    https_write :
-                    - description: http_write
-                assign_credentials_to_site:
-                    site_name:
-                        - "Global/India/Assam"
-                        - "Global/India/TamilNadu"
+- name: Generate YAML Configuration with both global credential and assign credentials to site filters
+  cisco.dnac.brownfield_device_credential_playbook_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    state: gathered
+    config:
+      - file_path: "device_credential_config.yml"
+        component_specific_filters:
+          components_list: ["global_credential_details", "assign_credentials_to_site"]
+          global_credential_details:
+            cli_credential:
+              - description: test
+            https_read:
+              - description: http_read
+            https_write:
+              - description: http_write
+          assign_credentials_to_site:
+            site_name:
+              - "Global/India/Assam"
+              - "Global/India/TamilNadu"
 """
 
 
