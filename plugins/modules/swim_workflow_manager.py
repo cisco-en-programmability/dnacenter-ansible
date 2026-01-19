@@ -1542,27 +1542,26 @@ class Swim(DnacBase):
             role, or series. Access Points should be skipped for SWIM operations as they
             are not eligible for software image distribution and activation.
         """
-        if not device:
+        if not isinstance(device, dict):
             return False
 
-        # Check device family
-        family = device.get('family', '').lower()
-        if 'unified ap' in family or 'access point' in family:
+        def safe_lower(value):
+            return str(value).lower() if value is not None else ""
+
+        family = safe_lower(device.get("family"))
+        if "unified ap" in family or "access point" in family:
             return True
 
-        # Check device role
-        role = device.get('role', '').lower()
-        if 'access point' in role or role == 'ap':
+        role = safe_lower(device.get("role"))
+        if "access point" in role or role == "ap":
             return True
 
-        # Check device series
-        series = device.get('series', '').lower()
-        if 'access point' in series or 'aironet' in series:
+        series = safe_lower(device.get("series"))
+        if "access point" in series or "aironet" in series:
             return True
 
-        # Check device type
-        device_type = device.get('type', '').lower()
-        if 'unified ap' in device_type or 'access point' in device_type:
+        device_type = safe_lower(device.get("type"))
+        if "unified ap" in device_type or "access point" in device_type:
             return True
 
         return False
