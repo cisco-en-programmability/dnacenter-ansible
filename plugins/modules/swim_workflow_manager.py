@@ -1529,6 +1529,44 @@ class Swim(DnacBase):
 
         return image_exist
 
+    def is_access_point(self, device):
+        """
+        Check if a device is an Access Point (AP).
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device (dict): The device information dictionary.
+        Returns:
+            bool: True if the device is an Access Point, False otherwise.
+        Description:
+            This function checks if a device is an Access Point by examining its family,
+            role, or series. Access Points should be skipped for SWIM operations as they
+            are not eligible for software image distribution and activation.
+        """
+        if not device:
+            return False
+
+        # Check device family
+        family = device.get('family', '').lower()
+        if 'unified ap' in family or 'access point' in family:
+            return True
+
+        # Check device role
+        role = device.get('role', '').lower()
+        if 'access point' in role or role == 'ap':
+            return True
+
+        # Check device series
+        series = device.get('series', '').lower()
+        if 'access point' in series or 'aironet' in series:
+            return True
+
+        # Check device type
+        device_type = device.get('type', '').lower()
+        if 'unified ap' in device_type or 'access point' in device_type:
+            return True
+
+        return False
+
     def get_device_id(self, params):
         """
         Retrieve the unique device ID based on the provided parameters.
@@ -1947,6 +1985,18 @@ class Swim(DnacBase):
                         break
 
                     for item in site_response_list:
+                        # Skip Access Points - they are not eligible for SWIM operations
+                        if self.is_access_point(item):
+                            self.log(
+                                "Skipping Access Point device '{0}' (Family: {1}, Role: {2}) - APs are not eligible for SWIM operations.".format(
+                                    item.get("managementIpAddress", "Unknown"),
+                                    item.get("family", "N/A"),
+                                    item.get("role", "N/A")
+                                ),
+                                "INFO",
+                            )
+                            continue
+
                         if item["reachabilityStatus"] != "Reachable":
                             self.log(
                                 """Device '{0}' is currently '{1}' and cannot be included in the SWIM distribution/activation
@@ -1966,6 +2016,18 @@ class Swim(DnacBase):
                         site_memberships_ids.append(item["instanceUuid"])
 
                     for item in device_response:
+                        # Skip Access Points - they are not eligible for SWIM operations
+                        if self.is_access_point(item):
+                            self.log(
+                                "Skipping Access Point device '{0}' (Family: {1}, Role: {2}) - APs are not eligible for SWIM operations.".format(
+                                    item.get("managementIpAddress", "Unknown"),
+                                    item.get("family", "N/A"),
+                                    item.get("role", "N/A")
+                                ),
+                                "INFO",
+                            )
+                            continue
+
                         if item["reachabilityStatus"] != "Reachable":
                             self.log(
                                 """Unable to proceed with the device '{0}' for SWIM distribution/activation as its status is
