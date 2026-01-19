@@ -1,0 +1,180 @@
+---
+- name: Generate YAML playbook for site configurations from Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Generate the playbook for site hierarchy (areas, buildings, floors) from Cisco Catalyst Center
+      brownfield_site_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        config:
+          # ====================================================================================
+          # Scenario 1: Generate all site configurations (Areas, Buildings, Floors)
+          # ====================================================================================
+          # - generate_all_configurations: true
+          #   file_path: "/tmp/all_site_configurations.yaml"
+
+          # ====================================================================================
+          # Scenario 2: Sites - Filter by Site Name
+          # Fetches site from Cisco Catalyst Center using site_name as filter
+          # ====================================================================================
+          # - file_path: "/tmp/site_by_name_single.yaml"
+          #   component_specific_filters:
+          #     components_list: ["areas"]
+          #     areas:
+          #       - site_name: "Global/USA"
+
+          # ====================================================================================
+          # Scenario 3: Sites - Filter by Site Name (Multiple)
+          # Fetches multiple sites from Cisco Catalyst Center using site_name as filter
+          # ====================================================================================
+          # - file_path: "/tmp/site_by_name_multiple.yaml"
+          #   component_specific_filters:
+          #     components_list: ["areas"]
+          #     areas:
+          #       - site_name: "Global/USA"
+          #       - site_name: "Global/Europe"
+
+          # ====================================================================================
+          # Scenario 4: Buildings - Filter by Building Name (Single)
+          # Fetches a single building from Cisco Catalyst Center using site_name as filter
+          # ====================================================================================
+          # - file_path: "/tmp/building_by_name_single.yaml"
+          #   component_specific_filters:
+          #     components_list: ["buildings"]
+          #     buildings:
+          #       - site_name: "Global/USA/San Jose/Building1"
+
+          # ====================================================================================
+          # Scenario 5: Buildings - Filter by Building Name (Multiple)
+          # Fetches multiple buildings from Cisco Catalyst Center using site_name as filter
+          # ====================================================================================
+          # - file_path: "/tmp/building_by_name_multiple.yaml"
+          #   component_specific_filters:
+          #     components_list: ["buildings"]
+          #     buildings:
+          #       - site_name: "Global/USA/San Jose/Building1"
+          #       - site_name: "Global/USA/San Jose/Building2"
+
+          # ====================================================================================
+          # Scenario 6: Buildings - Filter by Parent Site
+          # Fetches buildings under a specific parent site
+          # ====================================================================================
+          # - file_path: "/tmp/buildings_by_parent_site.yaml"
+          #   component_specific_filters:
+          #     components_list: ["buildings"]
+          #     buildings:
+          #       - parent_site_name: "Global/USA/San Jose"
+
+          # ====================================================================================
+          # Scenario 7: Floors - Filter by Floor Name (Single)
+          # Fetches a single floor from Cisco Catalyst Center using site_name as filter
+          # ====================================================================================
+          # - file_path: "/tmp/floor_by_name_single.yaml"
+          #   component_specific_filters:
+          #     components_list: ["floors"]
+          #     floors:
+          #       - site_name: "Global/USA/San Jose/Building1/Floor1"
+
+          # ====================================================================================
+          # Scenario 8: Floors - Filter by Floor Name (Multiple)
+          # Fetches multiple floors from Cisco Catalyst Center using site_name as filter
+          # ====================================================================================
+          # - file_path: "/tmp/floor_by_name_multiple.yaml"
+          #   component_specific_filters:
+          #     components_list: ["floors"]
+          #     floors:
+          #       - site_name: "Global/USA/San Jose/Building1/Floor1"
+          #       - site_name: "Global/USA/San Jose/Building1/Floor2"
+
+          # ====================================================================================
+          # Scenario 9: Floors - Filter by Building
+          # Fetches all floors within a specific building
+          # ====================================================================================
+          # - file_path: "/tmp/floors_by_building.yaml"
+          #   component_specific_filters:
+          #     components_list: ["floors"]
+          #     floors:
+          #       - parent_site_name: "Global/USA/San Jose/Building1"
+
+          # ====================================================================================
+          # Scenario 10: Floors - Filter by RF Model
+          # Fetches floors with specific RF model type
+          # ====================================================================================
+          # - file_path: "/tmp/floors_by_rf_model.yaml"
+          #   component_specific_filters:
+          #     components_list: ["floors"]
+          #     floors:
+          #       - rf_model: "Cubes And Walled Offices"
+
+          # ====================================================================================
+          # Scenario 11: Multiple Site Types - Fetch Areas and Buildings
+          # Fetches multiple site component types simultaneously
+          # ====================================================================================
+          # - file_path: "/tmp/areas_and_buildings.yaml"
+          #   component_specific_filters:
+          #     components_list: ["areas", "buildings"]
+          #     areas:
+          #       - site_name: "Global/USA"
+          #     buildings:
+          #       - site_name: "Global/USA/San Jose/Building1"
+
+          # ====================================================================================
+          # Scenario 12: Multiple Site Types - Fetch Buildings and Floors
+          # Fetches buildings and their floors with specific filters
+          # ====================================================================================
+          # - file_path: "/tmp/buildings_and_floors.yaml"
+          #   component_specific_filters:
+          #     components_list: ["buildings", "floors"]
+          #     buildings:
+          #       - parent_site_name: "Global/USA/San Jose"
+          #     floors:
+          #       - parent_site_name: "Global/USA/San Jose/Building1"
+
+          # ====================================================================================
+          # Scenario 13: All Site Components with Different Filters
+          # Demonstrates fetching all site component types with varied filter combinations
+          # ====================================================================================
+          # - file_path: "/tmp/all_site_components_custom_filters.yaml"
+          #   component_specific_filters:
+          #     components_list: ["areas", "buildings", "floors"]
+          #     areas:
+          #       - site_name: "Global/USA"
+          #     buildings:
+          #       - parent_site_name: "Global/USA/San Jose"
+          #     floors:
+          #       - rf_model: "Drywall Office Only"
+
+          # ====================================================================================
+          # Scenario 14: Fetch All without Filters presented in components_list
+          # Tests behavior when components_list is specified but no filter criteria provided
+          # ====================================================================================
+          - file_path: "/tmp/site_empty_filter.yaml"  # optional
+            component_specific_filters:  # optional
+              components_list: ["areas"]
+
+              # ====================================================================================
+              # Scenario 15: No File Path - Default File Generation
+              # Tests default file name generation when file_path is not provided
+              # Default format: site_workflow_manager_playbook_<timestamp>.yml
+              # ====================================================================================
+              # - component_specific_filters:
+              #     components_list: ["buildings"]
+              #     buildings:
+              #       - site_name: "Global/USA/San Jose/Building1"
+
+      register: result
+
+      tags:
+        - brownfield_site_generator_testing
