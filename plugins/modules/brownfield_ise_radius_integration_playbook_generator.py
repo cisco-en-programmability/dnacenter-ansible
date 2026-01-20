@@ -34,7 +34,7 @@ options:
     default: gathered
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `ise_radius_integration_integration_playbook_generator`
+    - A list of filters for generating YAML playbook compatible with the `ise_radius_integration_workflow_manager`
       module.
     - Filters specify which components to include in the YAML configuration file.
     - If "components_list" is specified, only those components are included, regardless of the filters.
@@ -42,7 +42,7 @@ options:
     elements: dict
     required: true
     suboptions:
-      generate_all_components:
+      generate_all_configurations:
         description:
         - If true, all authentication and policy server components are included in the YAML
           configuration file.
@@ -53,7 +53,7 @@ options:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
           a default file name  "<module_name>_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "ise_radius_integration_integration_playbook_generator_15_Dec_2025_21_43_26_379.yml".
+        - For example, "brownfield_ise_radius_integration_playbook_generator_15_Dec_2025_21_43_26_379.yml".
         type: str
       component_specific_filters:
         description:
@@ -97,8 +97,8 @@ notes:
 """
 
 EXAMPLES = r"""
-- name: Generate YAML Configuration with File Path specified
-  cisco.dnac.ise_radius_integration_integration_playbook_generator:
+- name: Generate YAML Configuration with File Path specified for all components
+  cisco.dnac.brownfield_ise_radius_integration_playbook_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -110,10 +110,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - file_path: "/tmp/ise_radius_integration_config.yaml"
+      - generate_all_configurations: true
+         file_path: "/tmp/ise_radius_integration_config.yaml"
 
-- name: Generate YAML Configuration with specific fabric sites components only
-  cisco.dnac.ise_radius_integration_integration_playbook_generator:
+- name: Generate YAML Configuration for all components without File Path specified
+  cisco.dnac.brownfield_ise_radius_integration_playbook_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -125,12 +126,30 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - file_path: "/tmp/ise_radius_integration_config.yaml"
+      - generate_all_configurations: true
+
+- name: Generate YAML Configuration for mentioned components with component specific server_type filter
+  cisco.dnac.brownfield_ise_radius_integration_playbook_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: gathered
+    config:
+      - generate_all_configurations: false
+        file_path: "/tmp/ise_radius_integration_config.yaml"
         component_specific_filters:
-          components_list: ["server_type"]
+          components_list: ["authentication_policy_server"]
+          authentication_policy_server:
+            - server_type: "ISE"  # Filter: Server Type
 
-- name: Generate YAML Configuration with specific fabric zones components only
-  cisco.dnac.ise_radius_integration_integration_playbook_generator:
+- name: Generate YAML Configuration for mentioned components with component specific server_ip_address filter
+  cisco.dnac.brownfield_ise_radius_integration_playbook_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -142,12 +161,15 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - file_path: "/tmp/ise_radius_integration_config.yaml"
+      - generate_all_configurations: false
+        file_path: "/tmp/ise_radius_integration_config.yaml"
         component_specific_filters:
-          components_list: ["server_ip_address"]
+          components_list: ["authentication_policy_server"]
+          authentication_policy_server:
+            - server_ip_address: 10.197.156.10 # Filter: Server Ip Address
 
-- name: Generate YAML Configuration for all components
-  cisco.dnac.ise_radius_integration_integration_playbook_generator:
+- name: Generate YAML Configuration for mentioned components with component specific server_type and server_ip_address filter
+  cisco.dnac.brownfield_ise_radius_integration_playbook_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -159,24 +181,14 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - file_path: "/tmp/ise_radius_integration_config.yaml"
+      - generate_all_configurations: false
+        file_path: "/tmp/ise_radius_integration_config.yaml"
         component_specific_filters:
-          components_list: ["server_type", "server_ip_address"]
+          components_list: ["authentication_policy_server"]
+          authentication_policy_server:
+            - server_type: "ISE"  # Filter: Server Type
+              server_ip_address: 10.197.156.10 # Filter: Server Ip Address
 
-- name: Generate YAML Configuration for all components
-  cisco.dnac.ise_radius_integration_integration_playbook_generator:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: "{{ dnac_log_level }}"
-    state: gathered
-    config:
-      - generate_all_components: true
 """
 
 RETURN = r"""
@@ -414,12 +426,14 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
                     "source_key": "ciscoIseDtos",
                     "special_handling": True,
                     "transform": self.transform_cisco_ise_dtos,
-                    "user_name": {"type": "str"},
-                    "password": {"type": "str"},
-                    "fqdn": {"type": "str"},
-                    "ip_address": {"type": "str"},
-                    "description": {"type": "str"},
-                    "ssh_key": {"type": "str", "source_key": "sshKey"},
+                    "suboptions": {
+                        "user_name": {"type": "str"},
+                        "password": {"type": "str"},
+                        "fqdn": {"type": "str"},
+                        "ip_address": {"type": "str"},
+                        "description": {"type": "str"},
+                        "ssh_key": {"type": "str", "source_key": "sshKey"},
+                    }
                 },
                 "trusted_server": {"type": "str", "source_key": "trustedServer"},
                 "ise_integration_wait_time": {
@@ -905,7 +919,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
 
         end_time = time.time()
         self.log(
-            "Completed 'get_diff_merged' operation in {0:.2f} seconds.".format(
+            "Completed 'get_diff_gathered' operation in {0:.2f} seconds.".format(
                 end_time - start_time
             ),
             "DEBUG",
