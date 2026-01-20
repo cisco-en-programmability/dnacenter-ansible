@@ -57,6 +57,7 @@ options:
           - A default filename will be generated automatically if file_path is not specified.
           - This is useful for complete brownfield discovery infrastructure documentation.
           - Note - This will include all discovery tasks regardless of their current status.
+          - When set to False, at least one of 'global_filters' or 'component_specific_filters' must be provided.
         type: bool
         required: false
         default: false
@@ -114,32 +115,6 @@ options:
             type: list
             elements: str
             required: false
-          include_credentials:
-            description:
-              - Whether to include credential information in the generated configuration.
-              - When set to False, credential details will be excluded for security purposes.
-              - When set to True, global credential references will be included but not passwords.
-              - Discovery-specific credentials are never included due to security concerns.
-            type: bool
-            required: false
-            default: true
-          include_global_credentials:
-            description:
-              - Whether to include global credential mappings in the generated configuration.
-              - When set to True, global credential descriptions and usernames are included.
-              - Passwords and sensitive information are never included.
-            type: bool
-            required: false
-            default: true
-          discovery_status_filter:
-            description:
-              - Filter discoveries based on their current status.
-              - Valid values are ["Complete", "In Progress", "Aborted", "Failed"]
-              - If not specified, discoveries with all statuses will be included.
-            type: list
-            elements: str
-            required: false
-            choices: ["Complete", "In Progress", "Aborted", "Failed"]
 requirements:
 - dnacentersdk >= 2.10.10
 - python >= 3.9
@@ -210,40 +185,6 @@ EXAMPLES = r"""
             - "CDP"
             - "LLDP"
 
-# Generate configurations with specific component filters
-- name: Generate discovery configurations with component filtering
-  cisco.dnac.brownfield_discovery_playbook_generator:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    state: gathered
-    config:
-      - file_path: "/tmp/filtered_discoveries.yml"
-        component_specific_filters:
-          components_list: ["discovery_details"]
-          include_credentials: false
-          discovery_status_filter: ["Complete"]
-
-# Generate configurations excluding credential information
-- name: Generate discovery configurations without credentials
-  cisco.dnac.brownfield_discovery_playbook_generator:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    state: gathered
-    config:
-      - file_path: "/tmp/discoveries_no_creds.yml"
-        component_specific_filters:
-          include_credentials: false
-          include_global_credentials: false
 """
 
 RETURN = r"""
@@ -396,10 +337,93 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Validate configuration parameters
         for config_item in self.config:
+            # First validate parameter names
+            if not self.validate_config_parameters(config_item):
+                return self.check_return_status()
+
+            # Then validate parameter values
             self.validate_params(config_item)
 
         self.log("Input validation completed successfully", "INFO")
         return self
+
+    def validate_config_parameters(self, config):
+        """
+        Validates that only allowed parameters are provided in the configuration.
+        This prevents typos and ensures clarity in parameter usage.
+
+        Args:
+            config (dict): Configuration dictionary to validate
+
+        Returns:
+            bool: True if validation passes, False otherwise
+        """
+        # Define the allowed parameters for config
+        allowed_parameters = {
+            'generate_all_configurations',
+            'file_path',
+            'global_filters',
+            'component_specific_filters'
+        }
+
+        # Define allowed sub-parameters for global_filters
+        allowed_global_filters = {
+            'discovery_name_list',
+            'discovery_type_list'
+        }
+
+        # Define allowed sub-parameters for component_specific_filters
+        allowed_component_filters = {
+            'components_list',
+            'include_credentials',
+            'include_global_credentials',
+            'discovery_status_filter'
+        }
+
+        # Check for invalid top-level parameters
+        invalid_params = set(config.keys()) - allowed_parameters
+        if invalid_params:
+            self.msg = (f"Invalid parameter(s) found: {', '.join(invalid_params)}. "
+                        f"Allowed parameters are: {', '.join(sorted(allowed_parameters))}")
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return False
+
+        # Validate global_filters sub-parameters if present
+        if 'global_filters' in config:
+            global_filters = config['global_filters']
+            if isinstance(global_filters, dict):
+                invalid_global_params = set(global_filters.keys()) - allowed_global_filters
+                if invalid_global_params:
+                    self.msg = (f"Invalid global_filters parameter(s): {', '.join(invalid_global_params)}. "
+                                f"Allowed global_filters are: {', '.join(sorted(allowed_global_filters))}")
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return False
+
+        # Validate component_specific_filters sub-parameters if present
+        if 'component_specific_filters' in config:
+            component_filters = config['component_specific_filters']
+            if isinstance(component_filters, dict):
+                invalid_component_params = set(component_filters.keys()) - allowed_component_filters
+                if invalid_component_params:
+                    self.msg = (f"Invalid component_specific_filters parameter(s): {', '.join(invalid_component_params)}. "
+                                f"Allowed component_specific_filters are: {', '.join(sorted(allowed_component_filters))}")
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return False
+
+        # Validate generate_all_configurations parameter type and value
+        if 'generate_all_configurations' in config:
+            value = config['generate_all_configurations']
+            if not isinstance(value, bool):
+                self.msg = f"Parameter 'generate_all_configurations' must be a boolean (true/false), got: {type(value).__name__}"
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return False
+
+        self.log("Configuration parameter validation passed", "DEBUG")
+        return True
 
     def get_global_credentials_lookup(self):
         """
@@ -1101,6 +1125,18 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         if config.get('generate_all_configurations', False):
             global_filters = {}  # No filtering when generating all
             self.log("Generate all configurations enabled - including all discoveries", "INFO")
+        else:
+            # Validate that filters are provided when generate_all_configurations is False
+            if not global_filters and not component_specific_filters:
+                self.result["response"] = {
+                    "status": "validation_error",
+                    "message": "Component filters are required when 'generate_all_configurations' is set to false. "
+                              "Please provide either 'global_filters' or 'component_specific_filters' to specify which discoveries to include."
+                }
+                self.msg = "Validation failed: Component filters required when generate_all_configurations=false"
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self
 
         # Get discovery data
         discoveries_data = self.get_discoveries_data(global_filters, component_specific_filters)
