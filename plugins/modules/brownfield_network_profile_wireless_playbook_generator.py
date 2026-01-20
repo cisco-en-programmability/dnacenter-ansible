@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2024, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Network Profile Wireless Module."""
@@ -684,7 +684,7 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
             global_filters (dict): A dictionary containing global filter parameters.
 
         Returns:
-            dict: A dictionary containing processed global filter parameters.
+            list: A list containing processed global filter parameters.
         """
         self.log("Processing global filters: {0}".format(global_filters), "DEBUG")
         profile_names = global_filters.get("profile_name_list")
@@ -843,7 +843,7 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
 
         if each_profile_config:
             self.log("Processed configuration for profile '{0}': {1}".format(
-                each_profile_config["profile_name"], each_profile_config), "DEBUG")
+                each_profile_config["profile_name"], self.pprint(each_profile_config)), "DEBUG")
             final_list.append(each_profile_config)
 
         return each_profile_config
@@ -1399,7 +1399,7 @@ def main():
     ):
         ccc_network_profile_wireless_playbook_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
-            "for <module_name_caps> Module. Supported versions start from '2.3.7.9' onwards. ".format(
+            "for NETWORK PROFILE WIRELESS Module. Supported versions start from '2.3.7.9' onwards. ".format(
                 ccc_network_profile_wireless_playbook_generator.get_ccc_version()
             )
         )

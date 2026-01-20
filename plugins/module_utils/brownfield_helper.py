@@ -1309,10 +1309,26 @@ class BrownFieldHelper:
             api_family, api_function, params
         )
 
+        ccc_version = self.get_ccc_version()
         for site in site_details:
             site_id = site.get("id")
             if site_id:
-                site_id_name_mapping[site_id] = site.get("nameHierarchy")
+                if (
+                    self.compare_dnac_versions(ccc_version, "2.3.7.9") <= 0
+                    and site.get("type") == "global"
+                ):
+                    # For versions <= 2.3.7.9
+                    self.log(
+                        f"Processing site ID '{site_id}' with type 'global' for CCC version <= 2.3.7.9, using name instead of nameHierarchy",
+                        "DEBUG",
+                    )
+                    site_id_name_mapping[site_id] = site.get("name")
+                else:
+                    self.log(
+                        f"Processing site ID '{site_id}', mapping to nameHierarchy: {site.get('nameHierarchy')}",
+                        "DEBUG",
+                    )
+                    site_id_name_mapping[site_id] = site.get("nameHierarchy")
 
         if site_id_list:
             filtered_mapping = {
@@ -1328,6 +1344,10 @@ class BrownFieldHelper:
             )
             return filtered_mapping
 
+        self.log(
+            f"Site ID to name mapping completed. Total sites mapped: {len(site_id_name_mapping)}",
+            "INFO",
+        )
         return site_id_name_mapping
 
     def get_deployed_layer2_feature_configuration(self, network_device_id, feature):

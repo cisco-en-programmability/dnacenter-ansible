@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2024, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Network Profile Switching Module."""
@@ -287,7 +287,7 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
         self.module_name = "network_profile_switching_workflow_manager"
         self.module_schema = self.get_workflow_elements_schema()
         self.log("Initialized NetworkProfileSwitchingGenerator class instance.", "DEBUG")
-        self.log(self.module_schema, "DEBUG")
+        self.log(self.pprint(self.module_schema), "DEBUG")
 
         # Initialize generate_all_configurations as class-level parameter
         self.generate_all_configurations = False
@@ -556,7 +556,7 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
             parameters.
 
         Returns:
-            dict: A dictionary containing processed global filter parameters.
+            list of dict: A list of dict containing processed global filter parameters.
         """
         self.log("Processing global filters: {0}".format(global_filters), "DEBUG")
         profile_names = global_filters.get("profile_name_list")
@@ -568,10 +568,10 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
             self.log("Filtering switch profiles based on profile_name_list: {0}".format(
                 global_filters.get("profile_name_list")), "DEBUG")
             for profile in self.have["switch_profile_names"]:
-                each_porfile_config = {}
-                each_porfile_config["profile_name"] = profile
-                each_porfile_config["day_n_templates"] = []
-                each_porfile_config["sites"] = []
+                each_profile_config = {}
+                each_profile_config["profile_name"] = profile
+                each_profile_config["day_n_templates"] = []
+                each_profile_config["sites"] = []
 
                 profile_id = self.get_value_by_key(
                     self.have["switch_profile_list"],
@@ -583,14 +583,14 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
                     cli_template_details = self.have.get(
                         "switch_profile_templates", {}).get(profile_id)
                     if cli_template_details and isinstance(cli_template_details, list):
-                        each_porfile_config["day_n_templates"] = cli_template_details
+                        each_profile_config["day_n_templates"] = cli_template_details
 
                     site_details = self.have.get(
                         "switch_profile_sites", {}).get(profile_id)
                     if site_details and isinstance(site_details, dict):
-                        each_porfile_config["sites"] = list(site_details.values())
+                        each_profile_config["sites"] = list(site_details.values())
 
-                    final_list.append(each_porfile_config)
+                    final_list.append(each_profile_config)
                     self.log("Profile configurations collected for switch profile list: {0}".format(
                         final_list), "DEBUG")
         elif day_n_templates and isinstance(day_n_templates, list):
@@ -604,16 +604,16 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
                         profile_id,
                         "name",
                     )
-                    each_porfile_config = {}
-                    each_porfile_config["profile_name"] = profile_name
-                    each_porfile_config["day_n_templates"] = templates
+                    each_profile_config = {}
+                    each_profile_config["profile_name"] = profile_name
+                    each_profile_config["day_n_templates"] = templates
                     site_details = self.have.get(
                         "switch_profile_sites", {}).get(profile_id)
                     if site_details and isinstance(site_details, dict):
-                        each_porfile_config["sites"] = list(site_details.values())
+                        each_profile_config["sites"] = list(site_details.values())
                     else:
-                        each_porfile_config["sites"] = []
-                    final_list.append(each_porfile_config)
+                        each_profile_config["sites"] = []
+                    final_list.append(each_profile_config)
             self.log("Profile configurations collected for day-n template list: {0}".format(
                 final_list), "DEBUG")
         elif site_list and isinstance(site_list, list):
@@ -627,16 +627,16 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
                         profile_id,
                         "name",
                     )
-                    each_porfile_config = {}
-                    each_porfile_config["profile_name"] = profile_name
+                    each_profile_config = {}
+                    each_profile_config["profile_name"] = profile_name
                     cli_template_details = self.have.get(
                         "switch_profile_templates", {}).get(profile_id)
                     if cli_template_details and isinstance(cli_template_details, list):
-                        each_porfile_config["day_n_templates"] = cli_template_details
+                        each_profile_config["day_n_templates"] = cli_template_details
                     else:
-                        each_porfile_config["day_n_templates"] = []
-                    each_porfile_config["sites"] = list(sites.values())
-                    final_list.append(each_porfile_config)
+                        each_profile_config["day_n_templates"] = []
+                    each_profile_config["sites"] = list(sites.values())
+                    final_list.append(each_profile_config)
             self.log("Profile configurations collected for site list: {0}".format(
                 final_list), "DEBUG")
         else:
@@ -691,10 +691,10 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
             self.log("Preparing to collect all configurations for switch profile.",
                      "DEBUG")
             for each_profile_name in self.have.get("switch_profile_names", []):
-                each_porfile_config = {}
-                each_porfile_config["profile_name"] = each_profile_name
-                each_porfile_config["day_n_templates"] = []
-                each_porfile_config["sites"] = []
+                each_profile_config = {}
+                each_profile_config["profile_name"] = each_profile_name
+                each_profile_config["day_n_templates"] = []
+                each_profile_config["sites"] = []
 
                 profile_id = self.get_value_by_key(
                     self.have["switch_profile_list"],
@@ -706,14 +706,14 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
                     cli_template_details = self.have.get(
                         "switch_profile_templates", {}).get(profile_id)
                     if cli_template_details and isinstance(cli_template_details, list):
-                        each_porfile_config["day_n_templates"] = cli_template_details
+                        each_profile_config["day_n_templates"] = cli_template_details
 
                     site_details = self.have.get(
                         "switch_profile_sites", {}).get(profile_id)
                     if site_details and isinstance(site_details, dict):
-                        each_porfile_config["sites"] = list(site_details.values())
+                        each_profile_config["sites"] = list(site_details.values())
 
-                    final_list.append(each_porfile_config)
+                    final_list.append(each_profile_config)
             self.log("All configurations collected for generate_all_configurations mode: {0}".format(
                 final_list), "DEBUG")
         else:
@@ -938,7 +938,7 @@ def main():
     ):
         ccc_network_profile_switching_playbook_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
-            "for <module_name_caps> Module. Supported versions start from '2.3.7.9' onwards. ".format(
+            "for NETWORK PROFILE SWITCHING Module. Supported versions start from '2.3.7.9' onwards. ".format(
                 ccc_network_profile_switching_playbook_generator.get_ccc_version()
             )
         )
