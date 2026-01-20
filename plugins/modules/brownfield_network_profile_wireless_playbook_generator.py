@@ -821,12 +821,15 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
         cli_template_details = self.have.get(
             "wireless_profile_templates", {}).get(profile_id)
         if cli_template_details and isinstance(cli_template_details, list):
-            each_profile_config["day_n_templates"] = cli_template_details
+            if len(cli_template_details) > 0:
+                each_profile_config["day_n_templates"] = cli_template_details
 
         site_details = self.have.get(
             "wireless_profile_sites", {}).get(profile_id)
         if site_details and isinstance(site_details, dict):
-            each_profile_config["sites"] = list(site_details.values())
+            site_list = list(site_details.values())
+            if site_list:
+                each_profile_config["sites"] = site_list
 
         each_profile_config["profile_name"] = profile_info.get("wirelessProfileName")
         ssid_details = profile_info.get("ssidDetails", "")
@@ -834,12 +837,23 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
         ap_zones = profile_info.get("apZones", "")
         feature_template_designs = profile_info.get("featureTemplates", "")
 
-        each_profile_config["ssid_details"] = self.parse_profile_info(ssid_details, "ssid_details")
-        each_profile_config["additional_interfaces"] = self.parse_profile_info(
+        parsed_ssids = self.parse_profile_info(ssid_details, "ssid_details")
+        if parsed_ssids:
+            each_profile_config["ssid_details"] = parsed_ssids
+
+        parsed_interfaces = self.parse_profile_info(
             additional_interfaces, "additional_interfaces")
-        each_profile_config["ap_zone_list"] = self.parse_profile_info(ap_zones, "ap_zones")
-        each_profile_config["feature_template_designs"] = self.parse_profile_info(
+        if parsed_interfaces:
+            each_profile_config["additional_interfaces"] = parsed_interfaces
+
+        parsed_ap_zones = self.parse_profile_info(ap_zones, "ap_zones")
+        if parsed_ap_zones:
+            each_profile_config["ap_zone_list"] = parsed_ap_zones
+
+        parsed_feature_templates = self.parse_profile_info(
             feature_template_designs, "feature_template_designs")
+        if parsed_feature_templates:
+            each_profile_config["feature_template_designs"] = parsed_feature_templates
 
         if each_profile_config:
             self.log("Processed configuration for profile '{0}': {1}".format(
@@ -893,8 +907,6 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
             for each_profile_name in self.have.get("wireless_profile_names", []):
                 each_profile_config = {}
                 each_profile_config["profile_name"] = each_profile_name
-                each_profile_config["day_n_templates"] = []
-                each_profile_config["sites"] = []
 
                 profile_id = self.get_value_by_key(
                     self.have["wireless_profile_list"],
@@ -926,12 +938,23 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
                         ap_zones = profile_info.get("apZones", "")
                         feature_template_designs = profile_info.get("featureTemplates", "")
 
-                        each_profile_config["ssid_details"] = self.parse_profile_info(ssid_details, "ssid_details")
-                        each_profile_config["additional_interfaces"] = self.parse_profile_info(
+                        parsed_ssids = self.parse_profile_info(ssid_details, "ssid_details")
+                        if parsed_ssids:
+                            each_profile_config["ssid_details"] = parsed_ssids
+
+                        parsed_interfaces = self.parse_profile_info(
                             additional_interfaces, "additional_interfaces")
-                        each_profile_config["ap_zone_list"] = self.parse_profile_info(ap_zones, "ap_zones")
-                        each_profile_config["feature_template_designs"] = self.parse_profile_info(
+                        if parsed_interfaces:
+                            each_profile_config["additional_interfaces"] = parsed_interfaces
+
+                        parsed_ap_zones = self.parse_profile_info(ap_zones, "ap_zones")
+                        if parsed_ap_zones:
+                            each_profile_config["ap_zone_list"] = parsed_ap_zones
+
+                        parsed_feature_templates = self.parse_profile_info(
                             feature_template_designs, "feature_template_designs")
+                        if parsed_feature_templates:
+                            each_profile_config["feature_template_designs"] = parsed_feature_templates
 
                     final_list.append(each_profile_config)
             self.log("All configurations collected for generate_all_configurations mode: {0}".format(
@@ -1064,12 +1087,12 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
 
         elif profile_key == "feature_template_designs" and isinstance(profile_info, list):
             self.log("Parsing Feature Template details for profile: {0}".format(profile_key), "DEBUG")
-            parsed_ap_zones = []
+            parsed_feature_template = []
             for feature_template in profile_info:
                 each_feature_template = {}
                 feature_templates = feature_template.get("designName")
                 if feature_templates:
-                    each_feature_template["feature_templates"] = feature_templates
+                    each_feature_template["feature_templates"] = [feature_templates]
                 else:
                     self.log(f"Template name not found in Feature Template details: {feature_template}",
                              "WARNING")
@@ -1079,11 +1102,11 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
                 if ssids and isinstance(ssids, list):
                     each_feature_template["ssids"] = ssids
 
-                parsed_ap_zones.append(each_feature_template)
+                parsed_feature_template.append(each_feature_template)
                 self.log("Parsed Feature Template details: {0}".format(each_feature_template), "DEBUG")
 
-            self.log("Completed parsing all Feature Template details: {0}".format(parsed_ap_zones), "DEBUG")
-            return parsed_ap_zones
+            self.log("Completed parsing all Feature Template details: {0}".format(parsed_feature_template), "DEBUG")
+            return parsed_feature_template
 
         elif profile_key == "additional_interfaces" and isinstance(profile_info, list):
             self.log("Parsing Additional Interface details for profile: {0}".format(profile_key), "DEBUG")

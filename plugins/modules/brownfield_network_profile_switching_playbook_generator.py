@@ -570,8 +570,6 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
             for profile in self.have["switch_profile_names"]:
                 each_profile_config = {}
                 each_profile_config["profile_name"] = profile
-                each_profile_config["day_n_templates"] = []
-                each_profile_config["sites"] = []
 
                 profile_id = self.get_value_by_key(
                     self.have["switch_profile_list"],
@@ -693,8 +691,6 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
             for each_profile_name in self.have.get("switch_profile_names", []):
                 each_profile_config = {}
                 each_profile_config["profile_name"] = each_profile_name
-                each_profile_config["day_n_templates"] = []
-                each_profile_config["sites"] = []
 
                 profile_id = self.get_value_by_key(
                     self.have["switch_profile_list"],

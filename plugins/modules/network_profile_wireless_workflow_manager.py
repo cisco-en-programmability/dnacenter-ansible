@@ -1184,9 +1184,9 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     )
                     template_has_errors = True
                     self.log("Design type validation failed for '{0}' - not in supported design types".format(design_type), "ERROR")
-            else:
-                errormsg.append("design_type: Design type is missing in feature template configuration.")
-                template_has_errors = True
+            # else:
+            #     errormsg.append("design_type: Design type is missing in feature template configuration.")
+            #     template_has_errors = True
 
             feature_templates = feature_template_design.get("feature_templates", [])
             if not feature_templates:
