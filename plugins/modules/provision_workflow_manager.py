@@ -219,7 +219,8 @@ options:
           - Mesh APs create wireless backhaul connections to extend network coverage, while non-mesh APs connect directly to the wired infrastructure.
           - This setting works in conjunction with 'ap_authorization_list_name' for complete AP authorization workflow.
           - Supported from Cisco Catalyst Center release version 2.3.7.6 onwards.
-          type: bool
+        type: bool
+        default: false
       feature_template:
         description: |
           - A dictionary containing feature template configuration for advanced wireless device provisioning.
@@ -299,11 +300,13 @@ options:
               telemetry should be enabled or disabled.
             type: list
             elements: str
+            required: true
           telemetry:
             description: |
               - Specifies whether to enable or disable application telemetry on the devices.
             type: str
             choices: ["enable", "disable"]
+            required: true
           wlan_mode:
             description: |
               - Defines the WLAN mode for the device.
