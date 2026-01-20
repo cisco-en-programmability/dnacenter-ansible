@@ -389,7 +389,7 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
                 if invalid_params:
                     self.msg = (
                         "Invalid parameters in playbook: {0}. "
-                    ).format(list(invalid_params), ", ".join(sorted(allowed_param_names)))
+                    ).format(list(invalid_params),)
                     self.log(self.msg, "ERROR")
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
