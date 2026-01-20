@@ -22,6 +22,6 @@
         dnac_task_poll_interval: 1
         state: gathered
         config:
-          - file_path: "/Users/priyadharshini/Downloads/specific_userrole_details_info"
+          - file_path: "user_role_details/user_info"
             component_specific_filters:
               components_list: ["role_details", "user_details"]
