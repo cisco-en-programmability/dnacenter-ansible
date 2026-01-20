@@ -65,7 +65,7 @@
             #           server_ip_address: 10.0.0.10  # Filter: Specific IP
 
             # ====================================================================================
-            # SCENARIO 5: Filter by Role (Primary)
+            # SCENARIO 5: Filter by server type and multiple IP Addresses
             # Purpose: Generate configuration for primary authentication servers
             # Use Case: When primary server configuration is needed
             # ====================================================================================

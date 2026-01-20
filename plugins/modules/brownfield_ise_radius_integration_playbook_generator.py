@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2024, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to generate YAML configurations for Wired Campus Automation Module."""
+"""Ansible module to generate YAML configurations for for ISE Radius Integration Workflow Manager Module."""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -12,11 +12,10 @@ __author__ = "Jeet Ram, Madhan Sankaranarayanan"
 DOCUMENTATION = r"""
 ---
 module: brownfield_ise_radius_integration_playbook_generator
-short_description: Resource module for Authentication
-  and Policy Servers
+short_description: Generate YAML configurations playbook for 'ise_radius_integration_workflow_manager' module.
 description:
   - It generates playbook for Authentication and Policy Servers which can be use to manage operations on Authentication and Policy Servers.
-version_added: '6.14.0'
+version_added: '6.44'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
@@ -67,21 +66,25 @@ options:
           components_list:
             description:
             - List of components to include in the YAML configuration file.
-            - Valid values are
-              - type "server_type"
-              - server ip Address "server_ip_address"
+            - Valid values are "authentication_policy_server"
             - If not specified, all components are included.
-            - For example, ["server_type", "server_ip_address"].
+            - For example, ["authentication_policy_server"].
             type: list
             elements: str
-          server_type:
+          authentication_policy_server:
             description:
-            - Authentication server type to filter by its server type.
-            type: str
-          server_ip_address:
-            description:
-            - Authentication servers to filter by its IP address.
-            type: str
+            - Authentication and policy server filter with server_type and server_ip_address.
+            type: list
+            elements: dict
+            suboptions:
+              server_type:
+                description:
+                - Server type to filter authentication and policy servers by server_type.
+                type: str
+              server_ip_address:
+                description:
+                - Server IP address to filter authentication and policy servers by IP address.
+                type: str
 
 requirements:
 - dnacentersdk >= 2.10.10
@@ -347,7 +350,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         """
         cisco_ise_dtos = ise_radius_integration_details.get("ciscoIseDtos")
         self.log(
-            "ciscoIseDtos in transform_server_type(): {0}".format(cisco_ise_dtos),
+            "cisco_ise_dtos in transform_server_type(): {0}".format(cisco_ise_dtos),
             "DEBUG",
         )
         if not cisco_ise_dtos:
