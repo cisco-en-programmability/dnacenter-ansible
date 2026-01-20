@@ -166,7 +166,7 @@ EXAMPLES = r"""
         component_specific_filters:
           components_list: ["authentication_policy_server"]
           authentication_policy_server:
-            - server_ip_address: 10.197.156.10 # Filter: Server Ip Address
+            - server_ip_address: 10.197.156.10
 
 - name: Generate YAML Configuration for mentioned components with component specific server_type and server_ip_address filter
   cisco.dnac.brownfield_ise_radius_integration_playbook_generator:
@@ -186,9 +186,8 @@ EXAMPLES = r"""
         component_specific_filters:
           components_list: ["authentication_policy_server"]
           authentication_policy_server:
-            - server_type: "ISE"  # Filter: Server Type
-              server_ip_address: 10.197.156.10 # Filter: Server Ip Address
-
+            - server_type: "ISE"
+              server_ip_address: 10.197.156.10
 """
 
 RETURN = r"""
@@ -433,7 +432,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
                         "ip_address": {"type": "str"},
                         "description": {"type": "str"},
                         "ssh_key": {"type": "str", "source_key": "sshKey"},
-                    }
+                    },
                 },
                 "trusted_server": {"type": "str", "source_key": "trustedServer"},
                 "ise_integration_wait_time": {
