@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2025, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Assurance Device Health Score Settings Module."""
@@ -176,26 +176,6 @@ EXAMPLES = r"""
           components_list: ["device_health_score_settings"]
           device_health_score_settings:
             device_families: ["UNIFIED_AP", "ROUTER", "SWITCH_AND_HUB", "WIRELESS_CONTROLLER"]
-
-- name: Generate YAML Configuration for specific device families and KPIs
-  cisco.dnac.brownfield_assurance_device_health_score_settings_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/filtered_device_health_score_settings.yml"
-        component_specific_filters:
-          components_list: ["device_health_score_settings"]
-          device_health_score_settings:
-            device_families: ["UNIFIED_AP", "ROUTER"]
-            kpi_names: ["Interference 6 GHz", "Link Error", "CPU Utilization"]
 
 - name: Generate YAML Configuration using legacy filter format
   cisco.dnac.brownfield_assurance_device_health_score_settings_playbook_generator:
