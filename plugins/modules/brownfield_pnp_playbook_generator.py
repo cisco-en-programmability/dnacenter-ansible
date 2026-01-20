@@ -116,10 +116,10 @@ requirements:
 notes:
 - SDK Methods used are
   - device_onboarding_pnp.DeviceOnboardingPnp.get_device_list
-  - sites.Sites.get_site (for site filtering only)
+  - sites.Sites.get_sites (for site filtering only)
 - Paths used are
   - GET /dna/intent/api/v1/onboarding/pnp-device
-  - GET /dna/intent/api/v1/site (for site filtering only)
+  - GET /dna/intent/api/v1/sites (for site filtering only)
 - Generated YAML contains only device_info section with basic device attributes
 - Site assignments, templates, projects, and other advanced parameters are not included
 - This module is designed for simple device inventory and basic PnP device management
@@ -307,11 +307,14 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def __init__(self, module):
         """
-        Initialize an instance of the class.
-        Args:
-            module: The module associated with the class instance.
+        Initialize PnP playbook generator with module configuration.
+
+        Parameters:
+          - module: Ansible module instance with connection and configuration parameters.
         Returns:
-            None
+          None
+        Example:
+          Called automatically when creating PnPPlaybookGenerator instance.
         """
         self.supported_states = ["gathered"]
         super().__init__(module)
@@ -331,9 +334,14 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def validate_input(self):
         """
-        Validates the input configuration parameters for the playbook.
+        Validates playbook configuration parameters against expected schema.
+
+        Parameters:
+          - self: Instance with config attribute containing playbook parameters.
         Returns:
-            self: Returns the instance with validation results
+          self: Instance with validated_config, msg, and status attributes updated.
+        Example:
+          Called after initialization to validate user-provided configuration.
         """
         if not self.config:
             self.msg = "config not available in playbook for validation"
@@ -367,9 +375,14 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_workflow_elements_schema(self):
         """
-        Define the schema for PnP workflow elements.
+        Defines schema structure for PnP workflow elements and filters.
+
+        Parameters:
+          - self: Class instance.
         Returns:
-            dict: Schema definition for network elements
+          dict: Schema with module name, global filters, and network elements configuration.
+        Example:
+          Called during initialization to set up workflow processing schema.
         """
         return {
             "module_name": "pnp_workflow_manager",
@@ -401,7 +414,15 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def transform_pnp_device(self, device):
         """
-        Transform a single PnP device from API format to device_info format.
+        Transforms PnP device from API format to device_info YAML format.
+
+        Parameters:
+          - self: Class instance.
+          - device: Raw PnP device data from Catalyst Center API.
+        Returns:
+          OrderedDict: Device info with serial_number, hostname, state, pid, etc., or None if invalid.
+        Example:
+          Called during device processing to extract essential device information.
         """
         device_info_item = OrderedDict()
 
@@ -445,7 +466,15 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def group_devices_by_config(self, devices):
         """
-        Group devices by their configuration parameters - simplified to only include device_info.
+        Groups all PnP devices into single configuration structure with device_info.
+
+        Parameters:
+          - self: Class instance.
+          - devices: List of raw PnP device dictionaries from API.
+        Returns:
+          list: Single config group containing all valid devices, or empty list if none valid.
+        Example:
+          Called after retrieving devices to organize them for YAML generation.
         """
         # Create a single group for all devices with just device_info
         config_group = OrderedDict()
@@ -491,12 +520,16 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_pnp_devices(self, network_element, config):
         """
-        Get PnP devices from Catalyst Center.
-        Args:
-            network_element (dict): Network element definition
-            config (dict): Configuration with filters
+        Retrieves and filters PnP devices from Catalyst Center based on specified criteria.
+
+        Parameters:
+          - self: Class instance.
+          - network_element: Network element definition with processing metadata.
+          - config: Configuration dict with global_filters for device filtering.
         Returns:
-            dict: Dictionary containing raw pnp_devices list
+          dict: Dictionary with 'pnp_devices' list containing filtered devices.
+        Example:
+          Called during YAML generation to fetch devices matching user-specified filters.
         """
         self.log("Starting PnP device retrieval", "INFO")
 
@@ -582,11 +615,15 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_site_name_from_id(self, site_id):
         """
-        Get site name from site ID with caching.
-        Args:
-            site_id (str): Site ID
+        Resolves site name hierarchy from site UUID with caching.
+
+        Parameters:
+          - self: Class instance.
+          - site_id: Site UUID to resolve.
         Returns:
-            str: Site name hierarchy or None
+          str: Full site name hierarchy or None if not found.
+        Example:
+          Used when filtering devices by site to resolve site IDs to names.
         """
         if not site_id:
             return None
@@ -596,28 +633,34 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         try:
             response = self.dnac._exec(
-                family="sites",
-                function="get_site",
-                params={"site_id": site_id},
+                family="site_design",
+                function="get_sites",
+                params={},
                 op_modifies=False
             )
 
-            self.log("Received API response for site '{0}': {1}".format(site_id, response), "DEBUG")
+            self.log("Received API response for sites: {0}".format(response), "DEBUG")
 
             if response and response.get("response"):
                 site_info = response.get("response")
-                # Handle both single dict and list responses
-                if isinstance(site_info, list) and len(site_info) > 0:
-                    site_name = site_info[0].get("siteNameHierarchy")
+                # Handle list response - need to find site by ID
+                if isinstance(site_info, list):
+                    for site in site_info:
+                        if site.get("id") == site_id:
+                            site_name = site.get("siteNameHierarchy") or site.get("nameHierarchy")
+                            if site_name:
+                                self._site_cache[site_id] = site_name
+                                return site_name
+                    self.log("Site with ID '{0}' not found in sites list".format(site_id), "WARNING")
+                    return None
                 elif isinstance(site_info, dict):
-                    site_name = site_info.get("siteNameHierarchy")
+                    site_name = site_info.get("siteNameHierarchy") or site_info.get("nameHierarchy")
+                    if site_name:
+                        self._site_cache[site_id] = site_name
+                        return site_name
                 else:
                     self.log("Unexpected site response format: {0}".format(site_info), "WARNING")
                     return None
-
-                if site_name:
-                    self._site_cache[site_id] = site_name
-                    return site_name
 
         except Exception as e:
             self.log("Error fetching site name for ID '{0}': {1}".format(site_id, str(e)), "WARNING")
@@ -625,7 +668,17 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
         return None
 
     def yaml_config_generator(self, config):
-        """Generate YAML configuration file with only device_info."""
+        """
+        Generates YAML configuration file containing PnP device information.
+
+        Parameters:
+          - self: Instance with module_schema and configuration.
+          - config: Configuration dict with file_path and filter options.
+        Returns:
+          self: Instance with result containing file path and operation summary.
+        Example:
+          Main method called to orchestrate device retrieval and YAML file generation.
+        """
         self.log("Starting YAML configuration generation", "INFO")
 
         # Handle None config
@@ -690,7 +743,18 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
         return self
 
     def get_want(self, config, state):
-        """Get desired state from config."""
+        """
+        Extracts and normalizes desired state configuration from user input.
+
+        Parameters:
+          - self: Class instance.
+          - config: User-provided configuration dict.
+          - state: Operational state ('gathered').
+        Returns:
+          self: Instance with self.want populated with normalized configuration.
+        Example:
+          Called before processing to prepare configuration parameters.
+        """
         self.log("Processing configuration for state: {0}".format(state), "INFO")
 
         self.generate_all_configurations = config.get("generate_all_configurations", False)
@@ -705,7 +769,16 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
         return self
 
     def get_diff_gathered(self):
-        """Process merge state."""
+        """
+        Processes 'gathered' state to generate YAML from existing PnP devices.
+
+        Parameters:
+          - self: Instance with validated_config.
+        Returns:
+          self: Instance with result populated after YAML generation.
+        Example:
+          Called as final step to execute YAML configuration generation workflow.
+        """
         self.log("Processing gathered state", "INFO")
 
         config = self.validated_config[0] if self.validated_config else {}
