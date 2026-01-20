@@ -605,6 +605,7 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.total_devices_processed = len(filtered_devices)
 
             # Return raw devices (not transformed)
+            self.log("Filtered to {0} devices based on criteria".format(filtered_devices), "INFO")
             return {"pnp_devices": filtered_devices}
 
         except Exception as e:

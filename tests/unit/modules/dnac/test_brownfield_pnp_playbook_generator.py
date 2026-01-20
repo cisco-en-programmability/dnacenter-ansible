@@ -74,10 +74,10 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestDnacModule):
 
     def test_brownfield_pnp_playbook_generator_playbook_pnp_generate_all_configurations(self):
         """
-        Test the Application Policy Workflow Manager's profile creation process.
+        Test the PnP Playbook Generator's configuration generation process.
 
-        This test verifies that the workflow correctly handles the creation of a new
-        application policy profile, ensuring proper validation and expected behavior.
+        This test verifies that the generator correctly creates YAML configurations
+        from all PnP devices, ensuring proper validation and expected behavior.
         """
 
         set_module_args(
@@ -101,10 +101,10 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestDnacModule):
 
     def test_brownfield_pnp_playbook_generator_playbook_component_global_specific_filter(self):
         """
-        Test the Application Policy Workflow Manager's profile creation process.
+        Test the PnP Playbook Generator with component and global filters.
 
-        This test verifies that the workflow correctly handles the creation of a new
-        application policy profile, ensuring proper validation and expected behavior.
+        This test verifies that the generator correctly handles specific filtering
+        of PnP devices, ensuring proper validation and expected behavior.
         """
 
         set_module_args(
@@ -128,10 +128,10 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestDnacModule):
 
     def test_brownfield_pnp_playbook_generator_playbook_no_config(self):
         """
-        Test the Application Policy Workflow Manager's profile creation process.
+        Test the PnP Playbook Generator with no configuration.
 
-        This test verifies that the workflow correctly handles the creation of a new
-        application policy profile, ensuring proper validation and expected behavior.
+        This test verifies that the generator correctly handles scenarios
+        where no PnP devices are found, ensuring proper validation and expected behavior.
         """
 
         set_module_args(
