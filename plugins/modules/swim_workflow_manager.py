@@ -97,6 +97,7 @@ options:
                   your local system (Eg "/path/to/your/file").
                   Accepted files formats are - .gz,.bin,.img,.tar,.smu,.pie,.aes,.iso,.ova,.tar_gz,.qcow2,.nfvispkg,.zip,.spa,.rpm.
                 type: str
+                required: true
               is_third_party:
                 description: Query parameter to determine
                   if the image is from a third party
@@ -257,6 +258,7 @@ options:
                       list
                     type: list
                     elements: str
+                    required: true
                   is_third_party:
                     description: Flag indicates whether
                       the image is uploaded from a third
