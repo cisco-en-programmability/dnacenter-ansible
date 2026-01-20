@@ -304,6 +304,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
 )
+import os
 import time
 try:
     import yaml
@@ -374,9 +375,24 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
         temp_spec = {
             "generate_all_configurations": {"type": "bool", "required": False, "default": False},
             "file_path": {"type": "str", "required": False},
-            "component_specific_filters": {"type": "dict", "required": False},
+            "component_specific_filters": {
+                "type": "dict",
+                "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
+
+        # Pre-validation: Check for invalid parameter names (typos)
+        allowed_param_names = set(temp_spec.keys())
+        for config_item in self.config:
+            if isinstance(config_item, dict):
+                invalid_params = set(config_item.keys()) - allowed_param_names
+                if invalid_params:
+                    self.msg = (
+                        "Invalid parameters in playbook: {0}. "
+                    ).format(list(invalid_params), ", ".join(sorted(allowed_param_names)))
+                    self.log(self.msg, "ERROR")
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
 
         # Import validate_list_of_dicts function here to avoid circular imports
         from ansible_collections.cisco.dnac.plugins.module_utils.dnac import validate_list_of_dicts
@@ -385,9 +401,19 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
 
         if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
+            allowed_params = sorted(temp_spec.keys())
+            self.msg = (
+                "Invalid parameters in playbook: {0}. "
+                "Allowed parameters are: {1}. "
+                "Please check for typos in parameter names."
+            ).format(invalid_params, ", ".join(allowed_params))
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
+
+        # Additional validation for generate_all_configurations logic
+        for config_item in valid_temp:
+            if not self.validate_config_logic(config_item):
+                return self
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -396,6 +422,149 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
         )
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
+
+    def validate_config_logic(self, config):
+        """
+        Validates the logical relationships between configuration parameters.
+        Args:
+            config (dict): Configuration dictionary to validate.
+        Returns:
+            bool: True if validation passes, False otherwise.
+        """
+        generate_all = config.get("generate_all_configurations", False)
+        component_filters = config.get("component_specific_filters")
+
+        # Validate generate_all_configurations=false scenario
+        if not generate_all:
+            if not component_filters:
+                self.msg = (
+                    "Validation failed: When 'generate_all_configurations' is set to false, "
+                    "either 'component_specific_filters' must be provided to "
+                    "specify which configurations to include. Please provide at least one filter type "
+                    "to determine which device health score settings should be generated."
+                )
+                self.log(self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+        # Validate component_specific_filters structure if provided
+        if component_filters:
+            if not self.validate_component_specific_filters(component_filters):
+                return False
+
+        return True
+
+    def validate_component_specific_filters(self, component_specific_filters):
+        """
+        Validates component_specific_filters structure and parameters.
+        Args:
+            component_specific_filters (dict): Component filters to validate.
+        Returns:
+            bool: True if validation passes, False otherwise.
+        """
+        if not isinstance(component_specific_filters, dict):
+            self.msg = "component_specific_filters must be a dictionary"
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # Define allowed component filter parameters
+        allowed_component_params = {
+            'device_families',
+            'components_list',
+            'device_health_score_settings'
+        }
+
+        # Check for invalid parameters
+        invalid_params = set(component_specific_filters.keys()) - allowed_component_params
+        if invalid_params:
+            self.msg = (
+                "Invalid component_specific_filters parameter(s) found: {0}. "
+                "Allowed parameters are: {1}"
+            ).format(
+                ", ".join(sorted(invalid_params)),
+                ", ".join(sorted(allowed_component_params))
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # Validate components_list if provided
+        if 'components_list' in component_specific_filters:
+            components_list = component_specific_filters['components_list']
+            if not isinstance(components_list, list):
+                self.msg = "component_specific_filters.components_list must be a list"
+                self.log(self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Check if all elements are strings
+            for component in components_list:
+                if not isinstance(component, str):
+                    self.msg = "All components_list entries must be strings"
+                    self.log(self.msg, "ERROR")
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+        # Validate device_families if provided (direct usage)
+        if 'device_families' in component_specific_filters:
+            if not self.validate_device_families_parameter(component_specific_filters['device_families']):
+                return False
+
+        # Validate device_health_score_settings if provided (nested structure)
+        if 'device_health_score_settings' in component_specific_filters:
+            device_health_score_settings = component_specific_filters['device_health_score_settings']
+            if not isinstance(device_health_score_settings, dict):
+                self.msg = "component_specific_filters.device_health_score_settings must be a dictionary"
+                self.log(self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Validate device_families within device_health_score_settings
+            if 'device_families' in device_health_score_settings:
+                if not self.validate_device_families_parameter(device_health_score_settings['device_families']):
+                    return False
+
+            # Check for invalid nested parameters
+            allowed_nested_params = {'device_families'}
+            invalid_nested_params = set(device_health_score_settings.keys()) - allowed_nested_params
+            if invalid_nested_params:
+                self.msg = (
+                    "Invalid device_health_score_settings parameter(s) found: {0}. "
+                    "Allowed parameters are: {1}"
+                ).format(
+                    ", ".join(sorted(invalid_nested_params)),
+                    ", ".join(sorted(allowed_nested_params))
+                )
+                self.log(self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+        return True
+
+    def validate_device_families_parameter(self, device_families):
+        """
+        Validates device_families parameter structure and values.
+        Args:
+            device_families: The device_families parameter to validate.
+        Returns:
+            bool: True if validation passes, False otherwise.
+        """
+        if not isinstance(device_families, list):
+            self.msg = "device_families must be a list"
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # Check if all elements are strings
+        for family in device_families:
+            if not isinstance(family, str):
+                self.msg = "All device_families entries must be strings"
+                self.log(self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+        return True
 
     def get_workflow_elements_schema(self):
         """
@@ -1062,10 +1231,16 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
             config (dict): Configuration dictionary containing playbook parameters.
         """
         self.log("Starting parameter validation for the provided configuration", "DEBUG")
-        # Basic validation - can be expanded based on specific requirements
+
+        # Basic validation
         if not isinstance(config, dict):
             self.log("Configuration must be a dictionary", "ERROR")
             raise ValueError("Configuration must be a dictionary")
+
+        # Enhanced validation for logical relationships
+        if not self.validate_config_logic(config):
+            raise ValueError("Configuration validation failed: {0}".format(self.msg))
+
         self.log("Parameter validation completed successfully", "DEBUG")
 
     def generate_filename(self):
@@ -1161,6 +1336,12 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
         """
         self.log("Starting YAML file write operation to: {0}".format(file_path), "DEBUG")
         try:
+            # Create directory if it doesn't exist
+            directory = os.path.dirname(file_path)
+            if directory and not os.path.exists(directory):
+                os.makedirs(directory)
+                self.log("Created directory: {0}".format(directory), "DEBUG")
+
             with open(file_path, 'w') as yaml_file:
                 # Write header comments
                 header = self.generate_playbook_header(data_dict)
