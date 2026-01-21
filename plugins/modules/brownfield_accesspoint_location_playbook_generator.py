@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2024, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Access Point Location Module."""
@@ -331,7 +331,7 @@ class AccesspointLocationGenerator(DnacBase, BrownFieldHelper):
         """
         Initialize an instance of the class.
 
-        Args:
+        Parameters:
             module: The module associated with the class instance.
 
         Returns:
@@ -396,7 +396,7 @@ class AccesspointLocationGenerator(DnacBase, BrownFieldHelper):
         """
         Validates individual configuration parameters for brownfield access point location generation.
 
-        Args:
+        Parameters:
             config (dict): Configuration parameters
 
         Returns:
@@ -436,9 +436,12 @@ class AccesspointLocationGenerator(DnacBase, BrownFieldHelper):
         in the Cisco Catalyst Center
         based on the desired state. It logs detailed information for each operation.
 
-        Args:
+        Parameters:
             config (dict): The configuration data for the access point location elements.
             state (str): The desired state of the network elements ('gathered').
+
+        Returns:
+            self: The current instance of the class with updated 'want' attributes.
         """
 
         self.log(
@@ -472,7 +475,7 @@ class AccesspointLocationGenerator(DnacBase, BrownFieldHelper):
         It logs detailed information about the retrieval process and updates the
         current state attributes accordingly.
 
-        Args:
+        Parameters:
             config (dict): The configuration data for the access point location elements.
 
         Returns:
@@ -1068,7 +1071,7 @@ class AccesspointLocationGenerator(DnacBase, BrownFieldHelper):
         processes the data and writes the YAML content to a specified file.
         It dynamically handles multiple network elements and their respective filters.
 
-        Args:
+        Parameters:
             yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
 
         Returns:
@@ -1150,7 +1153,7 @@ class AccesspointLocationGenerator(DnacBase, BrownFieldHelper):
         """
         Process global filters for access point location workflow.
 
-        Args:
+        Parameters:
             global_filters (dict): A dictionary containing global filter parameters.
 
         Returns:
@@ -1408,7 +1411,7 @@ def main():
     ):
         ccc_accesspoint_location_playbook_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
-            "for <module_name_caps> Module. Supported versions start from '3.1.3.0' onwards. ".format(
+            "for ACCESSPOINT LOCATION WORKFLOW Module. Supported versions start from '3.1.3.0' onwards. ".format(
                 ccc_accesspoint_location_playbook_generator.get_ccc_version()
             )
         )
