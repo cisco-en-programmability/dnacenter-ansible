@@ -20,8 +20,7 @@ description:
   for faulty and replacement devices configured on the Cisco Catalyst Center.
 - Supports extraction of device replacement workflows, marked devices for replacement,
   and replacement device details with their current status.
-- Enables migration, backup, and replication of RMA configurations across different
-  Cisco Catalyst Center instances.
+
 version_added: '6.31.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -232,11 +231,19 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def __init__(self, module):
         """
-        Initialize an instance of the class.
+        Initialize an instance of the RMAPlaybookGenerator class.
+
+        Description:
+            Sets up the class instance with module configuration, supported states,
+            module schema mapping, and module name for RMA
+            workflow operations in Cisco Catalyst Center.
+
         Args:
-            module: The module associated with the class instance.
+            module (AnsibleModule): The Ansible module instance containing configuration
+                parameters and methods for module execution.
+
         Returns:
-            The method does not return a value.
+            None: This is a constructor method that initializes the instance.
         """
         self.supported_states = ["gathered"]
         super().__init__(module)
@@ -245,12 +252,22 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def validate_input(self):
         """
-        Validates the input configuration parameters for the playbook.
+        Validates the input configuration parameters for the RMA playbook.
+
+        Description:
+            Performs comprehensive validation of input configuration parameters to ensure
+            they conform to the expected schema for RMA workflow generation. Validates
+            parameter types, requirements, and structure for device replacement workflow
+            configuration generation.
+
+        Args:
+            None: Uses self.config from the instance.
+
         Returns:
-            object: An instance of the class with updated attributes:
-                self.msg: A message describing the validation result.
-                self.status: The status of the validation (either "success" or "failed").
-                self.validated_config: If successful, a validated version of the "config" parameter.
+            object: Self instance with updated attributes:
+                - self.msg (str): Message describing the validation result.
+                - self.status (str): Status of validation ("success" or "failed").
+                - self.validated_config (list): Validated configuration parameters if successful.
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
@@ -268,6 +285,8 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
             "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
+
+        self.log("Validating configuration parameters with schema - config: {0} and temp_spec: {1}".format(self.config, temp_spec), "DEBUG")
 
         # Validate params
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
@@ -287,20 +306,22 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def rma_workflow_manager_mapping(self):
         """
-        Constructs and returns a structured mapping for managing RMA workflow elements.
-        This mapping includes associated filters, temporary specification functions, API details,
-        and fetch function references used in the RMA workflow orchestration process.
+        Constructs comprehensive mapping configuration for RMA workflow components.
+
+        Description:
+            Creates a structured mapping that defines all supported RMA workflow
+            components, their associated API functions, filter specifications, and
+            processing functions. This mapping serves as the central configuration
+            registry for the RMA workflow orchestration process.
+
+        Args:
+            None: Uses class methods and instance configuration.
 
         Returns:
-            dict: A dictionary with the following structure:
-                - "network_elements": A nested dictionary where each key represents a component
-                (e.g., 'device_replacement_workflows') and maps to:
-                    - "filters": Dictionary of filter keys relevant to the component.
-                    - "reverse_mapping_function": Reference to the function that generates temp specs for the component.
-                    - "api_function": Name of the API to be called for the component.
-                    - "api_family": API family name (e.g., 'device_replacement').
-                    - "get_function_name": Reference to the internal function used to retrieve the component data.
-                - "global_filters": An empty dict reserved for global filters applicable across all elements.
+            dict: A comprehensive mapping dictionary containing:
+                - network_elements (dict): Component configurations with API details,
+                  filter specifications, and processing function references.
+                - global_filters (dict): Global filter configuration options.
         """
         return {
             "network_elements": {
@@ -319,24 +340,39 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
             "global_filters": {},
         }
 
-    def device_replacement_workflows_reverse_mapping_function(self, requested_features=None):
+    def device_replacement_workflows_reverse_mapping_function(self):
         """
-        Returns the reverse mapping specification for device replacement workflow details.
+        Provides reverse mapping specification for device replacement workflow transformations.
+        Description:
+            Returns the reverse mapping specification used to transform device replacement
+            workflow API responses into structured configuration format. This specification
+            defines how API response fields should be mapped to the desired YAML structure.
+
         Args:
-            requested_features (list, optional): List of specific features to include (not used for RMA workflows).
+            None: Uses class methods and instance configuration.
         Returns:
-            dict: A dictionary containing reverse mapping specifications for device replacement workflow details
+            OrderedDict: The device replacement workflows temporary specification containing
+            field mappings, data types, and transformation rules.
         """
         self.log("Generating reverse mapping specification for device replacement workflow details", "DEBUG")
         return self.device_replacement_workflows_temp_spec()
 
     def device_replacement_workflows_temp_spec(self):
         """
-        Constructs a temporary specification for device replacement workflow details, defining the structure and types
-        of attributes that will be used in the YAML configuration file.
+        Constructs detailed specification for device replacement workflow data transformation.
+
+        Description:
+            Creates a comprehensive specification that defines how device replacement workflow
+            API response fields should be mapped, transformed, and structured in the final
+            YAML configuration. Includes handling for device name and IP resolution through
+            transformation functions.
+
+        Args:
+            None: Uses logging methods and transformation functions from the instance.
 
         Returns:
-            OrderedDict: An ordered dictionary defining the structure of device replacement workflow attributes.
+            OrderedDict: A detailed specification containing field mappings, data types,
+            transformation functions, and source key references for device replacement workflows.
         """
         self.log("Generating temporary specification for device replacement workflow details.", "DEBUG")
         device_replacement_workflows_details = OrderedDict({
@@ -367,14 +403,24 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_device_replacement_workflows(self, network_element, filters):
         """
-        Retrieves device replacement workflow details based on the provided network element and component-specific filters.
+        Retrieves device replacement workflow configurations from Cisco Catalyst Center.
+
+        Description:
+            Fetches device replacement workflow data from the API and applies component-specific
+            filters. Supports filtering by faulty device serial number, replacement device
+            serial number, and replacement status. Transforms API responses into structured
+            format suitable for YAML generation.
 
         Args:
-            network_element (dict): A dictionary containing the API family and function for retrieving device replacement workflows.
-            filters (dict): A dictionary containing global_filters and component_specific_filters.
+            network_element (dict): Configuration mapping containing API family and
+                function details for device replacement workflow retrieval.
+            filters (dict): Filter criteria containing component-specific filters
+                for device replacement workflows.
 
         Returns:
-            dict: A dictionary containing the modified details of device replacement workflows.
+            dict: A dictionary containing:
+                - device_replacement_workflows (list): List of device replacement workflow
+                  configurations with transformed parameters according to the specification.
         """
         self.log(
             "Starting to retrieve device replacement workflows with network element: {0} and filters: {1}".format(
@@ -411,17 +457,8 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
             # Handle different response structures
             if isinstance(response, dict):
                 workflow_configs = response.get("response", [])
-                # Some APIs return data directly in response
-                if not workflow_configs and "data" in response:
-                    workflow_configs = response.get("data", [])
-            else:
-                workflow_configs = response if isinstance(response, list) else []
 
             self.log("Retrieved {0} device replacement workflows from Catalyst Center".format(len(workflow_configs)), "INFO")
-
-            # Log the structure of the first config if available
-            if workflow_configs:
-                self.log("Sample device replacement workflow structure: {0}".format(workflow_configs[0]), "DEBUG")
 
             if workflow_filters:
                 filtered_configs = []
@@ -450,10 +487,8 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 final_workflow_configs = workflow_configs
 
         except Exception as e:
-            self.log("Error retrieving device replacement workflows: {0}".format(str(e)), "ERROR")
-            # Instead of failing immediately, let's return empty result
-            self.log("API call failed, returning empty device replacement workflow list", "WARNING")
-            final_workflow_configs = []
+            self.msg = "Error retrieving device replacement workflows: {0}".format(str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
 
         # Modify device replacement workflow details using temp_spec
         workflow_temp_spec = self.device_replacement_workflows_temp_spec()
@@ -475,7 +510,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 if value is not None:
                     mapped_config[key] = value
 
-            if mapped_config:  # Only add if we have valid data
+            if mapped_config:
                 modified_workflow_configs.append(mapped_config)
 
         modified_workflow_details = {"device_replacement_workflows": modified_workflow_configs}
@@ -485,13 +520,20 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_faulty_device_name(self, workflow_config):
         """
-        Get the faulty device name from the workflow configuration by resolving the serial number.
+        Resolves faulty device name from workflow configuration using device serial number.
+
+        Description:
+            Queries the Cisco Catalyst Center device inventory API to resolve the faulty
+            device serial number to its corresponding hostname. Used for transformation
+            during YAML configuration generation to provide human-readable device identifiers.
 
         Args:
-            workflow_config (dict): The device replacement workflow configuration.
+            workflow_config (dict): The device replacement workflow configuration containing
+                the faulty device serial number.
 
         Returns:
-            str or None: The faulty device name if found, None otherwise.
+            str or None: The faulty device hostname if found in the device inventory,
+            otherwise None if the device is not found or API call fails.
         """
         faulty_serial = workflow_config.get("faultyDeviceSerialNumber")
         if not faulty_serial:
@@ -516,19 +558,27 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                     return device_name
 
         except Exception as e:
-            self.log("Error resolving faulty device name: {0}".format(str(e)), "WARNING")
+            self.msg = "Error resolving faulty device name: {0}".format(str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return None
 
     def get_faulty_device_ip_address(self, workflow_config):
         """
-        Get the faulty device IP address from the workflow configuration by resolving the serial number.
+        Resolves faulty device IP address from workflow configuration using device serial number.
+
+        Description:
+            Queries the Cisco Catalyst Center device inventory API to resolve the faulty
+            device serial number to its management IP address. Provides network connectivity
+            information for the faulty device in the generated YAML configuration.
 
         Args:
-            workflow_config (dict): The device replacement workflow configuration.
+            workflow_config (dict): The device replacement workflow configuration containing
+                the faulty device serial number.
 
         Returns:
-            str or None: The faulty device IP address if found, None otherwise.
+            str or None: The faulty device management IP address if found in the device
+            inventory, otherwise None if the device is not found or API call fails.
         """
         faulty_serial = workflow_config.get("faultyDeviceSerialNumber")
         if not faulty_serial:
@@ -553,19 +603,28 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                     return device_ip
 
         except Exception as e:
-            self.log("Error resolving faulty device IP address: {0}".format(str(e)), "WARNING")
+            self.msg = "Error resolving faulty device IP address: {0}".format(str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return None
 
     def get_replacement_device_name(self, workflow_config):
         """
-        Get the replacement device name from the workflow configuration by resolving the serial number.
+        Resolves replacement device name from workflow configuration using device serial number.
+
+        Description:
+            Queries both the Cisco Catalyst Center device inventory and PnP (Plug and Play)
+            APIs to resolve the replacement device serial number to its hostname. Checks
+            regular inventory first, then falls back to PnP inventory for devices that
+            haven't been fully onboarded yet.
 
         Args:
-            workflow_config (dict): The device replacement workflow configuration.
+            workflow_config (dict): The device replacement workflow configuration containing
+                the replacement device serial number.
 
         Returns:
-            str or None: The replacement device name if found, None otherwise.
+            str or None: The replacement device hostname if found in either device inventory
+            or PnP inventory, otherwise None if the device is not found or API calls fail.
         """
         replacement_serial = workflow_config.get("replacementDeviceSerialNumber")
         if not replacement_serial:
@@ -606,20 +665,31 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 return device_name
 
         except Exception as e:
-            self.log("Error resolving replacement device name: {0}".format(str(e)), "WARNING")
+            self.msg = "Error resolving replacement device name: {0}".format(str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return None
 
     def get_replacement_device_ip_address(self, workflow_config):
         """
-        Get the replacement device IP address from the workflow configuration by resolving the serial number.
+        Resolves replacement device IP address from workflow configuration using device serial number.
+
+        Description:
+            Queries both the Cisco Catalyst Center device inventory and PnP APIs to resolve
+            the replacement device serial number to its management IP address. Checks regular
+            inventory first, then falls back to PnP inventory, though PnP devices may not
+            have IP addresses assigned yet.
 
         Args:
-            workflow_config (dict): The device replacement workflow configuration.
+            workflow_config (dict): The device replacement workflow configuration containing
+                the replacement device serial number.
 
         Returns:
-            str or None: The replacement device IP address if found, None otherwise.
+            str or None: The replacement device management IP address if found in device
+            inventory or PnP inventory, otherwise None if the device is not found,
+            no IP is assigned, or API calls fail.
         """
+        self.log("Resolving replacement device IP address from workflow configuration: {0}".format(workflow_config), "DEBUG")
         replacement_serial = workflow_config.get("replacementDeviceSerialNumber")
         if not replacement_serial:
             return None
@@ -668,7 +738,26 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def yaml_config_generator(self, yaml_config_generator):
         """
-        Generates a YAML configuration file based on the provided parameters.
+        Generates comprehensive YAML configuration files for RMA workflow management.
+
+        Description:
+            Orchestrates the complete YAML generation process by processing configuration
+            parameters, retrieving device replacement workflow data, and creating structured
+            YAML files. Handles component validation, data retrieval coordination, and
+            file generation with comprehensive error handling and status reporting.
+
+        Args:
+            yaml_config_generator (dict): Configuration parameters containing:
+                - file_path (str, optional): Target file path for YAML output.
+                - generate_all_configurations (bool): Flag for retrieving all configurations.
+                - component_specific_filters (dict, optional): Filtering criteria for specific workflows.
+                - global_filters (dict, optional): Global filtering options.
+
+        Returns:
+            object: Self instance with updated status and results:
+                - Sets operation result to success with file path information on success.
+                - Sets operation result to failure with error details if issues occur.
+                - Updates self.msg with operation status and component processing details.
         """
         self.log(
             "Starting YAML config generation with parameters: {0}".format(
@@ -679,7 +768,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Fix: Properly handle file_path when it's None
         file_path = yaml_config_generator.get("file_path")
-        if not file_path:  # Changed from yaml_config_generator.get("file_path", self.generate_filename())
+        if not file_path:
             file_path = self.generate_filename()
 
         self.log("File path determined: {0}".format(file_path), "DEBUG")
@@ -758,12 +847,11 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                         )
 
                 except Exception as e:
-                    self.log(
+                    self.msg = (
                         "Error retrieving data for component {0}: {1}".format(component, str(e)),
                         "ERROR"
                     )
-                    import traceback
-                    self.log("Full traceback: {0}".format(traceback.format_exc()), "DEBUG")
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
             else:
                 self.log("No callable operation function for component: {0}".format(component), "ERROR")
 
@@ -778,7 +866,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "- User lacks required permissions\n"
                 "- API function names have changed"
             ).format(self.module_name)
-            self.set_operation_result("ok", False, self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         # Create the final structure for RMA workflows
@@ -804,11 +892,23 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_want(self, config, state):
         """
-        Creates parameters for API calls based on the specified state.
+        Processes and validates configuration parameters for RMA API operations.
+
+        Description:
+            Transforms input configuration parameters into the internal 'want' structure
+            used throughout the module. Validates parameters and prepares configuration
+            data for subsequent processing steps in the RMA workflow generation process.
 
         Args:
-            config (dict): The configuration data for the RMA elements.
-            state (str): The desired state ('gathered').
+            config (dict): The configuration data containing generation parameters,
+                component filters, and RMA workflow settings.
+            state (str): The desired state for the operation (must be 'gathered').
+
+        Returns:
+            object: Self instance with updated attributes:
+                - self.want (dict): Contains validated configuration ready for processing.
+                - self.msg (str): Success message indicating parameter collection completion.
+                - self.status (str): Status set to "success" after parameter validation.
         """
         self.log(
             "Creating Parameters for API Calls with state: {0}".format(state), "INFO"
@@ -833,7 +933,21 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Executes the gather operations for RMA configurations in the Cisco Catalyst Center.
+        Executes the configuration gathering and YAML generation process for RMA workflows.
+
+        Description:
+            Implements the main execution logic for the 'gathered' state in RMA operations.
+            Orchestrates the complete workflow from parameter validation through YAML file
+            generation, with comprehensive error handling, timing information, and status reporting.
+
+        Args:
+            None: Uses instance attributes and methods for operation execution.
+
+        Returns:
+            object: Self instance with updated operation results:
+                - Returns success status when YAML generation completes successfully.
+                - Returns failure status with error information when issues occur.
+                - Includes execution timing and operation processing details.
         """
         start_time = time.time()
         self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
