@@ -71,22 +71,6 @@
             }
         }
     ],
-    "playbook_config_template_by_name_and_id": [
-        {
-            "file_path": "tmp/test_demo.yml",
-            "component_specific_filters": {
-                "components_list": [
-                    "configuration_templates"
-                ],
-                "configuration_templates": [
-                    {
-                        "template_name": "Sample Template 1",
-                        "id": "Sample_TEMPLATE_ID_1"
-                    }
-                ]
-            }
-        }
-    ],
     "playbook_config_template_projects_empty_filter": [
         {
             "file_path": "tmp/test_demo.yml",
@@ -170,7 +154,6 @@
                 "configuration_templates": [
                     {
                         "template_name": "Sample Template 1",
-                        "id": "Sample_TEMPLATE_ID_1",
                         "project_name": "Sample Project 1",
                         "include_uncommitted": true
                     }
@@ -220,12 +203,10 @@
         "response": [
             {
                 "name": "Sample Project 1",
-                "id": "Sample_PROJECT_ID_1",
                 "description": "Sample Project 1 Description"
             },
             {
                 "name": "Sample Project 2",
-                "id": "Sample_PROJECT_ID_2",
                 "description": "Sample Project 2 Description"
             }
         ],
@@ -235,7 +216,6 @@
         "response": [
             {
                 "name": "Sample Template 1",
-                "id": "Sample_TEMPLATE_ID_1",
                 "description": "Sample Template 1 Description",
                 "author": "admin",
                 "deviceTypes": [
@@ -251,7 +231,6 @@
             },
             {
                 "name": "Sample Template 2",
-                "id": "Sample_TEMPLATE_ID_2",
                 "description": "Sample Template 2 Description",
                 "author": "admin",
                 "deviceTypes": [

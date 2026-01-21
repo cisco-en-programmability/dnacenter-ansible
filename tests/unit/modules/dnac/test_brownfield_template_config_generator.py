@@ -38,7 +38,6 @@ class TestBrownfieldTemplateConfigGenerator(TestDnacModule):
     playbook_config_template_projects_by_name_multiple = test_data.get("playbook_config_template_projects_by_name_multiple")
     playbook_config_template_by_name_single = test_data.get("playbook_config_template_by_name_single")
     playbook_config_template_by_name_multiple = test_data.get("playbook_config_template_by_name_multiple")
-    playbook_config_template_by_name_and_id = test_data.get("playbook_config_template_by_name_and_id")
     playbook_config_template_projects_empty_filter = test_data.get("playbook_config_template_projects_empty_filter")
     playbook_config_templates_empty_filter = test_data.get("playbook_config_templates_empty_filter")
     playbook_config_templates_includes_uncommitted_filter = test_data.get("playbook_config_templates_includes_uncommitted_filter")
@@ -144,7 +143,7 @@ class TestBrownfieldTemplateConfigGenerator(TestDnacModule):
             config=self.playbook_config_generate_all_configurations
         ))
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -160,7 +159,7 @@ class TestBrownfieldTemplateConfigGenerator(TestDnacModule):
             config=self.playbook_config_template_projects_by_name_single
         ))
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -176,7 +175,7 @@ class TestBrownfieldTemplateConfigGenerator(TestDnacModule):
             config=self.playbook_config_template_projects_by_name_multiple
         ))
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -192,7 +191,7 @@ class TestBrownfieldTemplateConfigGenerator(TestDnacModule):
             config=self.playbook_config_template_by_name_single
         ))
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -208,23 +207,7 @@ class TestBrownfieldTemplateConfigGenerator(TestDnacModule):
             config=self.playbook_config_template_by_name_multiple
         ))
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
-
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_template_by_name_and_id(self, mock_exists, mock_file):
-        mock_exists.return_value = True
-        set_module_args(dict(
-            dnac_host="1.1.1.1",
-            dnac_username="dummy",
-            dnac_password="dummy",
-            dnac_version="2.3.7.9",
-            dnac_log=True,
-            state="gathered",
-            config=self.playbook_config_template_by_name_and_id
-        ))
-        result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -240,7 +223,7 @@ class TestBrownfieldTemplateConfigGenerator(TestDnacModule):
             config=self.playbook_config_template_projects_empty_filter
         ))
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -256,7 +239,7 @@ class TestBrownfieldTemplateConfigGenerator(TestDnacModule):
             config=self.playbook_config_templates_empty_filter
         ))
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -272,7 +255,7 @@ class TestBrownfieldTemplateConfigGenerator(TestDnacModule):
             config=self.playbook_config_templates_includes_uncommitted_filter
         ))
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -288,7 +271,7 @@ class TestBrownfieldTemplateConfigGenerator(TestDnacModule):
             config=self.playbook_config_template_by_project_name_multiple
         ))
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -304,7 +287,7 @@ class TestBrownfieldTemplateConfigGenerator(TestDnacModule):
             config=self.playbook_config_template_by_template_name_and_project_name
         ))
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -320,7 +303,7 @@ class TestBrownfieldTemplateConfigGenerator(TestDnacModule):
             config=self.playbook_config_template_all_filters
         ))
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')

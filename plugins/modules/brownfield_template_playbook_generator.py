@@ -26,11 +26,6 @@ author:
 - Sunil Shatagopa (@shatagopasunil)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -63,15 +58,13 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  C(<module_name>_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml).
-        - For example, C(template_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml).
+          a default file name  C(<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml).
+        - For example, C(template_workflow_manager_playbook_2026-01-24_12-33-20.yml).
         type: str
       component_specific_filters:
         description:
-        - Filters to specify which components to include in the YAML configuration
-            file.
-        - If C(components_list) is specified, only those components are included,
-            regardless of other filters.
+        - Filters to specify which components to include in the YAML configuration file.
+        - If C(components_list) is specified, only those components are included, regardless of other filters.
         type: dict
         suboptions:
           components_list:
@@ -84,6 +77,7 @@ options:
             - If not specified, all components are included.
             type: list
             elements: str
+            choices: ["projects", "configuration_templates"]
           projects:
             description:
             - Template project filters to apply when retrieving template projects.
@@ -104,28 +98,32 @@ options:
                 description:
                 - Name of the configuration template.
                 type: str
-              id:
-                description:
-                - ID of the configuration template.
-                type: str
               project_name:
                 description:
                 - Name of the project associated with the configuration template.
+                - Retrieves all templates within the specified project.
                 type: str
               include_uncommitted:
                 description:
-                - Whether to include uncommitted templates.
+                - Include uncommitted template versions in retrieval.
+                - Maps to Catalyst Center API parameter C(un_committed).
+                - By default, only committed templates are retrieved.
                 type: bool
+                default: false
+
 requirements:
-- dnacentersdk >= 2.10.10
+- dnacentersdk >= 2.3.7.9
 - python >= 3.9
 notes:
 - SDK Methods used are
     - configuration_templates.ConfigurationTemplates.get_projects_details
     - configuration_templates.ConfigurationTemplates.get_templates_details
 - Paths used are
-    - /dna/intent/api/v2/template-programmer/project
-    - /dna/intent/api/v2/template-programmer/template
+    - GET /dna/intent/api/v2/template-programmer/project
+    - GET /dna/intent/api/v2/template-programmer/template
+seealso:
+- module: cisco.dnac.template_workflow_manager
+  description: Module for managing template projects and templates.
 """
 
 EXAMPLES = r"""
@@ -323,22 +321,33 @@ response_1:
   type: dict
   sample: >
     {
-      "response":
-        {
-          "response": String,
-          "version": String
+        "msg": {
+            "components_processed": 2,
+            "components_skipped": 0,
+            "configurations_count": 23,
+            "file_path": "template_workflow_manager_playbook_2026-01-24_13-46-54.yml",
+            "message": "YAML configuration file generated successfully for module 'template_workflow_manager'",
+            "status": "success"
         },
-      "msg": String
+        "response": {
+            "components_processed": 2,
+            "components_skipped": 0,
+            "configurations_count": 23,
+            "file_path": "template_workflow_manager_playbook_2026-01-24_13-46-54.yml",
+            "message": "YAML configuration file generated successfully for module 'template_workflow_manager'",
+            "status": "success"
+        },
+        "status": "success"
     }
 # Case_2: Error Scenario
 response_2:
   description: A string with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
-  type: list
+  type: dict
   sample: >
     {
-      "response": [],
-      "msg": String
+        "msg": "Validation Error in entry 1: 'component_specific_filters' must be provided when 'generate_all_configurations' is set to False.",
+        "response": "Validation Error in entry 1: 'component_specific_filters' must be provided when 'generate_all_configurations' is set to False."
     }
 """
 
@@ -401,9 +410,6 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
         self.module_schema = self.get_workflow_elements_schema()
         self.module_name = "template_workflow_manager"
 
-        # Initialize generate_all_configurations as class-level parameter
-        self.generate_all_configurations = False
-
     def validate_input(self):
         """
         Validates the input configuration parameters for the playbook.
@@ -424,18 +430,32 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {"type": "bool", "required": False, "default": False},
-            "file_path": {"type": "str", "required": False},
-            "component_specific_filters": {"type": "dict", "required": False}
+            "generate_all_configurations": {
+                "type": "bool",
+                "required": False,
+                "default": False
+            },
+            "file_path": {
+                "type": "str",
+                "required": False
+            },
+            "component_specific_filters": {
+                "type": "dict",
+                "required": False
+            }
         }
 
         # Validate params
+        self.log("Validating configuration against schema", "DEBUG")
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
 
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
+
+        self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
+        self.validate_minimum_requirements(self.config)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -447,11 +467,10 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_workflow_elements_schema(self):
         """
-        Description:
-            Constructs and returns a structured mapping for managing template information
-            such as configuration_templates and projects. This mapping includes
-            associated filters, temporary specification functions, API details, and fetch function references
-            used in the template workflow orchestration process.
+        Constructs and returns a structured mapping for managing template information
+        such as configuration_templates and projects. This mapping includes
+        associated filters, temporary specification functions, API details, and fetch function references
+        used in the template workflow orchestration process.
 
         Args:
             self: Refers to the instance of the class containing definitions of helper methods like
@@ -468,9 +487,7 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
                     - "get_function_name": Reference to the internal function used to retrieve the component data.
         """
 
-        self.log(
-            "Retrieving workflow filters schema for template module.", "DEBUG"
-        )
+        self.log("Building workflow filters schema for template workflow manager module.", "DEBUG")
 
         schema = {
             "network_elements": {
@@ -484,7 +501,6 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "configuration_templates": {
                     "filters": [
                         "template_name",
-                        "id",
                         "project_name",
                         "include_uncommitted"
                     ],
@@ -514,16 +530,23 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Returns:
             list: A list containing a single dictionary with the following keys:
-                - "product_family" (str): Device family type
-                - "product_series" (str): Device series type
-                - "product_type" (str): Device type
+                - "product_family" (str): Device family classification
+                - "product_series" (str): Device series classification
+                - "product_type" (str): Specific device type
         """
 
         self.log(
-            "Transforming device types for template details: \n{0}".format(self.pprint(template_details)),
+            "Starting device types transformation for given device types: {0}"
+            .format(template_details.get("deviceTypes", "Unknown")),
             "DEBUG"
         )
         device_types = template_details.get("deviceTypes", [])
+
+        if not device_types:
+            self.log("No device types found in template details", "DEBUG")
+            return device_types
+
+        self.log("Processing {0} device type(s) from template".format(len(device_types)), "DEBUG")
 
         final_device_types = []
         for device_type in device_types:
@@ -535,7 +558,10 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
                 }.items() if v is not None
             })
 
-        self.log("Transformed Device Types: {0}".format(final_device_types), "INFO")
+        self.log(
+            "Completed device types transformation. Transformed {0} device type(s): {1}"
+            .format(len(final_device_types), final_device_types), "DEBUG"
+        )
 
         return final_device_types
 
@@ -554,10 +580,16 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
         """
 
         self.log(
-            "Transforming tags for template details: \n{0}".format(self.pprint(template_details)),
+            "Starting tags transformation for given tags: {0}".format(template_details.get("tags", "Unknown")),
             "DEBUG"
         )
         tags = template_details.get("tags", [])
+
+        if not tags:
+            self.log("No tags found in template details", "DEBUG")
+            return tags
+
+        self.log("Processing {0} tag(s) from template".format(len(tags)), "DEBUG")
 
         final_tags = []
         for tag in tags:
@@ -568,33 +600,57 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
                 }.items() if v is not None
             })
 
-        self.log("Transformed Tags: {0}".format(final_tags), "INFO")
+        self.log(
+            "Completed tags transformation. Transformed {0} tag(s): {1}"
+            .format(len(final_tags), final_tags), "DEBUG"
+        )
 
         return final_tags
 
     def transform_template_content(self, template_details):
         """
-        Transforms template content for a given template by processing the content
-        based on its language type.
+        Transforms template content by wrapping Jinja templates in raw tags.
+
+        Processes template content based on the template language type. For Jinja templates,
+        wraps the content in {% raw %}...{% endraw %} tags to prevent Ansible from
+        interpreting Jinja variables during playbook execution.
 
         Args:
             template_details (dict): A dictionary containing template-specific information.
 
         Returns:
-            str: The transformed template content, wrapped in Jinja raw tags if the language is JINJA.
+            str: The transformed template content. Returns:
+            - Content wrapped in {% raw %}...{% endraw %} tags if language is JINJA
+            - Original content unchanged for non-Jinja templates
+            - None if template_content is missing or empty
         """
+
         self.log(
-            "Transforming template content for template details: \n{0}".format(self.pprint(template_details)),
+            "Starting template content transformation for given template content: {0}"
+            .format(template_details.get("templateContent", "Unknown")),
             "DEBUG"
         )
         template_language = template_details.get("language")
         template_content = template_details.get("templateContent")
 
-        if template_content and template_language == "JINJA":
-            # Strip leading/trailing whitespace and ensure exactly one newline at the end
+        if not template_content:
+            self.log("No template content found in template details", "DEBUG")
+            return None
+
+        self.log(
+            "Processing template with language: {0}, content length: {1} characters".format(
+                template_language, len(template_content)
+            ),
+            "DEBUG"
+        )
+
+        if template_language == "JINJA":
             template_content = f'{{% raw %}}{template_content}{{% endraw %}}'
 
-        self.log("Transformed Template Content: {0}".format(template_content), "INFO")
+        self.log(
+            "Completed template content transformation. Transformed template content: {0}"
+            .format(template_content), "DEBUG"
+        )
 
         return template_content
 
@@ -607,21 +663,50 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
             template_details (dict): A dictionary containing template-specific information.
 
         Returns:
-            list: A list of dictionaries, each containing attributes of a containing template.
+            list: A list of dictionaries containing transformed containing template information.
+                Each dictionary contains standardized fields:
+                - "name" (str): Template name
+                - "description" (str): Template description
+                - "project_name" (str): Associated project name
+                - "composite" (bool): Whether template is composite
+                - "language" (str): Template language (JINJA, VELOCITY, etc.)
         """
-        self.log(
-            "Transforming containing templates for template details: {0}".format(template_details),
+        self.log
+        (
+            "Starting containing templates transformation for given containing templates: {0}"
+            .format(template_details.get("containingTemplates", "Unknown")),
             "DEBUG"
         )
 
         containing_templates = template_details.get("containingTemplates", [])
-        containing_templates_temp_spec = self.containing_templates_temp_spec()
-        containing_templates_final = self.modify_parameters(
-            containing_templates_temp_spec, containing_templates)
+        if not containing_templates:
+            self.log("No containing templates found in template details", "DEBUG")
+            return containing_templates
 
-        self.log("Transformed Containing Templates: {0}".format(containing_templates_final), "INFO")
+        self.log(
+            "Processing {0} containing template(s) from parent template".format(
+                len(containing_templates)
+            ),
+            "DEBUG"
+        )
+        final_containing_templates = []
+        for template in containing_templates:
+            final_containing_templates.append({
+                k: v for k, v in {
+                    "name": template.get("name"),
+                    "description": template.get("description"),
+                    "project_name": template.get("projectName"),
+                    "composite": template.get("composite"),
+                    "language": template.get("language")
+                }.items() if v is not None
+            })
 
-        return containing_templates_final
+        self.log(
+            "Completed containing template transformation. Transformed {0} containing template(s): {1}"
+            .format(len(final_containing_templates), final_containing_templates), "DEBUG"
+        )
+
+        return final_containing_templates
 
     def containing_templates_temp_spec(self):
         """
@@ -716,7 +801,11 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_template_projects_details(self, network_element, component_specific_filters=None):
         """
-        Retrieves template projects based on the provided network element and component-specific filters.
+        Retrieves template project details from Catalyst Center with pagination support.
+
+        Fetches project information using network element configuration and optional filters.
+        Handles paginated API responses and transforms data into standardized format for
+        YAML playbook generation. Supports filtering by project name.
 
         Args:
             network_element (dict): A dictionary containing the API family and function for retrieving template projects.
@@ -732,51 +821,108 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
             ),
             "DEBUG",
         )
-        final_template_projects = []
+
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
+        if not api_family or not api_function:
+            self.log(
+                "Missing API family or function in network element: {0}".format(network_element),
+                "ERROR"
+            )
+            return {"projects": []}
+
+        final_template_projects = []
+
         self.log(
-            "Getting template projects using family '{0}' and function '{1}'.".format(
+            "Getting template projects using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "INFO",
+            "DEBUG"
         )
 
         params = {}
         if component_specific_filters:
+            self.log(
+                "Started Processing {0} filter(s) for projects retrieval".format(
+                    len(component_specific_filters)
+                ),
+                "DEBUG"
+            )
+
             for filter_param in component_specific_filters:
-                for key, value in filter_param.items():
-                    if key == "name":
-                        params["name"] = value
-                    else:
-                        self.log(
-                            "Ignoring unsupported filter parameter: {0}".format(key),
-                            "DEBUG",
-                        )
+                if "name" in filter_param:
+                    params["name"] = filter_param["name"]
+
+                unsupported_keys = set(filter_param.keys()) - {"name"}
+                if unsupported_keys:
+                    self.log(
+                        "Ignoring unsupported filter parameters for projects: {0}".format(unsupported_keys),
+                        "WARNING"
+                    )
+
+                self.log(
+                    "Fetching projects with parameters: {0}".format(params),
+                    "DEBUG"
+                )
                 template_project_details = self.execute_get_with_pagination(
                     api_family, api_function, params
                 )
-                self.log("Retrieved template project details: {0}".format(template_project_details), "INFO")
-                final_template_projects.extend(template_project_details)
-            self.log("Using component-specific filters for API call.", "INFO")
+
+                if template_project_details:
+                    final_template_projects.extend(template_project_details)
+                    self.log(
+                        "Retrieved {0} project(s): {1}".format(
+                            len(template_project_details), template_project_details
+                        ),
+                        "DEBUG"
+                    )
+                else:
+                    self.log(
+                        "No projects found for parameters: {0}".format(params),
+                        "DEBUG"
+                    )
+
+            self.log(
+                "Completed Processing {0} filter(s) for projects retrieval".format(
+                    len(component_specific_filters)
+                ),
+                "DEBUG"
+            )
         else:
-            # Execute API call to retrieve Template Project details
+            self.log("Fetching all project details from Catalyst Center", "DEBUG")
+
             template_project_details = self.execute_get_with_pagination(
                 api_family, api_function, params
             )
-            self.log("Retrieved template project details: {0}".format(template_project_details), "INFO")
-            final_template_projects.extend(template_project_details)
 
-        # Modify Template Project details using temp_spec
+            if template_project_details:
+                final_template_projects.extend(template_project_details)
+                self.log(
+                    "Retrieved {0} project(s) from Catalyst Center".format(
+                        len(template_project_details)
+                    ),
+                    "DEBUG"
+                )
+            else:
+                self.log("No projects found in Catalyst Center", "DEBUG")
+
+        # Transform using temp spec
+        self.log(
+            "Transforming {0} project(s) using projects temp spec".format(
+                len(final_template_projects)
+            ),
+            "DEBUG"
+        )
         template_projects_temp_spec = self.projects_temp_spec()
         template_project_details = self.modify_parameters(
             template_projects_temp_spec, final_template_projects
         )
+
         modified_template_project_details = {}
         modified_template_project_details['projects'] = template_project_details
 
         self.log(
-            "Modified Template Project details: {0}".format(
+            "Completed retrieving template project(s): {0}".format(
                 modified_template_project_details
             ),
             "INFO",
@@ -786,7 +932,12 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_template_details(self, network_element, component_specific_filters=None):
         """
-        Retrieves template details based on the provided network element and component-specific filters.
+        Retrieves template configuration details from Catalyst Center with pagination support.
+
+        Fetches template information using network element configuration and optional filters.
+        Handles paginated API responses and transforms data into standardized format for
+        YAML playbook generation. Supports filtering by template name, ID, project name,
+        and uncommitted template inclusion.
 
         Args:
             network_element (dict): A dictionary containing the API family and function for retrieving template details.
@@ -802,60 +953,117 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
             ),
             "DEBUG",
         )
-        final_template_details = []
+
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
+        if not api_family or not api_function:
+            self.log(
+                "Missing API family or function in network element: {0}".format(network_element),
+                "ERROR"
+            )
+            return []
+
+        final_template_details = []
+
         self.log(
-            "Getting template details using family '{0}' and function '{1}'.".format(
+            "Getting templates using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "INFO",
+            "DEBUG"
         )
 
         params = {}
         if component_specific_filters:
-            for filter_param in component_specific_filters:
-                for key, value in filter_param.items():
-                    if key == "template_name":
-                        params["name"] = value
-                    elif key == "id":
-                        params["id"] = value
-                    elif key == "project_name":
-                        params["project_name"] = value
-                    elif key == "include_uncommitted":
-                        params["un_committed"] = value
-                    else:
-                        self.log(
-                            "Ignoring unsupported filter parameter: {0}".format(key),
-                            "DEBUG",
-                        )
+            self.log(
+                "Started Processing {0} filter(s) for templates retrieval".format(
+                    len(component_specific_filters)
+                ),
+                "DEBUG"
+            )
 
-                self.log(f"Calling API with params: {params}", "DEBUG")
+            for filter_param in component_specific_filters:
+                supported_keys = {"template_name", "id", "project_name", "include_uncommitted"}
+
+                if "template_name" in filter_param:
+                    params["name"] = filter_param["template_name"]
+                if "id" in filter_param:
+                    params["id"] = filter_param["id"]
+                if "project_name" in filter_param:
+                    params["project_name"] = filter_param["project_name"]
+                if "include_uncommitted" in filter_param:
+                    params["un_committed"] = filter_param["include_uncommitted"]
+
+                unsupported_keys = set(filter_param.keys()) - supported_keys
+                if unsupported_keys:
+                    self.log(
+                        "Ignoring unsupported filter parameters for templates: {0}".format(unsupported_keys),
+                        "WARNING"
+                    )
+
+                self.log(
+                    "Fetching templates with parameters: {0}".format(params),
+                    "DEBUG"
+                )
                 template_details = self.execute_get_with_pagination(
                     api_family, api_function, params
                 )
-                self.log("Retrieved template details: {0}".format(template_details), "INFO")
-                final_template_details.extend(template_details)
-            self.log("Using component-specific filters for API call.", "INFO")
+
+                if template_details:
+                    final_template_details.extend(template_details)
+                    self.log(
+                        "Retrieved {0} template(s): {1}".format(
+                            len(template_details), template_details
+                        ),
+                        "DEBUG"
+                    )
+                else:
+                    self.log(
+                        "No templates found for parameters: {0}".format(params),
+                        "DEBUG"
+                    )
+
+            self.log(
+                "Completed Processing {0} filter(s) for templates retrieval".format(
+                    len(component_specific_filters)
+                ),
+                "DEBUG"
+            )
         else:
-            # Execute API call to retrieve Template Project details
+            self.log("Fetching all template details from Catalyst Center", "DEBUG")
+
             template_details = self.execute_get_with_pagination(
                 api_family, api_function, params
             )
-            self.log("Retrieved template details: {0}".format(template_details), "INFO")
-            final_template_details.extend(template_details)
 
-        # Modify Template Project details using temp_spec
+            if template_details:
+                final_template_details.extend(template_details)
+                self.log(
+                    "Retrieved {0} template(s) from Catalyst Center".format(
+                        len(template_details)
+                    ),
+                    "DEBUG"
+                )
+            else:
+                self.log("No templates found in Catalyst Center", "DEBUG")
+
+        # Transform using temp spec
+        self.log(
+            "Transforming {0} template(s) using templates temp spec".format(
+                len(final_template_details)
+            ),
+            "DEBUG"
+        )
         template_projects_temp_spec = self.templates_temp_spec()
         template_details = self.modify_parameters(
             template_projects_temp_spec, final_template_details
         )
+
         modified_template_details = []
         for template in template_details:
             modified_template_details.append({"configuration_templates": template})
 
         self.log(
-            "Modified Template details: {0}".format(
+            "Completed retrieving template detail(s): {0}".format(
                 modified_template_details
             ),
             "INFO",
@@ -863,60 +1071,14 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return modified_template_details
 
-    def write_dict_to_yaml(self, data_dict, file_path):
-        """
-        Converts a dictionary to YAML format and writes it to a specified file path.
-        Args:
-            data_dict (dict): The dictionary to convert to YAML format.
-            file_path (str): The path where the YAML file will be written.
-        Returns:
-            bool: True if the YAML file was successfully written, False otherwise.
-        """
-
-        self.log(
-            "Starting to write dictionary to YAML file at: {0}".format(file_path), "DEBUG"
-        )
-        try:
-            self.log("Starting conversion of dictionary to YAML format.", "INFO")
-            yaml_content = yaml.dump(
-                data_dict,
-                Dumper=OrderedDumper,
-                default_flow_style=False,
-                indent=2,
-                allow_unicode=True,
-                sort_keys=False  # Important: Don't sort keys to preserve order
-            )
-            yaml_content = "---\n" + yaml_content
-            self.log("Dictionary successfully converted to YAML format.", "DEBUG")
-
-            # Ensure the directory exists
-            self.ensure_directory_exists(file_path)
-
-            self.log(
-                "Preparing to write YAML content to file: {0}".format(file_path), "INFO"
-            )
-            with open(file_path, "w") as yaml_file:
-                yaml_file.write(yaml_content)
-
-            self.log(
-                "Successfully written YAML content to {0}.".format(file_path), "INFO"
-            )
-            return True
-
-        except Exception as e:
-            self.msg = "An error occurred while writing to {0}: {1}".format(
-                file_path, str(e)
-            )
-            self.fail_and_exit(self.msg)
-
     def yaml_config_generator(self, yaml_config_generator):
         """
         Generates a YAML configuration file based on the provided parameters.
-        This function retrieves network element details using global and component-specific filters, processes the data,
+        This function retrieves network element details using component-specific filters, processes the data,
         and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
 
         Args:
-            yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
+            yaml_config_generator (dict): Contains file_path and component_specific_filters.
 
         Returns:
             self: The current instance with the operation result and message updated.
@@ -924,7 +1086,7 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log(
             "Starting YAML config generation with parameters: {0}".format(
-                yaml_config_generator
+                self.pprint(yaml_config_generator)
             ),
             "DEBUG",
         )
@@ -948,17 +1110,13 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
         if generate_all:
             # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
             self.log("Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features", "INFO")
-            if yaml_config_generator.get("global_filters"):
-                self.log("Warning: global_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
             if yaml_config_generator.get("component_specific_filters"):
                 self.log("Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
 
             # Set empty filters to retrieve everything
-            global_filters = {}
             component_specific_filters = {}
         else:
             # Use provided filters or default to empty
-            global_filters = yaml_config_generator.get("global_filters") or {}
             component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
 
         self.log("Retrieving supported network elements schema for the module", "DEBUG")
@@ -971,7 +1129,10 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
         self.log("Initializing final configuration list and operation summary tracking", "DEBUG")
-        final_list = []
+        final_config_list = []
+        processed_count = 0
+        skipped_count = 0
+
         for component in components_list:
             self.log("Processing component: {0}".format(component), "DEBUG")
             network_element = module_supported_network_elements.get(component)
@@ -980,40 +1141,83 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "Component {0} not supported by module, skipping processing".format(component),
                     "WARNING",
                 )
+                skipped_count += 1
                 continue
 
             filters = component_specific_filters.get(component, [])
             operation_func = network_element.get("get_function_name")
-            if callable(operation_func):
-                details = operation_func(network_element, filters)
+            if not callable(operation_func):
                 self.log(
-                    "Details retrieved for {0}: {1}".format(component, details), "DEBUG"
+                    "No retrieval function defined for component: {0}".format(component),
+                    "ERROR"
                 )
-                if component == "configuration_templates" and isinstance(details, list):
-                    final_list.extend(details)  # Flatten the list
-                else:
-                    final_list.append(details)
+                skipped_count += 1
+                continue
 
-        if not final_list:
-            self.log("No configurations found to process, setting appropriate result", "WARNING")
-            self.msg = {
-                "message": "No configurations or components to process for module '{0}'. Verify input filters or configuration.".format(
-                    self.module_name
+            component_data = operation_func(network_element, filters)
+            # Validate retrieval success
+            if not component_data:
+                self.log(
+                    "No data retrieved for component: {0}".format(component),
+                    "DEBUG"
                 )
+                continue
+
+            self.log(
+                "Details retrieved for {0}: {1}".format(component, component_data), "DEBUG"
+            )
+            processed_count += 1
+
+            if component == "configuration_templates" and isinstance(component_data, list):
+                final_config_list.extend(component_data)  # Flatten the list
+            else:
+                final_config_list.append(component_data)
+
+        if not final_config_list:
+            self.log(
+                "No configurations retrieved. Processed: {0}, Skipped: {1}, Components: {2}".format(
+                    processed_count, skipped_count, components_list
+                ),
+                "WARNING"
+            )
+            self.msg = {
+                "status": "ok",
+                "message": (
+                    "No configurations found for module '{0}'. Verify filters and component availability. "
+                    "Components attempted: {1}".format(self.module_name, components_list)
+                ),
+                "components_attempted": len(components_list),
+                "components_processed": processed_count,
+                "components_skipped": skipped_count
             }
             self.set_operation_result("ok", False, self.msg, "INFO")
             return self
 
-        final_dict = {"config": final_list}
-        self.log("Final dictionary created: {0}".format(final_dict), "DEBUG")
+        yaml_config_dict = {"config": final_config_list}
+        self.log(
+            "Final config dictionary created: {0}".format(self.pprint(yaml_config_dict)),
+            "DEBUG"
+        )
 
-        if self.write_dict_to_yaml(final_dict, file_path):
+        if self.write_dict_to_yaml(yaml_config_dict, file_path, OrderedDumper):
             self.msg = {
-                "YAML config generation Task succeeded for module '{0}'.".format(
+                "status": "success",
+                "message": "YAML configuration file generated successfully for module '{0}'".format(
                     self.module_name
-                ): {"file_path": file_path}
+                ),
+                "file_path": file_path,
+                "components_processed": processed_count,
+                "components_skipped": skipped_count,
+                "configurations_count": len(final_config_list)
             }
             self.set_operation_result("success", True, self.msg, "INFO")
+
+            self.log(
+                "YAML configuration generation completed. File: {0}, Components: {1}/{2}, Configs: {3}".format(
+                    file_path, processed_count, len(components_list), len(final_config_list)
+                ),
+                "INFO"
+            )
         else:
             self.msg = {
                 "YAML config generation Task failed for module '{0}'.".format(
@@ -1024,66 +1228,33 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return self
 
-    def get_want(self, config, state):
-        """
-        Creates parameters for API calls based on the specified state.
-        This method prepares the parameters required for adding, updating, or deleting
-        network configurations such as SSIDs and interfaces in the Cisco Catalyst Center
-        based on the desired state. It logs detailed information for each operation.
-        Args:
-            config (dict): The configuration data for the network elements.
-            state (str): The desired state of the network elements ('merged' or 'deleted').
-        """
-
-        self.log(
-            "Creating Parameters for API Calls with state: {0}".format(state), "INFO"
-        )
-
-        self.validate_params(config)
-
-        # Set generate_all_configurations after validation
-        self.generate_all_configurations = config.get("generate_all_configurations", False)
-        self.log("Set generate_all_configurations mode: {0}".format(self.generate_all_configurations), "DEBUG")
-
-        want = {}
-
-        # Add yaml_config_generator to want
-        want["yaml_config_generator"] = config
-        self.log(
-            "yaml_config_generator added to want: {0}".format(
-                want["yaml_config_generator"]
-            ),
-            "INFO",
-        )
-
-        self.want = want
-        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
-        self.msg = "Successfully collected all parameters from the playbook for Wireless Design operations."
-        self.status = "success"
-        return self
-
     def get_diff_gathered(self):
         """
-        Executes the merge operations for various network configurations in the Cisco Catalyst Center.
-        This method processes additions and updates for SSIDs, interfaces, power profiles, access point profiles,
-        radio frequency profiles, and anchor groups. It logs detailed information about each operation,
-        updates the result status, and returns a consolidated result.
+        Executes YAML configuration file generation for brownfield template workflow.
+
+        Processes the desired state parameters prepared by get_want() and generates a
+        YAML configuration file containing network element details from Catalyst Center.
+        This method orchestrates the yaml_config_generator operation and tracks execution
+        time for performance monitoring.
         """
 
         start_time = time.time()
         self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
-        operations = [
+        # Define workflow operations
+        workflow_operations = [
             (
                 "yaml_config_generator",
                 "YAML Config Generator",
                 self.yaml_config_generator,
             )
         ]
+        operations_executed = 0
+        operations_skipped = 0
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined operations for processing.", "DEBUG")
+        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
         for index, (param_key, operation_name, operation_func) in enumerate(
-            operations, start=1
+            workflow_operations, start=1
         ):
             self.log(
                 "Iteration {0}: Checking parameters for {1} operation with param_key '{2}'.".format(
@@ -1099,8 +1270,27 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
                     ),
                     "INFO",
                 )
-                operation_func(params).check_return_status()
+
+                try:
+                    operation_func(params).check_return_status()
+                    operations_executed += 1
+                    self.log(
+                        "{0} operation completed successfully".format(operation_name),
+                        "DEBUG"
+                    )
+                except Exception as e:
+                    self.log(
+                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
+                        "ERROR"
+                    )
+                    self.set_operation_result(
+                        "failed", True,
+                        "{0} operation failed: {1}".format(operation_name, str(e)),
+                        "ERROR"
+                    ).check_return_status()
+
             else:
+                operations_skipped += 1
                 self.log(
                     "Iteration {0}: No parameters found for {1}. Skipping operation.".format(
                         index, operation_name
@@ -1135,7 +1325,6 @@ def main():
         "dnac_log_append": {"type": "bool", "default": True},
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
