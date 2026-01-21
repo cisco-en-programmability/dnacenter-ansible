@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2024, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Access Point workflow Module."""
@@ -329,7 +329,7 @@ else:
     OrderedDumper = None
 
 
-class AccesspointGenerator(DnacBase, BrownFieldHelper):
+class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
     """
     A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center
     using the GET APIs.
@@ -341,7 +341,7 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
         """
         Initialize an instance of the class.
 
-        Args:
+        Parameters:
             module: The module associated with the class instance.
 
         Returns:
@@ -351,7 +351,7 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
         super().__init__(module)
         self.module_name = "accesspoint_workflow_manager"
         self.module_schema = self.get_workflow_elements_schema()
-        self.log("Initialized AccesspointGenerator class instance.", "DEBUG")
+        self.log("Initialized AccessPointPlaybookGenerator class instance.", "DEBUG")
         self.log(self.module_schema, "DEBUG")
 
         # Initialize generate_all_configurations as class-level parameter
@@ -406,7 +406,7 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
         """
         Validates individual configuration parameters for brownfield access point generation.
 
-        Args:
+        Parameters:
             config (dict): Configuration parameters
 
         Returns:
@@ -446,9 +446,12 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
         in the Cisco Catalyst Center
         based on the desired state. It logs detailed information for each operation.
 
-        Args:
+        Parameters:
             config (dict): The configuration data for the access point config elements.
             state (str): The desired state of the network elements ('gathered').
+
+        Returns:
+            self: The current instance of the class with updated 'want' attributes.
         """
 
         self.log(
@@ -482,7 +485,7 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
         It logs detailed information about the retrieval process and updates the
         current state attributes accordingly.
 
-        Args:
+        Parameters:
             config (dict): The configuration data for the access point configuration elements.
 
         Returns:
@@ -946,7 +949,7 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
 
         if self.have.get("unprocessed"):
             self.msg = "Some access point configurations were not processed: " + str(self.have.get("unprocessed"))
-            self.set_operation_result("warning", True, self.msg, "WARNING")
+            self.set_operation_result("failed", False, self.msg, "WARNING")
 
         return self
 
@@ -957,7 +960,7 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
         processes the data and writes the YAML content to a specified file.
         It dynamically handles multiple access points configuration and their respective filters.
 
-        Args:
+        Parameters:
             yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
 
         Returns:
@@ -1039,7 +1042,7 @@ class AccesspointGenerator(DnacBase, BrownFieldHelper):
         """
         Process global filters for access point configuration workflow.
 
-        Args:
+        Parameters:
             global_filters (dict): A dictionary containing global filter parameters.
 
         Returns:
@@ -1273,7 +1276,7 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_accesspoint_playbook_generator = AccesspointGenerator(module)
+    ccc_accesspoint_playbook_generator = AccessPointPlaybookGenerator(module)
     if (
         ccc_accesspoint_playbook_generator.compare_dnac_versions(
             ccc_accesspoint_playbook_generator.get_ccc_version(), "2.3.5.3"
@@ -1282,7 +1285,7 @@ def main():
     ):
         ccc_accesspoint_playbook_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
-            "for <module_name_caps> Module. Supported versions start from '2.3.5.3' onwards. ".format(
+            "for ACCESSPOINT WORKFLOW MANAGER Module. Supported versions start from '2.3.5.3' onwards. ".format(
                 ccc_accesspoint_playbook_generator.get_ccc_version()
             )
         )
