@@ -52,7 +52,7 @@ options:
     elements: dict
     required: true
     suboptions:
-      site_type:
+      type:
         description:
           - Specifies the type of site component to manage.
           - Must be one of "area", "building", or "floor".
@@ -296,7 +296,7 @@ EXAMPLES = r"""
           area:
             name: Test
             parent_name: Global/India
-        site_type: area
+        type: area
 
 - name: Create a new building site
   cisco.dnac.site_workflow_manager:
@@ -318,7 +318,7 @@ EXAMPLES = r"""
             address: Bengaluru, Karnataka, India
             latitude: 24.12
             longitude: 23.45
-        site_type: building
+        type: building
 
 - name: Create a Floor site under the building
   cisco.dnac.site_workflow_manager:
@@ -342,7 +342,7 @@ EXAMPLES = r"""
             height: 30.12
             rf_model: Cubes And Walled Offices
             floor_number: 2
-        site_type: floor
+        type: floor
 
 - name: Updating the Floor details under the building
   cisco.dnac.site_workflow_manager:
@@ -364,7 +364,7 @@ EXAMPLES = r"""
             length: 75.76
             width: 35.54
             height: 30.12
-        site_type: floor
+        type: floor
 
 - name: Deleting any site you need site name and parent name
   cisco.dnac.site_workflow_manager:
@@ -383,7 +383,7 @@ EXAMPLES = r"""
           floor:
             name: Floor_1
             parent_name: Global/India/Building_1
-        site_type: floor
+        type: floor
 
 - name: Create bulk sites and upload floor map
   cisco.dnac.site_workflow_manager:
