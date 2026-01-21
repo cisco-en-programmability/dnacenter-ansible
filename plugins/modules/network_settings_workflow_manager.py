@@ -612,7 +612,7 @@ options:
             required: false
             default: false
 requirements:
-  - dnacentersdk >= 2.8.6
+  - dnacentersdk >= 2.7.2
   - python >= 3.9
 notes:
   - SDK Method used are
@@ -632,15 +632,7 @@ notes:
     network_settings.NetworkSettings.updates_a_global_ip_address_pool,
     network_settings.NetworkSettings.updates_an_ip_address_subpool,
     network_settings.NetworkSettings.get_device_controllability_settings,
-    network_settings.NetworkSettings.update_device_controllability_settings,
-    network_settings.NetworkSettings.retrieve_d_h_c_p_settings_for_a_site,
-    network_settings.NetworkSettings.retrieve_d_n_s_settings_for_a_site,
-    network_settings.NetworkSettings.retrieve_telemetry_settings_for_a_site,
-    network_settings.NetworkSettings.set_telemetry_settings_for_a_site,
-    network_settings.NetworkSettings.retrieve_n_t_p_settings_for_a_site,
-    network_settings.NetworkSettings.retrieve_time_zone_settings_for_a_site,
-    network_settings.NetworkSettings.retrieve_banner_settings_for_a_site,
-    network_settings.NetworkSettings.retrieve_aaa_settings_for_a_site
+    network_settings.NetworkSettings.update_device_controllability_settings
 
   - Paths used are
     post /dna/intent/api/v1/global-pool,
@@ -650,24 +642,16 @@ notes:
     delete /dna/intent/api/v1/reserve-ip-subpool/{id},
     put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
     put /dna/intent/api/v2/network/{siteId},
-    GET /intent/api/v1/ipam/globalIpAddressPools,
-    GET /intent/api/v1/ipam/siteIpAddressPools,
-    POST /intent/api/v1/ipam/globalIpAddressPools,
-    POST /intent/api/v1/ipam/siteIpAddressPools,
-    PUT /intent/api/v1/ipam/globalIpAddressPools/{id},
-    PUT /intent/api/v1/ipam/siteIpAddressPools/{id},
-    DELETE /intent/api/v1/ipam/globalIpAddressPools/{id},
-    DELETE /intent/api/v1/ipam/siteIpAddressPools/{id},
-    GET /networkDevices/deviceControllability/settings,
-    PUT /dna/intent/api/v1/networkDevices/deviceControllability/settings,
-    GET /dna/intent/api/v1/sites/{id}/networkSettings/dhcp,
-    GET /dna/intent/api/v1/sites/{id}/networkSettings/dns,
-    GET /dna/intent/api/v1/sites/{id}/networkSettings/telemetry,
-    PUT /dna/intent/api/v1/sites/{id}/networkSettings/telemetry,
-    GET /dna/intent/api/v1/sites/{id}/networkSettings/ntp,
-    GET /dna/intent/api/v1/sites/{id}/networkSettings/timeZone,
-    GET /dna/intent/api/v1/sites/{id}/networkSettings/banner,
-    GET /dna/intent/api/v1/sites/{id}/networkSettings/aaa
+    GET /intent/api/v1/ipam/globalIpAddressPools
+    GET /intent/api/v1/ipam/siteIpAddressPools
+    POST /intent/api/v1/ipam/globalIpAddressPools
+    POST /intent/api/v1/ipam/siteIpAddressPools
+    PUT /intent/api/v1/ipam/globalIpAddressPools/{id}
+    PUT /intent/api/v1/ipam/siteIpAddressPools/{id}
+    DELETE  /intent/api/v1/ipam/globalIpAddressPools/{id}
+    DELETE  /intent/api/v1/ipam/siteIpAddressPools/{id}
+    GET /networkDevices/deviceControllability/settings
+    PUT /dna/intent/api/v1/networkDevices/deviceControllability/settings
 """
 EXAMPLES = r"""
 ---
