@@ -141,7 +141,7 @@ options:
             Switches"]
         type: list
         elements: str
-      collection_status:
+      collection_status_list:
         description:
           - Specifies the list of collection status
             of the device(s) as displayed in the inventory
