@@ -219,7 +219,8 @@ options:
           - Mesh APs create wireless backhaul connections to extend network coverage, while non-mesh APs connect directly to the wired infrastructure.
           - This setting works in conjunction with 'ap_authorization_list_name' for complete AP authorization workflow.
           - Supported from Cisco Catalyst Center release version 2.3.7.6 onwards.
-          type: bool
+        type: bool
+        default: false
       feature_template:
         description: |
           - A dictionary containing feature template configuration for advanced wireless device provisioning.
@@ -228,7 +229,8 @@ options:
           - The specified template must exist in Cisco Catalyst Center before it can be applied during provisioning.
           - Feature templates can include WLAN configurations, security policies, QoS settings, and other wireless controller parameters.
           - Supported from Cisco Catalyst Center release version 3.1.3.0 onwards for wireless controller provisioning.
-        type: dict
+        type: list
+        elements: dict
         required: false
         suboptions:
           design_name:
@@ -281,6 +283,10 @@ options:
               '["radius_server_config", "certificate_settings"]',
               '["qos_policies", "traffic_shaping"]',
               '["mesh_configuration", "ap_group_settings"]']
+      clean_config:
+        description: A flag that indicates whether to clean the configuration during un-provisioning a device.
+        type: bool
+        default: false
       application_telemetry:
         description: |
           - A list of settings for enabling or disabling application telemetry on a group of network devices.
@@ -294,11 +300,13 @@ options:
               telemetry should be enabled or disabled.
             type: list
             elements: str
+            required: true
           telemetry:
             description: |
               - Specifies whether to enable or disable application telemetry on the devices.
             type: str
             choices: ["enable", "disable"]
+            required: true
           wlan_mode:
             description: |
               - Defines the WLAN mode for the device.
