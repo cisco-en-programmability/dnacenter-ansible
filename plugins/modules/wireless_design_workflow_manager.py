@@ -4071,15 +4071,6 @@ options:
               - profile name cannot be updated once created.
             type: str
             required: true
-          ofdma_down_link:
-            description:
-              - Enable or disable OFDMA (Orthogonal Frequency Division Multiple Access) for downlink transmission.
-              - When enabled, allows multiple clients to be served simultaneously on different subcarriers.
-              - Improves spectral efficiency and network capacity in high-density environments.
-              - OFDMA downlink is a Wi-Fi 7 feature that enhances performance for multiple concurrent users.
-            type: bool
-            default: true
-            required: false
           ofdma_up_link:
             description:
               - Enable or disable OFDMA for uplink transmission.
@@ -4089,14 +4080,14 @@ options:
             type: bool
             default: true
             required: false
-          mu_mimo_down_link:
+          ofdma_down_link:
             description:
-              - Enable or disable Multi-User Multiple-Input Multiple-Output for downlink transmission.
-              - When enabled, allows simultaneous transmission to multiple clients.
-              - Increases overall network throughput and spectral efficiency.
-              - MU-MIMO downlink works in conjunction with OFDMA for optimal Wi-Fi 7 performance.
+              - Enable or disable OFDMA (Orthogonal Frequency Division Multiple Access) for downlink transmission.
+              - When enabled, allows multiple clients to be served simultaneously on different subcarriers.
+              - Improves spectral efficiency and network capacity in high-density environments.
+              - OFDMA downlink is a Wi-Fi 7 feature that enhances performance for multiple concurrent users.
             type: bool
-            default: false
+            default: true
             required: false
           mu_mimo_up_link:
             description:
@@ -4104,6 +4095,15 @@ options:
               - When enabled, multiple clients can transmit to the access point simultaneously.
               - Improves upload capacity and reduces contention in high-density environments.
               - Enhances performance for applications with heavy uplink traffic requirements.
+            type: bool
+            default: false
+            required: false
+          mu_mimo_down_link:
+            description:
+              - Enable or disable Multi-User Multiple-Input Multiple-Output for downlink transmission.
+              - When enabled, allows simultaneous transmission to multiple clients.
+              - Increases overall network throughput and spectral efficiency.
+              - MU-MIMO downlink works in conjunction with OFDMA for optimal Wi-Fi 7 performance.
             type: bool
             default: false
             required: false
@@ -7077,10 +7077,10 @@ EXAMPLES = r"""
     config:
       - 802_11_be_profiles:
           - profile_name: "wifi7_office_profile"
-            ofdma_down_link: true
             ofdma_up_link: true
-            mu_mimo_down_link: false
+            ofdma_down_link: true
             mu_mimo_up_link: false
+            mu_mimo_down_link: false
             ofdma_multi_ru: false
 
 # Update 802.11be profiles
@@ -7099,10 +7099,10 @@ EXAMPLES = r"""
     config:
       - 802_11_be_profiles:
           - profile_name: "wifi7_office_profile"
-            ofdma_down_link: true
             ofdma_up_link: true              # Changed from false to true
-            mu_mimo_down_link: true          # Changed from false to true
+            ofdma_down_link: true
             mu_mimo_up_link: false
+            mu_mimo_down_link: true          # Changed from false to true
             ofdma_multi_ru: false
 
 # Delete 802.11be profiles
@@ -8005,10 +8005,10 @@ class WirelessDesign(DnacBase):
                 "required": False,
                 "options": {
                     "profile_name": {"type": "str"},
-                    "ofdma_down_link": {"type": "bool", "default": True},
                     "ofdma_up_link": {"type": "bool", "default": True},
-                    "mu_mimo_down_link": {"type": "bool", "default": False},
+                    "ofdma_down_link": {"type": "bool", "default": True},
                     "mu_mimo_up_link": {"type": "bool", "default": False},
+                    "mu_mimo_down_link": {"type": "bool", "default": False},
                     "ofdma_multi_ru": {"type": "bool", "default": False},
                 },
             },
