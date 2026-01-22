@@ -3504,16 +3504,20 @@ options:
                     description:
                       - Specific interference source detection and classification settings.
                       - Controls which types of interference sources are monitored.
-                      - "IMPORTANT - Band Compatibility Limitations:"
-                      - "6GHz band does NOT support any interferer detection (interferersFeatures must be empty or omitted)."
-                      - "5GHz band supports only - continuous_transmitter, generic_dect, generic_tdd, jammer,"
-                      - "spectrum80211_fh, spectrum80211_non_standard_channel, spectrum802154, spectrum_inverted,"
-                      - "super_ag, video_camera, wimax_fixed, wimax_mobile."
-                      - "2.4GHz band supports - ble_beacon, bluetooth_paging_inquiry, bluetooth_sco_acl,"
-                      - "continuous_transmitter, generic_dect, generic_tdd, jammer, microwave_oven,"
-                      - "motorola_canopy, si_fhss, spectrum80211_fh, spectrum80211_non_standard_channel,"
-                      - "spectrum802154, spectrum_inverted, super_ag, video_camera, wimax_fixed, wimax_mobile, xbox."
-                      - "The module will raise an error if you attempt to enable an interferer on an incompatible band."
+                      - "IMPORTANT - Band Compatibility Requirements:"
+                      - "6GHz band - Supports only continuous_transmitter"
+                      - "5GHz band - Supports these interferers:"
+                      - "  * continuous_transmitter, generic_dect, generic_tdd, jammer"
+                      - "  * motorola_canopy, si_fhss, spectrum80211_non_standard_channel"
+                      - "  * spectrum_inverted, super_ag, video_camera, wimax_fixed, wimax_mobile"
+                      - "2.4GHz band - Supports all interferers:"
+                      - "  * ble_beacon, bluetooth_paging_inquiry, bluetooth_sco_acl"
+                      - "  * continuous_transmitter, generic_dect, generic_tdd, jammer"
+                      - "  * microwave_oven, motorola_canopy, si_fhss, spectrum80211_fh"
+                      - "  * spectrum80211_non_standard_channel, spectrum802154"
+                      - "  * spectrum_inverted, super_ag, video_camera"
+                      - "  * wimax_fixed, wimax_mobile, xbox"
+                      - "The module will validate and reject invalid interferer/band combinations."
                     type: dict
                     required: false
                     suboptions:
@@ -3773,7 +3777,8 @@ options:
                     description:
                       - Radio frequency band for Event-Driven RRM operation.
                       - RRM algorithms will monitor and optimize this band.
-                      - Note - Currently, 6 GHz band is not supported for Event-Driven RRM
+                      - Supported values are 2_4GHZ and 5GHZ only.
+                      - Note - 6 GHz band is not supported for Event-Driven RRM.
                     type: str
                     required: true
                     choices: ["2_4GHZ", "5GHZ"]
@@ -3796,7 +3801,9 @@ options:
                     choices: ["LOW", "MEDIUM", "HIGH", "CUSTOM"]
                   event_driven_rrm_custom_threshold_val:
                     description:
-                      - Custom threshold value when threshold_level is set to CUSTOM.
+                      - Custom threshold value when event_driven_rrm_threshold_level is set to CUSTOM.
+                      - Only valid when event_driven_rrm_threshold_level is set to CUSTOM.
+                      - Will be ignored for LOW/MEDIUM/HIGH threshold levels.
                       - Defines the specific sensitivity level for RRM activation.
                       - Higher values require more significant changes to trigger RRM.
                     type: int
@@ -10069,19 +10076,6 @@ class WirelessDesign(DnacBase):
         if not interferers_features:
             return  # No interferers configured, nothing to validate
 
-        # 6GHz does not support ANY interferer detection
-        if radio_band == "6GHZ":
-            # Check if any interferer is enabled (set to True)
-            enabled_interferers = [k for k, v in interferers_features.items() if v is True]
-            if enabled_interferers:
-                self.msg = (
-                    "Invalid CleanAir configuration for design '{0}': 6GHz band does not support "
-                    "interferer detection. The following interferers are enabled but not supported: {1}. "
-                    "Remove all interferer configurations for 6GHz band."
-                ).format(design_name, ", ".join(enabled_interferers))
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-            return
-
         # Define interferers supported by each band (snake_case keys)
         # 2.4GHz supports all interferers
         interferers_24ghz = {
@@ -10092,11 +10086,16 @@ class WirelessDesign(DnacBase):
             "super_ag", "video_camera", "wimax_fixed", "wimax_mobile", "xbox"
         }
 
-        # 5GHz supports subset (no BLE, Bluetooth variants, microwave_oven, motorola_canopy, si_fhss, xbox)
+        # 5GHz supports subset (excludes BLE, Bluetooth variants, microwave_oven, spectrum80211_fh, spectrum802154, xbox)
         interferers_5ghz = {
             "continuous_transmitter", "generic_dect", "generic_tdd", "jammer",
-            "spectrum80211_fh", "spectrum80211_non_standard_channel", "spectrum802154",
+            "motorola_canopy", "si_fhss", "spectrum80211_non_standard_channel",
             "spectrum_inverted", "super_ag", "video_camera", "wimax_fixed", "wimax_mobile"
+        }
+
+        # 6GHz supports only continuous_transmitter
+        interferers_6ghz = {
+            "continuous_transmitter"
         }
 
         # Determine which interferers are allowed for this band
@@ -10104,6 +10103,8 @@ class WirelessDesign(DnacBase):
             allowed_interferers = interferers_24ghz
         elif radio_band == "5GHZ":
             allowed_interferers = interferers_5ghz
+        elif radio_band == "6GHZ":
+            allowed_interferers = interferers_6ghz
         else:
             # Unknown band, skip validation (let API handle it)
             return
@@ -10124,6 +10125,62 @@ class WirelessDesign(DnacBase):
             ).format(design_name, band_display, ", ".join(invalid_interferers))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
+    def _get_all_interferers_with_defaults(self, radio_band):
+        """
+        Get all possible interferers with false defaults based on radio_band.
+        Args:
+            radio_band (str): Radio band (2_4GHZ, 5GHZ, or 6GHZ)
+        Returns:
+            dict: All interferers with false defaults
+        """
+        # Base interferers for all bands
+        interferers = {}
+
+        if radio_band == "2_4GHZ":
+            interferers.update({
+                "bleBeacon": False,
+                "bluetoothPagingInquiry": False,
+                "bluetoothScoAcl": False,
+                "continuousTransmitter": False,
+                "genericDect": False,
+                "genericTdd": False,
+                "jammer": False,
+                "microwaveOven": False,
+                "motorolaCanopy": False,
+                "siFhss": False,
+                "spectrum80211Fh": False,
+                "spectrum80211NonStandardChannel": False,
+                "spectrum802154": False,
+                "spectrumInverted": False,
+                "superAg": False,
+                "videoCamera": False,
+                "wimaxFixed": False,
+                "wimaxMobile": False,
+                "xbox": False,
+            })
+        elif radio_band == "5GHZ":
+            interferers.update({
+                "continuousTransmitter": False,
+                "genericDect": False,
+                "genericTdd": False,
+                "jammer": False,
+                "motorolaCanopy": False,
+                "siFhss": False,
+                "spectrum80211NonStandardChannel": False,
+                "spectrumInverted": False,
+                "superAg": False,
+                "videoCamera": False,
+                "wimaxFixed": False,
+                "wimaxMobile": False,
+            })
+        elif radio_band == "6GHZ":
+            # 6GHz supports only continuousTransmitter
+            interferers.update({
+                "continuousTransmitter": False,
+            })
+
+        return interferers
+
     def _normalize_clean_air_payload(self, requested_entry, key_name_map, snake_to_camel):
         """
         Normalize a requested CleanAir entry into controller payload format.
@@ -10135,22 +10192,24 @@ class WirelessDesign(DnacBase):
             dict: Normalized payload with camelCase keys
         """
         design_name = requested_entry.get("design_name")
-        radio_band = requested_entry.get("radio_band")
         requested_features_raw = requested_entry.get("feature_attributes") or {}
+        # Extract radio_band from feature_attributes (not from top level)
+        radio_band = requested_features_raw.get("radio_band")
         requested_unlocked = requested_entry.get("unlocked_attributes")
         requested_unlocked = [] if requested_unlocked is None else requested_unlocked
 
-        # Validate interferer/band compatibility
+        # Validate interferer/band compatibility BEFORE normalization
         interferers_features = requested_features_raw.get("interferers_features")
-        if interferers_features:
+        if interferers_features and radio_band:
             self._validate_clean_air_interferer_band_compatibility(design_name, radio_band, interferers_features)
 
         # Build normalized features (convert top-level keys)
         normalized_features = {}
         for raw_k, raw_v in requested_features_raw.items():
             if raw_k == "interferers_features" and isinstance(raw_v, dict):
-                # nested interferersFeatures: normalize inner keys
-                interferers = {}
+                # Get all possible interferers with defaults based on radio_band
+                interferers = self._get_all_interferers_with_defaults(radio_band)
+                # Override with user-specified values
                 for ik, iv in raw_v.items():
                     inner_key = key_name_map.get(ik, ik)
                     interferers[inner_key] = iv
@@ -10214,20 +10273,24 @@ class WirelessDesign(DnacBase):
                 needs_update = True
         else:
             # Compare entire interferersFeatures map
+            # Compare all keys from both requested and existing, treating missing as False
             req_map = normalized_features.get("interferersFeatures", {}) or {}
             exist_map = existing_features.get("interferersFeatures", {}) or {}
 
+            # Iterate over all keys from both maps
             for inner_key in set(list(req_map.keys()) + list(exist_map.keys())):
-                req_val = to_bool_if_str(req_map.get(inner_key))
+                req_val = req_map.get(inner_key)
                 exist_val = exist_map.get(inner_key)
 
-                if exist_val is None and isinstance(req_val, bool):
-                    exist_val = (
-                        boolean_defaults.get("interferersFeatures", {}).get(inner_key)
-                        if isinstance(boolean_defaults.get("interferersFeatures"), dict)
-                        else False
-                    )
-                if isinstance(exist_val, str) and exist_val.lower() in ("true", "false"):
+                # Treat missing values as False for both sides
+                if req_val is None:
+                    req_val = False
+                else:
+                    req_val = to_bool_if_str(req_val)
+
+                if exist_val is None:
+                    exist_val = False
+                elif isinstance(exist_val, str) and exist_val.lower() in ("true", "false"):
                     exist_val = exist_val.lower() == "true"
 
                 if exist_val != req_val:
