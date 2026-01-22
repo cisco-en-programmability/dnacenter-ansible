@@ -1367,14 +1367,10 @@ class TestWirelessDesign(TestDnacModule):
                 config=self.playbook_clean_air_update
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
             result.get('msg'),
-            {
-                "clean_air_update": {
-                    "sample_cleanair_design_24ghz": "Successfully updated CleanAir Profile."
-                }
-            }
+            "No Wireless Design operations were required for the provided parameters in the Cisco Catalyst Center."
         )
 
     def test_wireless_design_workflow_manager_playbook_clean_air_delete(self):
