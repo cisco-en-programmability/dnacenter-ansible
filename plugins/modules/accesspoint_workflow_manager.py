@@ -2148,8 +2148,9 @@ class Accesspoint(DnacBase):
 
     def get_have(self, input_config):
         """
-        Retrieve current Access Point configuration and site releated details from
+        Retrieve current access point configuration and site related details from
         Cisco Catalyst Center.
+
         Parameters:
             self (object): An instance of a class for Cisco Catalyst Center interaction.
             input_config (dict): Dictionary containing configuration details.
@@ -3085,7 +3086,7 @@ class Accesspoint(DnacBase):
 
     def get_current_config(self, input_config):
         """
-        Retrieves the current configuration of an access point and site releated details
+        Retrieves current configuration of an access point and site related details
         from Cisco Catalyst Center.
 
         Parameters:

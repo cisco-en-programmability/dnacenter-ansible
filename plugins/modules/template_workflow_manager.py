@@ -209,6 +209,20 @@ options:
                 description: The actual script or code
                   constituting the body of the template.
                 type: str
+              template_content_file_path:
+                description:
+                  - Path to a local file containing the template content to be used during create or update operations.
+                  - Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+                  - When provided, this field takes precedence over 'template_content'.
+                  - Supports absolute and relative paths. Relative paths are resolved from the playbook's working
+                    directory (typically the directory where `ansible-playbook` is executed).
+                  - For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center;
+                    variables and logic are evaluated using the provided `template_params` and runtime context.
+                  - For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without
+                    evaluation or interpolation.
+                  - Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+                  - The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
+                type: str
               template_params:
                 description: The customization of the
                   contents within the template.
@@ -459,6 +473,20 @@ options:
           template_content:
             description: The actual script or code constituting
               the body of the template.
+            type: str
+          template_content_file_path:
+            description:
+              - Path to a local file containing the template content to be used during create or update operations.
+              - Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+              - When provided, this field takes precedence over 'template_content'.
+              - Supports absolute and relative paths. Relative paths are resolved from the playbook's working
+                directory (typically the directory where `ansible-playbook` is executed).
+              - For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center;
+                variables and logic are evaluated using the provided `template_params` and runtime context.
+              - For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without
+                evaluation or interpolation.
+              - Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+              - The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
             type: str
           template_params:
             description: The customization of the contents
@@ -799,6 +827,20 @@ options:
                           or code constituting the body
                           of the template.
                         type: str
+                      template_content_file_path:
+                        description:
+                          - Path to a local file containing the template content to be used during create or update operations.
+                          - Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+                          - When provided, this field takes precedence over 'template_content'.
+                          - Supports absolute and relative paths. Relative paths are resolved from the playbook's working
+                            directory (typically the directory where `ansible-playbook` is executed).
+                          - For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center;
+                            variables and logic are evaluated using the provided `template_params` and runtime context.
+                          - For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without
+                            evaluation or interpolation.
+                          - Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+                          - The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
+                        type: str
                       template_params:
                         description: The customization
                           of the contents within the
@@ -1066,6 +1108,20 @@ options:
                     description: The actual script or
                       code constituting the body of
                       the template.
+                    type: str
+                  template_content_file_path:
+                    description:
+                      - Path to a local file containing the template content to be used during create or update operations.
+                      - Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+                      - When provided, this field takes precedence over 'template_content'.
+                      - Supports absolute and relative paths. Relative paths are resolved from the playbook's working
+                        directory (typically the directory where `ansible-playbook` is executed).
+                      - For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center;
+                        variables and logic are evaluated using the provided `template_params` and runtime context.
+                      - For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without
+                        evaluation or interpolation.
+                      - Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+                      - The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
                     type: str
                   template_params:
                     description: The customization of
@@ -1963,6 +2019,56 @@ EXAMPLES = r"""
         software_type: "IOS-XE"
         device_types:
           - product_family: "Switches and Hubs"
+
+- name: Create L2VN anycast template in Catalyst Center where
+    template content is stored in a file and its path is set in a ENV variable.
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: DEBUG
+    dnac_log: true
+    config_verify: true
+    state: merged
+    config:
+      - configuration_templates:
+          project_name: "evpn_l2vn_anycast"
+          template_name: "evpn_l2vn_anycast_template"
+          template_content_file_path: "{{ lookup('env', 'BGPEVPN_L2VNANYCAST_TEMPDIR_PATH') | mandatory }}/evpn_anycast.j2"
+          version_description: "Raw Jinja BGP EVPN L2VN anycast template"
+          language: JINJA
+          software_type: "IOS-XE"
+          device_types:
+            - product_family: Switches and Hubs
+
+- name: Create L2VN anycast template in Catalyst Center where
+    template content is stored in a file and its relative path is provided.
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: DEBUG
+    dnac_log: true
+    config_verify: true
+    state: merged
+    config:
+      - configuration_templates:
+          project_name: "evpn_l2vn_anycast"
+          template_name: "evpn_l2vn_anycast_template"
+          template_content_file_path: "evpn_templates/evpn_anycast.j2"
+          version_description: "Raw Jinja BGP EVPN L2VN anycast template"
+          language: JINJA
+          software_type: "IOS-XE"
+          device_types:
+            - product_family: Switches and Hubs
 """
 
 RETURN = r"""
@@ -2222,6 +2328,7 @@ class Template(NetworkProfileFunctions):
                 "software_type": {"type": "str"},
                 "software_version": {"type": "str"},
                 "template_content": {"type": "str"},
+                "template_content_file_path": {"type": "str"},
                 "template_params": {"type": "list"},
                 "template_name": {"type": "str"},
                 "new_template_name": {"type": "str"},
@@ -2455,25 +2562,61 @@ class Template(NetworkProfileFunctions):
             tags (dict) - Organized tags parameters.
         """
 
+        self.log(
+            "Starting template tag configuration processing for Cisco Catalyst Center operations",
+            "INFO"
+        )
+
         if _tags is None:
+            self.log(
+                "No tag configuration provided - returning None for template processing",
+                "DEBUG"
+            )
             return None
 
         tags = []
-        i = 0
-        for item in _tags:
-            tags.append({})
-            id = item.get("id")
-            if id is not None:
-                tags[i].update({"id": id})
 
-            name = item.get("name")
-            if name is not None:
-                tags[i].update({"name": name})
+        for index, tag_item in enumerate(_tags):
+            self.log(
+                "Processing tag configuration at index {0}: {1}".format(index, tag_item),
+                "DEBUG"
+            )
+
+            tags.append({})
+            tag_id = tag_item.get("id")
+            if tag_id is not None:
+                tags[index].update({"id": tag_id})
+                self.log(
+                    "Tag at index {0} includes ID: {1}".format(index, tag_id),
+                    "DEBUG"
+                )
+
+            # Process required tag name field
+            tag_name = tag_item.get("name")
+            if tag_name is not None:
+                tags[index].update({"name": tag_name})
+                self.log(
+                    "Tag at index {0} configured with name: {1}".format(index, tag_name),
+                    "DEBUG"
+                )
             else:
-                self.msg = "name is required in tags in location " + str(i)
+                error_msg = "Tag name is required but not provided for tag at index {0}".format(index)
+                self.log(error_msg, "ERROR")
+                self.msg = error_msg
                 self.status = "failed"
                 return self.check_return_status()
 
+            self.log(
+                "Successfully processed tag configuration at index {0}".format(index),
+                "DEBUG"
+            )
+
+        self.log(
+            "Template tag configuration processing completed successfully - processed {0} tags".format(
+                len(tags)
+            ),
+            "INFO"
+        )
         return tags
 
     def get_device_types(self, device_types):
@@ -2857,16 +3000,102 @@ class Template(NetworkProfileFunctions):
 
     def get_template_params(self, params):
         """
-        Store template parameters from the playbook for template processing in Cisco Catalyst Center.
+        Converts template parameter data from playbook format to Cisco Catalyst Center API format with
+        comprehensive validation and file handling. Supports both inline template content and file-based
+        template content with proper priority handling and security validation.
 
         Parameters:
-            params (dict) - Playbook details containing Template information.
+            params (dict): Playbook details containing template information including:
+                          - template_content (str, optional): Inline template content
+                          - template_content_file_path (str, optional): Path to template content file
+                          - template_name (str, required): Name of the template
+                          - project_name (str, required): Name of the project
+                          - language (str, required): Template language (JINJA/VELOCITY)
+                          - software_type (str, required): Software type for template
 
         Returns:
-            temp_params (dict) - Organized template parameters.
+            dict: Organized template parameters formatted for Cisco Catalyst Center API consumption
+
+        Description:
+            - Validates template content sources with file-first priority pattern
+            - Processes file-based template content with security validation
+            - Handles both inline content and file path specifications
+            - Validates required parameters and formats for API compatibility
+            - Supports composite template configurations with failure policies
         """
 
         self.log("Template params playbook details: {0}".format(params), "DEBUG")
+
+        # Read template content from file if file path is provided
+        template_content = params.get("template_content")
+        template_content_file_path = params.get("template_content_file_path")
+        self.log(
+            "Template content sources - file_path: {0}, inline_content: {1}".format(
+                bool(template_content_file_path), bool(template_content)
+            ),
+            "DEBUG"
+        )
+        if not template_content and not template_content_file_path:
+            self.msg = "One of 'template_content' or 'template_content_file_path' must be provided."
+            self.status = "failed"
+            return self.check_return_status()
+
+        # Priority 1: template_content_file_path (file-based content)
+        if template_content_file_path:
+            self.log(
+                "Processing file-based template content from path: {0}".format(
+                    template_content_file_path
+                ),
+                "INFO"
+            )
+
+            # Validate file existence
+            if not self.is_path_exists(template_content_file_path):
+                error_msg = "Template content file path '{0}' does not exist".format(
+                    template_content_file_path
+                )
+                self.log(error_msg, "ERROR")
+                self.msg = error_msg
+                self.status = "failed"
+                return self.check_return_status()
+
+            # Validate file extension
+            allowed_ext = (".j2", ".txt")
+            if not str(template_content_file_path).lower().endswith(allowed_ext):
+                self.msg = (
+                    "Invalid template_content_file_path extension. Allowed: .j2, .txt"
+                )
+                self.status = "failed"
+                return self.check_return_status()
+
+            if template_content:
+                warning_msg = (
+                    "Both 'template_content' and 'template_content_file_path' provided. "
+                    "Using file path and ignoring inline content"
+                )
+                self.log(warning_msg, "WARNING")
+
+            try:
+                with open(template_content_file_path, "r", encoding="utf-8") as f:
+                    template_content = f.read()
+            except Exception as e:
+                self.msg = (
+                    "Failed to read template content from file '{0}': {1}".format(
+                        template_content_file_path, str(e)
+                    )
+                )
+                self.status = "failed"
+                return self.check_return_status()
+
+        # Priority 2: template_content (inline content) - fallback
+        else:
+            self.log(
+                "Using inline template content - length: {0} characters".format(
+                    len(template_content)
+                ),
+                "DEBUG"
+            )
+
         temp_params = {
             "tags": self.get_tags(params.get("template_tag")),
             "author": params.get("author"),
@@ -2879,7 +3108,7 @@ class Template(NetworkProfileFunctions):
             "deviceTypes": self.get_device_types(params.get("device_types")),
             "id": params.get("id"),
             "softwareVersion": params.get("software_version"),
-            "templateContent": params.get("template_content"),
+            "templateContent": template_content,
             "templateParams": self.get_template_info(params.get("template_params")),
             "version": params.get("version"),
         }
@@ -4163,6 +4392,65 @@ class Template(NetworkProfileFunctions):
         self.log("New {0} created with id {1}".format(name, creation_id), "DEBUG")
         return creation_id, created
 
+    def requires_containing_templates_update(self, current_obj, requested_obj):
+        """
+        Determines if an update is required for 'containingTemplates' based on 'name' and 'projectName' fields.
+
+        Returns True if any requested containing template is missing from the current list,
+        or if any present template differs in any field (using dnac_compare_equality).
+
+        Args:
+            current_obj (dict): The current template object (should contain 'containingTemplates' key).
+            requested_obj (dict): The requested template object (should contain 'containingTemplates' key).
+
+        Returns:
+            bool: True if an update is required, False otherwise.
+        """
+        self.log("Checking if containingTemplates requires update...", "DEBUG")
+
+        current_list = current_obj.get("containingTemplates", [])
+        requested_list = requested_obj.get("containingTemplates", [])
+
+        self.log("Current containingTemplates: {0}".format(current_list), "DEBUG")
+        self.log("Requested containingTemplates: {0}".format(requested_list), "DEBUG")
+
+        # Build a dictionary for fast lookup by (name, projectName)
+        current_dict = {
+            (item.get("name"), item.get("projectName")): item
+            for item in current_list
+            if item.get("name") is not None and item.get("projectName") is not None
+        }
+
+        for req in requested_list:
+            req_name = req.get("name")
+            req_project = req.get("projectName")
+            if req_name is None or req_project is None:
+                self.log(
+                    "Skipping requested containing template with missing 'name' or 'projectName': {0}".format(req),
+                    "WARNING"
+                )
+                continue
+
+            req_key = (req_name, req_project)
+            if req_key not in current_dict:
+                self.log(
+                    "Containing template '{0}' under project '{1}' is missing in current state and requires update.".format(
+                        req_name, req_project
+                    ),
+                    "INFO"
+                )
+                return True
+
+            if not dnac_compare_equality(current_dict[req_key], req):
+                self.log(
+                    "Containing template '{0}' in project '{1}' differs. Current: {2} | Requested: {3}".format(
+                        req_name, req_project, current_dict[req_key], req
+                    ), "INFO")
+                return True
+
+        self.log("No update required for containingTemplates.", "DEBUG")
+        return False
+
     def requires_update(self):
         """
         Check if the template config given requires update.
@@ -4193,7 +4481,6 @@ class Template(NetworkProfileFunctions):
             ("tags", "tags", ""),
             ("author", "author", ""),
             ("composite", "composite", False),
-            ("containingTemplates", "containingTemplates", []),
             ("customParamsOrder", "customParamsOrder", False),
             ("description", "description", ""),
             ("deviceTypes", "deviceTypes", []),
@@ -4214,7 +4501,7 @@ class Template(NetworkProfileFunctions):
                 current_obj.get(dnac_param, default), requested_obj.get(ansible_param)
             )
             for (dnac_param, ansible_param, default) in obj_params
-        )
+        ) or self.requires_containing_templates_update(current_obj, requested_obj)
 
     def update_mandatory_parameters(self, template_params):
         """
