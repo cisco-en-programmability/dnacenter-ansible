@@ -42,7 +42,7 @@ cisco.dnac.network_devices_info_workflow_manager module -- Gather facts about ne
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.42.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.44.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -786,7 +786,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -2587,6 +2587,7 @@ Authors
 ~~~~~~~
 
 - Karthick S N (@karthick-s-n)
+- Priyadharshini B (@pbalaku2)
 - Madhan Sankaranarayanan (@madhansansel)
 
 

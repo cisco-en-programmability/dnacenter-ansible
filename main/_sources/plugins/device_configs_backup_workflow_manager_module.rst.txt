@@ -42,7 +42,7 @@ cisco.dnac.device_configs_backup_workflow_manager module -- Device Configs Backu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.42.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.44.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -148,17 +148,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/collection_status"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/collection_status_list"></div>
 
-      .. _ansible_collections.cisco.dnac.device_configs_backup_workflow_manager_module__parameter-config/collection_status:
+      .. _ansible_collections.cisco.dnac.device_configs_backup_workflow_manager_module__parameter-config/collection_status_list:
 
       .. rst-class:: ansible-option-title
 
-      **collection_status**
+      **collection_status_list**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/collection_status" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/collection_status_list" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 

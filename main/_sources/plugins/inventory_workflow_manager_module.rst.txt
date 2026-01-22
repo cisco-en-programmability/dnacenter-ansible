@@ -42,7 +42,7 @@ cisco.dnac.inventory_workflow_manager module -- Comprehensive network device inv
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.42.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.44.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -735,6 +735,8 @@ Parameters
       Days between recurring maintenance windows.
 
       Interval for recurrence in days. The interval must be longer than the duration of the maintenance schedules and must be within the range 1 to 365 (inclusive).
+
+      recurrence\_interval is required if recurrence\_end\_time is provided.
 
 
       .. raw:: html

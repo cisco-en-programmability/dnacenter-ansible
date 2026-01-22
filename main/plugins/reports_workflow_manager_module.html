@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>cisco.dnac.reports_workflow_manager module -- Resource module for managing Reports in Cisco Catalyst Center. &mdash; DNACenterAnsibleActions  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/ansible-basic-sphinx-ext.css" />
 
   
@@ -60,6 +60,7 @@
 <li class="toctree-l4"><a class="reference internal" href="aaa_services_top_nanalytics_module.html">cisco.dnac.aaa_services_top_nanalytics module -- Resource module for Aaa Services Top Nanalytics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="aaa_services_trend_analytics_module.html">cisco.dnac.aaa_services_trend_analytics module -- Resource module for Aaa Services Trend Analytics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="accesspoint_configuration_details_by_task_id_info_module.html">cisco.dnac.accesspoint_configuration_details_by_task_id_info module -- Information module for Accesspoint Configuration Details By Task Id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="accesspoint_location_workflow_manager_module.html">cisco.dnac.accesspoint_location_workflow_manager module -- Resource module for managing Access Point planned positions and real positions in Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="accesspoint_workflow_manager_module.html">cisco.dnac.accesspoint_workflow_manager module -- Manage Cisco Catalyst Center access points</a></li>
 <li class="toctree-l4"><a class="reference internal" href="activities_activity_id_triggered_jobs_count_info_module.html">cisco.dnac.activities_activity_id_triggered_jobs_count_info module -- Information module for Activities Activity Id Triggered Jobs Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="activities_activity_id_triggered_jobs_info_module.html">cisco.dnac.activities_activity_id_triggered_jobs_info module -- Information module for Activities Activity Id Triggered Jobs</a></li>
@@ -1241,7 +1242,7 @@
 <h1>cisco.dnac.reports_workflow_manager module -- Resource module for managing Reports in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-reports-workflow-manager-module-resource-module-for-managing-reports-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.42.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.44.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1298,7 +1299,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/generate_report"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report"><strong>generate_report</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/generate_report" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/generate_report" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of report configurations to be created or scheduled.</p>
 <p>Each entry represents a single report with its complete configuration.</p>
@@ -1307,7 +1308,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/generate_report/deliveries"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report-deliveries"><strong>deliveries</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/generate_report/deliveries" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/generate_report/deliveries" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies how the generated report should be delivered.</p>
 <p>Must be a list containing exactly one delivery configuration.</p>
@@ -1331,6 +1332,18 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/generate_report/deliveries/email_attach"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report-deliveries-email-attach"><strong>email_attach</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/generate_report/deliveries/email_attach" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Whether the report should be attached in the notification email.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry:`true`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/generate_report/deliveries/file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report-deliveries-file-path"><strong>file_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/generate_report/deliveries/file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1339,7 +1352,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 <p>Must be a valid directory path where the user has write permissions.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/generate_report/deliveries/notification_endpoints"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report-deliveries-notification-endpoints"><strong>notification_endpoints</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/generate_report/deliveries/notification_endpoints" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
@@ -1348,7 +1361,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 <p>Specifies email recipients and notification preferences.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/generate_report/deliveries/notification_endpoints/email_addresses"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report-deliveries-notification-endpoints-email-addresses"><strong>email_addresses</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/generate_report/deliveries/notification_endpoints/email_addresses" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
@@ -1357,32 +1370,20 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 <p>Each email address must be in valid email format.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/generate_report/deliveries/notification_endpoints/email_attach"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report-deliveries-notification-endpoints-email-attach"><strong>email_attach</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/generate_report/deliveries/notification_endpoints/email_attach" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/generate_report/deliveries/notify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report-deliveries-notify"><strong>notify</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/generate_report/deliveries/notify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Whether the report should be attached in the notification email.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry:`true`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/generate_report/deliveries/notification_endpoints/notify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report-deliveries-notification-endpoints-notify"><strong>notify</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/generate_report/deliveries/notification_endpoints/notify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of report execution statuses that will trigger a notification.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of report execution statuses that will trigger a notification.</p>
 <p>If not specified, notifications are sent for all statuses.</p>
 <p><code class="docutils literal notranslate"><span class="pre">IN_QUEUE</span></code> notifies when report is queued for execution.</p>
 <p><code class="docutils literal notranslate"><span class="pre">IN_PROGRESS</span></code> notifies when report execution starts.</p>
 <p><code class="docutils literal notranslate"><span class="pre">COMPLETED</span></code> notifies when report execution finishes.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry:`&quot;C(IN\_QUEUE)&quot;`</span></a></p></li>
-<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`&quot;C(IN\_PROGRESS)&quot;`</span></a></p></li>
-<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry:`&quot;C(COMPLETED)&quot;`</span></a></p></li>
+<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry:`&quot;IN\_QUEUE&quot;`</span></a></p></li>
+<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`&quot;IN\_PROGRESS&quot;`</span></a></p></li>
+<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry:`&quot;COMPLETED&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1482,7 +1483,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/generate_report/schedule/recurrence/recurrence_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report-schedule-recurrence-recurrence-type"><strong>recurrence_type</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/generate_report/schedule/recurrence/recurrence_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/generate_report/schedule/recurrence/recurrence_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Type of recurrence pattern.</p>
 <p><code class="docutils literal notranslate"><span class="pre">WEEKLY</span></code> for daily execution via weekly pattern with all 7 days.</p>
@@ -1552,7 +1553,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/generate_report/view/field_groups"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report-view-field-groups"><strong>field_groups</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/generate_report/view/field_groups" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/generate_report/view/field_groups" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Groups of fields to include in the report, as defined in the selected view.</p>
 <p>Can be empty list to include all available fields for the view.</p>
@@ -1569,7 +1570,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/generate_report/view/field_groups/field_group_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report-view-field-groups-field-group-name"><strong>field_group_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/generate_report/view/field_groups/field_group_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/generate_report/view/field_groups/field_group_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The internal name of the field group as defined in the view metadata.</p>
 <p>Must match exactly with the available field_groups for the selected view.</p>
@@ -1577,7 +1578,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/generate_report/view/field_groups/fields"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report-view-field-groups-fields"><strong>fields</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/generate_report/view/field_groups/fields" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/generate_report/view/field_groups/fields" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of specific fields to include within the field group.</p>
 <p>Can be empty list to include all fields in the group.</p>
@@ -1594,7 +1595,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/generate_report/view/field_groups/fields/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report-view-field-groups-fields-name"><strong>name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/generate_report/view/field_groups/fields/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/generate_report/view/field_groups/fields/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Field identifier as defined in the view metadata.</p>
 <p>Must match exactly with available fields in the group.</p>
@@ -1618,25 +1619,27 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/generate_report/view/filters/filter_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report-view-filters-filter-type"><strong>filter_type</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/generate_report/view/filters/filter_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/generate_report/view/filters/filter_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Type of the filter determining how values are selected.</p>
 <p><code class="docutils literal notranslate"><span class="pre">MULTI_SELECT</span></code> allows multiple discrete values.</p>
 <p><code class="docutils literal notranslate"><span class="pre">MULTI_SELECT_TREE</span></code> allows hierarchical multi-selection.</p>
 <p><code class="docutils literal notranslate"><span class="pre">SINGLE_SELECT_ARRAY</span></code> allows single value from array.</p>
 <p><code class="docutils literal notranslate"><span class="pre">TIME_RANGE</span></code> allows date/time range specification.</p>
+<p><code class="docutils literal notranslate"><span class="pre">REGULAR</span></code> allows exact match filtering with single values for specific field types. Used primarily for Port Reclaim View filters like hostname and family.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry:`&quot;MULTI\_SELECT&quot;`</span></a></p></li>
 <li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`&quot;MULTI\_SELECT\_TREE&quot;`</span></a></p></li>
 <li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry:`&quot;SINGLE\_SELECT\_ARRAY&quot;`</span></a></p></li>
 <li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`&quot;TIME\_RANGE&quot;`</span></a></p></li>
+<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`&quot;REGULAR&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/generate_report/view/filters/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report-view-filters-name"><strong>name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/generate_report/view/filters/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/generate_report/view/filters/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the filter as defined in the view metadata.</p>
 <p>Common filters include Location, Time Range, Device Type, etc.</p>
@@ -1644,7 +1647,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/generate_report/view/filters/value"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report-view-filters-value"><strong>value</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/generate_report/view/filters/value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/generate_report/view/filters/value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Value(s) to apply in the filter based on filter_type.</p>
 <p>For <code class="docutils literal notranslate"><span class="pre">TIME_RANGE</span></code>, this is a dict with time_range_option, start_date_time, end_date_time, and time_zone.</p>
@@ -1654,14 +1657,14 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/generate_report/view/filters/value/display_value"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report-view-filters-value-display-value"><strong>display_value</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/generate_report/view/filters/value/display_value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/generate_report/view/filters/value/display_value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Human-readable value (e.g., &quot;Switches&quot; or &quot;Global/India&quot;)</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/generate_report/view/filters/value/value"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-reports-workflow-manager-module-parameter-config-generate-report-view-filters-value-value"><strong>value</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/generate_report/view/filters/value/value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/generate_report/view/filters/value/value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>API-compatible internal value (e.g., DeviceFamily = SWITCHES)</p>
 </div></td>
@@ -1685,10 +1688,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 <p><code class="docutils literal notranslate"><span class="pre">TDE</span></code> for Tableau data extract.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`&quot;CSV&quot;`</span></a></p></li>
-<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`&quot;PDF&quot;`</span></a></p></li>
-<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry:`&quot;JSON&quot;`</span></a></p></li>
-<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry:`&quot;TDE&quot;`</span></a></p></li>
+<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`&quot;CSV&quot;`</span></a></p></li>
+<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry:`&quot;PDF&quot;`</span></a></p></li>
+<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry:`&quot;JSON&quot;`</span></a></p></li>
+<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry:`&quot;TDE&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1701,66 +1704,65 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 <p>Determines the specific data subset and available fields for the report.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry:`&quot;Network Device Compliance&quot;`</span></a></p></li>
-<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`&quot;Network Device Availability&quot;`</span></a></p></li>
-<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry:`&quot;Channel Change Count&quot;`</span></a></p></li>
-<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry:`&quot;Transmit Power Change Count&quot;`</span></a></p></li>
-<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry:`&quot;VLAN&quot;`</span></a></p></li>
-<li><p><a href="#id61"><span class="problematic" id="id62">:ansible-option-choices-entry:`&quot;Port Capacity&quot;`</span></a></p></li>
-<li><p><a href="#id63"><span class="problematic" id="id64">:ansible-option-choices-entry:`&quot;Energy Management&quot;`</span></a></p></li>
-<li><p><a href="#id65"><span class="problematic" id="id66">:ansible-option-choices-entry:`&quot;PoE&quot;`</span></a></p></li>
-<li><p><a href="#id67"><span class="problematic" id="id68">:ansible-option-choices-entry:`&quot;Device CPU and Memory Utilization&quot;`</span></a></p></li>
-<li><p><a href="#id69"><span class="problematic" id="id70">:ansible-option-choices-entry:`&quot;Network Interface Utilization&quot;`</span></a></p></li>
-<li><p><a href="#id71"><span class="problematic" id="id72">:ansible-option-choices-entry:`&quot;Executive Summary&quot;`</span></a></p></li>
-<li><p><a href="#id73"><span class="problematic" id="id74">:ansible-option-choices-entry:`&quot;All Data&quot;`</span></a></p></li>
-<li><p><a href="#id75"><span class="problematic" id="id76">:ansible-option-choices-entry:`&quot;Port Reclaim View&quot;`</span></a></p></li>
-<li><p><a href="#id77"><span class="problematic" id="id78">:ansible-option-choices-entry:`&quot;All Data Version 2.0&quot;`</span></a></p></li>
-<li><p><a href="#id79"><span class="problematic" id="id80">:ansible-option-choices-entry:`&quot;All Data&quot;`</span></a></p></li>
-<li><p><a href="#id81"><span class="problematic" id="id82">:ansible-option-choices-entry:`&quot;All Data Version 2.0&quot;`</span></a></p></li>
-<li><p><a href="#id83"><span class="problematic" id="id84">:ansible-option-choices-entry:`&quot;AP&quot;`</span></a></p></li>
-<li><p><a href="#id85"><span class="problematic" id="id86">:ansible-option-choices-entry:`&quot;AP Radio&quot;`</span></a></p></li>
-<li><p><a href="#id87"><span class="problematic" id="id88">:ansible-option-choices-entry:`&quot;AP - Usage and Client Breakdown&quot;`</span></a></p></li>
-<li><p><a href="#id89"><span class="problematic" id="id90">:ansible-option-choices-entry:`&quot;Worst Interferers&quot;`</span></a></p></li>
-<li><p><a href="#id91"><span class="problematic" id="id92">:ansible-option-choices-entry:`&quot;AP RRM Events&quot;`</span></a></p></li>
-<li><p><a href="#id93"><span class="problematic" id="id94">:ansible-option-choices-entry:`&quot;AP Performance Report&quot;`</span></a></p></li>
-<li><p><a href="#id95"><span class="problematic" id="id96">:ansible-option-choices-entry:`&quot;Long Term AP Detail&quot;`</span></a></p></li>
-<li><p><a href="#id97"><span class="problematic" id="id98">:ansible-option-choices-entry:`&quot;Long Term AP Radio&quot;`</span></a></p></li>
-<li><p><a href="#id99"><span class="problematic" id="id100">:ansible-option-choices-entry:`&quot;Long Term AP Usage and Client Breakdown&quot;`</span></a></p></li>
-<li><p><a href="#id101"><span class="problematic" id="id102">:ansible-option-choices-entry:`&quot;Long Term Client Detail&quot;`</span></a></p></li>
-<li><p><a href="#id103"><span class="problematic" id="id104">:ansible-option-choices-entry:`&quot;Long Term Client Session&quot;`</span></a></p></li>
-<li><p><a href="#id105"><span class="problematic" id="id106">:ansible-option-choices-entry:`&quot;Long Term Network Device Availability&quot;`</span></a></p></li>
-<li><p><a href="#id107"><span class="problematic" id="id108">:ansible-option-choices-entry:`&quot;Security Group to Security Group&quot;`</span></a></p></li>
-<li><p><a href="#id109"><span class="problematic" id="id110">:ansible-option-choices-entry:`&quot;Security Group to ISE Endpoint Profile Group&quot;`</span></a></p></li>
-<li><p><a href="#id111"><span class="problematic" id="id112">:ansible-option-choices-entry:`&quot;Security Group to Host Group&quot;`</span></a></p></li>
-<li><p><a href="#id113"><span class="problematic" id="id114">:ansible-option-choices-entry:`&quot;ISE Endpoint Profile Group to Security Group&quot;`</span></a></p></li>
-<li><p><a href="#id115"><span class="problematic" id="id116">:ansible-option-choices-entry:`&quot;ISE Endpoint Profile Group to ISE Endpoint Profile Group&quot;`</span></a></p></li>
-<li><p><a href="#id117"><span class="problematic" id="id118">:ansible-option-choices-entry:`&quot;ISE Endpoint Profile Group to Host Group&quot;`</span></a></p></li>
-<li><p><a href="#id119"><span class="problematic" id="id120">:ansible-option-choices-entry:`&quot;Host Group to Security Group&quot;`</span></a></p></li>
-<li><p><a href="#id121"><span class="problematic" id="id122">:ansible-option-choices-entry:`&quot;Host Group to ISE Endpoint Profile Group&quot;`</span></a></p></li>
-<li><p><a href="#id123"><span class="problematic" id="id124">:ansible-option-choices-entry:`&quot;Host Group to Host Group&quot;`</span></a></p></li>
-<li><p><a href="#id125"><span class="problematic" id="id126">:ansible-option-choices-entry:`&quot;Device Lifecycle Information&quot;`</span></a></p></li>
-<li><p><a href="#id127"><span class="problematic" id="id128">:ansible-option-choices-entry:`&quot;Security Group to Security Groups&quot;`</span></a></p></li>
-<li><p><a href="#id129"><span class="problematic" id="id130">:ansible-option-choices-entry:`&quot;Security Group to ISE Endpoint Profile Groups&quot;`</span></a></p></li>
-<li><p><a href="#id131"><span class="problematic" id="id132">:ansible-option-choices-entry:`&quot;Security Group to Host Groups&quot;`</span></a></p></li>
-<li><p><a href="#id133"><span class="problematic" id="id134">:ansible-option-choices-entry:`&quot;ISE Endpoint Profile Group to Security Groups&quot;`</span></a></p></li>
-<li><p><a href="#id135"><span class="problematic" id="id136">:ansible-option-choices-entry:`&quot;ISE Endpoint Profile Group to ISE Endpoint Profile Groups&quot;`</span></a></p></li>
-<li><p><a href="#id137"><span class="problematic" id="id138">:ansible-option-choices-entry:`&quot;ISE Endpoint Profile Group to Host Groups&quot;`</span></a></p></li>
-<li><p><a href="#id139"><span class="problematic" id="id140">:ansible-option-choices-entry:`&quot;Host Group to Security Groups&quot;`</span></a></p></li>
-<li><p><a href="#id141"><span class="problematic" id="id142">:ansible-option-choices-entry:`&quot;Host Group to ISE Endpoint Profile Group&quot;`</span></a></p></li>
-<li><p><a href="#id143"><span class="problematic" id="id144">:ansible-option-choices-entry:`&quot;Host Group to Host Group&quot;`</span></a></p></li>
-<li><p><a href="#id145"><span class="problematic" id="id146">:ansible-option-choices-entry:`&quot;EoX Data&quot;`</span></a></p></li>
-<li><p><a href="#id147"><span class="problematic" id="id148">:ansible-option-choices-entry:`&quot;Threat Detail&quot;`</span></a></p></li>
-<li><p><a href="#id149"><span class="problematic" id="id150">:ansible-option-choices-entry:`&quot;New Threat&quot;`</span></a></p></li>
-<li><p><a href="#id151"><span class="problematic" id="id152">:ansible-option-choices-entry:`&quot;Rogue Additional Detail&quot;`</span></a></p></li>
-<li><p><a href="#id153"><span class="problematic" id="id154">:ansible-option-choices-entry:`&quot;Non Compliant Devices&quot;`</span></a></p></li>
-<li><p><a href="#id155"><span class="problematic" id="id156">:ansible-option-choices-entry:`&quot;Non Compliance Summary&quot;`</span></a></p></li>
-<li><p><a href="#id157"><span class="problematic" id="id158">:ansible-option-choices-entry:`&quot;AireOS Controllers Licenses&quot;`</span></a></p></li>
-<li><p><a href="#id159"><span class="problematic" id="id160">:ansible-option-choices-entry:`&quot;License Usage Upload Details&quot;`</span></a></p></li>
-<li><p><a href="#id161"><span class="problematic" id="id162">:ansible-option-choices-entry:`&quot;License Historical Usage&quot;`</span></a></p></li>
-<li><p><a href="#id163"><span class="problematic" id="id164">:ansible-option-choices-entry:`&quot;Endpoint Profiling&quot;`</span></a></p></li>
-<li><p><a href="#id165"><span class="problematic" id="id166">:ansible-option-choices-entry:`&quot;Audit Log&quot;`</span></a></p></li>
-<li><p><a href="#id167"><span class="problematic" id="id168">:ansible-option-choices-entry:`&quot;Configuration Archive&quot;`</span></a></p></li>
-<li><p><a href="#id169"><span class="problematic" id="id170">:ansible-option-choices-entry:`&quot;Client&quot;`</span></a></p></li>
+<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`&quot;Network Device Compliance&quot;`</span></a></p></li>
+<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry:`&quot;Network Device Availability&quot;`</span></a></p></li>
+<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry:`&quot;Channel Change Count&quot;`</span></a></p></li>
+<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry:`&quot;Transmit Power Change Count&quot;`</span></a></p></li>
+<li><p><a href="#id61"><span class="problematic" id="id62">:ansible-option-choices-entry:`&quot;VLAN&quot;`</span></a></p></li>
+<li><p><a href="#id63"><span class="problematic" id="id64">:ansible-option-choices-entry:`&quot;Port Capacity&quot;`</span></a></p></li>
+<li><p><a href="#id65"><span class="problematic" id="id66">:ansible-option-choices-entry:`&quot;Energy Management&quot;`</span></a></p></li>
+<li><p><a href="#id67"><span class="problematic" id="id68">:ansible-option-choices-entry:`&quot;PoE&quot;`</span></a></p></li>
+<li><p><a href="#id69"><span class="problematic" id="id70">:ansible-option-choices-entry:`&quot;Device CPU and Memory Utilization&quot;`</span></a></p></li>
+<li><p><a href="#id71"><span class="problematic" id="id72">:ansible-option-choices-entry:`&quot;Network Interface Utilization&quot;`</span></a></p></li>
+<li><p><a href="#id73"><span class="problematic" id="id74">:ansible-option-choices-entry:`&quot;Executive Summary&quot;`</span></a></p></li>
+<li><p><a href="#id75"><span class="problematic" id="id76">:ansible-option-choices-entry:`&quot;All Data&quot;`</span></a></p></li>
+<li><p><a href="#id77"><span class="problematic" id="id78">:ansible-option-choices-entry:`&quot;Port Reclaim View&quot;`</span></a></p></li>
+<li><p><a href="#id79"><span class="problematic" id="id80">:ansible-option-choices-entry:`&quot;All Data Version 2.0&quot;`</span></a></p></li>
+<li><p><a href="#id81"><span class="problematic" id="id82">:ansible-option-choices-entry:`&quot;All Data&quot;`</span></a></p></li>
+<li><p><a href="#id83"><span class="problematic" id="id84">:ansible-option-choices-entry:`&quot;All Data Version 2.0&quot;`</span></a></p></li>
+<li><p><a href="#id85"><span class="problematic" id="id86">:ansible-option-choices-entry:`&quot;AP&quot;`</span></a></p></li>
+<li><p><a href="#id87"><span class="problematic" id="id88">:ansible-option-choices-entry:`&quot;AP Radio&quot;`</span></a></p></li>
+<li><p><a href="#id89"><span class="problematic" id="id90">:ansible-option-choices-entry:`&quot;AP - Usage and Client Breakdown&quot;`</span></a></p></li>
+<li><p><a href="#id91"><span class="problematic" id="id92">:ansible-option-choices-entry:`&quot;Worst Interferers&quot;`</span></a></p></li>
+<li><p><a href="#id93"><span class="problematic" id="id94">:ansible-option-choices-entry:`&quot;AP RRM Events&quot;`</span></a></p></li>
+<li><p><a href="#id95"><span class="problematic" id="id96">:ansible-option-choices-entry:`&quot;AP Performance Report&quot;`</span></a></p></li>
+<li><p><a href="#id97"><span class="problematic" id="id98">:ansible-option-choices-entry:`&quot;Long Term AP Detail&quot;`</span></a></p></li>
+<li><p><a href="#id99"><span class="problematic" id="id100">:ansible-option-choices-entry:`&quot;Long Term AP Radio&quot;`</span></a></p></li>
+<li><p><a href="#id101"><span class="problematic" id="id102">:ansible-option-choices-entry:`&quot;Long Term AP Usage and Client Breakdown&quot;`</span></a></p></li>
+<li><p><a href="#id103"><span class="problematic" id="id104">:ansible-option-choices-entry:`&quot;Long Term Client Detail&quot;`</span></a></p></li>
+<li><p><a href="#id105"><span class="problematic" id="id106">:ansible-option-choices-entry:`&quot;Long Term Client Session&quot;`</span></a></p></li>
+<li><p><a href="#id107"><span class="problematic" id="id108">:ansible-option-choices-entry:`&quot;Long Term Network Device Availability&quot;`</span></a></p></li>
+<li><p><a href="#id109"><span class="problematic" id="id110">:ansible-option-choices-entry:`&quot;Security Group to Security Group&quot;`</span></a></p></li>
+<li><p><a href="#id111"><span class="problematic" id="id112">:ansible-option-choices-entry:`&quot;Security Group to ISE Endpoint Profile Group&quot;`</span></a></p></li>
+<li><p><a href="#id113"><span class="problematic" id="id114">:ansible-option-choices-entry:`&quot;Security Group to Host Group&quot;`</span></a></p></li>
+<li><p><a href="#id115"><span class="problematic" id="id116">:ansible-option-choices-entry:`&quot;ISE Endpoint Profile Group to Security Group&quot;`</span></a></p></li>
+<li><p><a href="#id117"><span class="problematic" id="id118">:ansible-option-choices-entry:`&quot;ISE Endpoint Profile Group to ISE Endpoint Profile Group&quot;`</span></a></p></li>
+<li><p><a href="#id119"><span class="problematic" id="id120">:ansible-option-choices-entry:`&quot;ISE Endpoint Profile Group to Host Group&quot;`</span></a></p></li>
+<li><p><a href="#id121"><span class="problematic" id="id122">:ansible-option-choices-entry:`&quot;Host Group to Security Group&quot;`</span></a></p></li>
+<li><p><a href="#id123"><span class="problematic" id="id124">:ansible-option-choices-entry:`&quot;Host Group to ISE Endpoint Profile Group&quot;`</span></a></p></li>
+<li><p><a href="#id125"><span class="problematic" id="id126">:ansible-option-choices-entry:`&quot;Host Group to Host Group&quot;`</span></a></p></li>
+<li><p><a href="#id127"><span class="problematic" id="id128">:ansible-option-choices-entry:`&quot;Device Lifecycle Information&quot;`</span></a></p></li>
+<li><p><a href="#id129"><span class="problematic" id="id130">:ansible-option-choices-entry:`&quot;Security Group to Security Groups&quot;`</span></a></p></li>
+<li><p><a href="#id131"><span class="problematic" id="id132">:ansible-option-choices-entry:`&quot;Security Group to ISE Endpoint Profile Groups&quot;`</span></a></p></li>
+<li><p><a href="#id133"><span class="problematic" id="id134">:ansible-option-choices-entry:`&quot;Security Group to Host Groups&quot;`</span></a></p></li>
+<li><p><a href="#id135"><span class="problematic" id="id136">:ansible-option-choices-entry:`&quot;ISE Endpoint Profile Group to Security Groups&quot;`</span></a></p></li>
+<li><p><a href="#id137"><span class="problematic" id="id138">:ansible-option-choices-entry:`&quot;ISE Endpoint Profile Group to ISE Endpoint Profile Groups&quot;`</span></a></p></li>
+<li><p><a href="#id139"><span class="problematic" id="id140">:ansible-option-choices-entry:`&quot;ISE Endpoint Profile Group to Host Groups&quot;`</span></a></p></li>
+<li><p><a href="#id141"><span class="problematic" id="id142">:ansible-option-choices-entry:`&quot;Host Group to Security Groups&quot;`</span></a></p></li>
+<li><p><a href="#id143"><span class="problematic" id="id144">:ansible-option-choices-entry:`&quot;Host Group to ISE Endpoint Profile Group&quot;`</span></a></p></li>
+<li><p><a href="#id145"><span class="problematic" id="id146">:ansible-option-choices-entry:`&quot;Host Group to Host Group&quot;`</span></a></p></li>
+<li><p><a href="#id147"><span class="problematic" id="id148">:ansible-option-choices-entry:`&quot;EoX Data&quot;`</span></a></p></li>
+<li><p><a href="#id149"><span class="problematic" id="id150">:ansible-option-choices-entry:`&quot;Threat Detail&quot;`</span></a></p></li>
+<li><p><a href="#id151"><span class="problematic" id="id152">:ansible-option-choices-entry:`&quot;New Threat&quot;`</span></a></p></li>
+<li><p><a href="#id153"><span class="problematic" id="id154">:ansible-option-choices-entry:`&quot;Rogue Additional Detail&quot;`</span></a></p></li>
+<li><p><a href="#id155"><span class="problematic" id="id156">:ansible-option-choices-entry:`&quot;Non Compliant Devices&quot;`</span></a></p></li>
+<li><p><a href="#id157"><span class="problematic" id="id158">:ansible-option-choices-entry:`&quot;Non Compliance Summary&quot;`</span></a></p></li>
+<li><p><a href="#id159"><span class="problematic" id="id160">:ansible-option-choices-entry:`&quot;AireOS Controllers Licenses&quot;`</span></a></p></li>
+<li><p><a href="#id161"><span class="problematic" id="id162">:ansible-option-choices-entry:`&quot;License Usage Upload Details&quot;`</span></a></p></li>
+<li><p><a href="#id163"><span class="problematic" id="id164">:ansible-option-choices-entry:`&quot;License Historical Usage&quot;`</span></a></p></li>
+<li><p><a href="#id165"><span class="problematic" id="id166">:ansible-option-choices-entry:`&quot;Endpoint Profiling&quot;`</span></a></p></li>
+<li><p><a href="#id167"><span class="problematic" id="id168">:ansible-option-choices-entry:`&quot;Audit Log&quot;`</span></a></p></li>
+<li><p><a href="#id169"><span class="problematic" id="id170">:ansible-option-choices-entry:`&quot;Configuration Archive&quot;`</span></a></p></li>
 <li><p><a href="#id171"><span class="problematic" id="id172">:ansible-option-choices-entry:`&quot;Client Summary&quot;`</span></a></p></li>
 <li><p><a href="#id173"><span class="problematic" id="id174">:ansible-option-choices-entry:`&quot;Top N Summary&quot;`</span></a></p></li>
 <li><p><a href="#id175"><span class="problematic" id="id176">:ansible-option-choices-entry:`&quot;Client Detail&quot;`</span></a></p></li>
@@ -2015,7 +2017,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">generate_report</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Sample</span><span class="nv"> </span><span class="s">Inventory</span><span class="nv"> </span><span class="s">report&quot;</span>
-<span class="w">            </span><span class="nt">data_category</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Inventory&quot;</span>
+<span class="w">            </span><span class="nt">view_group_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Inventory&quot;</span>
 <span class="w">            </span><span class="nt">view_group_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2.0.0&quot;</span>
 <span class="w">            </span><span class="nt">view</span><span class="p">:</span>
 <span class="w">              </span><span class="nt">view_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;All</span><span class="nv"> </span><span class="s">Data&quot;</span>
@@ -2121,7 +2123,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 <span class="w">                  </span><span class="nt">filter_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;MULTI_SELECT_TREE&quot;</span>
 <span class="w">                  </span><span class="nt">value</span><span class="p">:</span>
 <span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
-<span class="w">                      </span><span class="nt">display_value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Routers&quot;</span>
+<span class="w">                      </span><span class="nt">display_value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Schedule a report for later execution</span>
 <span class="w">  </span><span class="nt">cisco.dnac.reports_workflow_manager</span><span class="p">:</span>
@@ -2146,8 +2148,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 <span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">email_addresses</span><span class="p">:</span>
 <span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;admin@company.com&quot;</span>
 <span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;reports@company.com&quot;</span>
-<span class="w">                    </span><span class="nt">email_attach</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">                    </span><span class="nt">notify</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;COMPLETED&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">                </span><span class="nt">email_attach</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">                </span><span class="nt">notify</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;COMPLETED&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">schedule</span><span class="p">:</span>
 <span class="w">              </span><span class="nt">schedule_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;SCHEDULE_LATER&quot;</span>
 <span class="w">              </span><span class="nt">date_time</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-12-25</span><span class="nv"> </span><span class="s">09:00</span><span class="nv"> </span><span class="s">AM&quot;</span>
@@ -2202,6 +2204,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 <span class="w">                  </span><span class="nt">filter_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;MULTI_SELECT_TREE&quot;</span>
 <span class="w">                  </span><span class="nt">value</span><span class="p">:</span>
 <span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/US/California&quot;</span>
+<span class="w">                      </span><span class="nt">display_value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/US/California&quot;</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create monthly report with time range filter</span>
 <span class="w">  </span><span class="nt">cisco.dnac.reports_workflow_manager</span><span class="p">:</span>
@@ -2306,7 +2309,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 </section>
 <section id="return-values">
 <h2><a class="toc-backref" href="#id286" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
-<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v12)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
+<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v13)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Key</p></th>
@@ -2320,7 +2323,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 </div></td>
 <td><div class="ansible-option-cell"><p>Response returned after successfully creating or scheduling a report in Cisco Catalyst Center.</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> when state is merged and report creation succeeds</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id265"><span class="problematic" id="id266">:ansible-rv-sample-value:`{&quot;response&quot;: [{&quot;create\_report&quot;: {&quot;msg&quot;: &quot;Successfully created or scheduled report 'compliance\_report'.&quot;, &quot;response&quot;: {&quot;reportId&quot;: &quot;1234567890abcdef12345678&quot;, &quot;viewGroupId&quot;: &quot;network-device-compliance&quot;, &quot;viewsId&quot;: &quot;compliance-view-id&quot;}}}]}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id265"><span class="problematic" id="id266">:ansible-rv-sample-value:`{&quot;response&quot;: [{&quot;create\_report&quot;: {&quot;msg&quot;: &quot;Successfully created or scheduled report 'compliance\_report'.&quot;, &quot;response&quot;: {&quot;report\_id&quot;: &quot;1234567890abcdef12345678&quot;, &quot;report\_name&quot;: &quot;compliance\_report&quot;, &quot;view\_group\_id&quot;: &quot;network-device-compliance&quot;, &quot;view\_group\_name&quot;: &quot;Compliance&quot;, &quot;view\_id&quot;: &quot;compliance-view-id&quot;, &quot;view\_name&quot;: &quot;Network Device Compliance&quot;}}}]}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -2329,7 +2332,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 </div></td>
 <td><div class="ansible-option-cell"><p>Response returned after successfully deleting a scheduled report from Cisco Catalyst Center.</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> when state is deleted and report deletion succeeds</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id267"><span class="problematic" id="id268">:ansible-rv-sample-value:`{&quot;response&quot;: [{&quot;delete\_report&quot;: {&quot;msg&quot;: &quot;Report 'compliance\_report' has been successfully deleted.&quot;, &quot;response&quot;: {}}}]}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id267"><span class="problematic" id="id268">:ansible-rv-sample-value:`{&quot;response&quot;: [{&quot;delete\_report&quot;: {&quot;msg&quot;: &quot;Report 'compliance\_report' has been successfully deleted.&quot;, &quot;response&quot;: {&quot;report\_id&quot;: &quot;1234567890abcdef12345678&quot;, &quot;report\_name&quot;: &quot;compliance\_report&quot;}}}]}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -2338,7 +2341,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 </div></td>
 <td><div class="ansible-option-cell"><p>Response returned after successfully downloading report content to the specified local file path.</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> when delivery_type is DOWNLOAD and download succeeds</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id269"><span class="problematic" id="id270">:ansible-rv-sample-value:`{&quot;response&quot;: [{&quot;download\_report&quot;: {&quot;msg&quot;: &quot;Successfully downloaded report 'compliance\_report' to '/Users/xyz/Desktop'.&quot;, &quot;response&quot;: {&quot;filePath&quot;: &quot;/Users/xyz/Desktop&quot;, &quot;reportId&quot;: &quot;1234567890abcdef12345678&quot;, &quot;reportName&quot;: &quot;compliance\_report&quot;}}}]}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id269"><span class="problematic" id="id270">:ansible-rv-sample-value:`{&quot;response&quot;: [{&quot;download\_report&quot;: {&quot;msg&quot;: &quot;Successfully downloaded report 'compliance\_report' to '/Users/xyz/Desktop'.&quot;, &quot;response&quot;: {&quot;file\_path&quot;: &quot;/Users/xyz/Desktop&quot;, &quot;report\_id&quot;: &quot;1234567890abcdef12345678&quot;, &quot;report\_name&quot;: &quot;compliance\_report&quot;}}}]}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -2356,7 +2359,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-reports-
 </div></td>
 <td><div class="ansible-option-cell"><p>Response returned when a report with the same name already exists in Cisco Catalyst Center.</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> when state is merged and report already exists</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id273"><span class="problematic" id="id274">:ansible-rv-sample-value:`{&quot;changed&quot;: false, &quot;msg&quot;: &quot;No changes required - report already exists.&quot;, &quot;response&quot;: [{&quot;create\_report&quot;: {&quot;msg&quot;: &quot;Report 'compliance\_report' already exists.&quot;, &quot;response&quot;: {&quot;report\_id&quot;: &quot;existing1234567890abcdef&quot;, &quot;view\_group\_id&quot;: &quot;network-device-compliance&quot;, &quot;view\_id&quot;: &quot;compliance-view-id&quot;}}}]}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id273"><span class="problematic" id="id274">:ansible-rv-sample-value:`{&quot;changed&quot;: false, &quot;msg&quot;: &quot;No changes required - report already exists.&quot;, &quot;response&quot;: [{&quot;create\_report&quot;: {&quot;msg&quot;: &quot;Report 'compliance\_report' already exists.&quot;, &quot;response&quot;: {&quot;report\_id&quot;: &quot;existing1234567890abcdef&quot;, &quot;report\_name&quot;: &quot;compliance\_report&quot;, &quot;view\_group\_id&quot;: &quot;network-device-compliance&quot;, &quot;view\_group\_name&quot;: &quot;Compliance&quot;, &quot;view\_id&quot;: &quot;compliance-view-id&quot;, &quot;view\_name&quot;: &quot;Network Device Compliance&quot;}}}]}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
