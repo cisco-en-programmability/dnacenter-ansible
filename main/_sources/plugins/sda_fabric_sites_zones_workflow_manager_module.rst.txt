@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_sites_zones_workflow_manager module -- Manage fabric site(
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.42.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.44.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -162,7 +162,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -172,7 +172,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A dictionary containing detailed configurations for managing REST Endpoints that will receive Audit log and Events from the Cisco Catalyst Center Platform. This dictionary is essential for specifying attributes and parameters required for the lifecycle management of fabric sites, zones, and associated authentication profiles.
+      A list containing detailed configurations for managing REST Endpoints that will receive Audit log and Events from the Cisco Catalyst Center Platform. This list is essential for specifying attributes and parameters required for the lifecycle management of fabric sites, zones, and associated authentication profiles.
 
 
       .. raw:: html

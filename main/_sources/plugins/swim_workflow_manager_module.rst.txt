@@ -42,7 +42,7 @@ cisco.dnac.swim_workflow_manager module -- Module to manage SWIM (Software Image
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.42.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.44.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -335,6 +335,68 @@ Parameters
 
         </div>
 
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/convert_to_wlc"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/image_activation_details/convert_to_wlc:
+
+      .. rst-class:: ansible-option-title
+
+      **convert_to_wlc**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/convert_to_wlc" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Flag to indicate device conversion to Wireless LAN Controller (WLC) during image activation.
+          
+          When set to True:
+          - Skips the device compliance check for image activation
+          - Treats the device as eligible for image activation regardless of current state
+          - Useful for scenarios where converting a device to WLC mode requires non-compliant image operations
+          
+          When set to False (default):
+          - Performs normal device compliance validation before activation
+          - Only activates images on devices that are marked as NON\_COMPLIANT
+          - Follows standard SWIM workflow with full validation
+          
+          Use Cases:
+          - Converting access points or switches to operate as Wireless LAN Controllers
+          - Scenarios where compliance checks should be bypassed for specific device transformations
+          - Forced image activation for WLC conversion processes
+          
+          Security Note:
+          Use this parameter with caution as it bypasses standard compliance
+          checks. Ensure device compatibility before enabling this option.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -939,6 +1001,68 @@ Parameters
 
         </div>
     
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/convert_to_wlc"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/image_distribution_details/convert_to_wlc:
+
+      .. rst-class:: ansible-option-title
+
+      **convert_to_wlc**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/convert_to_wlc" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Flag to indicate device conversion to Wireless LAN Controller (WLC) during image distribution.
+          
+          When set to True:
+          - Skips the device compliance check for image distribution
+          - Treats the device as eligible for image distribution regardless of current state
+          - Useful for scenarios where converting a device to WLC mode requires non-compliant image operations
+          
+          When set to False (default):
+          - Performs normal device compliance validation before distribution
+          - Only distributes images to devices that are marked as NON\_COMPLIANT
+          - Follows standard SWIM workflow with full validation
+          
+          Use Cases:
+          - Converting access points or switches to operate as Wireless LAN Controllers
+          - Scenarios where compliance checks should be bypassed for specific device transformations
+          - Forced image distribution for WLC conversion processes
+          
+          Security Note:
+          Use this parameter with caution as it bypasses standard compliance
+          checks. Ensure device compatibility before enabling this option.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -2361,6 +2485,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tagging_details/supervisor_product_name_ordinal"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/tagging_details/supervisor_product_name_ordinal:
+
+      .. rst-class:: ansible-option-title
+
+      **supervisor_product_name_ordinal**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tagging_details/supervisor_product_name_ordinal" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Supervisor Product Name Ordinal value.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/tagging_details/tagging"></div>
 
       .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/tagging_details/tagging:
@@ -3476,6 +3634,45 @@ Examples
         dnac_log: true
         config:
           - sync_cco: true
+
+    - name: Distribute WLC image with convert_to_wlc flag to skip compliance check
+      cisco.dnac.swim_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
+        config:
+          - image_distribution_details:
+              sub_package_images:
+                - C9800-SW-iosxe-wlc.17.12.01.SPA.bin
+              convert_to_wlc: true
+              site_name: Global/a_swim
+
+    - name: Activate WLC image with convert_to_wlc flag to skip compliance check
+      cisco.dnac.swim_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
+        config:
+          - image_activation_details:
+              sub_package_images:
+                - C9800-SW-iosxe-wlc.17.12.01.SPA.bin
+              convert_to_wlc: true
+              site_name: Global/a_swim
+              activate_lower_image_version: true
+              distribute_if_needed: true
+              schedule_validate: false
 
     - name: Delete image from Cisco Catalyst Center for v3.1.3.0.
       cisco.dnac.swim_workflow_manager:

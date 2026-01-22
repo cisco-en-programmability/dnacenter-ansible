@@ -43,7 +43,7 @@ cisco.dnac.backup_and_restore_workflow_manager module -- Resource module for com
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.42.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.44.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -232,6 +232,50 @@ Parameters
 
       Ignored when delete\_all\_backup=true is specified.
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/backup/backup_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/backup/backup_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **backup_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/backup/backup_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Maximum time in seconds to wait for backup creation task to complete.
+
+      Controls timeout duration for monitoring backup operation progress and completion.
+
+      If timeout is exceeded, the operation may still continue on Catalyst Center backend.
+
+      Recommended values are 1200-3600 seconds depending on backup scope and data size.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
 
       .. raw:: html
 
@@ -509,9 +553,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Number of days to retain backup before cleanup.
+      Number of backup copies to retain before cleanup.
 
-      Range must be between 3 and 60 days.
+      Range must be between 3 and 60 backup copies.
+
+      When the number of backups exceeds this retention setting, the oldest backups are automatically removed to free up storage space.
+
+      Defines how many past backup versions the system will store before triggering automatic cleanup of older backup copies.
 
 
       .. raw:: html
@@ -1157,6 +1205,52 @@ Parameters
 
         </div>
 
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/restore_operations/restore_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/restore_operations/restore_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **restore_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/restore_operations/restore_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Maximum time in seconds to wait for restore operation task to complete.
+
+      Controls timeout duration for monitoring backup restoration progress and completion.
+
+      Restore operations typically require more time than backup creation due to data validation and system recovery processes.
+
+      If timeout is exceeded, the operation may still continue on Catalyst Center backend.
+
+      Recommended values are 3600-7200 seconds (1-2 hours) depending on backup size and system performance.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`3600`
+
+      .. raw:: html
+
+        </div>
+
 
 
   * - .. raw:: html
@@ -1228,13 +1322,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Time in seconds to wait for API tasks to complete before timing out.
-
-      For backup operations (creation/deletion), default timeout of 1200 seconds is typically sufficient.
-
-      For restore operations, use a significantly higher value (minimum 3600 seconds or above) as restore processes can take substantially longer depending on backup size and system load.
-
-      If timeout is reached, the operation may still be running on Catalyst Center backend.
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
 
 
       .. rst-class:: ansible-option-line

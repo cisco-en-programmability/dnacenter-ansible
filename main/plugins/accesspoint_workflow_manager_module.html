@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>cisco.dnac.accesspoint_workflow_manager module -- Manage Cisco Catalyst Center access points &mdash; DNACenterAnsibleActions  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/ansible-basic-sphinx-ext.css" />
 
   
@@ -21,7 +21,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="cisco.dnac.activities_activity_id_triggered_jobs_count_info module -- Information module for Activities Activity Id Triggered Jobs Count" href="activities_activity_id_triggered_jobs_count_info_module.html" />
-    <link rel="prev" title="cisco.dnac.accesspoint_configuration_details_by_task_id_info module -- Information module for Accesspoint Configuration Details By Task Id" href="accesspoint_configuration_details_by_task_id_info_module.html" /> 
+    <link rel="prev" title="cisco.dnac.accesspoint_location_workflow_manager module -- Resource module for managing Access Point planned positions and real positions in Cisco Catalyst Center" href="accesspoint_location_workflow_manager_module.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -60,6 +60,7 @@
 <li class="toctree-l4"><a class="reference internal" href="aaa_services_top_nanalytics_module.html">cisco.dnac.aaa_services_top_nanalytics module -- Resource module for Aaa Services Top Nanalytics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="aaa_services_trend_analytics_module.html">cisco.dnac.aaa_services_trend_analytics module -- Resource module for Aaa Services Trend Analytics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="accesspoint_configuration_details_by_task_id_info_module.html">cisco.dnac.accesspoint_configuration_details_by_task_id_info module -- Information module for Accesspoint Configuration Details By Task Id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="accesspoint_location_workflow_manager_module.html">cisco.dnac.accesspoint_location_workflow_manager module -- Resource module for managing Access Point planned positions and real positions in Cisco Catalyst Center</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">cisco.dnac.accesspoint_workflow_manager module -- Manage Cisco Catalyst Center access points</a></li>
 <li class="toctree-l4"><a class="reference internal" href="activities_activity_id_triggered_jobs_count_info_module.html">cisco.dnac.activities_activity_id_triggered_jobs_count_info module -- Information module for Activities Activity Id Triggered Jobs Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="activities_activity_id_triggered_jobs_info_module.html">cisco.dnac.activities_activity_id_triggered_jobs_info module -- Information module for Activities Activity Id Triggered Jobs</a></li>
@@ -1241,7 +1242,7 @@
 <h1>cisco.dnac.accesspoint_workflow_manager module -- Manage Cisco Catalyst Center access points<a class="headerlink" href="#cisco-dnac-accesspoint-workflow-manager-module-manage-cisco-catalyst-center-access-points" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.42.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.44.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1300,7 +1301,11 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 <div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-2-4ghz-radio"><strong>2.4ghz_radio</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the 2.4GHz radio interface.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Configuration options for the 2.4GHz radio interface.</dt><dd><p>Note: Updating access point radio configuration varies based on each model.
+Refer to the respective access point documentation before updating the radio configuration.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1393,7 +1398,7 @@ the access point's <code class="docutils literal notranslate"><span class="pre">
 <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio"><strong>5ghz_radio</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the 5GHz radio interface.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the 5GHz radio interface. Note: Updating access point radio configuration varies based on each model. Refer to the respective access point documentation before updating the radio configuration.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1496,7 +1501,11 @@ the access point's <code class="docutils literal notranslate"><span class="pre">
 <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio"><strong>6ghz_radio</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the 6GHz radio interface.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Configuration options for the 6GHz radio interface.</dt><dd><p>Note: Updating access point radio configuration varies based on each model.
+Refer to the respective access point documentation before updating the radio configuration.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1729,7 +1738,11 @@ At least one of these parameters must be specified to identify the APs for updat
 <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-bulk-update-aps-common-fields-to-change-2-4ghz-radio"><strong>2.4ghz_radio</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the 2.4GHz radio interface.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Configuration options for the 2.4GHz radio interface.</dt><dd><p>Note: Updating access point radio configuration varies based on each model.
+Refer to the respective access point documentation before updating the radio configuration.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1822,7 +1835,11 @@ the access point's <code class="docutils literal notranslate"><span class="pre">
 <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-bulk-update-aps-common-fields-to-change-5ghz-radio"><strong>5ghz_radio</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the 5GHz radio interface.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Configuration options for the 5GHz radio interface.</dt><dd><p>Note: Updating access point radio configuration varies based on each model.
+Refer to the respective access point documentation before updating the radio configuration.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1916,7 +1933,11 @@ This field is not required for xor series access point slot 1.</p>
 <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-bulk-update-aps-common-fields-to-change-6ghz-radio"><strong>6ghz_radio</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the 6GHz radio interface.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Configuration options for the 6GHz radio interface.</dt><dd><p>Note: Updating access point radio configuration varies based on each model.
+Refer to the respective access point documentation before updating the radio configuration.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -2171,7 +2192,11 @@ to &quot;Inherit from site / Clear&quot;.</p>
 <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/tri_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-bulk-update-aps-common-fields-to-change-tri-radio"><strong>tri_radio</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tri_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the TRI radio interface.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Configuration options for the TRI radio interface.</dt><dd><p>Note: Updating access point radio configuration varies based on each model.
+Refer to the respective access point documentation before updating the radio configuration.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -2291,7 +2316,11 @@ the access point's <code class="docutils literal notranslate"><span class="pre">
 <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/xor_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-bulk-update-aps-common-fields-to-change-xor-radio"><strong>xor_radio</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/xor_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the XOR radio interface.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Configuration options for the XOR radio interface.</dt><dd><p>Note: Updating access point radio configuration varies based on each model.
+Refer to the respective access point documentation before updating the radio configuration.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -2731,7 +2760,11 @@ to &quot;Inherit from site / Clear&quot;.</p>
 <div class="ansibleOptionAnchor" id="parameter-config/tri_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio"><strong>tri_radio</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tri_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the TRI radio interface.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Configuration options for the TRI radio interface.</dt><dd><p>Note: Updating access point radio configuration varies based on each model.
+Refer to the respective access point documentation before updating the radio configuration.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -2851,7 +2884,11 @@ the access point's <code class="docutils literal notranslate"><span class="pre">
 <div class="ansibleOptionAnchor" id="parameter-config/xor_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio"><strong>xor_radio</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/xor_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the XOR radio interface.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Configuration options for the XOR radio interface.</dt><dd><p>Note: Updating access point radio configuration varies based on each model.
+Refer to the respective access point documentation before updating the radio configuration.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -3671,7 +3708,7 @@ For example, &quot;Auto&quot;.</p>
 </section>
 <section id="return-values">
 <h2><a class="toc-backref" href="#id65" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
-<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v12)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
+<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v13)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Key</p></th>
@@ -3750,7 +3787,7 @@ For example, &quot;Auto&quot;.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="accesspoint_configuration_details_by_task_id_info_module.html" class="btn btn-neutral float-left" title="cisco.dnac.accesspoint_configuration_details_by_task_id_info module -- Information module for Accesspoint Configuration Details By Task Id" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="accesspoint_location_workflow_manager_module.html" class="btn btn-neutral float-left" title="cisco.dnac.accesspoint_location_workflow_manager module -- Resource module for managing Access Point planned positions and real positions in Cisco Catalyst Center" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="activities_activity_id_triggered_jobs_count_info_module.html" class="btn btn-neutral float-right" title="cisco.dnac.activities_activity_id_triggered_jobs_count_info module -- Information module for Activities Activity Id Triggered Jobs Count" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cisco.Dnac &mdash; DNACenterAnsibleActions  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/ansible-basic-sphinx-ext.css" />
 
   
@@ -62,6 +62,7 @@
 <li class="toctree-l4"><a class="reference internal" href="aaa_services_top_nanalytics_module.html">cisco.dnac.aaa_services_top_nanalytics module -- Resource module for Aaa Services Top Nanalytics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="aaa_services_trend_analytics_module.html">cisco.dnac.aaa_services_trend_analytics module -- Resource module for Aaa Services Trend Analytics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="accesspoint_configuration_details_by_task_id_info_module.html">cisco.dnac.accesspoint_configuration_details_by_task_id_info module -- Information module for Accesspoint Configuration Details By Task Id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="accesspoint_location_workflow_manager_module.html">cisco.dnac.accesspoint_location_workflow_manager module -- Resource module for managing Access Point planned positions and real positions in Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="accesspoint_workflow_manager_module.html">cisco.dnac.accesspoint_workflow_manager module -- Manage Cisco Catalyst Center access points</a></li>
 <li class="toctree-l4"><a class="reference internal" href="activities_activity_id_triggered_jobs_count_info_module.html">cisco.dnac.activities_activity_id_triggered_jobs_count_info module -- Information module for Activities Activity Id Triggered Jobs Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="activities_activity_id_triggered_jobs_info_module.html">cisco.dnac.activities_activity_id_triggered_jobs_info module -- Information module for Activities Activity Id Triggered Jobs</a></li>
@@ -1240,7 +1241,7 @@
              
   <section id="cisco-dnac">
 <span id="plugins-in-cisco-dnac"></span><h1>Cisco.Dnac<a class="headerlink" href="#cisco-dnac" title="Permalink to this heading"></a></h1>
-<p>Collection version 6.42.0</p>
+<p>Collection version 6.44.0</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
 <li><p><a class="reference internal" href="#description" id="id1">Description</a></p></li>
@@ -1274,6 +1275,10 @@
 <li><p>Sonali Deepthi Kesali &lt;<a class="reference external" href="mailto:skesali&#37;&#52;&#48;cisco&#46;com">skesali<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
 <li><p>Megha Kandari &lt;<a class="reference external" href="mailto:mekandar&#37;&#52;&#48;cisco&#46;com">mekandar<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
 <li><p>Archit Soni &lt;<a class="reference external" href="mailto:arcsoni&#37;&#52;&#48;cisco&#46;com">arcsoni<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
+<li><p>Luna Aliaj &lt;<a class="reference external" href="mailto:majlona&#37;&#52;&#48;cisco&#46;com">majlona<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
+<li><p>Priyadharshini Balakumar &lt;<a class="reference external" href="mailto:pbalaku2&#37;&#52;&#48;cisco&#46;com">pbalaku2<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
+<li><p>Karthick S N &lt;<a class="reference external" href="mailto:kasn&#37;&#52;&#48;cisco&#46;com">kasn<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
+<li><p>Sunil Shatagopa &lt;<a class="reference external" href="mailto:sshatago&#37;&#52;&#48;cisco&#46;com">sshatago<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
 </ul>
 <p><strong>Supported ansible-core versions:</strong></p>
 <ul class="simple">
@@ -1302,6 +1307,7 @@
 <li><p><a class="reference internal" href="aaa_services_top_nanalytics_module.html#ansible-collections-cisco-dnac-aaa-services-top-nanalytics-module"><span class="std std-ref">aaa_services_top_nanalytics module</span></a> -- Resource module for Aaa Services Top Nanalytics</p></li>
 <li><p><a class="reference internal" href="aaa_services_trend_analytics_module.html#ansible-collections-cisco-dnac-aaa-services-trend-analytics-module"><span class="std std-ref">aaa_services_trend_analytics module</span></a> -- Resource module for Aaa Services Trend Analytics</p></li>
 <li><p><a class="reference internal" href="accesspoint_configuration_details_by_task_id_info_module.html#ansible-collections-cisco-dnac-accesspoint-configuration-details-by-task-id-info-module"><span class="std std-ref">accesspoint_configuration_details_by_task_id_info module</span></a> -- Information module for Accesspoint Configuration Details By Task Id</p></li>
+<li><p><a class="reference internal" href="accesspoint_location_workflow_manager_module.html#ansible-collections-cisco-dnac-accesspoint-location-workflow-manager-module"><span class="std std-ref">accesspoint_location_workflow_manager module</span></a> -- Resource module for managing Access Point planned positions and real positions in Cisco Catalyst Center</p></li>
 <li><p><a class="reference internal" href="accesspoint_workflow_manager_module.html#ansible-collections-cisco-dnac-accesspoint-workflow-manager-module"><span class="std std-ref">accesspoint_workflow_manager module</span></a> -- Manage Cisco Catalyst Center access points</p></li>
 <li><p><a class="reference internal" href="activities_activity_id_triggered_jobs_count_info_module.html#ansible-collections-cisco-dnac-activities-activity-id-triggered-jobs-count-info-module"><span class="std std-ref">activities_activity_id_triggered_jobs_count_info module</span></a> -- Information module for Activities Activity Id Triggered Jobs Count</p></li>
 <li><p><a class="reference internal" href="activities_activity_id_triggered_jobs_info_module.html#ansible-collections-cisco-dnac-activities-activity-id-triggered-jobs-info-module"><span class="std std-ref">activities_activity_id_triggered_jobs_info module</span></a> -- Information module for Activities Activity Id Triggered Jobs</p></li>

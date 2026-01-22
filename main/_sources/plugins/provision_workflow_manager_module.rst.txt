@@ -42,7 +42,7 @@ cisco.dnac.provision_workflow_manager module -- Resource module for provision re
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.42.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.44.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -236,7 +236,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -312,7 +312,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -400,7 +400,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`boolean`
 
       .. raw:: html
 
@@ -416,8 +416,57 @@ Parameters
           - Mesh APs create wireless backhaul connections to extend network coverage, while non-mesh APs connect directly to the wired infrastructure.
           - This setting works in conjunction with 'ap\_authorization\_list\_name' for complete AP authorization workflow.
           - Supported from Cisco Catalyst Center release version 2.3.7.6 onwards.
-          type: bool
           
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/clean_config"></div>
+
+      .. _ansible_collections.cisco.dnac.provision_workflow_manager_module__parameter-config/clean_config:
+
+      .. rst-class:: ansible-option-title
+
+      **clean_config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/clean_config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A flag that indicates whether to clean the configuration during un-provisioning a device.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -684,7 +733,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 

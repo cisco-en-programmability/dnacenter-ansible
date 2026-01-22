@@ -42,7 +42,7 @@ cisco.dnac.template_workflow_manager module -- Resource module for Template func
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.42.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.44.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -892,6 +892,54 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The actual script or code constituting the body of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_content_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_content_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **template_content_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_content_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Path to a local file containing the template content to be used during create or update operations.
+
+      Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+
+      When provided, this field takes precedence over 'template\_content'.
+
+      Supports absolute and relative paths. Relative paths are resolved from the playbook's working directory (typically the directory where \`ansible-playbook\` is executed).
+
+      For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center; variables and logic are evaluated using the provided \`template\_params\` and runtime context.
+
+      For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without evaluation or interpolation.
+
+      Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+
+      The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
 
 
       .. raw:: html
@@ -2409,6 +2457,54 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The actual script or code constituting the body of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_content_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_content_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **template_content_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_content_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Path to a local file containing the template content to be used during create or update operations.
+
+      Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+
+      When provided, this field takes precedence over 'template\_content'.
+
+      Supports absolute and relative paths. Relative paths are resolved from the playbook's working directory (typically the directory where \`ansible-playbook\` is executed).
+
+      For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center; variables and logic are evaluated using the provided \`template\_params\` and runtime context.
+
+      For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without evaluation or interpolation.
+
+      Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+
+      The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
 
 
       .. raw:: html
@@ -5557,6 +5653,54 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_content_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_content_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **template_content_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_content_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Path to a local file containing the template content to be used during create or update operations.
+
+      Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+
+      When provided, this field takes precedence over 'template\_content'.
+
+      Supports absolute and relative paths. Relative paths are resolved from the playbook's working directory (typically the directory where \`ansible-playbook\` is executed).
+
+      For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center; variables and logic are evaluated using the provided \`template\_params\` and runtime context.
+
+      For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without evaluation or interpolation.
+
+      Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+
+      The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params"></div>
 
       .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params:
@@ -6995,6 +7139,54 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The actual script or code constituting the body of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_content_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_content_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **template_content_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_content_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Path to a local file containing the template content to be used during create or update operations.
+
+      Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+
+      When provided, this field takes precedence over 'template\_content'.
+
+      Supports absolute and relative paths. Relative paths are resolved from the playbook's working directory (typically the directory where \`ansible-playbook\` is executed).
+
+      For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center; variables and logic are evaluated using the provided \`template\_params\` and runtime context.
+
+      For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without evaluation or interpolation.
+
+      Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+
+      The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
 
 
       .. raw:: html
@@ -9575,6 +9767,56 @@ Examples
             software_type: "IOS-XE"
             device_types:
               - product_family: "Switches and Hubs"
+
+    - name: Create L2VN anycast template in Catalyst Center where
+        template content is stored in a file and its path is set in a ENV variable.
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        config_verify: true
+        state: merged
+        config:
+          - configuration_templates:
+              project_name: "evpn_l2vn_anycast"
+              template_name: "evpn_l2vn_anycast_template"
+              template_content_file_path: "{{ lookup('env', 'BGPEVPN_L2VNANYCAST_TEMPDIR_PATH') | mandatory }}/evpn_anycast.j2"
+              version_description: "Raw Jinja BGP EVPN L2VN anycast template"
+              language: JINJA
+              software_type: "IOS-XE"
+              device_types:
+                - product_family: Switches and Hubs
+
+    - name: Create L2VN anycast template in Catalyst Center where
+        template content is stored in a file and its relative path is provided.
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        config_verify: true
+        state: merged
+        config:
+          - configuration_templates:
+              project_name: "evpn_l2vn_anycast"
+              template_name: "evpn_l2vn_anycast_template"
+              template_content_file_path: "evpn_templates/evpn_anycast.j2"
+              version_description: "Raw Jinja BGP EVPN L2VN anycast template"
+              language: JINJA
+              software_type: "IOS-XE"
+              device_types:
+                - product_family: Switches and Hubs
 
 
 

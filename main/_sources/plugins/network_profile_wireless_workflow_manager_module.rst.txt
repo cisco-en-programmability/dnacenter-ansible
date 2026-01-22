@@ -42,7 +42,7 @@ cisco.dnac.network_profile_wireless_workflow_manager module -- Resource module f
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.42.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.44.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -585,8 +585,6 @@ Parameters
 
       A list of specific design names or IDs to apply within the chosen feature template category.
           These designs include various parameters and settings for wireless infrastructure configuration.
-          If "Default Advanced SSID Design" is included in this list, it is comprehensive for SSID configuration,
-          and no other template designs are typically needed for that specific SSID feature.
           
 
 

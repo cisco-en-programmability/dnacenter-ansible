@@ -42,7 +42,7 @@ cisco.dnac.reports_workflow_manager module -- Resource module for managing Repor
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.42.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.44.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -166,7 +166,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary` / :ansible-option-required:`required`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -204,7 +204,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary` / :ansible-option-required:`required`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -268,6 +268,48 @@ Parameters
       - :ansible-option-choices-entry:`"DOWNLOAD"`
       - :ansible-option-choices-entry:`"NOTIFICATION"`
       - :ansible-option-choices-entry:`"WEBHOOK"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/generate_report/deliveries/email_attach"></div>
+
+      .. _ansible_collections.cisco.dnac.reports_workflow_manager_module__parameter-config/generate_report/deliveries/email_attach:
+
+      .. rst-class:: ansible-option-title
+
+      **email_attach**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/generate_report/deliveries/email_attach" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Whether the report should be attached in the notification email.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -388,54 +430,13 @@ Parameters
 
         </div>
 
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/generate_report/deliveries/notification_endpoints/email_attach"></div>
-
-      .. _ansible_collections.cisco.dnac.reports_workflow_manager_module__parameter-config/generate_report/deliveries/notification_endpoints/email_attach:
-
-      .. rst-class:: ansible-option-title
-
-      **email_attach**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/generate_report/deliveries/notification_endpoints/email_attach" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Whether the report should be attached in the notification email.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/generate_report/deliveries/notification_endpoints/notify"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/generate_report/deliveries/notify"></div>
 
-      .. _ansible_collections.cisco.dnac.reports_workflow_manager_module__parameter-config/generate_report/deliveries/notification_endpoints/notify:
+      .. _ansible_collections.cisco.dnac.reports_workflow_manager_module__parameter-config/generate_report/deliveries/notify:
 
       .. rst-class:: ansible-option-title
 
@@ -443,7 +444,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/generate_report/deliveries/notification_endpoints/notify" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/generate_report/deliveries/notify" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -455,7 +456,7 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       List of report execution statuses that will trigger a notification.
 
@@ -472,15 +473,14 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`"C(IN\_QUEUE)"`
-      - :ansible-option-choices-entry:`"C(IN\_PROGRESS)"`
-      - :ansible-option-choices-entry:`"C(COMPLETED)"`
+      - :ansible-option-choices-entry:`"IN\_QUEUE"`
+      - :ansible-option-choices-entry:`"IN\_PROGRESS"`
+      - :ansible-option-choices-entry:`"COMPLETED"`
 
 
       .. raw:: html
 
         </div>
-
 
   * - .. raw:: html
 
@@ -864,7 +864,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -1141,7 +1141,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -1215,7 +1215,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -1251,7 +1251,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -1325,7 +1325,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -1435,7 +1435,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -1455,6 +1455,8 @@ Parameters
 
       \ :literal:`TIME\_RANGE`\  allows date/time range specification.
 
+      \ :literal:`REGULAR`\  allows exact match filtering with single values for specific field types. Used primarily for Port Reclaim View filters like hostname and family.
+
 
       .. rst-class:: ansible-option-line
 
@@ -1464,6 +1466,7 @@ Parameters
       - :ansible-option-choices-entry:`"MULTI\_SELECT\_TREE"`
       - :ansible-option-choices-entry:`"SINGLE\_SELECT\_ARRAY"`
       - :ansible-option-choices-entry:`"TIME\_RANGE"`
+      - :ansible-option-choices-entry:`"REGULAR"`
 
 
       .. raw:: html
@@ -1487,7 +1490,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -1523,7 +1526,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -1563,7 +1566,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -1597,7 +1600,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -1802,7 +1805,6 @@ Parameters
       - :ansible-option-choices-entry:`"Endpoint Profiling"`
       - :ansible-option-choices-entry:`"Audit Log"`
       - :ansible-option-choices-entry:`"Configuration Archive"`
-      - :ansible-option-choices-entry:`"Client"`
       - :ansible-option-choices-entry:`"Client Summary"`
       - :ansible-option-choices-entry:`"Top N Summary"`
       - :ansible-option-choices-entry:`"Client Detail"`
@@ -2625,7 +2627,7 @@ Examples
         config:
           - generate_report:
               - name: "Sample Inventory report"
-                data_category: "Inventory"
+                view_group_name: "Inventory"
                 view_group_version: "2.0.0"
                 view:
                   view_name: "All Data"
@@ -2731,7 +2733,7 @@ Examples
                       filter_type: "MULTI_SELECT_TREE"
                       value:
                         - value: "Global/India"
-                          display_value: "Routers"
+                          display_value: "Global/India"
 
     - name: Schedule a report for later execution
       cisco.dnac.reports_workflow_manager:
@@ -2756,8 +2758,8 @@ Examples
                       - email_addresses:
                           - "admin@company.com"
                           - "reports@company.com"
-                        email_attach: true
-                        notify: ["COMPLETED"]
+                    email_attach: true
+                    notify: ["COMPLETED"]
                 schedule:
                   schedule_type: "SCHEDULE_LATER"
                   date_time: "2025-12-25 09:00 AM"
@@ -2812,6 +2814,7 @@ Examples
                       filter_type: "MULTI_SELECT_TREE"
                       value:
                         - value: "Global/US/California"
+                          display_value: "Global/US/California"
 
     - name: Create monthly report with time range filter
       cisco.dnac.reports_workflow_manager:
@@ -2971,7 +2974,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"create\_report": {"msg": "Successfully created or scheduled report 'compliance\_report'.", "response": {"reportId": "1234567890abcdef12345678", "viewGroupId": "network-device-compliance", "viewsId": "compliance-view-id"}}}]}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"create\_report": {"msg": "Successfully created or scheduled report 'compliance\_report'.", "response": {"report\_id": "1234567890abcdef12345678", "report\_name": "compliance\_report", "view\_group\_id": "network-device-compliance", "view\_group\_name": "Compliance", "view\_id": "compliance-view-id", "view\_name": "Network Device Compliance"}}}]}`
 
 
       .. raw:: html
@@ -3016,7 +3019,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"delete\_report": {"msg": "Report 'compliance\_report' has been successfully deleted.", "response": {}}}]}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"delete\_report": {"msg": "Report 'compliance\_report' has been successfully deleted.", "response": {"report\_id": "1234567890abcdef12345678", "report\_name": "compliance\_report"}}}]}`
 
 
       .. raw:: html
@@ -3061,7 +3064,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"download\_report": {"msg": "Successfully downloaded report 'compliance\_report' to '/Users/xyz/Desktop'.", "response": {"filePath": "/Users/xyz/Desktop", "reportId": "1234567890abcdef12345678", "reportName": "compliance\_report"}}}]}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"download\_report": {"msg": "Successfully downloaded report 'compliance\_report' to '/Users/xyz/Desktop'.", "response": {"file\_path": "/Users/xyz/Desktop", "report\_id": "1234567890abcdef12345678", "report\_name": "compliance\_report"}}}]}`
 
 
       .. raw:: html
@@ -3151,7 +3154,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"changed": false, "msg": "No changes required - report already exists.", "response": [{"create\_report": {"msg": "Report 'compliance\_report' already exists.", "response": {"report\_id": "existing1234567890abcdef", "view\_group\_id": "network-device-compliance", "view\_id": "compliance-view-id"}}}]}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"changed": false, "msg": "No changes required - report already exists.", "response": [{"create\_report": {"msg": "Report 'compliance\_report' already exists.", "response": {"report\_id": "existing1234567890abcdef", "report\_name": "compliance\_report", "view\_group\_id": "network-device-compliance", "view\_group\_name": "Compliance", "view\_id": "compliance-view-id", "view\_name": "Network Device Compliance"}}}]}`
 
 
       .. raw:: html

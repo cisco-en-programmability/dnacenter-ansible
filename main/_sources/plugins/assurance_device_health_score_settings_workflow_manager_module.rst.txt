@@ -42,7 +42,7 @@ cisco.dnac.assurance_device_health_score_settings_workflow_manager module -- Res
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.42.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.44.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -163,7 +163,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary` / :ansible-option-required:`required`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -1235,7 +1235,7 @@ Examples
       connection: local
       tasks:
         - name: Update Health score and threshold settings
-          cisco.dnac. assurance_device_health_score_settings_workflow_manager:
+          cisco.dnac.assurance_device_health_score_settings_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
             dnac_username: "{{ dnac_username }}"
@@ -1262,7 +1262,7 @@ Examples
       connection: local
       tasks:
         - name: Update Health score and threshold settings
-          cisco.dnac. assurance_device_health_score_settings_workflow_manager:
+          cisco.dnac.assurance_device_health_score_settings_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
             dnac_username: "{{ dnac_username }}"
@@ -1289,7 +1289,7 @@ Examples
       connection: local
       tasks:
         - name: Update Health score and threshold settings
-          cisco.dnac. assurance_device_health_score_settings_workflow_manager:
+          cisco.dnac.assurance_device_health_score_settings_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
             dnac_username: "{{ dnac_username }}"
@@ -1386,7 +1386,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Megha Kandari (@kandarimegha) Madhan Sankaranarayanan (@madhansansel)
+- Megha Kandari (@kandarimegha), Madhan Sankaranarayanan (@madhansansel)
 
 
 

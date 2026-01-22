@@ -42,7 +42,7 @@ cisco.dnac.sda_host_port_onboarding_workflow_manager module -- Manage host port 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.42.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.44.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1848,6 +1848,55 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sda_fabric_port_channel_limit"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_host_port_onboarding_workflow_manager_module__parameter-sda_fabric_port_channel_limit:
+
+      .. rst-class:: ansible-option-title
+
+      **sda_fabric_port_channel_limit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sda_fabric_port_channel_limit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      - Maximum number of port channels processed in a single API batch
+            for add and update operations on SD-Access fabric devices.
+          - When total port channels exceed this limit, operations are split
+            into sequential batches of the specified size for processing.
+          - Each batch completes successfully before the next batch starts,
+            ensuring data consistency and better error isolation.
+          - Sequential processing prevents API timeouts, reduces system load,
+            and improves reliability for large port channel configurations.
+          - Module provides detailed logging and status reporting for each
+            batch, enabling progress tracking and issue identification.
+          - Lower values (1-10) provide granular control but slower processing. - Higher values (11-20) improve speed but may cause API timeouts.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`20`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-state"></div>
 
       .. _ansible_collections.cisco.dnac.sda_host_port_onboarding_workflow_manager_module__parameter-state:
@@ -2177,6 +2226,32 @@ Examples
                 connected_device_type: "TRUNK"
                 native_vlan_id: 10
                 allowed_vlan_ranges: "100-200"
+                protocol: "LACP"
+                port_channel_description: "Management and data VLAN trunk"
+
+    - name: Configure port channels with port channel limit
+      cisco.dnac.sda_host_port_onboarding_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        sda_fabric_port_channel_limit: 10
+        state: merged
+        config:
+          - ip_address: "204.1.2.2"
+            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+            port_channels:
+              - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38"]
+                connected_device_type: "TRUNK"
+                protocol: "LACP"
+                port_channel_description: "Trunk port channel with VLAN filtering"
+              - interface_names: ["TenGigabitEthernet1/0/45", "TenGigabitEthernet1/0/46"]
+                connected_device_type: "TRUNK"
                 protocol: "LACP"
                 port_channel_description: "Management and data VLAN trunk"
 
@@ -2600,7 +2675,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan (@madhansansel)
+- Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan (@madhansansel) Abhishek Maheshwari (@abmahesh)
 
 
 
