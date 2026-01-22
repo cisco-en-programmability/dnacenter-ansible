@@ -2,73 +2,72 @@
   "get_authentication_and_policy_servers": {
     "response": [
       {
-        "instanceUuid": "uuid-1",
-        "server_type": "ISE",
-        "ipAddress": "10.197.156.78",
-        "server_ip_address": "10.197.156.78",
-        "fqdn": "auto-tb4-ise.autoagni1.com",
+        "ipAddress": "10.197.156.10",
+        "sharedSecret": "***",
         "protocol": "RADIUS",
+        "encryptionScheme": "KEYWRAP",
+        "encryptionKey": "***",
+        "messageKey": "***",
         "authenticationPort": 1812,
         "accountingPort": 1813,
         "retries": 3,
         "timeoutSeconds": 4,
-        "role": "primary",
+        "role": "PRIMARY_SERVER",
         "pxgridEnabled": true,
         "useDnacCertForPxgrid": false,
         "ciscoIseDtos": [
           {
-            "userName": "admin",
-            "password": "ise_password",
-            "fqdn": "auto-tb4-ise.autoagni1.com",
-            "ipAddress": "10.197.156.78",
             "type": "ISE",
-            "description": "CISCO ISE"
+            "userName": "admin",
+            "password": "***",
+            "fqdn": "ise-server1.example.com",
+            "ipAddress": "10.197.156.10",
+            "description": "Primary ISE Server",
+            "sshKey": "***"
           }
-        ]
+        ],
+        "trustedServer": true,
+        "iseIntegrationWaitTime": 20
       },
       {
-        "instanceUuid": "uuid-2",
-        "server_type": "AAA",
-        "ipAddress": "10.197.156.10",
-        "server_ip_address": "10.197.156.10",
+        "ipAddress": "10.197.156.20",
+        "sharedSecret": "***",
         "protocol": "RADIUS",
+        "encryptionScheme": "KEYWRAP",
+        "encryptionKey": "***",
+        "messageKey": "***",
         "authenticationPort": 1812,
         "accountingPort": 1813,
         "retries": 3,
         "timeoutSeconds": 4,
-        "role": "secondary",
-        "pxgridEnabled": true,
+        "role": "SECONDARY_SERVER",
+        "pxgridEnabled": false,
         "useDnacCertForPxgrid": false,
-        "ciscoIseDtos": [
-          {
-            "userName": "admin",
-            "password": "aaa_password",
-            "fqdn": "aaa-server.autoagni1.com",
-            "ipAddress": "10.197.156.10",
-            "type": "AAA",
-            "description": "AAA Server"
-          }
-        ]
+        "ciscoIseDtos": [],
+        "trustedServer": false,
+        "iseIntegrationWaitTime": 20
       }
     ]
   },
   "playbook_config_generate_all_configurations": [
     {
-      "generate_all_configurations": true
+      "generate_all_configurations": true,
+      "file_path": "/tmp/ise_radius_all_config.yaml"
     }
   ],
   "playbook_config_with_file_path": [
     {
-      "file_path": "/tmp/ise_radius_integration_config.yaml"
+      "file_path": "/tmp/custom_ise_config.yaml",
+      "component_specific_filters": {
+        "components_list": ["authentication_policy_server"]
+      }
     }
   ],
   "playbook_config_filter_by_server_type": [
     {
-      "file_path": "/tmp/ise_servers_config.yaml",
+      "file_path": "/tmp/ise_servers_only.yaml",
       "component_specific_filters": {
-        "components_list": [
-          "authentication_policy_server"
-        ],
+        "components_list": ["authentication_policy_server"],
         "authentication_policy_server": [
           {
             "server_type": "ISE"
@@ -79,46 +78,10 @@
   ],
   "playbook_config_filter_by_server_ip": [
     {
-      "file_path": "/tmp/specific_server_config.yaml",
+      "file_path": "/tmp/specific_server.yaml",
       "component_specific_filters": {
-        "components_list": [
-          "authentication_policy_server"
-        ],
+        "components_list": ["authentication_policy_server"],
         "authentication_policy_server": [
-          {
-            "server_ip_address": "10.197.156.78"
-          }
-        ]
-      }
-    }
-  ],
-  "playbook_config_filter_by_both": [
-    {
-      "file_path": "/tmp/filtered_ise_server.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "authentication_policy_server"
-        ],
-        "authentication_policy_server": [
-          {
-            "server_type": "ISE",
-            "server_ip_address": "10.197.156.78"
-          }
-        ]
-      }
-    }
-  ],
-  "playbook_config_multiple_filters": [
-    {
-      "file_path": "/tmp/multiple_filters_config.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "authentication_policy_server"
-        ],
-        "authentication_policy_server": [
-          {
-            "server_type": "ISE"
-          },
           {
             "server_ip_address": "10.197.156.10"
           }
@@ -126,23 +89,49 @@
       }
     }
   ],
+  "playbook_config_filter_by_both": [
+    {
+      "file_path": "/tmp/ise_server_by_ip.yaml",
+      "component_specific_filters": {
+        "components_list": ["authentication_policy_server"],
+        "authentication_policy_server": [
+          {
+            "server_type": "ISE",
+            "server_ip_address": "10.197.156.10"
+          }
+        ]
+      }
+    }
+  ],
+  "playbook_config_multiple_filters": [
+    {
+      "file_path": "/tmp/multiple_filters.yaml",
+      "component_specific_filters": {
+        "components_list": ["authentication_policy_server"],
+        "authentication_policy_server": [
+          {
+            "server_ip_address": "10.197.156.10"
+          },
+          {
+            "server_ip_address": "10.197.156.20"
+          }
+        ]
+      }
+    }
+  ],
   "playbook_config_no_filters": [
     {
-      "file_path": "/tmp/all_servers_config.yaml",
+      "file_path": "/tmp/no_filters.yaml",
       "component_specific_filters": {
-        "components_list": [
-          "authentication_policy_server"
-        ]
+        "components_list": ["authentication_policy_server"]
       }
     }
   ],
   "playbook_config_invalid_server_type": [
     {
-      "file_path": "/tmp/invalid_server_type.yaml",
+      "file_path": "/tmp/invalid_type.yaml",
       "component_specific_filters": {
-        "components_list": [
-          "authentication_policy_server"
-        ],
+        "components_list": ["authentication_policy_server"],
         "authentication_policy_server": [
           {
             "server_type": "INVALID_TYPE"
@@ -151,19 +140,9 @@
       }
     }
   ],
-  "playbook_config_invalid_state": [
+  "playbook_config_no_file_path": [
     {
-      "file_path": "/tmp/config.yaml"
-    }
-  ],
-  "playbook_config_missing_policy_server_password": [
-    {
-      "file_path": "/tmp/missing_password.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "authentication_policy_server"
-        ]
-      }
+      "generate_all_configurations": true
     }
   ]
 }
