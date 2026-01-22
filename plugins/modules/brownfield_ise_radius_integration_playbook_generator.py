@@ -22,11 +22,6 @@ author:
 - Jeet Ram (@jeeram)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -53,7 +48,7 @@ options:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
           a default file name  "<module_name>_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "brownfield_ise_radius_integration_playbook_generator_15_Dec_2025_21_43_26_379.yml".
+        - For example, "ise_radius_integration_workflow_manager_playbook_15_Dec_2025_21_43_26_379.yml".
         type: str
       component_specific_filters:
         description:
@@ -110,8 +105,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - generate_all_configurations: true
-        file_path: "/tmp/ise_radius_integration_config.yaml"
+      - file_path: "/tmp/ise_radius_integration_config.yaml"
 
 - name: Generate YAML Configuration for all components without File Path specified
   cisco.dnac.brownfield_ise_radius_integration_playbook_generator:
@@ -141,8 +135,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - generate_all_configurations: false
-        file_path: "/tmp/ise_radius_integration_config.yaml"
+      - file_path: "/tmp/ise_radius_integration_config.yaml"
         component_specific_filters:
           components_list: ["authentication_policy_server"]
           authentication_policy_server:
@@ -161,8 +154,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - generate_all_configurations: false
-        file_path: "/tmp/ise_radius_integration_config.yaml"
+      - file_path: "/tmp/ise_radius_integration_config.yaml"
         component_specific_filters:
           components_list: ["authentication_policy_server"]
           authentication_policy_server:
@@ -181,8 +173,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - generate_all_configurations: false
-        file_path: "/tmp/ise_radius_integration_config.yaml"
+      - file_path: "/tmp/ise_radius_integration_config.yaml"
         component_specific_filters:
           components_list: ["authentication_policy_server"]
           authentication_policy_server:
@@ -262,7 +253,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         super().__init__(module)
         self.log("Inside INIT function.", "DEBUG")
         self.module_schema = self.get_workflow_filters_schema()
-        self.module_name = "brownfield_ise_radius_integration_playbook_generator"
+        self.module_name = "ise_radius_integration_workflow_manager"
 
     def validate_input(self):
         """
@@ -943,7 +934,6 @@ def main():
         "dnac_log_append": {"type": "bool", "default": True},
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
