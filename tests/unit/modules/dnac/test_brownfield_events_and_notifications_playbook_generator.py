@@ -112,7 +112,6 @@ class TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="2.3.7.6",
                 config=self.playbook_generate_all_configurations
             )
@@ -141,7 +140,6 @@ class TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="2.3.7.6",
                 config=self.playbook_component_specific_filters
             )
@@ -168,7 +166,6 @@ class TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="2.3.7.6",
                 config=self.playbook_invalid_filter
             )
@@ -203,7 +200,6 @@ class TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="2.3.7.6",
                 config=self.playbook_specific_filter
             )

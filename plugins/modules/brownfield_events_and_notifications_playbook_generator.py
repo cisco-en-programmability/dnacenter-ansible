@@ -29,11 +29,6 @@ author:
 - Priyadharshini B (@pbalaku2)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -206,32 +201,53 @@ EXAMPLES = r"""
           destination_filters:
             destination_names: ["webhook-dest-1", "webhook-dest-2"]
             destination_types: ["webhook"]
+
+- name: Generate YAML Configuration with combined filters
+  cisco.dnac.brownfield_events_and_notifications_playbook_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    config:
+      - file_path: "/tmp/combined_filters_config.yaml"
+        component_specific_filters:
+          components_list: ["webhook_destinations", "webhook_event_notifications", "email_destinations", "email_event_notifications"]
+          destination_filters:
+            destination_names: ["Production Webhook", "Alert Email Server"]
+            destination_types: ["webhook", "email"]
+          notification_filters:
+            subscription_names: ["Critical System Alerts", "Network Health Monitoring"]
+            notification_types: ["webhook", "email"]
 """
 
 RETURN = r"""
 # Case_1: Success Scenario
 response_1:
-  description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
+  description: A dictionary with the response returned by the Cisco Catalyst Center
   returned: always
   type: dict
   sample: >
     {
-      "response":
-        {
-          "response": String,
-          "version": String
-        },
-      "msg": String
+      "msg": "YAML config generation Task succeeded for module 'events_and_notifications_workflow_manager'.",
+      "response": "YAML config generation Task succeeded for module 'events_and_notifications_workflow_manager'.",
+      "status": "success"
     }
-# Case_2: Error Scenario
+# Case_2: Idempotent Scenario
 response_2:
-  description: A string with the response returned by the Cisco Catalyst Center Python SDK
+  description: A string with the response returned by the Cisco Catalyst Center
   returned: always
   type: list
   sample: >
     {
-      "response": [],
-      "msg": String
+      "msg": "No configurations found to generate. Verify that the components exist and have data.",
+      "response": "No configurations found to generate. Verify that the components exist and have data.",
+      "status": "success"
     }
 """
 
@@ -270,11 +286,20 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def __init__(self, module):
         """
-        Initialize an instance of the class.
+        Initialize an instance of the EventsNotificationsPlaybookGenerator class.
+
+        Description:
+            Sets up the class instance with module configuration, supported states,
+            module schema mapping, and module name for events and notifications workflow
+            operations in Cisco Catalyst Center. Initializes the get_diff_state_apply
+            mapping for handling different operational states.
+
         Args:
-            module: The module associated with the class instance.
+            module (AnsibleModule): The Ansible module instance containing configuration
+                parameters and methods for module execution.
+
         Returns:
-            The method does not return a value.
+            None: This is a constructor method that initializes the instance.
         """
         self.supported_states = ["gathered"]
         self.get_diff_state_apply = {"gathered": self.get_diff_gathered}
@@ -284,12 +309,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def validate_input(self):
         """
-        Validates the input configuration parameters for the playbook.
+        Validates the input configuration parameters for the events and notifications playbook.
+
+        Description:
+            Performs comprehensive validation of input configuration parameters to ensure
+            they conform to the expected schema for events and notifications workflow generation.
+            Validates parameter types, requirements, and structure for destination and
+            notification configuration generation.
+
+        Args:
+            None: Uses self.config from the instance.
+
         Returns:
-            object: An instance of the class with updated attributes:
-                self.msg: A message describing the validation result.
-                self.status: The status of the validation (either "success" or "failed").
-                self.validated_config: If successful, a validated version of the "config" parameter.
+            object: Self instance with updated attributes:
+                - self.msg (str): Message describing the validation result.
+                - self.status (str): Status of validation ("success" or "failed").
+                - self.validated_config (list): Validated configuration parameters if successful.
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
@@ -326,7 +361,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def events_notifications_workflow_manager_mapping(self):
         """
-        Constructs and returns a structured mapping for managing events and notifications configuration elements.
+        Constructs comprehensive mapping configuration for events and notifications workflow components.
+
+        Description:
+            Creates a structured mapping that defines all supported events and notifications
+            workflow components, their associated API functions, filter specifications, and
+            processing functions. This mapping serves as the central configuration registry
+            for the events and notifications workflow orchestration process.
+
+        Args:
+            None: Uses class methods and instance configuration.
+
+        Returns:
+            dict: A comprehensive mapping dictionary containing:
+                - network_elements (dict): Component configurations with API details,
+                filter specifications, and processing function references.
+                - global_filters (dict): Global filter configuration options.
         """
         return {
             "network_elements": {
@@ -455,7 +505,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         return self.syslog_event_notifications_temp_spec()
 
     def webhook_destinations_temp_spec(self):
-        """Constructs a temporary specification for webhook destination details."""
+        """
+        Constructs detailed specification for webhook destination data transformation.
+
+        Description:
+            Creates a comprehensive specification that defines how webhook destination
+            API response fields should be mapped, transformed, and structured in the final
+            YAML configuration. Includes handling for HTTP methods, SSL certificates,
+            headers, and proxy routing configurations.
+
+        Args:
+            None: Uses logging methods from the instance.
+
+        Returns:
+            OrderedDict: A detailed specification containing field mappings, data types,
+            and nested structure definitions for webhook destination configurations.
+        """
         self.log("Generating temporary specification for webhook destination details.", "DEBUG")
         return OrderedDict({
             "name": {"type": "str", "source_key": "name"},
@@ -477,7 +542,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         })
 
     def email_destinations_temp_spec(self):
-        """Constructs a temporary specification for email destination details."""
+        """
+        Constructs detailed specification for email destination data transformation.
+
+        Description:
+            Creates a comprehensive specification that defines how email destination
+            API response fields should be mapped, transformed, and structured in the final
+            YAML configuration. Includes handling for primary and secondary SMTP configurations,
+            authentication details, and password redaction for security.
+
+        Args:
+            None: Uses logging methods from the instance.
+
+        Returns:
+            OrderedDict: A detailed specification containing field mappings, data types,
+            and nested SMTP configuration structures for email destination configurations.
+        """
         self.log("Generating temporary specification for email destination details.", "DEBUG")
         return OrderedDict({
             "sender_email": {"type": "str", "source_key": "fromEmail"},
@@ -508,7 +588,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         })
 
     def syslog_destinations_temp_spec(self):
-        """Constructs a temporary specification for syslog destination details."""
+        """
+        Constructs detailed specification for syslog destination data transformation.
+
+        Description:
+            Creates a comprehensive specification that defines how syslog destination
+            API response fields should be mapped, transformed, and structured in the final
+            YAML configuration. Includes handling for server addresses, protocols (UDP/TCP),
+            and port configurations.
+
+        Args:
+            None: Uses logging methods from the instance.
+
+        Returns:
+            OrderedDict: A detailed specification containing field mappings, data types,
+            and protocol configuration structures for syslog destination configurations.
+        """
         self.log("Generating temporary specification for syslog destination details.", "DEBUG")
         return OrderedDict({
             "name": {"type": "str", "source_key": "name"},
@@ -519,7 +614,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         })
 
     def snmp_destinations_temp_spec(self):
-        """Constructs a temporary specification for SNMP destination details."""
+        """
+        Constructs detailed specification for SNMP destination data transformation.
+
+        Description:
+            Creates a comprehensive specification that defines how SNMP destination
+            API response fields should be mapped, transformed, and structured in the final
+            YAML configuration. Includes handling for server addresses, ports, and SNMP
+            versioning.
+
+        Args:
+            None: Uses logging methods from the instance.
+
+        Returns:
+            OrderedDict: A detailed specification containing field mappings, data types,
+            and SNMP configuration structures for SNMP destination configurations.
+        """
         self.log("Generating temporary specification for SNMP destination details.", "DEBUG")
         return OrderedDict({
             "name": {"type": "str", "source_key": "name"},
@@ -537,7 +647,22 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         })
 
     def itsm_settings_temp_spec(self):
-        """Constructs a temporary specification for ITSM settings details."""
+        """
+        Constructs detailed specification for ITSM settings data transformation.
+
+        Description:
+            Creates a comprehensive specification that defines how ITSM integration
+            settings API response fields should be mapped, transformed, and structured in the final
+            YAML configuration. Includes handling for connection settings, URLs,
+            authentication credentials, and password redaction for security.
+
+        Args:
+            None: Uses logging methods from the instance.
+
+        Returns:
+            OrderedDict: A detailed specification containing field mappings, data types,
+            and connection configuration structures for ITSM settings configurations.
+        """
         self.log("Generating temporary specification for ITSM settings details.", "DEBUG")
         return OrderedDict({
             "instance_name": {"type": "str", "source_key": "name"},
@@ -554,23 +679,53 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         })
 
     def webhook_event_notifications_temp_spec(self):
-        """Constructs a temporary specification for webhook event notification details."""
+        """
+        Constructs detailed specification for webhook event notification data transformation.
+
+        Description:
+            Creates a comprehensive specification that defines how webhook event notification
+            API response fields should be mapped, transformed, and structured in the final
+            YAML configuration. Includes handling for site extraction, event name resolution,
+            and destination mapping through transformation functions.
+
+        Args:
+            None: Uses logging methods and transformation functions from the instance.
+
+        Returns:
+            OrderedDict: A detailed specification containing field mappings, data types,
+            transformation functions, and source key references for webhook event notifications.
+        """
         self.log("Generating temporary specification for webhook event notification details.", "DEBUG")
         return OrderedDict({
             "name": {"type": "str", "source_key": "name"},
             "description": {"type": "str", "source_key": "description"},
-            "sites": {"type": "list", "source_key": "filter", "transform": self.extract_sites_from_filter},
+            "sites": {"type": "list", "transform": self.extract_sites_from_filter},
             "events": {"type": "list", "source_key": "subscriptionEventTypes", "transform": self.extract_event_names},
             "destination": {"type": "str", "source_key": "webhookEndpointIds", "transform": self.extract_webhook_destination_name},
         })
 
     def email_event_notifications_temp_spec(self):
-        """Constructs a temporary specification for email event notification details."""
+        """
+        Constructs detailed specification for email event notification data transformation.
+
+        Description:
+            Creates a comprehensive specification that defines how email event notification
+            API response fields should be mapped, transformed, and structured in the final
+            YAML configuration. Includes handling for email address extraction, subject
+            templates, instance creation, and site/event processing through transformation functions.
+
+        Args:
+            None: Uses logging methods and transformation functions from the instance.
+
+        Returns:
+            OrderedDict: A detailed specification containing field mappings, data types,
+            transformation functions, and source key references for email event notifications.
+        """
         self.log("Generating temporary specification for email event notification details.", "DEBUG")
         return OrderedDict({
             "name": {"type": "str", "source_key": "name"},
             "description": {"type": "str", "source_key": "description"},
-            "sites": {"type": "list", "source_key": "filter", "transform": self.extract_sites_from_filter},
+            "sites": {"type": "list", "transform": self.extract_sites_from_filter},
             "events": {"type": "list", "source_key": "filter", "transform": self.extract_event_names},
             "sender_email": {"type": "str", "source_key": "subscriptionEndpoints", "transform": self.extract_sender_email},
             "recipient_emails": {"type": "list", "source_key": "subscriptionEndpoints", "transform": self.extract_recipient_emails},
@@ -580,48 +735,69 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         })
 
     def syslog_event_notifications_temp_spec(self):
-        """Constructs a temporary specification for syslog event notification details."""
+        """
+        Constructs detailed specification for syslog event notification data transformation.
+
+        Description:
+            Creates a comprehensive specification that defines how syslog event notification
+            API response fields should be mapped, transformed, and structured in the final
+            YAML configuration. Includes handling for site extraction, event name resolution,
+            and syslog destination mapping through transformation functions.
+
+        Args:
+            None: Uses logging methods and transformation functions from the instance.
+
+        Returns:
+            OrderedDict: A detailed specification containing field mappings, data types,
+            transformation functions, and source key references for syslog event notifications.
+        """
         self.log("Generating temporary specification for syslog event notification details.", "DEBUG")
         return OrderedDict({
             "name": {"type": "str", "source_key": "name"},
             "description": {"type": "str", "source_key": "description"},
-            "sites": {"type": "list", "source_key": "filter", "transform": self.extract_sites_from_filter},
+            "sites": {"type": "list", "transform": self.extract_sites_from_filter},
             "events": {"type": "list", "source_key": "subscriptionEventTypes", "transform": self.extract_event_names},
             "destination": {"type": "str", "source_key": "syslogConfigId", "transform": self.extract_syslog_destination_name},
         })
 
     def redact_password(self, password):
-        """Redacts password for security."""
+        """
+        Redacts sensitive password information for security purposes.
+
+        Description:
+            This method replaces actual password values with a redacted placeholder
+            to prevent sensitive information from appearing in generated YAML files
+            or logs. It ensures security by masking credentials while maintaining
+            the structure of the configuration.
+
+        Args:
+            password (str): The password string to be redacted.
+
+        Returns:
+            str or None: Returns "***REDACTED***" if password exists, otherwise None.
+            This ensures sensitive data is not exposed in configuration files.
+        """
         return "***REDACTED***" if password else None
 
-    def create_instance_name(self, notification):
-        """Creates instance name from subscription endpoints EMAIL details."""
-        if not notification or not isinstance(notification, dict):
-            return None
-
-        subscription_endpoints = notification.get("subscriptionEndpoints", [])
-        for endpoint in subscription_endpoints:
-            subscription_details = endpoint.get("subscriptionDetails", {})
-            if subscription_details.get("connectorType") == "EMAIL":
-                return subscription_details.get("name")
-
-        return None
-
-    def create_instance_description(self, notification):
-        """Creates instance description from subscription endpoints EMAIL details."""
-        if not notification or not isinstance(notification, dict):
-            return None
-
-        subscription_endpoints = notification.get("subscriptionEndpoints", [])
-        for endpoint in subscription_endpoints:
-            subscription_details = endpoint.get("subscriptionDetails", {})
-            if subscription_details.get("connectorType") == "EMAIL":
-                return subscription_details.get("description")
-
-        return None
-
     def extract_event_names(self, notification):
-        """Extract event names from filter.eventIds and resolve using Get Event Artifacts API."""
+        """
+        Extracts and resolves event names from notification filter event IDs.
+
+        Description:
+            This method processes notification filter data to extract event IDs and
+            resolves them to human-readable event names using the Event Artifacts API.
+            It handles API errors gracefully and provides fallback behavior using
+            event IDs when names cannot be resolved.
+
+        Args:
+            notification (dict): Notification dictionary containing filter data with
+                event IDs to be resolved to names.
+
+        Returns:
+            list: A list of resolved event names. If resolution fails, returns the
+            original event IDs as fallback values. Returns an empty list if no
+            event IDs are found in the notification filter.
+        """
         if not notification or not isinstance(notification, dict):
             return []
 
@@ -640,13 +816,27 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 else:
                     event_names.append(event_id)
             except Exception as e:
-                self.log("Error resolving event ID {0}: {1}".format(event_id, str(e)), "WARNING")
+                self.log("Error resolving event ID {0}: {1}".format(event_id, str(e)), "ERROR")
                 event_names.append(event_id)
 
         return event_names
 
     def get_event_name_from_api(self, event_id):
-        """Get event name from event ID using Get Event Artifacts API."""
+        """
+        Resolves event ID to event name using Cisco Catalyst Center Event Artifacts API.
+
+        Description:
+            This method queries the Cisco Catalyst Center Event Artifacts API to resolve
+            an event ID to its human-readable event name. It handles different response
+            formats and provides fallback behavior when event names cannot be retrieved.
+
+        Args:
+            event_id (str): The event ID to resolve to a human-readable name.
+
+        Returns:
+            str: The resolved event name if found, otherwise returns the original
+            event ID as a fallback. Returns None if the event_id parameter is invalid.
+        """
         if not event_id:
             return None
 
@@ -681,48 +871,134 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             return event_id
 
         except Exception as e:
-            self.log("Error calling event artifacts API for event ID {0}: {1}".format(event_id, str(e)), "WARNING")
+            self.log("Error calling event artifacts API for event ID {0}: {1}".format(event_id, str(e)), "ERROR")
             return event_id
 
-    def extract_sites_from_filter(self, filter_data):
+    def extract_sites_from_filter(self, notification):
         """
-        Extracts site names from filter data structures.
+        Extracts site names from filter data and resource domain structures.
 
         Description:
-            This method processes filter data to extract site information, handling both site names
-            and site IDs. When site IDs are found, it attempts to resolve them to site names using
-            the site ID to name mapping. The method handles various data formats including dictionaries
-            and lists to ensure comprehensive site extraction.
+            This method processes notification data to extract site information from multiple
+            sources including filter.siteIds, resourceDomain.resourceGroups, and direct site names.
+            It attempts to resolve site IDs to site names using the site hierarchy API.
 
         Args:
-            filter_data (dict or list): Filter data containing site information, either as site names
-                directly or as site IDs that need to be resolved.
+            notification (dict): Complete notification object containing filter data and
+                resource domain information with site details.
 
         Returns:
-            list: A list of site names extracted from the filter data. Returns an empty list
-            if no sites are found or if an error occurs during extraction.
+            list: A list of site names extracted from the notification data. Returns an
+            empty list if no sites are found or if an error occurs during extraction.
         """
-        if not filter_data:
+        if not notification or not isinstance(notification, dict):
             return []
+
+        sites = []
+
         try:
+            # Check filter for direct sites
+            filter_data = notification.get("filter", {})
             if isinstance(filter_data, dict):
-                sites = filter_data.get("sites", [])
-                if sites:
-                    return sites
+                # Direct site names in filter
+                direct_sites = filter_data.get("sites", [])
+                if direct_sites:
+                    sites.extend(direct_sites)
+
+                # Site IDs in filter - need to resolve to names
                 site_ids = filter_data.get("siteIds", [])
                 if site_ids:
-                    site_names = []
-                    site_mapping = self.get_site_id_name_mapping()
                     for site_id in site_ids:
-                        site_name = site_mapping.get(site_id)
+                        site_name = self.get_site_name_by_id(site_id)
                         if site_name:
-                            site_names.append(site_name)
-                    return site_names
-            elif isinstance(filter_data, list):
-                return filter_data
+                            sites.append(site_name)
+                        else:
+                            # If can't resolve, use the ID as fallback
+                            sites.append(site_id)
+
+            # Check resourceDomain for site information
+            resource_domain = notification.get("resourceDomain", {})
+            if resource_domain:
+                resource_groups = resource_domain.get("resourceGroups", [])
+                for group in resource_groups:
+                    if group.get("type") == "site":
+                        site_name = group.get("name")
+                        if site_name and site_name not in sites:
+                            sites.append(site_name)
+
+                        # Also check for srcResourceId if it's not "*"
+                        src_resource_id = group.get("srcResourceId")
+                        if src_resource_id and src_resource_id != "*":
+                            resolved_site = self.get_site_name_by_id(src_resource_id)
+                            if resolved_site and resolved_site not in sites:
+                                sites.append(resolved_site)
+
+            # Remove duplicates while preserving order
+            unique_sites = []
+            for site in sites:
+                if site not in unique_sites:
+                    unique_sites.append(site)
+
+            return unique_sites
+
         except Exception as e:
-            self.log("Error extracting sites from filter: {0}".format(str(e)), "WARNING")
-        return []
+            self.log("Error extracting sites from notification: {0}".format(str(e)))
+            self.set_operation_result("failed", True, self.msg, "ERROR")
+
+    def get_site_name_by_id(self, site_id):
+        """
+        Resolves site ID to site name using Cisco Catalyst Center Sites API.
+
+        Description:
+            This method queries the Cisco Catalyst Center Sites API to resolve a site UUID
+            to its hierarchical site name (e.g., "Global/Area/Building/Floor"). It handles
+            API errors gracefully and provides fallback behavior.
+
+        Args:
+            site_id (str): The UUID of the site to resolve to a name.
+
+        Returns:
+            str or None: The hierarchical site name if found, otherwise None.
+            Returns None if the API call fails or the site is not found.
+        """
+        if not site_id or site_id == "*":
+            return None
+
+        try:
+            response = self.dnac._exec(
+                family="sites",
+                function="get_site",
+                op_modifies=False,
+                params={"site_id": site_id}
+            )
+
+            self.log("Received API response for ID {0}: {1}".format(site_id, response), "DEBUG")
+
+            if isinstance(response, dict):
+                site_info = response.get("response")
+                if site_info:
+                    # Extract site hierarchy
+                    site_name_hierarchy = site_info.get("siteNameHierarchy")
+                    if site_name_hierarchy:
+                        self.log("Successfully resolved site ID {0} to name: {1}".format(site_id, site_name_hierarchy), "INFO")
+                        return site_name_hierarchy
+
+                    # Fallback to additionalInfo if available
+                    additional_info = site_info.get("additionalInfo")
+                    if additional_info and len(additional_info) > 0:
+                        namespace = additional_info[0].get("nameSpace")
+                        if namespace == "Location":
+                            attributes = additional_info[0].get("attributes", {})
+                            site_hierarchy = attributes.get("name")
+                            if site_hierarchy:
+                                return site_hierarchy
+
+            self.log("Could not resolve site ID {0} to name".format(site_id), "WARNING")
+            return None
+
+        except Exception as e:
+            self.log("Error resolving site ID {0}: {1}".format(site_id, str(e)), "ERROR")
+            return []
 
     def extract_webhook_destination_name(self, notification):
         """
@@ -1188,8 +1464,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             return all_webhooks
 
         except Exception as e:
-            self.log("Error retrieving webhook destinations: {0}".format(str(e)), "WARNING")
-            return []
+            self.log("Error retrieving webhook destinations: {0}".format(str(e)), "ERROR")
 
     def get_all_email_destinations(self, api_family, api_function):
         """
@@ -1224,7 +1499,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 return []
 
         except Exception as e:
-            self.log("Error retrieving email destinations: {0}".format(str(e)), "WARNING")
+            self.log("Error retrieving email destinations: {0}".format(str(e)), "ERROR")
             return []
 
     def get_all_syslog_destinations(self, api_family, api_function):
@@ -1257,7 +1532,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             return syslog_configs if isinstance(syslog_configs, list) else []
 
         except Exception as e:
-            self.log("Error retrieving syslog destinations: {0}".format(str(e)), "WARNING")
+            self.log("Error retrieving syslog destinations: {0}".format(str(e)), "ERROR")
             return []
 
     def get_all_snmp_destinations(self, api_family, api_function):
@@ -1304,13 +1579,13 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     offset += 1
 
                 except Exception as e:
-                    self.log("Error in pagination for SNMP destinations: {0}".format(str(e)), "WARNING")
+                    self.log("Error in pagination for SNMP destinations: {0}".format(str(e)), "ERROR")
                     break
 
             return all_snmp
 
         except Exception as e:
-            self.log("Error retrieving SNMP destinations: {0}".format(str(e)), "WARNING")
+            self.log("Error retrieving SNMP destinations: {0}".format(str(e)), "ERROR")
             return []
 
     def get_itsm_settings(self, network_element, filters):
@@ -1394,8 +1669,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 return []
 
         except Exception as e:
-            self.log("Error retrieving ITSM settings: {0}".format(str(e)), "WARNING")
-            return []
+            self.log("Error retrieving ITSM settings: {0}".format(str(e)))
+            self.set_operation_result("failed", True, self.msg, "ERROR")
 
     def get_webhook_event_notifications(self, network_element, filters):
         """
@@ -1494,13 +1769,13 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     offset += limit
 
                 except Exception as e:
-                    self.log("Error in pagination for webhook event notifications: {0}".format(str(e)), "WARNING")
-                    break
+                    self.log("Error in pagination for webhook event notifications: {0}".format(str(e)), "ERROR")
+                    self.set_operation_result("failed", True, self.msg, "ERROR")
 
             return all_notifications
 
         except Exception as e:
-            self.log("Error retrieving webhook event notifications: {0}".format(str(e)), "WARNING")
+            self.log("Error retrieving webhook event notifications: {0}".format(str(e)), "ERROR")
             return []
 
     def get_email_event_notifications(self, network_element, filters):
@@ -1586,7 +1861,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             return notifications
 
         except Exception as e:
-            self.log("Error retrieving email event notifications: {0}".format(str(e)), "WARNING")
+            self.log("Error retrieving email event notifications: {0}".format(str(e)), "ERROR")
             return []
 
     def get_syslog_event_notifications(self, network_element, filters):
@@ -1686,13 +1961,13 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     offset += limit
 
                 except Exception as e:
-                    self.log("Error in pagination for syslog event notifications: {0}".format(str(e)), "WARNING")
+                    self.log("Error in pagination for syslog event notifications: {0}".format(str(e)), "ERROR")
                     break
 
             return all_notifications
 
         except Exception as e:
-            self.log("Error retrieving syslog event notifications: {0}".format(str(e)), "WARNING")
+            self.log("Error retrieving syslog event notifications: {0}".format(str(e)), "ERROR")
             return []
 
     def modify_parameters(self, temp_spec, details_list):
@@ -1897,7 +2172,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                                         self.log("Added {0} configurations: {1} items".format(key, len(value) if isinstance(value, list) else 1), "DEBUG")
 
                         except Exception as e:
-                            self.log("Error processing component {0}: {1}".format(component, str(e)), "WARNING")
+                            self.log("Error processing component {0}: {1}".format(component, str(e)), "ERROR")
                             continue
                     else:
                         self.log("No get function found for component: {0}".format(component), "WARNING")
@@ -2089,7 +2364,6 @@ def main():
         "dnac_log_append": {"type": "bool", "default": True},
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
