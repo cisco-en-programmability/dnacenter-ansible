@@ -26555,21 +26555,32 @@ class WirelessDesign(DnacBase):
                     self.log(results[profile_name], "ERROR")
 
             # --------------------------------------------------
-            # Final aggregated result
+            # Final aggregated result - count successes and failures
             # --------------------------------------------------
-            self.msg = {"80211be_delete": results}
-
-            # If ALL failed / skipped → failed, else success
-            self.status = (
-                "failed"
-                if results
-                and all(
-                    ("Failed" in v or "Exception" in v or "Skipped" in v)
-                    for v in results.values()
-                )
-                else "success"
+            success_count = sum(
+                1 for v in results.values()
+                if "Successfully" in v
+            )
+            failure_count = sum(
+                1 for v in results.values()
+                if ("Failed" in v or "Exception" in v or "Skipped" in v)
             )
 
+            # Mark as failed if ANY profile deletion failed (Ansible binary outcome)
+            if failure_count > 0:
+                self.status = "failed"
+                msg = (
+                    "802.11be Profile deletion completed with {0} success(es) and {1} failure(s). "
+                    "Details: {2}".format(success_count, failure_count, results)
+                )
+            else:
+                self.status = "success"
+                msg = (
+                    "Successfully deleted {0} 802.11be profile(s). "
+                    "Details: {1}".format(success_count, results)
+                )
+
+            self.msg = {"80211be_delete": msg}
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 

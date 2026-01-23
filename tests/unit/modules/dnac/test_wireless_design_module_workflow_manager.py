@@ -1895,8 +1895,6 @@ class TestWirelessDesign(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             {
-                "80211be_delete": {
-                    "sample_design": "Successfully deleted 802.11be profile."
-                }
+                "80211be_delete": "Successfully deleted 1 802.11be profile(s). Details: {'sample_design': 'Successfully deleted 802.11be profile.'}"
             }
         )
