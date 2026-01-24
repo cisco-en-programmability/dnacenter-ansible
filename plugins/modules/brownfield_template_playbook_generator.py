@@ -346,8 +346,12 @@ response_2:
   type: dict
   sample: >
     {
-        "msg": "Validation Error in entry 1: 'component_specific_filters' must be provided when 'generate_all_configurations' is set to False.",
-        "response": "Validation Error in entry 1: 'component_specific_filters' must be provided when 'generate_all_configurations' is set to False."
+        "msg":
+            "Validation Error in entry 1: 'component_specific_filters' must be provided with 'components_list' key
+             when 'generate_all_configurations' is set to False.",
+        "response":
+            "Validation Error in entry 1: 'component_specific_filters' must be provided with 'components_list' key
+             when 'generate_all_configurations' is set to False."
     }
 """
 

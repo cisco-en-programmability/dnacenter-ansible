@@ -507,7 +507,7 @@ class BrownFieldHelper:
 
         This function checks each config dictionary in `config_list` to ensure that the
         module can safely proceed with execution. It enforces the following rules:
-        - If generate_all_configurations is False:
+        - If generate_all_configurations not provided or set to False:
             - component_specific_filters must exist
             - component_specific_filters must contain 'components_list' key (the list can be empty)
         Args:
@@ -528,25 +528,25 @@ class BrownFieldHelper:
         for idx, config in enumerate(config_list, start=1):
             self.log(f"Validating configuration entry {idx}: {config}", "DEBUG")
 
+            has_generate_all_config_flag = "generate_all_configurations" in config
             generate_all_configurations = config.get("generate_all_configurations", False)
             component_specific_filters = config.get("component_specific_filters")
 
-            if generate_all_configurations:
+            if has_generate_all_config_flag and generate_all_configurations:
                 self.log(f"Entry {idx}: generate_all_configurations=True, skipping filters check.", "DEBUG")
                 continue  # No further validation needed
 
-            if component_specific_filters is None:
-                self.msg = (
-                    f"Validation Error in entry {idx}: 'component_specific_filters' must be provided "
-                    f"when 'generate_all_configurations' is set to False."
-                )
-                self.fail_and_exit(self.msg)
-
-            if "components_list" not in component_specific_filters:
-                self.msg = (
-                    f"Validation Error in entry {idx}: 'component_specific_filters' must contain the key "
-                    f"'components_list' when 'generate_all_configurations' is set to False.\n"
-                )
+            if component_specific_filters is None or "components_list" not in component_specific_filters:
+                if has_generate_all_config_flag:
+                    self.msg = (
+                        f"Validation Error in entry {idx}: 'component_specific_filters' must be provided "
+                        f"with 'components_list' key when 'generate_all_configurations' is set to False."
+                    )
+                else:
+                    self.msg = (
+                        f"Validation Error in entry {idx}: Either 'generate_all_configurations' must be provided as True"
+                        f" or 'component_specific_filters' must be provided with 'components_list' key."
+                    )
                 self.fail_and_exit(self.msg)
 
             self.log(f"Entry {idx}: Passed minimum requirements validation.", "DEBUG")
