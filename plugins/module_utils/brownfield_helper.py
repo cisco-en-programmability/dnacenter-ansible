@@ -501,9 +501,218 @@ class BrownFieldHelper:
 
         self.log("Completed validation of all input parameters.", "INFO")
 
+    def validate_minimum_requirements(self, config_list):
+        """
+        Validate minimum requirements for each configuration entry in a list.
+
+        This function checks each config dictionary in `config_list` to ensure that the
+        module can safely proceed with execution. It enforces the following rules:
+        - If generate_all_configurations not provided or set to False:
+            - component_specific_filters must exist
+            - component_specific_filters must contain 'components_list' key (the list can be empty)
+        Args:
+            config_list : list of config dictionaries to validate.
+        """
+
+        self.log("Starting validation of minimum requirements for configuration entries.", "DEBUG")
+
+        if not isinstance(config_list, list):
+            self.msg = (
+                f"Invalid input: Expected a list of configuration entries, "
+                f"but got {type(config_list).__name__}."
+            )
+            self.fail_and_exit(self.msg)
+
+        self.log(f"Processing validation for {len(config_list)} configuration(s).", "DEBUG")
+
+        for idx, config in enumerate(config_list, start=1):
+            self.log(f"Validating configuration entry {idx}: {config}", "DEBUG")
+
+            has_generate_all_config_flag = "generate_all_configurations" in config
+            generate_all_configurations = config.get("generate_all_configurations", False)
+            component_specific_filters = config.get("component_specific_filters")
+
+            if has_generate_all_config_flag and generate_all_configurations:
+                self.log(f"Entry {idx}: generate_all_configurations=True, skipping filters check.", "DEBUG")
+                continue  # No further validation needed
+
+            if component_specific_filters is None or "components_list" not in component_specific_filters:
+                if has_generate_all_config_flag:
+                    self.msg = (
+                        f"Validation Error in entry {idx}: 'component_specific_filters' must be provided "
+                        f"with 'components_list' key when 'generate_all_configurations' is set to False."
+                    )
+                else:
+                    self.msg = (
+                        f"Validation Error in entry {idx}: Either 'generate_all_configurations' must be provided as True"
+                        f" or 'component_specific_filters' must be provided with 'components_list' key."
+                    )
+                self.fail_and_exit(self.msg)
+
+            self.log(f"Entry {idx}: Passed minimum requirements validation.", "DEBUG")
+
+        self.log("Completed validation of minimum requirements for configuration entries.", "DEBUG")
+
+    def yaml_config_generator(self, yaml_config_generator):
+        """
+        Generates a YAML configuration file based on the provided parameters.
+        This function retrieves network element details using global and component-specific filters, processes the data,
+        and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
+
+        Args:
+            yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
+
+        Returns:
+            self: The current instance with the operation result and message updated.
+        """
+
+        self.log(
+            "Starting YAML config generation with parameters: {0}".format(
+                yaml_config_generator
+            ),
+            "DEBUG",
+        )
+
+        # Check if generate_all_configurations mode is enabled
+        generate_all = yaml_config_generator.get("generate_all_configurations", False)
+        if generate_all:
+            self.log("Auto-discovery mode enabled - will process all devices and all features", "INFO")
+
+        self.log("Determining output file path for YAML configuration", "DEBUG")
+        file_path = yaml_config_generator.get("file_path")
+        if not file_path:
+            self.log("No file_path provided by user, generating default filename", "DEBUG")
+            file_path = self.generate_filename()
+        else:
+            self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
+
+        self.log("YAML configuration file path determined: {0}".format(file_path), "DEBUG")
+
+        self.log("Initializing filter dictionaries", "DEBUG")
+        if generate_all:
+            # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
+            self.log("Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features", "INFO")
+            if yaml_config_generator.get("global_filters"):
+                self.log("Warning: global_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
+            if yaml_config_generator.get("component_specific_filters"):
+                self.log("Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
+
+            # Set empty filters to retrieve everything
+            global_filters = {}
+            component_specific_filters = {}
+        else:
+            # Use provided filters or default to empty
+            global_filters = yaml_config_generator.get("global_filters") or {}
+            component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
+
+        self.log("Retrieving supported network elements schema for the module", "DEBUG")
+        module_supported_network_elements = self.module_schema.get("network_elements", {})
+
+        self.log("Determining components list for processing", "DEBUG")
+        components_list = component_specific_filters.get(
+            "components_list", list(module_supported_network_elements.keys())
+        )
+        self.log("Components to process: {0}".format(components_list), "DEBUG")
+
+        self.log("Initializing final configuration list and operation summary tracking", "DEBUG")
+        final_config_list = []
+        processed_count = 0
+        skipped_count = 0
+
+        for component in components_list:
+            self.log("Processing component: {0}".format(component), "DEBUG")
+            network_element = module_supported_network_elements.get(component)
+            if not network_element:
+                self.log(
+                    "Component {0} not supported by module, skipping processing".format(component),
+                    "WARNING",
+                )
+                skipped_count += 1
+                continue
+
+            filters = component_specific_filters.get(component, [])
+            operation_func = network_element.get("get_function_name")
+            if not callable(operation_func):
+                self.log(
+                    "No retrieval function defined for component: {0}".format(component),
+                    "ERROR"
+                )
+                skipped_count += 1
+                continue
+
+            component_data = operation_func(network_element, filters)
+            # Validate retrieval success
+            if not component_data:
+                self.log(
+                    "No data retrieved for component: {0}".format(component),
+                    "DEBUG"
+                )
+                continue
+
+            self.log(
+                "Details retrieved for {0}: {1}".format(component, component_data), "DEBUG"
+            )
+            processed_count += 1
+            final_config_list.append(component_data)
+
+        if not final_config_list:
+            self.log(
+                "No configurations retrieved. Processed: {0}, Skipped: {1}, Components: {2}".format(
+                    processed_count, skipped_count, components_list
+                ),
+                "WARNING"
+            )
+            self.msg = {
+                "status": "ok",
+                "message": (
+                    "No configurations found for module '{0}'. Verify filters and component availability. "
+                    "Components attempted: {1}".format(self.module_name, components_list)
+                ),
+                "components_attempted": len(components_list),
+                "components_processed": processed_count,
+                "components_skipped": skipped_count
+            }
+            self.set_operation_result("ok", False, self.msg, "INFO")
+            return self
+
+        yaml_config_dict = {"config": final_config_list}
+        self.log(
+            "Final config dictionary created: {0}".format(self.pprint(yaml_config_dict)),
+            "DEBUG"
+        )
+
+        if self.write_dict_to_yaml(yaml_config_dict, file_path, OrderedDumper):
+            self.msg = {
+                "status": "success",
+                "message": "YAML configuration file generated successfully for module '{0}'".format(
+                    self.module_name
+                ),
+                "file_path": file_path,
+                "components_processed": processed_count,
+                "components_skipped": skipped_count,
+                "configurations_count": len(final_config_list)
+            }
+            self.set_operation_result("success", True, self.msg, "INFO")
+
+            self.log(
+                "YAML configuration generation completed. File: {0}, Components: {1}/{2}, Configs: {3}".format(
+                    file_path, processed_count, len(components_list), len(final_config_list)
+                ),
+                "INFO"
+            )
+        else:
+            self.msg = {
+                "YAML config generation Task failed for module '{0}'.".format(
+                    self.module_name
+                ): {"file_path": file_path}
+            }
+            self.set_operation_result("failed", True, self.msg, "ERROR")
+
+        return self
+
     def generate_filename(self):
         """
-        Generates a filename for the module with a timestamp and '.yml' extension in the format 'DD_Mon_YYYY_HH_MM_SS_MS'.
+        Generates a filename for the module with a timestamp and '.yml' extension in the format 'YYYY-MM-DD_HH-MM-SS'.
         Args:
             module_name (str): The name of the module for which the filename is generated.
         Returns:
@@ -512,7 +721,7 @@ class BrownFieldHelper:
         self.log("Starting the filename generation process.", "INFO")
 
         # Get the current timestamp in the desired format
-        timestamp = datetime.datetime.now().strftime("%d_%b_%Y_%H_%M_%S_%f")[:-3]
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         self.log("Timestamp successfully generated: {0}".format(timestamp), "DEBUG")
 
         # Construct the filename
@@ -549,12 +758,13 @@ class BrownFieldHelper:
                 "INFO",
             )
 
-    def write_dict_to_yaml(self, data_dict, file_path):
+    def write_dict_to_yaml(self, data_dict, file_path, dumper=OrderedDumper):
         """
         Converts a dictionary to YAML format and writes it to a specified file path.
         Args:
             data_dict (dict): The dictionary to convert to YAML format.
             file_path (str): The path where the YAML file will be written.
+            dumper: The YAML dumper class to use for serialization (default is OrderedDumper).
         Returns:
             bool: True if the YAML file was successfully written, False otherwise.
         """
@@ -570,7 +780,7 @@ class BrownFieldHelper:
             # )
             yaml_content = yaml.dump(
                 data_dict,
-                Dumper=OrderedDumper,
+                Dumper=dumper,
                 default_flow_style=False,
                 indent=2,
                 allow_unicode=True,
@@ -950,6 +1160,36 @@ class BrownFieldHelper:
     #     self.log("Completed modification of all details.", "INFO")
 
     #     return modified_details
+
+    def get_want(self, config, state):
+        """
+        Creates parameters for API calls based on the specified state.
+        This method prepares the parameters required for adding, updating, or deleting
+        network configurations such as SSIDs and interfaces in the Cisco Catalyst Center
+        based on the desired state. It logs detailed information for each operation.
+        Args:
+            config (dict): The configuration data for the network elements.
+            state (str): The desired state of the network elements ('merged' or 'deleted').
+        Returns:
+            self: Current instance with updated attributes:
+            - self.want (dict): Desired state containing yaml_config_generator params
+            - self.msg (str): Success message for operation
+            - self.status (str): Operation status ("success")
+        """
+
+        self.log(
+            "Creating Parameters for API Calls with state: {0}".format(state), "INFO"
+        )
+
+        self.validate_params(config)
+
+        # Add yaml_config_generator to want
+        self.want["yaml_config_generator"] = config
+
+        self.log("Desired State (want): {0}".format(self.pprint(self.want)), "INFO")
+        self.msg = "Successfully collected all parameters from the playbook for config generation."
+        self.status = "success"
+        return self
 
     def execute_get_with_pagination(
         self, api_family, api_function, params, offset=1, limit=500, use_strings=False
