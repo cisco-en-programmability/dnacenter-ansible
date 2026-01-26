@@ -72,6 +72,7 @@ options:
                       - Only letters, numbers and -_./
                         characters are allowed.
                     type: str
+                    required: true
                   pool_type:
                     description: >
                       Includes both the Generic Ip Pool
@@ -99,6 +100,7 @@ options:
                       systematic IP address distribution
                       within a network.
                     type: str
+                    required: true
                   gateway:
                     description: Serves as an entry
                       or exit point for data traffic
@@ -156,6 +158,7 @@ options:
               - Only letters, numbers and -_./ characters
                 are allowed.
             type: str
+            required: true
           pool_type:
             description: Type of the reserve ip sub
               pool. Generic - Used for general purpose
