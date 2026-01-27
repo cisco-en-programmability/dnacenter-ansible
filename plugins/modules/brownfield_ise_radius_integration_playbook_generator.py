@@ -685,7 +685,8 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
                 ),
                 "DEBUG",
             )
-
+            return auth_server_details
+            
         all_filtered_results = []
         seen_server_ips = set()
         self.log(
@@ -701,10 +702,9 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             # Use server_ip_address as unique identifier to avoid duplicates
             server_ip = server.get("server_ip_address")
             self.log(
-                "Processing server {0}/{1} from filter {2}: IP={3}, Already seen={4}".format(
+                "Processing server {0}/{1}, IP={2}, Already seen={3}".format(
                     server_idx,
                     len(filtered),
-                    server_idx,
                     server_ip,
                     server_ip in seen_server_ips,
                 ),
