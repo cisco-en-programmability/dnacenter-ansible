@@ -28,11 +28,6 @@ author:
   - Priyadharshini B (@pbalaku2)
   - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -52,8 +47,8 @@ options:
         description:
           - Path where the YAML configuration file will be saved.
           - If not provided, the file will be saved in the current working directory with
-            a default file name  "<module_name>_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-          - For example, "backup_and_restore_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
+            a default file name  "<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
+          - For example, "backup_and_restore_workflow_manager_playbook_2026-01-27_14-21-41.yml".
         type: str
       generate_all_configurations:
         description:
@@ -256,12 +251,19 @@ response_1:
   type: dict
   sample: >
     {
-      "response":
-        {
-          "response": String,
-          "version": String
+      "msg": {
+        "YAML config generation Task succeeded for module 'backup_and_restore_workflow_manager'.": {
+            "components_processed": 2,
+            "file_path": "backup_and_restore_workflow_manager_playbook_2026-01-27_14-21-41.yml"
+        }
         },
-      "msg": String
+        "response": {
+            "YAML config generation Task succeeded for module 'backup_and_restore_workflow_manager'.": {
+                "components_processed": 2,
+                "file_path": "backup_and_restore_workflow_manager_playbook_2026-01-27_14-21-41.yml"
+            }
+        },
+        "status": "success"
     }
 # Case_2: Error Scenario
 response_2:
@@ -269,10 +271,19 @@ response_2:
   returned: always
   type: list
   sample: >
-    {
-      "response": [],
-      "msg": String
-    }
+    "msg": {
+        "YAML config generation Task succeeded for module 'backup_and_restore_workflow_manager'.": {
+            "components_processed": 2,
+            "file_path": "backup_and_restore_workflow_manager_playbook_2026-01-27_14-21-41.yml"
+        }
+    },
+    "response": {
+        "YAML config generation Task succeeded for module 'backup_and_restore_workflow_manager'.": {
+            "components_processed": 2,
+            "file_path": "backup_and_restore_workflow_manager_playbook_2026-01-27_14-21-41.yml"
+        }
+    },
+    "status": "success"
 """
 
 from ansible.module_utils.basic import AnsibleModule
@@ -349,7 +360,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         if not self.config:
             self.status = "success"
             self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
@@ -395,6 +406,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                   filter specifications, and processing function references.
                 - global_filters (dict): Global filter configuration options.
         """
+        self.log("Generating backup and restore workflow manager mapping configuration.", "DEBUG")
         return {
             "network_elements": {
                 "nfs_configuration": {
@@ -483,6 +495,8 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
             any: The value found at the specified path, or None if the path doesn't exist
             or if a type error occurs during navigation.
         """
+        self.log("Extracting nested value from data using key path: {0}".format(key_path), "DEBUG")
+
         try:
             keys = key_path.split('.')
             result = data
@@ -1004,7 +1018,13 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
 
-        file_path = yaml_config_generator.get("file_path", self.generate_filename())
+        file_path = yaml_config_generator.get("file_path")
+        if not file_path:
+            file_path = self.generate_filename()
+            self.log("Generated default file path: {0}".format(file_path), "DEBUG")
+        else:
+            self.log("Using provided file path: {0}".format(file_path), "DEBUG")
+
         self.log("File path determined: {0}".format(file_path), "DEBUG")
 
         component_specific_filters = (
@@ -1177,7 +1197,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 - Includes execution timing and operation statistics.
         """
         start_time = time.time()
-        self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
+        self.log("Starting YAML configuration generation.", "INFO")
 
         operations = [
             (
@@ -1253,7 +1273,6 @@ def main():
         "dnac_log_append": {"type": "bool", "default": True},
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},

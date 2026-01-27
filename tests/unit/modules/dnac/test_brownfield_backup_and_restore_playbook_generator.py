@@ -101,7 +101,6 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="3.1.3.0",
                 config=self.playbook_nfs_configuration_details
             )
@@ -133,7 +132,6 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="3.1.3.0",
                 config=self.playbook_backup_configuration_details
             )
@@ -165,7 +163,6 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="3.1.3.0",
                 config=self.playbook_specific_nfs_backup_configuration_details
             )
@@ -197,7 +194,6 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="3.1.3.0",
                 config=self.playbook_generate_all_configuration
             )
@@ -229,7 +225,6 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_lower_version
             )
@@ -258,7 +253,6 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="3.1.3.0",
                 config=self.playbook_negative_scenario2
             )
