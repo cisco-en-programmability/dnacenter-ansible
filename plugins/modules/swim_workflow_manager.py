@@ -1533,18 +1533,37 @@ class Swim(DnacBase):
 
     def is_access_point(self, device):
         """
-        Check if a device is an Access Point (AP).
+        Determine if a device is an Access Point (AP) and should be excluded from SWIM operations.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             device (dict): The device information dictionary.
         Returns:
             bool: True if the device is an Access Point, False otherwise.
         Description:
-            This function checks if a device is an Access Point by examining its family,
-            role, or series. Access Points should be skipped for SWIM operations as they
-            are not eligible for software image distribution and activation.
+            Access Points (APs) are not eligible for SWIM (Software Image Management) operations
+            including distribution and activation. This function performs multi-criteria detection
+            by examining:
+            1. Device family (e.g., "Unified AP", "Access Point")
+            2. Device role (e.g., "Access Point", "AP")
+            3. Device series (e.g., contains "Access Point" or "Aironet")
+            4. Device type (e.g., "Unified AP", "Access Point")
+
+            The function uses case-insensitive substring matching to ensure robust detection
+            across different Cisco Catalyst Center versions and device naming conventions.
         """
+
+        self.log(
+            "Checking if device is an Access Point for SWIM eligibility - "
+            "device_info: {0}".format(device),
+            "DEBUG"
+        )
+
         if not isinstance(device, dict):
+            self.log(
+                "Device validation failed - expected dict but received {0}, "
+                "treating as non-AP device".format(type(device).__name__),
+                "WARNING"
+            )
             return False
 
         def safe_lower(value):
@@ -1552,20 +1571,48 @@ class Swim(DnacBase):
 
         family = safe_lower(device.get("family"))
         if "unified ap" in family or "access point" in family:
+            self.log(
+                "Device identified as Access Point based on family field '{0}' - "
+                "excluding from SWIM operations".format(device.get("family")),
+                "INFO"
+            )
             return True
 
         role = safe_lower(device.get("role"))
         if "access point" in role or role == "ap":
+            self.log(
+                "Device identified as Access Point based on role field '{0}' - "
+                "excluding from SWIM operations".format(device.get("role")),
+                "INFO"
+            )
             return True
 
         series = safe_lower(device.get("series"))
         if "access point" in series or "aironet" in series:
+            self.log(
+                "Device identified as Access Point based on series field '{0}' - "
+                "excluding from SWIM operations".format(device.get("series")),
+                "INFO"
+            )
             return True
 
         device_type = safe_lower(device.get("type"))
         if "unified ap" in device_type or "access point" in device_type:
+            self.log(
+                "Device identified as Access Point based on type field '{0}' - "
+                "excluding from SWIM operations".format(device.get("type")),
+                "INFO"
+            )
             return True
 
+        self.log(
+            "Device is not an Access Point - eligible for SWIM operations based on "
+            "family: '{0}', role: '{1}', series: '{2}', type: '{3}'".format(
+                device.get("family"), device.get("role"),
+                device.get("series"), device.get("type")
+            ),
+            "DEBUG"
+        )
         return False
 
     def get_device_id(self, params):
