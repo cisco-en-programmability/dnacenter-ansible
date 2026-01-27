@@ -638,7 +638,7 @@ class BrownFieldHelper:
 
             filters = {
                 "global_filters": global_filters,
-                "component_filters": component_specific_filters.get(component, [])
+                "component_specific_filters": component_specific_filters.get(component, [])
             }
             operation_func = network_element.get("get_function_name")
             if not callable(operation_func):
