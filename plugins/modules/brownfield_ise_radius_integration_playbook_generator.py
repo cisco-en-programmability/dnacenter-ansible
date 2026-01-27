@@ -69,8 +69,7 @@ options:
           authentication_policy_server:
             description:
             - Authentication and policy server filter with server_type and server_ip_address.
-            type: list
-            elements: dict
+            type: dict
             suboptions:
               server_type:
                 description:
@@ -142,7 +141,7 @@ EXAMPLES = r"""
         component_specific_filters:
           components_list: ["authentication_policy_server"]
           authentication_policy_server:
-            - server_type: "ISE"  # Filter: Server Type
+            server_type: "ISE"  # Filter: Server Type
 
 - name: Generate YAML Configuration for mentioned components with component specific server_ip_address filter
   cisco.dnac.brownfield_ise_radius_integration_playbook_generator:
@@ -161,7 +160,7 @@ EXAMPLES = r"""
         component_specific_filters:
           components_list: ["authentication_policy_server"]
           authentication_policy_server:
-            - server_ip_address: 10.197.156.10
+            server_ip_address: 10.197.156.10
 
 - name: Generate YAML Configuration for mentioned components with component specific server_type and server_ip_address filter
   cisco.dnac.brownfield_ise_radius_integration_playbook_generator:
@@ -180,8 +179,8 @@ EXAMPLES = r"""
         component_specific_filters:
           components_list: ["authentication_policy_server"]
           authentication_policy_server:
-            - server_type: "ISE"
-              server_ip_address: 10.197.156.10
+            server_type: "ISE"
+            server_ip_address: 10.197.156.10
 """
 
 RETURN = r"""
@@ -546,8 +545,10 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             return auth_server_details
 
         filtered_results = []
-        server_type = filters.get("server_type")
-        server_ip_address = filters.get("server_ip_address")
+        server_type = filters["server_type"] if "server_type" in filters else None
+        server_ip_address = (
+            filters["server_ip_address"] if "server_ip_address" in filters else None
+        )
         self.log(
             "Filter criteria - server_type: {0}, server_ip_address: {1}".format(
                 server_type, server_ip_address
@@ -646,101 +647,86 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         )
         return filtered_results
 
-    def filter_ise_radius_by_criteria(self, auth_server_details, filter_list=None):
+    def filter_ise_radius_by_criteria(self, auth_server_details, filters=None):
         """
         Filter ISE RADIUS integration details based on multiple filter criteria.
         Supports OR logic for multiple filters and AND logic within each filter.
 
         Args:
             api_response (list): List of ISE RADIUS server configurations from API response.
-            filter_list (list): List of filter criteria dicts. Each dict can contain:
-                - server_type (str): Type to filter (e.g., "ISE")
-                - server_ip_address (str): IP address to filter
-
-                Multiple filters in the list are combined with OR logic.
+            filters (dict): filter criteria dicts. Dict can contain:
+                server_type (str): Type to filter (e.g., "ISE") and server_ip_address (str): IP address to filter
 
         Returns:
             list: Filtered list of ISE RADIUS configurations matching any of the criteria.
 
         Example:
-            filters = [
-                {"server_type": "ISE", "server_ip_address": "10.197.156.78"},
-                {"server_ip_address": "10.197.156.79"}
-            ]
+            filters = {
+                "server_type": "ISE",
+                "server_ip_address": "10.197.156.79"
+            }
             result = filter_ise_radius_by_criteria(api_response, filters)
         """
         self.log(
-            "Starting multi-criteria filtering with filter_list: {0}".format(
-                filter_list
-            ),
+            "Starting filtering with filters: {0}".format(filters),
             "DEBUG",
         )
 
-        if not auth_server_details or not filter_list:
-            result = auth_server_details if auth_server_details else []
+        if not auth_server_details:
             self.log(
-                "No auth_server_details or filter_list provided. Returning {0} server(s).".format(
-                    len(result)
+                "No auth_server_details data found for filtering. Returning empty list.",
+                "DEBUG",
+            )
+            return []
+        if not filters:
+            self.log(
+                "No filters provided for filtering. Returning all {0} server(s).".format(
+                    len(auth_server_details)
                 ),
                 "DEBUG",
             )
-            return result
 
         all_filtered_results = []
         seen_server_ips = set()
         self.log(
-            "Processing {0} filter criteria with OR logic.".format(len(filter_list)),
+            "Processing filter criteria.".format(filters),
             "DEBUG",
         )
 
-        for filter_idx, filters in enumerate(filter_list):
+        filtered = self.filter_ise_radius_integration_details(
+            auth_server_details, filters
+        )
+
+        for server_idx, server in enumerate(filtered):
+            # Use server_ip_address as unique identifier to avoid duplicates
+            server_ip = server.get("server_ip_address")
             self.log(
-                "Applying filter criterion {0}/{1}: {2}".format(
-                    filter_idx, len(filter_list), filters
+                "Processing server {0}/{1} from filter {2}: IP={3}, Already seen={4}".format(
+                    server_idx,
+                    len(filtered),
+                    server_idx,
+                    server_ip,
+                    server_ip in seen_server_ips,
                 ),
                 "DEBUG",
             )
 
-            filtered = self.filter_ise_radius_integration_details(
-                auth_server_details, filters
-            )
-            self.log(
-                "Filter criterion {0} matched {1} server(s).".format(
-                    filter_idx, len(filtered)
-                ),
-                "DEBUG",
-            )
-
-            for server_idx, server in enumerate(filtered):
-                # Use server_ip_address as unique identifier to avoid duplicates
-                server_ip = server.get("server_ip_address")
+            if server_ip not in seen_server_ips:
+                all_filtered_results.append(server)
+                seen_server_ips.add(server_ip)
                 self.log(
-                    "Processing server {0}/{1} from filter {2}: IP={3}, Already seen={4}".format(
-                        server_idx,
-                        len(filtered),
-                        filter_idx,
-                        server_ip,
-                        server_ip in seen_server_ips,
+                    "Added server with IP {0} to final results. Total unique servers: {1}".format(
+                        server_ip, len(all_filtered_results)
                     ),
                     "DEBUG",
                 )
-
-                if server_ip not in seen_server_ips:
-                    all_filtered_results.append(server)
-                    seen_server_ips.add(server_ip)
-                    self.log(
-                        "Added server with IP {0} to final results. Total unique servers: {1}".format(
-                            server_ip, len(all_filtered_results)
-                        ),
-                        "DEBUG",
-                    )
-                else:
-                    self.log(
-                        "Skipping duplicate server with IP {0} (already in results).".format(
-                            server_ip
-                        ),
-                        "DEBUG",
-                    )
+            else:
+                self.log(
+                    "Skipping duplicate server with IP {0} (already in results).".format(
+                        server_ip
+                    ),
+                    "DEBUG",
+                )
 
         self.log(
             "Multi-criteria filtering complete. Matched {0} unique server(s) out of {1} total. Results: {2}".format(
@@ -781,9 +767,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         )
         return custom_variable_placeholder_name
 
-    def get_ise_radius_integration_configuration(
-        self, network_element, component_specific_filters=None
-    ):
+    def get_ise_radius_integration_configuration(self, network_element, filters=None):
         """
         call catalyst center to get authentication and policy server details.
         """
@@ -840,7 +824,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         )
 
         filter_ise_radius_integration_response = self.filter_ise_radius_by_criteria(
-            ise_radius_integration_details, component_specific_filters
+            ise_radius_integration_details, filters
         )
 
         modified_ise_radius_integration_details = {

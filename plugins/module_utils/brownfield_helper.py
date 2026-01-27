@@ -367,6 +367,19 @@ class BrownFieldHelper:
                                 )
                             )
 
+                    # Validate choices for strings
+                    if expected_type == "str" and "choices" in filter_spec:
+                        valid_choices = filter_spec["choices"]
+                        if filter_value not in valid_choices:
+                            invalid_filters.append(
+                                "Component '{0}' filter '{1}' has invalid value: '{2}'. Valid choices: {3}".format(
+                                    component_name,
+                                    filter_name,
+                                    filter_value,
+                                    valid_choices,
+                                )
+                            )
+
                     # Validate nested dict options and apply dynamic validation
                     if expected_type == "dict" and "options" in filter_spec:
                         nested_options = filter_spec["options"]
