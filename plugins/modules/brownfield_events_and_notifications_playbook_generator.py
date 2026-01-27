@@ -48,8 +48,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  "<module_name>_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "events_and_notifications_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
+          a default file name  "<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
+        - For example, "events_and_notifications_workflow_manager_playbook_2025-04-22_21-43-26.yml".
         type: str
       generate_all_configurations:
         description:
@@ -332,7 +332,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         if not self.config:
             self.status = "success"
             self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
