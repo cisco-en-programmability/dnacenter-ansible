@@ -612,6 +612,12 @@ class BrownFieldHelper:
         components_list = component_specific_filters.get(
             "components_list", list(module_supported_network_elements.keys())
         )
+
+        # If components_list is empty, default to all supported components
+        if not components_list:
+            self.log("No components specified; processing all supported components.", "DEBUG")
+            components_list = list(module_supported_network_elements.keys())
+
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
         self.log("Initializing final configuration list and operation summary tracking", "DEBUG")
@@ -630,7 +636,10 @@ class BrownFieldHelper:
                 skipped_count += 1
                 continue
 
-            filters = component_specific_filters.get(component, [])
+            filters = {
+                "global_filters": global_filters,
+                "component_filters": component_specific_filters.get(component, [])
+            }
             operation_func = network_element.get("get_function_name")
             if not callable(operation_func):
                 self.log(
