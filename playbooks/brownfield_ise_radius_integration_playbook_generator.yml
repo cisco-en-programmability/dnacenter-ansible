@@ -44,6 +44,7 @@
               authentication_policy_server:
                 server_type: ISE # Filter: ISE servers only
                 server_ip_address: 10.0.0.1
+
           # ====================================================================================
           # SCENARIO 3: Filter AAA Servers Only
           # Purpose: Generate configuration for non-ISE AAA servers
