@@ -24,7 +24,7 @@
           # Purpose: Retrieve and generate configurations for all authentication servers
           # Use Case: Complete brownfield discovery and configuration generation
           # ====================================================================================
-          - generate_all_configurations: true
+          # - generate_all_configurations: true
 
           # ====================================================================================
           # SCENARIO 1: Generate All ISE and AAA Configurations into given file path
@@ -38,12 +38,12 @@
           # Purpose: Generate configuration for Cisco ISE servers only
           # Use Case: When you need to configure only ISE-based authentication
           # ====================================================================================
-          # - file_path: "test_authentication_policy_server_all_configurations.yaml"
-          #   component_specific_filters:
-          #     components_list: ["authentication_policy_server"]
-          #     authentication_policy_server:
-          #         - server_type: ISE  # Filter: ISE servers only
-
+          - file_path: "authentication_policy_server_all_configurations.yaml"
+            component_specific_filters:
+              components_list: ["authentication_policy_server"]
+              authentication_policy_server:
+                server_type: ISE # Filter: ISE servers only
+                server_ip_address: 10.0.0.1
           # ====================================================================================
           # SCENARIO 3: Filter AAA Servers Only
           # Purpose: Generate configuration for non-ISE AAA servers
@@ -53,7 +53,7 @@
           #   component_specific_filters:
           #     components_list: ["authentication_policy_server"]
           #     authentication_policy_server:
-          #         - server_type: AAA  # Filter: AAA servers only
+          #       server_type: AAA  # Filter: AAA servers only
 
           # ====================================================================================
           # SCENARIO 4: Filter Specific Server by type and IP Address
@@ -64,8 +64,8 @@
           #   component_specific_filters:
           #     components_list: ["authentication_policy_server"]
           #     authentication_policy_server:
-          #       - server_type: ISE
-          #         server_ip_address: 10.0.0.10  # Filter: Specific IP
+          #       server_type: ISE
+          #       server_ip_address: 10.0.0.10  # Filter: Specific IP
 
           # ====================================================================================
           # SCENARIO 5: Filter by server type and multiple IP Addresses
@@ -76,9 +76,8 @@
           #   component_specific_filters:
           #     components_list: ["authentication_policy_server"]
           #     authentication_policy_server:
-          #       - server_type: ISE  # [ISE, AAA]
-          #         server_ip_address: 10.197.156.78
-          #       - server_ip_address: 10.197.156.10
+          #       server_type: ISE  # [ISE, AAA]
+          #       server_ip_address: 10.197.156.78
 
       register: result
 
