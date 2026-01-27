@@ -1,0 +1,281 @@
+---
+# ===================================================================================================
+# BROWNFIELD INVENTORY PLAYBOOK GENERATOR - COMPREHENSIVE SCENARIOS
+# ===================================================================================================
+#
+# This playbook demonstrates all possible scenarios for generating YAML configurations
+# for the inventory_workflow_manager module based on existing device inventory in
+# Cisco Catalyst Center.
+#
+# ===================================================================================================
+
+- name: Cisco Catalyst Center Brownfield Inventory Playbook Generator - All Scenarios
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+
+  tasks:
+    # ===================================================================================
+    # SCENARIO 1: Complete Infrastructure - Generate All Device Configurations
+    # ===================================================================================
+    # Description: Auto-discovers and generates configurations for ALL devices in
+    #              Cisco Catalyst Center across all device types (Network, Compute, etc.)
+    # Use Case: Initial migration, complete infrastructure backup, disaster recovery
+    # Output: Single consolidated YAML with all device IPs, hostnames, serial numbers
+    # ===================================================================================
+    - name: "SCENARIO 1: Auto-generate YAML for ALL devices (Complete Discovery)"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        state: gathered
+        config:
+          - generate_all_configurations: true
+            file_path: "/tmp/inventory_all_devices_complete.yml"
+      tags: [scenario1, complete_discovery, all_devices]
+
+    # ===================================================================================
+    # SCENARIO 2: Specific Devices by IP Address List
+    # ===================================================================================
+    # Description: Generate configurations for specific devices using IP addresses
+    # Use Case: Targeted device migration, specific site provisioning
+    # Output: YAML with configurations for specified IP addresses only
+    # ===================================================================================
+    - name: "SCENARIO 2: Generate YAML for Specific Devices by IP Address"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - generate_all_configurations: false
+            file_path: "inventory_specific_ips.yml"
+            global_filters:
+              ip_address_list:
+                - "206.1.2.1"
+                - "205.1.2.67"
+      tags: [scenario2, specific_ips]
+
+    # ===================================================================================
+    # SCENARIO 3: Devices by Hostname List
+    # ===================================================================================
+    # Description: Generate configurations for devices using hostnames
+    # Use Case: Hostname-based device management, named device groups
+    # Output: YAML with configurations for specified hostnames
+    # ===================================================================================
+    - name: "SCENARIO 3: Generate YAML for Devices by Hostname"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - generate_all_configurations: false
+            file_path: "/tmp/inventory_by_hostname.yml"
+            global_filters:
+              hostname_list:
+                - "evpn-app-c9k-27"
+                - "TB3-BGL-EDGE2.autoagni1.com"
+                - "TB3-SJC-BORDER-01.autoagni1.com"
+      tags: [scenario3, hostname_filter]
+
+    # ===================================================================================
+    # SCENARIO 4: Devices by Serial Number List
+    # ===================================================================================
+    # Description: Generate configurations for devices using serial numbers
+    # Use Case: Asset management, RMA replacement, warranty tracking
+    # Output: YAML with configurations for specified serial numbers
+    # ===================================================================================
+    - name: "SCENARIO 4: Generate YAML for Devices by Serial Number"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - generate_all_configurations: false
+            file_path: "/tmp/inventory_by_serial.yml"
+            global_filters:
+              serial_number_list:
+                - "9ODWZQTV7RY"
+                - "91GRFWNYCL6"
+                - "FOC2435L165"
+      tags: [scenario4, serial_number_filter]
+
+    # ===================================================================================
+    # SCENARIO 5: Devices by MAC Address List
+    # ===================================================================================
+    # Description: Generate configurations for devices using MAC addresses
+    # Use Case: MAC-based device discovery, Layer 2 device management
+    # Output: YAML with configurations for specified MAC addresses
+    # ===================================================================================
+    - name: "SCENARIO 5: Generate YAML for Devices by MAC Address"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - generate_all_configurations: false
+            file_path: "/tmp/inventory_by_mac.yml"
+            global_filters:
+              mac_address_list:
+                - "00:1A:2B:3C:4D:5E"
+                - "AA:BB:CC:DD:EE:FF"
+      tags: [scenario5, mac_address_filter]
+
+    # ===================================================================================
+    # SCENARIO 6: Devices by Role - ACCESS
+    # ===================================================================================
+    # Description: Generate configurations for devices with ACCESS role
+    # Use Case: Access layer device management, edge device provisioning
+    # Output: YAML with ACCESS role device configurations
+    # ===================================================================================
+    - name: "SCENARIO 6: Generate YAML for ACCESS Role Devices"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - generate_all_configurations: false
+            file_path: "/tmp/inventory_access_role_devices.yml"
+            component_specific_filters:
+              components_list: ["inventory_workflow_manager"]
+              inventory_workflow_manager:
+                - role: "ACCESS"
+      tags: [scenario6, access_role]
+
+    # ===================================================================================
+    # SCENARIO 7: Devices by Role - CORE
+    # ===================================================================================
+    # Description: Generate configurations for devices with CORE role
+    # Use Case: Core infrastructure management, backbone device configuration
+    # Output: YAML with CORE role device configurations
+    # ===================================================================================
+    - name: "SCENARIO 7: Generate YAML for CORE Role Devices"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - generate_all_configurations: false
+            file_path: "/tmp/inventory_core_role_devices.yml"
+            component_specific_filters:
+              components_list: ["inventory_workflow_manager"]
+              inventory_workflow_manager:
+                - role: "CORE"
+      tags: [scenario7, core_role]
+
+    # ===================================================================================
+    # SCENARIO 8: Combined Filters - Multiple Criteria
+    # ===================================================================================
+    # Description: Generate configurations using multiple filter criteria simultaneously
+    # Use Case: Complex device selection, multi-criteria filtering
+    # Output: YAML with devices matching ALL specified criteria
+    # ===================================================================================
+    - name: "SCENARIO 8: Generate YAML with Combined Filters"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - generate_all_configurations: false
+            file_path: "/tmp/inventory_combined_filters.yml"
+            global_filters:
+              ip_address_list:
+                - "204.1.2.2"
+                - "204.1.2.3"
+            component_specific_filters:
+              components_list: ["inventory_workflow_manager"]
+              inventory_workflow_manager:
+                - role: "ACCESS"
+      tags: [scenario8, combined_filters]
+
+    # ===================================================================================
+    # SCENARIO 9: Multiple Device Groups
+    # ===================================================================================
+    # Description: Generate configurations for multiple device groups with different criteria
+    # Use Case: Multi-site deployment, different device categories
+    # Output: Multiple YAML files for different device groups
+    # ===================================================================================
+    - name: "SCENARIO 9: Generate YAML for Multiple Device Groups"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          # Group 1: Access Layer Devices
+          - generate_all_configurations: false
+            file_path: "/tmp/inventory_group_access.yml"
+            component_specific_filters:
+              components_list: ["inventory_workflow_manager"]
+              inventory_workflow_manager:
+                - role: "ACCESS"
+          # Group 2: Core Layer Devices
+          - generate_all_configurations: false
+            file_path: "/tmp/inventory_group_core.yml"
+            component_specific_filters:
+              components_list: ["inventory_workflow_manager"]
+              inventory_workflow_manager:
+                - role: "CORE"
+      tags: [scenario9, multiple_groups]
