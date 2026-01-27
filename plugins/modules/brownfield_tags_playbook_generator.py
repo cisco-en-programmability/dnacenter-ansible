@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2024, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Tags Workflow Manager Module."""
@@ -14,9 +14,10 @@ DOCUMENTATION = r"""
 module: brownfield_tags_playbook_generator
 short_description: Generate YAML configurations playbook for 'tags_workflow_manager' module.
 description:
-- Generates YAML configurations compatible with the 'tags_workflow_manager'
-  module, reducing the effort required to manually create Ansible playbooks and
-  enabling programmatic modifications.
+- Generates YAML configurations compatible with the
+  'tags_workflow_manager' module.
+- Reduces manual effort in creating Ansible playbooks.
+- Enables programmatic modifications of infrastructure.
 version_added: 6.43.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
@@ -24,11 +25,6 @@ author:
 - Archit Soni (@koderchit)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -58,8 +54,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  "tags_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "tags_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
+          a default file name "tags_workflow_manager_playbook_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
+        - For example, "tags_workflow_manager_playbook_2026-01-24_12-33-20.yml".
         type: str
       global_filters:
         description:
@@ -99,13 +95,6 @@ options:
                 - Retrieves the tag with the exact matching name from Cisco Catalyst Center.
                 - Example Production, Network-Core, Campus-Switches.
                 type: str
-              tag_id:
-                description:
-                - Unique identifier of the tag to filter by.
-                - Retrieves the tag with the exact matching ID from Cisco Catalyst Center.
-                - Takes precedence over tag_name if both are specified.
-                - Example 1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p.
-                type: str
           tag_memberships:
             description:
             - Filters specific to tag membership configuration retrieval.
@@ -120,13 +109,22 @@ options:
                 - Retrieves all network devices and interfaces (ports) associated with this tag.
                 - Example Production, Network-Core, Campus-Switches.
                 type: str
-              tag_id:
-                description:
-                - Unique identifier of the tag whose memberships should be retrieved.
-                - Retrieves all network devices and interfaces (ports) associated with this tag.
-                - Takes precedence over tag_name if both are specified.
-                - Example 1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p.
-                type: str
+requirements:
+- dnacentersdk >= 2.4.5
+- python >= 3.9
+notes:
+- Cisco Catalyst Center >= 2.3.7.9
+- |-
+  SDK Methods used are
+  tags.Tag.get_tag
+  tags.Tag.get_tag_members_by_id
+- |-
+  SDK Paths used are
+  /dna/intent/api/v1/tag
+  /dna/intent/api/v1/tag/${id}/member
+seealso:
+- module: cisco.dnac.tags_workflow_manager
+  description: Module for managing tags and tag memberships.
 """
 
 EXAMPLES = r"""
@@ -152,7 +150,6 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config_verify: true
         config:
           - generate_all_configurations: true
 
@@ -178,7 +175,6 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config_verify: true
         config:
           - file_path: "/tmp/complete_tags_config.yaml"
             generate_all_configurations: true
@@ -205,7 +201,6 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config_verify: true
         config:
           - file_path: "/tmp/catc_tags.yaml"
             component_specific_filters:
@@ -233,7 +228,6 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config_verify: true
         config:
           - file_path: "/tmp/catc_tags.yaml"
             component_specific_filters:
@@ -261,7 +255,6 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config_verify: true
         config:
           - file_path: "/tmp/catc_tags.yaml"
             component_specific_filters:
@@ -289,7 +282,6 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config_verify: true
         config:
           - file_path: "/tmp/catc_tags.yaml"
             component_specific_filters:
@@ -320,7 +312,6 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config_verify: true
         config:
           - file_path: "/tmp/catc_tags.yaml"
             component_specific_filters:
@@ -351,7 +342,6 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config_verify: true
         config:
           - file_path: "/tmp/all_tags.yaml"
             component_specific_filters:
@@ -365,99 +355,32 @@ EXAMPLES = r"""
               tag:
                 - tag_name: Branch-Office
                 - tag_name: Access-Points
-
-# Example 9: Filter tags by ID
-- name: Generate configuration for tags by ID
-  hosts: dnac_servers
-  vars_files:
-    - credentials.yml
-  gather_facts: false
-  connection: local
-  tasks:
-    - name: Export specific tags using tag IDs
-      cisco.dnac.brownfield_tags_playbook_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: false
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
-        state: gathered
-        config_verify: true
-        config:
-          - file_path: "/tmp/tags_by_id.yaml"
-            component_specific_filters:
-              components_list: ["tag"]
-              tag:
-                - tag_id: "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p"
-                - tag_id: "9z8y7x6w-5v4u-3t2s-1r0q-9p8o7n6m5l4k"
-
-# Example 10: Mixed filter by tag name and ID
-- name: Generate configuration using mixed filters
-  hosts: dnac_servers
-  vars_files:
-    - credentials.yml
-  gather_facts: false
-  connection: local
-  tasks:
-    - name: Export tags using both name and ID filters
-      cisco.dnac.brownfield_tags_playbook_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: false
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
-        state: gathered
-        config_verify: true
-        config:
-          - file_path: "/tmp/mixed_filter_tags.yaml"
-            component_specific_filters:
-              components_list: ["tag", "tag_memberships"]
-              tag:
-                - tag_name: Critical-Infrastructure
-                - tag_id: "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p"
-              tag_memberships:
-                - tag_name: Network-Backbone
-                - tag_id: "9z8y7x6w-5v4u-3t2s-1r0q-9p8o7n6m5l4k"
 """
-
 
 RETURN = r"""
 # Case_1: Success Scenario
 response_1:
-  description: A dictionary with  with the response returned by the Cisco Catalyst Center Python SDK
+  description:
+  - Response returned by Cisco Catalyst Center Python SDK.
   returned: always
   type: dict
-  sample: >
-    {
-      "response":
-        {
-          "response": String,
-          "version": String
-        },
-      "msg": String
-    }
+  sample:
+    response:
+      response: "YAML configuration successfully generated"
+      version: "1.0"
+    msg: "YAML config generation Task succeeded for module
+      'tags_workflow_manager'"
+
 # Case_2: Error Scenario
 response_2:
-  description: A string with the response returned by the Cisco Catalyst Center Python SDK
-  returned: always
-  type: list
-  sample: >
-    {
-      "response": [],
-      "msg": String
-    }
+  description:
+  - Error message when generation fails.
+  returned: on failure
+  type: dict
+  sample:
+    response: []
+    msg: "YAML config generation Task failed for module
+      'tags_workflow_manager': Invalid file path"
 """
 
 from ansible.module_utils.basic import AnsibleModule
@@ -523,9 +446,9 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Generates a mapping of tag names to their complete details and tag IDs to names.
 
         Returns:
-            tuple: A tuple containing:
-                - dict: A dictionary mapping tag names to their details.
-                - dict: A dictionary mapping tag IDs to tag names.
+            tuple: (tag_name_to_details, tag_id_to_name)
+                - tag_name_to_details (dict): Maps tag names to their full details.
+                - tag_id_to_name (dict): Maps tag IDs to tag names.
         """
         self.log(
             "Starting generation of tag name to details mapping and tag ID to name mapping.",
@@ -2442,7 +2365,6 @@ def main():
         "dnac_log_append": {"type": "bool", "default": True},
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
