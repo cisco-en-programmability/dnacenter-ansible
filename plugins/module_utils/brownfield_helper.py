@@ -842,6 +842,16 @@ class BrownFieldHelper:
                     "Processing key '{0}' with spec: {1}".format(key, spec), "DEBUG"
                 )
 
+                if spec.get("fixed_value") is not None:
+                    mapped_detail[key] = spec["fixed_value"]
+                    self.log(
+                        "Assigned fixed value for key '{0}': {1}".format(
+                            key, mapped_detail[key]
+                        ),
+                        "DEBUG",
+                    )
+                    continue
+
                 source_key = spec.get("source_key", key)
                 value = detail.get(source_key)
 
