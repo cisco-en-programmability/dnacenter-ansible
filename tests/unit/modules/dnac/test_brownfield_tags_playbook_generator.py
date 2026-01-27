@@ -138,7 +138,6 @@ class TestDnacBrownfieldTagsPlaybookGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_log_level="DEBUG",
                 config=self.playbook_config_generate_all_configurations_case_1,
             )
@@ -146,6 +145,6 @@ class TestDnacBrownfieldTagsPlaybookGenerator(TestDnacModule):
 
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "YAML config generation Task succeeded for module 'tags_workflow_manager'",
+            "YAML configuration file generated successfully for module 'tags_workflow_manager'",
             str(result.get("msg")),
         )
