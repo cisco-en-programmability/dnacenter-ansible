@@ -74,6 +74,9 @@ class TestDnacTemplateWorkflow(TestDnacModule):
     playbook_config_import_profile_remove_playbook_case_12 = test_data.get(
         "import_profile_remove_playbook_case_12"
     )
+    playbook_config_create_template_without_template_content = test_data.get(
+        "create_template_playbook_without_template_content"
+    )
 
     def setUp(self):
         super(TestDnacTemplateWorkflow, self).setUp()
@@ -103,6 +106,16 @@ class TestDnacTemplateWorkflow(TestDnacModule):
                 # self.test_data.get(""),
             ]
         elif "test_create_template_playbook_case_1" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_project_details_new"),
+                self.test_data.get("create_template_task_id"),
+                self.test_data.get("get_task_details_by_id_case_1_call_1"),
+                self.test_data.get("get_task_details_by_id_case_1_call_2"),
+                self.test_data.get("versioning_the_template"),
+                self.test_data.get("get_task_details_by_id_case_1_call_4")
+            ]
+        elif "test_create_template_without_template_content" in self._testMethodName:
+            # Flow mirrors create case_1 without providing any template content
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_project_details_new"),
                 self.test_data.get("create_template_task_id"),
@@ -236,6 +249,28 @@ class TestDnacTemplateWorkflow(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "committed successfully",
+            result.get('msg')
+        )
+
+    def test_create_template_without_template_content(self):
+        """
+        Create template when both 'template_content' and 'template_content_file_path' are absent.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                config_verify=False,
+                config=self.playbook_config_create_template_without_template_content,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertIn(
+            "created successfully",
             result.get('msg')
         )
 
