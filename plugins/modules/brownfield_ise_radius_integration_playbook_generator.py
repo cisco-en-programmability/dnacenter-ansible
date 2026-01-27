@@ -255,7 +255,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         self.supported_states = ["gathered"]
         super().__init__(module)
         self.log("Inside INIT function.", "DEBUG")
-        self.module_schema = self.get_workflow_filters_schema()
+        self.module_schema = self.get_workflow_elements_schema()
         self.module_name = "ise_radius_integration_workflow_manager"
 
     def validate_input(self):
@@ -429,7 +429,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         self.log("Returning server_type: {0}".format(server_type), "DEBUG")
         return server_type
 
-    def ise_radius_integration_temp_spec(self):
+    def ise_radius_integration_reverse_mapping_temp_spec_function(self):
         """
         Constructs a temporary specification for authentication server, defining the structure and types of attributes
         that will be used in the YAML configuration file. This specification includes details such as server_type, server_ip_address,
@@ -494,7 +494,12 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
                 },
             }
         )
-        self.log("Generated temporary specification for ISE Radius Integration: {0}".format(ise_radius_integration), "DEBUG")
+        self.log(
+            "Generated temporary specification for ISE Radius Integration: {0}".format(
+                ise_radius_integration
+            ),
+            "DEBUG",
+        )
         return ise_radius_integration
 
     def filter_ise_radius_integration_details(self, auth_server_details, filters=None):
@@ -819,9 +824,12 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         )
 
         # Modify Authentication server's details using temp_spec
-        ise_radius_integration_temp_spec = self.ise_radius_integration_temp_spec()
+        ise_radius_integration_reverse_mapping_temp_spec_function = (
+            self.ise_radius_integration_reverse_mapping_temp_spec_function()
+        )
         ise_radius_integration_details = self.modify_parameters(
-            ise_radius_integration_temp_spec, auth_server_details
+            ise_radius_integration_reverse_mapping_temp_spec_function,
+            auth_server_details,
         )
 
         self.log(
@@ -851,20 +859,28 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
         )
         return modified_ise_radius_integration_details
 
-    def get_workflow_filters_schema(self):
+    def get_workflow_elements_schema(self):
         """
         Description: Returns the schema for workflow filters supported by the module.
         Returns:
             dict: A dictionary representing the schema for workflow filters.
         """
-        self.log("Inside get_workflow_filters_schema function.", "DEBUG")
+        self.log("Inside get_workflow_elements_schema function.", "DEBUG")
         return {
             "network_elements": {
                 "authentication_policy_server": {
-                    "filters": ["server_type", "server_ip_address"],
+                    "filters": {
+                        "server_type": {
+                            "type": "str",
+                            "elements": "str",
+                            "required": False,
+                            "choices": ["AAA", "ISE"],
+                        },
+                        "server_ip_address": {"type": "str", "required": False},
+                    },
                     "api_function": "get_authentication_and_policy_servers",
                     "api_family": "system_settings",
-                    "reverse_mapping_function": self.ise_radius_integration_temp_spec,
+                    "reverse_mapping_function": self.ise_radius_integration_reverse_mapping_temp_spec_function,
                     "get_function_name": self.get_ise_radius_integration_configuration,
                 }
             },
@@ -1118,6 +1134,7 @@ def main():
         "dnac_log_append": {"type": "bool", "default": True},
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
+        "config_verify": {"type": "bool", "default": False},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
