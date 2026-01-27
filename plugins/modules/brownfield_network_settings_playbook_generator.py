@@ -29,11 +29,6 @@ author:
 - Megha Kandari (@kandarimegha)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -219,8 +214,6 @@ EXAMPLES = r"""
     state: gathered
     config:
       - file_path: "/tmp/network_settings_config.yml"
-        global_filters:
-          site_name_list: ["Global/India/Mumbai", "Global/India/Delhi"]
         component_specific_filters:
           components_list: ["network_management_details"]
 
