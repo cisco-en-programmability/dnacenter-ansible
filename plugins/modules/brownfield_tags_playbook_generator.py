@@ -2347,9 +2347,9 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Executes the gather operations for various network configurations in the Cisco Catalyst Center.
-        This method processes additions and updates for SSIDs, interfaces, power profiles, access point profiles,
-        radio frequency profiles, and anchor groups. It logs detailed information about each operation,
+        Executes the gather operations for tag configurations in the Cisco Catalyst Center.
+        This method processes YAML configuration generation for tags and their associated rules,
+        memberships, and scope definitions. It logs detailed information about each operation,
         updates the result status, and returns a consolidated result.
         """
 
