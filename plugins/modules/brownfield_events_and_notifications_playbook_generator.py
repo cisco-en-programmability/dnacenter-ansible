@@ -378,6 +378,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 filter specifications, and processing function references.
                 - global_filters (dict): Global filter configuration options.
         """
+        self.log("Starting mapping for events and notifications.", "DEBUG")
         return {
             "network_elements": {
                 "webhook_destinations": {
@@ -798,6 +799,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             original event IDs as fallback values. Returns an empty list if no
             event IDs are found in the notification filter.
         """
+        self.log("Extracting event names from notification filter.", "DEBUG")
+
         if not notification or not isinstance(notification, dict):
             return []
 
@@ -819,6 +822,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log("Error resolving event ID {0}: {1}".format(event_id, str(e)), "ERROR")
                 event_names.append(event_id)
 
+        self.log("Resolved event names: {0}".format(event_names), "DEBUG")
+
         return event_names
 
     def get_event_name_from_api(self, event_id):
@@ -837,6 +842,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             str: The resolved event name if found, otherwise returns the original
             event ID as a fallback. Returns None if the event_id parameter is invalid.
         """
+        self.log("Resolving event ID {0} to event name using Event Artifacts API.".format(event_id), "DEBUG")
         if not event_id:
             return None
 
@@ -891,6 +897,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             list: A list of site names extracted from the notification data. Returns an
             empty list if no sites are found or if an error occurs during extraction.
         """
+        self.log("Extracting site names from notification filter and resource domain.", "DEBUG")
+
         if not notification or not isinstance(notification, dict):
             return []
 
@@ -938,6 +946,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             for site in sites:
                 if site not in unique_sites:
                     unique_sites.append(site)
+            self.log("Extracted sites: {0}".format(unique_sites), "DEBUG")
 
             return unique_sites
 
@@ -961,6 +970,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             str or None: The hierarchical site name if found, otherwise None.
             Returns None if the API call fails or the site is not found.
         """
+        self.log("Resolving site ID {0} to site name using Sites API.".format(site_id), "DEBUG")
+
         if not site_id or site_id == "*":
             return None
 
@@ -1017,6 +1028,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             str or None: The webhook destination name if found, otherwise None.
             Returns None if the notification is invalid or no webhook destination is found.
         """
+        self.log("Extracting webhook destination name from notification.", "DEBUG")
+
         if not notification:
             return None
 
@@ -1024,6 +1037,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         for endpoint in subscription_endpoints:
             subscription_details = endpoint.get("subscriptionDetails", {})
             if subscription_details.get("connectorType") == "REST":
+                self.log("Found webhook destination: {0}".format(subscription_details.get("name")), "DEBUG")
                 return subscription_details.get("name")
         return None
 
@@ -1044,6 +1058,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             str or None: The syslog destination name if found, otherwise None.
             Returns None if the notification is invalid or no syslog destination is found.
         """
+        self.log("Extracting syslog destination name from notification.", "DEBUG")
+
         if not notification:
             return None
 
@@ -1051,6 +1067,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         for endpoint in subscription_endpoints:
             subscription_details = endpoint.get("subscriptionDetails", {})
             if subscription_details.get("connectorType") == "SYSLOG":
+                self.log("Found syslog destination: {0}".format(subscription_details.get("name")), "DEBUG")
                 return subscription_details.get("name")
         return None
 
@@ -1071,6 +1088,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             str or None: The sender email address if found, otherwise None.
             Returns None if the notification is invalid or no email configuration is found.
         """
+        self.log("Extracting sender email from notification.", "DEBUG")
         if not notification:
             return None
 
@@ -1078,6 +1096,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         for endpoint in subscription_endpoints:
             subscription_details = endpoint.get("subscriptionDetails", {})
             if subscription_details.get("connectorType") == "EMAIL":
+                self.log("Found sender email: {0}".format(subscription_details.get("fromEmailAddress")), "DEBUG")
                 return subscription_details.get("fromEmailAddress")
         return None
 
@@ -1098,6 +1117,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             list: A list of recipient email addresses if found, otherwise an empty list.
             Returns an empty list if the notification is invalid or no email configuration is found.
         """
+        self.log("Extracting recipient emails from notification.", "DEBUG")
         if not notification:
             return []
 
@@ -1105,6 +1125,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         for endpoint in subscription_endpoints:
             subscription_details = endpoint.get("subscriptionDetails", {})
             if subscription_details.get("connectorType") == "EMAIL":
+                self.log("Found recipient emails: {0}".format(subscription_details.get("toEmailAddresses", [])), "DEBUG")
                 return subscription_details.get("toEmailAddresses", [])
         return []
 
@@ -1125,6 +1146,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             str or None: The email subject if found, otherwise None.
             Returns None if the notification is invalid or no email configuration is found.
         """
+        self.log("Extracting subject from notification.", "DEBUG")
         if not notification:
             return None
 
@@ -1132,6 +1154,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         for endpoint in subscription_endpoints:
             subscription_details = endpoint.get("subscriptionDetails", {})
             if subscription_details.get("connectorType") == "EMAIL":
+                self.log("Found email subject: {0}".format(subscription_details.get("subject")), "DEBUG")
                 return subscription_details.get("subject")
         return None
 
@@ -1171,6 +1194,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             str or None: The instance name if found in email subscription details,
             otherwise None if no email connector or name is found.
         """
+        self.log("Creating instance name from notification.", "DEBUG")
         if not notification or not isinstance(notification, dict):
             return None
 
@@ -1178,6 +1202,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         for endpoint in subscription_endpoints:
             subscription_details = endpoint.get("subscriptionDetails", {})
             if subscription_details.get("connectorType") == "EMAIL":
+                self.log("Found email instance name: {0}".format(subscription_details.get("name")), "DEBUG")
                 return subscription_details.get("name")
 
         return None
@@ -1199,6 +1224,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             str or None: The instance description if found in email subscription details,
             otherwise None if no email connector or description is found.
         """
+        self.log("Creating instance description from notification.", "DEBUG")
         if not notification or not isinstance(notification, dict):
             return None
 
@@ -1206,6 +1232,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         for endpoint in subscription_endpoints:
             subscription_details = endpoint.get("subscriptionDetails", {})
             if subscription_details.get("connectorType") == "EMAIL":
+                self.log("Found email instance description: {0}".format(subscription_details.get("description")), "DEBUG")
                 return subscription_details.get("description")
 
         return None
@@ -1436,6 +1463,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             list: A list of webhook destination dictionaries containing all available
             webhook configurations from the Cisco Catalyst Center.
         """
+        self.log("Retrieving all webhook destinations with pagination.", "DEBUG")
         try:
             offset = 0
             limit = 10
@@ -1460,6 +1488,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     break
 
                 offset += 1
+            self.log("Total webhook destinations retrieved: {0}".format(len(all_webhooks)), "INFO")
 
             return all_webhooks
 
@@ -1483,6 +1512,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             list: A list of email destination dictionaries containing all available
             email configurations including SMTP server details.
         """
+        self.log("Retrieving all email destinations.", "DEBUG")
         try:
             response = self.dnac._exec(
                 family=api_family,
@@ -1519,6 +1549,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             list: A list of syslog destination dictionaries containing server addresses,
             protocols, ports, and other syslog configuration parameters.
         """
+        self.log("Retrieving all syslog destinations.", "DEBUG")
         try:
             response = self.dnac._exec(
                 family=api_family,
@@ -1552,6 +1583,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             list: A list of SNMP destination dictionaries containing IP addresses,
             ports, SNMP versions, community strings, and authentication details.
         """
+        self.log("Retrieving all SNMP destinations with pagination.", "DEBUG")
         try:
             offset = 0
             limit = 10
@@ -1652,6 +1684,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             list: A list of ITSM setting dictionaries containing instance names,
             descriptions, and connection configuration details.
         """
+        self.log("Retrieving all ITSM settings.", "DEBUG")
         try:
             response = self.dnac._exec(
                 family=api_family,
@@ -1736,6 +1769,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             list: A list of webhook event notification dictionaries containing subscription
             details, event types, sites, and endpoint configurations.
         """
+        self.log("Retrieving all webhook event notifications with pagination.", "DEBUG")
         try:
             offset = 0
             limit = 10
@@ -1772,6 +1806,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     self.log("Error in pagination for webhook event notifications: {0}".format(str(e)), "ERROR")
                     self.set_operation_result("failed", True, self.msg, "ERROR")
 
+            self.log("Total webhook event notifications retrieved: {0}".format(len(all_notifications)), "INFO")
             return all_notifications
 
         except Exception as e:
@@ -1928,6 +1963,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             list: A list of syslog event notification dictionaries containing subscription
             details, event types, sites, and syslog destination configurations.
         """
+        self.log("Retrieving all syslog event notifications with pagination.", "DEBUG")
         try:
             offset = 0
             limit = 10
@@ -1963,6 +1999,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 except Exception as e:
                     self.log("Error in pagination for syslog event notifications: {0}".format(str(e)), "ERROR")
                     break
+
+            self.log("Total syslog event notifications retrieved: {0}".format(len(all_notifications)), "INFO")
 
             return all_notifications
 
@@ -2217,6 +2255,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             dict: A structured dictionary containing the complete playbook configuration
             with all components organized in the proper format for YAML serialization.
         """
+        self.log("Generating playbook structure for file: {0}".format(file_path), "DEBUG")
         config_list = []
 
         # Add ALL webhook destinations to the same config block
