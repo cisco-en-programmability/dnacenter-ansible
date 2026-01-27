@@ -27,11 +27,6 @@ author:
 - Megha Kandari (@kandarimegha)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -61,10 +56,9 @@ options:
         default: false
       file_path:
         description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name "assurance_issue_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "assurance_issue_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
+        - Absolute or relative path for the output YAML configuration file.
+        - If not specified, a timestamped filename is auto-generated in the format C(brownfield_template_YYYYMMDD_HHMMSS.yml).
+        - Parent directories are created automatically if they do not exist.
         type: str
         required: false
       component_specific_filters:
@@ -116,7 +110,7 @@ notes:
 """
 
 EXAMPLES = r"""
-# Generate YAML Configuration with default file path for all user-defined issues
+# Example 3: Generate YAML Configuration with default file path for all user-defined issues
 - name: Generate YAML Configuration for user-defined issues
   cisco.dnac.brownfield_assurance_issue_playbook_generator:
     dnac_host: "{{dnac_host}}"
@@ -133,7 +127,7 @@ EXAMPLES = r"""
       - component_specific_filters:
           components_list: ["assurance_user_defined_issue_settings"]
 
-# Generate YAML Configuration for all user-defined issue components
+# Example 2: Generate YAML Configuration for all user-defined issue components
 - name: Generate complete user-defined issue configuration
   cisco.dnac.brownfield_assurance_issue_playbook_generator:
     dnac_host: "{{dnac_host}}"
@@ -149,6 +143,64 @@ EXAMPLES = r"""
     config:
       - file_path: "/tmp/complete_assurance_config.yml"
         generate_all_configurations: true
+
+# Example 3: Filter by specific issue name
+- name: Generate YAML for specific issue by name
+  cisco.dnac.brownfield_assurance_issue_playbook_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    config:
+      - file_path: "/tmp/high_cpu_issue.yml"
+        component_specific_filters:
+          assurance_user_defined_issue_settings:
+            - name: "High CPU Usage"
+
+# Example 4: Filter by enabled status
+- name: Generate YAML for only enabled issues
+  cisco.dnac.brownfield_assurance_issue_playbook_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    config:
+      - file_path: "/tmp/enabled_issues.yml"
+        component_specific_filters:
+          assurance_user_defined_issue_settings:
+            - is_enabled: true
+
+# Example 5: Filter by name and enabled status
+- name: Generate YAML for specific enabled issue
+  cisco.dnac.brownfield_assurance_issue_playbook_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    config:
+      - file_path: "/tmp/specific_enabled_issue.yml"
+        component_specific_filters:
+          assurance_user_defined_issue_settings:
+            - name: "Memory Leak Detection"
+              is_enabled: true
 """
 
 RETURN = r"""
@@ -248,6 +300,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
 )
+import os
 try:
     import yaml
     HAS_YAML = True
@@ -255,15 +308,6 @@ except ImportError:
     HAS_YAML = False
     yaml = None
 from collections import OrderedDict
-
-if HAS_YAML:
-    class OrderedDumper(yaml.Dumper):
-        def represent_dict(self, data):
-            return self.represent_mapping("tag:yaml.org,2002:map", data.items())
-
-    OrderedDumper.add_representer(OrderedDict, OrderedDumper.represent_dict)
-else:
-    OrderedDumper = None
 
 
 class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
@@ -319,7 +363,7 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         if not self.config:
             self.status = "success"
             self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
@@ -367,7 +411,6 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         # Validate file_path if provided
         file_path = config.get("file_path")
         if file_path:
-            import os
             directory = os.path.dirname(file_path)
             if directory and not os.path.exists(directory):
                 try:
@@ -438,44 +481,129 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
             },
         }
 
-    def epoch_to_datetime(self, epoch_time):
+    def convert_ordereddict(self, data, _depth=0, _seen=None):
         """
-        Convert epoch timestamp to datetime string.
-        Args:
-            epoch_time: Epoch timestamp in milliseconds
-        Returns:
-            str: Formatted datetime string or None if invalid
-        """
-        try:
-            if epoch_time and epoch_time != 0:
-                import datetime
-                # Handle both seconds and milliseconds timestamps
-                if epoch_time > 1e10:  # Likely milliseconds
-                    timestamp = epoch_time / 1000
-                else:  # Likely seconds
-                    timestamp = epoch_time
+        Recursively converts OrderedDict and nested dict/list structures to regular dict.
 
-                dt = datetime.datetime.fromtimestamp(timestamp)
-                return dt.strftime("%Y-%m-%d %H:%M:%S")
-        except (ValueError, TypeError, OverflowError):
-            pass
-        return None
+        Processes nested data structures containing OrderedDict objects and converts
+        them to regular Python dictionaries for cleaner YAML serialization output.
+        Handles lists, tuples, sets, and scalar values appropriately.
 
-    def convert_ordereddict(self, data):
-        """
-        Recursively convert OrderedDict to regular dict for clean YAML output.
         Args:
-            data: Data structure that may contain OrderedDict objects
+            data: Data structure to convert. Can be OrderedDict, dict, list, tuple,
+                set, or scalar values (str, int, float, bool, None).
+            _depth (int, internal): Current recursion depth (for recursion tracking).
+            _seen (set, internal): Set of processed object IDs (for circular reference detection).
+
         Returns:
-            Data structure with OrderedDict converted to regular dict
+            Converted data structure with all OrderedDict instances replaced by regular dict.
+            - dict/OrderedDict → dict
+            - list → list (with converted elements)
+            - tuple → tuple (with converted elements)
+            - set → set (with converted elements)
+            - scalar values → returned as-is
+
+        Notes:
+            - Recursively processes nested structures
+            - Detects and handles circular references (returns None for circular refs)
+            - Warns if recursion depth exceeds 100 levels
+            - Since Python 3.7+, regular dicts preserve insertion order, making
+            OrderedDict conversion primarily for YAML serialization compatibility
         """
-        if isinstance(data, OrderedDict):
-            return {key: self.convert_ordereddict(value) for key, value in data.items()}
+        self.log(
+            "Converting data structure to regular dict for YAML output, "
+            "type: {0}, depth: {1}".format(type(data).__name__, _depth),
+            "DEBUG"
+        )
+
+        # Initialize circular reference tracking
+        if _seen is None:
+            _seen = set()
+
+        # Check recursion depth
+        if _depth > 100:
+            self.log(
+                "Deep recursion detected (depth={0}) during OrderedDict conversion".format(_depth),
+                "WARNING"
+            )
+
+        # Handle dict and OrderedDict (OrderedDict is subclass of dict)
+        if isinstance(data, dict):
+            # Check for circular reference
+            obj_id = id(data)
+            if obj_id in _seen:
+                self.log(
+                    "Circular reference detected in dict/OrderedDict at depth {0}".format(_depth),
+                    "WARNING"
+                )
+                return None
+
+            _seen.add(obj_id)
+            result = {
+                key: self.convert_ordereddict(value, _depth + 1, _seen)
+                for key, value in data.items()
+            }
+            _seen.discard(obj_id)
+
+            self.log(
+                "Converted dict/OrderedDict with {0} key(s) at depth {1}".format(len(result), _depth),
+                "DEBUG"
+            )
+            return result
+
+        # Handle lists
         elif isinstance(data, list):
-            return [self.convert_ordereddict(item) for item in data]
-        elif isinstance(data, dict):
-            return {key: self.convert_ordereddict(value) for key, value in data.items()}
+            obj_id = id(data)
+            if obj_id in _seen:
+                self.log(
+                    "Circular reference detected in list at depth {0}".format(_depth),
+                    "WARNING"
+                )
+                return None
+
+            _seen.add(obj_id)
+            result = [
+                self.convert_ordereddict(item, _depth + 1, _seen)
+                for item in data
+            ]
+            _seen.discard(obj_id)
+
+            self.log(
+                "Converted list with {0} element(s) at depth {1}".format(len(result), _depth),
+                "DEBUG"
+            )
+            return result
+
+        # Handle tuples (preserve immutability)
+        elif isinstance(data, tuple):
+            result = tuple(
+                self.convert_ordereddict(item, _depth + 1, _seen)
+                for item in data
+            )
+            self.log(
+                "Converted tuple with {0} element(s) at depth {1}".format(len(result), _depth),
+                "DEBUG"
+            )
+            return result
+
+        # Handle sets
+        elif isinstance(data, set):
+            result = {
+                self.convert_ordereddict(item, _depth + 1, _seen)
+                for item in data
+            }
+            self.log(
+                "Converted set with {0} element(s) at depth {1}".format(len(result), _depth),
+                "DEBUG"
+            )
+            return result
+
+        # Handle scalar values (str, int, float, bool, None, etc.)
         else:
+            self.log(
+                "Returning scalar value of type {0} at depth {1}".format(type(data).__name__, _depth),
+                "DEBUG"
+            )
             return data
 
     def generate_yaml_header_comments(self, file_path, operation_summary):
@@ -483,10 +611,34 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         Generate header comments with Catalyst Center source information and summary statistics.
         Args:
             file_path (str): Path where the YAML file will be saved
-            operation_summary (dict): Summary of operations performed
+            operation_summary (dict): Summary of operations performed containing:
+                - total_components_processed (int)
+                - total_successful_operations (int)
+                - total_failed_operations (int)
+                - components_with_complete_success (list)
+                - components_with_partial_success (list)
+                - components_with_complete_failure (list)
         Returns:
             str: Formatted header comments
         """
+        self.log(
+            "Generating YAML header comments for file_path: {0}".format(file_path),
+            "DEBUG"
+        )
+
+        if not operation_summary or not isinstance(operation_summary, dict):
+            self.log(
+                "Operation summary is None or invalid, using default empty values",
+                "WARNING"
+            )
+            operation_summary = {
+                'total_components_processed': 0,
+                'total_successful_operations': 0,
+                'total_failed_operations': 0,
+                'components_with_complete_success': [],
+                'components_with_partial_success': [],
+                'components_with_complete_failure': []
+            }
         try:
             from datetime import datetime
 
@@ -496,41 +648,80 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
             # Get Catalyst Center connection details (safely)
             dnac_host = getattr(self, 'dnac_host', 'Unknown')
             dnac_version = getattr(self, 'dnac_version', 'Unknown')
+            module_name = getattr(self, 'module_name', 'assurance_issue_workflow_manager')
+
+            self.log(
+                "Retrieved connection details - host: {0}, version: {1}, module: {2}".format(
+                    dnac_host, dnac_version, module_name
+                ),
+                "DEBUG"
+            )
+
+            # Cache operation summary values to avoid repeated .get() calls
+            total_processed = operation_summary.get('total_components_processed', 0)
+            total_success = operation_summary.get('total_successful_operations', 0)
+            total_failed = operation_summary.get('total_failed_operations', 0)
+            complete_success = operation_summary.get('components_with_complete_success', [])
+            partial_success = operation_summary.get('components_with_partial_success', [])
+            complete_failure = operation_summary.get('components_with_complete_failure', [])
+
+            # Format component lists (show "None" if empty)
+            complete_success_str = ', '.join(complete_success) if complete_success else 'None'
+            partial_success_str = ', '.join(partial_success) if partial_success else 'None'
+            complete_failure_str = ', '.join(complete_failure) if complete_failure else 'None'
+
+            # Define header separator width
+            SEPARATOR_WIDTH = 80
 
             # Build header comments
             header_lines = [
-                "# " + "=" * 80,
+                "# " + "=" * SEPARATOR_WIDTH,
                 "# Cisco Catalyst Center - Assurance Issue Configuration Export",
-                "# " + "=" * 80,
+                "# " + "=" * SEPARATOR_WIDTH,
                 "#",
                 "# Generated by: Brownfield Assurance Issue Playbook Generator",
-                "# Generation Date: {}".format(timestamp),
-                "# Source Catalyst Center: {}".format(dnac_host),
-                "# Catalyst Center Version: {}".format(dnac_version),
-                "# Target Module: assurance_issue_workflow_manager",
+                "# Generation Date: {0}".format(timestamp),
+                "# Source Catalyst Center: {0}".format(dnac_host),
+                "# Catalyst Center Version: {0}".format(dnac_version),
+                "# Target Module: {0}".format(module_name),
                 "#",
                 "# Summary Statistics:",
-                "#   - Total Components Processed: {}".format(operation_summary.get('total_components_processed', 0)),
-                "#   - Successful Operations: {}".format(operation_summary.get('total_successful_operations', 0)),
-                "#   - Failed Operations: {}".format(operation_summary.get('total_failed_operations', 0)),
-                "#   - Output File: {}".format(file_path),
+                "#   - Total Components Processed: {0}".format(total_processed),
+                "#   - Successful Operations: {0}".format(total_success),
+                "#   - Failed Operations: {0}".format(total_failed),
+                "#   - Output File: {0}".format(file_path),
                 "#",
-                "# Components with Complete Success: {}".format(', '.join(operation_summary.get('components_with_complete_success', []))),
-                "# Components with Partial Success: {}".format(', '.join(operation_summary.get('components_with_partial_success', []))),
-                "# Components with Complete Failure: {}".format(', '.join(operation_summary.get('components_with_complete_failure', []))),
+                "# Components with Complete Success: {0}".format(complete_success_str),
+                "# Components with Partial Success: {0}".format(partial_success_str),
+                "# Components with Complete Failure: {0}".format(complete_failure_str),
                 "#",
                 "# Note: This configuration represents user-defined issue settings",
                 "#       exported from Cisco Catalyst Center.",
                 "#       Review and modify as needed before applying.",
-                "# " + "=" * 80,
+                "# " + "=" * SEPARATOR_WIDTH,
                 ""
             ]
 
-            return "\n".join(header_lines)
+            header_content = "\n".join(header_lines)
+            self.log(
+                "Successfully generated YAML header with {0} lines".format(len(header_lines)),
+                "DEBUG"
+            )
 
-        except Exception as e:
-            self.log("Error generating header comments: {}".format(str(e)), "WARNING")
-            return "# Generated by Brownfield Assurance Issue Playbook Generator\n"
+            return header_content
+
+        except (AttributeError, KeyError, TypeError, ImportError) as e:
+            self.log(
+                "Error generating detailed header comments: {0}. Using minimal fallback.".format(
+                    str(e)
+                ),
+                "WARNING"
+            )
+            fallback_header = (
+                "# Generated by Brownfield Assurance Issue Playbook Generator\n"
+            )
+            self.log("Returning fallback header due to exception", "DEBUG")
+            return fallback_header
 
     def write_yaml_with_comments(self, data, file_path, operation_summary):
         """
@@ -542,22 +733,93 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             bool: True if successful, False otherwise
         """
+        self.log(
+            "Writing YAML configuration to file: {0}".format(file_path),
+            "DEBUG"
+        )
+
+        # Validate and normalize file path (prevent path traversal)
+        file_path = os.path.abspath(file_path)
+        if ".." in file_path:
+            self.log(
+                "Invalid file_path: path traversal detected in {0}".format(
+                    file_path
+                ),
+                "ERROR"
+            )
+            return False
+
+        # Warn if file already exists
+        if os.path.exists(file_path):
+            self.log(
+                "File {0} already exists and will be overwritten".format(
+                    file_path
+                ),
+                "WARNING"
+            )
+
+        # Log data size
+        data_size_info = "{0} top-level keys".format(
+            len(data.keys())
+        ) if isinstance(data, dict) else "unknown structure"
+        self.log(
+            "Processing YAML data with {0}".format(data_size_info),
+            "DEBUG"
+        )
+
+        # Convert OrderedDict to regular dict for clean output
+        self.log(
+            "Converting OrderedDict structures to regular dict for clean YAML",
+            "DEBUG"
+        )
+
         try:
             # Convert OrderedDict to regular dict for clean output
             clean_data = self.convert_ordereddict(data)
+            self.log(
+                "Generating YAML header comments with operation summary",
+                "DEBUG"
+            )
 
             # Generate header comments
             header_comments = self.generate_yaml_header_comments(file_path, operation_summary)
+            self.log("Serializing configuration data to YAML format", "DEBUG")
 
             # Generate YAML content
             if HAS_YAML:
-                yaml_content = yaml.dump(clean_data, default_flow_style=False, indent=2, width=120, allow_unicode=True)
+                yaml_content = yaml.dump(
+                    clean_data,
+                    default_flow_style=False,
+                    indent=2,
+                    width=120,
+                    allow_unicode=True,
+                    sort_keys=False,
+                    explicit_start=True  # Add '---' at start
+                )
             else:
                 # Fallback to basic string representation
                 yaml_content = str(clean_data)
 
             # Combine header and content
             full_content = header_comments + yaml_content
+
+            # Check and warn about large file size
+            content_size_mb = len(full_content) / (1024 * 1024)
+            if content_size_mb > 10:
+                self.log(
+                    "Generated YAML file is large ({0:.2f} MB). "
+                    "Writing may take time.".format(content_size_mb),
+                    "WARNING"
+                )
+
+            # Write to file with UTF-8 encoding
+            self.log(
+                "Writing {0} bytes to file: {1}".format(
+                    len(full_content),
+                    file_path
+                ),
+                "DEBUG"
+            )
 
             # Write to file
             with open(file_path, 'w', encoding='utf-8') as file:
@@ -566,8 +828,29 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Successfully wrote YAML with header comments to: {}".format(file_path), "INFO")
             return True
 
+        except (IOError, OSError, PermissionError) as e:
+            self.log(
+                "Failed to write YAML file to {0}: {1}".format(
+                    file_path, str(e)
+                ),
+                "ERROR"
+            )
+            return False
+
+        except yaml.YAMLError as e:
+            self.log(
+                "Failed to serialize data to YAML format: {0}".format(str(e)),
+                "ERROR"
+            )
+            return False
+
         except Exception as e:
-            self.log("Error writing YAML with comments: {}".format(str(e)), "ERROR")
+            self.log(
+                "Unexpected error writing YAML to {0}: {1}".format(
+                    file_path, str(e)
+                ),
+                "ERROR"
+            )
             return False
 
     def user_defined_issue_reverse_mapping_function(self, requested_components=None):
@@ -702,17 +985,33 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_user_defined_issues(self, issue_element, filters):
         """
-        Retrieves user-defined issue definitions based on the provided filters.
+        Fetches custom issue definitions by calling the Catalyst Center API with various
+        filter combinations. When no specific filters are provided, retrieves all issues
+        across all priority levels (P1-P4) and enabled statuses (true/false), resulting
+        in 8 API calls.
         Args:
-            issue_element (dict): A dictionary containing the API family and function for retrieving user-defined issues.
-            filters (dict): A dictionary containing global_filters and component_specific_filters.
+            issue_element (dict): API configuration containing:
+                - api_family (str): API family name (e.g., "issues")
+                - api_function (str): API function name
+                - reverse_mapping_function (callable): Function to transform response
+            filters (dict): Filter structure containing:
+                - component_specific_filters (dict, optional): Component-specific filters
+                with assurance_user_defined_issue_settings list containing:
+                    - name (str, optional): Issue name to filter
+                    - is_enabled (bool, optional): Enabled status filter
         Returns:
-            dict: A dictionary containing the modified details of user-defined issues.
+            dict: Dictionary containing:
+                - assurance_user_defined_issue_settings (list): List of transformed issue dicts
+                - operation_summary (dict): Operation tracking summary with success/failure details
         """
         self.log("Starting to retrieve user-defined issues with filters: {0}".format(filters), "DEBUG")
 
         # Safety check for filters
         if not filters:
+            self.log(
+                "No filters provided, using empty filter dictionary and fetching all issues",
+                "DEBUG"
+            )
             filters = {}
 
         final_user_issues = []
@@ -729,9 +1028,26 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         else:
             component_specific_filters = []
 
+        self.log(
+            "Component-specific filters count: {0}".format(len(component_specific_filters)),
+            "DEBUG"
+        )
+
         try:
             if component_specific_filters:
-                for filter_param in component_specific_filters:
+                self.log(
+                    "Processing {0} component-specific filter(s)".format(
+                        len(component_specific_filters)
+                    ),
+                    "INFO"
+                )
+                for filter_index, filter_param in enumerate(component_specific_filters, start=1):
+                    self.log(
+                        "Processing filter {0}/{1}: {2}".format(
+                            filter_index, len(component_specific_filters), filter_param
+                        ),
+                        "DEBUG"
+                    )
                     base_params = {}
                     for key, value in filter_param.items():
                         if key == "name":
@@ -741,43 +1057,30 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
 
                     # If specific filters are provided, use them directly
                     if base_params:
+                        self.log(
+                            "Retrieving issues with specific filters: {0}".format(base_params),
+                            "INFO"
+                        )
                         user_issue_details = self.execute_get_with_pagination(api_family, api_function, base_params)
                         self.log("Retrieved user-defined issue details with filters {0}: {1}".format(base_params, len(user_issue_details)), "INFO")
                         final_user_issues.extend(user_issue_details)
                     else:
-                        # If no specific filters, iterate through all priority and enabled combinations
-                        priorities = ["P1", "P2", "P3", "P4"]
-                        enabled_statuses = ["true", "false"]
-
-                        for priority in priorities:
-                            for enabled_status in enabled_statuses:
-                                params = {
-                                    "priority": priority,
-                                    "isEnabled": enabled_status
-                                }
-                                self.log("Retrieving user-defined issues with priority {0} and enabled={1}".format(priority, enabled_status), "DEBUG")
-
-                                user_issue_details = self.execute_get_with_pagination(api_family, api_function, params)
-                                self.log("Retrieved {0} user-defined issues for priority {1}, enabled={2}".format(
-                                    len(user_issue_details), priority, enabled_status), "INFO")
-                                final_user_issues.extend(user_issue_details)
+                        self.log(
+                            "No valid filters in filter_param, fetching all priority/enabled combinations",
+                            "WARNING"
+                        )
+                        final_user_issues.extend(
+                            self._fetch_all_priority_enabled_combinations(api_family, api_function)
+                        )
             else:
-                # Execute API calls for all combinations of priority and enabled status
-                priorities = ["P1", "P2", "P3", "P4"]
-                enabled_statuses = ["true", "false"]
-
-                for priority in priorities:
-                    for enabled_status in enabled_statuses:
-                        params = {
-                            "priority": priority,
-                            "isEnabled": enabled_status
-                        }
-                        self.log("Retrieving user-defined issues with priority {0} and enabled={1}".format(priority, enabled_status), "DEBUG")
-
-                        user_issue_details = self.execute_get_with_pagination(api_family, api_function, params)
-                        self.log("Retrieved {0} user-defined issues for priority {1}, enabled={2}".format(
-                            len(user_issue_details), priority, enabled_status), "INFO")
-                        final_user_issues.extend(user_issue_details)
+                # No component-specific filters, fetch all combinations
+                self.log(
+                    "No component-specific filters provided, fetching all priority/enabled combinations",
+                    "INFO"
+                )
+                final_user_issues.extend(
+                    self._fetch_all_priority_enabled_combinations(api_family, api_function)
+                )
 
             # Track success
             self.add_success("assurance_user_defined_issue_settings", {
@@ -790,6 +1093,10 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
 
             # Transform using inherited modify_parameters function
             issue_details = self.modify_parameters(reverse_mapping_spec, final_user_issues)
+            self.log(
+                "Transformed {0} issue(s) using reverse mapping".format(len(issue_details)),
+                "DEBUG"
+            )
 
             # Post-process to ensure severity values are integers, not strings
             if issue_details and isinstance(issue_details, list):
@@ -819,25 +1126,201 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "operation_summary": self.get_operation_summary()
             }
 
+    def _fetch_all_priority_enabled_combinations(self, api_family, api_function):
+        """
+        Fetches user-defined issues for all priority and enabled status combinations.
+
+        Helper method to retrieve issues across all priority levels (P1-P4) and
+        enabled statuses (true/false), making 8 API calls total.
+
+        Args:
+            api_family (str): API family name for the API call
+            api_function (str): API function name for the API call
+
+        Returns:
+            list: Combined list of all user-defined issues from all API calls
+        """
+        priorities = ["P1", "P2", "P3", "P4"]
+        enabled_statuses = ["true", "false"]
+        all_issues = []
+
+        total_calls = len(priorities) * len(enabled_statuses)
+        self.log(
+            "Fetching issues for all priority/enabled combinations ({0} API calls)".format(
+                total_calls
+            ),
+            "INFO"
+        )
+
+        call_count = 0
+        for priority in priorities:
+            for enabled_status in enabled_statuses:
+                call_count += 1
+                params = {
+                    "priority": priority,
+                    "isEnabled": enabled_status
+                }
+                self.log(
+                    "API call {0}/{1}: Retrieving issues with priority={2}, enabled={3}".format(
+                        call_count, total_calls, priority, enabled_status
+                    ),
+                    "DEBUG"
+                )
+
+                try:
+                    user_issue_details = self.execute_get_with_pagination(
+                        api_family, api_function, params
+                    )
+                    if user_issue_details:
+                        self.log(
+                            "Retrieved {0} issue(s) for priority={1}, enabled={2}".format(
+                                len(user_issue_details), priority, enabled_status
+                            ),
+                            "INFO"
+                        )
+                        all_issues.extend(user_issue_details)
+                    else:
+                        self.log(
+                            "No issues found for priority={0}, enabled={1}".format(
+                                priority, enabled_status
+                            ),
+                            "DEBUG"
+                        )
+                except Exception as e:
+                    self.log(
+                        "Failed to retrieve issues for priority={0}, enabled={1}: {2}".format(
+                            priority, enabled_status, str(e)
+                        ),
+                        "WARNING"
+                    )
+                    # Continue to next combination
+
+        self.log(
+            "Completed fetching all combinations, total issues retrieved: {0}".format(
+                len(all_issues)
+            ),
+            "INFO"
+        )
+
+        return all_issues
+
+    def _ensure_severity_integers(self, issue_details):
+        """
+        Ensures severity values in issue rules are integers.
+
+        Post-processes issue details to convert severity values to integers,
+        logging warnings for any conversion failures.
+
+        Args:
+            issue_details (list): List of issue detail dictionaries to process
+
+        Notes:
+            - Modifies issue_details in-place
+            - Logs warnings for values that cannot be converted to int
+        """
+        if not issue_details or not isinstance(issue_details, list):
+            return
+
+        self.log(
+            "Post-processing {0} issue(s) to ensure severity values are integers".format(
+                len(issue_details)
+            ),
+            "DEBUG"
+        )
+
+        conversion_count = 0
+        error_count = 0
+
+        for issue in issue_details:
+            if not isinstance(issue, dict):
+                continue
+
+            rules = issue.get("rules")
+            if not rules or not isinstance(rules, list):
+                continue
+
+            for rule in rules:
+                if not isinstance(rule, dict):
+                    continue
+
+            for rule in rules:
+                if not isinstance(rule, dict):
+                    continue
+
+                if "severity" in rule:
+                    original_value = rule["severity"]
+                    if not isinstance(original_value, int):
+                        try:
+                            rule["severity"] = int(original_value)
+                            conversion_count += 1
+                            self.log(
+                                "Converted severity from {0} to {1}".format(
+                                    type(original_value).__name__, rule["severity"]
+                                ),
+                                "DEBUG"
+                            )
+                        except (ValueError, TypeError) as e:
+                            error_count += 1
+                            self.log(
+                                "Could not convert severity to int: {0} (type: {1}), error: {2}".format(
+                                    original_value, type(original_value).__name__, str(e)
+                                ),
+                                "WARNING"
+                            )
+
+        if conversion_count > 0:
+            self.log(
+                "Successfully converted {0} severity value(s) to integers".format(
+                    conversion_count
+                ),
+                "INFO"
+            )
+
+        if error_count > 0:
+            self.log(
+                "Failed to convert {0} severity value(s) to integers".format(error_count),
+                "WARNING"
+            )
+
     def get_diff_gathered(self):
         """
         Gathers assurance issue configurations from Cisco Catalyst Center and generates YAML playbook.
+
+            Orchestrates the brownfield discovery process by:
+            1. Determining file path (user-provided or auto-generated)
+            2. Identifying components to process (all or filtered)
+            3. Retrieving configurations for each component via API calls
+            4. Building YAML structure with proper formatting
+            5. Writing YAML file with header comments and operation summary
         Returns:
-            self: Returns the current object with status and result set.
+            self: Current instance with updated attributes:
+                - self.status: "success" or "failed"
+                - self.msg: Operation result message
+                - self.result: Dictionary containing response details, file_path,
+                configurations count, and operation_summary
+
         """
-        self.log("Starting brownfield assurance issue configuration gathering process", "INFO")
+        self.log("Gathering assurance issue configurations from Cisco Catalyst Center "
+                 "to generate YAML playbook", "INFO")
 
         # Reset operation tracking
         self.reset_operation_tracking()
 
         # Get validated configuration
         config = self.validated_config[0] if self.validated_config else {}
+        self.log(
+            "Processing configuration with generate_all={0}, components_filter={1}".format(
+                config.get("generate_all_configurations", False),
+                "specified" if config.get("component_specific_filters") else "none"
+            ),
+            "DEBUG"
+        )
 
         # Determine file path
         file_path = config.get("file_path")
         if not file_path:
             file_path = self.generate_filename()
-            self.log("Using default filename: {0}".format(file_path), "INFO")
+            self.log("No file_path provided, using auto-generated filename: {0}".format(file_path), "INFO")
 
         # Ensure directory exists
         self.ensure_directory_exists(file_path)
@@ -854,6 +1337,11 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # If generate_all_configurations or no components specified, process all
         if self.generate_all_configurations or not components_list:
+            self.log(
+                "No components specified or generate_all enabled, "
+                "processing all available components",
+                "INFO"
+            )
             # Ensure module_schema is available
             if not hasattr(self, 'module_schema') or not self.module_schema:
                 self.module_schema = self.get_workflow_elements_schema()
@@ -861,9 +1349,20 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
             issue_elements = self.module_schema.get("issue_elements", {})
             components_list = list(issue_elements.keys())
 
-        self.log("Processing components: {0}".format(components_list), "INFO")
+        self.log(
+            "Processing {0} component(s): {1}".format(
+                len(components_list), components_list
+            ),
+            "INFO"
+        )
 
-        for component_name in components_list:
+        for index, component_name in enumerate(components_list, start=1):
+            self.log(
+                "Processing component {0}/{1}: {2}".format(
+                    index, len(components_list), component_name
+                ),
+                "INFO"
+            )
             self.total_components_processed += 1
             self.log("Processing component: {0}".format(component_name), "INFO")
 
@@ -911,6 +1410,12 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
             # Extract the component data
             component_data = result.get(component_name, [])
             if component_data:
+                self.log(
+                    "Building YAML structure with {0} component configuration(s)".format(
+                        len(all_configs)
+                    ),
+                    "INFO"
+                )
                 all_configs.append({component_name: component_data})
 
         # Generate final YAML structure
@@ -961,6 +1466,10 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         # Write to YAML file with header comments
         if yaml_config:
             operation_summary = self.get_operation_summary()
+            self.log(
+                "Writing YAML configuration to file: {0}".format(file_path),
+                "INFO"
+            )
             success = self.write_yaml_with_comments(yaml_config, file_path, operation_summary)
             if success:
                 if all_configs:
@@ -1013,7 +1522,6 @@ def main():
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
         "state": {"type": "str", "default": "gathered", "choices": ["gathered"]},
         "config": {"type": "list", "required": True, "elements": "dict"},
     }
@@ -1025,28 +1533,28 @@ def main():
     )
 
     # Create an instance of the workflow manager class
-    dnac_assurance_issue = AssuranceIssuePlaybookGenerator(module)
+    catalystcenter_assurance_issue = AssuranceIssuePlaybookGenerator(module)
 
     # Get the state parameter from the module; default to 'gathered'
     state = module.params.get("state")
 
     # Check if the state is valid
-    if state not in dnac_assurance_issue.supported_states:
-        dnac_assurance_issue.status = "failed"
-        dnac_assurance_issue.msg = "State '{0}' is not supported. Supported states: {1}".format(
-            state, dnac_assurance_issue.supported_states
+    if state not in catalystcenter_assurance_issue.supported_states:
+        catalystcenter_assurance_issue.status = "failed"
+        catalystcenter_assurance_issue.msg = "State '{0}' is not supported. Supported states: {1}".format(
+            state, catalystcenter_assurance_issue.supported_states
         )
-        dnac_assurance_issue.result["msg"] = dnac_assurance_issue.msg
-        dnac_assurance_issue.module.fail_json(**dnac_assurance_issue.result)
+        catalystcenter_assurance_issue.result["msg"] = catalystcenter_assurance_issue.msg
+        catalystcenter_assurance_issue.module.fail_json(**catalystcenter_assurance_issue.result)
 
     # Validate the input parameters
-    dnac_assurance_issue.validate_input().check_return_status()
+    catalystcenter_assurance_issue.validate_input().check_return_status()
 
     # Get the function mapped to the current state and execute it
-    dnac_assurance_issue.get_diff_state_apply[state]().check_return_status()
+    catalystcenter_assurance_issue.get_diff_state_apply[state]().check_return_status()
 
     # Exit with the result
-    dnac_assurance_issue.module.exit_json(**dnac_assurance_issue.result)
+    catalystcenter_assurance_issue.module.exit_json(**catalystcenter_assurance_issue.result)
 
 
 if __name__ == "__main__":
