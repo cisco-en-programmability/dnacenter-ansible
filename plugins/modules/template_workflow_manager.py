@@ -3002,7 +3002,8 @@ class Template(NetworkProfileFunctions):
         """
         Converts template parameter data from playbook format to Cisco Catalyst Center API format with
         comprehensive validation and file handling. Supports both inline template content and file-based
-        template content with proper priority handling and security validation.
+        template content with proper priority handling and security validation. Both content sources are
+        optional; if neither is provided, the playbook will be created without template content.
 
         Parameters:
             params (dict): Playbook details containing template information including:
@@ -3019,14 +3020,14 @@ class Template(NetworkProfileFunctions):
         Description:
             - Validates template content sources with file-first priority pattern
             - Processes file-based template content with security validation
-            - Handles both inline content and file path specifications
+            - Handles both inline content and file path specifications (both optional)
             - Validates required parameters and formats for API compatibility
             - Supports composite template configurations with failure policies
         """
 
         self.log("Template params playbook details: {0}".format(params), "DEBUG")
 
-        # Read template content from file if file path is provided
+        # Read template content from file if file path is provided (both sources optional)
         template_content = params.get("template_content")
         template_content_file_path = params.get("template_content_file_path")
         self.log(
@@ -3035,10 +3036,6 @@ class Template(NetworkProfileFunctions):
             ),
             "DEBUG"
         )
-        if not template_content and not template_content_file_path:
-            self.msg = "One of 'template_content' or 'template_content_file_path' must be provided."
-            self.status = "failed"
-            return self.check_return_status()
 
         # Priority 1: template_content_file_path (file-based content)
         if template_content_file_path:
@@ -3088,13 +3085,20 @@ class Template(NetworkProfileFunctions):
                 return self.check_return_status()
 
         # Priority 2: template_content (inline content) - fallback
-        else:
+        elif template_content:
             self.log(
                 "Using inline template content - length: {0} characters".format(
                     len(template_content)
                 ),
                 "DEBUG"
             )
+        else:
+            # No content provided; proceed without 'templateContent' field
+            self.log(
+                "No template content provided; proceeding with empty template content",
+                "DEBUG"
+            )
+            template_content = ""
 
         temp_params = {
             "tags": self.get_tags(params.get("template_tag")),
