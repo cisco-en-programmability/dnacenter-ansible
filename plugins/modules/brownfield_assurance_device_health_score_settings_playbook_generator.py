@@ -60,7 +60,7 @@ options:
           - Path where the YAML configuration file will be saved.
           - If not provided, the file will be saved in the current working directory with
             a default file name C(<module_name>playbook<YYYY-MM-DD_HH-MM-SS>.yml).
-          - For example, C(discovery_workflow_manager_playbook_2026-01-24_12-33-20.yml).
+          - For example, C(assurance_device_health_score_settings_workflow_manager_playbook_2026-01-24_12-33-20.yml).
         type: str
         required: false
       component_specific_filters:
