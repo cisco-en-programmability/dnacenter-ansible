@@ -107,7 +107,6 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_user_role_details
             )
@@ -139,7 +138,6 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_specific_user_details
             )
@@ -171,7 +169,6 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_specific_role_details
             )
@@ -203,7 +200,6 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_generate_all_configurations
             )
@@ -235,7 +231,6 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_invalid_components
             )
@@ -263,7 +258,6 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="3.1.3.0",
                 config=self.playbook_all_role_details
             )

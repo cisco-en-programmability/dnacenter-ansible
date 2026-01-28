@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2025, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML playbook for User and Role Management in Cisco Catalyst Center."""
@@ -19,18 +19,13 @@ description:
   enabling programmatic modifications.
 - The YAML configurations generated represent the users and roles configured on
   the Cisco Catalyst Center.
-version_added: 6.31.0
+version_added: 6.44.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 author:
 - Priyadharshini B (@pbalaku2)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -54,14 +49,13 @@ options:
           - A default filename will be generated automatically if file_path is not specified.
           - This is useful for complete brownfield user and role discovery and documentation.
         type: bool
-        required: false
         default: false
       file_path:
         description:
           - Path where the YAML configuration file will be saved.
           - If not provided, the file will be saved in the current working directory with
-            a default file name  "<module_name>_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-          - For example, "user_role_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
+            a default file name  "<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
+          - For example, "user_role_workflow_manager_playbook_2025-04-22_21-43-26.yml".
         type: str
       component_specific_filters:
         description:
@@ -139,7 +133,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_user_role_config.yaml"
+      - generate_all_configurations: true
+        file_path: "/tmp/catc_user_role_config.yaml"
 
 - name: Generate YAML Configuration with specific user components only
   cisco.dnac.brownfield_user_role_playbook_generator:
@@ -328,7 +323,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         if not self.config:
             self.status = "success"
             self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
@@ -338,6 +333,8 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
+
+        self.log("Validating configuration parameters against the expected schema: {0}".format(temp_spec), "DEBUG")
 
         # Validate params
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
@@ -372,6 +369,8 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                     - "get_function_name": Reference to the internal function used to retrieve the component data.
                 - "global_filters": An empty list reserved for global filters applicable across all elements.
         """
+        self.log("Constructing user and role workflow manager mapping.", "DEBUG")
+
         return {
             "network_elements": {
                 "user_details": {
@@ -443,6 +442,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             if role_name:
                 role_names.append(role_name)
 
+        self.log("Transformed role IDs {0} to role names {1}".format(role_ids, role_names), "DEBUG")
         return role_names
 
     def get_role_name_by_id(self, role_id):
@@ -455,6 +455,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             str: The role name corresponding to the role ID.
         """
+        self.log("Getting role name for role ID: {0}".format(role_id), "DEBUG")
         try:
             # Cache roles if not already cached
             if not hasattr(self, '_role_cache'):
@@ -587,6 +588,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             str: Normalized category name.
         """
+        self.log("Normalizing category name: {0}".format(category), "DEBUG")
         category_mapping = {
             "Assurance": "assurance",
             "Network Analytics": "network_analytics",
@@ -610,6 +612,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             str: Normalized subcategory name.
         """
+        self.log("Normalizing subcategory name: {0}".format(subcategory), "DEBUG")
         # Handle specific mappings
         name_mapping = {
             "Monitoring and Troubleshooting": "monitoring_and_troubleshooting",
@@ -1175,7 +1178,6 @@ def main():
         "dnac_log_append": {"type": "bool", "default": True},
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
