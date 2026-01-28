@@ -1,0 +1,250 @@
+{
+    "playbook_config_generate_all_configurations": [
+        {
+            "generate_all_configurations": true,
+            "file_path": "tmp/test_demo.yml"
+        }
+    ],
+    "playbook_config_template_projects_by_name_single": [
+        {
+            "file_path": "tmp/test_demo.yml",
+            "component_specific_filters": {
+                "components_list": [
+                    "projects"
+                ],
+                "projects": [
+                    {
+                        "name": "Sample Project 1"
+                    }
+                ]
+            }
+        }
+    ],
+    "playbook_config_template_projects_by_name_multiple": [
+        {
+            "file_path": "tmp/test_demo.yml",
+            "component_specific_filters": {
+                "components_list": [
+                    "projects"
+                ],
+                "projects": [
+                    {
+                        "name": "Sample Project 1"
+                    },
+                    {
+                        "name": "Sample Project 2"
+                    }
+                ]
+            }
+        }
+    ],
+    "playbook_config_template_by_name_single": [
+        {
+            "file_path": "tmp/test_demo.yml",
+            "component_specific_filters": {
+                "components_list": [
+                    "configuration_templates"
+                ],
+                "configuration_templates": [
+                    {
+                        "template_name": "Sample Template 1"
+                    }
+                ]
+            }
+        }
+    ],
+    "playbook_config_template_by_name_multiple": [
+        {
+            "file_path": "tmp/test_demo.yml",
+            "component_specific_filters": {
+                "components_list": [
+                    "configuration_templates"
+                ],
+                "configuration_templates": [
+                    {
+                        "template_name": "Sample Template 1"
+                    },
+                    {
+                        "template_name": "Sample Template 2"
+                    }
+                ]
+            }
+        }
+    ],
+    "playbook_config_template_projects_empty_filter": [
+        {
+            "file_path": "tmp/test_demo.yml",
+            "component_specific_filters": {
+                "components_list": [
+                    "projects"
+                ]
+            }
+        }
+    ],
+    "playbook_config_templates_empty_filter": [
+        {
+            "file_path": "tmp/test_demo.yml",
+            "component_specific_filters": {
+                "components_list": [
+                    "configuration_templates"
+                ]
+            }
+        }
+    ],
+    "playbook_config_templates_includes_uncommitted_filter": [
+        {
+            "file_path": "tmp/test_demo.yml",
+            "component_specific_filters": {
+                "components_list": [
+                    "configuration_templates"
+                ],
+                "configuration_templates": [
+                    {
+                        "include_uncommitted": true
+                    }
+                ]
+            }
+        }
+    ],
+    "playbook_config_template_by_project_name_multiple": [
+        {
+            "file_path": "tmp/test_demo.yml",
+            "component_specific_filters": {
+                "components_list": [
+                    "configuration_templates"
+                ],
+                "configuration_templates": [
+                    {
+                        "project_name": "Sample Project 1"
+                    },
+                    {
+                        "project_name": "Sample Project 2"
+                    }
+                ]
+            }
+        }
+    ],
+    "playbook_config_template_by_template_name_and_project_name": [
+        {
+            "file_path": "tmp/test_demo.yml",
+            "component_specific_filters": {
+                "components_list": [
+                    "configuration_templates"
+                ],
+                "configuration_templates": [
+                    {
+                        "template_name": "Sample Template 1",
+                        "project_name": "Sample Project 1"
+                    },
+                    {
+                        "template_name": "Sample Template 2",
+                        "project_name": "Sample Project 2"
+                    }
+                ]
+            }
+        }
+    ],
+    "playbook_config_template_all_filters": [
+        {
+            "file_path": "tmp/test_demo.yml",
+            "component_specific_filters": {
+                "components_list": [
+                    "configuration_templates"
+                ],
+                "configuration_templates": [
+                    {
+                        "template_name": "Sample Template 1",
+                        "project_name": "Sample Project 1",
+                        "include_uncommitted": true
+                    }
+                ]
+            }
+        }
+    ],
+    "playbook_invalid_project_details": [
+        {
+            "file_path": "tmp/test_demo.yml",
+            "component_specific_filters": {
+                "components_list": [
+                    "projects"
+                ],
+                "projects": [
+                    {
+                        "name": "Nonexistent Project"
+                    }
+                ]
+            }
+        }
+    ],
+    "playbook_invalid_template_details": [
+        {
+            "file_path": "tmp/test_demo.yml",
+            "component_specific_filters": {
+                "components_list": [
+                    "configuration_templates"
+                ],
+                "configuration_templates": [
+                    {
+                        "template_name": "Nonexistent Template"
+                    }
+                ]
+            }
+        }
+    ],
+    "get_empty_projects_response": {
+        "response": [],
+        "version": "1.0"
+    },
+    "get_empty_templates_response": {
+        "response": [],
+        "version": "1.0"
+    },
+    "get_all_projects": {
+        "response": [
+            {
+                "name": "Sample Project 1",
+                "description": "Sample Project 1 Description"
+            },
+            {
+                "name": "Sample Project 2",
+                "description": "Sample Project 2 Description"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_all_templates": {
+        "response": [
+            {
+                "name": "Sample Template 1",
+                "description": "Sample Template 1 Description",
+                "author": "admin",
+                "deviceTypes": [
+                    {
+                        "productFamily": "Switches and Hubs",
+                        "productSeries": "Catalyst 9000 Series Switches",
+                        "deviceType": "Catalyst 9300 Switches"
+                    }
+                ],
+                "projectName": "Sample Project 1",
+                "composite": false,
+                "language": "JINJA"
+            },
+            {
+                "name": "Sample Template 2",
+                "description": "Sample Template 2 Description",
+                "author": "admin",
+                "deviceTypes": [
+                    {
+                        "productFamily": "Routers",
+                        "productSeries": "ISR 4000 Series",
+                        "deviceType": "ISR 4321"
+                    }
+                ],
+                "projectName": "Sample Project 2",
+                "composite": false,
+                "language": "VELOCITY"
+            }
+        ],
+        "version": "1.0"
+    }
+}
