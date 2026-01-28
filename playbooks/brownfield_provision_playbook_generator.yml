@@ -17,11 +17,10 @@
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
         config:
-          - file_path: "/Users/syedkahm/ansible/dnac/work/collections/ansible_collections/cisco/dnac/playbooks/brownfield_provision_workflow_playbooks.yml"
+          - file_path: "tmp/brownfield_provision_workflow_playbook_config.yml"
             component_specific_filters:
               components_list: ["wired", "wireless"]

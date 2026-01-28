@@ -19,18 +19,13 @@ description:
   enabling programmatic modifications.
 - The YAML configurations generated represent the provisioned devices configured on
   the Cisco Catalyst Center.
-version_added: 6.31.0
+version_added: 6.44.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 author:
 - Syed Khadeer Ahmed (@syed-khadeerahmed)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -48,10 +43,10 @@ options:
     suboptions:
       file_path:
         description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name  "<module_name>_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "provision_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
+          - Path where the YAML configuration file will be saved.
+          - If not provided, the file will be saved in the current working directory with
+            a default file name <module_name>playbook<YYYY-MM-DD_HH-MM-SS>.yml.
+          - For example, provision_workflow_manager_playbook_2026-01-24_12-33-20.yml.
         type: str
       generate_all_configurations:
         description:
@@ -91,6 +86,7 @@ options:
             - For example, ["wired", "wireless"].
             type: list
             elements: str
+            choices: ["wired", "wireless"]
           wired:
             description:
             - Wired devices to filter devices by management IP, site name, or device family.
@@ -398,137 +394,6 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 site_id_name_mapping[site_id] = site.get("nameHierarchy")
 
         return site_id_name_mapping
-
-    def execute_get_with_pagination(self, api_family, api_function, params, offset=1, limit=500, use_strings=False):
-        """
-        Executes a paginated GET request using the specified API family, function, and parameters.
-        Args:
-            api_family (str): The API family to use for the call (For example, 'wireless', 'network', etc.).
-            api_function (str): The specific API function to call for retrieving data (For example, 'get_ssid_by_site', 'get_interfaces').
-            params (dict): Parameters for filtering the data.
-            offset (int, optional): Starting offset for pagination. Defaults to 1.
-            limit (int, optional): Maximum number of records to retrieve per page. Defaults to 500.
-            use_strings (bool, optional): Whether to use string values for offset and limit. Defaults to False.
-        Returns:
-            list: A list of dictionaries containing the retrieved data based on the filtering parameters.
-        """
-        self.log("Starting paginated API execution for family '{0}', function '{1}'".format(
-            api_family, api_function), "DEBUG")
-
-        def update_params(current_offset, current_limit):
-            """Update the params dictionary with pagination info."""
-            # Create a copy of params to avoid modifying the original
-            updated_params = params.copy()
-            updated_params.update({
-                "offset": str(current_offset) if use_strings else current_offset,
-                "limit": str(current_limit) if use_strings else current_limit,
-            })
-            return updated_params
-
-        try:
-            # Initialize results list and keep offset/limit as integers for arithmetic
-            results = []
-            current_offset = offset
-            current_limit = limit
-
-            self.log("Pagination settings - offset: {0}, limit: {1}, use_strings: {2}".format(
-                current_offset, current_limit, use_strings), "DEBUG")
-
-            # Start the loop for paginated API calls
-            while True:
-                # Update parameters for pagination
-                api_params = update_params(current_offset, current_limit)
-
-                try:
-                    # Execute the API call
-                    self.log(
-                        "Attempting API call with offset {0} and limit {1} for family '{2}', function '{3}': {4}".format(
-                            current_offset,
-                            current_limit,
-                            api_family,
-                            api_function,
-                            api_params,
-                        ),
-                        "INFO",
-                    )
-
-                    # Execute the API call
-                    response = self.dnac._exec(
-                        family=api_family,
-                        function=api_function,
-                        op_modifies=False,
-                        params=api_params,
-                    )
-                    self.log("Recived API response: {0}".format(response), "DEBUG")
-                except Exception as e:
-                    # Handle error during API call
-                    self.msg = (
-                        "An error occurred while retrieving data using family '{0}', function '{1}'. "
-                        "Error: {2}".format(
-                            api_family, api_function, str(e)
-                        )
-                    )
-                    self.fail_and_exit(self.msg)
-
-                self.log(
-                    "Response received from API call for family '{0}', function '{1}': {2}".format(
-                        api_family, api_function, response
-                    ),
-                    "DEBUG",
-                )
-
-                # Process the response if available
-                response_data = response.get("response")
-                if not response_data:
-                    self.log(
-                        "Exiting the loop because no data was returned after increasing the offset. "
-                        "Current offset: {0}".format(current_offset),
-                        "INFO",
-                    )
-                    break
-
-                # Extend the results list with the response data
-                results.extend(response_data)
-
-                # Check if the response size is less than the limit
-                if len(response_data) < current_limit:
-                    self.log(
-                        "Received less than limit ({0}) results, assuming last page. Exiting pagination.".format(
-                            current_limit
-                        ),
-                        "DEBUG",
-                    )
-                    break
-
-                # Increment the offset for the next iteration (always use integer arithmetic)
-                current_offset = int(current_offset) + int(current_limit)
-
-            if results:
-                self.log(
-                    "Data retrieved for family '{0}', function '{1}': Total records: {2}".format(
-                        api_family, api_function, len(results)
-                    ),
-                    "INFO",
-                )
-            else:
-                self.log(
-                    "No data found for family '{0}', function '{1}'.".format(
-                        api_family, api_function
-                    ),
-                    "DEBUG",
-                )
-
-            # Return the list of retrieved data
-            return results
-
-        except Exception as e:
-            self.msg = (
-                "An error occurred while retrieving data using family '{0}', function '{1}'. "
-                "Error: {2}".format(
-                    api_family, api_function, str(e)
-                )
-            )
-            self.fail_and_exit(self.msg)
 
     def validate_input(self):
         """
@@ -2041,25 +1906,6 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return self
 
-    def generate_filename(self):
-        """
-        Generates a default filename for the YAML configuration file.
-
-        Returns:
-            str: Default filename with timestamp.
-        """
-        from datetime import datetime
-
-        # Generate timestamp in the format DD_Mon_YYYY_HH_MM_SS_MS
-        now = datetime.now()
-        timestamp = now.strftime("%d_%b_%Y_%H_%M_%S_%f")[:-3]  # Remove last 3 digits from microseconds
-
-        # Generate filename: <module_name>_playbook_<timestamp>.yml
-        filename = "{0}_playbook_{1}.yml".format(self.module_name, timestamp)
-
-        self.log("Generated default filename: {0}".format(filename), "DEBUG")
-        return filename
-
     def is_device_assigned_to_site(self, uuid):
         """
         Checks if a device is assigned to any site by checking multiple fields.
@@ -2115,7 +1961,6 @@ def main():
         "dnac_log_append": {"type": "bool", "default": True},
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
