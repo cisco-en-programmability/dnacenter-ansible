@@ -24,18 +24,13 @@ description:
 - Uses multiple API calls with includeForOverallHealth parameter (both true and false) to ensure complete data extraction.
 - When device families are specified, makes separate API calls for each device family for optimal filtering.
 - When no device families are specified, retrieves all available device health score settings from the system.
-version_added: 6.40.0
+version_added: 6.44.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 author:
 - Megha Kandari (@mekandar)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -64,8 +59,8 @@ options:
         description:
           - Path where the YAML configuration file will be saved.
           - If not provided, the file will be saved in the current working directory with
-            a default file name "assurance_device_health_score_settings_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-          - For example, "assurance_device_health_score_settings_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
+            a default file name C(<module_name>playbook<YYYY-MM-DD_HH-MM-SS>.yml).
+          - For example, C(discovery_workflow_manager_playbook_2026-01-24_12-33-20.yml).
         type: str
         required: false
       component_specific_filters:
@@ -84,6 +79,7 @@ options:
             type: list
             elements: str
             required: false
+            choices: ["device_health_score_settings"]
           device_health_score_settings:
             description:
               - Specific filters for device health score settings extraction.
@@ -102,7 +98,7 @@ options:
                 required: false
 
 requirements:
-- dnacentersdk >= 2.10.10
+- dnacentersdk >= 2.7.2
 - python >= 3.9
 notes:
 - SDK Method used is devices.Devices.get_all_health_score_definitions_for_given_filters
@@ -1253,7 +1249,7 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
         timestamp = datetime.datetime.now()
         filename = "{0}_playbook_{1}.yml".format(
             self.module_name,
-            timestamp.strftime("%d_%b_%Y_%H_%M_%S_%f")[:-3]
+            timestamp.strftime("%Y-%m-%d_%H-%M-%S")
         )
         self.log("Generated default filename: {0}".format(filename), "DEBUG")
         return filename
@@ -1429,7 +1425,6 @@ def main():
         "dnac_log_append": {"type": "bool", "default": True},
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
