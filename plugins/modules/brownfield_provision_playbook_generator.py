@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2025, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML playbook for Provision Workflow Management in Cisco Catalyst Center."""
@@ -370,7 +370,6 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.module_name = "provision_workflow_manager"
         self.module_schema = self.provision_workflow_manager_mapping()
         self.log("Initialized ProvisionPlaybookGenerator class instance.", "DEBUG")
-        self.log(self.module_schema, "DEBUG")
         self.site_id_name_dict = self.get_site_id_name_mapping()
 
     def get_site_id_name_mapping(self):
@@ -657,6 +656,17 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "transform": self.get_secondary_managed_ap_locations_for_device,
                 "wireless_only": True,
             },
+            "dynamic_interfaces": {
+                "type": "list",
+                "special_handling": True,
+                "transform": self.get_dynamic_interfaces_for_device,
+                "wireless_only": True,
+            },
+            "skip_ap_provision": {
+                "type": "bool",
+                "default": False,
+                "wireless_only": True,
+            },
         })
         self.log("Temporary specification for wireless devices generated: {0}".format(wireless_devices), "DEBUG")
         return wireless_devices
@@ -677,7 +687,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Get all provisioned devices
         all_devices = self.get_all_provisioned_devices_internal()
 
-        self.log("Total provisioned devices retrieved: {0}".format(len(all_devices)), "error")
+        self.log("Total provisioned devices retrieved: {0}".format(len(all_devices)), "INFO")
 
         # Filter for wired devices only
         wired_devices = [device for device in all_devices
@@ -728,6 +738,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: List of all provisioned devices
         """
+        self.log("Retrieving all provisioned devices from SDA API", "INFO")
         try:
             # Get all provisioned devices from SDA API
             response = self.dnac._exec(
@@ -787,8 +798,10 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                                 sda_devices.append(mock_device)
                                 wireless_controllers_found.append(management_ip)
                         except Exception:
+                            self.log("Wireless controller with IP {0} not provisioned in SDA".format(management_ip), "WARNING")
                             pass
                 except Exception:
+                    self.log("Could not retrieve details for device ID {0}".format(device_id), "WARNING")
                     pass
 
             self.log("Found {0} additional provisioned wireless controllers".format(
@@ -798,6 +811,95 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         except Exception as e:
             self.log("Error retrieving provisioned devices: {0}".format(str(e)), "ERROR")
+            return []
+
+    def get_dynamic_interfaces_for_device(self, device_details):
+        """
+        Gets dynamic interfaces configuration for a wireless controller using Get Device Interface VLANs.
+
+        Args:
+            device_details (dict): Device details containing network device ID.
+
+        Returns:
+            list: List of dynamic interface configurations.
+        """
+        device_id = device_details.get("networkDeviceId")
+        management_ip = self.transform_device_management_ip(device_details)
+
+        self.log("Getting dynamic interfaces for wireless controller ID: {0} (IP: {1})".format(
+            device_id, management_ip), "DEBUG")
+
+        if not device_id:
+            self.log("No network device ID found for dynamic interfaces lookup", "ERROR")
+            return []
+
+        dynamic_interfaces = []
+
+        try:
+            # Get device interface VLANs using the specific API
+            self.log("Fetching device interface VLANs for device ID: {0}".format(device_id), "INFO")
+
+            try:
+                interface_response = self.dnac._exec(
+                    family="devices",
+                    function="get_device_interface_vlans",
+                    op_modifies=False,
+                    params={"id": device_id},
+                )
+                self.log("Received interface VLANs API response: {0}".format(interface_response), "DEBUG")
+
+                interfaces = interface_response.get("response", [])
+                self.log("Found {0} interface VLANs for device {1}".format(len(interfaces), device_id), "INFO")
+
+            except Exception as e:
+                self.log("Could not get interface VLANs via get_device_interface_vlans API: {0}".format(str(e)), "WARNING")
+
+            # Process interfaces to extract VLAN interfaces
+            for interface in interfaces:
+                interface_name = interface.get("interfaceName") or interface.get("portName")
+
+                # Skip non-VLAN interfaces
+                if not interface_name or not interface_name.startswith(("Vlan", "VLAN", "vlan")):
+                    continue
+
+                # Extract VLAN ID from interface name or from vlanId field
+                vlan_id = interface.get("vlanNumber")
+
+                # Get interface IP information
+                interface_ip = interface.get("ipAddress")
+                network_address = interface.get("networkAddress")
+                interface_gateway = network_address
+
+                if interface_name and vlan_id and interface_ip:
+                    dynamic_interface = {
+                        "interface_name": interface_name,
+                        "vlan_id": vlan_id,
+                        "interface_ip_address": interface_ip,
+                    }
+
+                    # Add gateway if calculated
+                    if interface_gateway:
+                        dynamic_interface["interface_gateway"] = interface_gateway
+
+                    dynamic_interfaces.append(dynamic_interface)
+                    self.log("Added dynamic interface: {0}".format(dynamic_interface), "INFO")
+                else:
+                    self.log("Skipping interface {0} - missing required data (vlan_id: {1}, ip: {2})".format(
+                        interface_name, vlan_id, interface_ip), "DEBUG")
+
+            # Log final result
+            self.log("=== DYNAMIC INTERFACES SUMMARY for {0} ===".format(device_id), "INFO")
+            self.log("Total dynamic interfaces found: {0}".format(len(dynamic_interfaces)), "INFO")
+            for i, di in enumerate(dynamic_interfaces, 1):
+                self.log("  {0}. {1} (VLAN {2}) - IP: {3}".format(
+                    i, di.get("interface_name"), di.get("vlan_id"), di.get("interface_ip_address")), "INFO")
+
+            return dynamic_interfaces
+
+        except Exception as e:
+            self.log("Error getting dynamic interfaces for device ID {0}: {1}".format(device_id, str(e)), "ERROR")
+            import traceback
+            self.log("Full traceback: {0}".format(traceback.format_exc()), "DEBUG")
             return []
 
     def is_wired_device(self, device):
@@ -822,6 +924,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: Filtered device list
         """
+        self.log("Applying component-specific filters to device list", "DEBUG")
         filtered_devices = []
 
         for filter_param in filters:
@@ -869,6 +972,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: List of device configurations
         """
+        self.log("Processing device list into configuration format", "DEBUG")
         device_configs = []
 
         for device in devices:
@@ -895,6 +999,14 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 primary_locations, secondary_locations = self.get_wireless_ap_locations(device)
                 device_config["primary_managed_ap_locations"] = primary_locations if primary_locations else []
                 device_config["secondary_managed_ap_locations"] = secondary_locations if secondary_locations else []
+
+                dynamic_interfaces = self.get_dynamic_interfaces_for_device(device)
+
+                if dynamic_interfaces:
+                    device_config["dynamic_interfaces"] = dynamic_interfaces
+
+                # ADD THIS: Add skip_ap_provision with default False
+                device_config["skip_ap_provision"] = False
 
             device_configs.append(device_config)
 
@@ -1083,7 +1195,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             tuple: (primary_ap_locations, secondary_ap_locations) - both as lists of site hierarchies
         """
-        self.log(device_details, "DEBUG")
+        self.log("Getting wireless AP locations for device: {0}".format(device_details.get("networkDeviceId")), "DEBUG")
         device_id = device_details.get("networkDeviceId")
         self.log("Getting wireless AP locations for device ID: {0}".format(device_id), "DEBUG")
 
@@ -1437,7 +1549,6 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 # Get basic device info
                 management_ip = self.transform_device_management_ip(device)
                 if not management_ip:
-                    self.log("yoooooooooooooooooooooo", "error")
                     self.log("Skipping device without management IP: {0}".format(device_id), "WARNING")
                     continue
 
@@ -1475,9 +1586,17 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                     primary_locations, secondary_locations = self.get_wireless_ap_locations(device)
                     device_config["primary_managed_ap_locations"] = primary_locations if primary_locations else []
                     device_config["secondary_managed_ap_locations"] = secondary_locations if secondary_locations else []
+                    # Add dynamic interfaces
+                    dynamic_interfaces = self.get_dynamic_interfaces_for_device(device)
+                    if dynamic_interfaces:
+                        device_config["dynamic_interfaces"] = dynamic_interfaces
 
-                    self.log("Wireless controller {0} - Primary: {1}, Secondary: {2}".format(
-                        management_ip, primary_locations, secondary_locations), "INFO")
+                    # Add skip_ap_provision with default value
+                    device_config["skip_ap_provision"] = False
+
+                    self.log("Wireless controller {0} - Primary: {1}, Secondary: {2}, Dynamic Interfaces: {3}".format(
+                        management_ip, primary_locations, secondary_locations, len(dynamic_interfaces) if dynamic_interfaces else 0), "INFO")
+
                 else:
                     wired_count += 1
                     self.log("Wired device: {0}".format(management_ip), "DEBUG")
@@ -1570,9 +1689,11 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                                     self.log("Excluding provisioned wireless controller: {0}".format(management_ip), "INFO")
 
                             except Exception as e:
+                                self.log("Could not check provision status for wireless controller {0}: {1}".format(management_ip, str(e)), "WARNING")
                                 pass  # Continue if provision check fails
 
                     except Exception as e:
+                        self.log("Could not get device details for device {0}: {1}".format(device_id, str(e)), "DEBUG")
                         pass  # Continue if device detail check fails
 
                 self.log("STEP 2: Found {0} total provisioned devices to exclude (including wireless controllers)".format(len(provisioned_device_ids)), "INFO")
@@ -2010,14 +2131,14 @@ def main():
     # Check version compatibility
     if (
         ccc_provision_playbook_generator.compare_dnac_versions(
-            ccc_provision_playbook_generator.get_ccc_version(), "2.3.5.3"
+            ccc_provision_playbook_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0
     ):
         ccc_provision_playbook_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
-            "for Provision Management Module. Supported versions start from '2.3.5.3' onwards. "
-            "Version '2.3.5.3' introduces APIs for retrieving provisioned device settings from "
+            "for Provision Management Module. Supported versions start from '2.3.7.9' onwards. "
+            "Version '2.3.7.9' introduces APIs for retrieving provisioned device settings from "
             "the Catalyst Center".format(
                 ccc_provision_playbook_generator.get_ccc_version()
             )

@@ -164,7 +164,7 @@ class TestDnacBrownfieldProvisionPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 config_verify=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 config=self.playbook_global_filters
             )
         )
