@@ -111,7 +111,6 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="2.3.7.6",
                 config=self.playbook_generate_all_configurations
             )
@@ -143,7 +142,6 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="2.3.7.6",
                 config=self.playbook_component_filters
             )
@@ -175,7 +173,6 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="2.3.7.6",
                 config=self.playbook_specifc_filters
             )
@@ -207,7 +204,6 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="2.3.7.6",
                 config=self.playbook_no_device_found
             )
@@ -241,7 +237,6 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="2.3.7.6",
                 config=self.playbook_component_specific_filters1
             )
@@ -273,7 +268,6 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="2.3.7.6",
                 config=self.playbook_negative_scenario1
             )

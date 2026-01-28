@@ -17,7 +17,6 @@
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered

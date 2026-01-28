@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2025, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML playbook for RMA (Return Material Authorization) Workflow in Cisco Catalyst Center."""
@@ -21,17 +21,13 @@ description:
 - Supports extraction of device replacement workflows, marked devices for replacement,
   and replacement device details with their current status.
 
-version_added: '6.31.0'
+version_added: '6.44.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
   - Priyadharshini B (@pbalaku2)
   - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -50,8 +46,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name "<module_name>_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "rma_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
+          a default file name  "<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
+        - For example, "rma_workflow_manager_playbook_2025-04-22_21-43-26.yml".
         type: str
       generate_all_configurations:
         description:
@@ -167,7 +163,7 @@ EXAMPLES = r"""
 RETURN = r"""
 # Case_1: Success Scenario
 response_1:
-  description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
+  description: A dictionary with the response returned by the Cisco Catalyst Center
   returned: always
   type: dict
   sample: >
@@ -183,15 +179,19 @@ response_1:
     }
 # Case_2: Error Scenario
 response_2:
-  description: A string with the response returned by the Cisco Catalyst Center Python SDK
+  description: A string with the response returned by the Cisco Catalyst Center
   returned: always
   type: list
   sample: >
     {
-      "response": [],
-      "msg": "No configurations found to process for module 'rma_workflow_manager'.
-      This may be because:\n- No device replacement workflows are configured in Catalyst Center\n- The API is not available in this version\n-
-      User lacks required permissions\n- API function names have changed"
+      "response":
+        {
+          "YAML config generation Task failed for module 'rma_workflow_manager'.": {
+            "file_path": "/tmp/rma_workflows_config.yaml",
+            "components_processed": 1
+          }
+        },
+      "msg": "YAML config generation Task failed for module 'rma_workflow_manager'."
     }
 """
 
@@ -275,7 +275,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
         if not self.config:
             self.status = "success"
             self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
@@ -323,6 +323,8 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                   filter specifications, and processing function references.
                 - global_filters (dict): Global filter configuration options.
         """
+        self.log("Generating RMA workflow manager mapping configuration.", "DEBUG")
+
         return {
             "network_elements": {
                 "device_replacement_workflows": {
@@ -375,6 +377,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
             transformation functions, and source key references for device replacement workflows.
         """
         self.log("Generating temporary specification for device replacement workflow details.", "DEBUG")
+
         device_replacement_workflows_details = OrderedDict({
             "faulty_device_name": {
                 "type": "str",
@@ -535,6 +538,8 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
             str or None: The faulty device hostname if found in the device inventory,
             otherwise None if the device is not found or API call fails.
         """
+        self.log("Resolving faulty device name from workflow configuration.", "DEBUG")
+
         faulty_serial = workflow_config.get("faultyDeviceSerialNumber")
         if not faulty_serial:
             return None
@@ -580,6 +585,8 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
             str or None: The faulty device management IP address if found in the device
             inventory, otherwise None if the device is not found or API call fails.
         """
+        self.log("Resolving faulty device IP address from workflow configuration: {0}".format(workflow_config), "DEBUG")
+
         faulty_serial = workflow_config.get("faultyDeviceSerialNumber")
         if not faulty_serial:
             return None
@@ -626,6 +633,8 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
             str or None: The replacement device hostname if found in either device inventory
             or PnP inventory, otherwise None if the device is not found or API calls fail.
         """
+        self.log("Resolving replacement device name from workflow configuration: {0}".format(workflow_config), "DEBUG")
+
         replacement_serial = workflow_config.get("replacementDeviceSerialNumber")
         if not replacement_serial:
             return None
@@ -1015,7 +1024,6 @@ def main():
         "dnac_log_append": {"type": "bool", "default": True},
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
