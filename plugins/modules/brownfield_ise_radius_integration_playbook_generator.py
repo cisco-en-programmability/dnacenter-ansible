@@ -686,11 +686,11 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
                 "DEBUG",
             )
             return auth_server_details
-            
+
         all_filtered_results = []
         seen_server_ips = set()
         self.log(
-            "Processing filter criteria.".format(filters),
+            "Processing filter criteria: {0}".format(filters),
             "DEBUG",
         )
 
