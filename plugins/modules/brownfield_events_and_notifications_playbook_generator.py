@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2025, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML playbook for Events and Notifications Configuration in Cisco Catalyst Center."""
@@ -22,7 +22,7 @@ description:
   configured on the Cisco Catalyst Center.
 - Supports extraction of webhook destinations, email destinations, syslog destinations,
   SNMP destinations, ITSM settings, and various event subscriptions.
-version_added: 6.31.0
+version_added: 6.44.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 author:
