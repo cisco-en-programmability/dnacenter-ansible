@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2025, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML playbook for Backup and Restore NFS Configuration in Cisco Catalyst Center."""
@@ -21,7 +21,7 @@ description:
     storage configurations for backup and restore operations configured on the Cisco Catalyst Center.
   - Supports extraction of NFS configurations, backup storage configurations with encryption and retention policies.
 
-version_added: 6.31.0
+version_added: 6.44.0
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
@@ -246,7 +246,7 @@ EXAMPLES = r"""
 RETURN = r"""
 # Case_1: Success Scenario
 response_1:
-  description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
+  description: A dictionary with the response returned by the Cisco Catalyst Center
   returned: always
   type: dict
   sample: >
@@ -267,7 +267,7 @@ response_1:
     }
 # Case_2: Error Scenario
 response_2:
-  description: A string with the response returned by the Cisco Catalyst Center Python SDK
+  description: A string with the response returned by the Cisco Catalyst Center
   returned: always
   type: list
   sample: >
@@ -278,7 +278,7 @@ response_2:
         }
     },
     "response": {
-        "YAML config generation Task succeeded for module 'backup_and_restore_workflow_manager'.": {
+        "YAML config generation Task failed for module 'backup_and_restore_workflow_manager'.": {
             "components_processed": 2,
             "file_path": "backup_and_restore_workflow_manager_playbook_2026-01-27_14-21-41.yml"
         }
@@ -407,6 +407,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 - global_filters (dict): Global filter configuration options.
         """
         self.log("Generating backup and restore workflow manager mapping configuration.", "DEBUG")
+
         return {
             "network_elements": {
                 "nfs_configuration": {
@@ -469,6 +470,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
             and source key references for NFS configuration transformations.
         """
         self.log("Generating temporary specification for NFS configuration details.", "DEBUG")
+
         nfs_configuration_details = OrderedDict({
             "server_ip": {"type": "str", "source_key": "spec.server"},
             "source_path": {"type": "str", "source_key": "spec.sourcePath"},
@@ -707,6 +709,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
             transformation functions, and security handling directives.
         """
         self.log("Generating temporary specification for backup storage configuration details.", "DEBUG")
+
         backup_storage_config_details = OrderedDict({
             "server_type": {"type": "str", "source_key": "type"},
             "nfs_details": {
