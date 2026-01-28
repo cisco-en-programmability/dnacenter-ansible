@@ -19,41 +19,29 @@
         dnac_log: true
         state: gathered
         config:
+          # ====================================================================================
+          # SCENARIO 1: Filter ISE Servers Only
+          # Purpose: Generate configuration for Cisco ISE servers only
+          # Use Case: When you need to configure only ISE-based authentication
+          # ====================================================================================
+          - file_path: "authentication_policy_server_all_configurations.yaml"
+            component_specific_filters:
+              components_list: ["authentication_policy_server"]
+              authentication_policy_server:
+                server_type: ISE  # Filter: ISE servers only
             # ====================================================================================
-            # SCENARIO 1: Generate All ISE and AAA Configurations without File Path specified
+            # SCENARIO 2: Generate All ISE and AAA Configurations without File Path specified
             # Purpose: Retrieve and generate configurations for all authentication servers
             # Use Case: Complete brownfield discovery and configuration generation
             # ====================================================================================
             # - generate_all_configurations: true
 
             # ====================================================================================
-            # SCENARIO 1: Generate All ISE and AAA Configurations into given file path
+            # SCENARIO 3: Generate All ISE and AAA Configurations into given file path
             # Purpose: Retrieve and generate configurations for all authentication servers
             # Use Case: Complete brownfield discovery and configuration generation
             # ====================================================================================
             # - file_path: "authentication_policy_server_all_configurations.yaml"
-
-            # ====================================================================================
-            # SCENARIO 2: Filter ISE Servers Only
-            # Purpose: Generate configuration for Cisco ISE servers only
-            # Use Case: When you need to configure only ISE-based authentication
-            # ====================================================================================
-          - file_path: "authentication_policy_server_all_configurations.yaml"
-            component_specific_filters:
-              components_list: ["authentication_policy_server"]
-              authentication_policy_server:
-                server_type: ISE  # Filter: ISE servers only
-
-            # ====================================================================================
-            # SCENARIO 3: Filter AAA Servers Only
-            # Purpose: Generate configuration for non-ISE AAA servers
-            # Use Case: Legacy TACACS+ or RADIUS server integration
-            # ====================================================================================
-            # - file_path: "/tmp/aaa_configurations.yaml"
-            #   component_specific_filters:
-            #     components_list: ["authentication_policy_server"]
-            #     authentication_policy_server:
-            #       server_type: AAA  # Filter: AAA servers only
 
             # ====================================================================================
             # SCENARIO 4: Filter Specific Server by type and IP Address
