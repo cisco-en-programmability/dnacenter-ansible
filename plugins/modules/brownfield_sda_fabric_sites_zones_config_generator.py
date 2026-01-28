@@ -46,7 +46,7 @@ options:
     elements: dict
     required: true
     suboptions:
-      generate_all_components:
+      generate_all_configurations:
         description:
         - If true, all components are included in the YAML configuration file i.e fabric_sites,
           fabric_zones.
@@ -79,14 +79,22 @@ options:
             elements: str
           fabric_sites:
             description:
-            - Fabric Sites to filter fabric sites by site name or site id.
+            - Fabric Sites to filter based on site name hierarchy.
             type: list
             elements: dict
+            suboptions:
+              site_name_hierarchy:
+                description: Hierarchical representation of the site name.
+                type: str
           fabric_zones:
             description:
-            - Fabric Zones to filter fabric zones by zone name or zone id.
+            - Fabric Zones to filter based on site name hierarchy.
             type: list
             elements: dict
+            suboptions:
+              site_name_hierarchy:
+                description: Hierarchical representation of the site name.
+                type: str
 
 requirements:
 - dnacentersdk >= 2.10.10
@@ -182,7 +190,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - generate_all_components: true
+      - generate_all_configurations: true
 """
 
 
