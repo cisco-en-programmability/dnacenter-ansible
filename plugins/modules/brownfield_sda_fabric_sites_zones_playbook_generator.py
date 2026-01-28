@@ -58,7 +58,7 @@ options:
         - If not provided, the file will be saved in the current working directory with
           a default file name  C(<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml).
         - For example, C(sda_fabric_sites_zones_workflow_manager_playbook_2026-01-24_12-33-20.yml).
-      type: str
+        type: str
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration file.
@@ -243,7 +243,6 @@ EXAMPLES = r"""
         component_specific_filters:
           components_list: ["fabric_sites", "fabric_zones"]
 """
-
 
 RETURN = r"""
 # Case_1: Success Scenario
@@ -501,7 +500,7 @@ class BrownFieldFabricSiteZonePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "special_handling": True,
                     "transform": self.transform_fabric_site_name,
                 },
-                "fabric_type": { "fixed_value": "fabric_site" },
+                "fabric_type": {"fixed_value": "fabric_site"},
                 "is_pub_sub_enabled": {"type": "bool", "source_key": "isPubSubEnabled"},
                 "authentication_profile": {"type": "str", "source_key": "authenticationProfileName"}
             }
@@ -526,7 +525,7 @@ class BrownFieldFabricSiteZonePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "special_handling": True,
                     "transform": self.transform_fabric_site_name,
                 },
-                "fabric_type": { "fixed_value": "fabric_zone" },
+                "fabric_type": {"fixed_value": "fabric_zone"},
                 "authentication_profile": {"type": "str", "source_key": "authenticationProfileName"}
             }
         )
