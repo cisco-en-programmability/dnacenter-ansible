@@ -1,0 +1,153 @@
+---
+- name: Configure the template projects and templates in Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Generate the playbook for template projects and templates in Cisco Catalyst Center
+      cisco.dnac.brownfield_template_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        config:
+          # ====================================================================================
+          # Scenario 1: Generate all configurations (Template Projects and Templates)
+          # ====================================================================================
+          - generate_all_configurations: true
+            file_path: "tmp/all_configurations.yml"
+            # ====================================================================================
+            # Scenario 2: Template Projects - Filter by project Name
+            # Fetches template projects from Cisco Catalyst Center using project_name as filter
+            # ====================================================================================
+            # - file_path: "tmp/template_projects_by_name.yml"
+            #   component_specific_filters:
+            #     components_list: ["projects"]
+            #     projects:
+            #       - name: "Sample Project"
+            # ====================================================================================
+            # Scenario 3: Template Projects - Filter by project Name (Multiple)
+            # Fetches multiple template projects from Cisco Catalyst Center using project_name as filter
+            # ====================================================================================
+            # - file_path: "tmp/template_projects_by_name_multiple.yml"
+            #   component_specific_filters:
+            #     components_list: ["projects"]
+            #     projects:
+            #       - name: "Sample Project 1"
+            #       - name: "Sample Project 2"
+            # ====================================================================================
+            # Scenario 4: Templates - Filter by template name (Single)
+            # Fetches a single template from Cisco Catalyst Center using template_name as filter
+            # ====================================================================================
+            # - file_path: "tmp/template_by_name_single.yml"
+            #   component_specific_filters:
+            #     components_list: ["configuration_templates"]
+            #     configuration_templates:
+            #       - template_name: "Template_1"
+            # ====================================================================================
+            # Scenario 5: Templates - Filter by template name (Multiple)
+            # Fetches multiple templates from Cisco Catalyst Center using template_name as filter
+            # ====================================================================================
+            # - file_path: "tmp/template_by_name_multiple.yml"
+            #   component_specific_filters:
+            #     components_list: ["configuration_templates"]
+            #     configuration_templates:
+            #       - template_name: "Template_1"
+            #       - template_name: "Template_2"
+            # ====================================================================================
+            # Scenario 6: Template Projects - Fetch All without Filters presented in components_list
+            # Tests behavior when components_list is specified but no filter criteria provided
+            # ====================================================================================
+            # - file_path: "tmp/template_projects_empty_filter.yml" #optional
+            #   component_specific_filters: #optional
+            #     components_list: ["projects"]
+            # ====================================================================================
+            # Scenario 7: Templates - Fetch All without Filters presented in components_list
+            # Tests behavior when components_list is specified but no filter criteria provided
+            # ====================================================================================
+            # - file_path: "tmp/templates_empty_filter.yml" #optional
+            #   component_specific_filters: #optional
+            #     components_list: ["configuration_templates"]
+            # ====================================================================================
+            # Scenario 8: Templates - Fetch All without Filters presented in components_list
+            # Fetches templates from Cisco Catalyst Center using include_uncommitted filters
+            # ====================================================================================
+            # - file_path: "tmp/templates_includes_uncommitted_filter.yml" #optional
+            #   component_specific_filters: #optional
+            #     components_list: ["configuration_templates"]
+            #     configuration_templates:
+            #       - include_uncommitted: true
+            # ====================================================================================
+            # Scenario 9: Templates - Filter by project name (Multiple)
+            # Fetches multiple templates from Cisco Catalyst Center using project_name as filter
+            # ====================================================================================
+            # - file_path: "tmp/template_by_project_name_multiple.yml"
+            #   component_specific_filters:
+            #     components_list: ["configuration_templates"]
+            #     configuration_templates:
+            #       - project_name: "Project1"
+            #       - project_name: "Project3"
+            # ====================================================================================
+            # Scenario 10: Templates - Filter by template name and project name (Combined)
+            # Fetches templates from Cisco Catalyst Center using template_name and project_name as filters
+            # ====================================================================================
+            # - file_path: "tmp/template_by_template_name_and_project_name.yml"
+            #   component_specific_filters:
+            #     components_list: ["configuration_templates"]
+            #     configuration_templates:
+            #       - template_name: "Template1"
+            #         project_name: "Project1"
+            #       - template_name: "Template3"
+            # ====================================================================================
+            # Scenario 11: Templates - All Filters Combined
+            # Fetches templates using all available filters: template_name,
+            # project_name and include_uncommitted for comprehensive filtering
+            # ====================================================================================
+            # - file_path: "tmp/template_all_filters.yml"
+            #   component_specific_filters:
+            #     components_list: ["configuration_templates"]
+            #     configuration_templates:
+            #       - template_name: "Template1"
+            #         project_name: "Project1"
+            #         include_uncommitted: true
+            # ====================================================================================
+            # Scenario 12: Multiple Components - Fetch All Component Types
+            # Fetches projects and templates simultaneously
+            # Each component can have its own filter criteria
+            # ====================================================================================
+            # - file_path: "tmp/multiple_components.yml"
+            #   component_specific_filters:
+            #     components_list: ["projects", "configuration_templates"]
+            #     projects:
+            #       - name: "Project1"
+            #     configuration_templates:
+            #       - template_name: "Template1"
+            #       - project_name: "Project1"
+            # ====================================================================================
+            # Scenario 13: All Components with Different Filters
+            # Demonstrates fetching all component types with varied filter combinations
+            # ====================================================================================
+            # - file_path: "tmp/all_components_custom_filters.yml"
+            #   component_specific_filters:
+            #     components_list: ["projects", "configuration_templates"]
+            #     projects:
+            #       - name: "Project1"
+            #     configuration_templates:
+            #       - template_name: "Template1"
+            #         include_uncommitted: true
+            #         project_name: "Project1"
+            #       - project_name: "Project2"
+            #         template_name: "Template2"
+
+      register: result
+
+      tags:
+        - brownfield_templates_generator_testing
