@@ -22,6 +22,6 @@
         dnac_task_poll_interval: 1
         state: gathered
         config:
-          - file_path: "/Users/syedkahm/ansible/dnac/work/collections/ansible_collections/cisco/dnac/playbooks/brownfield_provision_workflow_playbook.yml"
+          - file_path: "/Users/syedkahm/ansible/dnac/work/collections/ansible_collections/cisco/dnac/playbooks/brownfield_provision_workflow_playbooks.yml"
             component_specific_filters:
               components_list: ["wired", "wireless"]
