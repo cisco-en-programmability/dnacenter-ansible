@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2025, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Discovery Workflow Manager Module."""
@@ -21,18 +21,13 @@ description:
   deployed within the Cisco Catalyst Center.
 - Supports extraction of discovery configurations including IP address ranges,
   credential mappings, discovery types, protocol orders, and discovery-specific settings.
-version_added: 6.40.0
+version_added: 6.44.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 author:
 - Megha Kandari (@mekandar)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -65,8 +60,8 @@ options:
         description:
           - Path where the YAML configuration file will be saved.
           - If not provided, the file will be saved in the current working directory with
-            a default file name "discovery_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-          - For example, "discovery_workflow_manager_playbook_22_Dec_2024_21_43_26_379.yml".
+            a default file name C(<module_name>playbook<YYYY-MM-DD_HH-MM-SS>.yml).
+          - For example, C(discovery_workflow_manager_playbook_2026-01-24_12-33-20.yml).
         type: str
         required: false
       global_filters:
@@ -114,9 +109,11 @@ options:
               - Future versions may support additional component types.
             type: list
             elements: str
+            choices: ["discovery_details"]
             required: false
+
 requirements:
-- dnacentersdk >= 2.10.10
+- dnacentersdk >= 2.4.5
 - python >= 3.9
 notes:
 - SDK Methods used are
@@ -184,7 +181,6 @@ EXAMPLES = r"""
           discovery_type_list:
             - "CDP"
             - "LLDP"
-
 """
 
 RETURN = r"""
@@ -269,7 +265,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def __init__(self, module):
         super().__init__(module)
-        self.module_name = "brownfield_discovery_playbook_generator"
+        self.module_name = "discovery_playbook_generator"
         self.supported_states = ["gathered"]
         self._global_credentials_lookup = None
 
@@ -331,7 +327,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         state = self.params.get("state")
         if state not in self.supported_states:
             self.msg = f"State '{state}' is not supported. Supported states: {self.supported_states}"
-            self.log(self.msg, "ERROR")
+            self.log(self.msg, "INFO")
             self.status = "failed"
             return self.check_return_status()
 
@@ -1100,7 +1096,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log(f"Error writing YAML file with comments: {str(e)}", "ERROR")
             return False
 
-    def generate_discovery_playbook(self):
+    def get_diff_gathered(self, config):
         """
         Generate YAML playbook for discovery configurations.
 
@@ -1222,110 +1218,72 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return self
 
-    def get_diff_gathered(self):
-        """
-        Process gathered state for discovery configurations.
-
-        Returns:
-            self: Instance with updated result
-        """
-        self.log("Processing gathered state for discovery configurations", "INFO")
-        return self.generate_discovery_playbook()
-
-    def verify_diff_gathered(self, config):
-        """
-        Verify gathered state for discovery configurations.
-
-        Args:
-            config (dict): Configuration to verify
-
-        Returns:
-            self: Instance with updated result
-        """
-        self.log("Verifying gathered state for discovery configurations", "INFO")
-        return self
-
-    def run(self):
-        """
-        Main execution method for the discovery playbook generator.
-
-        Returns:
-            self: Instance with updated result
-        """
-        self.log("Starting discovery playbook generator execution", "INFO")
-
-        # Validate input
-        self.validate_input()
-        if self.status == "failed":
-            return self
-
-        # Process based on state
-        state = self.params.get("state", "gathered")
-
-        if state == "gathered":
-            self.get_diff_gathered()
-            if self.params.get("config_verify"):
-                self.verify_diff_gathered(self.config)
-
-        return self
-
 
 def main():
-    """
-    Main function for the discovery playbook generator module.
-    """
-    # Define module argument specification
-    argument_spec = {
-        "config": {"type": "list", "required": True, "elements": "dict"},
-        "config_verify": {"type": "bool", "default": False},
-        "state": {
-            "type": "str",
-            "default": "gathered",
-            "choices": ["gathered"]
-        },
-        "dnac_host": {"type": "str", "required": True},
+    """main entry point for module execution"""
+    # Define the specification for the module"s arguments
+    element_spec = {
+        "dnac_host": {"required": True, "type": "str"},
         "dnac_port": {"type": "str", "default": "443"},
         "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
         "dnac_password": {"type": "str", "no_log": True},
         "dnac_verify": {"type": "bool", "default": True},
         "dnac_version": {"type": "str", "default": "2.2.3.3"},
         "dnac_debug": {"type": "bool", "default": False},
-        "dnac_log": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "dnac.log"},
         "dnac_log_append": {"type": "bool", "default": True},
+        "dnac_log": {"type": "bool", "default": False},
+        "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "validate_response_schema": {"type": "bool", "default": True}
+        "config": {"required": True, "type": "list", "elements": "dict"},
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
-    # Create the module
-    module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False
-    )
+    # Initialize the Ansible module with the provided argument specifications
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
 
-    # Create an instance of the discovery playbook generator class
-    discovery_generator = DiscoveryPlaybookGenerator(module)
+    # Initialize the DiscoveryPlaybookGenerator object with the module
+    ccc_discovery_playbook_generator = DiscoveryPlaybookGenerator(module)
 
-    # Get the state parameter from the module; default to 'gathered'
-    state = module.params.get("state")
+    if (
+        ccc_discovery_playbook_generator.compare_dnac_versions(
+            ccc_discovery_playbook_generator.get_ccc_version(), "2.3.7.9"
+        )
+        < 0
+    ):
+        ccc_discovery_playbook_generator.msg = (
+            "The specified version '{0}' does not support the YAML Playbook generation "
+            "for Discovery Module. Supported versions start from '2.3.7.9' onwards. ".format(
+                ccc_discovery_playbook_generator.get_ccc_version()
+            )
+        )
+        ccc_discovery_playbook_generator.set_operation_result(
+            "failed", False, ccc_discovery_playbook_generator.msg, "ERROR"
+        ).check_return_status()
+
+    # Get the state parameter from the provided parameters
+    state = ccc_discovery_playbook_generator.params.get("state")
 
     # Check if the state is valid
-    if state not in discovery_generator.supported_states:
-        discovery_generator.status = "failed"
-        discovery_generator.msg = "State '{0}' is not supported. Supported states: {1}".format(
-            state, discovery_generator.supported_states
+    if state not in ccc_discovery_playbook_generator.supported_states:
+        ccc_discovery_playbook_generator.status = "failed"
+        ccc_discovery_playbook_generator.msg = "State '{0}' is not supported. Supported states: {1}".format(
+            state, ccc_discovery_playbook_generator.supported_states
         )
-        discovery_generator.result["msg"] = discovery_generator.msg
-        discovery_generator.module.fail_json(**discovery_generator.result)
+        ccc_discovery_playbook_generator.result["msg"] = ccc_discovery_playbook_generator.msg
+        ccc_discovery_playbook_generator.module.fail_json(**ccc_discovery_playbook_generator.result)
 
-    # Validate the input parameters and run the generator
-    discovery_generator.validate_input().check_return_status()
-    discovery_generator.run().check_return_status()
+    # Validate the input parameters and check the return status
+    ccc_discovery_playbook_generator.validate_input().check_return_status()
+
+    for config in ccc_discovery_playbook_generator.config:
+        # Process the gathered state directly
+        ccc_discovery_playbook_generator.get_diff_gathered(config).check_return_status()
 
     # Exit with the result
-    discovery_generator.module.exit_json(**discovery_generator.result)
+    module.exit_json(**ccc_discovery_playbook_generator.result)
 
 
 if __name__ == "__main__":

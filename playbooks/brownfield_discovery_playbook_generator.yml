@@ -22,7 +22,6 @@
       dnac_log: true
       dnac_log_level: "{{ dnac_log_level }}"
       dnac_log_append: false
-      config_verify: true
 
   tasks:
     # =============================================================================
