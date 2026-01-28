@@ -30,43 +30,43 @@
               authentication_policy_server:
                 server_type: ISE  # Filter: ISE servers only
 
-            # ====================================================================================
-            # SCENARIO 2: Generate All ISE and AAA Configurations without File Path specified
-            # Purpose: Retrieve and generate configurations for all authentication servers
-            # Use Case: Complete brownfield discovery and configuration generation
-            # ====================================================================================
-            # - generate_all_configurations: true
+          # ====================================================================================
+          # SCENARIO 2: Generate All ISE and AAA Configurations without File Path specified
+          # Purpose: Retrieve and generate configurations for all authentication servers
+          # Use Case: Complete brownfield discovery and configuration generation
+          # ====================================================================================
+          # - generate_all_configurations: true
 
-            # ====================================================================================
-            # SCENARIO 3: Generate All ISE and AAA Configurations into given file path
-            # Purpose: Retrieve and generate configurations for all authentication servers
-            # Use Case: Complete brownfield discovery and configuration generation
-            # ====================================================================================
-            # - file_path: "authentication_policy_server_all_configurations.yaml"
+          # ====================================================================================
+          # SCENARIO 3: Generate All ISE and AAA Configurations into given file path
+          # Purpose: Retrieve and generate configurations for all authentication servers
+          # Use Case: Complete brownfield discovery and configuration generation
+          # ====================================================================================
+          # - file_path: "authentication_policy_server_all_configurations.yaml"
 
-            # ====================================================================================
-            # SCENARIO 4: Filter Specific Server by type and IP Address
-            # Purpose: Generate configuration for a specific authentication server
-            # Use Case: Targeted configuration for a single server
-            # ====================================================================================
-            # - file_path: "/tmp/specific_ise_server.yaml"
-            #   component_specific_filters:
-            #     components_list: ["authentication_policy_server"]
-            #     authentication_policy_server:
-            #       server_type: ISE
-            #       server_ip_address: 10.0.0.10  # Filter: Specific IP
+          # ====================================================================================
+          # SCENARIO 4: Filter Specific Server by type and IP Address
+          # Purpose: Generate configuration for a specific authentication server
+          # Use Case: Targeted configuration for a single server
+          # ====================================================================================
+          # - file_path: "/tmp/specific_ise_server.yaml"
+          #   component_specific_filters:
+          #     components_list: ["authentication_policy_server"]
+          #     authentication_policy_server:
+          #       server_type: ISE
+          #       server_ip_address: 10.0.0.10  # Filter: Specific IP
 
-            # ====================================================================================
-            # SCENARIO 5: Filter by server type and multiple IP Addresses
-            # Purpose: Generate configuration for primary authentication servers
-            # Use Case: When primary server configuration is needed
-            # ====================================================================================
-            # - file_path: "authentication_policy_server_all_configurations.yaml"
-            #   component_specific_filters:
-            #     components_list: ["authentication_policy_server"]
-            #     authentication_policy_server:
-            #       server_type: ISE  # [ISE, AAA]
-            #       server_ip_address: 10.197.156.78
+          # ====================================================================================
+          # SCENARIO 5: Filter by server type and multiple IP Addresses
+          # Purpose: Generate configuration for primary authentication servers
+          # Use Case: When primary server configuration is needed
+          # ====================================================================================
+          # - file_path: "authentication_policy_server_all_configurations.yaml"
+          #   component_specific_filters:
+          #     components_list: ["authentication_policy_server"]
+          #     authentication_policy_server:
+          #       server_type: ISE  # [ISE, AAA]
+          #       server_ip_address: 10.197.156.78
 
       register: result
 
