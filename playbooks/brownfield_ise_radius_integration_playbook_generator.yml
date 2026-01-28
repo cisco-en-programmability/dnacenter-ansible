@@ -24,11 +24,11 @@
           # Purpose: Generate configuration for Cisco ISE servers only
           # Use Case: When you need to configure only ISE-based authentication
           # ====================================================================================
-          - file_path: "authentication_policy_server_all_configurations.yaml"
-            component_specific_filters:
-              components_list: ["authentication_policy_server"]
-              authentication_policy_server:
-                server_type: ISE  # Filter: ISE servers only
+          # - file_path: "authentication_policy_server_all_configurations.yaml"
+          #   component_specific_filters:
+          #     components_list: ["authentication_policy_server"]
+          #     authentication_policy_server:
+          #       server_type: ISE  # Filter: ISE servers only
 
           # ====================================================================================
           # SCENARIO 2: Generate All ISE and AAA Configurations without File Path specified
@@ -61,12 +61,12 @@
           # Purpose: Generate configuration for primary authentication servers
           # Use Case: When primary server configuration is needed
           # ====================================================================================
-          # - file_path: "authentication_policy_server_all_configurations.yaml"
-          #   component_specific_filters:
-          #     components_list: ["authentication_policy_server"]
-          #     authentication_policy_server:
-          #       server_type: ISE  # [ISE, AAA]
-          #       server_ip_address: 10.197.156.78
+          - file_path: "authentication_policy_server_all_configurations.yaml"
+            component_specific_filters:
+              components_list: ["authentication_policy_server"]
+              authentication_policy_server:
+                server_type: ISE  # [ISE, AAA]
+                server_ip_address: 10.197.156.78
 
       register: result
 
