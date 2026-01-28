@@ -79,14 +79,22 @@ options:
             elements: str
           fabric_sites:
             description:
-            - Fabric Sites to filter fabric sites by site name or site id.
+            - Fabric Sites to filter based on site name hierarchy.
             type: list
             elements: dict
+            suboptions:
+              site_name_hierarchy:
+                description: Hierarchical representation of the site name.
+                type: str
           fabric_zones:
             description:
-            - Fabric Zones to filter fabric zones by zone name or zone id.
+            - Fabric Zones to filter based on site name hierarchy.
             type: list
             elements: dict
+            suboptions:
+              site_name_hierarchy:
+                description: Hierarchical representation of the site name.
+                type: str
 
 requirements:
 - dnacentersdk >= 2.10.10
