@@ -71,6 +71,8 @@ options:
               Determines how the access point will be managed within the specified position.
               This field is only required when assigning or deleting real access point to/from an existing planned position.
               It is not required when creating, updating, or deleting a planned access point position itself.
+              Use C(assign_planned_ap) to assign a planned access point to an actual access point.
+              Use C(manage_real_ap) to udpate or delete the real access point from the position.
             type: str
             required: false
             choices:
@@ -94,13 +96,13 @@ options:
             suboptions:
               x_position:
                 description: >
-                  The X coordinate of the access point's position. allows from 0 to 100
-                type: int
+                  The X coordinate of the access point's position. allows from 0.0 to 100.0
+                type: float
                 required: true
               y_position:
                 description: >
-                  The Y coordinate of the access point's position. allows from 0 to 88
-                type: int
+                  The Y coordinate of the access point's position. allows from 0.0 to 100.0
+                type: float
                 required: true
               z_position:
                 description: >
@@ -233,8 +235,8 @@ EXAMPLES = r"""
               - accesspoint_name: AP687D.B402.1614-AP-location_Test6
                 accesspoint_model: AP9120E
                 position:
-                  x_position: 30  # x-axis: from 0 to 100
-                  y_position: 30  # y-axis: from 0 to 88
+                  x_position: 30  # x-axis: from 0.0 to 100.0
+                  y_position: 30  # y-axis: from 0.0 to 100.0
                   z_position: 8  # height: from 3.0 to 10
                 radios:  # Minimum Items: 1; Maximum Items: 4
                   - bands: ["2.4"]  # can be 2.4, 5 and 6
@@ -304,8 +306,8 @@ EXAMPLES = r"""
               - accesspoint_name: IAC-TB4-SJ-AP1
                 accesspoint_model: AP9120E
                 position:
-                  x_position: 30  # x-axis: from 0 to 100
-                  y_position: 30  # y-axis: from 0 to 88
+                  x_position: 30  # x-axis: from 0.0 to 100.0
+                  y_position: 30  # y-axis: from 0.0 to 100.0
                   z_position: 8  # height: from 3.0 to 10
                 radios:  # Minimum Items: 1; Maximum Items: 4
                   - bands: ["2.4"]  # can be 2.4, 5 and 6
@@ -374,8 +376,8 @@ EXAMPLES = r"""
                 mac_address: a4:88:73:d4:dd:80  # Required for real access point creation
                 accesspoint_model: AP9120E
                 position:
-                  x_position: 20  # x-axis: from 0 to 100
-                  y_position: 30  # y-axis: from 0 to 88
+                  x_position: 30  # x-axis: from 0.0 to 100.0
+                  y_position: 30  # y-axis: from 0.0 to 100.0
                   z_position: 8  # height: from 3.0 to 10
                 radios:  # Minimum Items: 1; Maximum Items: 4
                   - bands: ["2.4"]  # can be 2.4, 5 and 6
@@ -419,12 +421,13 @@ EXAMPLES = r"""
         config:  # Minimum 1; Maximum 100 config hierarchy
           - floor_site_hierarchy: "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1"
             access_points:
-              - accesspoint_name: AP687D.B402.1614-AP-location_Test6
+              - accesspoint_name: AP687D.B402.1614  # Accesspoint hostname
+                action: assign_planned_ap  # Required for real access point update
                 mac_address: a4:88:73:d4:dd:80  # Required for real access point creation
                 accesspoint_model: AP9120E
                 position:
-                  x_position: 20  # x-axis: from 0 to 100
-                  y_position: 30  # y-axis: from 0 to 88
+                  x_position: 30  # x-axis: from 0.0 to 100.0
+                  y_position: 30  # y-axis: from 0.0 to 100.0
                   z_position: 8  # height: from 3.0 to 10
                 radios:  # Minimum Items: 1; Maximum Items: 4
                   - bands: ["2.4"]  # can be 2.4, 5 and 6
@@ -650,7 +653,10 @@ class AccessPointLocation(DnacBase):
         self.location_assigned, self.location_not_assigned, self.location_already_assigned = [], [], []
 
         self.result_response = {
-            "success_responses": self.location_created,
+            "accesspoint_creation": [],
+            "accesspoint_updation": [],
+            "accesspoint_assignment": [],
+            "accesspoint_deletion": [],
             "unprocessed": self.location_not_created,
             "already_processed": self.location_exist
         }
@@ -723,9 +729,9 @@ class AccessPointLocation(DnacBase):
                 "accesspoint_model": {"type": "str", "required": False},
                 "position": {
                     "type": "dict",
-                    "x_position": {"type": "int", "required": False},  # 0-100 range
-                    "y_position": {"type": "int", "required": False},  # 0-88 range
-                    "z_position": {"type": "int", "required": False},  # 3.0-10.0 range
+                    "x_position": {"type": "float", "required": False},  # 0.0-100.0 range
+                    "y_position": {"type": "float", "required": False},  # 0.0-100.0 range
+                    "z_position": {"type": "float", "required": False},  # 3.0-10.0 range
                 },
                 "radios": {
                     "type": "list",
@@ -875,6 +881,11 @@ class AccessPointLocation(DnacBase):
             if mac_address:
                 param_spec = dict(type="str", length_max=17)
                 validate_str(mac_address, param_spec, "mac_address", errormsg)
+                ap_device_details = self.get_access_point_device_details(mac_address)
+                if not ap_device_details:
+                    msg = f"mac_address: {mac_address} not found in Cisco Catalyst Center."
+                    self.log(msg, "WARNING")
+                    errormsg.append(msg)
 
             serial_number = each_access_point.get("serial_number")
             if serial_number:
@@ -898,20 +909,20 @@ class AccessPointLocation(DnacBase):
                 x_position = position.get("x_position")
                 if x_position is None:
                     errormsg.append("x_position: X Position is missing in playbook.")
-                elif x_position and isinstance(x_position, int) and not (0 < x_position < 100):
-                    errormsg.append("x_position: X Position must be between 0 and 100.")
+                elif x_position and isinstance(x_position, (int, float)) and not (0 < x_position <= 100):
+                    errormsg.append("x_position: X Position must be between 0.0 and 100.0.")
 
                 y_position = position.get("y_position")
                 if y_position is None:
                     errormsg.append("y_position: Y Position is missing in playbook.")
-                elif y_position and isinstance(y_position, int) and not (0 < y_position < 88):
-                    errormsg.append("y_position: Y Position must be between 0 and 88.")
+                elif y_position and isinstance(y_position, (int, float)) and not (0 < y_position <= 100):
+                    errormsg.append("y_position: Y Position must be between 0.0 and 100.0.")
 
                 z_position = position.get("z_position")
                 if z_position is None:
                     errormsg.append("z_position: Z Position is missing in playbook.")
-                elif z_position and isinstance(z_position, (int, float)) and not (3 < z_position < 10):
-                    errormsg.append("z_position: Z Position must be between 3 and 10.")
+                elif z_position and isinstance(z_position, (int, float)) and not (3 <= z_position <= 10):
+                    errormsg.append("z_position: Z Position must be between 3.0 and 10.0.")
 
             radios = each_access_point.get("radios")
             if not radios:
@@ -1029,12 +1040,6 @@ class AccessPointLocation(DnacBase):
                             valid_channels, str(channel_band) + "GHz"
                         )
                     )
-            else:
-                errormsg.append(
-                    "channel: Channel must be an integer, got: {0}".format(
-                        type(channel).__name__
-                    )
-                )
 
             tx_power = radio.get("tx_power")
             if tx_power is None and each_access_point.get("action") != "manage_real_ap":
@@ -1044,12 +1049,6 @@ class AccessPointLocation(DnacBase):
                     errormsg.append(
                         "tx_power: Tx Power must be between 1 and 100 dBm."
                     )
-            else:
-                errormsg.append(
-                    "tx_power: Tx Power must be an integer, got: {0}".format(
-                        type(tx_power).__name__
-                    )
-                )
 
             antenna = radio.get("antenna")
             if antenna is None:
@@ -1306,6 +1305,12 @@ class AccessPointLocation(DnacBase):
                 "DEBUG"
             )
 
+            ap_device_details = None
+            if access_point.get("mac_address"):
+                self.log(f"Retrieving accesspoint details for MAC Address: {access_point.get('mac_address')}", "INFO")
+                ap_device_details = self.get_access_point_device_details(access_point.get("mac_address"))
+                access_point["eth_mac_address"] = ap_device_details.get("apEthernetMacAddress")
+
             # Check if access point exist in the planned position
             ap_details = self.get_access_point_posisiton(
                 have["site_id"], have["site_name"], access_point
@@ -1338,8 +1343,6 @@ class AccessPointLocation(DnacBase):
                     ap_details[0]["mac_address"] = access_point.get("mac_address")
                     assign_accesspoint.append(ap_details[0])
 
-                    self.log(f"Retrieving accesspoint details for MAC Address: {access_point.get('mac_address')}", "INFO")
-                    ap_device_details = self.get_access_point_device_details(access_point.get("mac_address"))
                     if not ap_device_details:
                         msg = f"No device details found for access point: {access_point.get('mac_address')}"
                         self.log(msg, "WARNING")
@@ -1589,7 +1592,20 @@ class AccessPointLocation(DnacBase):
                 "DEBUG"
             )
 
-            if desired_value != existing_value:
+            if field_name == "mac_address":
+                if access_point.get("mac_address") and existing_value != access_point.get("eth_mac_address"):
+                    self.log(
+                        "MAC address mismatch detected: desired='{0}', existing='{1}'".format(
+                            desired_value, existing_value
+                        ),
+                        "INFO"
+                    )
+                    configuration_differences.append((
+                        field_name, desired_value, existing_value
+                    ))
+                    configurations_match = False
+
+            elif desired_value != existing_value:
                 self.log(
                     "Configuration mismatch detected for field '{0}'".format(field_name),
                     "INFO"
@@ -1699,7 +1715,8 @@ class AccessPointLocation(DnacBase):
 
                     # Compare radio transmission settings
                     radio_comparison_result = self._compare_radio_settings(
-                        radio_config, existing_radio, configuration_differences
+                        radio_config, existing_radio, configuration_differences,
+                        access_point.get("action")
                     )
 
                     if not radio_comparison_result:
@@ -1747,7 +1764,7 @@ class AccessPointLocation(DnacBase):
 
         return configurations_match, configuration_differences
 
-    def _compare_radio_settings(self, desired_radio, existing_radio, differences_list):
+    def _compare_radio_settings(self, desired_radio, existing_radio, differences_list, action):
         """
         Helper method to compare radio transmission and antenna settings.
 
@@ -1755,6 +1772,7 @@ class AccessPointLocation(DnacBase):
             desired_radio (dict): Desired radio configuration from playbook
             existing_radio (dict): Current radio configuration from API
             differences_list (list): List to append differences to
+            action (str): Action being performed on the access point
 
         Returns:
             bool: True if radio settings match, False otherwise
@@ -1765,6 +1783,15 @@ class AccessPointLocation(DnacBase):
 
         # Compare basic radio settings
         for field_name in radio_fields:
+            if action == "manage_real_ap":
+                self.log(
+                    "Skipping radio field '{0}' comparison for action '{1}'".format(
+                        field_name, action
+                    ),
+                    "DEBUG"
+                )
+                continue
+
             desired_value = desired_radio.get(field_name)
             existing_value = existing_radio.get(self.keymap[field_name])
 
@@ -2243,15 +2270,16 @@ class AccessPointLocation(DnacBase):
                 "add_planned_access_points_positions", floor_id, create_payload, "create"
             )
             if process_response == "SUCCESS":
-                self.msg = f"Planned Access Point Position created successfully for: {self.have.get('site_name')}"
+                self.msg = "The access point positions have been successfully created."
                 self.log(self.msg , "INFO")
                 self.location_created.append(collect_ap_list)
             elif process_response == "FAILURE":
-                self.msg = f"Failed to create Planned Access Point position for: {self.have.get('site_name')}"
+                self.msg = f"Failed to create planned access point positions {collect_ap_list} "
+                self.msg += f"for the site: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_created.append(collect_ap_list)
             else:
-                self.msg = f"Unable to process planned Access Point position creation for: {self.have.get('site_name')}"
+                self.msg = f"Unable to process planned Access Point position creation for the site: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_created.append(collect_ap_list)
 
@@ -2282,13 +2310,14 @@ class AccessPointLocation(DnacBase):
                 "edit_planned_access_points_positions", floor_id, update_payload, "update"
             )
             if process_response == "SUCCESS":
-                self.msg = f"Planned Access Point position updated successfully for: {self.have.get('site_name')}"
+                self.msg = "The planned access point positions have been successfully updated"
                 self.log(self.msg , "INFO")
                 self.location_updated.append(collect_ap_list)
 
                 self.log(".", "INFO")
             elif process_response == "FAILURE":
-                self.msg = f"Failed to update planned Access Point position for: {self.have.get('site_name')}"
+                self.msg = f"Failed to update planned access point positions {collect_ap_list}"
+                self.msg += f" for the site: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_updated.append(collect_ap_list)
             else:
@@ -2315,13 +2344,14 @@ class AccessPointLocation(DnacBase):
                 "edit_the_access_points_positions", floor_id, update_real_payload, "update"
             )
             if process_response == "SUCCESS":
-                self.msg = f"Real Access Point position updated successfully for: {self.have.get('site_name')}"
+                self.msg = f"The real access point positions for {collect_ap_list} have been successfully updated"
+                self.msg += f" and associated with the site {self.have.get('site_name')}."
                 self.log(self.msg , "INFO")
                 self.location_updated.append(collect_ap_list)
-
                 self.log(".", "INFO")
             elif process_response == "FAILURE":
-                self.msg = f"Failed to update real Access Point position for: {self.have.get('site_name')}"
+                self.msg = f"Failed to update real access point positions {collect_ap_list}"
+                self.msg += f" for the site: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_updated.append(collect_ap_list)
             else:
@@ -2854,6 +2884,14 @@ class AccessPointLocation(DnacBase):
             "DEBUG"
         )
 
+        self.location_created = []
+        self.location_updated = []
+        self.location_exist = []
+        self.location_assigned = []
+        self.location_not_created = []
+        self.location_not_updated = []
+        self.location_not_assigned = []
+
         if not isinstance(config, dict):
             error_msg = "Configuration must be a dictionary for merge operations"
             self.log(error_msg, "ERROR")
@@ -2995,7 +3033,7 @@ class AccessPointLocation(DnacBase):
 
         # Prepare operation results for response
         processed_locations = self.location_created + self.location_updated
-        location_results = [str(item) for item in processed_locations]
+        location_results = ["Access point positions created/updated successfully: " + str(item) for item in processed_locations]
 
         self.log(
             "Merge operation completed - operations: {0}, processed: {1}, "
@@ -3014,8 +3052,24 @@ class AccessPointLocation(DnacBase):
             self.msg = "Access point position merge operations completed"
             self.log(self.msg, "INFO")
 
+        if not self.params.get("config_verify"):
+            if self.location_created:
+                self.result_response['accesspoint_creation'].append(
+                    "The access point positions for " + str(self.location_created) +
+                    " have been successfully created and associated with the site " +
+                    self.have.get("site_name"))
+            if self.location_updated:
+                self.result_response['accesspoint_updation'].append(
+                    "The access point positions for " + str(self.location_updated) +
+                    " have been successfully updated and associated with the site " +
+                    self.have.get("site_name"))
+            if self.location_assigned:
+                self.result_response['accesspoint_assignment'].append(
+                    "The access point positions for " + str(self.location_assigned) +
+                    " have been successfully assigned and associated with the site " +
+                    self.have.get("site_name"))
         self.set_operation_result(
-            self.status, self.changed, self.msg, "INFO", location_results
+            self.status, self.changed, self.msg, "INFO", self.result_response
         ).check_return_status()
 
         return self
@@ -3123,10 +3177,8 @@ class AccessPointLocation(DnacBase):
               (created_count + updated_count) == expected_ap_count):
             combined_operations = self.location_created + self.location_updated
             mixed_msg = (
-                "Access point positions created/updated successfully for: {0}".format(
-                    str(combined_operations)
-                )
-            )
+                f"The access point positions for {combined_operations} have been successfully created " +
+                f"and associated with the site {site_hierarchy}.")
             self.log(mixed_msg, "INFO")
             self.msg = mixed_msg
             self.changed = True
@@ -3227,7 +3279,7 @@ class AccessPointLocation(DnacBase):
             self.location_created + self.location_updated + self.location_assigned
         )
         unique_operations = [
-            list(operation) for operation in set(map(tuple, successful_operations))
+            "Access point positions created/updated successfully: " + str(operation) for operation in set(map(tuple, successful_operations))
         ]
 
         verification_status = getattr(self, 'status', 'unknown')
@@ -3246,8 +3298,29 @@ class AccessPointLocation(DnacBase):
             self.msg = "Access point position verification completed"
             self.log(self.msg, "INFO")
 
+        if self.location_created:
+            self.result_response['accesspoint_creation'].append(
+                "The access point positions for " + str(self.location_created) +
+                " have been successfully created and associated with the site " +
+                self.have.get("site_name"))
+
+        if self.location_updated:
+            self.result_response['accesspoint_updation'].append(
+                "The access point positions for " + str(self.location_updated) +
+                " have been successfully updated and associated with the site " +
+                self.have.get("site_name"))
+
+        if self.location_assigned:
+            self.result_response['accesspoint_assignment'].append(
+                "The access point positions for " + str(self.location_assigned) +
+                " have been successfully assigned and associated with the site " +
+                self.have.get("site_name"))
+
+        if unique_operations:
+            self.msg = "Access point positions processed successfully."
+
         self.set_operation_result(
-            self.status, self.changed, self.msg, "INFO", unique_operations
+            self.status, self.changed, self.msg, "INFO", self.result_response
         ).check_return_status()
 
         return self
@@ -3277,6 +3350,9 @@ class AccessPointLocation(DnacBase):
         self.log(f"Starting to delete planned Access Point position(s) for: {config}", "INFO")
         site_hierarchy = config.get("floor_site_hierarchy", "Unknown")
         access_points_count = len(config.get("access_points", []))
+        self.location_deleted = []
+        self.location_not_deleted = []
+        self.location_already_deleted = []
 
         self.log(
             "Processing deletion operations for site '{0}' with {1} access point configurations".format(
@@ -3475,11 +3551,8 @@ class AccessPointLocation(DnacBase):
 
         # Handle deletion failures
         if failed_deletion_count > 0:
-            failed_list = [str(item) for item in self.location_not_deleted]
             failure_msg = (
-                "Unable to delete the following access point positions: {0}".format(
-                    ", ".join(failed_list)
-                )
+                "Unable to delete the following access point positions."
             )
 
             if self.msg:
@@ -3502,7 +3575,7 @@ class AccessPointLocation(DnacBase):
             already_deleted_list = [str(item) for item in self.location_already_deleted]
             idempotent_msg = (
                 "No changes required - access point positions already deleted and "
-                "verified successfully: {0}".format(", ".join(already_deleted_list))
+                "verified successfully."
             )
 
             self.log(
@@ -3518,11 +3591,8 @@ class AccessPointLocation(DnacBase):
 
         # Verify successful deletion operations
         elif deleted_count == expected_deletion_count:
-            deleted_list = [str(item) for item in self.location_deleted]
             success_msg = (
-                "Access point positions deleted and verified successfully: {0}".format(
-                    ", ".join(deleted_list)
-                )
+                "Access point positions deleted and verified successfully."
             )
 
             self.log(
@@ -3570,9 +3640,25 @@ class AccessPointLocation(DnacBase):
             self.msg = "Access point position deletion verification completed"
             self.log(self.msg, "INFO")
 
+        if self.location_deleted:
+            self.result_response['accesspoint_deletion'].append(
+                "The access point positions for {0}".format(", ".join(self.location_deleted)) +
+                " have been successfully deleted from the site " + site_hierarchy)
+
+        if self.location_already_deleted:
+            self.result_response['already_processed'].append(
+                "No changes required - access point positions already deleted and "
+                "verified successfully: {0}".format(", ".join(self.location_already_deleted)) +
+                " from the site " + site_hierarchy)
+
+        if self.location_not_deleted:
+            self.result_response['unprocessed'].append(
+                f"Unable to delete the following access point positions: {self.location_not_deleted}" +
+                " from the site " + site_hierarchy)
+
         # Set verification results and validate return status
         self.set_operation_result(
-            self.status, self.changed, self.msg, "INFO", self.location_deleted
+            self.status, self.changed, self.msg, "INFO", self.result_response
         ).check_return_status()
 
         return self

@@ -1805,3 +1805,27 @@ releases:
         - Added 'sda_fabric_port_channel_limit'  attribute in sda_host_port_onboarding_workflow_manager module
         - Added 'convert_to_wlc'  attribute in swim_workflow_manager module
         - Added 'feature_template_config'  attribute in wireless_design_workflow_manager module
+
+  6.44.0:
+    release_date: "2026-01-22"
+    changes:
+      release_summary: Enhancements in workflow manager modules
+      minor_changes:
+        - Changes in accesspoint_location_workflow_manager module
+        - Changes in accesspoint_workflow_manager module
+        - Changes in application_policy_workflow_manager module
+        - Changes in assurance_device_health_score_settings_workflow_manager module
+        - Changes in assurance_icap_settings_workflow_manager module
+        - Changes in device_conigs_backup_workflow_manager module
+        - Changes in inventory_workflow_manager module
+        - Changes in network_settings_workflow_manager module
+        - Changes in provision_workflow_manager module
+        - Changes in reports_workflow_manager module
+        - Changes in sda_fabric_mulitcast_workflow_manager module
+        - Changes in sda_fabric_sites_zones_workflow_manager module
+        - Changes in site_workflow_manager module
+        - Changes in swim_workflow_manager module
+        - Changes in template_workflow_manager module
+        - Changes in user_role_workflow_manager module
+        - Changes in wireless_design_workflow_manager module
+        - Added 'template_content_file_path'  attribute in template_workflow_manager module
