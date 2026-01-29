@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2024, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML playbooks for Network Settings Operations in Cisco Catalyst Center."""
@@ -22,7 +22,7 @@ description:
   on the Cisco Catalyst Center.
 - Supports extraction of Global IP Pools, Reserve IP Pools, Network Management,
   Device Controllability, and AAA Settings configurations.
-version_added: 6.17.0
+version_added: 6.44.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 author:
@@ -60,8 +60,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name "network_settings_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "network_settings_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
+          a default file name C(<module_name>playbook<YYYY-MM-DD_HH-MM-SS>.yml).
+        - For example, C(discovery_workflow_manager_playbook_2026-01-24_12-33-20.yml).
         type: str
         required: false
       component_specific_filters:
@@ -408,6 +408,10 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.supported_states = ["gathered"]
         super().__init__(module)
         self.module_schema = self.get_workflow_elements_schema()
+        self.log(
+            f"[{self.module_schema}] Initializing module",
+            level="INFO"
+        )
         self.module_name = "network_settings_workflow_manager"
 
         # Initialize class-level variables to track successes and failures
@@ -451,7 +455,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         if not self.config:
             self.status = "success"
             self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
@@ -461,6 +465,31 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
+
+        allowed_keys = set(temp_spec.keys())
+
+        # Validate that only allowed keys are present in the configuration
+        for config_item in self.config:
+            if not isinstance(config_item, dict):
+                self.msg = "Configuration item must be a dictionary, got: {0}".format(type(config_item).__name__)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            # Check for invalid keys
+            config_keys = set(config_item.keys())
+            invalid_keys = config_keys - allowed_keys
+
+            if invalid_keys:
+                self.msg = (
+                    "Invalid parameters found in playbook configuration: {0}. "
+                    "Only the following parameters are allowed: {1}. "
+                    "Please remove the invalid parameters and try again.".format(
+                        list(invalid_keys), list(allowed_keys)
+                    )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        self.validate_minimum_requirements(self.config)
 
         # Validate params
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
@@ -527,21 +556,22 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     self.log("Created directory: {0}".format(directory), "INFO")
                 except Exception as e:
                     self.msg = "Cannot create directory for file_path: {0}. Error: {1}".format(directory, str(e))
-                    self.status = "failed"
-                    return self
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         # Validate component_specific_filters
         component_filters = config.get("component_specific_filters", {})
+        self.log("Component-specific filters: {0}".format(component_filters), "DEBUG")
         if component_filters:
             components_list = component_filters.get("components_list", [])
             supported_components = list(self.module_schema.get("network_elements", {}).keys())
+            self.log("Supported components: {0}".format(supported_components), "DEBUG")
 
             for component in components_list:
+                self.log("Validating component: {0}".format(component), "DEBUG")
                 if component not in supported_components:
                     self.msg = "Unsupported component: {0}. Supported components: {1}".format(
                         component, supported_components)
-                    self.status = "failed"
-                    return self
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         self.log("Configuration parameters validation completed successfully", "DEBUG")
         self.status = "success"
@@ -687,6 +717,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             transform_ipv6_to_address_space(False) -> "IPv4"
             transform_ipv6_to_address_space(None) -> None
         """
+        self.log("Transforming IPv6 value to address space string: {0}".format(ipv6_value), "DEBUG")
         if ipv6_value is True:
             return "IPv6"
         elif ipv6_value is False:
@@ -728,6 +759,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             transform_to_boolean(None) -> False
             transform_to_boolean('yes') -> True
         """
+        self.log("Transforming value to boolean: {0}".format(value), "DEBUG")
         if value is None:
             return False
         return bool(value)
@@ -754,6 +786,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             3. Check subnet format in addressSpace
             4. Look for IPv6-specific fields
         """
+        self.log("Starting with pool_details: {0}".format(pool_details), "DEBUG")
         if pool_details is None or not isinstance(pool_details, dict):
             self.log("transform_pool_to_address_space: pool_details is None or not dict: {0}".format(pool_details), "DEBUG")
             return None
@@ -851,6 +884,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             Invalid: None -> None
             Missing data: {"addressSpace": {}} -> None
         """
+        self.log("Starting CIDR transformation with pool_details: {0}".format(pool_details), "DEBUG")
         if pool_details is None:
             self.log("transform_cidr: pool_details is None", "DEBUG")
             return None
