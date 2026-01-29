@@ -501,6 +501,45 @@ class BrownFieldHelper:
 
         self.log("Completed validation of all input parameters.", "INFO")
 
+    def validate_invalid_params(self, config_list, valid_params):
+        """
+        Validates that all parameters in each configuration entry are valid.
+
+        Args:
+            config_list (list): List of configuration dictionaries to validate.
+            valid_params (dict_keys): Valid parameter keys for the module.
+        """
+
+        self.log("Starting validation of invalid parameters in configuration entries.", "DEBUG")
+
+        if not isinstance(config_list, list):
+            self.msg = (
+                f"Invalid input: Expected a list of configuration entries, "
+                f"but got {type(config_list).__name__}."
+            )
+            self.fail_and_exit(self.msg)
+
+        valid_params_set = set(valid_params)
+        if not valid_params_set:
+            self.msg = "No valid parameters provided for validation. Please provide valid parameters."
+            self.fail_and_exit(self.msg)
+
+        self.log(f"Processing validation for {len(config_list)} configuration(s).", "DEBUG")
+        for idx, config in enumerate(config_list, start=1):
+            self.log(f"Validating configuration entry {idx}: {config}", "DEBUG")
+
+            invalid_params_set = set(config.keys()) - valid_params_set
+            if invalid_params_set:
+                self.msg = (
+                    f"Invalid parameters found in configuration entry {idx}: {list(invalid_params_set)}. "
+                    f"Valid parameters are: {list(valid_params_set)}."
+                )
+                self.fail_and_exit(self.msg)
+
+            self.log(f"Entry {idx}: No invalid parameters found.", "DEBUG")
+
+        self.log("Completed validation of invalid parameters in configuration entries.", "DEBUG")
+
     def validate_minimum_requirements(self, config_list):
         """
         Validate minimum requirements for each configuration entry in a list.
