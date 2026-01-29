@@ -343,6 +343,151 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "global_filters": {"type": "dict", "required": False},
         }
 
+        # Define allowed nested keys for component_specific_filters
+        allowed_component_filter_keys = {
+            "components_list",
+            "destination_filters",
+            "notification_filters",
+            "itsm_filters"
+        }
+
+        # Define allowed nested keys for each filter type
+        allowed_destination_filter_keys = {
+            "destination_names",
+            "destination_types"
+        }
+
+        allowed_notification_filter_keys = {
+            "subscription_names",
+            "notification_types"
+        }
+
+        allowed_itsm_filter_keys = {
+            "instance_names"
+        }
+
+        allowed_keys = set(temp_spec.keys())
+
+        # Validate that only allowed keys are present in the configuration
+        for config_item in self.config:
+            if not isinstance(config_item, dict):
+                self.msg = "Configuration item must be a dictionary, got: {0}".format(type(config_item).__name__)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            # Check for invalid keys at top level
+            config_keys = set(config_item.keys())
+            invalid_keys = config_keys - allowed_keys
+
+            if invalid_keys:
+                self.msg = (
+                    "Invalid parameters found in playbook configuration: {0}. "
+                    "Only the following parameters are allowed: {1}. "
+                    "Please remove the invalid parameters and try again.".format(
+                        list(invalid_keys), list(allowed_keys)
+                    )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            # Validate nested component_specific_filters structure
+            component_filters = config_item.get("component_specific_filters")
+            if component_filters and isinstance(component_filters, dict):
+
+                # Check for invalid keys in component_specific_filters
+                component_filter_keys = set(component_filters.keys())
+                invalid_component_keys = component_filter_keys - allowed_component_filter_keys
+
+                if invalid_component_keys:
+                    self.msg = (
+                        "Invalid parameters found in 'component_specific_filters': {0}. "
+                        "Only the following parameters are allowed: {1}. "
+                        "Please remove the invalid parameters and try again.".format(
+                            list(invalid_component_keys), list(allowed_component_filter_keys)
+                        )
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                # Validate destination_filters
+                destination_filters = component_filters.get("destination_filters")
+                if destination_filters:
+                    # Handle both dict and list formats
+                    filters_to_check = []
+                    if isinstance(destination_filters, dict):
+                        filters_to_check = [destination_filters]
+                    elif isinstance(destination_filters, list):
+                        filters_to_check = destination_filters
+
+                    # Validate each filter in the list/dict
+                    for filter_item in filters_to_check:
+                        dest_filter_keys = set(filter_item.keys())
+                        invalid_dest_keys = dest_filter_keys - allowed_destination_filter_keys
+
+                        if invalid_dest_keys:
+                            self.msg = (
+                                "Invalid parameters found in 'destination_filters': {0}. "
+                                "Only the following parameters are allowed: {1}. "
+                                "Please remove the invalid parameters and try again.".format(
+                                    list(invalid_dest_keys), list(allowed_destination_filter_keys)
+                                )
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return self
+
+                # Validate notification_filters (similar fix)
+                notification_filters = component_filters.get("notification_filters")
+                if notification_filters:
+                    # Handle both dict and list formats
+                    filters_to_check = []
+                    if isinstance(notification_filters, dict):
+                        filters_to_check = [notification_filters]
+                    elif isinstance(notification_filters, list):
+                        filters_to_check = notification_filters
+
+                    # Validate each filter in the list/dict
+                    for filter_item in filters_to_check:
+                        notif_filter_keys = set(filter_item.keys())
+                        invalid_notif_keys = notif_filter_keys - allowed_notification_filter_keys
+                        if invalid_notif_keys:
+                            self.msg = (
+                                "Invalid parameters found in 'notification_filters': {0}. "
+                                "Only the following parameters are allowed: {1}. "
+                                "Please remove the invalid parameters and try again.".format(
+                                    list(invalid_notif_keys), list(allowed_notification_filter_keys)
+                                )
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return self
+
+                # Validate itsm_filters (similar fix)
+                itsm_filters = component_filters.get("itsm_filters")
+                if itsm_filters:
+                    # Handle both dict and list formats
+                    filters_to_check = []
+                    if isinstance(itsm_filters, dict):
+                        filters_to_check = [itsm_filters]
+                    elif isinstance(itsm_filters, list):
+                        filters_to_check = itsm_filters
+
+                    # Validate each filter in the list/dict
+                    for filter_item in filters_to_check:
+                        itsm_filter_keys = set(filter_item.keys())
+                        invalid_itsm_keys = itsm_filter_keys - allowed_itsm_filter_keys
+
+                        if invalid_itsm_keys:
+                            self.msg = (
+                                "Invalid parameters found in 'itsm_filters': {0}. "
+                                "Only the following parameters are allowed: {1}. "
+                                "Please remove the invalid parameters and try again.".format(
+                                    list(invalid_itsm_keys), list(allowed_itsm_filter_keys)
+                                )
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return self
+
+        self.validate_minimum_requirements(self.config)
+
         # Validate params
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
 
