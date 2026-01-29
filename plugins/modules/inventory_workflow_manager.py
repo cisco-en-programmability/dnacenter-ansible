@@ -758,13 +758,16 @@ options:
                 date/time and the current time.
               - Format - "YYYY-MM-DD HH:MM:SS".
             type: str
+            required: false
           recurrence_interval:
             description:
               - Days between recurring maintenance windows.
               - Interval for recurrence in days. The interval must be longer than
                 the duration of the maintenance schedules and must be within the
                 range 1 to 365 (inclusive).
+              - recurrence_interval is required if recurrence_end_time is provided.
             type: int
+            required: false
 requirements:
   - dnacentersdk >= 2.7.2
   - python >= 3.9
@@ -1392,7 +1395,8 @@ class Inventory(DnacBase):
             self.maintenance_scheduled,
             self.maintenance_updated,
             self.no_update_in_maintenance,
-        ) = ([], [], [])
+            self.ip_not_found,
+        ) = ([], [], [], [])
         self.maintenance_deleted, self.no_maintenance_schedule = [], []
         (
             self.ip_address_for_update,
@@ -3481,7 +3485,11 @@ class Inventory(DnacBase):
                 "http_username",
                 "http_password",
             ],
-            "THIRD_PARTY_DEVICE": ["ip_address_list"],
+            "THIRD_PARTY_DEVICE": [
+                "ip_address_list",
+                "type",
+                "snmp_version",
+            ],
         }
 
         params_list = params_dict.get(device_type, [])
@@ -3684,6 +3692,13 @@ class Inventory(DnacBase):
                 if response:
                     response = response.get("response")
                     if not response:
+                        self.ip_not_found.append(device_ip)
+                        self.log(
+                            "Device with IP address '{0}' not found in Cisco Catalyst Center.".format(
+                                device_ip
+                            ),
+                            "ERROR",
+                        )
                         continue
                     device_id = response[0]["id"]
                     device_ids.append(device_id)
@@ -5652,7 +5667,7 @@ class Inventory(DnacBase):
 
         return self
 
-    def parse_for_add_network_device_params(self, device_params):
+    def parse_for_add_network_device_params(self, device_params, type=None):
         """
         Parse the network device parameters from the provided dictionary.
 
@@ -5713,6 +5728,11 @@ class Inventory(DnacBase):
                 device_params.pop("snmpPrivPassphrase", None)
                 device_params.pop("snmpPrivProtocol", None)
 
+        if type:
+            device_params["type"] = type
+
+        self.log("Parsed network device parameters: {0}".format(
+            self.pprint(device_params)), "INFO")
         return device_params
 
     def parse_for_add_compute_device_params(self, device_params):
@@ -5750,6 +5770,9 @@ class Inventory(DnacBase):
         for param in params_to_remove:
             device_params.pop(param, None)
 
+        device_params["type"] = "COMPUTE_DEVICE"
+        self.log("Parsed compute device parameters: {0}".format(
+            self.pprint(device_params)), "INFO")
         return device_params
 
     def add_inventory_device(self, device_params, devices_to_add, device_to_add_in_ccc):
@@ -5764,7 +5787,7 @@ class Inventory(DnacBase):
         Returns:
             object: An instance of the class with updated results and status.
         """
-        self.log("Adding device to inventory: {0}".format(str(device_params)), "INFO")
+        self.log("Adding device to inventory: {0}".format(self.pprint(device_params)), "INFO")
 
         try:
             response = self.dnac._exec(
@@ -6224,6 +6247,8 @@ class Inventory(DnacBase):
                 self.parse_for_add_network_device_params(device_params)
             elif device_type == "COMPUTE_DEVICE":
                 self.parse_for_add_compute_device_params(device_params)
+            elif device_type == "THIRD_PARTY_DEVICE":
+                self.parse_for_add_network_device_params(device_params, "THIRD_PARTY_DEVICE")
 
             device_params["ipAddress"] = config["ip_address_list"]
             device_to_add_in_ccc = device_params["ipAddress"]
@@ -6600,6 +6625,15 @@ class Inventory(DnacBase):
                 self.fail_and_exit(self.msg)
 
             network_device_ids = self.get_device_ids(network_device_ips)
+            if not network_device_ids:
+                self.msg = (
+                    "None of the provided device IPs: {0} exist in Cisco Catalyst Center.".format(
+                        network_device_ips
+                    )
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
             device_ip_id_map = self.get_device_ips_from_device_ids(network_device_ids)
             # Find out the devices for which maintenance already schedule and not schedule yet
             schedule_device_ids, unscheduled_device_ids = (
@@ -6607,6 +6641,8 @@ class Inventory(DnacBase):
                     network_device_ids, device_ip_id_map
                 )
             )
+
+            self.validate_device_maintenance_params(maintenance_config)
 
             if unscheduled_device_ids:
                 device_ips = []
@@ -6620,7 +6656,7 @@ class Inventory(DnacBase):
                     ),
                     "INFO",
                 )
-                self.validate_device_maintenance_params(maintenance_config)
+
                 maintenance_payload = self.create_schedule_maintenance_payload(
                     maintenance_config, unscheduled_device_ids, device_ips
                 )
@@ -7489,6 +7525,7 @@ class Inventory(DnacBase):
         self.result["changed"] = False
         result_msg_list_not_changed = []
         result_msg_list_changed = []
+        absent_scheduled_msg = None
 
         if self.provisioned_device:
             provisioned_device = "device(s) '{0}' provisioned successfully in Cisco Catalyst Center.".format(
@@ -7677,6 +7714,18 @@ class Inventory(DnacBase):
             absent_scheduled_msg = "Maintenance schedule for the devices {0} not present in the Catalyst Center.".format(
                 self.no_maintenance_schedule
             )
+            result_msg_list_not_changed.append(absent_scheduled_msg)
+
+        if self.ip_not_found:
+            self.ip_not_found = list(set(self.ip_not_found))
+            if absent_scheduled_msg:
+                absent_scheduled_msg += " and Given IP address {0} not present in the Catalyst Center.".format(
+                    self.ip_not_found
+                )
+            else:
+                absent_scheduled_msg = "Given IP address {0} not present in the Catalyst Center.".format(
+                    self.ip_not_found
+                )
             result_msg_list_not_changed.append(absent_scheduled_msg)
 
         if result_msg_list_not_changed and result_msg_list_changed:

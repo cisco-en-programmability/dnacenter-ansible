@@ -612,6 +612,12 @@ class BrownFieldHelper:
         components_list = component_specific_filters.get(
             "components_list", list(module_supported_network_elements.keys())
         )
+
+        # If components_list is empty, default to all supported components
+        if not components_list:
+            self.log("No components specified; processing all supported components.", "DEBUG")
+            components_list = list(module_supported_network_elements.keys())
+
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
         self.log("Initializing final configuration list and operation summary tracking", "DEBUG")
@@ -630,7 +636,10 @@ class BrownFieldHelper:
                 skipped_count += 1
                 continue
 
-            filters = component_specific_filters.get(component, [])
+            filters = {
+                "global_filters": global_filters,
+                "component_specific_filters": component_specific_filters.get(component, [])
+            }
             operation_func = network_element.get("get_function_name")
             if not callable(operation_func):
                 self.log(
@@ -832,6 +841,16 @@ class BrownFieldHelper:
                 self.log(
                     "Processing key '{0}' with spec: {1}".format(key, spec), "DEBUG"
                 )
+
+                if spec.get("fixed_value") is not None:
+                    mapped_detail[key] = spec["fixed_value"]
+                    self.log(
+                        "Assigned fixed value for key '{0}': {1}".format(
+                            key, mapped_detail[key]
+                        ),
+                        "DEBUG",
+                    )
+                    continue
 
                 source_key = spec.get("source_key", key)
                 value = detail.get(source_key)

@@ -156,7 +156,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - file_path: "tmp/catc_templates_config.yml"
+      - generate_all_configurations: true
+        file_path: "tmp/catc_templates_config.yml"
 
 - name: Generate YAML Configuration with specific template projects only
   cisco.dnac.brownfield_template_playbook_generator:
@@ -491,7 +492,7 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
                     - "get_function_name": Reference to the internal function used to retrieve the component data.
         """
 
-        self.log("Building workflow filters schema for template workflow manager module.", "DEBUG")
+        self.log("Building workflow filters schema for template module.", "DEBUG")
 
         schema = {
             "network_elements": {
@@ -885,6 +886,7 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
                         "No projects found for parameters: {0}".format(params),
                         "DEBUG"
                     )
+                params.clear()
 
             self.log(
                 "Completed Processing {0} filter(s) for projects retrieval".format(
@@ -1130,6 +1132,12 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
         components_list = component_specific_filters.get(
             "components_list", list(module_supported_network_elements.keys())
         )
+
+        # If components_list is empty, default to all supported components
+        if not components_list:
+            self.log("No components specified; processing all supported components.", "DEBUG")
+            components_list = list(module_supported_network_elements.keys())
+
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
         self.log("Initializing final configuration list and operation summary tracking", "DEBUG")
