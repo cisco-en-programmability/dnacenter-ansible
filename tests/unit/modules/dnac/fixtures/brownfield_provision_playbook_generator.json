@@ -2,6 +2,7 @@
   "playbook_global_filters": [
     {
       "file_path": "/Users/syedkahm/ansible/dnac/work/collections/ansible_collections/cisco/dnac/playbooks/brownfield_provision_workflow_playbook.yml",
+      "generate_all_configurations": true,
       "global_filters": {
         "management_ip_address": [
           "204.192.4.200"
