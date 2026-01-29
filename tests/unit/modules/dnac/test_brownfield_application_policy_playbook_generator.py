@@ -150,7 +150,6 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="3.1.3.0",
                 config=self.playbook_queuing_profile
             )
@@ -176,7 +175,6 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="3.1.3.0",
                 config=self.playbook_application_policy
             )
@@ -202,7 +200,6 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="3.1.3.0",
                 config=self.playbook_different_bandwidth
             )
@@ -228,7 +225,6 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
                 dnac_version="3.1.3.0",
                 config=self.playbook_wireless_policy
             )

@@ -26,11 +26,6 @@ author:
 - Syed Khadeer Ahmed (@syed-khadeerahmed)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -295,6 +290,8 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Initialize generate_all_configurations
         self.generate_all_configurations = False
 
+        self.log("Initialized ApplicationPolicyPlaybookGenerator for module: {0}".format(self.module_name), "INFO")
+
     def validate_input(self):
         """
         Validates the input configuration parameters for the playbook.
@@ -313,8 +310,113 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             "file_path": {"type": "str", "required": False},
             "component_specific_filters": {"type": "dict", "required": False},
         }
+        allowed_keys = set(temp_spec.keys())
+
+        # Validate that only allowed keys are present in the configuration
+        for config_item in self.config:
+            if not isinstance(config_item, dict):
+                self.msg = "Configuration item must be a dictionary, got: {0}".format(type(config_item).__name__)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            # Check for invalid keys
+            config_keys = set(config_item.keys())
+            invalid_keys = config_keys - allowed_keys
+
+            if invalid_keys:
+                self.msg = (
+                    "Invalid parameters found in playbook configuration: {0}. "
+                    "Only the following parameters are allowed: {1}. "
+                    "Please remove the invalid parameters and try again.".format(
+                        list(invalid_keys), list(allowed_keys)
+                    )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        # Validate component_specific_filters nested parameters
+        allowed_component_filter_keys = ["components_list", "queuing_profile", "application_policy"]
+        allowed_component_choices = ["queuing_profile", "application_policy"]
+
+        for config_item in self.config:
+            component_filters = config_item.get("component_specific_filters", {})
+
+            if component_filters:
+                # Validate top-level keys in component_specific_filters
+                filter_keys = set(component_filters.keys())
+                invalid_filter_keys = filter_keys - set(allowed_component_filter_keys)
+
+                if invalid_filter_keys:
+                    self.msg = (
+                        "Invalid keys found in 'component_specific_filters': {0}. "
+                        "Only the following keys are allowed: {1}. "
+                        "Please correct the parameter names and try again.".format(
+                            list(invalid_filter_keys), allowed_component_filter_keys
+                        )
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                # Validate components_list values
+                components_list = component_filters.get("components_list", [])
+                if components_list:
+                    if not isinstance(components_list, list):
+                        self.msg = "'components_list' must be a list, got: {0}".format(type(components_list).__name__)
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                    invalid_components = set(components_list) - set(allowed_component_choices)
+                    if invalid_components:
+                        self.msg = (
+                            "Invalid component names found in 'components_list': {0}. "
+                            "Only the following components are allowed: {1}. "
+                            "Please correct the component names and try again.".format(
+                                list(invalid_components), allowed_component_choices
+                            )
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                # Validate queuing_profile nested parameters
+                queuing_profile = component_filters.get("queuing_profile", {})
+                if queuing_profile:
+                    if not isinstance(queuing_profile, dict):
+                        self.msg = "'queuing_profile' must be a dictionary, got: {0}".format(type(queuing_profile).__name__)
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                    allowed_qp_keys = ["profile_names_list"]
+                    qp_keys = set(queuing_profile.keys())
+                    invalid_qp_keys = qp_keys - set(allowed_qp_keys)
+
+                    if invalid_qp_keys:
+                        self.msg = (
+                            "Invalid keys found in 'queuing_profile': {0}. "
+                            "Only the following keys are allowed: {1}. "
+                            "Please correct the parameter names and try again.".format(
+                                list(invalid_qp_keys), allowed_qp_keys
+                            )
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                # Validate application_policy nested parameters
+                application_policy = component_filters.get("application_policy", {})
+                if application_policy:
+                    if not isinstance(application_policy, dict):
+                        self.msg = "'application_policy' must be a dictionary, got: {0}".format(type(application_policy).__name__)
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                    allowed_ap_keys = ["policy_names_list"]
+                    ap_keys = set(application_policy.keys())
+                    invalid_ap_keys = ap_keys - set(allowed_ap_keys)
+
+                    if invalid_ap_keys:
+                        self.msg = (
+                            "Invalid keys found in 'application_policy': {0}. "
+                            "Only the following keys are allowed: {1}. "
+                            "Please correct the parameter names and try again.".format(
+                                list(invalid_ap_keys), allowed_ap_keys
+                            )
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
+        self.validate_minimum_requirements(valid_temp)
 
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
@@ -330,6 +432,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Returns the mapping configuration for application policy workflow manager.
         """
+        self.log("Building workflow elements schema for application policy", "DEBUG")
         return {
             "network_elements": {
                 "queuing_profile": {
@@ -365,6 +468,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Returns reverse mapping specification for queuing profiles.
         """
+        self.log("Generating reverse mapping specification for queuing profiles", "DEBUG")
         return OrderedDict({
             "profile_name": {"type": "str", "source_key": "name"},
             "profile_description": {"type": "str", "source_key": "description"},
@@ -386,6 +490,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Returns reverse mapping specification for application policies.
         """
+        self.log("Generating reverse mapping specification for application policies", "DEBUG")
         return OrderedDict({
             "name": {"type": "str", "source_key": "policyScope"},
             "policy_status": {
@@ -428,8 +533,19 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
         })
 
     def transform_bandwidth_settings(self, clause_data):
-        """Transform clause data to bandwidth settings format."""
+        """
+        Transform clause data from API response to bandwidth settings format.
+
+        Args:
+            clause_data (list): List of clause dictionaries from the queuing profile API response.
+
+        Returns:
+            dict: Bandwidth settings dictionary with interface speed settings and traffic class configurations,
+                  or None if no bandwidth settings found.
+        """
+        self.log("Transforming bandwidth settings from clause data", "DEBUG")
         if not clause_data or not isinstance(clause_data, list):
+            self.log("No valid clause data provided for bandwidth settings transformation", "DEBUG")
             return None
 
         bandwidth_settings = {}
@@ -462,11 +578,23 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                         if bandwidth_list:
                             bandwidth_settings["bandwidth_by_traffic_class"] = bandwidth_list
 
-        return bandwidth_settings if bandwidth_settings else None
+        result = bandwidth_settings if bandwidth_settings else None
+        self.log("Bandwidth settings transformation complete. Found settings: {0}".format(bool(result)), "DEBUG")
+        return result
 
     def transform_dscp_settings(self, clause_data):
-        """Transform clause data to DSCP settings format."""
+        """
+        Transform clause data from API response to DSCP settings format.
+
+        Args:
+            clause_data (list): List of clause dictionaries from the queuing profile API response.
+
+        Returns:
+            dict: DSCP settings dictionary with DSCP values per traffic class, or None if no DSCP settings found.
+        """
+        self.log("Transforming DSCP settings from clause data", "DEBUG")
         if not clause_data or not isinstance(clause_data, list):
+            self.log("No valid clause data provided for DSCP settings transformation", "DEBUG")
             return None
 
         dscp_settings = {}
@@ -490,11 +618,23 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                 if dscp_list:
                     dscp_settings["dscp_by_traffic_class"] = dscp_list
 
-        return dscp_settings if dscp_settings else None
+        result = dscp_settings if dscp_settings else None
+        self.log("DSCP settings transformation complete. Found settings: {0}".format(bool(result)), "DEBUG")
+        return result
 
     def transform_site_names(self, advanced_policy_scope):
-        """Transform site IDs to site names."""
+        """
+        Transform site IDs from advanced policy scope to human-readable site names.
+
+        Args:
+            advanced_policy_scope (dict): Advanced policy scope dictionary containing site group IDs.
+
+        Returns:
+            list: List of site name hierarchies (e.g., ['Global/USA/San Jose']).
+        """
+        self.log("Transforming site IDs to site names", "DEBUG")
         if not advanced_policy_scope or not isinstance(advanced_policy_scope, dict):
+            self.log("No valid advanced policy scope provided", "DEBUG")
             return []
 
         site_ids = []
@@ -516,11 +656,22 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             if site_name:
                 site_names.append(site_name)
 
+        self.log("Transformed {0} site IDs to site names: {1}".format(len(site_names), site_names), "DEBUG")
         return site_names
 
     def transform_device_type(self, advanced_policy_scope):
-        """Determine device type (wired/wireless) from policy scope."""
+        """
+        Determine device type (wired/wireless) from advanced policy scope.
+
+        Args:
+            advanced_policy_scope (dict): Advanced policy scope dictionary containing policy elements.
+
+        Returns:
+            str: Device type - 'wireless' if SSID is present, 'wired' otherwise.
+        """
+        self.log("Determining device type from advanced policy scope", "DEBUG")
         if not advanced_policy_scope or not isinstance(advanced_policy_scope, dict):
+            self.log("No valid advanced policy scope provided, defaulting to wired", "DEBUG")
             return "wired"
 
         advanced_policy_scope_elements = advanced_policy_scope.get("advancedPolicyScopeElement", [])
@@ -532,13 +683,25 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             if not isinstance(element, dict):
                 continue
             if element.get("ssid"):
+                self.log("Device type determined: wireless", "DEBUG")
                 return "wireless"
 
+        self.log("Device type determined: wired", "DEBUG")
         return "wired"
 
     def transform_ssid_name(self, advanced_policy_scope):
-        """Extract SSID name for wireless policies."""
+        """
+        Extract SSID name from advanced policy scope for wireless policies.
+
+        Args:
+            advanced_policy_scope (dict): Advanced policy scope dictionary containing policy elements.
+
+        Returns:
+            str: SSID name if found, None otherwise.
+        """
+        self.log("Extracting SSID name from advanced policy scope", "DEBUG")
         if not advanced_policy_scope or not isinstance(advanced_policy_scope, dict):
+            self.log("No valid advanced policy scope provided", "DEBUG")
             return None
 
         advanced_policy_scope_elements = advanced_policy_scope.get("advancedPolicyScopeElement", [])
@@ -551,18 +714,33 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                 continue
             ssid = element.get("ssid")
             if ssid:
-                return ssid[0] if isinstance(ssid, list) and len(ssid) > 0 else ssid
+                ssid_name = ssid[0] if isinstance(ssid, list) and len(ssid) > 0 else ssid
+                self.log("Found SSID name: {0}".format(ssid_name), "DEBUG")
+                return ssid_name
 
+        self.log("No SSID name found in advanced policy scope", "DEBUG")
         return None
 
     def get_queuing_profile_name_from_id(self, contract_data):
-        """Get queuing profile name from contract ID."""
+        """
+        Retrieve queuing profile name from contract data by querying the profile ID.
+
+        Args:
+            contract_data (dict): Contract dictionary containing profile ID reference.
+
+        Returns:
+            str: Queuing profile name if found, None otherwise.
+        """
         if not contract_data or not isinstance(contract_data, dict):
+            self.log("No valid contract data provided", "DEBUG")
             return None
 
         profile_id = contract_data.get("idRef")
         if not profile_id:
+            self.log("No profile ID found in contract data", "DEBUG")
             return None
+
+        self.log("Fetching queuing profile name for ID: {0}".format(profile_id), "DEBUG")
 
         try:
             response = self.dnac._exec(
@@ -588,7 +766,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Args:
             app_set_id (str): Application set ID
-z
+
         Returns:
             str: Application set name or None if not found
         """
@@ -716,7 +894,15 @@ z
         return []
 
     def transform_application_policies(self, policies):
-        """Transform application policies to playbook format."""
+        """
+        Transform application policies from API response to playbook-compatible format.
+
+        Args:
+            policies (list): List of application policy dictionaries from the API.
+
+        Returns:
+            list: List of transformed application policy configurations in playbook format.
+        """
         if not policies:
             self.log("No policies to transform", "INFO")
             return []
@@ -910,7 +1096,16 @@ z
             return None
 
     def get_application_policies(self, network_element, filters):
-        """Retrieve application policies from Catalyst Center."""
+        """
+        Retrieve application policies from Cisco Catalyst Center based on filters.
+
+        Args:
+            network_element (dict): Network element definition containing API configuration.
+            filters (dict): Filter dictionary containing component-specific filter parameters.
+
+        Returns:
+            dict: Dictionary containing 'application_policy' key with list of transformed policies.
+        """
         self.log("Starting application policy retrieval", "INFO")
 
         component_specific_filters = filters.get("component_specific_filters", {})
@@ -968,7 +1163,15 @@ z
             return {"application_policy": []}
 
     def transform_queuing_profiles(self, profiles):
-        """Transform queuing profiles to playbook format."""
+        """
+        Transform queuing profiles from API response to playbook-compatible format.
+
+        Args:
+            profiles (list): List of queuing profile dictionaries from the API.
+
+        Returns:
+            list: List of transformed queuing profile configurations in playbook format.
+        """
         if not profiles:
             self.log("No queuing profiles to transform", "INFO")
             return []
@@ -1012,6 +1215,7 @@ z
         Returns:
             tuple: (bandwidth_settings dict, dscp_settings dict)
         """
+        self.log("Extracting bandwidth and DSCP settings from {0} clauses".format(len(clauses) if clauses else 0), "DEBUG")
         bandwidth_settings = None
         dscp_settings = OrderedDict()
 
@@ -1112,10 +1316,21 @@ z
                         playbook_tc_name = tc_map[tc_name]
                         dscp_settings[playbook_tc_name] = str(dscp_value)
 
+        self.log("Extraction complete. Bandwidth settings: {0}, DSCP settings: {1}".format(
+            bool(bandwidth_settings), bool(dscp_settings)), "DEBUG")
         return bandwidth_settings, dscp_settings if dscp_settings else None
 
     def get_queuing_profiles(self, network_element, config):
-        """Get queuing profiles from Catalyst Center."""
+        """
+        Retrieve queuing profiles from Cisco Catalyst Center based on configuration filters.
+
+        Args:
+            network_element (dict): Network element definition containing API configuration.
+            config (dict): Configuration dictionary containing filter parameters.
+
+        Returns:
+            dict: Dictionary containing 'queuing_profile' key with list of transformed profiles.
+        """
         self.log("Starting queuing profile retrieval", "INFO")
 
         # Extract filters from config
@@ -1162,15 +1377,23 @@ z
             self.log("Traceback: {0}".format(traceback.format_exc()), "ERROR")
             return {"queuing_profile": []}
 
-    def yaml_config_generator(self, config):
-        """Generate YAML configuration file."""
+    def yaml_config_generator(self, yaml_config_generator):
+        """
+        Generate YAML configuration file from retrieved application policy and queuing profile data.
+
+        Args:
+            yaml_config_generator (dict): Configuration dictionary containing file path and component filters.
+
+        Returns:
+            object: Self instance with updated status and result information.
+        """
         self.log("Starting YAML configuration generation", "INFO")
 
-        file_path = config.get("file_path")
+        file_path = yaml_config_generator.get("file_path")
         if not file_path:
             file_path = self.generate_filename()
 
-        component_specific_filters = config.get("component_specific_filters", {})
+        component_specific_filters = yaml_config_generator.get("component_specific_filters", {})
         components_list = component_specific_filters.get("components_list", ["queuing_profile", "application_policy"])
 
         # Use list of dicts instead of single list
@@ -1182,7 +1405,7 @@ z
                 network_element = self.module_schema["network_elements"][component_name]
                 get_function = network_element["get_function_name"]
 
-                component_data = get_function(network_element, config)
+                component_data = get_function(network_element, yaml_config_generator)
 
                 if component_data and component_data.get(component_name):
                     # Add as separate dict entry
@@ -1211,7 +1434,16 @@ z
         return self
 
     def get_want(self, config, state):
-        """Get desired state from config."""
+        """
+        Process configuration and set desired state for the module.
+
+        Args:
+            config (dict): Configuration dictionary from validated playbook input.
+            state (str): Desired state (gathered).
+
+        Returns:
+            object: Self instance with populated want dictionary.
+        """
         self.log("Processing configuration for state: {0}".format(state), "INFO")
 
         self.generate_all_configurations = config.get("generate_all_configurations", False)
@@ -1225,7 +1457,15 @@ z
         return self
 
     def get_diff_gathered(self):
-        """Process merge state."""
+        """
+        Process the 'gathered' state to generate YAML configuration file.
+
+        Args:
+            None
+
+        Returns:
+            object: Self instance with updated status after YAML generation.
+        """
         self.log("Processing gathered state", "INFO")
 
         config = self.validated_config[0] if self.validated_config else {}
@@ -1249,7 +1489,6 @@ def main():
         "dnac_log_append": {"type": "bool", "default": True},
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
@@ -1257,38 +1496,39 @@ def main():
     }
 
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
-    app_policy_generator = ApplicationPolicyPlaybookGenerator(module)
+    ccc_app_policy_generator = ApplicationPolicyPlaybookGenerator(module)
 
     # Version check
-    current_version = app_policy_generator.get_ccc_version()
+    current_version = ccc_app_policy_generator.get_ccc_version()
     min_supported_version = "2.3.7.6"
 
-    if app_policy_generator.compare_dnac_versions(current_version, min_supported_version) < 0:
-        app_policy_generator.msg = "Application Policy features require Cisco Catalyst Center version {0} or later. Current version: {1}".format(
+    if ccc_app_policy_generator.compare_dnac_versions(current_version, min_supported_version) < 0:
+        ccc_app_policy_generator.msg = "Application Policy features require Cisco Catalyst Center version {0} or later. Current version: {1}".format(
             min_supported_version, current_version
         )
-        app_policy_generator.set_operation_result("failed", False, app_policy_generator.msg, "CRITICAL")
-        module.fail_json(msg=app_policy_generator.msg)
+        ccc_app_policy_generator.set_operation_result("failed", False, ccc_app_policy_generator.msg, "CRITICAL")
+        module.fail_json(msg=ccc_app_policy_generator.msg)
 
     # Get state
-    state = app_policy_generator.params.get("state")
+    state = ccc_app_policy_generator.params.get("state")
 
-    if state not in app_policy_generator.supported_states:
-        app_policy_generator.msg = "State '{0}' is not supported. Supported states: {1}".format(
-            state, app_policy_generator.supported_states
+    if state not in ccc_app_policy_generator.supported_states:
+        ccc_app_policy_generator.msg = "State '{0}' is not supported. Supported states: {1}".format(
+            state, ccc_app_policy_generator.supported_states
         )
-        app_policy_generator.set_operation_result("failed", False, app_policy_generator.msg, "ERROR")
-        module.fail_json(msg=app_policy_generator.msg)
+        ccc_app_policy_generator.set_operation_result("failed", False, ccc_app_policy_generator.msg, "ERROR")
+        module.fail_json(msg=ccc_app_policy_generator.msg)
 
     # Validate input
-    app_policy_generator.validate_input().check_return_status()
+    ccc_app_policy_generator.validate_input().check_return_status()
 
     # Process configuration
-    for config in app_policy_generator.validated_config:
-        app_policy_generator.get_want(config, state).check_return_status()
-        app_policy_generator.get_diff_state_apply[state]().check_return_status()
+    for config in ccc_app_policy_generator.validated_config:
+        ccc_app_policy_generator.reset_values()
+        ccc_app_policy_generator.get_want(config, state).check_return_status()
+        ccc_app_policy_generator.get_diff_state_apply[state]().check_return_status()
 
-    module.exit_json(**app_policy_generator.result)
+    module.exit_json(**ccc_app_policy_generator.result)
 
 
 if __name__ == "__main__":
