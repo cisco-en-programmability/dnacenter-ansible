@@ -786,21 +786,22 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
                     parsed_config["is_assigned_site_as_location"] = "Enabled"
                 else:
                     parsed_config["location"] = accesspoint_config.get(each_key)
-            elif each_key == "tertiary_controller_name" or each_key == "secondary_controller_name":
-                if accesspoint_config.get(each_key) == "Clear" or accesspoint_config.get(each_key) is None:
+            elif each_key in ["tertiary_controller_name", "secondary_controller_name", "primary_controller_name"]:
+                if accesspoint_config.get(each_key) in ["Clear", None, ""]:
                     parsed_config[each_key] = "Inherit from site / Clear"
-            elif each_key == "secondary_ip_address" or each_key == "tertiary_ip_address":
-                if accesspoint_config.get(each_key) != "0.0.0.0":
-                    parsed_config[each_key] = accesspoint_config.get(each_key)
-            elif each_key == "primary_controller_name":
-                if accesspoint_config.get(each_key) == "Clear" or accesspoint_config.get(each_key) is None:
-                    del parsed_config["secondary_controller_name"]
-                    del parsed_config["tertiary_controller_name"]
-                    del parsed_config["primary_ip_address"]
                 else:
                     parsed_config[each_key] = accesspoint_config.get(each_key)
+            elif each_key in ["secondary_ip_address", "tertiary_ip_address", "primary_ip_address"]:
+                if accesspoint_config.get(each_key) != "0.0.0.0":
+                    parsed_config[each_key] = {
+                        "address": accesspoint_config.get(each_key)}
             else:
                 parsed_config[each_key] = accesspoint_config.get(each_key)
+
+        if parsed_config["primary_controller_name"] in ["Inherit from site / Clear", "Clear", None, ""]:
+            del parsed_config["secondary_controller_name"]
+            del parsed_config["tertiary_controller_name"]
+            del parsed_config["primary_controller_name"]
 
         parsed_config["clean_air_si_2.4ghz"] = "Disabled"
         parsed_config["clean_air_si_5ghz"] = "Disabled"
@@ -818,7 +819,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
                                                "channel", "radio_band", "power_assignment_mode", "clean_air_si",
                                                "channel_width", "powerlevel", "channel_assignment_mode",
                                                "channel_number", "custom_power_level",
-                                               "slot_id", "antenna_gain"]
+                                               "antenna_gain"]
                 for each_radio_key in list_of_radio_keys_to_parse:
                     if each_radio_key == "if_type_value":
                         if radio.get(each_radio_key) == "2.4 GHz":
