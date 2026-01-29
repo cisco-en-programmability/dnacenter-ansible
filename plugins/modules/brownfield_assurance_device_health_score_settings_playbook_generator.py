@@ -390,6 +390,7 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
+        self.validate_minimum_requirements(self.config)
         # Import validate_list_of_dicts function here to avoid circular imports
         from ansible_collections.cisco.dnac.plugins.module_utils.dnac import validate_list_of_dicts
 
@@ -406,11 +407,6 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        # Additional validation for generate_all_configurations logic
-        for config_item in valid_temp:
-            if not self.validate_config_logic(config_item):
-                return self
-
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
         self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
@@ -418,37 +414,6 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
         )
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
-
-    def validate_config_logic(self, config):
-        """
-        Validates the logical relationships between configuration parameters.
-        Args:
-            config (dict): Configuration dictionary to validate.
-        Returns:
-            bool: True if validation passes, False otherwise.
-        """
-        generate_all = config.get("generate_all_configurations", False)
-        component_filters = config.get("component_specific_filters")
-
-        # Validate generate_all_configurations=false scenario
-        if not generate_all:
-            if not component_filters:
-                self.msg = (
-                    "Validation failed: When 'generate_all_configurations' is set to false, "
-                    "either 'component_specific_filters' must be provided to "
-                    "specify which configurations to include. Please provide at least one filter type "
-                    "to determine which device health score settings should be generated."
-                )
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return False
-
-        # Validate component_specific_filters structure if provided
-        if component_filters:
-            if not self.validate_component_specific_filters(component_filters):
-                return False
-
-        return True
 
     def validate_component_specific_filters(self, component_specific_filters):
         """
@@ -501,6 +466,18 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
                     self.log(self.msg, "ERROR")
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return False
+
+            # Validate component names against allowed choices
+            valid_components = ["device_health_score_settings"]
+            for component in components_list:
+                if component not in valid_components:
+                    self.msg = (
+                        "Invalid component '{0}' found in components_list. "
+                        "Supported components are: {1}. "
+                        "Please check your configuration and use only valid component names."
+                    ).format(component, valid_components)
+                    self.log(self.msg, "ERROR")
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         # Validate device_families if provided (direct usage)
         if 'device_families' in component_specific_filters:
@@ -1198,6 +1175,17 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
         )
 
         self.validate_params(config)
+        component_filters = config.get("component_specific_filters")
+
+        if component_filters:
+            if not self.validate_component_specific_filters(component_filters):
+                self.set_operation_result(
+                    "failed",
+                    False,
+                    "Invalid component_specific_filters provided.",
+                    "ERROR",
+                )
+                return self
 
         # Set generate_all_configurations after validation
         self.generate_all_configurations = config.get("generate_all_configurations", False)
@@ -1219,25 +1207,6 @@ class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, Br
         self.msg = "Successfully collected all parameters from the playbook for Assurance Device Health Score Settings operations."
         self.status = "success"
         return self
-
-    def validate_params(self, config):
-        """
-        Validates the parameters provided for the playbook configuration.
-        Args:
-            config (dict): Configuration dictionary containing playbook parameters.
-        """
-        self.log("Starting parameter validation for the provided configuration", "DEBUG")
-
-        # Basic validation
-        if not isinstance(config, dict):
-            self.log("Configuration must be a dictionary", "ERROR")
-            raise ValueError("Configuration must be a dictionary")
-
-        # Enhanced validation for logical relationships
-        if not self.validate_config_logic(config):
-            raise ValueError("Configuration validation failed: {0}".format(self.msg))
-
-        self.log("Parameter validation completed successfully", "DEBUG")
 
     def generate_filename(self):
         """
