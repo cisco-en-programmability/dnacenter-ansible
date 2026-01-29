@@ -165,6 +165,22 @@ EXAMPLES = r"""
     config:
       - file_path: "/tmp/catc_provision_config.yaml"
 
+- name: Generate YAML Configuration for ALL provisioned devices (ignores all filters)
+  cisco.dnac.brownfield_provision_playbook_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    config:
+      - file_path: "/tmp/catc_all_provisioned_devices.yaml"
+        generate_all_configurations: true
+
 - name: Generate YAML Configuration with specific wired devices filter
   cisco.dnac.brownfield_provision_playbook_generator:
     dnac_host: "{{dnac_host}}"
@@ -416,9 +432,32 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Expected schema for configuration parameters
         temp_spec = {
             "file_path": {"type": "str", "required": False},
+            "generate_all_configurations": {"type": "bool", "required": False},
             "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
+        allowed_keys = set(temp_spec.keys())
+
+        # Validate that only allowed keys are present in the configuration
+        for config_item in self.config:
+            if not isinstance(config_item, dict):
+                self.msg = "Configuration item must be a dictionary, got: {0}".format(type(config_item).__name__)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            # Check for invalid keys
+            config_keys = set(config_item.keys())
+            invalid_keys = config_keys - allowed_keys
+
+            if invalid_keys:
+                self.msg = (
+                    "Invalid parameters found in playbook configuration: {0}. "
+                    "Only the following parameters are allowed: {1}. "
+                    "Please remove the invalid parameters and try again.".format(
+                        list(invalid_keys), list(allowed_keys)
+                    )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         # Validate params
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
@@ -427,6 +466,47 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
+
+        self.validate_minimum_requirements(valid_temp)
+
+        # Validate component_specific_filters nested parameters
+        allowed_filter_keys = ["management_ip_address", "site_name_hierarchy", "device_family"]
+        for config_item in self.config:
+            component_filters = config_item.get("component_specific_filters", {})
+
+            # Validate wired filter parameters
+            if "wired" in component_filters:
+                wired_filters = component_filters["wired"]
+                if isinstance(wired_filters, list):
+                    for filter_item in wired_filters:
+                        if isinstance(filter_item, dict):
+                            invalid_filter_keys = set(filter_item.keys()) - set(allowed_filter_keys)
+                            if invalid_filter_keys:
+                                self.msg = (
+                                    "Invalid filter parameters found in 'wired' filters: {0}. "
+                                    "Only the following filter parameters are allowed: {1}. "
+                                    "Please correct the parameter names and try again.".format(
+                                        list(invalid_filter_keys), allowed_filter_keys
+                                    )
+                                )
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            # Validate wireless filter parameters
+            if "wireless" in component_filters:
+                wireless_filters = component_filters["wireless"]
+                if isinstance(wireless_filters, list):
+                    for filter_item in wireless_filters:
+                        if isinstance(filter_item, dict):
+                            invalid_filter_keys = set(filter_item.keys()) - set(allowed_filter_keys)
+                            if invalid_filter_keys:
+                                self.msg = (
+                                    "Invalid filter parameters found in 'wireless' filters: {0}. "
+                                    "Only the following filter parameters are allowed: {1}. "
+                                    "Please correct the parameter names and try again.".format(
+                                        list(invalid_filter_keys), allowed_filter_keys
+                                    )
+                                )
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -589,9 +669,14 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log("Found {0} wireless devices".format(len(wireless_devices)), "INFO")
 
-        # Apply component-specific filters
-        if component_specific_filters:
+        # Check if generate_all_configurations is enabled
+        generate_all = self.config[0].get("generate_all_configurations", False) if self.config else False
+
+        # Apply component-specific filters only if generate_all_configurations is not enabled
+        if not generate_all and component_specific_filters:
             wireless_devices = self.apply_device_filters(wireless_devices, component_specific_filters)
+        elif generate_all:
+            self.log("generate_all_configurations is enabled - retrieving all wireless devices without filters", "INFO")
 
         # Process devices into configuration format
         return self.process_device_list(wireless_devices, is_wireless=True)
