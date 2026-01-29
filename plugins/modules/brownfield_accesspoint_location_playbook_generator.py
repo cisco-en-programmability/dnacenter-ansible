@@ -24,11 +24,6 @@ author:
   - A Mohamed Rafeek (@mabdulk2)
   - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -58,8 +53,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  "network_accesspoint_location_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "network_accesspoint_location_manager_playbook_12_Nov_2025_21_43_26_379.yml".
+          a default file name  "network_accesspoint_location_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
+        - For example, "network_accesspoint_location_manager_playbook_2025-04-22_21-43-26.yml".
         type: str
       global_filters:
         description:
@@ -364,16 +359,42 @@ class AccesspointLocationGenerator(DnacBase, BrownFieldHelper):
         if not self.config:
             self.status = "success"
             self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
         temp_spec = {
             "generate_all_configurations": {"type": "bool", "required": False, "default": False},
             "file_path": {"type": "str", "required": False},
-            "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "elements": "dict", "required": False},
         }
+
+        allowed_keys = set(temp_spec.keys())
+
+        # Validate that only allowed keys are present in the configuration
+        for config_item in self.config:
+            if not isinstance(config_item, dict):
+                self.msg = "Configuration item must be a dictionary, got: {0}".format(type(config_item).__name__)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            # Check for invalid keys
+            config_keys = set(config_item.keys())
+            invalid_keys = config_keys - allowed_keys
+
+            if invalid_keys:
+                self.msg = (
+                    "Invalid parameters found in playbook configuration: {0}. "
+                    "Only the following parameters are allowed: {1}. "
+                    "Please remove the invalid parameters and try again.".format(
+                        list(invalid_keys), list(allowed_keys)
+                    )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+        self.validate_minimum_requirements(self.config)
+        self.log("Validating configuration parameters against the expected schema: {0}".format(temp_spec), "DEBUG")
 
         # Import validate_list_of_dicts function here to avoid circular imports
         # from ansible_collections.cisco.dnac.plugins.module_utils.dnac import validate_list_of_dicts
@@ -1392,7 +1413,6 @@ def main():
         "dnac_log_append": {"type": "bool", "default": True},
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
@@ -1429,7 +1449,7 @@ def main():
         )
         ccc_accesspoint_location_playbook_generator.check_return_status()
 
-    # Validate the input parameters and check the return statusk
+    # Validate the input parameters and check the return status
     ccc_accesspoint_location_playbook_generator.validate_input().check_return_status()
 
     # Iterate over the validated configuration parameters
