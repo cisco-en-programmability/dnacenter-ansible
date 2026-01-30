@@ -35,33 +35,33 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
     test_data = loadPlaybookData("brownfield_inventory_workflow_config_generator")
 
     # Playbook configurations
-    playbook_config_generate_inventory_all_devices = test_data.get("playbook_config_generate_inventory_all_devices")
-    playbook_config_generate_inventory_by_ip_address = test_data.get("playbook_config_generate_inventory_by_ip_address")
-    playbook_config_generate_inventory_by_hostname = test_data.get("playbook_config_generate_inventory_by_hostname")
-    playbook_config_generate_inventory_by_serial_number = test_data.get("playbook_config_generate_inventory_by_serial_number")
-    playbook_config_generate_inventory_mixed_filtering = test_data.get("playbook_config_generate_inventory_mixed_filtering")
-    playbook_config_generate_inventory_default_file_path = test_data.get("playbook_config_generate_inventory_default_file_path")
-    playbook_config_generate_inventory_multiple_devices = test_data.get("playbook_config_generate_inventory_multiple_devices")
-    playbook_config_generate_inventory_access_role_devices = test_data.get("playbook_config_generate_inventory_access_role_devices")
-    playbook_config_generate_inventory_core_role_devices = test_data.get("playbook_config_generate_inventory_core_role_devices")
-    playbook_config_generate_inventory_distribution_role_devices = test_data.get("playbook_config_generate_inventory_distribution_role_devices")
-    playbook_config_generate_inventory_border_router_devices = test_data.get("playbook_config_generate_inventory_border_router_devices")
-    playbook_config_generate_inventory_unknown_role_devices = test_data.get("playbook_config_generate_inventory_unknown_role_devices")
-    playbook_config_generate_inventory_multiple_role_filters = test_data.get("playbook_config_generate_inventory_multiple_role_filters")
-    playbook_config_generate_inventory_component_ip_filter = test_data.get("playbook_config_generate_inventory_component_ip_filter")
-    playbook_config_generate_inventory_ssh_devices = test_data.get("playbook_config_generate_inventory_ssh_devices")
-    playbook_config_generate_inventory_telnet_devices = test_data.get("playbook_config_generate_inventory_telnet_devices")
-    playbook_config_generate_inventory_core_with_ssh = test_data.get("playbook_config_generate_inventory_core_with_ssh")
-    playbook_config_generate_inventory_access_with_telnet = test_data.get("playbook_config_generate_inventory_access_with_telnet")
-    playbook_config_generate_inventory_multiple_filters_or_logic = test_data.get("playbook_config_generate_inventory_multiple_filters_or_logic")
-    playbook_config_generate_inventory_global_and_component_filters_combined = test_data.get("playbook_config_generate_inventory_global_and_component_filters_combined")
-    playbook_config_generate_inventory_multiple_device_groups = test_data.get("playbook_config_generate_inventory_multiple_device_groups")
-    playbook_config_generate_inventory_global_ip_with_component_role = test_data.get("playbook_config_generate_inventory_global_ip_with_component_role")
-    playbook_config_generate_inventory_global_hostname_component_role = test_data.get("playbook_config_generate_inventory_global_hostname_component_role")
-    playbook_config_generate_inventory_global_serial_component_role = test_data.get("playbook_config_generate_inventory_global_serial_component_role")
-    playbook_config_generate_inventory_all_filters_combined = test_data.get("playbook_config_generate_inventory_all_filters_combined")
-    playbook_config_generate_inventory_empty_config = test_data.get("playbook_config_generate_inventory_empty_config")
-    playbook_config_generate_inventory_no_file_path = test_data.get("playbook_config_generate_inventory_no_file_path")
+    config_all_devices = test_data.get("playbook_config_generate_inventory_all_devices")
+    config_by_ip = test_data.get("playbook_config_generate_inventory_by_ip_address")
+    config_by_hostname = test_data.get("playbook_config_generate_inventory_by_hostname")
+    config_by_serial = test_data.get("playbook_config_generate_inventory_by_serial_number")
+    config_mixed_filters = test_data.get("playbook_config_generate_inventory_mixed_filtering")
+    config_default_path = test_data.get("playbook_config_generate_inventory_default_file_path")
+    config_multiple_devices = test_data.get("playbook_config_generate_inventory_multiple_devices")
+    config_access_role = test_data.get("playbook_config_generate_inventory_access_role_devices")
+    config_core_role = test_data.get("playbook_config_generate_inventory_core_role_devices")
+    config_distribution_role = test_data.get("playbook_config_generate_inventory_distribution_role_devices")
+    config_border_router = test_data.get("playbook_config_generate_inventory_border_router_devices")
+    config_unknown_role = test_data.get("playbook_config_generate_inventory_unknown_role_devices")
+    config_multiple_roles = test_data.get("playbook_config_generate_inventory_multiple_role_filters")
+    config_component_ip = test_data.get("playbook_config_generate_inventory_component_ip_filter")
+    config_ssh_devices = test_data.get("playbook_config_generate_inventory_ssh_devices")
+    config_telnet_devices = test_data.get("playbook_config_generate_inventory_telnet_devices")
+    config_core_ssh = test_data.get("playbook_config_generate_inventory_core_with_ssh")
+    config_access_telnet = test_data.get("playbook_config_generate_inventory_access_with_telnet")
+    config_or_logic = test_data.get("playbook_config_generate_inventory_multiple_filters_or_logic")
+    config_global_component = test_data.get("playbook_config_generate_inventory_global_and_component_filters_combined")
+    config_device_groups = test_data.get("playbook_config_generate_inventory_multiple_device_groups")
+    config_ip_role = test_data.get("playbook_config_generate_inventory_global_ip_with_component_role")
+    config_hostname_role = test_data.get("playbook_config_generate_inventory_global_hostname_component_role")
+    config_serial_role = test_data.get("playbook_config_generate_inventory_global_serial_component_role")
+    config_all_filters = test_data.get("playbook_config_generate_inventory_all_filters_combined")
+    config_empty = test_data.get("playbook_config_generate_inventory_empty_config")
+    config_no_path = test_data.get("playbook_config_generate_inventory_no_file_path")
 
     def setUp(self):
         super(TestBrownfieldInventoryWorkflowConfigGenerator, self).setUp()
@@ -76,12 +76,10 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK._exec"
         )
         self.run_dnac_exec = self.mock_dnac_exec.start()
-        
         self.mock_file_write = patch("builtins.open")
         self.mock_makedirs = patch("os.makedirs")
         self.mock_file_write.start()
         self.mock_makedirs.start()
-        
         self.load_fixtures()
 
     def tearDown(self):
@@ -252,7 +250,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_all_devices
+                config=self.config_all_devices
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -278,7 +276,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_by_ip_address
+                config=self.config_by_ip
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -304,7 +302,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_by_hostname
+                config=self.config_by_hostname
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -330,7 +328,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_by_serial_number
+                config=self.config_by_serial
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -356,7 +354,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_mixed_filtering
+                config=self.config_mixed_filters
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -382,7 +380,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_default_file_path
+                config=self.config_default_path
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -408,7 +406,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_multiple_devices
+                config=self.config_multiple_devices
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -438,7 +436,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_access_role_devices
+                config=self.config_access_role
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -464,7 +462,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_core_role_devices
+                config=self.config_core_role
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -490,7 +488,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_distribution_role_devices
+                config=self.config_distribution_role
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -516,7 +514,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_border_router_devices
+                config=self.config_border_router
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -542,7 +540,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_unknown_role_devices
+                config=self.config_unknown_role
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -572,7 +570,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_multiple_role_filters
+                config=self.config_multiple_roles
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -598,7 +596,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_component_ip_filter
+                config=self.config_component_ip
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -628,7 +626,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_ssh_devices
+                config=self.config_ssh_devices
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -654,7 +652,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_telnet_devices
+                config=self.config_telnet_devices
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -684,7 +682,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_core_with_ssh
+                config=self.config_core_ssh
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -710,7 +708,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_access_with_telnet
+                config=self.config_access_telnet
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -736,7 +734,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_multiple_filters_or_logic
+                config=self.config_or_logic
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -766,7 +764,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_global_and_component_filters_combined
+                config=self.config_global_component
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -792,7 +790,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_multiple_device_groups
+                config=self.config_device_groups
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -818,7 +816,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_global_ip_with_component_role
+                config=self.config_ip_role
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -844,7 +842,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_global_hostname_component_role
+                config=self.config_hostname_role
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -870,7 +868,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_global_serial_component_role
+                config=self.config_serial_role
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -897,7 +895,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_all_filters_combined
+                config=self.config_all_filters
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -927,7 +925,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_empty_config
+                config=self.config_empty
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -953,7 +951,7 @@ class TestBrownfieldInventoryWorkflowConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_generate_inventory_no_file_path
+                config=self.config_no_path
             )
         )
         result = self.execute_module(changed=True, failed=False)
