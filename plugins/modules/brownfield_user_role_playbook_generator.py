@@ -1053,7 +1053,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                     else:
                         components_skipped += 1
                         self.log("No data found for component: {0}".format(component), "DEBUG")
-                        
+
                 except Exception as e:
                     self.log("Error processing component {0}: {1}".format(component, str(e)), "ERROR")
                     components_skipped += 1
@@ -1066,7 +1066,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             no_config_message = "No users or roles found to process for module '{0}'. Verify input filters or configuration.".format(
                 self.module_name
             )
-            
+
             response_data = {
                 "components_processed": components_processed,
                 "components_skipped": components_skipped,
@@ -1074,7 +1074,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "message": no_config_message,
                 "status": "success"
             }
-            
+
             # Set both msg and response to the same structure
             self.msg = response_data
             self.result["response"] = response_data
@@ -1102,7 +1102,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             self.result["response"] = response_data
         else:
             error_message = "Failed to write YAML configuration to file: {0}".format(file_path)
-            
+
             response_data = {
                 "message": error_message,
                 "status": "failed"
