@@ -275,7 +275,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
 )
-
+import time
 try:
     import yaml
     HAS_YAML = True
@@ -502,6 +502,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                             self.set_operation_result("failed", False, self.msg, "ERROR")
                             return self
 
+        self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
         self.validate_minimum_requirements(self.config)
 
         # Validate params
@@ -2596,18 +2597,73 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             status when YAML generation completes successfully, or failure status
             with error information when issues occur.
         """
-        if not self.want:
-            self.msg = "No configuration found in 'want' for processing"
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+        start_time = time.time()
+        self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
+        # Define workflow operations
+        workflow_operations = [
+            (
+                "yaml_config_generator",
+                "YAML Config Generator",
+                self.yaml_config_generator,
+            )
+        ]
+        operations_executed = 0
+        operations_skipped = 0
 
-        yaml_config_generator = self.want.get("yaml_config_generator")
-        if yaml_config_generator:
-            self.log("Processing yaml_config_generator from want", "DEBUG")
-            self.yaml_config_generator(yaml_config_generator).check_return_status()
-        else:
-            self.msg = "No yaml_config_generator found in want"
-            self.set_operation_result("failed", False, self.msg, "ERROR")
+        # Iterate over operations and process them
+        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
+        for index, (param_key, operation_name, operation_func) in enumerate(
+            workflow_operations, start=1
+        ):
+            self.log(
+                "Iteration {0}: Checking parameters for {1} operation with param_key '{2}'.".format(
+                    index, operation_name, param_key
+                ),
+                "DEBUG",
+            )
+            params = self.want.get(param_key)
+            if params:
+                self.log(
+                    "Iteration {0}: Parameters found for {1}. Starting processing.".format(
+                        index, operation_name
+                    ),
+                    "INFO",
+                )
+
+                try:
+                    operation_func(params)
+                    operations_executed += 1
+                    self.log(
+                        "{0} operation completed successfully".format(operation_name),
+                        "DEBUG"
+                    )
+                except Exception as e:
+                    self.log(
+                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
+                        "ERROR"
+                    )
+                    self.set_operation_result(
+                        "failed", True,
+                        "{0} operation failed: {1}".format(operation_name, str(e)),
+                        "ERROR"
+                    ).check_return_status()
+
+            else:
+                operations_skipped += 1
+                self.log(
+                    "Iteration {0}: No parameters found for {1}. Skipping operation.".format(
+                        index, operation_name
+                    ),
+                    "WARNING",
+                )
+
+        end_time = time.time()
+        self.log(
+            "Completed 'get_diff_gathered' operation in {0:.2f} seconds.".format(
+                end_time - start_time
+            ),
+            "DEBUG",
+        )
 
         return self
 
