@@ -116,10 +116,12 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             {
-                "YAML config generation Task succeeded for module 'user_role_workflow_manager'.":
-                {
-                    "file_path": "/Users/priyadharshini/Downloads/specific_userrole_details_info"
-                }
+                "components_processed": 2,
+                "components_skipped": 0,
+                "configurations_count": 13,
+                "file_path": "/Users/priyadharshini/Downloads/specific_userrole_details_info",
+                "message": "YAML configuration file generated successfully for module 'user_role_workflow_manager'",
+                "status": "success"
             }
         )
 
@@ -147,10 +149,12 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             {
-                "YAML config generation Task succeeded for module 'user_role_workflow_manager'.":
-                {
-                    "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
-                }
+                "components_processed": 1,
+                "components_skipped": 0,
+                "configurations_count": 1,
+                "file_path": "/Users/priyadharshini/Downloads/specific_user_details1",
+                "message": "YAML configuration file generated successfully for module 'user_role_workflow_manager'",
+                "status": "success"
             }
         )
 
@@ -178,10 +182,12 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             {
-                "YAML config generation Task succeeded for module 'user_role_workflow_manager'.":
-                {
-                    "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
-                }
+                "components_processed": 1,
+                "components_skipped": 0,
+                "configurations_count": 1,
+                "file_path": "/Users/priyadharshini/Downloads/specific_user_details1",
+                "message": "YAML configuration file generated successfully for module 'user_role_workflow_manager'",
+                "status": "success"
             }
         )
 
@@ -209,10 +215,12 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             {
-                "YAML config generation Task succeeded for module 'user_role_workflow_manager'.":
-                {
-                    "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
-                }
+                "components_processed": 2,
+                "components_skipped": 0,
+                "configurations_count": 13,
+                "file_path": "/Users/priyadharshini/Downloads/specific_user_details1",
+                "message": "YAML configuration file generated successfully for module 'user_role_workflow_manager'",
+                "status": "success"
             }
         )
 
@@ -267,9 +275,11 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             {
-                "YAML config generation Task succeeded for module 'user_role_workflow_manager'.":
-                {
-                    "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
-                }
+                "components_processed": 1,
+                "components_skipped": 0,
+                "configurations_count": 3,
+                "file_path": "/Users/priyadharshini/Downloads/specific_user_details1",
+                "message": "YAML configuration file generated successfully for module 'user_role_workflow_manager'",
+                "status": "success"
             }
         )

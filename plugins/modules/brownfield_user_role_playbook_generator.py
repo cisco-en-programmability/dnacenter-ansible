@@ -68,13 +68,10 @@ options:
           components_list:
             description:
               - List of components to include in the YAML configuration file.
-              - Valid values are
-                - User Details "user_details"
-                - Role Details "role_details"
               - If not specified, all components are included.
-              - For example, ["user_details", "role_details"].
             type: list
             elements: str
+            choices: ["user_details", "role_details"]
           user_details:
             description:
               - User details to filter users by username, email, or role.
@@ -234,19 +231,20 @@ response_1:
   type: dict
   sample: >
     {
-      "msg": {
-        "YAML config generation Task succeeded for module 'user_role_workflow_manager'.": {
-            "file_path": "/Users/priyadharshini/Downloads/specific_userrole_details_info"
-        }
-    },
-    "response": {
-        "YAML config generation Task succeeded for module 'user_role_workflow_manager'.": {
-            "file_path": "/Users/priyadharshini/Downloads/specific_userrole_details_info"
-        }
+      "msg": "YAML configuration file generated successfully for module 'user_role_workflow_manager'",
+        "response": {
+            "components_processed": 2,
+            "components_skipped": 0,
+            "configurations_count": 15,
+            "file_path": "user_role_details/user_info",
+            "message": "YAML configuration file generated successfully for module 'user_role_workflow_manager'",
+            "status": "success"
+        },
+        "status": "success"
     }
-# Case_2: Error Scenario
+# Case_2: Idempotency Scenario
 response_2:
-  description: A string with the response returned by the Cisco Catalyst Center
+  description: A dictionary with the response returned by the Cisco Catalyst Center
   returned: always
   type: list
   sample: >
@@ -1015,6 +1013,11 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
+        # NEW: Initialize tracking variables
+        components_processed = 0
+        components_skipped = 0
+        total_configurations = 0
+
         # Create the structured configuration
         config_dict = {}
 
@@ -1025,6 +1028,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "Skipping unsupported network element: {0}".format(component),
                     "WARNING",
                 )
+                components_skipped += 1
                 continue
 
             filters = {
@@ -1034,39 +1038,79 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
 
             operation_func = network_element.get("get_function_name")
             if callable(operation_func):
-                details = operation_func(network_element, filters)
-                self.log(
-                    "Details retrieved for {0}: {1}".format(component, details), "DEBUG"
-                )
+                try:
+                    details = operation_func(network_element, filters)
+                    self.log(
+                        "Details retrieved for {0}: {1}".format(component, details), "DEBUG"
+                    )
 
-                # Add the component data to the config dictionary
-                if component in details and details[component]:
-                    config_dict[component] = details[component]
+                    if component in details and details[component]:
+                        config_dict[component] = details[component]
+                        config_count = len(details[component]) if isinstance(details[component], list) else 1
+                        total_configurations += config_count
+                        components_processed += 1
+                        self.log("Added {0} configurations: {1} items".format(component, config_count), "DEBUG")
+                    else:
+                        components_skipped += 1
+                        self.log("No data found for component: {0}".format(component), "DEBUG")
+                        
+                except Exception as e:
+                    self.log("Error processing component {0}: {1}".format(component, str(e)), "ERROR")
+                    components_skipped += 1
+                    continue
+            else:
+                self.log("No operation function found for component: {0}".format(component), "WARNING")
+                components_skipped += 1
 
         if not config_dict:
-            self.msg = "No users or roles found to process for module '{0}'. Verify input filters or configuration.".format(
+            no_config_message = "No users or roles found to process for module '{0}'. Verify input filters or configuration.".format(
                 self.module_name
             )
-            self.set_operation_result("success", False, self.msg, "INFO")
+            
+            response_data = {
+                "components_processed": components_processed,
+                "components_skipped": components_skipped,
+                "configurations_count": 0,
+                "message": no_config_message,
+                "status": "success"
+            }
+            
+            # Set both msg and response to the same structure
+            self.msg = response_data
+            self.result["response"] = response_data
+            self.set_operation_result("success", False, no_config_message, "INFO")
             return self
 
         final_dict = {"config": config_dict}
         self.log("Final dictionary created: {0}".format(final_dict), "DEBUG")
 
         if self.write_dict_to_yaml(final_dict, file_path):
-            self.msg = {
-                "YAML config generation Task succeeded for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
+            success_message = "YAML configuration file generated successfully for module '{0}'".format(self.module_name)
+
+            response_data = {
+                "components_processed": components_processed,
+                "components_skipped": components_skipped,
+                "configurations_count": total_configurations,
+                "file_path": file_path,
+                "message": success_message,
+                "status": "success"
             }
-            self.set_operation_result("success", True, self.msg, "INFO")
+
+            self.set_operation_result("success", True, success_message, "INFO")
+
+            self.msg = response_data
+            self.result["response"] = response_data
         else:
-            self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
+            error_message = "Failed to write YAML configuration to file: {0}".format(file_path)
+            
+            response_data = {
+                "message": error_message,
+                "status": "failed"
             }
-            self.set_operation_result("failed", True, self.msg, "ERROR")
+
+            self.set_operation_result("failed", False, error_message, "ERROR")
+            self.msg = response_data
+            self.result["response"] = response_data
 
         return self
 
