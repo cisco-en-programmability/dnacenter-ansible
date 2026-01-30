@@ -382,7 +382,9 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         super().__init__(module)
         self.module_schema = self.get_workflow_filters_schema()
         self.site_id_name_dict = self.get_site_id_name_mapping()
-        self.fabric_site_name_to_id_dict = self.get_fabric_site_name_to_id_mapping()
+        self.fabric_site_name_to_id_dict, self.fabric_site_id_to_name_dict = (
+            self.get_fabric_site_name_to_id_mapping()
+        )
         self.module_name = "sda_fabric_devices_workflow_manager"
 
     def validate_input(self):
@@ -481,25 +483,359 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             {
                 "fabric_name": {
                     "type": "str",
+                    "required": True,
                     "special_handling": True,
                     "transform": self.transform_fabric_name,
                 },
                 "device_config": {
                     "type": "list",
                     "elements": "dict",
+                    "required": True,
                     "special_handling": True,
                     "transform": self.transform_device_config,
+                    "device_ip": {
+                        "type": "str",
+                        "required": True,
+                    },
+                    "device_roles": {
+                        "type": "list",
+                        "elements": "str",
+                        "source_key": "fabricDeviceRoles",
+                    },
+                    "wireless_controller_settings": {
+                        "type": "dict",
+                        "enable": {"type": "bool"},
+                        "reload": {"type": "bool", "default": False},
+                        "primary_managed_ap_locations": {
+                            "type": "list",
+                            "elements": "str",
+                        },
+                        "secondary_managed_ap_locations": {
+                            "type": "list",
+                            "elements": "str",
+                        },
+                        "rolling_ap_upgrade": {
+                            "type": "dict",
+                            "enable": {"type": "bool"},
+                            "ap_reboot_percentage": {
+                                "type": "int",
+                            },
+                        },
+                    },
+                    "borders_settings": {
+                        "type": "dict",
+                        "layer3_settings": {
+                            "type": "list",
+                            "elements": "dict",
+                            "local_autonomous_system_number": {
+                                "type": "str",
+                                "source_key": "localAutonomousSystemNumber",
+                            },
+                            "is_default_exit": {
+                                "type": "bool",
+                                "source_key": "isDefaultExit",
+                                "default": True,
+                            },
+                            "import_external_routes": {
+                                "type": "bool",
+                                "source_key": "importExternalRoutes",
+                                "default": True,
+                            },
+                            "border_priority": {
+                                "type": "int",
+                                "source_key": "borderPriority",
+                                "default": 10,
+                            },
+                            "prepend_autonomous_system_count": {
+                                "type": "int",
+                                "source_key": "prependAutonomousSystemCount",
+                                "default": 0,
+                            },
+                        },
+                        "layer3_handoff_ip_transit": {
+                            "type": "list",
+                            "elements": "dict",
+                            "transit_network_name": {
+                                "type": "str",
+                                "source_key": "transitNetworkName",
+                            },
+                            "interface_name": {
+                                "type": "str",
+                                "source_key": "interfaceName",
+                            },
+                            "external_connectivity_ip_pool_name": {
+                                "type": "str",
+                            },
+                            "virtual_network_name": {
+                                "type": "str",
+                                "source_key": "virtualNetworkName",
+                            },
+                            "vlan_id": {
+                                "type": "int",
+                                "source_key": "vlanId",
+                            },
+                            "tcp_mss_adjustment": {
+                                "type": "int",
+                                "source_key": "tcpMssAdjustment",
+                            },
+                            "local_ip_address": {
+                                "type": "str",
+                                "source_key": "localIpAddress",
+                            },
+                            "remote_ip_address": {
+                                "type": "str",
+                                "source_key": "remoteIpAddress",
+                            },
+                            "local_ipv6_address": {
+                                "type": "str",
+                                "source_key": "localIpv6Address",
+                            },
+                            "remote_ipv6_address": {
+                                "type": "str",
+                                "source_key": "remoteIpv6Address",
+                            },
+                        },
+                        "layer3_handoff_sda_transit": {
+                            "type": "dict",
+                            "transit_network_name": {
+                                "type": "str",
+                                "source_key": "transitNetworkName",
+                            },
+                            "affinity_id_prime": {
+                                "type": "int",
+                                "source_key": "affinityIdPrime",
+                            },
+                            "affinity_id_decider": {
+                                "type": "int",
+                                "source_key": "affinityIdDecider",
+                            },
+                            "connected_to_internet": {
+                                "type": "bool",
+                                "source_key": "connectedToInternet",
+                                "default": False,
+                            },
+                            "is_multicast_over_transit_enabled": {
+                                "type": "bool",
+                                "source_key": "isMulticastOverTransitEnabled",
+                                "default": False,
+                            },
+                        },
+                        "layer2_handoff": {
+                            "type": "list",
+                            "elements": "dict",
+                            "interface_name": {
+                                "type": "str",
+                                "source_key": "interfaceName",
+                            },
+                            "internal_vlan_id": {
+                                "type": "int",
+                                "source_key": "internalVlanId",
+                            },
+                            "external_vlan_id": {
+                                "type": "int",
+                                "source_key": "externalVlanId",
+                            },
+                        },
+                    },
                 },
             }
         )
         return fabric_devices
 
+    def group_fabric_devices_by_fabric_id(self, all_fabric_devices):
+        """
+        Groups fabric devices by their fabric_id.
+
+        Args:
+            all_fabric_devices (list): List of device entries containing fabric_id and device_config
+
+        Returns:
+            dict: Dictionary mapping fabric_id to list of device configurations
+        """
+        self.log("Grouping fabric devices by fabric_id", "DEBUG")
+        fabric_devices_by_fabric_id = {}
+
+        for device_entry in all_fabric_devices:
+            fabric_id = device_entry.get("fabric_id")
+            device = device_entry.get("device_config")
+            if fabric_id and device:
+                if fabric_id not in fabric_devices_by_fabric_id:
+                    fabric_devices_by_fabric_id[fabric_id] = []
+                fabric_devices_by_fabric_id[fabric_id].append(device)
+            else:
+                self.log(
+                    f"Device entry missing fabric_id or device_config: {self.pprint(device_entry)}",
+                    "WARNING",
+                )
+
+        self.log(
+            f"Grouped {len(all_fabric_devices)} devices into {len(fabric_devices_by_fabric_id)} fabric site(s)",
+            "INFO",
+        )
+        self.log(
+            f"Fabric IDs with device counts: {dict((fid, len(devices)) for fid, devices in fabric_devices_by_fabric_id.items())}",
+            "DEBUG",
+        )
+
+        return fabric_devices_by_fabric_id
+
+    def process_fabric_device_for_batch(
+        self, device, device_id_to_ip_map, batch_idx, device_idx, total_devices
+    ):
+        """
+        Process a single fabric device and format it for inclusion in the results.
+
+        Args:
+            device (dict): The device data from the API response
+            device_id_to_ip_map (dict): Mapping of device IDs to IP addresses
+            batch_idx (int): Current batch index for logging
+            device_idx (int): Current device index for logging
+            total_devices (int): Total number of devices in the batch for logging
+
+        Returns:
+            dict: Formatted device response with fabric_id, device_config, fabric_name, and device_ip
+        """
+        self.log(
+            f"Processing device {device_idx}/{total_devices} in batch {batch_idx}",
+            "DEBUG",
+        )
+
+        network_device_id = device.get("networkDeviceId")
+        fabric_id = device.get("fabricId")
+        fabric_name = self.fabric_site_id_to_name_dict.get(fabric_id, "Unknown")
+        device_ip = (
+            device_id_to_ip_map.get(network_device_id) if network_device_id else None
+        )
+
+        self.log(
+            f"Device details: network_device_id='{network_device_id}', device_ip='{device_ip}', "
+            f"fabric_name='{fabric_name}', fabric_id='{fabric_id}'",
+            "DEBUG",
+        )
+
+        if not device_ip:
+            self.log(
+                f"Warning: No IP address found for device with network_device_id '{network_device_id}' in fabric '{fabric_name}' (fabric_id: '{fabric_id}') in batch {batch_idx}",
+                "WARNING",
+            )
+
+        formatted_device_response = {
+            "fabric_id": device.get("fabricId"),
+            "device_config": device,
+            "fabric_name": fabric_name,
+            "device_ip": device_ip,
+        }
+        return formatted_device_response
+
+    def retrieve_all_fabric_devices_from_api(
+        self, fabric_devices_params_list_to_query, api_family, api_function
+    ):
+        """
+        Execute API calls to retrieve fabric devices based on provided query parameters.
+
+        Args:
+            fabric_devices_params_list_to_query (list): List of query parameter dictionaries
+            api_family (str): API family name (e.g., 'sda')
+            api_function (str): API function name (e.g., 'get_fabric_devices')
+
+        Returns:
+            list: List of fabric device entries with fabric_id, device_config, fabric_name, and device_ip
+        """
+        self.log("Starting API calls to retrieve fabric devices", "INFO")
+        all_fabric_devices = []
+
+        for idx, query_params in enumerate(fabric_devices_params_list_to_query, 1):
+            self.log(
+                f"Executing API call {idx}/{len(fabric_devices_params_list_to_query)} to get fabric device details with params: {self.pprint(query_params)}",
+                "DEBUG",
+            )
+
+            try:
+                response = self.dnac._exec(
+                    family=api_family,
+                    function=api_function,
+                    params=query_params,
+                )
+
+                self.log(
+                    f"API call {idx} response received: {self.pprint(response)}",
+                    "DEBUG",
+                )
+
+                if response and isinstance(response, dict):
+                    devices = response.get("response", [])
+                    if devices:
+                        self.log(
+                            f"API call {idx} returned {len(devices)} fabric device(s)",
+                            "INFO",
+                        )
+
+                        # Get device IDs for IP mapping
+                        device_ids_in_batch = [
+                            device.get("networkDeviceId")
+                            for device in devices
+                            if device.get("networkDeviceId")
+                        ]
+
+                        # Get device ID to IP mapping for this batch
+                        device_id_to_ip_map = {}
+                        if device_ids_in_batch:
+                            self.log(
+                                f"Retrieving device IPs for {len(device_ids_in_batch)} device(s) in this batch",
+                                "DEBUG",
+                            )
+                            device_id_to_ip_map = self.get_device_ips_from_device_ids(
+                                device_ids_in_batch
+                            )
+                            self.log(
+                                f"Device ID to IP mapping for batch: {self.pprint(device_id_to_ip_map)}",
+                                "DEBUG",
+                            )
+                        else:
+                            self.log(
+                                "No device IDs found in this batch for IP mapping",
+                                "WARNING",
+                            )
+
+                        for device_idx, device in enumerate(devices, 1):
+                            formatted_device_response = (
+                                self.process_fabric_device_for_batch(
+                                    device,
+                                    device_id_to_ip_map,
+                                    idx,
+                                    device_idx,
+                                    len(devices),
+                                )
+                            )
+                            all_fabric_devices.append(formatted_device_response)
+                    else:
+                        self.log(
+                            f"API call {idx} returned no fabric devices",
+                            "DEBUG",
+                        )
+                else:
+                    self.log(
+                        f"API call {idx} returned unexpected response format",
+                        "WARNING",
+                    )
+
+            except Exception as e:
+                self.log(
+                    f"Error during API call {idx} with params {query_params}: {str(e)}",
+                    "ERROR",
+                )
+                continue
+
+        self.log(
+            f"Total fabric devices retrieved: {len(all_fabric_devices)}",
+            "INFO",
+        )
+
+        return all_fabric_devices
+
     def get_fabric_devices_configuration(
         self, network_element, component_specific_filters=None
     ):
-        self.log("HELLO2")
-        self.log(network_element)
-        self.log(component_specific_filters)
 
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
@@ -538,6 +874,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                         f"Fabric site '{fabric_name}' not found in Cisco Catalyst Center.",
                         "WARNING",
                     )
+                    return {"fabric_devices": []}
 
             if "device_ip" in component_specific_filters:
                 device_ip = component_specific_filters.get("device_ip")
@@ -588,7 +925,6 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
                 return {"fabric_devices": []}
         else:
-            # No filters provided - get all fabric devices from all fabric sites
             self.log(
                 "No component-specific filters provided. Retrieving all fabric devices from all fabric sites.",
                 "INFO",
@@ -611,56 +947,8 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         # Execute API calls to get fabric devices
-        self.log("Starting API calls to retrieve fabric devices", "INFO")
-        all_fabric_devices = []
-
-        for idx, query_params in enumerate(fabric_devices_params_list_to_query, 1):
-            self.log(
-                f"Executing API call {idx}/{len(fabric_devices_params_list_to_query)} with params: {self.pprint(query_params)}",
-                "DEBUG",
-            )
-
-            try:
-                response = self.dnac._exec(
-                    family=api_family,
-                    function=api_function,
-                    params=query_params,
-                )
-
-                self.log(
-                    f"API call {idx} response received: {self.pprint(response)}",
-                    "DEBUG",
-                )
-
-                if response and isinstance(response, dict):
-                    devices = response.get("response", [])
-                    if devices:
-                        self.log(
-                            f"API call {idx} returned {len(devices)} fabric device(s)",
-                            "INFO",
-                        )
-                        all_fabric_devices.extend(devices)
-                    else:
-                        self.log(
-                            f"API call {idx} returned no fabric devices",
-                            "DEBUG",
-                        )
-                else:
-                    self.log(
-                        f"API call {idx} returned unexpected response format",
-                        "WARNING",
-                    )
-
-            except Exception as e:
-                self.log(
-                    f"Error during API call {idx} with params {query_params}: {str(e)}",
-                    "ERROR",
-                )
-                continue
-
-        self.log(
-            f"Total fabric devices retrieved: {len(all_fabric_devices)}",
-            "INFO",
+        all_fabric_devices = self.retrieve_all_fabric_devices_from_api(
+            fabric_devices_params_list_to_query, api_family, api_function
         )
 
         if not all_fabric_devices:
@@ -670,57 +958,93 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
             return {"fabric_devices": []}
 
-        else:
-            self.log(
-                f"Details retrieved - all_fabric_devices:\n{self.pprint(all_fabric_devices)}",
-                "DEBUG",
-            )
-
-        # Group devices by fabric_id and transform using temp_spec
-        self.log("Grouping fabric devices by fabric_id", "DEBUG")
-        devices_by_fabric = {}
-
-        for device in all_fabric_devices:
-            fabric_id = device.get("fabricId")
-            if fabric_id:
-                if fabric_id not in devices_by_fabric:
-                    devices_by_fabric[fabric_id] = []
-                devices_by_fabric[fabric_id].append(device)
-
         self.log(
-            f"Devices grouped into {len(devices_by_fabric)} fabric site(s)",
+            f"Details retrieved - all_fabric_devices:\n{self.pprint(all_fabric_devices)}",
             "DEBUG",
         )
 
-        # # Transform the data using the temp_spec
-        # self.log("Starting transformation of fabric devices data", "INFO")
-        # temp_spec = network_element.get("reverse_mapping_function")()
+        # Group fabric devices by fabric_id
+        fabric_devices_by_fabric_id = self.group_fabric_devices_by_fabric_id(
+            all_fabric_devices
+        )
 
-        # fabric_devices_list = []
-        # for fabric_id, devices in devices_by_fabric.items():
-        #     self.log(
-        #         f"Transforming {len(devices)} device(s) for fabric_id: {fabric_id}",
-        #         "DEBUG",
-        #     )
+        ccc_version = self.get_ccc_version()
+        if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+            self.log(
+                f"Embedded wireless controller settings are not available in Catalyst Center version '{ccc_version}'. "
+                f"Minimum required version is 2.3.7.9. Skipping embedded wireless controller settings retrieval.",
+                "DEBUG",
+            )
+        else:
+            self.log(
+                f"Catalyst Center version '{ccc_version}' supports embedded wireless controller settings. "
+                "Retrieving the embedded wireless controller settings details.",
+                "INFO",
+            )
 
-        #     # Create a data structure that matches what modify_parameters expects
-        #     fabric_data = {
-        #         "fabricId": fabric_id,
-        #         "devices": devices,
-        #     }
+            # Retrieve embedded wireless controller settings for all fabric sites
+            wireless_settings_by_fabric_id = (
+                self.retrieve_wireless_controller_settings_for_all_fabrics(
+                    fabric_devices_by_fabric_id
+                )
+            )
 
-        #     # Transform using modify_parameters
-        #     transformed_data = self.modify_parameters(temp_spec, [fabric_data])
+            # Check if any embedded wireless controller settings were found
+            if not wireless_settings_by_fabric_id:
+                self.log(
+                    "No embedded wireless controller settings found for any fabric site. Skipping managed AP locations retrieval.",
+                    "INFO",
+                )
+            else:
+                # Retrieve managed AP locations for all wireless controllers
+                self.retrieve_managed_ap_locations_for_wireless_controllers(
+                    wireless_settings_by_fabric_id
+                )
 
-        #     if transformed_data:
-        #         fabric_devices_list.extend(transformed_data)
+            # Populate embedded wireless controller settings for each fabric site to its devices
+            self.populate_wireless_controller_settings_to_devices(
+                wireless_settings_by_fabric_id, fabric_devices_by_fabric_id
+            )
 
-        # self.log(
-        #     f"Transformation complete. Generated {len(fabric_devices_list)} fabric device configuration(s)",
-        #     "INFO",
-        # )
+        # Transform the data using the temp_spec
+        self.log("Starting transformation of fabric devices data", "INFO")
+        temp_spec = network_element.get("reverse_mapping_function")()
 
-        # return {"fabric_devices": fabric_devices_list}
+        transformed_fabric_devices_list = []
+        for idx, device_entry in enumerate(all_fabric_devices, 1):
+            fabric_device_details = device_entry.get("device_config")
+            fabric_id = device_entry.get("fabric_id", "Unknown")
+            fabric_name = device_entry.get("fabric_name", "Unknown")
+            device_id = (
+                fabric_device_details.get("networkDeviceId", "Unknown")
+                if fabric_device_details
+                else "Unknown"
+            )
+
+            self.log(
+                f"Transforming device {idx}/{len(all_fabric_devices)} (device_id: {device_id}, fabric_id: {fabric_id}, fabric_name: '{fabric_name}')",
+                "DEBUG",
+            )
+
+            if not fabric_device_details:
+                self.log(
+                    f"Skipping transformation for device entry {idx} - no device_config found",
+                    "WARNING",
+                )
+                continue
+
+            # Transform using modify_parameters
+            transformed_data = self.modify_parameters(temp_spec, [device_entry])
+
+            if transformed_data:
+                transformed_fabric_devices_list.extend(transformed_data)
+
+        self.log(
+            f"Transformation complete. Generated {len(transformed_fabric_devices_list)} fabric device configuration(s)",
+            "INFO",
+        )
+
+        return {"fabric_devices": transformed_fabric_devices_list}
 
     def transform_fabric_name(self, details):
         """
@@ -732,25 +1056,654 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             str: The fabric name corresponding to the fabric_id, or None if not found
         """
-        fabric_id = details.get("fabricId")
+
+        self.log(
+            f"Starting fabric_id to fabric_name transformation with details: {self.pprint(details)}",
+            "DEBUG",
+        )
+        fabric_id = details.get("fabric_id")
         if not fabric_id:
-            self.log("No fabricId found in details", "WARNING")
+            self.log("No fabric_id found in details", "WARNING")
             return None
 
-        # Reverse lookup: find fabric_name from fabric_id
-        for fabric_name, fid in self.fabric_site_name_to_id_dict.items():
-            if fid == fabric_id:
-                self.log(
-                    f"Transformed fabric_id '{fabric_id}' to fabric_name '{fabric_name}'",
-                    "DEBUG",
-                )
-                return fabric_name
+        # Use reverse mapping dictionary for efficient lookup
+        fabric_name = self.fabric_site_id_to_name_dict.get(fabric_id)
+        if fabric_name:
+            self.log(
+                f"Transformed fabric_id '{fabric_id}' to fabric_name '{fabric_name}'",
+                "DEBUG",
+            )
+            return fabric_name
 
         self.log(
             f"No fabric_name found for fabric_id '{fabric_id}'",
             "WARNING",
         )
         return None
+
+    def transform_device_config(self, details):
+        """
+        Transform device configuration data into playbook-ready format.
+
+        Args:
+            details (dict): Dictionary containing device_config and other device information
+
+        Returns:
+            dict: Transformed device configuration in playbook-ready format
+        """
+        self.log(
+            f"Starting device_config transformation with details: {self.pprint(details)}",
+            "DEBUG",
+        )
+
+        device_config = details.get("device_config")
+        if not device_config:
+            self.log("No device_config found in details", "WARNING")
+            return None
+
+        # Initialize playbook-ready device configuration
+        transformed_device_config = {}
+
+        # Add device_ip (required field)
+        device_ip = details.get("device_ip")
+        if device_ip:
+            transformed_device_config["device_ip"] = device_ip
+            self.log(
+                f"Added device_ip '{device_ip}' to transformed_device_config",
+                "DEBUG",
+            )
+        else:
+            self.log(
+                "No device_ip found in details - this is a required field",
+                "WARNING",
+            )
+
+        # Transform device_roles from fabricDeviceRoles
+        fabric_device_roles = device_config.get("deviceRoles", [])
+        if fabric_device_roles:
+            transformed_device_config["device_roles"] = fabric_device_roles
+            self.log(
+                f"Transformed deviceRoles to device_roles: {fabric_device_roles}",
+                "DEBUG",
+            )
+
+        # Transform border settings if present
+        border_settings = device_config.get("borderSettings")
+        if border_settings:
+            self.log(
+                "Processing border settings",
+                "DEBUG",
+            )
+
+            borders_settings = {}
+
+            # Transform layer3Settings
+            layer3_settings = border_settings.get("layer3Settings")
+            if layer3_settings and isinstance(layer3_settings, list):
+                borders_settings["layer3_settings"] = layer3_settings
+                self.log(
+                    f"Added {len(layer3_settings)} layer3_settings entry(ies)",
+                    "DEBUG",
+                )
+
+            # Transform layer3HandoffIpTransit
+            layer3_handoff_ip_transit = border_settings.get("layer3HandoffIpTransit")
+            if layer3_handoff_ip_transit and isinstance(
+                layer3_handoff_ip_transit, list
+            ):
+                borders_settings["layer3_handoff_ip_transit"] = (
+                    layer3_handoff_ip_transit
+                )
+                self.log(
+                    f"Added {len(layer3_handoff_ip_transit)} layer3_handoff_ip_transit entry(ies)",
+                    "DEBUG",
+                )
+
+            # Transform layer3HandoffSdaTransit
+            layer3_handoff_sda_transit = border_settings.get("layer3HandoffSdaTransit")
+            if layer3_handoff_sda_transit:
+                borders_settings["layer3_handoff_sda_transit"] = (
+                    layer3_handoff_sda_transit
+                )
+                self.log(
+                    "Added layer3_handoff_sda_transit settings",
+                    "DEBUG",
+                )
+
+            # Transform layer2Handoff
+            layer2_handoff = border_settings.get("layer2Handoff")
+            if layer2_handoff and isinstance(layer2_handoff, list):
+                borders_settings["layer2_handoff"] = layer2_handoff
+                self.log(
+                    f"Added {len(layer2_handoff)} layer2_handoff entry(ies)",
+                    "DEBUG",
+                )
+
+            # Only add borders_settings if it has content
+            if borders_settings:
+                transformed_device_config["borders_settings"] = borders_settings
+                self.log(
+                    "Successfully transformed and added borders_settings to device_config",
+                    "DEBUG",
+                )
+        else:
+            self.log(
+                "No border settings found in device_config",
+                "DEBUG",
+            )
+
+        # Transform embedded wireless controller settings if present
+        embedded_wireless_settings = device_config.get(
+            "embeddedWirelessControllerSettings"
+        )
+        if embedded_wireless_settings:
+            self.log(
+                "Processing embedded wireless controller settings",
+                "DEBUG",
+            )
+
+            # Transform to wireless_controller_settings format
+            wireless_controller_settings = {}
+
+            # Map basic settings
+            wireless_controller_settings["enable"] = embedded_wireless_settings.get(
+                "enableWireless"
+            )
+            self.log(self.pprint(embedded_wireless_settings), "DEBUG")
+            wireless_controller_settings["primary_managed_ap_locations"] = [
+                site_details.get("siteNameHierarchy")
+                for site_details in embedded_wireless_settings.get(
+                    "primaryManagedApLocations"
+                )
+            ]
+            wireless_controller_settings["secondary_managed_ap_locations"] = [
+                site_details.get("siteNameHierarchy")
+                for site_details in embedded_wireless_settings.get(
+                    "secondaryManagedApLocations"
+                )
+            ]
+
+            rolling_ap_upgrade = embedded_wireless_settings.get("rollingApUpgrade")
+            if rolling_ap_upgrade:
+                wireless_controller_settings["rolling_ap_upgrade"] = {
+                    "enable": rolling_ap_upgrade.get("enableRollingApUpgrade"),
+                    "ap_reboot_percentage": rolling_ap_upgrade.get(
+                        "apRebootPercentage"
+                    ),
+                }
+                self.log(
+                    "Added rolling_ap_upgrade settings",
+                    "DEBUG",
+                )
+            else:
+                self.log(
+                    "No rolling_ap_upgrade settings found",
+                    "WARNING",
+                )
+
+            transformed_device_config["wireless_controller_settings"] = (
+                wireless_controller_settings
+            )
+            self.log(
+                "Successfully transformed and added wireless_controller_settings to device_config",
+                "DEBUG",
+            )
+
+        else:
+            self.log(
+                "No embedded wireless controller settings found in device_config",
+                "DEBUG",
+            )
+
+        self.log(
+            f"Device config transformation complete",
+            "DEBUG",
+        )
+
+        return transformed_device_config
+
+    def transform_device_ip(self, details):
+        """
+        Transform networkDeviceId to device IP address using device inventory lookup.
+
+        Args:
+            details (dict): Dictionary containing networkDeviceId and optionally device_ip
+
+        Returns:
+            str: The device IP address corresponding to the networkDeviceId, or None if not found
+        """
+
+        self.log(
+            f"Starting networkDeviceId to device_ip transformation with details: {self.pprint(details)}",
+            "DEBUG",
+        )
+
+        # Check if device_ip is already available in details (from earlier processing)
+        device_ip = details.get("device_ip")
+        if device_ip:
+            self.log(
+                f"Device IP '{device_ip}' already available in details",
+                "DEBUG",
+            )
+            return device_ip
+
+        network_device_id = details.get("networkDeviceId")
+        if not network_device_id:
+            self.log("No networkDeviceId found in details", "WARNING")
+            return None
+
+        # Get device IP from device ID using helper function (fallback)
+        self.log(
+            f"Device IP not in details, performing lookup for networkDeviceId '{network_device_id}'",
+            "DEBUG",
+        )
+        try:
+            device_id_to_ip_map = self.get_device_ips_from_device_ids(
+                [network_device_id]
+            )
+            device_ip = device_id_to_ip_map.get(network_device_id)
+
+            if device_ip:
+                self.log(
+                    f"Transformed networkDeviceId '{network_device_id}' to device_ip '{device_ip}'",
+                    "DEBUG",
+                )
+                return device_ip
+            else:
+                self.log(
+                    f"No device_ip found for networkDeviceId '{network_device_id}'",
+                    "WARNING",
+                )
+                return None
+        except Exception as e:
+            self.log(
+                f"Error transforming networkDeviceId '{network_device_id}' to device_ip: {str(e)}",
+                "ERROR",
+            )
+            return None
+
+    def retrieve_wireless_controller_settings_for_all_fabrics(
+        self, fabric_devices_by_fabric_id
+    ):
+        """
+        Iterate through fabric sites and retrieve embedded wireless controller settings for each.
+
+        Args:
+            fabric_devices_by_fabric_id (dict): Dictionary mapping fabric_id to list of device configurations
+
+        Returns:
+            dict: Dictionary mapping fabric_id to wireless controller settings
+        """
+        self.log(
+            f"Iterating through {len(fabric_devices_by_fabric_id)} fabric site(s) to retrieve embedded wireless controller settings",
+            "INFO",
+        )
+
+        wireless_settings_by_fabric_id = {}
+        for fabric_id, devices in fabric_devices_by_fabric_id.items():
+            fabric_name = self.fabric_site_id_to_name_dict.get(fabric_id, "Unknown")
+            self.log(
+                f"Retrieving embedded wireless controller settings for fabric site '{fabric_name}' (fabric_id: '{fabric_id}') with {len(devices)} device(s)",
+                "DEBUG",
+            )
+
+            wireless_settings = self.get_wireless_controller_settings_for_fabric(
+                fabric_id
+            )
+            if wireless_settings:
+                wireless_settings_by_fabric_id[fabric_id] = wireless_settings
+                self.log(
+                    f"Successfully retrieved and stored embedded wireless controller settings for fabric site '{fabric_name}' (fabric_id: '{fabric_id}')",
+                    "DEBUG",
+                )
+            else:
+                self.log(
+                    f"No embedded wireless controller settings found for fabric site '{fabric_name}' (fabric_id: '{fabric_id}')",
+                    "DEBUG",
+                )
+
+        self.log(
+            f"Embedded wireless controller settings retrieval complete. Retrieved settings for {len(wireless_settings_by_fabric_id)} fabric site(s)",
+            "INFO",
+        )
+        self.log(
+            f"Embedded wireless controller settings by fabric ID:\n{self.pprint(wireless_settings_by_fabric_id)}",
+            "DEBUG",
+        )
+
+        return wireless_settings_by_fabric_id
+
+    def retrieve_managed_ap_locations_for_wireless_controllers(
+        self, wireless_settings_by_fabric_id
+    ):
+        """
+        Retrieve primary and secondary managed AP locations for all embedded wireless controllers.
+
+        Args:
+            wireless_settings_by_fabric_id (dict): Dictionary mapping fabric_id to wireless controller settings
+
+        Returns:
+            None: Modifies wireless_settings_by_fabric_id in place by adding primaryManagedApLocations
+                  and secondaryManagedApLocations to each wireless controller's settings
+        """
+        self.log(
+            "Retrieving primary and secondary managed AP locations for embedded wireless controllers",
+            "INFO",
+        )
+
+        # Get device ID to IP mapping for all embedded wireless controllers
+        all_embedded_wireless_controller_device_ids = [
+            wireless_settings.get("id")
+            for wireless_settings in wireless_settings_by_fabric_id.values()
+            if wireless_settings.get("id")
+        ]
+
+        if all_embedded_wireless_controller_device_ids:
+            self.log(
+                f"Retrieving device IPs for {len(all_embedded_wireless_controller_device_ids)} embedded wireless controller device(s)",
+                "DEBUG",
+            )
+            device_id_to_ip_map = self.get_device_ips_from_device_ids(
+                all_embedded_wireless_controller_device_ids
+            )
+            self.log(
+                f"Device ID to IP mapping: {self.pprint(device_id_to_ip_map)}",
+                "DEBUG",
+            )
+        else:
+            self.log(
+                "No embedded wireless controller devices found. Skipping device IP mapping retrieval.",
+                "DEBUG",
+            )
+            device_id_to_ip_map = {}
+
+        for fabric_id, wireless_settings in wireless_settings_by_fabric_id.items():
+            network_device_id = wireless_settings.get("id")
+            device_ip = device_id_to_ip_map.get(network_device_id)
+            fabric_name = self.fabric_site_id_to_name_dict.get(fabric_id, "Unknown")
+            self.log(
+                f"Fetching primary and secondary managed AP locations for the device '{device_ip}' (device_id: '{network_device_id}') "
+                f"in fabric site '{fabric_name}' (fabric_id: '{fabric_id}')",
+                "DEBUG",
+            )
+
+            # Get primary managed AP locations
+            primary_ap_locations = self.get_managed_ap_locations_for_device(
+                network_device_id, device_ip, ap_type="primary"
+            )
+            wireless_settings["primaryManagedApLocations"] = primary_ap_locations
+
+            # Get secondary managed AP locations
+            secondary_ap_locations = self.get_managed_ap_locations_for_device(
+                network_device_id, device_ip, ap_type="secondary"
+            )
+            wireless_settings["secondaryManagedApLocations"] = secondary_ap_locations
+
+            self.log(
+                f"Retrieved {len(primary_ap_locations)} primary and {len(secondary_ap_locations)} secondary AP locations for device '{device_ip}'",
+                "INFO",
+            )
+
+        self.log(
+            "Completed retrieval of managed AP locations for all embedded wireless controllers",
+            "INFO",
+        )
+
+    def populate_wireless_controller_settings_to_devices(
+        self, wireless_settings_by_fabric_id, fabric_devices_by_fabric_id
+    ):
+        """
+        Populate embedded wireless controller settings for each fabric site to its devices.
+
+        Args:
+            wireless_settings_by_fabric_id (dict): Dictionary mapping fabric_id to wireless controller settings
+            fabric_devices_by_fabric_id (dict): Dictionary mapping fabric_id to list of device configurations
+
+        Returns:
+            None: Modifies fabric_devices_by_fabric_id in place by adding embeddedWirelessControllerSettings
+                  to each device
+        """
+        self.log(
+            "Populating embedded wireless controller settings for each fabric site to its devices",
+            "INFO",
+        )
+
+        total_fabric_sites_to_process = len(wireless_settings_by_fabric_id)
+        for idx, (fabric_id, wireless_settings) in enumerate(
+            wireless_settings_by_fabric_id.items(), 1
+        ):
+            devices = fabric_devices_by_fabric_id.get(fabric_id)
+            fabric_name = self.fabric_site_id_to_name_dict.get(fabric_id, fabric_id)
+
+            self.log(
+                f"Processing fabric {idx}/{total_fabric_sites_to_process}: '{fabric_name}' (fabric_id: '{fabric_id}') with {len(devices) if devices else 0} device(s)",
+                "DEBUG",
+            )
+
+            if not devices:
+                self.log(
+                    f"No devices found for fabric site '{fabric_name}' (fabric_id: '{fabric_id}'). Skipping.",
+                    "WARNING",
+                )
+                continue
+
+            devices_with_wireless_settings = 0
+            devices_without_wireless_settings = 0
+
+            total_devices = len(devices)
+            for device_idx, device in enumerate(devices, 1):
+                network_device_id = device.get("networkDeviceId")
+
+                self.log(
+                    f"Processing device {device_idx}/{total_devices} with network_device_id '{network_device_id}' in fabric '{fabric_name}'",
+                    "DEBUG",
+                )
+
+                # Check if wireless settings exist for this fabric and if this device has embedded wireless controller settings
+                if wireless_settings.get("id") == network_device_id:
+                    device["embeddedWirelessControllerSettings"] = wireless_settings
+                    devices_with_wireless_settings += 1
+                    self.log(
+                        f"Added embedded wireless controller settings to device '{network_device_id}' in fabric site '{fabric_name}' (fabric_id: '{fabric_id}')",
+                        "DEBUG",
+                    )
+                else:
+                    device["embeddedWirelessControllerSettings"] = None
+                    devices_without_wireless_settings += 1
+                    self.log(
+                        f"No embedded wireless controller settings found for device '{network_device_id}' in fabric site '{fabric_name}' (fabric_id: '{fabric_id}')",
+                        "DEBUG",
+                    )
+
+            self.log(
+                f"Completed processing fabric '{fabric_name}': {devices_with_wireless_settings} device(s) with wireless settings, "
+                f"{devices_without_wireless_settings} device(s) without wireless settings",
+                "INFO",
+            )
+
+        self.log(
+            f"Completed populating embedded wireless controller settings for all {total_fabric_sites_to_process} fabric site(s)",
+            "INFO",
+        )
+        self.log(
+            f"Fabric devices with populated embedded wireless controller settings:\n{self.pprint(fabric_devices_by_fabric_id)}",
+            "DEBUG",
+        )
+
+    def get_wireless_controller_settings_for_fabric(self, fabric_id):
+        """
+        Retrieve wireless controller settings for a specific fabric site.
+
+        Args:
+            fabric_id (str): The fabric site ID
+
+        Returns:
+            dict: Wireless controller settings for the fabric, or None if not found/error
+        """
+        self.log(
+            f"Retrieving wireless controller settings for fabric_id '{fabric_id}'",
+            "DEBUG",
+        )
+
+        try:
+            wireless_response = self.dnac._exec(
+                family="fabric_wireless",
+                function="get_sda_wireless_details_from_switches",
+                params={"fabric_id": fabric_id},
+            )
+
+            self.log(
+                f"Raw embedded wireless controller settings API response for fabric_id '{fabric_id}':\n{self.pprint(wireless_response)}",
+                "DEBUG",
+            )
+
+            # Extract the response data
+            if wireless_response and isinstance(wireless_response, dict):
+                response_data = wireless_response.get("response")
+                if (
+                    response_data
+                    and isinstance(response_data, list)
+                    and len(response_data) > 0
+                ):
+                    wireless_response = response_data[0]
+                    self.log(
+                        f"Successfully retrieved wireless controller settings for fabric_id '{fabric_id}':\n{self.pprint(wireless_response)}",
+                        "INFO",
+                    )
+                    return wireless_response
+                else:
+                    self.log(
+                        f"No embedded wireless controller settings found for fabric_id '{fabric_id}'",
+                        "DEBUG",
+                    )
+                    return None
+            else:
+                self.log(
+                    f"Unexpected response format for embedded wireless controller settings for fabric_id '{fabric_id}'",
+                    "WARNING",
+                )
+                return None
+
+        except Exception as e:
+            self.log(
+                f"Error retrieving embedded wireless controller settings for fabric_id '{fabric_id}': {str(e)}",
+                "WARNING",
+            )
+            return None
+
+    def get_managed_ap_locations_for_device(
+        self, network_device_id, device_ip, ap_type="primary"
+    ):
+        """
+        Retrieve managed AP locations (primary or secondary) for a specific wireless controller.
+
+        Args:
+            network_device_id (str): Network device ID of the wireless controller
+            device_ip (str): IP address of the wireless controller device
+            ap_type (str): Type of AP locations to retrieve: 'primary' or 'secondary'. Defaults to 'primary'
+
+        Returns:
+            list: List of managed AP location dictionaries, or empty list if not found/error
+        """
+        self.log(
+            f"Starting retrieval of {ap_type} managed AP locations for device '{network_device_id}' (IP: {device_ip})",
+            "DEBUG",
+        )
+
+        allowed_ap_types = ["primary", "secondary"]
+        if ap_type not in allowed_ap_types:
+            self.log(
+                f"Invalid ap_type: '{ap_type}' provided. Allowed types: {', '.join(allowed_ap_types)}",
+                "ERROR",
+            )
+            return []
+
+        api_function = (
+            f"get_{ap_type}_managed_ap_locations_for_specific_wireless_controller"
+        )
+        managed_ap_locations_all = []
+        offset = 1
+        limit = 500
+        batch_count = 0
+
+        while True:
+            batch_count += 1
+            self.log(
+                f"Batch {batch_count}: Requesting {ap_type} managed AP locations (offset={offset}, limit={limit}) for device '{device_ip}'",
+                "DEBUG",
+            )
+
+            try:
+                response = self.dnac._exec(
+                    family="wireless",
+                    function=api_function,
+                    op_modifies=False,
+                    params={
+                        "network_device_id": network_device_id,
+                        "limit": limit,
+                        "offset": offset,
+                    },
+                )
+
+                self.log(
+                    f"API response ({ap_type} managed AP locations) for device '{device_ip}' (offset {offset}):\n{self.pprint(response)}",
+                    "DEBUG",
+                )
+
+                if not isinstance(response, dict):
+                    self.log(
+                        f"Invalid API response type: {type(response)} received for {ap_type} AP locations",
+                        "ERROR",
+                    )
+                    break
+
+                managed_ap_response = response.get("response")
+                if not managed_ap_response:
+                    self.log(
+                        f"Batch {batch_count}: No {ap_type} managed AP locations found in response for device '{device_ip}'. Stopping pagination",
+                        "DEBUG",
+                    )
+                    break
+
+                managed_ap_locations = managed_ap_response.get("managedApLocations", [])
+                count = len(managed_ap_locations)
+
+                self.log(
+                    f"Batch {batch_count}: Retrieved {count} {ap_type} managed AP location(s) for device '{device_ip}'",
+                    "DEBUG",
+                )
+
+                if count == 0:
+                    self.log(
+                        f"Batch {batch_count}: No more {ap_type} managed AP locations to retrieve. Stopping pagination",
+                        "DEBUG",
+                    )
+                    break
+
+                managed_ap_locations_all.extend(managed_ap_locations)
+                offset += count
+
+                # If we received fewer records than the limit, we've reached the end
+                if count < limit:
+                    self.log(
+                        f"Batch {batch_count}: Received {count} records (less than limit {limit}). End of pagination",
+                        "DEBUG",
+                    )
+                    break
+
+            except Exception as e:
+                self.log(
+                    f"Error retrieving {ap_type} managed AP locations for device '{device_ip}': {str(e)}",
+                    "WARNING",
+                )
+                break
+
+        self.log(
+            f"Total {ap_type} managed AP locations retrieved for device '{device_ip}': {len(managed_ap_locations_all)}",
+            "INFO",
+        )
+
+        return managed_ap_locations_all
 
     def process_global_filters(self, global_filters):
         pass
@@ -1005,13 +1958,13 @@ def main():
     )
     if (
         ccc_sda_fabric_devices_playbook_generator.compare_dnac_versions(
-            ccc_sda_fabric_devices_playbook_generator.get_ccc_version(), "2.3.7.9"
+            ccc_sda_fabric_devices_playbook_generator.get_ccc_version(), "2.3.7.6"
         )
         < 0
     ):
         ccc_sda_fabric_devices_playbook_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
-            "for SDA Fabric Devices Workflow Manager Module. Supported versions start from '2.3.7.9' onwards. ".format(
+            "for SDA Fabric Devices Workflow Manager Module. Supported versions start from '2.3.7.6' onwards. ".format(
                 ccc_sda_fabric_devices_playbook_generator.get_ccc_version()
             )
         )
