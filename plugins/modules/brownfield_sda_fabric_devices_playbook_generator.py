@@ -372,11 +372,16 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def __init__(self, module):
         """
-        Initialize an instance of the class.
-        Args:
-            module: The module associated with the class instance.
+        Initialize the SdaFabricDevicesPlaybookGenerator instance.
+
+        Parameters:
+            module (AnsibleModule): The Ansible module instance.
+
         Returns:
-            The method does not return a value.
+            None
+
+        Description:
+            Sets up the generator with schema, site mappings, and transit mappings.
         """
         self.supported_states = ["gathered"]
         super().__init__(module)
@@ -413,12 +418,16 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def validate_input(self):
         """
-        Validates the input configuration parameters for the playbook.
+        Validate input configuration parameters for the playbook.
+
+        Parameters:
+            None
+
         Returns:
-            object: An instance of the class with updated attributes:
-                self.msg: A message describing the validation result.
-                self.status: The status of the validation (either "success" or "failed").
-                self.validated_config: If successful, a validated version of the "config" parameter.
+            self: Instance with updated msg, status, and validated_config attributes.
+
+        Description:
+            Validates config against expected schema and sets validation status.
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
@@ -473,10 +482,16 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_transit_id_to_name_mapping(self):
         """
-        Retrieve all transit networks and create ID to name mapping.
+        Retrieve transit networks and create ID to name mapping.
+
+        Parameters:
+            None
 
         Returns:
-            dict: Dictionary mapping transit IDs to transit names
+            dict: Mapping of transit IDs to transit names.
+
+        Description:
+            Fetches all transit networks from Catalyst Center and builds a lookup dictionary.
         """
         self.log("Entering get_transit_id_to_name_mapping method", "DEBUG")
         self.log("Retrieving transit networks for ID to name mapping", "INFO")
@@ -534,6 +549,18 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         return transit_id_to_name
 
     def get_workflow_filters_schema(self):
+        """
+        Generate the workflow filters schema for fabric devices.
+
+        Parameters:
+            None
+
+        Returns:
+            dict: Schema containing network elements, filters, and API mappings.
+
+        Description:
+            Defines the structure for filtering and retrieving fabric device configurations.
+        """
         schema = {
             "network_elements": {
                 "fabric_devices": {
@@ -572,6 +599,18 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         return schema
 
     def fabric_devices_temp_spec(self):
+        """
+        Generate temporary specification for fabric devices.
+
+        Parameters:
+            None
+
+        Returns:
+            OrderedDict: Specification defining fabric device structure and transformations.
+
+        Description:
+            Creates the mapping spec for transforming API response to playbook format.
+        """
         self.log("Entering fabric_devices_temp_spec method", "DEBUG")
         self.log("Generating temporary specification for fabric devices", "INFO")
         fabric_devices = OrderedDict(
@@ -579,8 +618,6 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "fabric_name": {
                     "type": "str",
                     "required": True,
-                    "special_handling": True,
-                    "transform": self.transform_fabric_name,
                 },
                 "device_config": {
                     "type": "list",
@@ -742,13 +779,16 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def group_fabric_devices_by_fabric_name(self, all_fabric_devices):
         """
-        Groups fabric devices by their fabric_name.
+        Group fabric devices by their fabric name.
 
-        Args:
-            all_fabric_devices (list): List of device entries containing fabric_name, device_config, and device_ip
+        Parameters:
+            all_fabric_devices (list): List of device entries with fabric_name, device_config, device_ip.
 
         Returns:
-            dict: Dictionary mapping fabric_name to list of device entries
+            dict: Mapping of fabric_name to list of device entries.
+
+        Description:
+            Organizes devices into groups based on their parent fabric site.
         """
         self.log("Entering group_fabric_devices_by_fabric_name method", "DEBUG")
         self.log(
@@ -797,17 +837,20 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         self, device, device_id_to_ip_map, batch_idx, device_idx, total_devices
     ):
         """
-        Process a single fabric device and format it for inclusion in the results.
+        Process a single fabric device and format it for results.
 
-        Args:
-            device (dict): The device data from the API response
-            device_id_to_ip_map (dict): Mapping of device IDs to IP addresses
-            batch_idx (int): Current batch index for logging
-            device_idx (int): Current device index for logging
-            total_devices (int): Total number of devices in the batch for logging
+        Parameters:
+            device (dict): Device data from API response.
+            device_id_to_ip_map (dict): Mapping of device IDs to IP addresses.
+            batch_idx (int): Current batch index for logging.
+            device_idx (int): Current device index for logging.
+            total_devices (int): Total devices in the batch.
 
         Returns:
-            dict: Formatted device response with fabric_id, device_config, fabric_name, and device_ip
+            dict: Formatted device with fabric_id, device_config, fabric_name, device_ip.
+
+        Description:
+            Formats raw API device data into a standardized structure.
         """
         self.log(
             f"Entering process_fabric_device_for_batch method - batch {batch_idx}, device {device_idx}/{total_devices}",
@@ -849,15 +892,18 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         self, fabric_devices_params_list_to_query, api_family, api_function
     ):
         """
-        Execute API calls to retrieve fabric devices based on provided query parameters.
+        Execute API calls to retrieve fabric devices.
 
-        Args:
-            fabric_devices_params_list_to_query (list): List of query parameter dictionaries
-            api_family (str): API family name (e.g., 'sda')
-            api_function (str): API function name (e.g., 'get_fabric_devices')
+        Parameters:
+            fabric_devices_params_list_to_query (list): List of query parameter dicts.
+            api_family (str): API family name (e.g., 'sda').
+            api_function (str): API function name (e.g., 'get_fabric_devices').
 
         Returns:
-            list: List of fabric device entries with fabric_id, device_config, fabric_name, and device_ip
+            list: Device entries with fabric_id, device_config, fabric_name, device_ip.
+
+        Description:
+            Iterates through query params and retrieves all matching fabric devices.
         """
         self.log("Entering retrieve_all_fabric_devices_from_api method", "DEBUG")
         self.log(
@@ -959,6 +1005,19 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_fabric_devices_configuration(
         self, network_element, component_specific_filters=None
     ):
+        """
+        Retrieve and transform fabric devices configuration.
+
+        Parameters:
+            network_element (dict): Network element schema with API and transform details.
+            component_specific_filters (dict, optional): Filters for fabric_name, device_ip, device_roles.
+
+        Returns:
+            dict: Dictionary with 'fabric_devices' key containing transformed device configs.
+
+        Description:
+            Main function to fetch fabric devices and transform them to playbook format.
+        """
         self.log("Entering get_fabric_devices_configuration method", "DEBUG")
         self.log("Starting retrieval of fabric devices configuration", "INFO")
 
@@ -1144,33 +1203,32 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             fabric_devices_by_fabric_name
         )
 
-        # Transform the data using the temp_spec
+        # Transform the data using the temp_spec and modify_parameters
         self.log("Starting transformation of fabric devices data", "INFO")
         temp_spec = network_element.get("reverse_mapping_function")()
 
-        # Transform each fabric with all its devices using the already-grouped data
-        transformed_fabric_devices_list = []
+        # Prepare data for modify_parameters - each entry represents a fabric with its devices
+        fabric_entries_for_transformation = []
         for fabric_name, device_entries in fabric_devices_by_fabric_name.items():
             self.log(
-                f"Transforming fabric '{fabric_name}' with {len(device_entries)} device(s)",
+                f"Preparing fabric '{fabric_name}' with {len(device_entries)} device(s) for transformation",
                 "INFO",
             )
+            # Create a fabric entry with fabric_name and device_entries (for transform_device_config)
+            fabric_entry = {
+                "fabric_name": fabric_name,
+                "device_entries": device_entries,
+            }
+            fabric_entries_for_transformation.append(fabric_entry)
 
-            # Transform all devices for this fabric
-            transformed_devices = []
-            for device_entry in device_entries:
-                # Use transform_device_config directly - device_entry already has device_config, device_ip, fabric_name
-                transformed_device = self.transform_device_config(device_entry)
-                if transformed_device:
-                    transformed_devices.append(transformed_device)
-
-            if transformed_devices:
-                # Create the fabric entry with device_config as a list
-                fabric_entry = {
-                    "fabric_name": fabric_name,
-                    "device_config": transformed_devices,
-                }
-                transformed_fabric_devices_list.append(fabric_entry)
+        # Use modify_parameters to apply the temp_spec transformations
+        self.log(
+            f"Applying modify_parameters with temp_spec to {len(fabric_entries_for_transformation)} fabric entries",
+            "DEBUG",
+        )
+        transformed_fabric_devices_list = self.modify_parameters(
+            temp_spec, fabric_entries_for_transformation
+        )
 
         self.log(
             f"Transformation complete. Generated {len(transformed_fabric_devices_list)} fabric site(s) with devices",
@@ -1184,11 +1242,14 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Transform fabric_id to fabric_name using reverse mapping.
 
-        Args:
-            details (dict): Dictionary containing fabricId
+        Parameters:
+            details (dict): Dictionary containing fabric_id.
 
         Returns:
-            str: The fabric name corresponding to the fabric_id, or None if not found
+            str: Fabric name corresponding to the fabric_id, or None if not found.
+
+        Description:
+            Performs a lookup to convert internal fabric ID to human-readable name.
         """
 
         self.log(
@@ -1218,18 +1279,61 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def transform_device_config(self, details):
         """
-        Transform device configuration data into playbook-ready format.
+        Transform device configuration to playbook-ready format.
 
-        Args:
-            details (dict): Dictionary containing device_config and other device information
+        Parameters:
+            details (dict): Dictionary with device_entries (list of devices) from modify_parameters.
 
         Returns:
-            dict: Transformed device configuration in playbook-ready format
+            list: List of transformed device configurations for playbook use.
+
+        Description:
+            Converts API response format to Ansible playbook compatible structure.
+            Called via modify_parameters with the full fabric entry containing device_entries.
         """
+        self.log("Entering transform_device_config method", "DEBUG")
         self.log(
             f"Starting device_config transformation with details: {self.pprint(details)}",
             "DEBUG",
         )
+
+        device_entries = details.get("device_entries")
+        if not device_entries:
+            self.log("No device_entries found in details", "WARNING")
+            return None
+
+        self.log(
+            f"Processing {len(device_entries)} device entries for transformation",
+            "DEBUG",
+        )
+        transformed_devices = []
+        for device_entry in device_entries:
+            transformed_device = self._transform_single_device(device_entry)
+            if transformed_device:
+                transformed_devices.append(transformed_device)
+
+        self.log(
+            f"Device config transformation complete - transformed {len(transformed_devices)} device(s)",
+            "INFO",
+        )
+        self.log("Exiting transform_device_config method", "DEBUG")
+
+        return transformed_devices if transformed_devices else None
+
+    def _transform_single_device(self, details):
+        """
+        Transform a single device configuration to playbook-ready format.
+
+        Parameters:
+            details (dict): Dictionary with device_config and device information.
+
+        Returns:
+            dict: Transformed device configuration for playbook use.
+
+        Description:
+            Converts a single API device response to Ansible playbook compatible structure.
+        """
+        self.log("Entering _transform_single_device method", "DEBUG")
 
         device_config = details.get("device_config")
         if not device_config:
@@ -1337,10 +1441,10 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         self.log(
-            f"Device config transformation complete",
-            "INFO",
+            f"Single device transformation complete",
+            "DEBUG",
         )
-        self.log("Exiting transform_device_config method", "DEBUG")
+        self.log("Exiting _transform_single_device method", "DEBUG")
 
         return transformed_device_config
 
@@ -1350,12 +1454,15 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Transform embedded wireless controller settings from device config.
 
-        Args:
-            device_config (dict): The original device configuration containing embeddedWirelessControllerSettings
-            transformed_device_config (dict): The transformed device configuration to update in place
+        Parameters:
+            device_config (dict): Original device config with embeddedWirelessControllerSettings.
+            transformed_device_config (dict): Target dict to update in place.
 
         Returns:
-            None: Modifies transformed_device_config in place by adding wireless_controller_settings if present
+            None: Modifies transformed_device_config in place.
+
+        Description:
+            Extracts and transforms wireless controller settings to playbook format.
         """
         self.log("Entering transform_wireless_controller_settings method", "DEBUG")
         self.log(
@@ -1427,13 +1534,16 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def transform_layer3_ip_transit_handoffs(self, layer3_ip_transit_list):
         """
-        Transform layer3 IP transit handoff list by filtering out internal IDs and keeping only playbook parameters.
+        Transform layer3 IP transit handoffs to playbook format.
 
-        Args:
-            layer3_ip_transit_list (list): List of layer3 IP transit handoff configurations from API
+        Parameters:
+            layer3_ip_transit_list (list): Layer3 IP transit handoff configs from API.
 
         Returns:
-            list: Transformed list with only playbook-relevant parameters
+            list: Transformed list with playbook-relevant parameters only.
+
+        Description:
+            Filters internal IDs and converts camelCase to snake_case format.
         """
         self.log("Entering transform_layer3_ip_transit_handoffs method", "DEBUG")
         if not layer3_ip_transit_list:
@@ -1500,13 +1610,16 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def transform_layer3_sda_transit_handoff(self, layer3_sda_transit):
         """
-        Transform layer3 SDA transit handoff by filtering out internal IDs and keeping only playbook parameters.
+        Transform layer3 SDA transit handoff to playbook format.
 
-        Args:
-            layer3_sda_transit (dict): Layer3 SDA transit handoff configuration from API
+        Parameters:
+            layer3_sda_transit (dict): Layer3 SDA transit handoff config from API.
 
         Returns:
-            dict: Transformed dict with only playbook-relevant parameters
+            dict: Transformed dict with playbook-relevant parameters only.
+
+        Description:
+            Filters internal IDs and converts transit ID to transit name.
         """
         self.log("Entering transform_layer3_sda_transit_handoff method", "DEBUG")
         if not layer3_sda_transit:
@@ -1555,13 +1668,16 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def transform_layer2_handoffs(self, layer2_handoff_list):
         """
-        Transform layer2 handoff list by filtering out internal IDs and keeping only playbook parameters.
+        Transform layer2 handoffs to playbook format.
 
-        Args:
-            layer2_handoff_list (list): List of layer2 handoff configurations from API
+        Parameters:
+            layer2_handoff_list (list): Layer2 handoff configs from API.
 
         Returns:
-            list: Transformed list with only playbook-relevant parameters
+            list: Transformed list with playbook-relevant parameters only.
+
+        Description:
+            Filters internal IDs and keeps interface_name, internal/external VLAN IDs.
         """
         self.log("Entering transform_layer2_handoffs method", "DEBUG")
         if not layer2_handoff_list:
@@ -1605,14 +1721,16 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         self, fabric_devices_by_fabric_name
     ):
         """
-        Retrieve and populate border handoff settings (layer2, layer3 IP transit, layer3 SDA transit)
-        for all devices across all fabrics.
+        Retrieve and populate border handoff settings for all devices.
 
-        Args:
-            fabric_devices_by_fabric_name (dict): Dictionary mapping fabric_name to list of device entries
+        Parameters:
+            fabric_devices_by_fabric_name (dict): Mapping of fabric_name to device entries.
 
         Returns:
-            None: Modifies device_config in place by adding border handoff settings
+            None: Modifies device_config in place with border handoff settings.
+
+        Description:
+            Fetches layer2, layer3 IP transit, and layer3 SDA transit handoffs for each device.
         """
         self.log(
             "Entering retrieve_and_populate_border_handoff_settings method", "DEBUG"
@@ -1717,14 +1835,17 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_layer2_handoffs_for_device(self, fabric_id, network_device_id):
         """
-        Retrieve layer2 handoffs for a specific device in a fabric.
+        Retrieve layer2 handoffs for a specific device.
 
-        Args:
-            fabric_id (str): The fabric site ID
-            network_device_id (str): The network device ID
+        Parameters:
+            fabric_id (str): The fabric site ID.
+            network_device_id (str): The network device ID.
 
         Returns:
-            list: List of layer2 handoff configurations, or empty list if none found
+            list: Layer2 handoff configurations, or empty list if none found.
+
+        Description:
+            Calls API to get layer2 handoffs for a device in a fabric.
         """
         self.log("Entering get_layer2_handoffs_for_device method", "DEBUG")
         self.log(
@@ -1780,14 +1901,17 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_layer3_ip_transit_handoffs_for_device(self, fabric_id, network_device_id):
         """
-        Retrieve layer3 IP transit handoffs for a specific device in a fabric.
+        Retrieve layer3 IP transit handoffs for a specific device.
 
-        Args:
-            fabric_id (str): The fabric site ID
-            network_device_id (str): The network device ID
+        Parameters:
+            fabric_id (str): The fabric site ID.
+            network_device_id (str): The network device ID.
 
         Returns:
-            list: List of layer3 IP transit handoff configurations, or empty list if none found
+            list: Layer3 IP transit handoff configurations, or empty list if none found.
+
+        Description:
+            Calls API to get layer3 IP transit handoffs for a device in a fabric.
         """
         self.log("Entering get_layer3_ip_transit_handoffs_for_device method", "DEBUG")
         self.log(
@@ -1844,14 +1968,17 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_layer3_sda_transit_handoff_for_device(self, fabric_id, network_device_id):
         """
-        Retrieve layer3 SDA transit handoff for a specific device in a fabric.
+        Retrieve layer3 SDA transit handoff for a specific device.
 
-        Args:
-            fabric_id (str): The fabric site ID
-            network_device_id (str): The network device ID
+        Parameters:
+            fabric_id (str): The fabric site ID.
+            network_device_id (str): The network device ID.
 
         Returns:
-            dict: Layer3 SDA transit handoff configuration, or None if not found
+            dict: Layer3 SDA transit handoff config, or None if not found.
+
+        Description:
+            Calls API to get layer3 SDA transit handoff for a device in a fabric.
         """
         self.log("Entering get_layer3_sda_transit_handoff_for_device method", "DEBUG")
         self.log(
@@ -1918,13 +2045,16 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         self, fabric_devices_by_fabric_name
     ):
         """
-        Iterate through fabric sites and retrieve embedded wireless controller settings for each.
+        Retrieve wireless controller settings for all fabric sites.
 
-        Args:
-            fabric_devices_by_fabric_name (dict): Dictionary mapping fabric_name to list of device entries
+        Parameters:
+            fabric_devices_by_fabric_name (dict): Mapping of fabric_name to device entries.
 
         Returns:
-            dict: Dictionary mapping fabric_name to wireless controller settings
+            dict: Mapping of fabric_name to wireless controller settings.
+
+        Description:
+            Iterates through fabrics and retrieves embedded wireless controller settings.
         """
         self.log(
             "Entering retrieve_wireless_controller_settings_for_all_fabrics method",
@@ -1984,14 +2114,16 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         self, wireless_settings_by_fabric_id
     ):
         """
-        Retrieve primary and secondary managed AP locations for all embedded wireless controllers.
+        Retrieve managed AP locations for all wireless controllers.
 
-        Args:
-            wireless_settings_by_fabric_id (dict): Dictionary mapping fabric_id to wireless controller settings
+        Parameters:
+            wireless_settings_by_fabric_id (dict): Mapping of fabric_id to wireless settings.
 
         Returns:
-            None: Modifies wireless_settings_by_fabric_id in place by adding primaryManagedApLocations
-                  and secondaryManagedApLocations to each wireless controller's settings
+            None: Modifies wireless_settings_by_fabric_id in place.
+
+        Description:
+            Adds primaryManagedApLocations and secondaryManagedApLocations to each controller.
         """
         self.log(
             "Entering retrieve_managed_ap_locations_for_wireless_controllers method",
@@ -2074,15 +2206,17 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         self, wireless_settings_by_fabric_name, fabric_devices_by_fabric_name
     ):
         """
-        Populate embedded wireless controller settings for each fabric site to its devices.
+        Populate wireless controller settings to devices in each fabric.
 
-        Args:
-            wireless_settings_by_fabric_name (dict): Dictionary mapping fabric_name to wireless controller settings
-            fabric_devices_by_fabric_name (dict): Dictionary mapping fabric_name to list of device entries
+        Parameters:
+            wireless_settings_by_fabric_name (dict): Mapping of fabric_name to wireless settings.
+            fabric_devices_by_fabric_name (dict): Mapping of fabric_name to device entries.
 
         Returns:
-            None: Modifies fabric_devices_by_fabric_name in place by adding embeddedWirelessControllerSettings
-                  to each device config
+            None: Modifies fabric_devices_by_fabric_name in place.
+
+        Description:
+            Adds embeddedWirelessControllerSettings to each matching device config.
         """
         self.log(
             "Entering populate_wireless_controller_settings_to_devices method", "DEBUG"
@@ -2160,13 +2294,16 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_wireless_controller_settings_for_fabric(self, fabric_id):
         """
-        Retrieve wireless controller settings for a specific fabric site.
+        Retrieve wireless controller settings for a specific fabric.
 
-        Args:
-            fabric_id (str): The fabric site ID
+        Parameters:
+            fabric_id (str): The fabric site ID.
 
         Returns:
-            dict: Wireless controller settings for the fabric, or None if not found/error
+            dict: Wireless controller settings, or None if not found/error.
+
+        Description:
+            Calls API to get embedded wireless controller settings for a fabric site.
         """
         self.log("Entering get_wireless_controller_settings_for_fabric method", "DEBUG")
         self.log(
@@ -2240,15 +2377,18 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         self, network_device_id, device_ip, ap_type="primary"
     ):
         """
-        Retrieve managed AP locations (primary or secondary) for a specific wireless controller.
+        Retrieve managed AP locations for a specific wireless controller.
 
-        Args:
-            network_device_id (str): Network device ID of the wireless controller
-            device_ip (str): IP address of the wireless controller device
-            ap_type (str): Type of AP locations to retrieve: 'primary' or 'secondary'. Defaults to 'primary'
+        Parameters:
+            network_device_id (str): Network device ID of the wireless controller.
+            device_ip (str): IP address of the wireless controller.
+            ap_type (str): 'primary' or 'secondary'. Defaults to 'primary'.
 
         Returns:
-            list: List of managed AP location dictionaries, or empty list if not found/error
+            list: Managed AP location dicts, or empty list if not found/error.
+
+        Description:
+            Fetches AP locations with pagination support.
         """
         self.log("Entering get_managed_ap_locations_for_device method", "DEBUG")
         self.log(
@@ -2354,15 +2494,16 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def yaml_config_generator(self, yaml_config_generator):
         """
-        Generates a YAML configuration file based on the provided parameters.
-        This function retrieves network element details using global and component-specific filters, processes the data,
-        and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
+        Generate YAML configuration file from fabric devices data.
 
-        Args:
-            yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
+        Parameters:
+            yaml_config_generator (dict): Contains file_path, filters, and config options.
 
         Returns:
-            self: The current instance with the operation result and message updated.
+            SdaFabricDevicesPlaybookGenerator: Returns self with operation result updated.
+
+        Description:
+            Retrieves network elements using filters and writes YAML to specified file.
         """
         self.log("Entering yaml_config_generator method", "DEBUG")
         self.log(
@@ -2498,14 +2639,17 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_want(self, config, state):
         """
-        Creates parameters for API calls based on the specified state.
-        This method prepares the parameters required for adding, updating, or deleting
-        network configurations such as SSIDs and interfaces in the Cisco Catalyst Center
-        based on the desired state. It logs detailed information for each operation.
+        Create parameters for API calls based on the specified state.
 
-        Args:
+        Parameters:
             config (dict): The configuration data for the network elements.
-            state (str): The desired state of the network elements ('gathered').
+            state (str): The desired state of the network elements.
+
+        Returns:
+            SdaFabricDevicesPlaybookGenerator: Returns self for method chaining.
+
+        Description:
+            Prepares and stores the desired configuration in self.want.
         """
         self.log("Entering get_want method", "DEBUG")
         self.log(f"Creating Parameters for API Calls with state: '{state}'", "INFO")
@@ -2532,10 +2676,16 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Executes the merge operations for various network configurations in the Cisco Catalyst Center.
-        This method processes additions and updates for SSIDs, interfaces, power profiles, access point profiles,
-        radio frequency profiles, and anchor groups. It logs detailed information about each operation,
-        updates the result status, and returns a consolidated result.
+        Execute gather operations for fabric device configurations.
+
+        Parameters:
+            None: Uses self.want internally.
+
+        Returns:
+            SdaFabricDevicesPlaybookGenerator: Returns self for method chaining.
+
+        Description:
+            Processes YAML config generation and logs operation details.
         """
 
         start_time = time.time()
@@ -2587,7 +2737,18 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
 
 def main():
-    """main entry point for module execution"""
+    """
+    Main entry point for module execution.
+
+    Parameters:
+        None: Uses AnsibleModule arguments.
+
+    Returns:
+        None: Exits via module.exit_json().
+
+    Description:
+        Initializes the module, validates input, and executes YAML generation.
+    """
     # Define the specification for the module"s arguments
     element_spec = {
         "dnac_host": {"required": True, "type": "str"},
