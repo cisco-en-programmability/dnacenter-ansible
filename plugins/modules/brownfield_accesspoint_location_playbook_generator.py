@@ -896,8 +896,17 @@ class AccesspointLocationGenerator(DnacBase, BrownFieldHelper):
             if radio_params and isinstance(radio_params, list):
                 parsed_radios = []
                 for radio in radio_params:
+                    radio_bands = []
+                    for each_band in radio.get("bands", []):
+                        if each_band == 2.4:
+                            radio_bands.append("2.4")
+                        elif each_band == 5 or each_band == 5.0:
+                            radio_bands.append("5")
+                        elif each_band == 6 or each_band == 6.0:
+                            radio_bands.append("6")
+
                     parsed_radio = {
-                        "bands": radio.get("bands"),
+                        "bands": [str(band) for band in radio_bands],
                         "channel": radio.get("channel"),
                         "tx_power": radio.get("txPower"),
                         "antenna": {
