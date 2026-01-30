@@ -283,4 +283,3 @@
               inventory_workflow_manager:
                 - role: "CORE"
       tags: [scenario9, multiple_groups]
-      

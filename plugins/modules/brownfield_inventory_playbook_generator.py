@@ -270,7 +270,6 @@ EXAMPLES = r"""
           inventory_workflow_manager:
             - role: "ACCESS"
         file_path: "./inventory_access_role_devices.yml"
-
 """
 RETURN = r"""
 # Case_1: Success Scenario
