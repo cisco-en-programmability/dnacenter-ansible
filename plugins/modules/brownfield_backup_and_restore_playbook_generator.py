@@ -74,7 +74,6 @@ options:
                 - NFS Configuration "nfs_configuration"
                 - Backup Storage Configuration "backup_storage_configuration"
               - If not specified, all components are included.
-              - For example, ["nfs_configuration", "backup_storage_configuration"].
             type: list
             elements: str
             choices: ['nfs_configuration', 'backup_storage_configuration']
@@ -126,6 +125,10 @@ notes:
 - The module only supports the 'gathered' state for extracting existing configurations
 - For NFS configuration filtering, both server_ip and source_path must be provided together
 - Backup storage configuration filtering only supports server_type filtering
+
+seealso:
+- module: cisco.dnac.backup_and_restore_workflow_manager
+  description: Module to manage backup and restore NFS configurations in Cisco Catalyst Center.
 """
 
 EXAMPLES = r"""
@@ -251,39 +254,42 @@ response_1:
   type: dict
   sample: >
     {
-      "msg": {
-        "YAML config generation Task succeeded for module 'backup_and_restore_workflow_manager'.": {
-            "components_processed": 2,
-            "file_path": "backup_and_restore_workflow_manager_playbook_2026-01-27_14-21-41.yml"
-        }
-        },
+      "msg": "YAML configuration file generated successfully for module 'backup_and_restore_workflow_manager'",
         "response": {
-            "YAML config generation Task succeeded for module 'backup_and_restore_workflow_manager'.": {
-                "components_processed": 2,
-                "file_path": "backup_and_restore_workflow_manager_playbook_2026-01-27_14-21-41.yml"
-            }
+          "components_processed": 2,
+          "components_skipped": 0,
+          "configurations_count": 2,
+          "file_path": "/Users/priyadharshini/Downloads/configuration_details_info",
+          "message": "YAML configuration file generated successfully for module 'backup_and_restore_workflow_manager'",
+          "status": "success"
         },
         "status": "success"
     }
-# Case_2: Error Scenario
+# Case_2: Idempotency Scenario
 response_2:
-  description: A string with the response returned by the Cisco Catalyst Center
+  description: A dictionary with the response returned by the Cisco Catalyst Center
   returned: always
-  type: list
+  type: dict
   sample: >
-    "msg": {
-        "YAML config generation Task succeeded for module 'backup_and_restore_workflow_manager'.": {
-            "components_processed": 2,
-            "file_path": "backup_and_restore_workflow_manager_playbook_2026-01-27_14-21-41.yml"
-        }
-    },
-    "response": {
-        "YAML config generation Task failed for module 'backup_and_restore_workflow_manager'.": {
-            "components_processed": 2,
-            "file_path": "backup_and_restore_workflow_manager_playbook_2026-01-27_14-21-41.yml"
-        }
-    },
-    "status": "success"
+    {
+      msg = (
+        "No backup and restore configurations found to process for module "
+        "'backup_and_restore_workflow_manager'. Verify that NFS servers or "
+        "backup configurations are set up in Catalyst Center."
+      ),
+      "response": {
+        "components_processed": 0,
+        "components_skipped": 1,
+        "configurations_count": 0,
+        message = (
+          "No backup and restore configurations found to process for module "
+          "'backup_and_restore_workflow_manager'. Verify that NFS servers or "
+          "backup configurations are set up in Catalyst Center."
+        ),
+        "status": "success"
+      },
+      "status": "success"
+    }
 """
 
 from ansible.module_utils.basic import AnsibleModule
@@ -1084,6 +1090,8 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         config_list = []
         components_processed = 0
+        components_skipped = 0
+        total_configurations = 0
 
         for component in components_list:
             self.log("Processing component: {0}".format(component), "INFO")
@@ -1094,6 +1102,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "Skipping unsupported network element: {0}".format(component),
                     "WARNING",
                 )
+                components_skipped += 1
                 continue
 
             filters = {
@@ -1111,23 +1120,29 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
                     if component in result and result[component]:
                         config_list.append({component: result[component]})
+                        config_count = len(result[component])
+                        total_configurations += config_count
                         components_processed += 1
-                        self.log("Added {0} {1} configurations".format(len(result[component]), component), "INFO")
-                    elif generate_all_configurations:
-                        config_list.append({component: []})
-                        self.log("No {0} configurations found - added empty list".format(component), "WARNING")
+                        self.log("Added {0} {1} configurations".format(config_count, component), "INFO")
+                    else:
+                        components_skipped += 1
+                        self.log("No {0} configurations found".format(component), "WARNING")
+                        if generate_all_configurations:
+                            config_list.append({component: []})
 
                 except Exception as e:
                     self.log("Failed to retrieve {0}: {1}".format(component, str(e)), "ERROR")
+                    components_skipped += 1
                     if generate_all_configurations:
                         config_list.append({component: []})
             else:
                 self.log("Invalid operation function for {0}".format(component), "ERROR")
+                components_skipped += 1
                 if generate_all_configurations:
                     config_list.append({component: []})
 
-        self.log("Processing summary: {0} components processed successfully out of {1}".format(
-            components_processed, len(components_list)), "INFO")
+        self.log("Processing summary: {0} components processed successfully, {1} skipped".format(
+            components_processed, components_skipped), "INFO")
 
         for config_item in config_list:
             for component, data in config_item.items():
@@ -1135,14 +1150,23 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         if not config_list:
             if self.status != "failed":
-                self.msg = (
-                    "No configurations found to process for module '{0}'. This may be because:\n"
-                    "- No NFS servers or backup configurations are configured in Catalyst Center\n"
-                    "- The API is not available in this version\n"
-                    "- User lacks required permissions\n"
-                    "- API function names have changed"
+                no_config_message = (
+                    "No backup and restore configurations found to process for module '{0}'. "
+                    "Verify that NFS servers or backup configurations are set up in "
+                    "Catalyst Center."
                 ).format(self.module_name)
-                self.set_operation_result("success", False, self.msg, "INFO")
+
+                response_data = {
+                    "components_processed": components_processed,
+                    "components_skipped": components_skipped,
+                    "configurations_count": 0,
+                    "message": no_config_message,
+                    "status": "success"
+                }
+                self.set_operation_result("success", False, no_config_message, "INFO")
+
+                self.msg = response_data
+                self.result["response"] = response_data
             return self
 
         final_dict = config_list
@@ -1150,20 +1174,33 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         if self.write_dict_to_yaml(final_dict, file_path):
             if self.status != "failed":
-                self.msg = {
-                    "YAML config generation Task succeeded for module '{0}'.".format(
-                        self.module_name
-                    ): {"file_path": file_path, "components_processed": components_processed}
+                success_message = "YAML configuration file generated successfully for module '{0}'".format(self.module_name)
+
+                response_data = {
+                    "components_processed": components_processed,
+                    "components_skipped": components_skipped,
+                    "configurations_count": total_configurations,
+                    "file_path": file_path,
+                    "message": success_message,
+                    "status": "success"
                 }
-                self.set_operation_result("success", True, self.msg, "INFO")
+
+                self.set_operation_result("success", True, success_message, "INFO")
+
+                self.msg = response_data
+                self.result["response"] = response_data
         else:
             if self.status != "failed":
-                self.msg = {
-                    "YAML config generation Task failed for module '{0}'.".format(
-                        self.module_name
-                    ): {"file_path": file_path}
+                error_message = "Failed to write YAML configuration to file: {0}".format(file_path)
+
+                response_data = {
+                    "message": error_message,
+                    "status": "failed"
                 }
-                self.set_operation_result("failed", True, self.msg, "ERROR")
+
+                self.set_operation_result("failed", False, error_message, "ERROR")
+                self.msg = response_data
+                self.result["response"] = response_data
 
         return self
 
@@ -1208,37 +1245,31 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Executes the configuration gathering and YAML generation process for backup and restore.
+        Executes YAML configuration file generation for brownfield template workflow.
 
-        Description:
-            Implements the main execution logic for the 'gathered' state in backup and restore
-            operations. Orchestrates the complete workflow from parameter validation through
-            YAML file generation, with comprehensive error handling and status reporting.
-
-        Args:
-            None: Uses instance attributes and methods for operation execution.
-
-        Returns:
-            object: Self instance with updated operation results:
-                - Returns success status when YAML generation completes successfully.
-                - Returns failure status with error information when issues occur.
-                - Includes execution timing and operation statistics.
+        Processes the desired state parameters prepared by get_want() and generates a
+        YAML configuration file containing network element details from Catalyst Center.
+        This method orchestrates the yaml_config_generator operation and tracks execution
+        time for performance monitoring.
         """
-        start_time = time.time()
-        self.log("Starting YAML configuration generation.", "INFO")
 
-        operations = [
+        start_time = time.time()
+        self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
+        # Define workflow operations
+        workflow_operations = [
             (
                 "yaml_config_generator",
                 "YAML Config Generator",
                 self.yaml_config_generator,
             )
         ]
+        operations_executed = 0
+        operations_skipped = 0
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined operations for processing.", "DEBUG")
+        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
         for index, (param_key, operation_name, operation_func) in enumerate(
-            operations, start=1
+            workflow_operations, start=1
         ):
             self.log(
                 "Iteration {0}: Checking parameters for {1} operation with param_key '{2}'.".format(
@@ -1254,25 +1285,33 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                     ),
                     "INFO",
                 )
-                result = operation_func(params)
 
-                # Check if operation failed and return immediately
-                if result.status == "failed":
-                    result.check_return_status()
+                try:
+                    operation_func(params)
+                    operations_executed += 1
+                    self.log(
+                        "{0} operation completed successfully".format(operation_name),
+                        "DEBUG"
+                    )
+                except Exception as e:
+                    self.log(
+                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
+                        "ERROR"
+                    )
+                    self.set_operation_result(
+                        "failed", True,
+                        "{0} operation failed: {1}".format(operation_name, str(e)),
+                        "ERROR"
+                    ).check_return_status()
 
-                result.check_return_status()
             else:
+                operations_skipped += 1
                 self.log(
                     "Iteration {0}: No parameters found for {1}. Skipping operation.".format(
                         index, operation_name
                     ),
                     "WARNING",
                 )
-
-        # Only set final success message if no errors occurred
-        if self.status != "failed":
-            self.msg = "Successfully collected all parameters from the playbook for Backup Restore operations."
-            self.status = "success"
 
         end_time = time.time()
         self.log(

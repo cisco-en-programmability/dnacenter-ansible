@@ -110,11 +110,12 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             {
-                "YAML config generation Task succeeded for module 'backup_and_restore_workflow_manager'.":
-                {
-                    "components_processed": 1,
-                    "file_path": "/Users/priyadharshini/Downloads/configuration_details_info"
-                }
+                "components_processed": 1,
+                "components_skipped": 0,
+                "configurations_count": 6,
+                "file_path": "/Users/priyadharshini/Downloads/configuration_details_info",
+                "message": "YAML configuration file generated successfully for module 'backup_and_restore_workflow_manager'",
+                "status": "success"
             }
         )
 
@@ -141,11 +142,12 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             {
-                "YAML config generation Task succeeded for module 'backup_and_restore_workflow_manager'.":
-                {
-                    "components_processed": 1,
-                    "file_path": "/Users/priyadharshini/Downloads/configuration_details_info"
-                }
+                "components_processed": 1,
+                "components_skipped": 0,
+                "configurations_count": 1,
+                "file_path": "/Users/priyadharshini/Downloads/configuration_details_info",
+                "message": "YAML configuration file generated successfully for module 'backup_and_restore_workflow_manager'",
+                "status": "success"
             }
         )
 
@@ -172,11 +174,12 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             {
-                "YAML config generation Task succeeded for module 'backup_and_restore_workflow_manager'.":
-                {
-                    "components_processed": 2,
-                    "file_path": "/Users/priyadharshini/Downloads/configuration_details_info"
-                }
+                "components_processed": 2,
+                "components_skipped": 0,
+                "configurations_count": 2,
+                "file_path": "/Users/priyadharshini/Downloads/configuration_details_info",
+                "message": "YAML configuration file generated successfully for module 'backup_and_restore_workflow_manager'",
+                "status": "success"
             }
         )
 
@@ -203,11 +206,12 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             {
-                "YAML config generation Task succeeded for module 'backup_and_restore_workflow_manager'.":
-                {
-                    "components_processed": 2,
-                    "file_path": "/Users/priyadharshini/Downloads/configuration_details_info1"
-                }
+                "components_processed": 2,
+                "components_skipped": 0,
+                "configurations_count": 7,
+                "file_path": "/Users/priyadharshini/Downloads/configuration_details_info1",
+                "message": "YAML configuration file generated successfully for module 'backup_and_restore_workflow_manager'",
+                "status": "success"
             }
         )
 
