@@ -60,8 +60,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  "sda_fabric_devices_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "sda_fabric_devices_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
+          a default file name "sda_fabric_devices_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
+        - For example, "sda_fabric_devices_workflow_manager_playbook_2026-01-30_19-16-01.yml".
         type: str
         required: false
       component_specific_filters:
@@ -118,6 +118,40 @@ options:
                   - BORDER_NODE
                   - WIRELESS_CONTROLLER_NODE
                   - EXTENDED_NODE
+requirements:
+- dnacentersdk >= 2.4.5
+- python >= 3.9
+notes:
+- Cisco Catalyst Center >= 2.3.7.6
+- |-
+  SDK Methods used are
+  site_design.Sites.get_sites
+  sda.SDA.get_fabric_sites
+  sda.SDA.get_transit_networks
+  sda.SDA.get_fabric_devices
+  sda.SDA.get_fabric_devices_layer2_handoffs
+  sda.SDA.get_fabric_devices_layer3_handoffs_with_ip_transit
+  sda.SDA.get_fabric_devices_layer3_handoffs_with_sda_transit
+  fabric_wireless.FabricWireless.get_sda_wireless_details_from_switches
+  wireless.Wireless.get_primary_managed_ap_locations_for_specific_wireless_controller
+  wireless.Wireless.get_secondary_managed_ap_locations_for_specific_wireless_controller
+  devices.Devices.get_device_list
+- |-
+  SDK Paths used are
+  GET /dna/intent/api/v1/sites
+  GET /dna/intent/api/v1/sda/fabricSites
+  GET /dna/intent/api/v1/sda/transitNetworks
+  GET /dna/intent/api/v1/sda/fabricDevices
+  GET /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs
+  GET /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits
+  GET /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits
+  GET /dna/intent/api/v1/sda/fabricSites/{id}/wirelessSettings
+  GET /dna/intent/api/v1/wirelessControllers/{networkDeviceId}/managedApLocations/primary
+  GET /dna/intent/api/v1/wirelessControllers/{networkDeviceId}/managedApLocations/secondary
+  GET /dna/intent/api/v1/network-device
+seealso:
+- module: cisco.dnac.sda_fabric_devices_workflow_manager
+  description: Module for managing SDA fabric devices and their configurations.
 """
 
 EXAMPLES = r"""
@@ -1485,16 +1519,16 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         wireless_controller_settings["enable"] = embedded_wireless_settings.get(
             "enableWireless"
         )
-        primary_ap_locations = embedded_wireless_settings.get(
-            "primaryManagedApLocations"
-        ) or []
+        primary_ap_locations = (
+            embedded_wireless_settings.get("primaryManagedApLocations") or []
+        )
         wireless_controller_settings["primary_managed_ap_locations"] = [
             site_details.get("siteNameHierarchy")
             for site_details in primary_ap_locations
         ]
-        secondary_ap_locations = embedded_wireless_settings.get(
-            "secondaryManagedApLocations"
-        ) or []
+        secondary_ap_locations = (
+            embedded_wireless_settings.get("secondaryManagedApLocations") or []
+        )
         wireless_controller_settings["secondary_managed_ap_locations"] = [
             site_details.get("siteNameHierarchy")
             for site_details in secondary_ap_locations
