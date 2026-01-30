@@ -24,11 +24,6 @@ author:
   - A Mohamed Rafeek (@mabdulk2)
   - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -58,8 +53,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  "network_profile_wireless_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "network_profile_wireless_workflow_manager_playbook_12_Nov_2025_21_43_26_379.yml".
+          a default file name  "network_profile_wireless_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
+        - For example, "network_profile_wireless_workflow_manager_playbook_2025-11-12_21-43-26.yml".
         type: str
       global_filters:
         description:
@@ -357,7 +352,7 @@ except ImportError:
     OrderedDumper = None
 
 
-class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper):
+class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFieldHelper):
     """
     A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center
     using the GET APIs.
@@ -368,8 +363,10 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
     def __init__(self, module):
         """
         Initialize an instance of the class.
-        Args:
+
+        Parameters:
             module: The module associated with the class instance.
+
         Returns:
             The method does not return a value.
         """
@@ -377,7 +374,7 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
         super().__init__(module)
         self.module_name = "network_profile_wireless_workflow_manager"
         self.module_schema = self.get_workflow_elements_schema()
-        self.log("Initialized NetworkProfileWirelessGenerator class instance.", "DEBUG")
+        self.log("Initialized NetworkProfileWirelessPlaybookGenerator class instance.", "DEBUG")
         self.log(self.module_schema, "DEBUG")
 
         # Initialize generate_all_configurations as class-level parameter
@@ -386,6 +383,7 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
     def validate_input(self):
         """
         Validates the input configuration parameters for the playbook.
+
         Returns:
             object: An instance of the class with updated attributes:
                 self.msg: A message describing the validation result.
@@ -398,16 +396,44 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
         if not self.config:
             self.status = "success"
             self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
         temp_spec = {
             "generate_all_configurations": {"type": "bool", "required": False, "default": False},
             "file_path": {"type": "str", "required": False},
-            "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "elements": "dict", "required": False},
         }
+
+        allowed_keys = set(temp_spec.keys())
+
+        # Validate that only allowed keys are present in the configuration
+        for config_item in self.config:
+            if not isinstance(config_item, dict):
+                self.msg = "Configuration item must be a dictionary, got: {0}".format(
+                    type(config_item).__name__)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            # Check for invalid keys
+            config_keys = set(config_item.keys())
+            invalid_keys = config_keys - allowed_keys
+
+            if invalid_keys:
+                self.msg = (
+                    "Invalid parameters found in playbook configuration: {0}. "
+                    "Only the following parameters are allowed: {1}. "
+                    "Please remove the invalid parameters and try again.".format(
+                        list(invalid_keys), list(allowed_keys)
+                    )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+        self.validate_minimum_requirements(self.config)
+        self.log("Validating configuration parameters against the expected schema: {0}".format(
+            temp_spec), "DEBUG")
 
         # # Import validate_list_of_dicts function here to avoid circular imports
         # from ansible_collections.cisco.dnac.plugins.module_utils.dnac import validate_list_of_dicts
@@ -429,6 +455,7 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
     def get_workflow_elements_schema(self):
         """
         Returns the mapping configuration for network wireless profile workflow manager.
+
         Returns:
             dict: A dictionary containing network elements and global filters configuration with validation rules.
         """
@@ -680,7 +707,7 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
         """
         Process global filters for network wireless profile.
 
-        Args:
+        Parameters:
             global_filters (dict): A dictionary containing global filter parameters.
 
         Returns:
@@ -802,7 +829,7 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
         """
         Process core details of a wireless profile.
 
-        Args:
+        Parameters:
             profile_id (str): The ID of the wireless profile.
             final_list (list): The list to append the processed profile configuration.
 
@@ -868,7 +895,7 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
         This function retrieves network element details using global and component-specific filters, processes the data,
         and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
 
-        Args:
+        Parameters:
             yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
 
         Returns:
@@ -1001,7 +1028,7 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
         """
         Parses the profile information to extract relevant details.
 
-        Args:
+        Parameters:
             profile_info (dict): The profile information retrieved from the system.
             profile_key (str): The key identifying the specific profile.
 
@@ -1135,7 +1162,7 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
         """
         Retrieve the dot11be profile details based on the dot11be profile id from Cisco Catalyst Center.
 
-        Args:
+        Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             dot11be_profile_id (str): A string containing dot11be profile ID.
 
@@ -1241,9 +1268,12 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
         and sites list in the Cisco Catalyst Center
         based on the desired state. It logs detailed information for each operation.
 
-        Args:
+        Parameters:
             config (dict): The configuration data for the network elements.
             state (str): The desired state of the network elements ('gathered').
+
+        Returns:
+            self: The current instance of the class with updated 'want' attributes.
         """
 
         self.log(
@@ -1275,7 +1305,7 @@ class NetworkProfileWirelessGenerator(NetworkProfileFunctions, BrownFieldHelper)
         This method fetches the existing configurations for wireless profiles
         such as Day n template and sites list
 
-        Args:
+        Parameters:
             config (dict): The configuration data for the network elements.
 
         Returns:
@@ -1403,7 +1433,6 @@ def main():
         "dnac_log_append": {"type": "bool", "default": True},
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
@@ -1413,7 +1442,7 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_network_profile_wireless_playbook_generator = NetworkProfileWirelessGenerator(module)
+    ccc_network_profile_wireless_playbook_generator = NetworkProfileWirelessPlaybookGenerator(module)
     if (
         ccc_network_profile_wireless_playbook_generator.compare_dnac_versions(
             ccc_network_profile_wireless_playbook_generator.get_ccc_version(), "2.3.7.9"
