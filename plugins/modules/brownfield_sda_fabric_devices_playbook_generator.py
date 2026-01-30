@@ -901,7 +901,8 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         if not device_ip:
             self.log(
-                f"Warning: No IP address found for device with network_device_id '{network_device_id}' in fabric '{fabric_name}' (fabric_id: '{fabric_id}') in batch {batch_idx}",
+                f"Warning: No IP address found for device with network_device_id "
+                f"'{network_device_id}' in fabric '{fabric_name}' (fabric_id: '{fabric_id}') in batch {batch_idx}",
                 "WARNING",
             )
 
@@ -912,7 +913,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             "device_ip": device_ip,
         }
         self.log(
-            f"Exiting process_fabric_device_for_batch method - device formatted successfully",
+            "Exiting process_fabric_device_for_batch method - device formatted successfully",
             "DEBUG",
         )
         return formatted_device_response
@@ -1423,7 +1424,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                     self.transform_layer3_ip_transit_handoffs(layer3_handoff_ip_transit)
                 )
                 self.log(
-                    f"Added and transformed layer3_handoff_ip_transit",
+                    "Added and transformed layer3_handoff_ip_transit",
                     "DEBUG",
                 )
 
@@ -1447,7 +1448,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                     layer2_handoff
                 )
                 self.log(
-                    f"Added and transformed layer2_handoff",
+                    "Added and transformed layer2_handoff",
                     "DEBUG",
                 )
 
@@ -1470,7 +1471,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         self.log(
-            f"Single device transformation complete",
+            "Single device transformation complete",
             "DEBUG",
         )
         self.log("Exiting _transform_single_device method", "DEBUG")
@@ -1800,7 +1801,8 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                     continue
 
                 self.log(
-                    f"Processing device {idx}/{len(device_entries)} in fabric '{fabric_name}': device_ip='{device_ip}', network_device_id='{network_device_id}'",
+                    f"Processing device {idx}/{len(device_entries)} in fabric '{fabric_name}': "
+                    f"device_ip='{device_ip}', network_device_id='{network_device_id}'",
                     "DEBUG",
                 )
 
@@ -2106,7 +2108,8 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
             fabric_id = self.fabric_site_name_to_id_dict.get(fabric_name)
             self.log(
-                f"Retrieving embedded wireless controller settings for fabric site '{fabric_name}' (fabric_id: '{fabric_id}') with {len(device_entries)} device(s)",
+                f"Retrieving embedded wireless controller settings for fabric site '{fabric_name}' "
+                f"(fabric_id: '{fabric_id}') with {len(device_entries)} device(s)",
                 "DEBUG",
             )
 
@@ -2265,7 +2268,8 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             fabric_id = self.fabric_site_name_to_id_dict.get(fabric_name, "Unknown")
 
             self.log(
-                f"Processing fabric {idx}/{total_fabric_sites_to_process}: '{fabric_name}' (fabric_id: '{fabric_id}') with {len(device_entries) if device_entries else 0} device(s)",
+                f"Processing fabric {idx}/{total_fabric_sites_to_process}: '{fabric_name}' "
+                f"(fabric_id: '{fabric_id}') with {len(device_entries) if device_entries else 0} device(s)",
                 "DEBUG",
             )
 
@@ -2294,14 +2298,16 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                     device["embeddedWirelessControllerSettings"] = wireless_settings
                     devices_with_wireless_settings += 1
                     self.log(
-                        f"Added embedded wireless controller settings to device '{network_device_id}' in fabric site '{fabric_name}' (fabric_id: '{fabric_id}')",
+                        f"Added embedded wireless controller settings to device '{network_device_id}' "
+                        f"in fabric site '{fabric_name}' (fabric_id: '{fabric_id}')",
                         "DEBUG",
                     )
                 else:
                     device["embeddedWirelessControllerSettings"] = None
                     devices_without_wireless_settings += 1
                     self.log(
-                        f"No embedded wireless controller settings found for device '{network_device_id}' in fabric site '{fabric_name}' (fabric_id: '{fabric_id}')",
+                        f"No embedded wireless controller settings found for device '{network_device_id}' "
+                        f"in fabric site '{fabric_name}' (fabric_id: '{fabric_id}')",
                         "DEBUG",
                     )
 
@@ -2811,7 +2817,7 @@ def main():
 
     ccc_sda_fabric_devices_playbook_generator.log("Module execution started", "INFO")
     ccc_sda_fabric_devices_playbook_generator.log(
-        f"Checking Catalyst Center version compatibility", "DEBUG"
+        "Checking Catalyst Center version compatibility", "DEBUG"
     )
 
     ccc_version = ccc_sda_fabric_devices_playbook_generator.get_ccc_version()
@@ -2839,7 +2845,10 @@ def main():
     # Check if the state is valid
     if state not in ccc_sda_fabric_devices_playbook_generator.supported_states:
         ccc_sda_fabric_devices_playbook_generator.status = "invalid"
-        ccc_sda_fabric_devices_playbook_generator.msg = f"State '{state}' is invalid. Supported states: {ccc_sda_fabric_devices_playbook_generator.supported_states}"
+        ccc_sda_fabric_devices_playbook_generator.msg = (
+            f"State '{state}' is invalid. "
+            f"Supported states: {ccc_sda_fabric_devices_playbook_generator.supported_states}"
+        )
         ccc_sda_fabric_devices_playbook_generator.log(
             ccc_sda_fabric_devices_playbook_generator.msg, "ERROR"
         )
