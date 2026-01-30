@@ -413,7 +413,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.module_name = "sda_fabric_devices_workflow_manager"
         self.log(
-            f"Initialization complete for SdaFabricDevicesPlaybookGenerator", "INFO"
+            "Initialization complete for SdaFabricDevicesPlaybookGenerator", "INFO"
         )
 
     def validate_input(self):
@@ -453,11 +453,6 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             "global_filters": {"type": "dict", "required": False},
         }
         self.log("Expected schema for validation defined", "DEBUG")
-
-        # Import validate_list_of_dicts function here to avoid circular imports
-        from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-            validate_list_of_dicts,
-        )
 
         # Validate params
         self.log("Validating configuration parameters against schema", "DEBUG")
@@ -1490,17 +1485,19 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         wireless_controller_settings["enable"] = embedded_wireless_settings.get(
             "enableWireless"
         )
+        primary_ap_locations = embedded_wireless_settings.get(
+            "primaryManagedApLocations"
+        ) or []
         wireless_controller_settings["primary_managed_ap_locations"] = [
             site_details.get("siteNameHierarchy")
-            for site_details in embedded_wireless_settings.get(
-                "primaryManagedApLocations"
-            )
+            for site_details in primary_ap_locations
         ]
+        secondary_ap_locations = embedded_wireless_settings.get(
+            "secondaryManagedApLocations"
+        ) or []
         wireless_controller_settings["secondary_managed_ap_locations"] = [
             site_details.get("siteNameHierarchy")
-            for site_details in embedded_wireless_settings.get(
-                "secondaryManagedApLocations"
-            )
+            for site_details in secondary_ap_locations
         ]
 
         rolling_ap_upgrade = embedded_wireless_settings.get("rollingApUpgrade")
