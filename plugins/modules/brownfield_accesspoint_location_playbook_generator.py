@@ -314,7 +314,7 @@ else:
     OrderedDumper = None
 
 
-class AccesspointLocationGenerator(DnacBase, BrownFieldHelper):
+class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
     """
     A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center
     using the GET APIs.
@@ -336,7 +336,7 @@ class AccesspointLocationGenerator(DnacBase, BrownFieldHelper):
         super().__init__(module)
         self.module_name = "accesspoint_location_workflow_manager"
         self.module_schema = self.get_workflow_elements_schema()
-        self.log("Initialized AccesspointLocationGenerator class instance.", "DEBUG")
+        self.log("Initialized AccesspointLocationPlaybookGenerator class instance.", "DEBUG")
         self.log(self.module_schema, "DEBUG")
 
         # Initialize generate_all_configurations as class-level parameter
@@ -1352,7 +1352,7 @@ class AccesspointLocationGenerator(DnacBase, BrownFieldHelper):
                             prepare_model_list.append(floor_data)
                     final_list = prepare_model_list
 
-            self.log(f"Access point locaion config collected for model list {accesspoint_model_list}: {final_list}",
+            self.log(f"Access point location config collected for model list {accesspoint_model_list}: {final_list}",
                      "DEBUG")
 
         elif mac_address_list and isinstance(mac_address_list, list):
@@ -1431,7 +1431,7 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_accesspoint_location_playbook_generator = AccesspointLocationGenerator(module)
+    ccc_accesspoint_location_playbook_generator = AccesspointLocationPlaybookGenerator(module)
     if (
         ccc_accesspoint_location_playbook_generator.compare_dnac_versions(
             ccc_accesspoint_location_playbook_generator.get_ccc_version(), "3.1.3.0"
