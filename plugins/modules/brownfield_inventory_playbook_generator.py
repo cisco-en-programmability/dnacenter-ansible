@@ -65,7 +65,7 @@ options:
         description:
         - Global filters to apply when generating the YAML configuration file.
         - These filters apply to all components unless overridden by component-specific filters.
-        - Supports filtering devices by IP address, hostname, or serial number.
+        - Supports filtering devices by IP address, hostname, serial number, or MAC address.
         type: dict
         suboptions:
           ip_address_list:
@@ -87,6 +87,13 @@ options:
             - List of device serial numbers to include in the YAML configuration file.
             - When specified, only devices with matching serial numbers will be included.
             - For example, ["ABC123456789", "DEF987654321"]
+            type: list
+            elements: str
+          mac_address_list:
+            description:
+            - List of device MAC addresses to include in the YAML configuration file.
+            - When specified, only devices with matching MAC addresses will be included.
+            - For example, ["e4:1f:7b:d7:bd:00", "a1:b2:c3:d4:e5:f6"]
             type: list
             elements: str
       component_specific_filters:
@@ -432,6 +439,11 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "required": False,
                     "elements": "str",
                 },
+                "mac_address_list": {
+                    "type": "list",
+                    "required": False,
+                    "elements": "str",
+                },
             },
             "component_specific_filters": {
                 "inventory_workflow_manager": {
@@ -465,7 +477,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Process global filters to retrieve device information from Cisco Catalyst Center.
 
         Args:
-            global_filters (dict): Dictionary containing ip_address_list, hostname_list, or serial_number_list
+            global_filters (dict): Dictionary containing ip_address_list, hostname_list, serial_number_list, or mac_address_list
 
         Returns:
             dict: Dictionary containing device_ip_to_id_mapping with device details
@@ -479,17 +491,18 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             ip_address_list = global_filters.get("ip_address_list", [])
             hostname_list = global_filters.get("hostname_list", [])
             serial_number_list = global_filters.get("serial_number_list", [])
+            mac_address_list = global_filters.get("mac_address_list", [])
 
             self.log(
-                "Extracted filters - IPs: {0}, Hostnames: {1}, Serials: {2}".format(
-                    len(ip_address_list), len(hostname_list), len(serial_number_list)
+                "Extracted filters - IPs: {0}, Hostnames: {1}, Serials: {2}, MACs: {3}".format(
+                    len(ip_address_list), len(hostname_list), len(serial_number_list), len(mac_address_list)
                 ),
                 "INFO",
             )
 
             # If no filters provided, return empty mapping
             # The calling function will handle retrieving all devices
-            if not ip_address_list and not hostname_list and not serial_number_list:
+            if not ip_address_list and not hostname_list and not serial_number_list and not mac_address_list:
                 self.log("No specific filters provided", "DEBUG")
                 return {"device_ip_to_id_mapping": {}}
 
@@ -566,6 +579,31 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
                     except Exception as e:
                         self.log("Error fetching device by serial {0}: {1}".format(serial_number, str(e)), "ERROR")
+
+            # Process MAC address filters
+            if mac_address_list:
+                self.log("Processing {0} MAC addresses".format(len(mac_address_list)), "INFO")
+                for mac_address in mac_address_list:
+                    try:
+                        self.log("Fetching device details for MAC: {0}".format(mac_address), "DEBUG")
+                        response = self.dnac._exec(
+                            family="devices",
+                            function="get_device_list",
+                            params={"macAddress": mac_address}
+                        )
+
+                        if response and response.get("response"):
+                            devices = response["response"]
+                            for device_info in devices:
+                                device_ip = device_info.get("managementIpAddress") or device_info.get("ipAddress")
+                                if device_ip:
+                                    device_ip_to_id_mapping[device_ip] = device_info
+                                    self.log("Added device with MAC: {0}, IP: {1}".format(mac_address, device_ip), "DEBUG")
+                        else:
+                            self.log("No device found for MAC address: {0}".format(mac_address), "WARNING")
+
+                    except Exception as e:
+                        self.log("Error fetching device by MAC {0}: {1}".format(mac_address, str(e)), "ERROR")
 
             self.log(
                 "Completed process_global_filters. Found {0} unique devices".format(
