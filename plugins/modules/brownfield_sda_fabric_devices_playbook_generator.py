@@ -1032,15 +1032,15 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return all_fabric_devices
 
-    def get_fabric_devices_configuration(
-        self, network_element, component_specific_filters=None
-    ):
+    def get_fabric_devices_configuration(self, network_element, filters=None):
         """
         Retrieve and transform fabric devices configuration.
 
         Parameters:
             network_element (dict): Network element schema with API and transform details.
-            component_specific_filters (dict, optional): Filters for fabric_name, device_ip, device_roles.
+            filters (dict, optional): Dictionary containing 'global_filters' and 'component_specific_filters'.
+                - global_filters (dict): Global filters applicable to all components.
+                - component_specific_filters (list/dict): Filters for fabric_name, device_ip, device_roles.
 
         Returns:
             dict: Dictionary with 'fabric_devices' key containing transformed device configs.
@@ -1050,6 +1050,16 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Entering get_fabric_devices_configuration method", "DEBUG")
         self.log("Starting retrieval of fabric devices configuration", "INFO")
+
+        # Extract component_specific_filters from the filters dict
+        # brownfield_helper passes: {"global_filters": {...}, "component_specific_filters": [...]}
+        component_specific_filters = None
+        if filters:
+            component_specific_filters = filters.get("component_specific_filters")
+            self.log(
+                f"Extracted component_specific_filters from filters: {component_specific_filters}",
+                "DEBUG",
+            )
 
         if not self.fabric_site_name_to_id_dict:
             self.log("No fabric sites found in Cisco Catalyst Center", "WARNING")
@@ -2528,151 +2538,6 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Exiting get_managed_ap_locations_for_device method", "DEBUG")
 
         return managed_ap_locations_all
-
-    def yaml_config_generator(self, yaml_config_generator):
-        """
-        Generate YAML configuration file from fabric devices data.
-
-        Parameters:
-            yaml_config_generator (dict): Contains file_path, filters, and config options.
-
-        Returns:
-            SdaFabricDevicesPlaybookGenerator: Returns self with operation result updated.
-
-        Description:
-            Retrieves network elements using filters and writes YAML to specified file.
-        """
-        self.log("Entering yaml_config_generator method", "DEBUG")
-        self.log(
-            f"Starting YAML config generation with parameters: {yaml_config_generator}",
-            "INFO",
-        )
-
-        # Check if generate_all_configurations mode is enabled
-        generate_all = yaml_config_generator.get("generate_all_configurations", False)
-        if generate_all:
-            self.log(
-                "Auto-discovery mode enabled - will process all devices and all features",
-                "INFO",
-            )
-
-        self.log("Determining output file path for YAML configuration", "DEBUG")
-        file_path = yaml_config_generator.get("file_path")
-        if not file_path:
-            self.log(
-                "No file_path provided by user, generating default filename", "DEBUG"
-            )
-            file_path = self.generate_filename()
-        else:
-            self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
-
-        self.log(
-            "YAML configuration file path determined: {0}".format(file_path), "DEBUG"
-        )
-
-        self.log("Initializing filter dictionaries", "DEBUG")
-        if generate_all:
-            # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
-            self.log(
-                "Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features",
-                "INFO",
-            )
-            if yaml_config_generator.get("global_filters"):
-                self.log(
-                    "Warning: global_filters provided but will be ignored due to generate_all_configurations=True",
-                    "WARNING",
-                )
-            if yaml_config_generator.get("component_specific_filters"):
-                self.log(
-                    "Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True",
-                    "WARNING",
-                )
-
-            # Set empty filters to retrieve everything
-            global_filters = {}
-            component_specific_filters = {}
-        else:
-            # Use provided filters or default to empty
-            global_filters = yaml_config_generator.get("global_filters") or {}
-            component_specific_filters = (
-                yaml_config_generator.get("component_specific_filters") or {}
-            )
-
-        # Retrieve the supported network elements for the module
-        module_supported_network_elements = self.module_schema.get(
-            "network_elements", {}
-        )
-        components_list = component_specific_filters.get(
-            "components_list", module_supported_network_elements.keys()
-        )
-        self.log(f"Components to process: {components_list}", "INFO")
-
-        final_list = []
-        for idx, component in enumerate(components_list, 1):
-            self.log(
-                f"Processing component {idx}/{len(components_list)}: '{component}'",
-                "DEBUG",
-            )
-            network_element = module_supported_network_elements.get(component)
-            if not network_element:
-                self.log(
-                    f"Skipping unsupported network element: '{component}'",
-                    "WARNING",
-                )
-                continue
-
-            filters = component_specific_filters.get(component, [])
-            self.log(f"Filters for component '{component}': {filters}", "DEBUG")
-            operation_func = network_element.get("get_function_name")
-            if callable(operation_func):
-                self.log(
-                    f"Executing operation function for component '{component}'", "DEBUG"
-                )
-                details = operation_func(network_element, filters)
-                self.log(f"Details retrieved for '{component}': {details}", "DEBUG")
-                final_list.append(details)
-            else:
-                self.log(
-                    f"No callable operation function found for component '{component}'",
-                    "WARNING",
-                )
-
-        if not final_list:
-            self.msg = f"No configurations or components to process for module '{self.module_name}'. Verify input filters or configuration."
-            self.log(self.msg, "WARNING")
-            self.set_operation_result("ok", False, self.msg, "INFO")
-            self.log(
-                "Exiting yaml_config_generator method - no configurations to process",
-                "DEBUG",
-            )
-            return self
-
-        final_dict = {"config": final_list}
-        self.log(
-            f"Final dictionary created with {len(final_list)} component(s): {final_dict}",
-            "DEBUG",
-        )
-
-        self.log(f"Writing YAML configuration to file: '{file_path}'", "INFO")
-        if self.write_dict_to_yaml(final_dict, file_path):
-            self.msg = {
-                f"YAML config generation Task succeeded for module '{self.module_name}'.": {
-                    "file_path": file_path
-                }
-            }
-            self.log(f"YAML config file successfully written to '{file_path}'", "INFO")
-            self.set_operation_result("success", True, self.msg, "INFO")
-        else:
-            self.msg = {
-                f"YAML config generation Task failed for module '{self.module_name}'.": {
-                    "file_path": file_path
-                }
-            }
-            self.log(f"Failed to write YAML config file to '{file_path}'", "ERROR")
-            self.set_operation_result("failed", True, self.msg, "ERROR")
-
-        self.log("Exiting yaml_config_generator method", "DEBUG")
-        return self
 
     def get_want(self, config, state):
         """

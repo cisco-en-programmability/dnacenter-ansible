@@ -432,7 +432,7 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
 
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "YAML config generation Task succeeded for module 'sda_fabric_devices_workflow_manager'",
+            "YAML configuration file generated successfully for module 'sda_fabric_devices_workflow_manager'",
             str(result.get("msg")),
         )
 
@@ -464,7 +464,7 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
 
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "YAML config generation Task succeeded for module 'sda_fabric_devices_workflow_manager'",
+            "YAML configuration file generated successfully for module 'sda_fabric_devices_workflow_manager'",
             str(result.get("msg")),
         )
 
@@ -496,7 +496,7 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
 
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "YAML config generation Task succeeded for module 'sda_fabric_devices_workflow_manager'",
+            "YAML configuration file generated successfully for module 'sda_fabric_devices_workflow_manager'",
             str(result.get("msg")),
         )
 
@@ -528,7 +528,7 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
 
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "YAML config generation Task succeeded for module 'sda_fabric_devices_workflow_manager'",
+            "YAML configuration file generated successfully for module 'sda_fabric_devices_workflow_manager'",
             str(result.get("msg")),
         )
 
@@ -560,7 +560,7 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
 
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "YAML config generation Task succeeded for module 'sda_fabric_devices_workflow_manager'",
+            "YAML configuration file generated successfully for module 'sda_fabric_devices_workflow_manager'",
             str(result.get("msg")),
         )
 
@@ -592,7 +592,7 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
 
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "YAML config generation Task succeeded for module 'sda_fabric_devices_workflow_manager'",
+            "YAML configuration file generated successfully for module 'sda_fabric_devices_workflow_manager'",
             str(result.get("msg")),
         )
 
@@ -624,7 +624,7 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
 
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "YAML config generation Task succeeded for module 'sda_fabric_devices_workflow_manager'",
+            "YAML configuration file generated successfully for module 'sda_fabric_devices_workflow_manager'",
             str(result.get("msg")),
         )
 
@@ -656,7 +656,7 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
 
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "YAML config generation Task succeeded for module 'sda_fabric_devices_workflow_manager'",
+            "YAML configuration file generated successfully for module 'sda_fabric_devices_workflow_manager'",
             str(result.get("msg")),
         )
 
@@ -688,6 +688,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
 
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "YAML config generation Task succeeded for module 'sda_fabric_devices_workflow_manager'",
+            "YAML configuration file generated successfully for module 'sda_fabric_devices_workflow_manager'",
             str(result.get("msg")),
         )
