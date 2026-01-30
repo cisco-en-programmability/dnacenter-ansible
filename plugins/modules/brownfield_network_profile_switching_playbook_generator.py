@@ -23,11 +23,6 @@ author:
   - A Mohamed Rafeek (@mabdulk2)
   - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -57,8 +52,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  "network_profile_switching_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "network_profile_switching_workflow_manager_playbook_12_Nov_2025_21_43_26_379.yml".
+          a default file name  "network_profile_switching_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
+        - For example, "network_profile_switching_workflow_manager_playbook_2025-11-12_21-43-26.yml".
         type: str
       global_filters:
         description:
@@ -218,13 +213,16 @@ response_1:
   type: dict
   sample: >
     {
-      "response":
-        {
-          "response": String,
-          "version": String
+      "response": {
+        "YAML config generation Task succeeded for module 'network_profile_switching_workflow_manager'.": {
+            "file_path": "tmp/brownfield_network_profile_switching_workflow_playbook_templatebase.yml"}
         },
-      "msg": String
+      "msg": {
+        "YAML config generation Task succeeded for module 'network_profile_switching_workflow_manager'.": {
+            "file_path": "tmp/brownfield_network_profile_switching_workflow_playbook_templatebase.yml"}
+        }
     }
+
 # Case_2: Error Scenario
 response_2:
   description: A string with the response returned by the Cisco Catalyst Center Python SDK
@@ -232,8 +230,10 @@ response_2:
   type: list
   sample: >
     {
-      "response": [],
-      "msg": String
+      "response": "No configurations or components to process for module 'network_profile_switching_workflow_manager'.
+                  Verify input filters or configuration.",
+      "msg": "No configurations or components to process for module 'network_profile_switching_workflow_manager'.
+             Verify input filters or configuration."
     }
 """
 
@@ -266,7 +266,7 @@ except ImportError:
     OrderedDumper = None
 
 
-class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper):
+class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFieldHelper):
     """
     A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center
     using the GET APIs.
@@ -277,8 +277,10 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
     def __init__(self, module):
         """
         Initialize an instance of the class.
-        Args:
+
+        Parameters:
             module: The module associated with the class instance.
+
         Returns:
             The method does not return a value.
         """
@@ -286,8 +288,8 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
         super().__init__(module)
         self.module_name = "network_profile_switching_workflow_manager"
         self.module_schema = self.get_workflow_elements_schema()
-        self.log("Initialized NetworkProfileSwitchingGenerator class instance.", "DEBUG")
-        self.log(self.module_schema, "DEBUG")
+        self.log("Initialized NetworkProfileSwitchingPlaybookGenerator class instance.", "DEBUG")
+        self.log(self.pprint(self.module_schema), "DEBUG")
 
         # Initialize generate_all_configurations as class-level parameter
         self.generate_all_configurations = False
@@ -295,6 +297,7 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
     def validate_input(self):
         """
         Validates the input configuration parameters for the playbook.
+
         Returns:
             object: An instance of the class with updated attributes:
                 self.msg: A message describing the validation result.
@@ -307,7 +310,7 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
         if not self.config:
             self.status = "success"
             self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
@@ -316,6 +319,35 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
             "file_path": {"type": "str", "required": False},
             "global_filters": {"type": "dict", "elements": "dict", "required": False},
         }
+
+        allowed_keys = set(temp_spec.keys())
+
+        # Validate that only allowed keys are present in the configuration
+        for config_item in self.config:
+            if not isinstance(config_item, dict):
+                self.msg = "Configuration item must be a dictionary, got: {0}".format(
+                    type(config_item).__name__)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            # Check for invalid keys
+            config_keys = set(config_item.keys())
+            invalid_keys = config_keys - allowed_keys
+
+            if invalid_keys:
+                self.msg = (
+                    "Invalid parameters found in playbook configuration: {0}. "
+                    "Only the following parameters are allowed: {1}. "
+                    "Please remove the invalid parameters and try again.".format(
+                        list(invalid_keys), list(allowed_keys)
+                    )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+        self.validate_minimum_requirements(self.config)
+        self.log("Validating configuration parameters against the expected schema: {0}".format(
+            temp_spec), "DEBUG")
 
         # # Import validate_list_of_dicts function here to avoid circular imports
         # from ansible_collections.cisco.dnac.plugins.module_utils.dnac import validate_list_of_dicts
@@ -339,6 +371,7 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
     def get_workflow_elements_schema(self):
         """
         Returns the mapping configuration for network switch profile workflow manager.
+
         Returns:
             dict: A dictionary containing network elements and global filters configuration with validation rules.
         """
@@ -450,9 +483,7 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
                         "ERROR",
                     )
                     not_exist_profile = ", ".join(non_existing_profiles)
-                    self.fail_and_exit(
-                        self.fail_and_exit(f"Switch profile(s) '{not_exist_profile}' does not exist in Cisco Catalyst Center.")
-                    )
+                    self.fail_and_exit(f"Switch profile(s) '{not_exist_profile}' does not exist in Cisco Catalyst Center.")
 
                 if filtered_profiles:
                     self.log(
@@ -550,12 +581,12 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
         """
         Process global filters for network profile switching.
 
-        Args:
+        Parameters:
             global_filters (dict): A dictionary containing global filter
             parameters.
 
         Returns:
-            dict: A dictionary containing processed global filter parameters.
+            list of dict: A list of dict containing processed global filter parameters.
         """
         self.log("Processing global filters: {0}".format(global_filters), "DEBUG")
         profile_names = global_filters.get("profile_name_list")
@@ -567,10 +598,8 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
             self.log("Filtering switch profiles based on profile_name_list: {0}".format(
                 global_filters.get("profile_name_list")), "DEBUG")
             for profile in self.have["switch_profile_names"]:
-                each_porfile_config = {}
-                each_porfile_config["profile_name"] = profile
-                each_porfile_config["day_n_templates"] = []
-                each_porfile_config["sites"] = []
+                each_profile_config = {}
+                each_profile_config["profile_name"] = profile
 
                 profile_id = self.get_value_by_key(
                     self.have["switch_profile_list"],
@@ -582,14 +611,14 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
                     cli_template_details = self.have.get(
                         "switch_profile_templates", {}).get(profile_id)
                     if cli_template_details and isinstance(cli_template_details, list):
-                        each_porfile_config["day_n_templates"] = cli_template_details
+                        each_profile_config["day_n_templates"] = cli_template_details
 
                     site_details = self.have.get(
                         "switch_profile_sites", {}).get(profile_id)
                     if site_details and isinstance(site_details, dict):
-                        each_porfile_config["sites"] = list(site_details.values())
+                        each_profile_config["site_names"] = list(site_details.values())
 
-                    final_list.append(each_porfile_config)
+                    final_list.append(each_profile_config)
                     self.log("Profile configurations collected for switch profile list: {0}".format(
                         final_list), "DEBUG")
         elif day_n_templates and isinstance(day_n_templates, list):
@@ -603,16 +632,16 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
                         profile_id,
                         "name",
                     )
-                    each_porfile_config = {}
-                    each_porfile_config["profile_name"] = profile_name
-                    each_porfile_config["day_n_templates"] = templates
+                    each_profile_config = {}
+                    each_profile_config["profile_name"] = profile_name
+                    each_profile_config["day_n_templates"] = templates
                     site_details = self.have.get(
                         "switch_profile_sites", {}).get(profile_id)
                     if site_details and isinstance(site_details, dict):
-                        each_porfile_config["sites"] = list(site_details.values())
+                        each_profile_config["site_names"] = list(site_details.values())
                     else:
-                        each_porfile_config["sites"] = []
-                    final_list.append(each_porfile_config)
+                        each_profile_config["site_names"] = []
+                    final_list.append(each_profile_config)
             self.log("Profile configurations collected for day-n template list: {0}".format(
                 final_list), "DEBUG")
         elif site_list and isinstance(site_list, list):
@@ -626,16 +655,16 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
                         profile_id,
                         "name",
                     )
-                    each_porfile_config = {}
-                    each_porfile_config["profile_name"] = profile_name
+                    each_profile_config = {}
+                    each_profile_config["profile_name"] = profile_name
                     cli_template_details = self.have.get(
                         "switch_profile_templates", {}).get(profile_id)
                     if cli_template_details and isinstance(cli_template_details, list):
-                        each_porfile_config["day_n_templates"] = cli_template_details
+                        each_profile_config["day_n_templates"] = cli_template_details
                     else:
-                        each_porfile_config["day_n_templates"] = []
-                    each_porfile_config["sites"] = list(sites.values())
-                    final_list.append(each_porfile_config)
+                        each_profile_config["day_n_templates"] = []
+                    each_profile_config["site_names"] = list(sites.values())
+                    final_list.append(each_profile_config)
             self.log("Profile configurations collected for site list: {0}".format(
                 final_list), "DEBUG")
         else:
@@ -653,7 +682,7 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
         This function retrieves network element details using global and component-specific filters, processes the data,
         and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
 
-        Args:
+        Parameters:
             yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
 
         Returns:
@@ -690,10 +719,8 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
             self.log("Preparing to collect all configurations for switch profile.",
                      "DEBUG")
             for each_profile_name in self.have.get("switch_profile_names", []):
-                each_porfile_config = {}
-                each_porfile_config["profile_name"] = each_profile_name
-                each_porfile_config["day_n_templates"] = []
-                each_porfile_config["sites"] = []
+                each_profile_config = {}
+                each_profile_config["profile_name"] = each_profile_name
 
                 profile_id = self.get_value_by_key(
                     self.have["switch_profile_list"],
@@ -705,14 +732,14 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
                     cli_template_details = self.have.get(
                         "switch_profile_templates", {}).get(profile_id)
                     if cli_template_details and isinstance(cli_template_details, list):
-                        each_porfile_config["day_n_templates"] = cli_template_details
+                        each_profile_config["day_n_templates"] = cli_template_details
 
                     site_details = self.have.get(
                         "switch_profile_sites", {}).get(profile_id)
                     if site_details and isinstance(site_details, dict):
-                        each_porfile_config["sites"] = list(site_details.values())
+                        each_profile_config["site_names"] = list(site_details.values())
 
-                    final_list.append(each_porfile_config)
+                    final_list.append(each_profile_config)
             self.log("All configurations collected for generate_all_configurations mode: {0}".format(
                 final_list), "DEBUG")
         else:
@@ -760,9 +787,12 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
         switch profile configurations such as Day n template and sites list in the Cisco Catalyst Center
         based on the desired state. It logs detailed information for each operation.
 
-        Args:
+        Parameters:
             config (dict): The configuration data for the network elements.
             state (str): The desired state of the network elements ('gathered').
+
+        Returns:
+            self: The current instance of the class with updated 'want' attributes.
         """
 
         self.log(
@@ -794,7 +824,7 @@ class NetworkProfileSwitchingGenerator(NetworkProfileFunctions, BrownFieldHelper
         This method fetches the existing configurations for switch profiles
         such as Day n template and sites list
 
-        Args:
+        Parameters:
             config (dict): The configuration data for the network elements.
 
         Returns:
@@ -918,7 +948,6 @@ def main():
         "dnac_log_append": {"type": "bool", "default": True},
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
@@ -928,7 +957,7 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_network_profile_switching_playbook_generator = NetworkProfileSwitchingGenerator(module)
+    ccc_network_profile_switching_playbook_generator = NetworkProfileSwitchingPlaybookGenerator(module)
     if (
         ccc_network_profile_switching_playbook_generator.compare_dnac_versions(
             ccc_network_profile_switching_playbook_generator.get_ccc_version(), "2.3.7.9"
@@ -937,7 +966,7 @@ def main():
     ):
         ccc_network_profile_switching_playbook_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
-            "for <module_name_caps> Module. Supported versions start from '2.3.7.9' onwards. ".format(
+            "for NETWORK PROFILE SWITCHING Module. Supported versions start from '2.3.7.9' onwards. ".format(
                 ccc_network_profile_switching_playbook_generator.get_ccc_version()
             )
         )

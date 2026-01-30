@@ -1590,12 +1590,13 @@ class BrownFieldHelper:
         Retrieves the site name hierarchy for all sites.
 
         Args:
-            site_id_list (list): A list of site IDs to retrieve the name hierarchy for.
+            site_id_list (list): A list of site IDs to retrieve for the name hierarchies.
 
         Returns:
             dict: A dictionary mapping site IDs to their name hierarchies.
+
         Raises:
-            Exception: If an error occurs while retrieving the site name hierarchy.
+            Exception: If an error occurs while retrieving the site name hierarchies.
         """
 
         self.log("Retrieving site name hierarchy for all sites.", "DEBUG")
