@@ -71,17 +71,19 @@ options:
           components_list:
             description:
             - List of components to include in the YAML configuration file.
+              - Valid values are
+                - Webhook Destinations "webhook_destinations"
+                - Email Destinations "email_destinations"
+                - Syslog Destinations "syslog_destinations"
+                - SNMP Destinations "snmp_destinations"
+                - ITSM Settings "itsm_settings"
+                - Webhook Event Notifications "webhook_event_notifications"
+                - Email Event Notifications "email_event_notifications"
+                - Syslog Event Notifications "syslog_event_notifications"
             type: list
             elements: str
-            choices:
-              - webhook_destinations
-              - email_destinations
-              - syslog_destinations
-              - snmp_destinations
-              - itsm_settings
-              - webhook_event_notifications
-              - email_event_notifications
-              - syslog_event_notifications
+            choices: ["webhook_destinations", "email_destinations", "syslog_destinations", "snmp_destinations", "itsm_settings",
+                      "webhook_event_notifications", "email_event_notifications", "syslog_event_notifications"]
           destination_filters:
             description:
             - Destination configuration filters to filter destinations by name or type.
