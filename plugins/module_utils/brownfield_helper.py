@@ -501,6 +501,45 @@ class BrownFieldHelper:
 
         self.log("Completed validation of all input parameters.", "INFO")
 
+    def validate_invalid_params(self, config_list, valid_params):
+        """
+        Validates that all parameters in each configuration entry are valid.
+
+        Args:
+            config_list (list): List of configuration dictionaries to validate.
+            valid_params (dict_keys): Valid parameter keys for the module.
+        """
+
+        self.log("Starting validation of invalid parameters in configuration entries.", "DEBUG")
+
+        if not isinstance(config_list, list):
+            self.msg = (
+                f"Invalid input: Expected a list of configuration entries, "
+                f"but got {type(config_list).__name__}."
+            )
+            self.fail_and_exit(self.msg)
+
+        valid_params_set = set(valid_params)
+        if not valid_params_set:
+            self.msg = "No valid parameters provided for validation. Please provide valid parameters."
+            self.fail_and_exit(self.msg)
+
+        self.log(f"Processing validation for {len(config_list)} configuration(s).", "DEBUG")
+        for idx, config in enumerate(config_list, start=1):
+            self.log(f"Validating configuration entry {idx}: {config}", "DEBUG")
+
+            invalid_params_set = set(config.keys()) - valid_params_set
+            if invalid_params_set:
+                self.msg = (
+                    f"Invalid parameters found in configuration entry {idx}: {list(invalid_params_set)}. "
+                    f"Valid parameters are: {list(valid_params_set)}."
+                )
+                self.fail_and_exit(self.msg)
+
+            self.log(f"Entry {idx}: No invalid parameters found.", "DEBUG")
+
+        self.log("Completed validation of invalid parameters in configuration entries.", "DEBUG")
+
     def validate_minimum_requirements(self, config_list):
         """
         Validate minimum requirements for each configuration entry in a list.
@@ -612,6 +651,12 @@ class BrownFieldHelper:
         components_list = component_specific_filters.get(
             "components_list", list(module_supported_network_elements.keys())
         )
+
+        # If components_list is empty, default to all supported components
+        if not components_list:
+            self.log("No components specified; processing all supported components.", "DEBUG")
+            components_list = list(module_supported_network_elements.keys())
+
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
         self.log("Initializing final configuration list and operation summary tracking", "DEBUG")
@@ -630,7 +675,10 @@ class BrownFieldHelper:
                 skipped_count += 1
                 continue
 
-            filters = component_specific_filters.get(component, [])
+            filters = {
+                "global_filters": global_filters,
+                "component_specific_filters": component_specific_filters.get(component, [])
+            }
             operation_func = network_element.get("get_function_name")
             if not callable(operation_func):
                 self.log(
@@ -832,6 +880,16 @@ class BrownFieldHelper:
                 self.log(
                     "Processing key '{0}' with spec: {1}".format(key, spec), "DEBUG"
                 )
+
+                if spec.get("fixed_value") is not None:
+                    mapped_detail[key] = spec["fixed_value"]
+                    self.log(
+                        "Assigned fixed value for key '{0}': {1}".format(
+                            key, mapped_detail[key]
+                        ),
+                        "DEBUG",
+                    )
+                    continue
 
                 source_key = spec.get("source_key", key)
                 value = detail.get(source_key)
