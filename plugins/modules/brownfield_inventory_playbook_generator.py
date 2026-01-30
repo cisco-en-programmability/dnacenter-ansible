@@ -254,7 +254,7 @@ EXAMPLES = r"""
             - "10.195.225.43"
         file_path: "./inventory_devices_multiple.yml"
 
-- name: Generate inventory playbook for ACCESS role devices only 
+- name: Generate inventory playbook for ACCESS role devices only
   cisco.dnac.brownfield_inventory_playbook_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
@@ -272,8 +272,6 @@ EXAMPLES = r"""
         file_path: "./inventory_access_role_devices.yml"
 
 """
-
-
 RETURN = r"""
 # Case_1: Success Scenario
 response_1:

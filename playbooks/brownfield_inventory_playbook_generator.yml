@@ -68,6 +68,9 @@
               ip_address_list:
                 - "206.1.2.1"
                 - "205.1.2.67"
+            component_specific_filters:
+              components_list: ["inventory_workflow_manager"]
+
       tags: [scenario2, specific_ips]
 
     # ===================================================================================
@@ -97,6 +100,8 @@
                 - "evpn-app-c9k-27"
                 - "TB3-BGL-EDGE2.autoagni1.com"
                 - "TB3-SJC-BORDER-01.autoagni1.com"
+            component_specific_filters:
+              components_list: ["inventory_workflow_manager"]
       tags: [scenario3, hostname_filter]
 
     # ===================================================================================
@@ -126,6 +131,8 @@
                 - "9ODWZQTV7RY"
                 - "91GRFWNYCL6"
                 - "FOC2435L165"
+            component_specific_filters:
+              components_list: ["inventory_workflow_manager"]
       tags: [scenario4, serial_number_filter]
 
     # ===================================================================================
@@ -154,6 +161,8 @@
               mac_address_list:
                 - "00:1A:2B:3C:4D:5E"
                 - "AA:BB:CC:DD:EE:FF"
+            component_specific_filters:
+              components_list: ["inventory_workflow_manager"]
       tags: [scenario5, mac_address_filter]
 
     # ===================================================================================
@@ -176,8 +185,7 @@
         dnac_log_level: INFO
         state: gathered
         config:
-          - generate_all_configurations: false
-            file_path: "/tmp/inventory_access_role_devices.yml"
+          - file_path: "/tmp/inventory_access_role_devices.yml"
             component_specific_filters:
               components_list: ["inventory_workflow_manager"]
               inventory_workflow_manager:
@@ -204,8 +212,7 @@
         dnac_log_level: INFO
         state: gathered
         config:
-          - generate_all_configurations: false
-            file_path: "/tmp/inventory_core_role_devices.yml"
+          - file_path: "/tmp/inventory_core_role_devices.yml"
             component_specific_filters:
               components_list: ["inventory_workflow_manager"]
               inventory_workflow_manager:
@@ -232,8 +239,7 @@
         dnac_log_level: INFO
         state: gathered
         config:
-          - generate_all_configurations: false
-            file_path: "/tmp/inventory_combined_filters.yml"
+          - file_path: "/tmp/inventory_combined_filters.yml"
             global_filters:
               ip_address_list:
                 - "204.1.2.2"
@@ -265,17 +271,16 @@
         state: gathered
         config:
           # Group 1: Access Layer Devices
-          - generate_all_configurations: false
-            file_path: "/tmp/inventory_group_access.yml"
+          - file_path: "/tmp/inventory_group_access.yml"
             component_specific_filters:
               components_list: ["inventory_workflow_manager"]
               inventory_workflow_manager:
                 - role: "ACCESS"
           # Group 2: Core Layer Devices
-          - generate_all_configurations: false
-            file_path: "/tmp/inventory_group_core.yml"
+          - file_path: "/tmp/inventory_group_core.yml"
             component_specific_filters:
               components_list: ["inventory_workflow_manager"]
               inventory_workflow_manager:
                 - role: "CORE"
       tags: [scenario9, multiple_groups]
+      
