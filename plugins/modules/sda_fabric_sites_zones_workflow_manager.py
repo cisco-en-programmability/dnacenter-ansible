@@ -59,15 +59,16 @@ options:
     required: true
     suboptions:
       fabric_sites:
-        description: A dictionary containing detailed
+        description: A list containing detailed
           configurations for managing REST Endpoints
           that will receive Audit log and Events from
-          the Cisco Catalyst Center Platform. This dictionary
+          the Cisco Catalyst Center Platform. This list
           is essential for specifying attributes and
           parameters required for the lifecycle management
           of fabric sites, zones, and associated authentication
           profiles.
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           site_name_hierarchy:
             description: This name uniquely identifies
