@@ -310,7 +310,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 import time
 try:
@@ -413,7 +412,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         return {
             "network_elements": {
                 "inventory_workflow_manager": {
-                    "filters" : ["ip_address", "hostname", "serial_number", "role"],
+                    "filters": ["ip_address", "hostname", "serial_number", "role"],
                     "api_function":"get_device_list",
                     "api_family": "devices",
                     "reverse_mapping_function": self.inventory_get_device_reverse_mapping,
@@ -436,27 +435,27 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             },
             "component_specific_filters": {
                 "inventory_workflow_manager": {
-                  "type": {
-                    "type": "str",
-                    "required": False,
-                    "choices": ["NETWORK_DEVICE", "COMPUTE_DEVICE", "MERAKI_DASHBOARD",
-                               "THIRD_PARTY_DEVICE", "FIREPOWER_MANAGEMENT_SYSTEM"]
-                  },
-                  "role": {
-                    "type": "str",
-                    "required": False,
-                    "choices": ["ACCESS", "CORE", "DISTRIBUTION", "BORDER_ROUTER", "UNKNOWN"]
-                  },
-                  "snmp_version": {
-                    "type": "str",
-                    "required": False,
-                    "choices": ["v2", "v2c", "v3"]
-                  },
-                  "cli_transport": {
-                    "type": "str",
-                    "required": False,
-                    "choices": ["ssh", "telnet", "SSH", "TELNET"]
-                  }
+                      "type": {
+                          "type": "str",
+                          "required": False,
+                          "choices": ["NETWORK_DEVICE", "COMPUTE_DEVICE", "MERAKI_DASHBOARD",
+                                       "THIRD_PARTY_DEVICE", "FIREPOWER_MANAGEMENT_SYSTEM"]
+                      },
+                      "role": {
+                          "type": "str",
+                          "required": False,
+                          "choices": ["ACCESS", "CORE", "DISTRIBUTION", "BORDER_ROUTER", "UNKNOWN"]
+                      },
+                      "snmp_version": {
+                          "type": "str",
+                          "required": False,
+                          "choices": ["v2", "v2c", "v3"]
+                      },
+                      "cli_transport": {
+                          "type": "str",
+                          "required": False,
+                        "choices": ["ssh", "telnet", "SSH", "TELNET"]
+                    }
                 }
             }
         }
@@ -1156,7 +1155,6 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return self
 
-
     def get_diff_gathered(self):
         """
         Executes YAML configuration file generation for brownfield Inventory workflow.
@@ -1166,7 +1164,6 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         This method orchestrates the yaml_config_generator operation and tracks execution
         time for performance monitoring.
         """
-
 
         start_time = time.time()
         self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
@@ -1317,7 +1314,6 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Device {0} ({1}) transformation complete and added to list".format(
                 device_index + 1, device.get('hostname', 'Unknown')
             ), "INFO")
-
 
         self.log("Transformation complete. Created {0} individual device configurations".format(
             len(transformed_devices)
@@ -1499,6 +1495,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         ), "INFO")
 
         return filtered_devices
+
 
 def main():
     """main entry point for module execution"""
