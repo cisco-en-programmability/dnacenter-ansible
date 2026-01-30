@@ -856,7 +856,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
         if site_details and isinstance(site_details, dict):
             site_list = list(site_details.values())
             if site_list:
-                each_profile_config["sites"] = site_list
+                each_profile_config["site_names"] = site_list
 
         each_profile_config["profile_name"] = profile_info.get("wirelessProfileName")
         ssid_details = profile_info.get("ssidDetails", "")
@@ -875,7 +875,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
 
         parsed_ap_zones = self.parse_profile_info(ap_zones, "ap_zones")
         if parsed_ap_zones:
-            each_profile_config["ap_zone_list"] = parsed_ap_zones
+            each_profile_config["ap_zones"] = parsed_ap_zones
 
         parsed_feature_templates = self.parse_profile_info(
             feature_template_designs, "feature_template_designs")
@@ -952,9 +952,9 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                     site_details = self.have.get(
                         "wireless_profile_sites", {}).get(profile_id)
                     if site_details and isinstance(site_details, dict):
-                        each_profile_config["sites"] = list(site_details.values())
+                        each_profile_config["site_names"] = list(site_details.values())
                         self.log("Site details added for profile '{0}': {1}".format(
-                            each_profile_name, each_profile_config["sites"]), "DEBUG")
+                            each_profile_name, each_profile_config["site_names"]), "DEBUG")
 
                     profile_info = self.have.get("wireless_profile_info", {}).get(profile_id)
                     self.log("Processing profile information for profile '{0}': {1}".format(
@@ -976,7 +976,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
 
                         parsed_ap_zones = self.parse_profile_info(ap_zones, "ap_zones")
                         if parsed_ap_zones:
-                            each_profile_config["ap_zone_list"] = parsed_ap_zones
+                            each_profile_config["ap_zones"] = parsed_ap_zones
 
                         parsed_feature_templates = self.parse_profile_info(
                             feature_template_designs, "feature_template_designs")
