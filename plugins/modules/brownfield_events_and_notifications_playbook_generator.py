@@ -71,19 +71,17 @@ options:
           components_list:
             description:
             - List of components to include in the YAML configuration file.
-            - Valid values are
-              - Webhook Destinations "webhook_destinations"
-              - Email Destinations "email_destinations"
-              - Syslog Destinations "syslog_destinations"
-              - SNMP Destinations "snmp_destinations"
-              - ITSM Settings "itsm_settings"
-              - Webhook Event Notifications "webhook_event_notifications"
-              - Email Event Notifications "email_event_notifications"
-              - Syslog Event Notifications "syslog_event_notifications"
-            - If not specified, all components are included.
-            - For example, ["webhook_destinations", "email_destinations", "webhook_event_notifications"].
             type: list
             elements: str
+            choices:
+              - webhook_destinations
+              - email_destinations
+              - syslog_destinations
+              - snmp_destinations
+              - itsm_settings
+              - webhook_event_notifications
+              - email_event_notifications
+              - syslog_event_notifications
           destination_filters:
             description:
             - Destination configuration filters to filter destinations by name or type.
@@ -146,6 +144,10 @@ notes:
     - GET /dna/system/api/v1/event/subscription/rest
     - GET /dna/system/api/v1/event/subscription/email
     - GET /dna/system/api/v1/event/subscription/syslog
+
+seealso:
+- module: cisco.dnac.events_and_notifications_workflow_manager
+  description: Module to manage Events and Notifications configurations in Cisco Catalyst Center.
 """
 
 EXAMPLES = r"""
@@ -234,8 +236,16 @@ response_1:
   type: dict
   sample: >
     {
-      "msg": "YAML config generation Task succeeded for module 'events_and_notifications_workflow_manager'.",
-      "response": "YAML config generation Task succeeded for module 'events_and_notifications_workflow_manager'.",
+      "msg": "YAML configuration file generated successfully for module 'events_and_notifications_workflow_manager'",
+      "response":
+      {
+          "components_processed": 1,
+          "components_skipped": 0,
+          "configurations_count": 1,
+          "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook",
+          "message": "YAML configuration file generated successfully for module 'events_and_notifications_workflow_manager'",
+          "status": "success"
+      },
       "status": "success"
     }
 # Case_2: Idempotent Scenario
@@ -246,7 +256,13 @@ response_2:
   sample: >
     {
       "msg": "No configurations found to generate. Verify that the components exist and have data.",
-      "response": "No configurations found to generate. Verify that the components exist and have data.",
+      "response": {
+          "components_processed": 0,
+          "components_skipped": 1,
+          "configurations_count": 0,
+          "message": "No configurations found to generate. Verify that the components exist and have data.",
+          "status": "success"
+      },
       "status": "success"
     }
 """
@@ -1420,7 +1436,6 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     final_webhook_configs = matching_configs
                 else:
                     self.log("No matching webhook destinations found for filter - including all", "DEBUG")
-                    final_webhook_configs = webhook_configs
             else:
                 final_webhook_configs = webhook_configs
 
@@ -1472,7 +1487,6 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     final_email_configs = matching_configs
                 else:
                     self.log("No matching email destinations found for filter - including all", "DEBUG")
-                    final_email_configs = email_configs
             else:
                 final_email_configs = email_configs
 
@@ -1524,7 +1538,6 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     final_syslog_configs = matching_configs
                 else:
                     self.log("No matching syslog destinations found for filter - including all", "DEBUG")
-                    final_syslog_configs = syslog_configs
             else:
                 final_syslog_configs = syslog_configs
 
@@ -1576,7 +1589,6 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     final_snmp_configs = matching_configs
                 else:
                     self.log("No matching SNMP destinations found for filter - including all", "DEBUG")
-                    final_snmp_configs = snmp_configs
             else:
                 final_snmp_configs = snmp_configs
 
@@ -2324,19 +2336,29 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             invalid_components = [comp for comp in components_list if comp not in allowed_components]
 
             if invalid_components:
-                self.msg = (
+                error_message = (
                     "Invalid components found in components_list: {0}. "
                     "Only the following components are allowed: {1}. "
                     "Please remove the invalid components and try again.".format(
                         invalid_components, allowed_components
                     )
                 )
-                self.set_operation_result("failed", True, self.msg, "ERROR")
+                response_data = {
+                    "message": error_message,
+                    "status": "failed"
+                }
+                self.msg = response_data
+                self.result["response"] = response_data
+                self.set_operation_result("failed", False, error_message, "ERROR")
                 return self
 
         try:
             self.log("Generating configurations for components: {0}".format(components_list), "DEBUG")
             final_config = {}
+
+            components_processed = 0
+            components_skipped = 0
+            total_configurations = 0
 
             for component in components_list:
                 if component in self.module_schema["network_elements"]:
@@ -2349,35 +2371,93 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                             result = get_function(component_info, {"component_specific_filters": component_specific_filters})
 
                             if isinstance(result, dict):
+                                component_has_data = False
                                 for key, value in result.items():
                                     if value:
                                         final_config[key] = value
-                                        self.log("Added {0} configurations: {1} items".format(key, len(value) if isinstance(value, list) else 1), "DEBUG")
+                                        config_count = len(value) if isinstance(value, list) else 1
+                                        total_configurations += config_count
+                                        component_has_data = True
+                                        self.log("Added {0} configurations: {1} items".format(key, config_count), "DEBUG")
+
+                                if component_has_data:
+                                    components_processed += 1
+                                else:
+                                    components_skipped += 1
 
                         except Exception as e:
                             self.log("Error processing component {0}: {1}".format(component, str(e)), "ERROR")
+                            components_skipped += 1
                             continue
                     else:
                         self.log("No get function found for component: {0}".format(component), "WARNING")
+                        components_skipped += 1
                 else:
                     self.log("Unknown component: {0}".format(component), "WARNING")
+                    components_skipped += 1
 
             if final_config:
                 self.log("Successfully generated configurations for {0} components".format(len(final_config)), "INFO")
                 playbook_data = self.generate_playbook_structure(final_config, file_path)
 
-                self.write_dict_to_yaml(playbook_data, file_path)
+                if self.write_dict_to_yaml(playbook_data, file_path):
+                    success_message = "YAML configuration file generated successfully for module '{0}'".format(self.module_name)
 
-                self.msg = "YAML config generation Task succeeded for module '{0}'.".format(self.module_name)
-                self.result["response"] = {"file_path": file_path}
-                self.set_operation_result("success", True, self.msg, "INFO")
+                    response_data = {
+                        "components_processed": components_processed,
+                        "components_skipped": components_skipped,
+                        "configurations_count": total_configurations,
+                        "file_path": file_path,
+                        "message": success_message,
+                        "status": "success"
+                    }
+
+                    self.set_operation_result("success", True, success_message, "INFO")
+
+                    self.msg = response_data
+                    self.result["response"] = response_data
+                else:
+                    error_message = "Failed to write YAML configuration to file: {0}".format(file_path)
+
+                    response_data = {
+                        "message": error_message,
+                        "status": "failed"
+                    }
+
+                    self.set_operation_result("failed", False, error_message, "ERROR")
+                    self.msg = response_data
+                    self.result["response"] = response_data
+
             else:
-                self.msg = "No configurations found to generate. Verify that the components exist and have data."
-                self.set_operation_result("success", False, self.msg, "INFO")
+                no_config_message = "No configurations found to generate. Verify that the components exist and have data."
+
+                response_data = {
+                    "components_processed": components_processed,
+                    "components_skipped": components_skipped,
+                    "configurations_count": 0,
+                    "message": no_config_message,
+                    "status": "success"
+                }
+
+                self.set_operation_result("success", False, no_config_message, "INFO")
+
+                self.msg = response_data
+                self.result["response"] = response_data
+
+            return self
 
         except Exception as e:
-            self.msg = "Error during YAML config generation: {0}".format(str(e))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
+            error_message = "Error during YAML config generation: {0}".format(str(e))
+
+            response_data = {
+                "message": error_message,
+                "status": "failed"
+            }
+
+            self.msg = response_data
+            self.result["response"] = response_data
+
+            self.set_operation_result("failed", False, error_message, "ERROR")
 
         return self
 

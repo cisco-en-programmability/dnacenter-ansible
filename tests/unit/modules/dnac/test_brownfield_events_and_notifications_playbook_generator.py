@@ -120,7 +120,14 @@ class TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "YAML config generation Task succeeded for module 'events_and_notifications_workflow_manager'."
+            {
+                "components_processed": 8,
+                "components_skipped": 0,
+                "configurations_count": 11,
+                "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook",
+                "message": "YAML configuration file generated successfully for module 'events_and_notifications_workflow_manager'",
+                "status": "success"
+            }
         )
 
     def test_brownfield_events_and_notifications_playbook_component_specific_filters(self):
@@ -148,7 +155,14 @@ class TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "YAML config generation Task succeeded for module 'events_and_notifications_workflow_manager'."
+            {
+                "components_processed": 2,
+                "components_skipped": 0,
+                "configurations_count": 3,
+                "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook",
+                "message": "YAML configuration file generated successfully for module 'events_and_notifications_workflow_manager'",
+                "status": "success"
+            }
         )
 
     def test_brownfield_events_and_notifications_playbook_invalid_filter(self):
@@ -208,5 +222,12 @@ class TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "YAML config generation Task succeeded for module 'events_and_notifications_workflow_manager'."
+            {
+                "components_processed": 1,
+                "components_skipped": 0,
+                "configurations_count": 1,
+                "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook",
+                "message": "YAML configuration file generated successfully for module 'events_and_notifications_workflow_manager'",
+                "status": "success"
+            }
         )
