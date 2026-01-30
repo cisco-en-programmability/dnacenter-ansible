@@ -446,7 +446,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                         "server_ip": {"type": "str", "required": False},
                         "source_path": {"type": "str", "required": False},
                     },
-                    "reverse_mapping_function": self.nfs_configuration_reverse_mapping_function,
+                    "reverse_mapping_function": self.nfs_configuration_temp_spec(),
                     "api_function": "get_all_n_f_s_configurations",
                     "api_family": "backup",
                     "get_function_name": self.get_nfs_configurations,
@@ -455,7 +455,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "filters": {
                         "server_type": {"type": "str", "required": False},
                     },
-                    "reverse_mapping_function": self.backup_storage_configuration_reverse_mapping_function,
+                    "reverse_mapping_function": self.backup_storage_configuration_temp_spec(),
                     "api_function": "get_backup_configuration",
                     "api_family": "backup",
                     "get_function_name": self.get_backup_storage_configurations,
@@ -463,26 +463,6 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
             },
             "global_filters": {},
         }
-
-    def nfs_configuration_reverse_mapping_function(self):
-        """
-        Provides reverse mapping specification for NFS configuration transformations.
-
-        Description:
-            Returns the reverse mapping specification used to transform NFS configuration
-            API responses into structured configuration format. This specification defines
-            how API response fields should be mapped to the desired YAML structure.
-
-        Args:
-            requested_features (list, optional): List of specific features to include.
-                Currently not used for NFS configurations but reserved for future use.
-
-        Returns:
-            OrderedDict: The NFS configuration temporary specification containing
-            field mappings, data types, and transformation rules.
-        """
-        self.log("Generating reverse mapping specification for NFS configuration details", "DEBUG")
-        return self.nfs_configuration_temp_spec()
 
     def nfs_configuration_temp_spec(self):
         """
@@ -536,9 +516,12 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
             for key in keys:
                 result = result.get(key)
                 if result is None:
+                    self.log("Key '{0}' not found in the current data level.".format(key), "DEBUG")
                     return None
             return result
-        except (AttributeError, TypeError):
+        except (AttributeError, TypeError) as e:
+            self.log("Type error encountered while extracting value for key path: {0}. Error: {1}. Data type: {2}".format(
+                key_path, str(e), type(data).__name__), "ERROR")
             return None
 
     def get_nfs_configurations(self, network_element, filters):
@@ -702,26 +685,6 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Modified NFS configuration details: {0}".format(modified_nfs_configuration_details), "INFO")
 
         return modified_nfs_configuration_details
-
-    def backup_storage_configuration_reverse_mapping_function(self):
-        """
-        Provides reverse mapping specification for backup storage configuration transformations.
-
-        Description:
-            Returns the reverse mapping specification used to transform backup storage
-            configuration API responses into structured configuration format. This specification
-            handles complex backup storage settings including NFS details and encryption.
-
-        Args:
-            requested_features (list, optional): List of specific features to include.
-                Currently not used but reserved for future functionality.
-
-        Returns:
-            OrderedDict: The backup storage configuration temporary specification containing
-            field mappings, transformation rules, and special handling directives.
-        """
-        self.log("Generating reverse mapping specification for backup storage configuration details", "DEBUG")
-        return self.backup_storage_configuration_temp_spec()
 
     def backup_storage_configuration_temp_spec(self):
         """
