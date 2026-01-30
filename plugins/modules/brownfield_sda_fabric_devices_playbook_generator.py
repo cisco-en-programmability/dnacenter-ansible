@@ -440,7 +440,6 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         return self
 
     def get_transit_id_to_name_mapping(self):
-        # TODO: Remove if not required
         """
         Retrieve all transit networks and create ID to name mapping.
 
@@ -1361,10 +1360,12 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         for handoff in layer3_ip_transit_list:
             transformed_handoff = {}
 
-            # Copy direct fields
+            # Copy direct fields, skip empty values
             for api_key, playbook_key in direct_fields.items():
-                if api_key in handoff and handoff[api_key] is not None:
-                    transformed_handoff[playbook_key] = handoff[api_key]
+                value = handoff.get(api_key)
+                # Skip None, empty strings, and empty collections
+                if value is not None and value != "" and value != []:
+                    transformed_handoff[playbook_key] = value
 
             # Convert transitNetworkId to transit_network_name
             transit_id = handoff.get("transitNetworkId")
@@ -1410,13 +1411,12 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         transformed_handoff = {}
 
-        # Copy direct fields
+        # Copy direct fields, skip empty values
         for api_key, playbook_key in direct_fields.items():
-            if (
-                api_key in layer3_sda_transit
-                and layer3_sda_transit[api_key] is not None
-            ):
-                transformed_handoff[playbook_key] = layer3_sda_transit[api_key]
+            value = layer3_sda_transit.get(api_key)
+            # Skip None, empty strings, and empty collections
+            if value is not None and value != "" and value != []:
+                transformed_handoff[playbook_key] = value
 
         # Convert transitNetworkId to transit_network_name
         transit_id = layer3_sda_transit.get("transitNetworkId")
@@ -1461,8 +1461,10 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         for handoff in layer2_handoff_list:
             transformed_handoff = {}
             for api_key, playbook_key in allowed_fields.items():
-                if api_key in handoff and handoff[api_key] is not None:
-                    transformed_handoff[playbook_key] = handoff[api_key]
+                value = handoff.get(api_key)
+                # Skip None, empty strings, and empty collections
+                if value is not None and value != "" and value != []:
+                    transformed_handoff[playbook_key] = value
 
             # Only add if we have all required fields
             if transformed_handoff:
@@ -2353,8 +2355,6 @@ def main():
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
-
-    #  TODO: Check version 3.1.3.0 for the embedded wireless controller settings API support
 
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
