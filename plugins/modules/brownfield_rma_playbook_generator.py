@@ -101,6 +101,10 @@ notes:
     - GET /dna/intent/api/v1/device-replacement
     - GET /dna/intent/api/v1/network-device
 - Cisco Catalyst Center version 2.3.5.3 or higher is required for RMA functionality
+
+seealso:
+- module: cisco.dnac.rma_workflow_manager
+  description: Manage RMA (Return Material Authorization) workflows in Cisco Catalyst Center.
 """
 
 EXAMPLES = r"""
@@ -168,30 +172,41 @@ response_1:
   type: dict
   sample: >
     {
-      "response":
-        {
-          "YAML config generation Task succeeded for module 'rma_workflow_manager'.": {
-            "file_path": "/tmp/rma_workflows_config.yaml",
-            "components_processed": 1
-          }
-        },
-      "msg": "YAML config generation Task succeeded for module 'rma_workflow_manager'."
+      "msg": "YAML configuration file generated successfully for module 'rma_workflow_manager'",
+      "response": {
+          "components_processed": 1,
+          "components_skipped": 0,
+          "configurations_count": 1,
+          "file_path": "/Users/priyadharshini/Downloads/rma_info",
+          "message": "YAML configuration file generated successfully for module 'rma_workflow_manager'",
+          "status": "success"
+      },
+      "status": "success"
     }
-# Case_2: Error Scenario
+# Case_2: Idempotency Scenario
 response_2:
-  description: A string with the response returned by the Cisco Catalyst Center
+  description: A dict with the response returned by the Cisco Catalyst Center
   returned: always
-  type: list
+  type: dict
   sample: >
     {
-      "response":
-        {
-          "YAML config generation Task failed for module 'rma_workflow_manager'.": {
-            "file_path": "/tmp/rma_workflows_config.yaml",
-            "components_processed": 1
-          }
-        },
-      "msg": "YAML config generation Task failed for module 'rma_workflow_manager'."
+      msg = (
+        "No device replacement workflows found to process for module "
+        "'rma_workflow_manager'. Verify that RMA workflows are configured in "
+        "Catalyst Center or check user permissions."
+      ),
+      "response": {
+        "components_processed": 0,
+        "components_skipped": 1,
+        "configurations_count": 0,
+        "message" = (
+          "No device replacement workflows found to process for module "
+          "'rma_workflow_manager'. Verify that RMA workflows are configured in "
+          "Catalyst Center or check user permissions."
+        ),
+        "status": "success"
+      },
+      "status": "success"
     }
 """
 
@@ -490,39 +505,66 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Retrieved {0} device replacement workflows from Catalyst Center".format(len(workflow_configs)), "INFO")
 
             if workflow_filters:
+                self.log("Applying workflow filters: {0}".format(workflow_filters), "DEBUG")
+
+                if isinstance(workflow_filters, list):
+                    combined_filters = {}
+                    for filter_item in workflow_filters:
+                        if isinstance(filter_item, dict):
+                            combined_filters.update(filter_item)
+                elif isinstance(workflow_filters, dict):
+                    combined_filters = workflow_filters
+                else:
+                    combined_filters = {}
+
+                self.log("Combined filter criteria: {0}".format(combined_filters), "DEBUG")
+
                 filtered_configs = []
-                for filter_param in workflow_filters:
-                    for config in workflow_configs:
-                        match = True
 
-                        for key, value in filter_param.items():
-                            config_value = None
-                            if key == "faulty_device_serial_number":
-                                config_value = config.get("faultyDeviceSerialNumber")
-                            elif key == "replacement_device_serial_number":
-                                config_value = config.get("replacementDeviceSerialNumber")
-                            elif key == "replacement_status":
-                                config_value = config.get("replacementStatus")
+                for config in workflow_configs:
+                    matches_all_filters = True
 
-                            if config_value != value:
-                                match = False
-                                break
+                    for key, expected_value in combined_filters.items():
+                        config_value = None
 
-                        if match and config not in filtered_configs:
-                            filtered_configs.append(config)
+                        if key == "faulty_device_serial_number":
+                            config_value = config.get("faultyDeviceSerialNumber")
+                        elif key == "replacement_device_serial_number":
+                            config_value = config.get("replacementDeviceSerialNumber")
+                        elif key == "replacement_status":
+                            config_value = config.get("replacementStatus")
+
+                        if config_value != expected_value:
+                            matches_all_filters = False
+                            self.log("Config filtered out: {0} (expected: '{1}', got: '{2}')".format(
+                                key, expected_value, config_value), "DEBUG")
+                            break
+
+                    if matches_all_filters:
+                        filtered_configs.append(config)
+                        self.log("Config matches all filters and included: faulty_serial={0}, replacement_serial={1}, status={2}".format(
+                            config.get("faultyDeviceSerialNumber", "N/A"),
+                            config.get("replacementDeviceSerialNumber", "N/A"),
+                            config.get("replacementStatus", "N/A")), "DEBUG")
 
                 final_workflow_configs = filtered_configs
+
+                if filtered_configs:
+                    self.log("Found {0} matching workflows after applying filters: {1}".format(
+                        len(filtered_configs), combined_filters), "INFO")
+                else:
+                    self.log("No workflows match the specified filters: {0}. All {1} workflows were filtered out.".format(
+                        combined_filters, len(workflow_configs)), "WARNING")
             else:
                 final_workflow_configs = workflow_configs
+                self.log("No filters specified, returning all {0} workflows".format(len(workflow_configs)), "INFO")
 
         except Exception as e:
             self.msg = "Error retrieving device replacement workflows: {0}".format(str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
 
-        # Modify device replacement workflow details using temp_spec
         workflow_temp_spec = self.device_replacement_workflows_temp_spec()
 
-        # Custom parameter modification to handle device name and IP resolution
         modified_workflow_configs = []
         for config in final_workflow_configs:
             mapped_config = OrderedDict()
@@ -760,7 +802,6 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             if pnp_response and len(pnp_response) > 0:
                 device_info = pnp_response[0].get("deviceInfo", {})
-                # PnP devices may not have IP addresses assigned yet
                 device_ip = device_info.get("aaaCredentials", {}).get("mgmtIpAddress")
                 if device_ip:
                     self.log("Found replacement device IP address in PnP: {0}".format(device_ip), "DEBUG")
@@ -823,10 +864,8 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
 
-        # Retrieve the supported network elements for the module
         module_supported_network_elements = self.module_schema.get("network_elements", {})
 
-        # Determine which components to process
         if generate_all_configurations:
             components_list = list(module_supported_network_elements.keys())
             self.log("Using all available components due to generate_all_configurations=True: {0}".format(components_list), "INFO")
@@ -837,9 +876,11 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
-        # Create the structured configuration
-        config_list = []
         components_processed = 0
+        components_skipped = 0
+        total_configurations = 0
+
+        config_list = []
 
         for component in components_list:
             self.log("Processing component: {0}".format(component), "INFO")
@@ -850,6 +891,7 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "Skipping unsupported network element: {0}".format(component),
                     "WARNING",
                 )
+                components_skipped += 1
                 continue
 
             filters = {
@@ -868,60 +910,82 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "Details retrieved for {0}: {1}".format(component, details), "DEBUG"
                     )
 
-                    # Add the component data to config list
                     if component in details and details[component]:
-                        # For RMA, we want to generate a config list where each item is a device replacement workflow
                         for workflow in details[component]:
                             config_list.append(workflow)
+
+                        config_count = len(details[component])
+                        total_configurations += config_count
                         components_processed += 1
                         self.log("Successfully added {0} configurations for component {1}".format(
-                            len(details[component]), component), "INFO")
+                            config_count, component), "INFO")
                     else:
+                        components_skipped += 1
                         self.log(
                             "No data found for component: {0}".format(component), "WARNING"
                         )
 
                 except Exception as e:
-                    self.msg = (
-                        "Error retrieving data for component {0}: {1}".format(component, str(e)),
-                        "ERROR"
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    self.log("Error retrieving data for component {0}: {1}".format(component, str(e)), "ERROR")
+                    components_skipped += 1
+                    continue
             else:
                 self.log("No callable operation function for component: {0}".format(component), "ERROR")
+                components_skipped += 1
 
-        self.log("Processing summary: {0} components processed successfully".format(components_processed), "INFO")
+        self.log("Processing summary: {0} components processed successfully, {1} skipped".format(
+            components_processed, components_skipped), "INFO")
 
         if not config_list:
-            self.msg = (
-                "No configurations found to process for module '{0}'. "
-                "This may be because:\n"
-                "- No device replacement workflows are configured in Catalyst Center\n"
-                "- The API is not available in this version\n"
-                "- User lacks required permissions\n"
-                "- API function names have changed"
+            no_config_message = (
+                "No device replacement workflows found to process for module '{0}'. "
+                "Verify that RMA workflows are configured in Catalyst Center or check user permissions."
             ).format(self.module_name)
-            self.set_operation_result("success", False, self.msg, "INFO")
+
+            response_data = {
+                "components_processed": components_processed,
+                "components_skipped": components_skipped,
+                "configurations_count": 0,
+                "message": no_config_message,
+                "status": "success"
+            }
+
+            self.set_operation_result("success", False, no_config_message, "INFO")
+
+            self.msg = response_data
+            self.result["response"] = response_data
             return self
 
-        # Create the final structure for RMA workflows
         final_dict = {"config": config_list}
         self.log("Final dictionary created with {0} device replacement workflow configurations".format(len(config_list)), "DEBUG")
 
         if self.write_dict_to_yaml(final_dict, file_path):
-            self.msg = {
-                "YAML config generation Task succeeded for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path, "components_processed": components_processed}
+            success_message = "YAML configuration file generated successfully for module '{0}'".format(self.module_name)
+
+            response_data = {
+                "components_processed": components_processed,
+                "components_skipped": components_skipped,
+                "configurations_count": total_configurations,
+                "file_path": file_path,
+                "message": success_message,
+                "status": "success"
             }
-            self.set_operation_result("success", True, self.msg, "INFO")
+
+            self.set_operation_result("success", True, success_message, "INFO")
+
+            self.msg = response_data
+            self.result["response"] = response_data
         else:
-            self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
+            error_message = "Failed to write YAML configuration to file: {0}".format(file_path)
+
+            response_data = {
+                "message": error_message,
+                "status": "failed"
             }
-            self.set_operation_result("failed", True, self.msg, "ERROR")
+
+            self.set_operation_result("failed", False, error_message, "ERROR")
+            self.msg = response_data
+            self.result["response"] = response_data
 
         return self
 
@@ -968,37 +1032,31 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Executes the configuration gathering and YAML generation process for RMA workflows.
+        Executes YAML configuration file generation for brownfield template workflow.
 
-        Description:
-            Implements the main execution logic for the 'gathered' state in RMA operations.
-            Orchestrates the complete workflow from parameter validation through YAML file
-            generation, with comprehensive error handling, timing information, and status reporting.
-
-        Args:
-            None: Uses instance attributes and methods for operation execution.
-
-        Returns:
-            object: Self instance with updated operation results:
-                - Returns success status when YAML generation completes successfully.
-                - Returns failure status with error information when issues occur.
-                - Includes execution timing and operation processing details.
+        Processes the desired state parameters prepared by get_want() and generates a
+        YAML configuration file containing network element details from Catalyst Center.
+        This method orchestrates the yaml_config_generator operation and tracks execution
+        time for performance monitoring.
         """
+
         start_time = time.time()
         self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
-
-        operations = [
+        # Define workflow operations
+        workflow_operations = [
             (
                 "yaml_config_generator",
                 "YAML Config Generator",
                 self.yaml_config_generator,
             )
         ]
+        operations_executed = 0
+        operations_skipped = 0
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined operations for processing.", "DEBUG")
+        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
         for index, (param_key, operation_name, operation_func) in enumerate(
-            operations, start=1
+            workflow_operations, start=1
         ):
             self.log(
                 "Iteration {0}: Checking parameters for {1} operation with param_key '{2}'.".format(
@@ -1014,8 +1072,27 @@ class RMAPlaybookGenerator(DnacBase, BrownFieldHelper):
                     ),
                     "INFO",
                 )
-                operation_func(params).check_return_status()
+
+                try:
+                    operation_func(params)
+                    operations_executed += 1
+                    self.log(
+                        "{0} operation completed successfully".format(operation_name),
+                        "DEBUG"
+                    )
+                except Exception as e:
+                    self.log(
+                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
+                        "ERROR"
+                    )
+                    self.set_operation_result(
+                        "failed", True,
+                        "{0} operation failed: {1}".format(operation_name, str(e)),
+                        "ERROR"
+                    ).check_return_status()
+
             else:
+                operations_skipped += 1
                 self.log(
                     "Iteration {0}: No parameters found for {1}. Skipping operation.".format(
                         index, operation_name

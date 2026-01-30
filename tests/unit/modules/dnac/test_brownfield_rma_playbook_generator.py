@@ -120,10 +120,12 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             {
-                "YAML config generation Task succeeded for module 'rma_workflow_manager'.": {
-                    "components_processed": 1,
-                    "file_path": "/Users/priyadharshini/Downloads/rma_info"
-                }
+                "components_processed": 1,
+                "components_skipped": 0,
+                "configurations_count": 1,
+                "file_path": "/Users/priyadharshini/Downloads/rma_info",
+                "message": "YAML configuration file generated successfully for module 'rma_workflow_manager'",
+                "status": "success"
             }
         )
 
@@ -151,10 +153,12 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             {
-                "YAML config generation Task succeeded for module 'rma_workflow_manager'.": {
-                    "components_processed": 1,
-                    "file_path": "/Users/priyadharshini/Downloads/rma_info"
-                }
+                "components_processed": 1,
+                "components_skipped": 0,
+                "configurations_count": 1,
+                "file_path": "/Users/priyadharshini/Downloads/rma_info",
+                "message": "YAML configuration file generated successfully for module 'rma_workflow_manager'",
+                "status": "success"
             }
         )
 
@@ -182,10 +186,12 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             {
-                "YAML config generation Task succeeded for module 'rma_workflow_manager'.": {
-                    "components_processed": 1,
-                    "file_path": "/Users/priyadharshini/Downloads/rma_info"
-                }
+                "components_processed": 1,
+                "components_skipped": 0,
+                "configurations_count": 1,
+                "file_path": "/Users/priyadharshini/Downloads/rma_info",
+                "message": "YAML configuration file generated successfully for module 'rma_workflow_manager'",
+                "status": "success"
             }
         )
 
@@ -212,14 +218,13 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            (
-                "No configurations found to process for module 'rma_workflow_manager'. "
-                "This may be because:\n"
-                "- No device replacement workflows are configured in Catalyst Center\n"
-                "- The API is not available in this version\n"
-                "- User lacks required permissions\n"
-                "- API function names have changed"
-            )
+            {
+                "components_processed": 0,
+                "components_skipped": 1,
+                "configurations_count": 0,
+                "message": "No device replacement workflows found to process for module 'rma_workflow_manager'. Verify that RMA workflows are configured in Catalyst Center or check user permissions.",
+                "status": "success"
+            }
         )
 
     def test_brownfield_rma_playbook_generator_playbook_component_specific_filters1(self):
@@ -246,10 +251,12 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             {
-                "YAML config generation Task succeeded for module 'rma_workflow_manager'.": {
-                    "components_processed": 1,
-                    "file_path": "/Users/priyadharshini/Downloads/rma_info"
-                }
+                "components_processed": 1,
+                "components_skipped": 0,
+                "configurations_count": 1,
+                "file_path": "/Users/priyadharshini/Downloads/rma_info",
+                "message": "YAML configuration file generated successfully for module 'rma_workflow_manager'",
+                "status": "success"
             }
         )
 
