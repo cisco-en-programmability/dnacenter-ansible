@@ -68,6 +68,9 @@ options:
           components_list:
             description:
               - List of components to include in the YAML configuration file.
+              - Valid values are
+                - user_details
+                - role_details
               - If not specified, all components are included.
             type: list
             elements: str
@@ -1180,23 +1183,31 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Executes the merge operations for user and role configurations in the Cisco Catalyst Center.
+        Executes YAML configuration file generation for brownfield template workflow.
+
+        Processes the desired state parameters prepared by get_want() and generates a
+        YAML configuration file containing network element details from Catalyst Center.
+        This method orchestrates the yaml_config_generator operation and tracks execution
+        time for performance monitoring.
         """
+
         start_time = time.time()
         self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
-
-        operations = [
+        # Define workflow operations
+        workflow_operations = [
             (
                 "yaml_config_generator",
                 "YAML Config Generator",
                 self.yaml_config_generator,
             )
         ]
+        operations_executed = 0
+        operations_skipped = 0
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined operations for processing.", "DEBUG")
+        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
         for index, (param_key, operation_name, operation_func) in enumerate(
-            operations, start=1
+            workflow_operations, start=1
         ):
             self.log(
                 "Iteration {0}: Checking parameters for {1} operation with param_key '{2}'.".format(
@@ -1212,8 +1223,27 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                     ),
                     "INFO",
                 )
-                operation_func(params).check_return_status()
+
+                try:
+                    operation_func(params)
+                    operations_executed += 1
+                    self.log(
+                        "{0} operation completed successfully".format(operation_name),
+                        "DEBUG"
+                    )
+                except Exception as e:
+                    self.log(
+                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
+                        "ERROR"
+                    )
+                    self.set_operation_result(
+                        "failed", True,
+                        "{0} operation failed: {1}".format(operation_name, str(e)),
+                        "ERROR"
+                    ).check_return_status()
+
             else:
+                operations_skipped += 1
                 self.log(
                     "Iteration {0}: No parameters found for {1}. Skipping operation.".format(
                         index, operation_name
