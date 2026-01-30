@@ -380,13 +380,36 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.supported_states = ["gathered"]
         super().__init__(module)
+        self.log("Initializing SdaFabricDevicesPlaybookGenerator", "INFO")
+        self.log(f"Supported states: {self.supported_states}", "DEBUG")
+
+        self.log("Retrieving workflow filters schema", "DEBUG")
         self.module_schema = self.get_workflow_filters_schema()
+
+        self.log("Retrieving site ID to name mapping", "DEBUG")
         self.site_id_name_dict = self.get_site_id_name_mapping()
+        self.log(f"Retrieved {len(self.site_id_name_dict)} site(s) in mapping", "DEBUG")
+
+        self.log("Retrieving fabric site name to ID mapping", "DEBUG")
         self.fabric_site_name_to_id_dict, self.fabric_site_id_to_name_dict = (
             self.get_fabric_site_name_to_id_mapping()
         )
+        self.log(
+            f"Retrieved {len(self.fabric_site_name_to_id_dict)} fabric site(s) in mapping",
+            "DEBUG",
+        )
+
+        self.log("Retrieving transit ID to name mapping", "DEBUG")
         self.transit_id_to_name_dict = self.get_transit_id_to_name_mapping()
+        self.log(
+            f"Retrieved {len(self.transit_id_to_name_dict)} transit network(s) in mapping",
+            "DEBUG",
+        )
+
         self.module_name = "sda_fabric_devices_workflow_manager"
+        self.log(
+            f"Initialization complete for SdaFabricDevicesPlaybookGenerator", "INFO"
+        )
 
     def validate_input(self):
         """
@@ -403,8 +426,11 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         if not self.config:
             self.status = "success"
             self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.log(self.msg, "WARNING")
+            self.log("Exiting validate_input method - no config provided", "DEBUG")
             return self
+
+        self.log(f"Configuration to validate: {len(self.config)} item(s)", "DEBUG")
 
         # Expected schema for configuration parameters
         temp_spec = {
@@ -417,6 +443,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
+        self.log("Expected schema for validation defined", "DEBUG")
 
         # Import validate_list_of_dicts function here to avoid circular imports
         from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
@@ -424,19 +451,24 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         # Validate params
+        self.log("Validating configuration parameters against schema", "DEBUG")
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
 
         if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
+            self.msg = f"Invalid parameters in playbook: {invalid_params}"
+            self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
+            self.log("Exiting validate_input method - validation failed", "DEBUG")
             return self
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
-            str(valid_temp)
+        self.log(
+            f"Successfully validated {len(valid_temp)} configuration item(s)", "INFO"
         )
+        self.msg = f"Successfully validated playbook configuration parameters using 'validated_input': {str(valid_temp)}"
         self.set_operation_result("success", False, self.msg, "INFO")
+        self.log("Exiting validate_input method - validation successful", "DEBUG")
         return self
 
     def get_transit_id_to_name_mapping(self):
@@ -446,10 +478,15 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: Dictionary mapping transit IDs to transit names
         """
-        self.log("Retrieving transit networks for ID to name mapping", "DEBUG")
+        self.log("Entering get_transit_id_to_name_mapping method", "DEBUG")
+        self.log("Retrieving transit networks for ID to name mapping", "INFO")
         transit_id_to_name = {}
 
         try:
+            self.log(
+                "Executing API call to get_transit_networks (offset=1, limit=500)",
+                "DEBUG",
+            )
             response = self.dnac._exec(
                 family="sda",
                 function="get_transit_networks",
@@ -458,25 +495,42 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             if response and isinstance(response, dict):
                 transits = response.get("response", [])
-                for transit in transits:
+                self.log(f"API returned {len(transits)} transit network(s)", "DEBUG")
+
+                for idx, transit in enumerate(transits, 1):
                     transit_id = transit.get("id")
                     transit_name = transit.get("name")
                     if transit_id and transit_name:
                         transit_id_to_name[transit_id] = transit_name
+                        self.log(
+                            f"Transit {idx}/{len(transits)}: Mapped ID '{transit_id}' to name '{transit_name}'",
+                            "DEBUG",
+                        )
+                    else:
+                        self.log(
+                            f"Transit {idx}/{len(transits)}: Skipping - missing ID or name",
+                            "WARNING",
+                        )
 
                 self.log(
-                    f"Retrieved {len(transit_id_to_name)} transit network(s) for ID to name mapping",
+                    f"Successfully retrieved {len(transit_id_to_name)} transit network(s) for ID to name mapping",
                     "INFO",
                 )
             else:
-                self.log("No transit networks found", "DEBUG")
+                self.log(
+                    "No transit networks found or invalid response format", "WARNING"
+                )
 
         except Exception as e:
             self.log(
                 f"Error retrieving transit networks: {str(e)}",
-                "WARNING",
+                "ERROR",
             )
 
+        self.log(
+            f"Exiting get_transit_id_to_name_mapping method - returning {len(transit_id_to_name)} mapping(s)",
+            "DEBUG",
+        )
         return transit_id_to_name
 
     def get_workflow_filters_schema(self):
@@ -518,8 +572,8 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         return schema
 
     def fabric_devices_temp_spec(self):
-
-        self.log("Generating temporary specification for fabric devices.", "DEBUG")
+        self.log("Entering fabric_devices_temp_spec method", "DEBUG")
+        self.log("Generating temporary specification for fabric devices", "INFO")
         fabric_devices = OrderedDict(
             {
                 "fabric_name": {
@@ -680,6 +734,10 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                 },
             }
         )
+        self.log(
+            "Temporary specification for fabric devices generated successfully", "DEBUG"
+        )
+        self.log("Exiting fabric_devices_temp_spec method", "DEBUG")
         return fabric_devices
 
     def group_fabric_devices_by_fabric_name(self, all_fabric_devices):
@@ -692,20 +750,35 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: Dictionary mapping fabric_name to list of device entries
         """
-        self.log("Grouping fabric devices by fabric_name", "DEBUG")
+        self.log("Entering group_fabric_devices_by_fabric_name method", "DEBUG")
+        self.log(
+            f"Grouping {len(all_fabric_devices)} fabric device(s) by fabric_name",
+            "INFO",
+        )
         fabric_devices_by_fabric_name = {}
 
-        for device_entry in all_fabric_devices:
+        for idx, device_entry in enumerate(all_fabric_devices, 1):
+            self.log(
+                f"Processing device {idx}/{len(all_fabric_devices)} for grouping",
+                "DEBUG",
+            )
             fabric_name = device_entry.get("fabric_name")
             device = device_entry.get("device_config")
+            device_ip = device_entry.get("device_ip")
+
             if fabric_name and device:
                 if fabric_name not in fabric_devices_by_fabric_name:
+                    self.log(f"Creating new group for fabric: '{fabric_name}'", "DEBUG")
                     fabric_devices_by_fabric_name[fabric_name] = []
                 # Store the entire device_entry (includes device_config, device_ip, fabric_name, fabric_id)
                 fabric_devices_by_fabric_name[fabric_name].append(device_entry)
+                self.log(
+                    f"Added device '{device_ip}' to fabric '{fabric_name}' group",
+                    "DEBUG",
+                )
             else:
                 self.log(
-                    f"Device entry missing fabric_name or device_config: {self.pprint(device_entry)}",
+                    f"Device entry {idx} missing fabric_name or device_config: {self.pprint(device_entry)}",
                     "WARNING",
                 )
 
@@ -737,7 +810,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             dict: Formatted device response with fabric_id, device_config, fabric_name, and device_ip
         """
         self.log(
-            f"Processing device {device_idx}/{total_devices} in batch {batch_idx}",
+            f"Entering process_fabric_device_for_batch method - batch {batch_idx}, device {device_idx}/{total_devices}",
             "DEBUG",
         )
 
@@ -766,6 +839,10 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             "fabric_name": fabric_name,
             "device_ip": device_ip,
         }
+        self.log(
+            f"Exiting process_fabric_device_for_batch method - device formatted successfully",
+            "DEBUG",
+        )
         return formatted_device_response
 
     def retrieve_all_fabric_devices_from_api(
@@ -782,7 +859,11 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: List of fabric device entries with fabric_id, device_config, fabric_name, and device_ip
         """
-        self.log("Starting API calls to retrieve fabric devices", "INFO")
+        self.log("Entering retrieve_all_fabric_devices_from_api method", "DEBUG")
+        self.log(
+            f"Starting API calls to retrieve fabric devices - {len(fabric_devices_params_list_to_query)} query/queries to execute",
+            "INFO",
+        )
         all_fabric_devices = []
 
         for idx, query_params in enumerate(fabric_devices_params_list_to_query, 1):
@@ -871,13 +952,14 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             f"Total fabric devices retrieved: {len(all_fabric_devices)}",
             "INFO",
         )
+        self.log("Exiting retrieve_all_fabric_devices_from_api method", "DEBUG")
 
         return all_fabric_devices
 
     def get_fabric_devices_configuration(
         self, network_element, component_specific_filters=None
     ):
-
+        self.log("Entering get_fabric_devices_configuration method", "DEBUG")
         self.log("Starting retrieval of fabric devices configuration", "INFO")
 
         if not self.fabric_site_name_to_id_dict:
@@ -1094,6 +1176,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             f"Transformation complete. Generated {len(transformed_fabric_devices_list)} fabric site(s) with devices",
             "INFO",
         )
+        self.log("Exiting get_fabric_devices_configuration method", "DEBUG")
 
         return {"fabric_devices": transformed_fabric_devices_list}
 
@@ -1130,6 +1213,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             f"No fabric_name found for fabric_id '{fabric_id}'",
             "WARNING",
         )
+        self.log("Exiting transform_fabric_name method - no fabric_name found", "DEBUG")
         return None
 
     def transform_device_config(self, details):
@@ -1254,8 +1338,9 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log(
             f"Device config transformation complete",
-            "DEBUG",
+            "INFO",
         )
+        self.log("Exiting transform_device_config method", "DEBUG")
 
         return transformed_device_config
 
@@ -1272,6 +1357,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             None: Modifies transformed_device_config in place by adding wireless_controller_settings if present
         """
+        self.log("Entering transform_wireless_controller_settings method", "DEBUG")
         self.log(
             "Processing embedded wireless controller settings",
             "DEBUG",
@@ -1282,6 +1368,10 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         if not embedded_wireless_settings:
             self.log(
                 "No embedded wireless controller settings found in device_config",
+                "DEBUG",
+            )
+            self.log(
+                "Exiting transform_wireless_controller_settings method - no settings found",
                 "DEBUG",
             )
             return
@@ -1327,8 +1417,13 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         self.log(
             "Successfully transformed and added wireless_controller_settings to device_config",
+            "INFO",
+        )
+        self.log(
+            "Exiting transform_wireless_controller_settings method - transformation successful",
             "DEBUG",
         )
+        return
 
     def transform_layer3_ip_transit_handoffs(self, layer3_ip_transit_list):
         """
@@ -1340,7 +1435,13 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: Transformed list with only playbook-relevant parameters
         """
+        self.log("Entering transform_layer3_ip_transit_handoffs method", "DEBUG")
         if not layer3_ip_transit_list:
+            self.log("No layer3 IP transit handoffs to transform", "DEBUG")
+            self.log(
+                "Exiting transform_layer3_ip_transit_handoffs method - empty list",
+                "DEBUG",
+            )
             return []
 
         # Fields to keep according to the spec (direct copy, no ID conversion)
@@ -1356,8 +1457,16 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             "remoteIpv6Address": "remote_ipv6_address",
         }
 
+        self.log(
+            f"Transforming {len(layer3_ip_transit_list)} layer3 IP transit handoff(s)",
+            "DEBUG",
+        )
         transformed_list = []
-        for handoff in layer3_ip_transit_list:
+        for idx, handoff in enumerate(layer3_ip_transit_list, 1):
+            self.log(
+                f"Transforming layer3 IP transit handoff {idx}/{len(layer3_ip_transit_list)}",
+                "DEBUG",
+            )
             transformed_handoff = {}
 
             # Copy direct fields, skip empty values
@@ -1384,8 +1493,9 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log(
             f"Transformed {len(layer3_ip_transit_list)} layer3 IP transit handoff(s) to {len(transformed_list)} playbook entries",
-            "DEBUG",
+            "INFO",
         )
+        self.log("Exiting transform_layer3_ip_transit_handoffs method", "DEBUG")
         return transformed_list
 
     def transform_layer3_sda_transit_handoff(self, layer3_sda_transit):
@@ -1398,7 +1508,13 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: Transformed dict with only playbook-relevant parameters
         """
+        self.log("Entering transform_layer3_sda_transit_handoff method", "DEBUG")
         if not layer3_sda_transit:
+            self.log("No layer3 SDA transit handoff to transform", "DEBUG")
+            self.log(
+                "Exiting transform_layer3_sda_transit_handoff method - empty dict",
+                "DEBUG",
+            )
             return {}
 
         # Fields to keep according to the spec (direct copy, no ID conversion)
@@ -1432,8 +1548,9 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log(
             f"Transformed layer3 SDA transit handoff with {len(transformed_handoff)} playbook parameter(s)",
-            "DEBUG",
+            "INFO",
         )
+        self.log("Exiting transform_layer3_sda_transit_handoff method", "DEBUG")
         return transformed_handoff
 
     def transform_layer2_handoffs(self, layer2_handoff_list):
@@ -1446,7 +1563,10 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: Transformed list with only playbook-relevant parameters
         """
+        self.log("Entering transform_layer2_handoffs method", "DEBUG")
         if not layer2_handoff_list:
+            self.log("No layer2 handoffs to transform", "DEBUG")
+            self.log("Exiting transform_layer2_handoffs method - empty list", "DEBUG")
             return []
 
         # Fields to keep according to the spec
@@ -1457,8 +1577,12 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             "externalVlanId": "external_vlan_id",
         }
 
+        self.log(f"Transforming {len(layer2_handoff_list)} layer2 handoff(s)", "DEBUG")
         transformed_list = []
-        for handoff in layer2_handoff_list:
+        for idx, handoff in enumerate(layer2_handoff_list, 1):
+            self.log(
+                f"Transforming layer2 handoff {idx}/{len(layer2_handoff_list)}", "DEBUG"
+            )
             transformed_handoff = {}
             for api_key, playbook_key in allowed_fields.items():
                 value = handoff.get(api_key)
@@ -1472,8 +1596,9 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log(
             f"Transformed {len(layer2_handoff_list)} layer2 handoff(s) to {len(transformed_list)} playbook entries",
-            "DEBUG",
+            "INFO",
         )
+        self.log("Exiting transform_layer2_handoffs method", "DEBUG")
         return transformed_list
 
     def retrieve_and_populate_border_handoff_settings(
@@ -1489,6 +1614,9 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             None: Modifies device_config in place by adding border handoff settings
         """
+        self.log(
+            "Entering retrieve_and_populate_border_handoff_settings method", "DEBUG"
+        )
         self.log(
             f"Starting retrieval of border handoff settings for devices across {len(fabric_devices_by_fabric_name)} fabric site(s)",
             "INFO",
@@ -1583,6 +1711,9 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             "Border handoff settings retrieval and population complete for all devices",
             "INFO",
         )
+        self.log(
+            "Exiting retrieve_and_populate_border_handoff_settings method", "DEBUG"
+        )
 
     def get_layer2_handoffs_for_device(self, fabric_id, network_device_id):
         """
@@ -1595,9 +1726,10 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: List of layer2 handoff configurations, or empty list if none found
         """
+        self.log("Entering get_layer2_handoffs_for_device method", "DEBUG")
         self.log(
             f"Retrieving layer2 handoffs for device '{network_device_id}' in fabric '{fabric_id}'",
-            "DEBUG",
+            "INFO",
         )
 
         try:
@@ -1616,10 +1748,21 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                     f"Layer2 handoffs API response for device '{network_device_id}': {self.pprint(layer2_handoffs)}",
                     "DEBUG",
                 )
+                self.log(
+                    f"Retrieved {len(layer2_handoffs)} layer2 handoff(s) for device '{network_device_id}'",
+                    "INFO",
+                )
+                self.log(
+                    "Exiting get_layer2_handoffs_for_device method - success", "DEBUG"
+                )
                 return layer2_handoffs if layer2_handoffs else []
             else:
                 self.log(
                     f"No layer2 handoffs found for device '{network_device_id}' in fabric '{fabric_id}'",
+                    "DEBUG",
+                )
+                self.log(
+                    "Exiting get_layer2_handoffs_for_device method - no handoffs found",
                     "DEBUG",
                 )
                 return []
@@ -1627,7 +1770,11 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         except Exception as e:
             self.log(
                 f"Error retrieving layer2 handoffs for device '{network_device_id}' in fabric '{fabric_id}': {str(e)}",
-                "WARNING",
+                "ERROR",
+            )
+            self.log(
+                "Exiting get_layer2_handoffs_for_device method - error occurred",
+                "DEBUG",
             )
             return []
 
@@ -1642,9 +1789,10 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: List of layer3 IP transit handoff configurations, or empty list if none found
         """
+        self.log("Entering get_layer3_ip_transit_handoffs_for_device method", "DEBUG")
         self.log(
             f"Retrieving layer3 IP transit handoffs for device '{network_device_id}' in fabric '{fabric_id}'",
-            "DEBUG",
+            "INFO",
         )
 
         try:
@@ -1663,10 +1811,22 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                     f"Layer3 IP transit handoffs API response for device '{network_device_id}': {self.pprint(layer3_ip_transit_handoffs)}",
                     "DEBUG",
                 )
+                self.log(
+                    f"Retrieved {len(layer3_ip_transit_handoffs)} layer3 IP transit handoff(s) for device '{network_device_id}'",
+                    "INFO",
+                )
+                self.log(
+                    "Exiting get_layer3_ip_transit_handoffs_for_device method - success",
+                    "DEBUG",
+                )
                 return layer3_ip_transit_handoffs if layer3_ip_transit_handoffs else []
             else:
                 self.log(
                     f"No layer3 IP transit handoffs found for device '{network_device_id}' in fabric '{fabric_id}'",
+                    "DEBUG",
+                )
+                self.log(
+                    "Exiting get_layer3_ip_transit_handoffs_for_device method - no handoffs found",
                     "DEBUG",
                 )
                 return []
@@ -1674,7 +1834,11 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         except Exception as e:
             self.log(
                 f"Error retrieving layer3 IP transit handoffs for device '{network_device_id}' in fabric '{fabric_id}': {str(e)}",
-                "WARNING",
+                "ERROR",
+            )
+            self.log(
+                "Exiting get_layer3_ip_transit_handoffs_for_device method - error occurred",
+                "DEBUG",
             )
             return []
 
@@ -1689,9 +1853,10 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: Layer3 SDA transit handoff configuration, or None if not found
         """
+        self.log("Entering get_layer3_sda_transit_handoff_for_device method", "DEBUG")
         self.log(
             f"Retrieving layer3 SDA transit handoff for device '{network_device_id}' in fabric '{fabric_id}'",
-            "DEBUG",
+            "INFO",
         )
 
         try:
@@ -1712,11 +1877,28 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
                 # For SDA transit, typically only one handoff per device
                 if layer3_sda_transit_handoffs:
+                    self.log(
+                        f"Retrieved layer3 SDA transit handoff for device '{network_device_id}'",
+                        "INFO",
+                    )
+                    self.log(
+                        "Exiting get_layer3_sda_transit_handoff_for_device method - success",
+                        "DEBUG",
+                    )
                     return layer3_sda_transit_handoffs[0]
+                self.log("No layer3 SDA transit handoff found in response", "DEBUG")
+                self.log(
+                    "Exiting get_layer3_sda_transit_handoff_for_device method - no handoff found",
+                    "DEBUG",
+                )
                 return None
             else:
                 self.log(
                     f"No layer3 SDA transit handoff found for device '{network_device_id}' in fabric '{fabric_id}'",
+                    "DEBUG",
+                )
+                self.log(
+                    "Exiting get_layer3_sda_transit_handoff_for_device method - invalid response",
                     "DEBUG",
                 )
                 return None
@@ -1724,7 +1906,11 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         except Exception as e:
             self.log(
                 f"Error retrieving layer3 SDA transit handoff for device '{network_device_id}' in fabric '{fabric_id}': {str(e)}",
-                "WARNING",
+                "ERROR",
+            )
+            self.log(
+                "Exiting get_layer3_sda_transit_handoff_for_device method - error occurred",
+                "DEBUG",
             )
             return None
 
@@ -1741,12 +1927,22 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             dict: Dictionary mapping fabric_name to wireless controller settings
         """
         self.log(
+            "Entering retrieve_wireless_controller_settings_for_all_fabrics method",
+            "DEBUG",
+        )
+        self.log(
             f"Iterating through {len(fabric_devices_by_fabric_name)} fabric site(s) to retrieve embedded wireless controller settings",
             "INFO",
         )
 
         wireless_settings_by_fabric_name = {}
-        for fabric_name, device_entries in fabric_devices_by_fabric_name.items():
+        for idx, (fabric_name, device_entries) in enumerate(
+            fabric_devices_by_fabric_name.items(), 1
+        ):
+            self.log(
+                f"Processing fabric {idx}/{len(fabric_devices_by_fabric_name)}: '{fabric_name}'",
+                "DEBUG",
+            )
             fabric_id = self.fabric_site_name_to_id_dict.get(fabric_name)
             self.log(
                 f"Retrieving embedded wireless controller settings for fabric site '{fabric_name}' (fabric_id: '{fabric_id}') with {len(device_entries)} device(s)",
@@ -1766,7 +1962,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             wireless_settings_by_fabric_name[fabric_name] = wireless_settings
             self.log(
                 f"Successfully retrieved and stored embedded wireless controller settings for fabric site '{fabric_name}' (fabric_id: '{fabric_id}')",
-                "DEBUG",
+                "INFO",
             )
 
         self.log(
@@ -1778,6 +1974,10 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
 
+        self.log(
+            "Exiting retrieve_wireless_controller_settings_for_all_fabrics method",
+            "DEBUG",
+        )
         return wireless_settings_by_fabric_name
 
     def retrieve_managed_ap_locations_for_wireless_controllers(
@@ -1794,7 +1994,11 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                   and secondaryManagedApLocations to each wireless controller's settings
         """
         self.log(
-            "Retrieving primary and secondary managed AP locations for embedded wireless controllers",
+            "Entering retrieve_managed_ap_locations_for_wireless_controllers method",
+            "DEBUG",
+        )
+        self.log(
+            f"Retrieving primary and secondary managed AP locations for {len(wireless_settings_by_fabric_id)} embedded wireless controller(s)",
             "INFO",
         )
 
@@ -1824,7 +2028,13 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
             device_id_to_ip_map = {}
 
-        for fabric_id, wireless_settings in wireless_settings_by_fabric_id.items():
+        for idx, (fabric_id, wireless_settings) in enumerate(
+            wireless_settings_by_fabric_id.items(), 1
+        ):
+            self.log(
+                f"Processing wireless controller {idx}/{len(wireless_settings_by_fabric_id)}",
+                "DEBUG",
+            )
             network_device_id = wireless_settings.get("id")
             device_ip = device_id_to_ip_map.get(network_device_id)
             fabric_name = self.fabric_site_id_to_name_dict.get(fabric_id, "Unknown")
@@ -1855,6 +2065,10 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             "Completed retrieval of managed AP locations for all embedded wireless controllers",
             "INFO",
         )
+        self.log(
+            "Exiting retrieve_managed_ap_locations_for_wireless_controllers method",
+            "DEBUG",
+        )
 
     def populate_wireless_controller_settings_to_devices(
         self, wireless_settings_by_fabric_name, fabric_devices_by_fabric_name
@@ -1871,7 +2085,10 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                   to each device config
         """
         self.log(
-            "Populating embedded wireless controller settings for each fabric site to its devices",
+            "Entering populate_wireless_controller_settings_to_devices method", "DEBUG"
+        )
+        self.log(
+            f"Populating embedded wireless controller settings for {len(wireless_settings_by_fabric_name)} fabric site(s) to their devices",
             "INFO",
         )
 
@@ -1937,6 +2154,9 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             f"Fabric devices with populated embedded wireless controller settings:\n{self.pprint(fabric_devices_by_fabric_name)}",
             "DEBUG",
         )
+        self.log(
+            "Exiting populate_wireless_controller_settings_to_devices method", "DEBUG"
+        )
 
     def get_wireless_controller_settings_for_fabric(self, fabric_id):
         """
@@ -1948,9 +2168,10 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: Wireless controller settings for the fabric, or None if not found/error
         """
+        self.log("Entering get_wireless_controller_settings_for_fabric method", "DEBUG")
         self.log(
             f"Retrieving wireless controller settings for fabric_id '{fabric_id}'",
-            "DEBUG",
+            "INFO",
         )
 
         try:
@@ -1978,10 +2199,18 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                         f"Successfully retrieved wireless controller settings for fabric_id '{fabric_id}':\n{self.pprint(wireless_response)}",
                         "INFO",
                     )
+                    self.log(
+                        "Exiting get_wireless_controller_settings_for_fabric method - success",
+                        "DEBUG",
+                    )
                     return wireless_response
                 else:
                     self.log(
                         f"No embedded wireless controller settings found for fabric_id '{fabric_id}'",
+                        "DEBUG",
+                    )
+                    self.log(
+                        "Exiting get_wireless_controller_settings_for_fabric method - no settings found",
                         "DEBUG",
                     )
                     return None
@@ -1990,12 +2219,20 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                     f"Unexpected response format for embedded wireless controller settings for fabric_id '{fabric_id}'",
                     "WARNING",
                 )
+                self.log(
+                    "Exiting get_wireless_controller_settings_for_fabric method - unexpected response",
+                    "DEBUG",
+                )
                 return None
 
         except Exception as e:
             self.log(
                 f"Error retrieving embedded wireless controller settings for fabric_id '{fabric_id}': {str(e)}",
-                "WARNING",
+                "ERROR",
+            )
+            self.log(
+                "Exiting get_wireless_controller_settings_for_fabric method - error occurred",
+                "DEBUG",
             )
             return None
 
@@ -2013,9 +2250,10 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: List of managed AP location dictionaries, or empty list if not found/error
         """
+        self.log("Entering get_managed_ap_locations_for_device method", "DEBUG")
         self.log(
-            f"Starting retrieval of {ap_type} managed AP locations for device '{network_device_id}' (IP: {device_ip})",
-            "DEBUG",
+            f"Starting retrieval of {ap_type} managed AP locations for device '{device_ip}' (network_device_id: '{network_device_id}')",
+            "INFO",
         )
 
         allowed_ap_types = ["primary", "secondary"]
@@ -2110,11 +2348,9 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             f"Total {ap_type} managed AP locations retrieved for device '{device_ip}': {len(managed_ap_locations_all)}",
             "INFO",
         )
+        self.log("Exiting get_managed_ap_locations_for_device method", "DEBUG")
 
         return managed_ap_locations_all
-
-    def process_global_filters(self, global_filters):
-        pass
 
     def yaml_config_generator(self, yaml_config_generator):
         """
@@ -2128,12 +2364,10 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             self: The current instance with the operation result and message updated.
         """
-
+        self.log("Entering yaml_config_generator method", "DEBUG")
         self.log(
-            "Starting YAML config generation with parameters: {0}".format(
-                yaml_config_generator
-            ),
-            "DEBUG",
+            f"Starting YAML config generation with parameters: {yaml_config_generator}",
+            "INFO",
         )
 
         # Check if generate_all_configurations mode is enabled
@@ -2193,52 +2427,73 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         components_list = component_specific_filters.get(
             "components_list", module_supported_network_elements.keys()
         )
-        self.log("Components to process: {0}".format(components_list), "DEBUG")
+        self.log(f"Components to process: {components_list}", "INFO")
 
         final_list = []
-        for component in components_list:
+        for idx, component in enumerate(components_list, 1):
+            self.log(
+                f"Processing component {idx}/{len(components_list)}: '{component}'",
+                "DEBUG",
+            )
             network_element = module_supported_network_elements.get(component)
             if not network_element:
                 self.log(
-                    "Skipping unsupported network element: {0}".format(component),
+                    f"Skipping unsupported network element: '{component}'",
                     "WARNING",
                 )
                 continue
 
             filters = component_specific_filters.get(component, [])
+            self.log(f"Filters for component '{component}': {filters}", "DEBUG")
             operation_func = network_element.get("get_function_name")
             if callable(operation_func):
-                details = operation_func(network_element, filters)
                 self.log(
-                    "Details retrieved for {0}: {1}".format(component, details), "DEBUG"
+                    f"Executing operation function for component '{component}'", "DEBUG"
                 )
+                details = operation_func(network_element, filters)
+                self.log(f"Details retrieved for '{component}': {details}", "DEBUG")
                 final_list.append(details)
+            else:
+                self.log(
+                    f"No callable operation function found for component '{component}'",
+                    "WARNING",
+                )
 
         if not final_list:
-            self.msg = "No configurations or components to process for module '{0}'. Verify input filters or configuration.".format(
-                self.module_name
-            )
+            self.msg = f"No configurations or components to process for module '{self.module_name}'. Verify input filters or configuration."
+            self.log(self.msg, "WARNING")
             self.set_operation_result("ok", False, self.msg, "INFO")
+            self.log(
+                "Exiting yaml_config_generator method - no configurations to process",
+                "DEBUG",
+            )
             return self
 
         final_dict = {"config": final_list}
-        self.log("Final dictionary created: {0}".format(final_dict), "DEBUG")
+        self.log(
+            f"Final dictionary created with {len(final_list)} component(s): {final_dict}",
+            "DEBUG",
+        )
 
+        self.log(f"Writing YAML configuration to file: '{file_path}'", "INFO")
         if self.write_dict_to_yaml(final_dict, file_path):
             self.msg = {
-                "YAML config generation Task succeeded for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
+                f"YAML config generation Task succeeded for module '{self.module_name}'.": {
+                    "file_path": file_path
+                }
             }
+            self.log(f"YAML config file successfully written to '{file_path}'", "INFO")
             self.set_operation_result("success", True, self.msg, "INFO")
         else:
             self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
+                f"YAML config generation Task failed for module '{self.module_name}'.": {
+                    "file_path": file_path
+                }
             }
+            self.log(f"Failed to write YAML config file to '{file_path}'", "ERROR")
             self.set_operation_result("failed", True, self.msg, "ERROR")
 
+        self.log("Exiting yaml_config_generator method", "DEBUG")
         return self
 
     def get_want(self, config, state):
@@ -2252,11 +2507,10 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             config (dict): The configuration data for the network elements.
             state (str): The desired state of the network elements ('gathered').
         """
+        self.log("Entering get_want method", "DEBUG")
+        self.log(f"Creating Parameters for API Calls with state: '{state}'", "INFO")
 
-        self.log(
-            "Creating Parameters for API Calls with state: {0}".format(state), "INFO"
-        )
-
+        self.log("Validating input parameters", "DEBUG")
         self.validate_params(config)
 
         want = {}
@@ -2264,16 +2518,16 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Add yaml_config_generator to want
         want["yaml_config_generator"] = config
         self.log(
-            "yaml_config_generator added to want: {0}".format(
-                want["yaml_config_generator"]
-            ),
-            "INFO",
+            f"yaml_config_generator added to want: {want['yaml_config_generator']}",
+            "DEBUG",
         )
 
         self.want = want
-        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+        self.log(f"Desired State (want): {str(self.want)}", "DEBUG")
         self.msg = "Successfully collected all parameters from the playbook for Wireless Design operations."
         self.status = "success"
+        self.log(self.msg, "INFO")
+        self.log("Exiting get_want method", "DEBUG")
         return self
 
     def get_diff_gathered(self):
@@ -2285,7 +2539,8 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
 
         start_time = time.time()
-        self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
+        self.log("Entering get_diff_gathered method", "DEBUG")
+        self.log("Starting 'get_diff_gathered' operation", "INFO")
         operations = [
             (
                 "yaml_config_generator",
@@ -2293,42 +2548,40 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.yaml_config_generator,
             )
         ]
+        self.log(f"Total operations to process: {len(operations)}", "DEBUG")
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined operations for processing.", "DEBUG")
+        self.log("Beginning iteration over defined operations for processing", "DEBUG")
         for index, (param_key, operation_name, operation_func) in enumerate(
             operations, start=1
         ):
             self.log(
-                "Iteration {0}: Checking parameters for {1} operation with param_key '{2}'.".format(
-                    index, operation_name, param_key
-                ),
+                f"Iteration {index}/{len(operations)}: Checking parameters for '{operation_name}' operation with param_key '{param_key}'",
                 "DEBUG",
             )
             params = self.want.get(param_key)
             if params:
                 self.log(
-                    "Iteration {0}: Parameters found for {1}. Starting processing.".format(
-                        index, operation_name
-                    ),
+                    f"Iteration {index}/{len(operations)}: Parameters found for '{operation_name}'. Starting processing",
                     "INFO",
                 )
                 operation_func(params).check_return_status()
+                self.log(
+                    f"Iteration {index}/{len(operations)}: '{operation_name}' operation completed",
+                    "DEBUG",
+                )
             else:
                 self.log(
-                    "Iteration {0}: No parameters found for {1}. Skipping operation.".format(
-                        index, operation_name
-                    ),
+                    f"Iteration {index}/{len(operations)}: No parameters found for '{operation_name}'. Skipping operation",
                     "WARNING",
                 )
 
         end_time = time.time()
         self.log(
-            "Completed 'get_diff_gathered' operation in {0:.2f} seconds.".format(
-                end_time - start_time
-            ),
-            "DEBUG",
+            f"Completed 'get_diff_gathered' operation in {end_time - start_time:.2f} seconds",
+            "INFO",
         )
+        self.log("Exiting get_diff_gathered method", "DEBUG")
 
         return self
 
@@ -2358,21 +2611,30 @@ def main():
 
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
+
     # Initialize the SDA Fabric Devices Playbook Generator object with the module
     ccc_sda_fabric_devices_playbook_generator = SdaFabricDevicesPlaybookGenerator(
         module
     )
+
+    ccc_sda_fabric_devices_playbook_generator.log("Module execution started", "INFO")
+    ccc_sda_fabric_devices_playbook_generator.log(
+        f"Checking Catalyst Center version compatibility", "DEBUG"
+    )
+
+    ccc_version = ccc_sda_fabric_devices_playbook_generator.get_ccc_version()
     if (
         ccc_sda_fabric_devices_playbook_generator.compare_dnac_versions(
-            ccc_sda_fabric_devices_playbook_generator.get_ccc_version(), "2.3.7.6"
+            ccc_version, "2.3.7.6"
         )
         < 0
     ):
         ccc_sda_fabric_devices_playbook_generator.msg = (
-            "The specified version '{0}' does not support the YAML Playbook generation "
-            "for SDA Fabric Devices Workflow Manager Module. Supported versions start from '2.3.7.6' onwards. ".format(
-                ccc_sda_fabric_devices_playbook_generator.get_ccc_version()
-            )
+            f"The specified version '{ccc_version}' does not support the YAML Playbook generation "
+            f"for SDA Fabric Devices Workflow Manager Module. Supported versions start from '2.3.7.6' onwards. "
+        )
+        ccc_sda_fabric_devices_playbook_generator.log(
+            ccc_sda_fabric_devices_playbook_generator.msg, "ERROR"
         )
         ccc_sda_fabric_devices_playbook_generator.set_operation_result(
             "failed", False, ccc_sda_fabric_devices_playbook_generator.msg, "ERROR"
@@ -2380,29 +2642,46 @@ def main():
 
     # Get the state parameter from the provided parameters
     state = ccc_sda_fabric_devices_playbook_generator.params.get("state")
+    ccc_sda_fabric_devices_playbook_generator.log(f"Requested state: '{state}'", "INFO")
 
     # Check if the state is valid
     if state not in ccc_sda_fabric_devices_playbook_generator.supported_states:
         ccc_sda_fabric_devices_playbook_generator.status = "invalid"
-        ccc_sda_fabric_devices_playbook_generator.msg = "State {0} is invalid".format(
-            state
+        ccc_sda_fabric_devices_playbook_generator.msg = f"State '{state}' is invalid. Supported states: {ccc_sda_fabric_devices_playbook_generator.supported_states}"
+        ccc_sda_fabric_devices_playbook_generator.log(
+            ccc_sda_fabric_devices_playbook_generator.msg, "ERROR"
         )
         ccc_sda_fabric_devices_playbook_generator.check_return_status()
 
     # Validate the input parameters and check the return status
+    ccc_sda_fabric_devices_playbook_generator.log(
+        "Validating input parameters", "DEBUG"
+    )
     ccc_sda_fabric_devices_playbook_generator.validate_input().check_return_status()
     config = ccc_sda_fabric_devices_playbook_generator.validated_config
+    ccc_sda_fabric_devices_playbook_generator.log(
+        f"Processing {len(config)} validated configuration item(s)", "INFO"
+    )
 
     # Iterate over the validated configuration parameters
-    for config in ccc_sda_fabric_devices_playbook_generator.validated_config:
+    for idx, config_item in enumerate(
+        ccc_sda_fabric_devices_playbook_generator.validated_config, 1
+    ):
+        ccc_sda_fabric_devices_playbook_generator.log(
+            f"Processing configuration item {idx}/{len(ccc_sda_fabric_devices_playbook_generator.validated_config)}",
+            "DEBUG",
+        )
         ccc_sda_fabric_devices_playbook_generator.reset_values()
         ccc_sda_fabric_devices_playbook_generator.get_want(
-            config, state
+            config_item, state
         ).check_return_status()
         ccc_sda_fabric_devices_playbook_generator.get_diff_state_apply[
             state
         ]().check_return_status()
 
+    ccc_sda_fabric_devices_playbook_generator.log(
+        "Module execution completed successfully", "INFO"
+    )
     module.exit_json(**ccc_sda_fabric_devices_playbook_generator.result)
 
 
