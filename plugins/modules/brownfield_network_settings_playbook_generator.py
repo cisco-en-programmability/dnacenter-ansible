@@ -766,10 +766,9 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def transform_pool_to_address_space(self, pool_details):
         """
-        Determines the IP address space (IPv4 or IPv6) from the pool configuration.
-
-        This function analyzes the pool structure to determine whether it's configured
-        for IPv4 or IPv6 address space by examining various fields in the pool data.
+        Analyzes pool structure using multiple detection methods in priority order
+        to determine whether the pool is configured for IPv4 or IPv6 address space.
+        Detection examines explicit flags, IP address formats, and server configurations.
 
         Args:
             pool_details (dict or None): Complete pool configuration object
@@ -780,15 +779,21 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 - "IPv6": For IPv6 address pools
                 - None: When address space cannot be determined
 
-        Detection Logic:
-            1. Check for explicit ipv6 boolean field
-            2. Examine gateway address format (IPv6 contains ':')
-            3. Check subnet format in addressSpace
-            4. Look for IPv6-specific fields
+        Detection Priority (stops at first match):
+            1. Explicit "ipv6" boolean field (most reliable)
+            2. Gateway IP address format validation
+            3. Subnet IP address format validation
+            4. Pool type name contains "ipv6" or "v6"
+            5. DHCP/DNS server IP address formats
+            6. Fallback to IPv4 if addressSpace exists
         """
-        self.log("Starting with pool_details: {0}".format(pool_details), "DEBUG")
+        self.log("Determining IP address space (IPv4/IPv6) from pool configuration using "
+                 "multiple detection methods in priority order",
+                 "DEBUG")
         if pool_details is None or not isinstance(pool_details, dict):
-            self.log("transform_pool_to_address_space: pool_details is None or not dict: {0}".format(pool_details), "DEBUG")
+            self.log("Pool configuration validation failed - received {0} instead of dict, "
+                     "cannot determine address space".format(type(pool_details).__name__),
+                     "DEBUG")
             return None
 
         self.log("transform_pool_to_address_space: processing pool_details keys: {0}".format(list(pool_details.keys())), "DEBUG")
@@ -805,7 +810,9 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Also check direct gateway field for different API response formats
         if not gateway:
-            gateway = pool_details.get("gateway", "")
+            result = self._determine_address_space_from_ip(gateway, "gateway")
+            if result:
+                return result
 
         if gateway:
             if ":" in gateway:
@@ -821,35 +828,124 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             subnet = pool_details.get("subnet", "")
 
         if subnet:
-            if ":" in subnet:
-                self.log("transform_pool_to_address_space: detected IPv6 subnet: {0}".format(subnet), "DEBUG")
-                return "IPv6"
-            else:
-                self.log("transform_pool_to_address_space: detected IPv4 subnet: {0}".format(subnet), "DEBUG")
-                return "IPv4"
+            if subnet:
+                result = self._determine_address_space_from_ip(subnet, "subnet")
+            if result:
+                return result
 
         # Method 4: Check for poolType containing IPv6 indicators
         pool_type = pool_details.get("poolType", "")
-        if "v6" in pool_type.lower() or "ipv6" in pool_type.lower():
-            self.log("transform_pool_to_address_space: detected IPv6 from poolType: {0}".format(pool_type), "DEBUG")
-            return "IPv6"
-
-        # Method 5: Check DNS/DHCP servers for IPv6 format
-        dhcp_servers = address_space.get("dhcpServers", [])
-        dns_servers = address_space.get("dnsServers", [])
-
-        for server in dhcp_servers + dns_servers:
-            if server and ":" in str(server):
-                self.log("transform_pool_to_address_space: detected IPv6 from server addresses: {0}".format(server), "DEBUG")
+        if pool_type:
+            pool_type_lower = pool_type.lower()
+            if "v6" in pool_type_lower or "ipv6" in pool_type_lower:
+                self.log(
+                    "Detected IPv6 address space from pool type name: {0}".format(
+                        pool_type
+                    ),
+                    "DEBUG"
+                )
                 return "IPv6"
 
-        # Default to IPv4 if we have any address space info but can't determine type
-        if address_space or gateway:
-            self.log("transform_pool_to_address_space: defaulting to IPv4", "DEBUG")
+        # Ensure server lists are actually lists
+        if not isinstance(dhcp_servers, list):
+            dhcp_servers = [dhcp_servers] if dhcp_servers else []
+        if not isinstance(dns_servers, list):
+            dns_servers = [dns_servers] if dns_servers else []
+
+        for server in dhcp_servers + dns_servers:
+            if server:
+                result = self._determine_address_space_from_ip(server, "server")
+            if result:
+                return result
+
+        # Fallback: Default to IPv4 if address space exists but type unclear
+        if address_space or gateway or subnet:
+            self.log(
+                "Unable to definitively determine address space from pool data, "
+                "defaulting to IPv4 based on presence of address space configuration",
+                "DEBUG"
+            )
             return "IPv4"
 
-        self.log("transform_pool_to_address_space: unable to determine address space, returning None", "DEBUG")
+        self.log("Unable to determine address space - no valid IP configuration found "
+                 "in pool details",
+                 "WARNING")
         return None
+
+    def _determine_address_space_from_ip(self, ip_address, source):
+        """
+        Determines address space (IPv4/IPv6) from IP address format.
+
+        Analyzes IP address string to determine whether it represents an IPv4
+        or IPv6 address based on character patterns (presence of colons vs dots).
+
+        Args:
+            ip_address (str): IP address string to analyze
+            source (str): Source field name for logging context
+                        (e.g., 'gateway', 'subnet', 'server')
+
+        Returns:
+            str or None: Address space identifier:
+                - "IPv4": If address contains dots (IPv4 format)
+                - "IPv6": If address contains colons (IPv6 format)
+                - None: If address is empty, invalid, or ambiguous
+
+        Notes:
+            - Uses simple character detection (not full IP validation)
+            - Colon detection may have false positives (e.g., port numbers)
+            - Logs warnings for invalid or ambiguous formats
+            - Returns None for empty or whitespace-only strings
+
+        Examples:
+            _determine_address_space_from_ip("192.168.1.1", "gateway") -> "IPv4"
+            _determine_address_space_from_ip("2001:db8::1", "subnet") -> "IPv6"
+            _determine_address_space_from_ip("", "server") -> None
+            _determine_address_space_from_ip("invalid", "gateway") -> None
+        """
+        if not ip_address or not str(ip_address).strip():
+            return None
+
+        ip_str = str(ip_address).strip()
+
+        # IPv6 detection (contains colons)
+        if ":" in ip_str:
+            # Basic validation: IPv6 should have multiple colons
+            if ip_str.count(":") >= 2:
+                self.log(
+                    "Detected IPv6 address space from {0}: {1}".format(
+                        source, ip_address
+                    ),
+                    "DEBUG"
+                )
+                return "IPv6"
+            else:
+                # Might be IPv4 with port (e.g., "192.168.1.1:8080")
+                self.log(
+                    "Ambiguous IP format in {0} (single colon detected): {1}, "
+                    "treating as invalid".format(source, ip_address),
+                    "WARNING"
+                )
+                return None
+
+        # IPv4 detection (contains dots)
+        elif "." in ip_str:
+            self.log(
+                "Detected IPv4 address space from {0}: {1}".format(
+                    source, ip_address
+                ),
+                "DEBUG"
+            )
+            return "IPv4"
+
+        # Invalid format (no colons or dots)
+        else:
+            self.log(
+                "Invalid IP address format in {0}: {1} (no colons or dots)".format(
+                    source, ip_address
+                ),
+                "WARNING"
+            )
+            return None
 
     def transform_cidr(self, pool_details):
         """
@@ -878,6 +974,13 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 }
             }
 
+        Detection Priority (stops at first match):
+        1. addressSpace.subnet + addressSpace.prefixLength (primary)
+        2. Direct subnet + prefixLength fields
+        3. Alternative fields (ipSubnet, network) + (prefixLen, maskLength)
+        4. Subnet mask conversion (255.255.255.0 -> /24)
+        5. Existing CIDR field (cidr, ipRange, range)
+
         Examples:
             IPv4: {"addressSpace": {"subnet": "192.168.1.0", "prefixLength": 24}} -> "192.168.1.0/24"
             IPv6: {"addressSpace": {"subnet": "2001:db8::", "prefixLength": 64}} -> "2001:db8::/64"
@@ -886,82 +989,326 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting CIDR transformation with pool_details: {0}".format(pool_details), "DEBUG")
         if pool_details is None:
-            self.log("transform_cidr: pool_details is None", "DEBUG")
+            self.log("Pool details validation failed - expected dict, got {0}".format(
+                     type(pool_details).__name__), "WARNING")
             return None
 
-        if isinstance(pool_details, dict):
-            self.log("transform_cidr: processing pool_details keys: {0}".format(list(pool_details.keys())), "DEBUG")
+        if not isinstance(pool_details, dict):
+            self.log(
+                "Pool details validation failed - expected dict, got {0}".format(
+                    type(pool_details).__name__
+                ),
+                "WARNING"
+            )
+            return None
 
-            # Method 1: Check addressSpace structure (primary method)
-            address_space = pool_details.get("addressSpace", {})
-            subnet = address_space.get("subnet")
-            prefix_length = address_space.get("prefixLength")
+        self.log(
+            "Processing pool configuration with keys: {0}".format(
+                list(pool_details.keys())
+            ),
+            "DEBUG"
+        )
 
-            if subnet and prefix_length:
-                cidr = "{0}/{1}".format(subnet, prefix_length)
-                self.log("transform_cidr: found CIDR from addressSpace: {0}".format(cidr), "DEBUG")
+        # Method 1: Check addressSpace structure (primary method)
+        address_space = pool_details.get("addressSpace") or {}
+        subnet = address_space.get("subnet")
+        prefix_length = address_space.get("prefixLength")
+
+        cidr = self._build_cidr_notation(subnet, prefix_length, "direct fields")
+        if cidr:
+            return cidr
+
+        # Method 2: Check direct subnet and prefixLength fields
+        subnet = pool_details.get("subnet")
+        prefix_length = pool_details.get("prefixLength")
+
+        cidr = self._build_cidr_notation(subnet, prefix_length, "direct fields")
+        if cidr:
+            return cidr
+
+        # Method 3: Check for alternative field names
+        subnet = pool_details.get("ipSubnet") or pool_details.get("network")
+        prefix_length = (
+            pool_details.get("prefixLen") or
+            pool_details.get("maskLength") or
+            pool_details.get("subnetMask")
+        )
+
+        # Convert subnet mask to prefix length if needed
+        if prefix_length and isinstance(prefix_length, str) and "." in prefix_length:
+            # Convert subnet mask (e.g., "255.255.255.0") to prefix length (e.g., 24)
+            self.log(
+                "Detected subnet mask format, attempting conversion: {0}".format(
+                    prefix_length
+                ),
+                "DEBUG"
+            )
+            prefix_length = self._convert_subnet_mask_to_prefix(prefix_length)
+            try:
+                import ipaddress
+                prefix_length = ipaddress.IPv4Network('0.0.0.0/' + prefix_length).prefixlen
+            except Exception:
+                pass
+
+        if subnet and prefix_length:
+            cidr = self._build_cidr_notation(subnet, prefix_length, "alternative fields")
+            if cidr:
                 return cidr
 
-            # Method 2: Check direct subnet and prefixLength fields
-            subnet = pool_details.get("subnet")
-            prefix_length = pool_details.get("prefixLength")
-
-            if subnet and prefix_length:
-                cidr = "{0}/{1}".format(subnet, prefix_length)
-                self.log("transform_cidr: found CIDR from direct fields: {0}".format(cidr), "DEBUG")
-                return cidr
-
-            # Method 3: Check for alternative field names
-            subnet = pool_details.get("ipSubnet") or pool_details.get("network")
-            prefix_length = pool_details.get("prefixLen") or pool_details.get("maskLength") or pool_details.get("subnetMask")
-
-            # Convert subnet mask to prefix length if needed
-            if prefix_length and isinstance(prefix_length, str) and "." in prefix_length:
-                # Convert subnet mask (e.g., "255.255.255.0") to prefix length (e.g., 24)
-                try:
-                    import ipaddress
-                    prefix_length = ipaddress.IPv4Network('0.0.0.0/' + prefix_length).prefixlen
-                except Exception:
-                    pass
-
-            if subnet and prefix_length:
-                cidr = "{0}/{1}".format(subnet, prefix_length)
-                self.log("transform_cidr: found CIDR from alternative fields: {0}".format(cidr), "DEBUG")
-                return cidr
-
-            # Method 4: Look for existing CIDR format
-            existing_cidr = pool_details.get("cidr") or pool_details.get("ipRange") or pool_details.get("range")
-            if existing_cidr and "/" in str(existing_cidr):
-                self.log("transform_cidr: found existing CIDR: {0}".format(existing_cidr), "DEBUG")
+        # Method 4: Look for existing CIDR format
+        existing_cidr = pool_details.get("cidr") or pool_details.get("ipRange") or pool_details.get("range")
+        existing_cidr = (
+            pool_details.get("cidr") or
+            pool_details.get("ipRange") or
+            pool_details.get("range")
+        )
+        if existing_cidr:
+            if self._validate_cidr_format(existing_cidr):
+                self.log(
+                    "Found valid existing CIDR notation: {0}".format(existing_cidr),
+                    "DEBUG"
+                )
                 return existing_cidr
+            else:
+                self.log(
+                    "Found CIDR field but format is invalid: {0}".format(existing_cidr),
+                    "WARNING"
+                )
 
-            self.log("transform_cidr: no valid CIDR components found", "DEBUG")
+        self.log("transform_cidr: no valid CIDR components found", "DEBUG")
+        self.log("Unable to extract CIDR notation - no valid subnet/prefix combination "
+                 "found in pool configuration",
+                 "WARNING"
+                 )
 
         return None
 
+    def _build_cidr_notation(self, subnet, prefix_length, source):
+        """
+        Build CIDR notation from subnet and prefix length with validation.
+
+        Args:
+            subnet (str or None): Network subnet address
+            prefix_length (int, str, or None): Network prefix length
+            source (str): Source field name for logging context
+
+        Returns:
+            str or None: Valid CIDR notation or None if invalid
+        """
+        if not subnet or prefix_length is None:
+            return None
+
+        # Validate prefix length is numeric and in valid range
+        try:
+            prefix_int = int(prefix_length)
+
+            # Determine IP version from subnet format
+            is_ipv6 = ":" in str(subnet)
+            max_prefix = 128 if is_ipv6 else 32
+
+            if not (0 <= prefix_int <= max_prefix):
+                self.log(
+                    "Invalid prefix length {0} from {1} (must be 0-{2} for {3})".format(
+                        prefix_int, source, max_prefix, "IPv6" if is_ipv6 else "IPv4"
+                    ),
+                    "WARNING"
+                )
+                return None
+
+            cidr = "{0}/{1}".format(subnet, prefix_int)
+            self.log(
+                "Built CIDR notation from {0}: {1}".format(source, cidr),
+                "DEBUG"
+            )
+            return cidr
+
+        except (ValueError, TypeError) as e:
+            self.log(
+                "Failed to build CIDR from {0} (subnet: {1}, prefix: {2}): {3}".format(
+                    source, subnet, prefix_length, str(e)
+                ),
+                "WARNING"
+            )
+            return None
+
+    def _convert_subnet_mask_to_prefix(self, subnet_mask):
+        """
+        Convert IPv4 subnet mask to prefix length.
+
+        Args:
+            subnet_mask (str): Subnet mask in dotted decimal format (e.g., "255.255.255.0")
+
+        Returns:
+            int or None: Prefix length (e.g., 24) or None if conversion fails
+        """
+        try:
+            import ipaddress
+            network = ipaddress.IPv4Network('0.0.0.0/' + subnet_mask, strict=False)
+            prefix_length = network.prefixlen
+
+            self.log(
+                "Converted subnet mask {0} to prefix length {1}".format(
+                    subnet_mask, prefix_length
+                ),
+                "DEBUG"
+            )
+            return prefix_length
+
+        except (ValueError, ipaddress.AddressValueError, ipaddress.NetmaskValueError) as e:
+            self.log(
+                "Failed to convert subnet mask to prefix length: {0}, error: {1}".format(
+                    subnet_mask, str(e)
+                ),
+                "WARNING"
+            )
+            return None
+
+    def _validate_cidr_format(self, cidr):
+        """
+        Validate CIDR notation format using ipaddress module.
+
+        Args:
+            cidr (str): CIDR string to validate (e.g., "192.168.1.0/24")
+
+        Returns:
+            bool: True if valid CIDR format, False otherwise
+        """
+        if not cidr or "/" not in str(cidr):
+            return False
+
+        try:
+            import ipaddress
+            ipaddress.ip_network(cidr, strict=False)
+            return True
+        except (ValueError, ipaddress.AddressValueError, ipaddress.NetmaskValueError):
+            return False
+
     def transform_preserve_empty_list(self, data, field_path):
         """
-        Transform function to preserve empty lists for DHCP/DNS servers.
-        The helper function filters out empty lists, but for network config,
-        empty DHCP/DNS lists are valid and should be preserved.
+        Extract nested field value while preserving empty lists for network configuration.
+
+        This transformation function specifically handles DHCP/DNS server configurations
+        where empty lists have semantic meaning (e.g., "no DHCP servers configured")
+        and must be preserved in the output, unlike the default helper behavior that
+        filters out empty collections.
+
+        Args:
+            data (dict or None): Source data dictionary containing nested configuration.
+                                Can be None or empty dict.
+            field_path (str): Dot-separated path to target field in nested structure.
+                            Examples: "ipV4AddressSpace.dhcpServers",
+                                    "ipV6AddressSpace.dnsServers"
+
+        Returns:
+            list: The list value at the specified field path, or empty list if:
+                - data is None
+                - field_path not found in data
+                - field value is None
+                - field exists but is not a list (returns empty list)
+                Empty lists are explicitly preserved to maintain semantic meaning.
         """
+        self.log(
+            "Extracting field '{0}' from data while preserving empty lists".format(
+                field_path
+            ),
+            "DEBUG"
+        )
         if data is None:
-            return []
-
-        if isinstance(data, dict):
-            # Navigate the field path (e.g., "ipV4AddressSpace.dhcpServers")
-            current = data
-            for field in field_path.split('.'):
-                current = current.get(field)
-                if current is None:
-                    return []
-
-            # If we found the field, return it (even if empty list)
-            if isinstance(current, list):
-                return current
-            elif current is None:
+            # Validate field_path parameter
+            if not field_path or not isinstance(field_path, str):
+                self.log(
+                    "Invalid field_path parameter: {0} (type: {1}), "
+                    "must be non-empty string".format(
+                        field_path, type(field_path).__name__
+                    ),
+                    "WARNING"
+                )
                 return []
 
+            # Validate data parameter
+            if data is None:
+                self.log(
+                    "Input data is None, returning empty list for field '{0}'".format(
+                        field_path
+                    ),
+                    "DEBUG"
+                )
+                return []
+
+        if not isinstance(data, dict):
+            self.log(
+                "Input data is not a dict (type: {0}), cannot navigate "
+                "field path '{1}'".format(
+                    type(data).__name__, field_path
+                ),
+                "WARNING"
+            )
+            return []
+
+        # Navigate the field path (e.g., "ipV4AddressSpace.dhcpServers")
+        field_value = data
+        field_segments = field_path.split('.')
+
+        self.log(
+            "Navigating through {0} field segment(s): {1}".format(
+                len(field_segments), field_segments
+            ),
+            "DEBUG"
+        )
+
+        for field_name in field_segments:
+            # Strip whitespace from field name
+            field_name = field_name.strip()
+
+            # Skip empty segments (in case of ".." or trailing dots)
+            if not field_name:
+                self.log(
+                    "Skipping empty field segment in path '{0}'".format(field_path),
+                    "DEBUG"
+                )
+                continue
+
+            # Navigate to next level
+            if not isinstance(field_value, dict):
+                self.log(
+                    "Cannot navigate further - current value is not a dict "
+                    "(type: {0}) at field '{1}' in path '{2}'".format(
+                        type(field_value).__name__, field_name, field_path
+                    ),
+                    "DEBUG"
+                )
+                return []
+
+            field_value = field_value.get(field_name)
+
+            if field_value is None:
+                self.log(
+                    "Field '{0}' not found in path '{1}', returning empty list".format(
+                        field_name, field_path
+                    ),
+                    "DEBUG"
+                )
+                return []
+
+        # Check if we successfully navigated to a list
+        if isinstance(field_value, list):
+            self.log(
+                "Successfully extracted list from '{0}': {1} item(s) "
+                "(empty list preserved)".format(
+                    field_path, len(field_value)
+                ),
+                "DEBUG"
+            )
+            return field_value
+
+        # If field exists but is not a list, log warning and return empty list
+        self.log(
+            "Field '{0}' exists but is not a list (type: {1}, value: {2}). "
+            "Returning empty list for safety.".format(
+                field_path, type(field_value).__name__, field_value
+            ),
+            "WARNING"
+        )
         return []
 
     def transform_ipv4_dhcp_servers(self, data):
@@ -979,7 +1326,22 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             list: IPv4 DHCP server addresses, or empty list if none configured.
                  Empty lists are explicitly preserved to indicate "no DHCP servers configured".
         """
-        return self.transform_preserve_empty_list(data, "ipV4AddressSpace.dhcpServers")
+        self.log(
+            "Extracting IPv4 DHCP servers from pool/network data while "
+            "preserving empty lists",
+            "DEBUG"
+        )
+
+        result = self.transform_preserve_empty_list(data, "ipV4AddressSpace.dhcpServers")
+
+        self.log(
+            "Extracted IPv4 DHCP servers: {0} server(s) (empty list preserved)".format(
+                len(result) if result else 0
+            ),
+            "DEBUG"
+        )
+
+        return result
 
     def transform_ipv4_dns_servers(self, data):
         """
@@ -996,7 +1358,22 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             list: IPv4 DNS server addresses, or empty list if none configured.
                  Empty lists are explicitly preserved to indicate "no DNS servers configured".
         """
-        return self.transform_preserve_empty_list(data, "ipV4AddressSpace.dnsServers")
+        self.log(
+            "Extracting IPv4 DNS servers from pool/network data while "
+            "preserving empty lists",
+            "DEBUG"
+        )
+
+        result = self.transform_preserve_empty_list(data, "ipV4AddressSpace.dnsServers")
+
+        self.log(
+            "Extracted IPv4 DNS servers: {0} server(s) (empty list preserved)".format(
+                len(result) if result else 0
+            ),
+            "DEBUG"
+        )
+
+        return result
 
     def transform_ipv6_dhcp_servers(self, data):
         """
@@ -1013,7 +1390,22 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             list: IPv6 DHCP server addresses, or empty list if none configured.
                  Empty lists are explicitly preserved to indicate "no DHCPv6 servers configured".
         """
-        return self.transform_preserve_empty_list(data, "ipV6AddressSpace.dhcpServers")
+        self.log(
+            "Extracting IPv6 DHCP servers from pool/network data while "
+            "preserving empty lists",
+            "DEBUG"
+        )
+
+        result = self.transform_preserve_empty_list(data, "ipV6AddressSpace.dhcpServers")
+
+        self.log(
+            "Extracted IPv6 DHCP servers: {0} server(s) (empty list preserved)".format(
+                len(result) if result else 0
+            ),
+            "DEBUG"
+        )
+
+        return result
 
     def transform_ipv6_dns_servers(self, data):
         """
@@ -1030,27 +1422,67 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             list: IPv6 DNS server addresses, or empty list if none configured.
                  Empty lists are explicitly preserved to indicate "no IPv6 DNS servers configured".
         """
-        return self.transform_preserve_empty_list(data, "ipV6AddressSpace.dnsServers")
+        self.log(
+            "Extracting IPv6 DNS servers from pool/network data while "
+            "preserving empty lists",
+            "DEBUG"
+        )
+
+        result = self.transform_preserve_empty_list(data, "ipV6AddressSpace.dnsServers")
+
+        self.log(
+            "Extracted IPv6 DNS servers: {0} server(s) (empty list preserved)".format(
+                len(result) if result else 0
+            ),
+            "DEBUG"
+        )
+
+        return result
 
     def get_global_pool_lookup(self):
         """
-        Create a lookup mapping of global pool IDs to their CIDR and names.
-        This method caches the result to avoid multiple API calls.
+        Build and cache a lookup mapping of global pool IDs to their properties.
+
+        Creates an in-memory lookup table that maps global pool UUIDs to their
+        CIDR notation, names, and IP address space version (IPv4/IPv6). This lookup
+        is cached to optimize performance during reserve pool processing, where
+        reserve pools reference parent global pools by ID.
+
+        Performance Optimization:
+            - Results are cached in self._global_pool_lookup attribute
+            - Subsequent calls return cached data without API calls
+            - Cache persists for the lifetime of the module instance
+            - Significantly reduces API calls during bulk reserve pool operations
 
         Returns:
             dict: Mapping of global pool IDs to their details:
-                  {
-                      "pool_id": {
-                          "cidr": "10.0.0.0/8",
-                          "name": "Global_Pool1",
-                          "ip_address_space": "IPv4"
-                      }
-                  }
+                {
+                    "uuid-pool-1": {
+                        "cidr": "10.0.0.0/8",
+                        "name": "Global_Pool_Corporate",
+                        "ip_address_space": "IPv4"
+                    },
+                    "uuid-pool-2": {
+                        "cidr": "2001:db8::/32",
+                        "name": "Global_Pool_IPv6",
+                        "ip_address_space": "IPv6"
+                    }
+                }
+                Returns empty dict {} if:
+                - No global pools exist in Catalyst Center
+                - API call fails
+                - Unable to process pool data
         """
         if hasattr(self, '_global_pool_lookup'):
+            self.log(
+                "Returning cached global pool lookup with {0} pools (cache hit - "
+                "avoiding API call)".format(len(self._global_pool_lookup)),
+                "DEBUG"
+            )
             return self._global_pool_lookup
 
-        self.log("Creating global pool lookup mapping", "DEBUG")
+        self.log("Building cached lookup table mapping global pool IDs to CIDR/name/IP "
+                 "version for efficient reserve pool processing", "DEBUG")
 
         try:
             # Get global pools using the API
@@ -1060,143 +1492,226 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 {}
             )
 
+            if not global_pools_response:
+                self.log(
+                    "API returned empty global pools list - creating empty lookup table",
+                    "WARNING"
+                )
+                self._global_pool_lookup = {}
+                return self._global_pool_lookup
+
+            self.log(
+                "Processing {0} global pools to build lookup table".format(
+                    len(global_pools_response)
+                ),
+                "INFO"
+            )
+
             self._global_pool_lookup = {}
 
+            # Process each global pool
             for pool in global_pools_response:
                 pool_id = pool.get('id')
-                if pool_id:
-                    # Determine CIDR from subnet and prefix length
-                    cidr = None
-                    address_space = pool.get('addressSpace', {})
-                    subnet = address_space.get('subnet')
-                    prefix_length = address_space.get('prefixLength')
+                pool_name = pool.get('name', 'Unknown')
 
-                    if subnet and prefix_length:
-                        cidr = f"{subnet}/{prefix_length}"
+                # Skip pools without IDs (invalid data)
+                if not pool_id:
+                    self.log(
+                        "Skipping pool without ID: name='{0}', type='{1}'".format(
+                            pool_name, pool.get('poolType', 'Unknown')
+                        ),
+                        "WARNING"
+                    )
+                    continue
 
-                    # Determine IP address space (IPv4 or IPv6)
-                    ip_address_space = "IPv6" if ":" in str(subnet or "") else "IPv4"
+                # Extract CIDR using existing transform method for consistency
+                cidr = self.transform_cidr(pool)
+                if not cidr:
+                    self.log(
+                        "Failed to extract CIDR for pool '{0}' (ID: {1}) - "
+                        "pool may have incomplete address space data".format(
+                            pool_name, pool_id
+                        ),
+                        "WARNING"
+                    )
 
-                    self._global_pool_lookup[pool_id] = {
-                        "cidr": cidr,
-                        "name": pool.get('name'),
-                        "ip_address_space": ip_address_space
-                    }
+                # Determine IP address space using existing method
+                ip_address_space = self.transform_pool_to_address_space(pool)
+                if not ip_address_space:
+                    # Fallback: Use simple colon detection
+                    subnet = pool.get('addressSpace', {}).get('subnet', '')
+                    ip_address_space = "IPv6" if ":" in str(subnet) else "IPv4"
+                    self.log(
+                        "Used fallback IP space detection for pool '{0}': {1}".format(
+                            pool_name, ip_address_space
+                        ),
+                        "DEBUG"
+                    )
 
-            self.log(f"Created global pool lookup with {len(self._global_pool_lookup)} pools", "DEBUG")
+                # Add to lookup table
+                self._global_pool_lookup[pool_id] = {
+                    "cidr": cidr,
+                    "name": pool_name,
+                    "ip_address_space": ip_address_space
+                }
+
+                self.log(
+                    "Added pool '{0}' to lookup: ID={1}, CIDR={2}, IP_Space={3}".format(
+                        pool_name, pool_id, cidr or "None", ip_address_space
+                    ),
+                    "DEBUG"
+                )
+
+            self.log("Successfully created global pool lookup with {0} pools (cache "
+                     "created for future use)".format(len(self._global_pool_lookup)), "DEBUG")
+            return self._global_pool_lookup
+
+        except (KeyError, TypeError, AttributeError) as e:
+            self.log(
+                "Error processing global pool data during lookup creation: {0}. "
+                "Returning empty lookup to prevent workflow failure.".format(str(e)),
+                "ERROR"
+            )
+            self._global_pool_lookup = {}
             return self._global_pool_lookup
 
         except Exception as e:
-            self.log(f"Error creating global pool lookup: {str(e)}", "ERROR")
-            # Return empty dict to avoid breaking the process
+            self.log(
+                "Unexpected error creating global pool lookup: {0}. "
+                "Returning empty lookup to prevent workflow failure.".format(str(e)),
+                "CRITICAL"
+            )
             self._global_pool_lookup = {}
             return self._global_pool_lookup
 
     def transform_global_pool_id_to_cidr(self, pool_data):
-        """
-        Transform global pool ID to CIDR notation.
-
-        Args:
-            pool_data (dict): Reserve pool data containing global pool ID references
-
-        Returns:
-            str: CIDR notation of the global pool or None if not found
-        """
-        try:
-            # Extract IPv4 global pool ID
-            ipv4_global_pool_id = None
-            if pool_data and isinstance(pool_data, dict):
-                ipv4_global_pool_id = pool_data.get('ipV4AddressSpace', {}).get('globalPoolId')
-
-            if not ipv4_global_pool_id:
-                self.log("No IPv4 global pool ID found in pool data", "DEBUG")
-                return None
-
-            lookup = self.get_global_pool_lookup()
-            pool_info = lookup.get(ipv4_global_pool_id, {})
-            cidr = pool_info.get('cidr')
-
-            self.log(f"IPv4 Global pool ID {ipv4_global_pool_id} mapped to CIDR: {cidr}", "DEBUG")
-            return cidr
-
-        except Exception as e:
-            self.log(f"Error transforming IPv4 global pool ID to CIDR: {str(e)}", "ERROR")
-            return None
+        """Transform IPv4 global pool ID to CIDR notation."""
+        return self._transform_global_pool_id_to_field(pool_data, 'cidr', 'IPv4')
 
     def transform_global_pool_id_to_name(self, pool_data):
-        """
-        Transform global pool ID to pool name.
-
-        Args:
-            pool_data (dict): Reserve pool data containing global pool ID references
-
-        Returns:
-            str: Name of the global pool or None if not found
-        """
-        try:
-            # Extract IPv4 global pool ID
-            ipv4_global_pool_id = None
-            if pool_data and isinstance(pool_data, dict):
-                ipv4_global_pool_id = pool_data.get('ipV4AddressSpace', {}).get('globalPoolId')
-
-            if not ipv4_global_pool_id:
-                self.log("No IPv4 global pool ID found in pool data", "DEBUG")
-                return None
-
-            lookup = self.get_global_pool_lookup()
-            pool_info = lookup.get(ipv4_global_pool_id, {})
-            name = pool_info.get('name')
-
-            self.log(f"IPv4 Global pool ID {ipv4_global_pool_id} mapped to name: {name}", "DEBUG")
-            return name
-
-        except Exception as e:
-            self.log(f"Error transforming IPv4 global pool ID to name: {str(e)}", "ERROR")
-            return None
+        """Transform IPv4 global pool ID to pool name."""
+        return self._transform_global_pool_id_to_field(pool_data, 'name', 'IPv4')
 
     def transform_ipv6_global_pool_id_to_cidr(self, pool_data):
-        """
-        Transform IPv6 global pool ID to CIDR notation.
-
-        Args:
-            pool_data (dict): Reserve pool data containing global pool ID references
-
-        Returns:
-            str: CIDR notation of the IPv6 global pool or None if not found
-        """
-        # Extract IPv6 global pool ID
-        ipv6_global_pool_id = None
-        if pool_data and isinstance(pool_data, dict):
-            ipv6_global_pool_id = pool_data.get('ipV6AddressSpace', {}).get('globalPoolId')
-
-        if not ipv6_global_pool_id:
-            return None
-
-        lookup = self.get_global_pool_lookup()
-        pool_info = lookup.get(ipv6_global_pool_id, {})
-        return pool_info.get('cidr')
+        """Transform IPv6 global pool ID to CIDR notation."""
+        return self._transform_global_pool_id_to_field(pool_data, 'cidr', 'IPv6')
 
     def transform_ipv6_global_pool_id_to_name(self, pool_data):
+        """Transform IPv6 global pool ID to pool name."""
+        return self._transform_global_pool_id_to_field(pool_data, 'name', 'IPv6')
+
+    def _transform_global_pool_id_to_field(self, pool_data, field_name, ip_version="IPv4"):
         """
-        Transform IPv6 global pool ID to pool name.
+        Transform global pool ID to a specific field value for reserve pool configuration.
+
+        Extracts global pool properties (CIDR or name) from reserve pool data using
+        cached global pool lookup table. Supports both IPv4 and IPv6 address spaces.
 
         Args:
-            pool_data (dict): Reserve pool data containing global pool ID references
+            pool_data (dict or None): Reserve pool data containing global pool ID references
+            field_name (str): Field to extract ('cidr' or 'name')
+            ip_version (str): IP version ('IPv4' or 'IPv6')
 
         Returns:
-            str: Name of the IPv6 global pool or None if not found
+            str or None: Field value or None if not found
         """
-        # Extract IPv6 global pool ID
-        ipv6_global_pool_id = None
-        if pool_data and isinstance(pool_data, dict):
-            ipv6_global_pool_id = pool_data.get('ipV6AddressSpace', {}).get('globalPoolId')
+        self.log(
+            "Extracting {0} global pool {1} from reserve pool data using "
+            "cached global pool lookup table".format(ip_version, field_name),
+            "DEBUG"
+        )
 
-        if not ipv6_global_pool_id:
+        try:
+            # Validate pool_data
+            if not pool_data or not isinstance(pool_data, dict):
+                self.log(
+                    "Pool data validation failed - expected dict, got {0}".format(
+                        type(pool_data).__name__ if pool_data else "None"
+                    ),
+                    "DEBUG"
+                )
+                return None
+            # Determine address space key based on IP version
+            address_space_key = "ipV{0}AddressSpace".format("4" if ip_version == "IPv4" else "6")
+
+            # Extract address space
+            ipv_address_space = pool_data.get(address_space_key) or {}
+            if not isinstance(ipv_address_space, dict):
+                self.log(
+                    "{0} address space is not a dict (type: {1})".format(
+                        ip_version, type(ipv_address_space).__name__
+                    ),
+                    "DEBUG"
+                )
+                return None
+
+            # Extract global pool ID
+            global_pool_id = ipv_address_space.get('globalPoolId')
+            if not global_pool_id:
+                self.log(
+                    "No {0} global pool ID found in reserve pool data".format(ip_version),
+                    "DEBUG"
+                )
+                return None
+
+            # Get cached lookup table
+            lookup = self.get_global_pool_lookup()
+            if not lookup:
+                self.log(
+                    "Global pool lookup table is empty - cannot map pool ID '{0}'".format(
+                        global_pool_id
+                    ),
+                    "WARNING"
+                )
+                return None
+
+            # Lookup pool information
+            pool_info = lookup.get(global_pool_id)
+            if not pool_info:
+                self.log(
+                    "{0} global pool ID '{1}' not found in lookup table".format(
+                        ip_version, global_pool_id
+                    ),
+                    "WARNING"
+                )
+                return None
+
+            # Extract field
+            field_value = pool_info.get(field_name)
+            if not field_value:
+                self.log(
+                    "{0} global pool ID '{1}' has no {2} configured".format(
+                        ip_version, global_pool_id, field_name
+                    ),
+                    "WARNING"
+                )
+                return None
+
+            self.log(
+                "{0} global pool ID '{1}' mapped to {2}: {3}".format(
+                    ip_version, global_pool_id, field_name, field_value
+                ),
+                "DEBUG"
+            )
+            return field_value
+
+        except (KeyError, TypeError, AttributeError) as e:
+            self.log(
+                "Error extracting {0} global pool {1}: {2}".format(
+                    ip_version, field_name, str(e)
+                ),
+                "WARNING"
+            )
             return None
 
-        lookup = self.get_global_pool_lookup()
-        pool_info = lookup.get(ipv6_global_pool_id, {})
-        return pool_info.get('name')
+        except Exception as e:
+            self.log(
+                "Unexpected error transforming {0} global pool ID to {1}: {2}".format(
+                    ip_version, field_name, str(e)
+                ),
+                "ERROR"
+            )
+            return None
 
     def reserve_pool_reverse_mapping_function(self, requested_components=None):
         """
@@ -1209,6 +1724,21 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         The mapping includes field transformations, type conversions, and special handling
         for complex data structures like IPv4/IPv6 address spaces, server configurations,
         and pool relationships.
+        API Response Structure Expected:
+            {
+                "id": "pool-uuid",
+                "name": "Reserve_Pool_1",
+                "siteName": "Global/USA/NYC",
+                "poolType": "LAN",
+                "ipV4AddressSpace": {
+                    "subnet": "192.168.1.0",
+                    "prefixLength": 24,
+                    "gatewayIpAddress": "192.168.1.1",
+                    "dhcpServers": ["10.0.0.1"],
+                    "dnsServers": ["8.8.8.8"],
+                    "globalPoolId": "global-pool-uuid"
+                }
+            }
 
         Args:
             requested_components (list, optional): Specific components to include in mapping.
@@ -1230,9 +1760,14 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             - Statistics (total hosts, assigned addresses)
             - Configuration flags (SLAAC support, prefix settings)
         """
-        self.log("Generating reverse mapping specification for reserve pools.", "DEBUG")
+        self.log("Building reverse mapping specification to transform Catalyst Center reserve pool "
+                 "API response into Ansible playbook format for network_settings_workflow_manager module",
+                 "DEBUG")
 
-        return OrderedDict({
+        reverse_mapping_spec = OrderedDict({
+            # -------------------------------
+            # Basic Pool Information
+            # -------------------------------
             "site_name": {
                 "type": "str",
                 "source_key": "siteName",
@@ -1243,34 +1778,46 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "prev_name": {"type": "str", "source_key": "previousName", "optional": True},
             "pool_type": {"type": "str", "source_key": "poolType"},
 
-            # IPv6 Address Space flag
+            # -------------------------------
+            # IPv6 Address Space Flag
+            # -------------------------------
             "ipv6_address_space": {
                 "type": "bool",
                 "source_key": "ipV6AddressSpace",
                 "transform": self.transform_to_boolean,
             },
 
-            # IPv4 address space
+            # -------------------------------
+            # IPv4 Address Space Configuration
+            # -------------------------------
+            # Global pool references (transformed from UUID to CIDR/name)
             "ipv4_global_pool": {
                 "type": "str",
                 "source_key": None,
                 "special_handling": True,
-                "transform": self.transform_global_pool_id_to_cidr
+                "transform": self.transform_global_pool_id_to_cidr,
+                "optional": True  # Not all reserve pools have parent global pool
             },
             "ipv4_global_pool_name": {
                 "type": "str",
                 "source_key": None,
                 "special_handling": True,
-                "transform": self.transform_global_pool_id_to_name
+                "transform": self.transform_global_pool_id_to_name,
+                "optional": True
             },
+            # Prefix configuration
+            # Boolean flag indicating if IPv4 prefix is configured (for conditional logic)
             "ipv4_prefix": {
                 "type": "bool",
                 "source_key": "ipV4AddressSpace.prefixLength",
                 "transform": self.transform_to_boolean,
             },
+            # Actual IPv4 prefix length value (e.g., 24 for /24 network)
             "ipv4_prefix_length": {"type": "int", "source_key": "ipV4AddressSpace.prefixLength"},
+            # Network configuration
             "ipv4_subnet": {"type": "str", "source_key": "ipV4AddressSpace.subnet"},
             "ipv4_gateway": {"type": "str", "source_key": "ipV4AddressSpace.gatewayIpAddress"},
+            # Server configurations (preserve empty lists for semantic meaning)
             "ipv4_dhcp_servers": {
                 "type": "list",
                 "special_handling": True,
@@ -1281,30 +1828,44 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "special_handling": True,
                 "transform": self.transform_ipv4_dns_servers
             },
+            # Pool statistics
             "ipv4_total_host": {"type": "int", "source_key": "ipV4AddressSpace.totalAddresses"},
+
+            # Statistics fields commented out to reduce YAML output clutter
+            # These are runtime statistics, not configuration parameters
+            # Uncomment if detailed pool usage statistics are needed in playbook
             # "ipv4_unassignable_addresses": {"type": "int", "source_key": "ipV4AddressSpace.unassignableAddresses"},
             # "ipv4_assigned_addresses": {"type": "int", "source_key": "ipV4AddressSpace.assignedAddresses"},
             # "ipv4_default_assigned_addresses": {"type": "int", "source_key": "ipV4AddressSpace.defaultAssignedAddresses"},
 
-            # IPv6 address space
+            # -------------------------------
+            # IPv6 Address Space Configuration
+            # -------------------------------
+            # Global pool references (transformed from UUID to CIDR/name)
             "ipv6_global_pool": {
                 "type": "str",
                 "source_key": None,
                 "special_handling": True,
-                "transform": self.transform_ipv6_global_pool_id_to_cidr
+                "transform": self.transform_ipv6_global_pool_id_to_cidr,
+                "optional": True  # Not all reserve pools have parent global pool
             },
             "ipv6_global_pool_name": {
                 "type": "str",
                 "source_key": None,
                 "special_handling": True,
-                "transform": self.transform_ipv6_global_pool_id_to_name
+                "transform": self.transform_ipv6_global_pool_id_to_name,
+                "optional": True
             },
+            # Prefix configuration
+            # Boolean flag indicating if IPv6 prefix is configured
             "ipv6_prefix": {
                 "type": "bool",
                 "source_key": "ipV6AddressSpace.prefixLength",
                 "transform": self.transform_to_boolean,
             },
+            # Actual IPv6 prefix length value (e.g., 64 for /64 network)
             "ipv6_prefix_length": {"type": "int", "source_key": "ipV6AddressSpace.prefixLength"},
+            # Network configuration
             "ipv6_subnet": {"type": "str", "source_key": "ipV6AddressSpace.subnet"},
             "ipv6_gateway": {"type": "str", "source_key": "ipV6AddressSpace.gatewayIpAddress"},
             "ipv6_dhcp_servers": {
@@ -1312,46 +1873,78 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "special_handling": True,
                 "transform": self.transform_ipv6_dhcp_servers
             },
+            # Server configurations (preserve empty lists for semantic meaning)
             "ipv6_dns_servers": {
                 "type": "list",
                 "special_handling": True,
                 "transform": self.transform_ipv6_dns_servers
             },
+            # Pool statistics
             "ipv6_total_host": {"type": "int", "source_key": "ipV6AddressSpace.totalAddresses"},
+            # Statistics fields commented out to reduce YAML output clutter
+            # Uncomment if detailed pool usage statistics are needed in playbook
             # "ipv6_unassignable_addresses": {"type": "int", "source_key": "ipV6AddressSpace.unassignableAddresses"},
             # "ipv6_assigned_addresses": {"type": "int", "source_key": "ipV6AddressSpace.assignedAddresses"},
             # "ipv6_default_assigned_addresses": {"type": "int", "source_key": "ipV6AddressSpace.defaultAssignedAddresses"},
+
+            # IPv6-specific features
             "slaac_support": {"type": "bool", "source_key": "ipV6AddressSpace.slaacSupport"},
 
-            # # Force delete flag (optional in schema)
-            # "force_delete": {"type": "bool", "default": False, "optional": True},
         })
+
+        self.log(
+            "Successfully created reverse mapping specification with {0} field mappings for "
+            "reserve pool transformation".format(len(reverse_mapping_spec)),
+            "DEBUG"
+        )
+
+        return reverse_mapping_spec
 
     def network_management_reverse_mapping_function(self, requested_components=None):
         """
-        Reverse mapping for Network Management settings (v1 API).
-        Converts DNAC raw API response into the flattened Ansible-friendly structure:
+        Generate reverse mapping specification for Network Management Details transformation.
 
-            network_management_details:
-                - site_name: ...
-                settings:
-                    dns_server: {...}
-                    dhcp_server: [...]
-                    ntp_server: [...]
-                    timezone: ...
-                    message_of_the_day: {...}
-                    network_aaa: {...}
-                    client_and_endpoint_aaa: {...}
-                    ...
+        This function creates a comprehensive mapping specification that converts
+        Catalyst Center Network Management API v1 response fields into Ansible-friendly
+        configuration keys compatible with the network_settings_workflow_manager module.
 
-        This follows the same flat-mapping pattern as reserve_pool_reverse_mapping_function.
+        Purpose:
+            Transforms raw Catalyst Center network management API v1 responses into clean,
+            Ansible-compatible YAML configuration format by mapping API fields to playbook
+            parameters, applying type conversions, and handling nested structures.
+
+        API Response Structure Expected (v1 format):
+            {
+                "siteName": "Global/USA/NYC",
+                "settings": {
+                    "dhcp": {"servers": ["10.0.0.1"]},
+                    "dns": {
+                        "domainName": "example.com",
+                        "dnsServers": ["8.8.8.8", "8.8.4.4"]
+                    },
+                    "ntp": {"servers": ["pool.ntp.org"]},
+                    "timeZone": {"identifier": "America/New_York"},
+                    "banner": {"message": "Authorized Access Only"},
+                    "aaaNetwork": {...},
+                    "telemetry": {...}
+                }
+            }
+
+        Args:
+            requested_components (list, optional): Specific components to include.
+                                                Reserved for future use.
+
+        Returns:
+            OrderedDict: Field mapping specification with type info and source paths.
         """
-        self.log("Generating reverse mapping specification for network management (v1).", "DEBUG")
+        self.log("Building reverse mapping specification to transform Catalyst Center network management "
+                 "API v1 response into Ansible playbook format for network_settings_workflow_manager module",
+                 "DEBUG")
 
-        return OrderedDict({
+        reverse_mapping_spec = OrderedDict({
 
             # -------------------------------
-            # Top field: site_name
+            # Site Information
             # -------------------------------
             "site_name": {
                 "type": "str",
@@ -1361,105 +1954,128 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             },
 
             # -------------------------------
-            # DHCP server
+            # DHCP Server Configuration
             # -------------------------------
+            # List of DHCP server IP addresses for the site
             "dhcp_server": {
                 "type": "list",
                 "source_key": "settings.dhcp.servers"
             },
 
             # -------------------------------
-            # DNS server block
+            # DNS Server Configuration
             # -------------------------------
+            # DNS domain name for the site
             "dns_server.domain_name": {
                 "type": "str",
                 "source_key": "settings.dns.domainName"
             },
+            # List of DNS server IP addresses
             "dns_server.dns_servers": {
                 "type": "list",
                 "source_key": "settings.dns.dnsServers"
             },
 
             # -------------------------------
-            # NTP + Timezone
+            # NTP Server Configuration
             # -------------------------------
+            # List of NTP server addresses for time synchronization
             "ntp_server": {
                 "type": "list",
                 "source_key": "settings.ntp.servers"
             },
+
+            # -------------------------------
+            # Timezone Settings
+            # -------------------------------
+            # Timezone identifier (e.g., "America/New_York", "UTC")
             "timezone": {
                 "type": "str",
                 "source_key": "settings.timeZone.identifier"
             },
 
             # -------------------------------
-            # MOTD / Banner
+            # Message of the Day (Banner)
             # -------------------------------
+            # Banner message displayed on device login
             "message_of_the_day.banner_message": {
                 "type": "str",
                 "source_key": "settings.banner.message"
             },
+            # Whether to retain existing banner when updating
             "message_of_the_day.retain_existing_banner": {
                 "type": "bool",
                 "source_key": "settings.banner.retainExistingBanner"
             },
 
             # -------------------------------
-            # Network AAA
+            # Network AAA Configuration
             # -------------------------------
+            # Primary AAA server IP address for network device authentication
             "network_aaa.primary_server_address": {
                 "type": "str",
                 "source_key": "settings.aaaNetwork.primaryServerIp"
             },
+            # Secondary AAA server IP address (optional failover)
             "network_aaa.secondary_server_address": {
                 "type": "str",
                 "source_key": "settings.aaaNetwork.secondaryServerIp",
                 "optional": True
             },
+            # AAA protocol (RADIUS or TACACS)
             "network_aaa.protocol": {
                 "type": "str",
                 "source_key": "settings.aaaNetwork.protocol"
             },
+            # Server type (AAA, ISE)
             "network_aaa.server_type": {
                 "type": "str",
                 "source_key": "settings.aaaNetwork.serverType"
             },
+            # ISE PAN address (required when serverType is ISE)
             "network_aaa.pan_address": {
                 "type": "str",
                 "source_key": "settings.aaaNetwork.pan",
                 "optional": True
             },
+            # Shared secret for AAA server authentication
             "network_aaa.shared_secret": {
                 "type": "str",
                 "source_key": "settings.aaaNetwork.sharedSecret",
                 "optional": True
             },
 
-            # -------------------------------
-            # Client & Endpoint AAA
-            # -------------------------------
+            # -----------------------------------------------
+            # Client & Endpoint AAA Configuration
+            # -----------------------------------------------
+            # Primary AAA server IP for client/endpoint authentication
             "client_and_endpoint_aaa.primary_server_address": {
                 "type": "str",
                 "source_key": "settings.aaaClient.primaryServerIp"
             },
+            # Secondary AAA server IP (optional failover)
             "client_and_endpoint_aaa.secondary_server_address": {
                 "type": "str",
                 "source_key": "settings.aaaClient.secondaryServerIp",
                 "optional": True
             },
+            # AAA protocol for client authentication
             "client_and_endpoint_aaa.protocol": {
                 "type": "str",
                 "source_key": "settings.aaaClient.protocol"
             },
+            # Server type for client authentication
             "client_and_endpoint_aaa.server_type": {
                 "type": "str",
                 "source_key": "settings.aaaClient.serverType"
             },
+            # ISE PAN address for client authentication
             "client_and_endpoint_aaa.pan_address": {
                 "type": "str",
                 "source_key": "settings.aaaClient.pan",
                 "optional": True
             },
+            # Shared secret for client AAA
             "client_and_endpoint_aaa.shared_secret": {
                 "type": "str",
                 "source_key": "settings.aaaClient.sharedSecret",
@@ -1467,24 +2083,28 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             },
 
             # -------------------------------
-            # NetFlow Collector
+            # NetFlow Collector (Telemetry)
             # -------------------------------
+            # NetFlow collector IP address for application visibility
             "netflow_collector.ip_address": {
                 "type": "str",
                 "source_key": "settings.telemetry.applicationVisibility.collector.address"
             },
+            # NetFlow collector port number
             "netflow_collector.port": {
                 "type": "int",
                 "source_key": "settings.telemetry.applicationVisibility.collector.port"
             },
 
             # -------------------------------
-            # SNMP Server
+            # SNMP Server (Telemetry)
             # -------------------------------
+            # Use Catalyst Center built-in SNMP trap server
             "snmp_server.configure_dnac_ip": {
                 "type": "bool",
                 "source_key": "settings.telemetry.snmpTraps.useBuiltinTrapServer"
             },
+            # External SNMP trap server IP addresses (optional)
             "snmp_server.ip_addresses": {
                 "type": "list",
                 "source_key": "settings.telemetry.snmpTraps.externalTrapServers",
@@ -1492,12 +2112,14 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             },
 
             # -------------------------------
-            # Syslog Server
+            # Syslog Server (Telemetry)
             # -------------------------------
+            # Use Catalyst Center built-in syslog server
             "syslog_server.configure_dnac_ip": {
                 "type": "bool",
                 "source_key": "settings.telemetry.syslogs.useBuiltinSyslogServer"
             },
+            # External syslog server IP addresses (optional)
             "syslog_server.ip_addresses": {
                 "type": "list",
                 "source_key": "settings.telemetry.syslogs.externalSyslogServers",
@@ -1505,17 +2127,31 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             },
 
             # -------------------------------
-            # Wired/Wireless Telemetry
+            # Wired Data Collection (Telemetry)
             # -------------------------------
+            # Enable wired network data collection for analytics
             "wired_data_collection.enable_wired_data_collection": {
                 "type": "bool",
                 "source_key": "settings.telemetry.wiredDataCollection.enableWiredDataCollection"
             },
+            # -------------------------------
+            # Wireless Telemetry
+            # -------------------------------
+            # Enable wireless network telemetry collection
             "wireless_telemetry.enable_wireless_telemetry": {
                 "type": "bool",
                 "source_key": "settings.telemetry.wirelessTelemetry.enableWirelessTelemetry"
             }
         })
+
+        self.log(
+            "Successfully created network management reverse mapping specification with {0} field mappings".format(
+                len(reverse_mapping_spec)
+            ),
+            "DEBUG"
+        )
+
+        return reverse_mapping_spec
 
     def modify_network_parameters(self, reverse_mapping_spec, data_list):
         """
