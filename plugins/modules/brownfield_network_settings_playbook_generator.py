@@ -507,76 +507,6 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
-    def validate_params(self, config):
-        """
-        Validates individual configuration parameters for brownfield network settings generation.
-
-        This method performs detailed validation of configuration parameters including
-        file path accessibility, directory creation permissions, and component filter
-        validation against supported network elements schema.
-
-        Args:
-            config (dict): Configuration parameters containing:
-                - file_path (str, optional): Target YAML file output path
-                - global_filters (dict, optional): Site, pool, and type filtering criteria
-                - component_specific_filters (dict, optional): Component-level filtering
-                - generate_all_configurations (bool, optional): Generate all components flag
-
-        Returns:
-            self: Current instance with validation status updated.
-                 On failure: self.status = "failed", self.msg contains error details
-                 On success: self.status = "success"
-
-        Validation Checks:
-            - File path validity and write permissions
-            - Directory creation capabilities for output path
-            - Component names against supported network elements
-            - Filter parameter format compliance
-            - Cross-parameter dependency validation
-
-        Raises:
-            None: All validation errors are captured in instance status
-        """
-        self.log("Starting validation of configuration parameters", "DEBUG")
-
-        # Check for required parameters
-        if not config:
-            self.msg = "Configuration cannot be empty"
-            self.status = "failed"
-            return self
-
-        # Validate file_path if provided
-        file_path = config.get("file_path")
-        if file_path:
-            import os
-            directory = os.path.dirname(file_path)
-            if directory and not os.path.exists(directory):
-                try:
-                    os.makedirs(directory, exist_ok=True)
-                    self.log("Created directory: {0}".format(directory), "INFO")
-                except Exception as e:
-                    self.msg = "Cannot create directory for file_path: {0}. Error: {1}".format(directory, str(e))
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-        # Validate component_specific_filters
-        component_filters = config.get("component_specific_filters", {})
-        self.log("Component-specific filters: {0}".format(component_filters), "DEBUG")
-        if component_filters:
-            components_list = component_filters.get("components_list", [])
-            supported_components = list(self.module_schema.get("network_elements", {}).keys())
-            self.log("Supported components: {0}".format(supported_components), "DEBUG")
-
-            for component in components_list:
-                self.log("Validating component: {0}".format(component), "DEBUG")
-                if component not in supported_components:
-                    self.msg = "Unsupported component: {0}. Supported components: {1}".format(
-                        component, supported_components)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-        self.log("Configuration parameters validation completed successfully", "DEBUG")
-        self.status = "success"
-        return self
-
     def get_workflow_elements_schema(self):
         """
         Returns the mapping configuration for network settings workflow manager.
@@ -788,12 +718,12 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             6. Fallback to IPv4 if addressSpace exists
         """
         self.log("Determining IP address space (IPv4/IPv6) from pool configuration using "
-                 "multiple detection methods in priority order",
-                 "DEBUG")
+                "multiple detection methods in priority order",
+                "DEBUG")
         if pool_details is None or not isinstance(pool_details, dict):
             self.log("Pool configuration validation failed - received {0} instead of dict, "
-                     "cannot determine address space".format(type(pool_details).__name__),
-                     "DEBUG")
+                    "cannot determine address space".format(type(pool_details).__name__),
+                    "DEBUG")
             return None
 
         self.log("transform_pool_to_address_space: processing pool_details keys: {0}".format(list(pool_details.keys())), "DEBUG")
@@ -868,8 +798,8 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             return "IPv4"
 
         self.log("Unable to determine address space - no valid IP configuration found "
-                 "in pool details",
-                 "WARNING")
+        "in pool details",
+        "WARNING")
         return None
 
     def _determine_address_space_from_ip(self, ip_address, source):
@@ -990,7 +920,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Starting CIDR transformation with pool_details: {0}".format(pool_details), "DEBUG")
         if pool_details is None:
             self.log("Pool details validation failed - expected dict, got {0}".format(
-                     type(pool_details).__name__), "WARNING")
+            type(pool_details).__name__), "WARNING")
             return None
 
         if not isinstance(pool_details, dict):
@@ -1077,9 +1007,9 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log("transform_cidr: no valid CIDR components found", "DEBUG")
         self.log("Unable to extract CIDR notation - no valid subnet/prefix combination "
-                 "found in pool configuration",
-                 "WARNING"
-                 )
+                "found in pool configuration",
+                "WARNING"
+        )
 
         return None
 
@@ -1101,11 +1031,11 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Validate prefix length is numeric and in valid range
         try:
             prefix_int = int(prefix_length)
-
+            
             # Determine IP version from subnet format
             is_ipv6 = ":" in str(subnet)
             max_prefix = 128 if is_ipv6 else 32
-
+            
             if not (0 <= prefix_int <= max_prefix):
                 self.log(
                     "Invalid prefix length {0} from {1} (must be 0-{2} for {3})".format(
@@ -1114,14 +1044,14 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "WARNING"
                 )
                 return None
-
+            
             cidr = "{0}/{1}".format(subnet, prefix_int)
             self.log(
                 "Built CIDR notation from {0}: {1}".format(source, cidr),
                 "DEBUG"
             )
             return cidr
-
+            
         except (ValueError, TypeError) as e:
             self.log(
                 "Failed to build CIDR from {0} (subnet: {1}, prefix: {2}): {3}".format(
@@ -1145,7 +1075,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             import ipaddress
             network = ipaddress.IPv4Network('0.0.0.0/' + subnet_mask, strict=False)
             prefix_length = network.prefixlen
-
+            
             self.log(
                 "Converted subnet mask {0} to prefix length {1}".format(
                     subnet_mask, prefix_length
@@ -1153,7 +1083,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG"
             )
             return prefix_length
-
+            
         except (ValueError, ipaddress.AddressValueError, ipaddress.NetmaskValueError) as e:
             self.log(
                 "Failed to convert subnet mask to prefix length: {0}, error: {1}".format(
@@ -1584,6 +1514,179 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             self._global_pool_lookup = {}
             return self._global_pool_lookup
 
+    # def transform_global_pool_id_to_cidr(self, pool_data):
+    #     """
+    #     Transform IPv4 global pool ID to CIDR notation for reserve pool configuration.
+
+    #     This transformation function resolves global pool ID references in reserve pool
+    #     data to their human-readable CIDR notation for Ansible playbook output. It uses
+    #     a cached lookup table to efficiently map pool UUIDs to CIDR values without
+    #     repeated API calls.
+    #     Args:
+    #         pool_data (dict): Reserve pool data containing global pool ID references
+
+    #     Returns:
+    #         str: CIDR notation of the global pool or None if not found
+    #     """
+    #     self.log(
+    #         "Extracting IPv4 global pool CIDR notation from reserve pool data using "
+    #         "cached global pool lookup table",
+    #         "DEBUG"
+    #     )
+
+    #     if not pool_data or not isinstance(pool_data, dict):
+    #         self.log(
+    #             "Pool data validation failed - expected dict, got {0}".format(
+    #                 type(pool_data).__name__ if pool_data else "None"
+    #             ),
+    #             "DEBUG"
+    #         )
+    #         return None
+    #     try:
+    #         # Extract IPv4 address space
+    #         ipv4_address_space = pool_data.get('ipV4AddressSpace') or {}
+    #         if not isinstance(ipv4_address_space, dict):
+    #             self.log(
+    #                 "IPv4 address space is not a dict (type: {0}) - cannot extract "
+    #                 "global pool ID".format(type(ipv4_address_space).__name__),
+    #                 "DEBUG"
+    #             )
+    #             return None
+            
+    #         # Extract global pool ID
+    #         ipv4_global_pool_id = ipv4_address_space.get('globalPoolId')
+    #         if not ipv4_global_pool_id:
+    #             self.log(
+    #                 "No IPv4 global pool ID found in reserve pool data - "
+    #                 "pool may not be linked to a global pool",
+    #                 "DEBUG"
+    #             )
+    #             return None
+            
+    #         # Get cached global pool lookup table
+    #         lookup = self.get_global_pool_lookup()
+    #         if not lookup:
+    #             self.log(
+    #                 "Global pool lookup table is empty or unavailable - cannot map "
+    #                 "pool ID '{0}' to CIDR".format(ipv4_global_pool_id),
+    #                 "WARNING"
+    #             )
+    #             return None
+
+    #         # Extract CIDR from pool information
+    #         pool_info = lookup.get(ipv4_global_pool_id, {})
+    #         cidr = pool_info.get('cidr')
+    #         if not cidr:
+    #             self.log(
+    #                 "IPv4 global pool ID '{0}' found but has no CIDR configured - "
+    #                 "global pool may have incomplete address space data".format(
+    #                     ipv4_global_pool_id
+    #                 ),
+    #                 "WARNING"
+    #             )
+    #             return None
+            
+    #         self.log(
+    #             "IPv4 global pool ID '{0}' successfully mapped to CIDR: {1}".format(
+    #                 ipv4_global_pool_id, cidr
+    #             ),
+    #             "DEBUG"
+    #         )
+    #         return cidr
+
+    #     except (KeyError, TypeError, AttributeError) as e:
+    #         self.log(
+    #             "Error extracting IPv4 global pool ID or CIDR from pool data: {0}".format(
+    #                 str(e)
+    #             ),
+    #             "WARNING"
+    #         )
+    #         return None
+
+    #     except Exception as e:
+    #         self.log(
+    #             "Unexpected error transforming IPv4 global pool ID to CIDR: {0}".format(
+    #                 str(e)
+    #             ),
+    #             "ERROR"
+    #         )
+    #         return None
+
+    # def transform_global_pool_id_to_name(self, pool_data):
+    #     """
+    #     Transform global pool ID to pool name.
+
+    #     Args:
+    #         pool_data (dict): Reserve pool data containing global pool ID references
+
+    #     Returns:
+    #         str: Name of the global pool or None if not found
+    #     """
+    #     try:
+    #         # Extract IPv4 global pool ID
+    #         ipv4_global_pool_id = None
+    #         if pool_data and isinstance(pool_data, dict):
+    #             ipv4_global_pool_id = pool_data.get('ipV4AddressSpace', {}).get('globalPoolId')
+
+    #         if not ipv4_global_pool_id:
+    #             self.log("No IPv4 global pool ID found in pool data", "DEBUG")
+    #             return None
+
+    #         lookup = self.get_global_pool_lookup()
+    #         pool_info = lookup.get(ipv4_global_pool_id, {})
+    #         name = pool_info.get('name')
+
+    #         self.log(f"IPv4 Global pool ID {ipv4_global_pool_id} mapped to name: {name}", "DEBUG")
+    #         return name
+
+    #     except Exception as e:
+    #         self.log(f"Error transforming IPv4 global pool ID to name: {str(e)}", "ERROR")
+    #         return None
+
+    # def transform_ipv6_global_pool_id_to_cidr(self, pool_data):
+    #     """
+    #     Transform IPv6 global pool ID to CIDR notation.
+
+    #     Args:
+    #         pool_data (dict): Reserve pool data containing global pool ID references
+
+    #     Returns:
+    #         str: CIDR notation of the IPv6 global pool or None if not found
+    #     """
+    #     # Extract IPv6 global pool ID
+    #     ipv6_global_pool_id = None
+    #     if pool_data and isinstance(pool_data, dict):
+    #         ipv6_global_pool_id = pool_data.get('ipV6AddressSpace', {}).get('globalPoolId')
+
+    #     if not ipv6_global_pool_id:
+    #         return None
+
+    #     lookup = self.get_global_pool_lookup()
+    #     pool_info = lookup.get(ipv6_global_pool_id, {})
+    #     return pool_info.get('cidr')
+
+    # def transform_ipv6_global_pool_id_to_name(self, pool_data):
+    #     """
+    #     Transform IPv6 global pool ID to pool name.
+
+    #     Args:
+    #         pool_data (dict): Reserve pool data containing global pool ID references
+
+    #     Returns:
+    #         str: Name of the IPv6 global pool or None if not found
+    #     """
+    #     # Extract IPv6 global pool ID
+    #     ipv6_global_pool_id = None
+    #     if pool_data and isinstance(pool_data, dict):
+    #         ipv6_global_pool_id = pool_data.get('ipV6AddressSpace', {}).get('globalPoolId')
+
+    #     if not ipv6_global_pool_id:
+    #         return None
+
+    #     lookup = self.get_global_pool_lookup()
+    #     pool_info = lookup.get(ipv6_global_pool_id, {})
+    #     return pool_info.get('name')
+
     def transform_global_pool_id_to_cidr(self, pool_data):
         """Transform IPv4 global pool ID to CIDR notation."""
         return self._transform_global_pool_id_to_field(pool_data, 'cidr', 'IPv4')
@@ -1603,15 +1706,15 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def _transform_global_pool_id_to_field(self, pool_data, field_name, ip_version="IPv4"):
         """
         Transform global pool ID to a specific field value for reserve pool configuration.
-
-        Extracts global pool properties (CIDR or name) from reserve pool data using
+        
+        Extracts global pool properties (CIDR or name) from reserve pool data using 
         cached global pool lookup table. Supports both IPv4 and IPv6 address spaces.
-
+        
         Args:
             pool_data (dict or None): Reserve pool data containing global pool ID references
             field_name (str): Field to extract ('cidr' or 'name')
             ip_version (str): IP version ('IPv4' or 'IPv6')
-
+        
         Returns:
             str or None: Field value or None if not found
         """
@@ -1620,7 +1723,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "cached global pool lookup table".format(ip_version, field_name),
             "DEBUG"
         )
-
+        
         try:
             # Validate pool_data
             if not pool_data or not isinstance(pool_data, dict):
@@ -1633,7 +1736,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 return None
             # Determine address space key based on IP version
             address_space_key = "ipV{0}AddressSpace".format("4" if ip_version == "IPv4" else "6")
-
+            
             # Extract address space
             ipv_address_space = pool_data.get(address_space_key) or {}
             if not isinstance(ipv_address_space, dict):
@@ -1644,7 +1747,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "DEBUG"
                 )
                 return None
-
+            
             # Extract global pool ID
             global_pool_id = ipv_address_space.get('globalPoolId')
             if not global_pool_id:
@@ -1653,7 +1756,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "DEBUG"
                 )
                 return None
-
+            
             # Get cached lookup table
             lookup = self.get_global_pool_lookup()
             if not lookup:
@@ -1664,7 +1767,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "WARNING"
                 )
                 return None
-
+            
             # Lookup pool information
             pool_info = lookup.get(global_pool_id)
             if not pool_info:
@@ -1675,7 +1778,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "WARNING"
                 )
                 return None
-
+            
             # Extract field
             field_value = pool_info.get(field_name)
             if not field_value:
@@ -1686,7 +1789,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "WARNING"
                 )
                 return None
-
+            
             self.log(
                 "{0} global pool ID '{1}' mapped to {2}: {3}".format(
                     ip_version, global_pool_id, field_name, field_value
@@ -1694,7 +1797,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG"
             )
             return field_value
-
+        
         except (KeyError, TypeError, AttributeError) as e:
             self.log(
                 "Error extracting {0} global pool {1}: {2}".format(
@@ -1703,7 +1806,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "WARNING"
             )
             return None
-
+        
         except Exception as e:
             self.log(
                 "Unexpected error transforming {0} global pool ID to {1}: {2}".format(
@@ -1886,7 +1989,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             # "ipv6_unassignable_addresses": {"type": "int", "source_key": "ipV6AddressSpace.unassignableAddresses"},
             # "ipv6_assigned_addresses": {"type": "int", "source_key": "ipV6AddressSpace.assignedAddresses"},
             # "ipv6_default_assigned_addresses": {"type": "int", "source_key": "ipV6AddressSpace.defaultAssignedAddresses"},
-
+            
             # IPv6-specific features
             "slaac_support": {"type": "bool", "source_key": "ipV6AddressSpace.slaacSupport"},
 
