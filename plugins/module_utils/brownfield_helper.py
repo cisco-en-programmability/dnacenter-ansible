@@ -1926,6 +1926,811 @@ class BrownFieldHelper:
 
         return mgmt_ip_to_instance_id_map
 
+    def modify_network_parameters(self, reverse_mapping_spec, data_list):
+        """
+        Transform API response data from Catalyst Center format to Ansible playbook format.
+
+        Applies reverse mapping specification to convert raw API responses into clean,
+        Ansible-compatible YAML configuration format by mapping fields, converting types,
+        and applying custom transformation functions.
+
+        Args:
+            reverse_mapping_spec (OrderedDict): Specification dictionary containing:
+                - target_key (str): Target field name in Ansible config
+                - mapping_rule (dict): Transformation rules including:
+                    - source_key (str): Source field path in API response
+                    - type (str): Expected data type for validation
+                    - transform (callable, optional): Custom transformation function
+                    - optional (bool, optional): Whether field is optional
+                    - special_handling (bool, optional): Requires special processing
+
+            data_list (list): List of data objects from DNAC API responses to transform.
+
+        Returns:
+            list: Transformed data list suitable for Ansible playbook configuration.
+                 Each item is transformed according to the mapping specification with:
+                 - Field names converted to Ansible-compatible format
+                 - Data types properly converted and validated
+                 - Optional fields handled appropriately
+                 - Custom transformations applied where specified
+
+        Transformation Process:
+            1. Iterates through each data item in the input list
+            2. Applies each mapping rule from the specification
+            3. Extracts nested values using dot-notation source keys
+            4. Applies custom transform functions when specified
+            5. Validates and sanitizes values based on expected types
+            6. Handles optional fields and missing data gracefully
+            7. Preserves semantic meaning (e.g., empty lists for server configs)
+
+        Error Handling:
+            - Logs warnings for transformation errors
+            - Skips invalid data items with detailed logging
+            - Handles missing nested fields gracefully
+            - Preserves partial transformations when possible
+
+        Examples:
+            API Response -> Ansible Config transformation:
+            {'siteName': 'Global/USA/NYC'} -> {'site_name': 'Global/USA/NYC'}
+        """
+        self.log(
+            "Starting transformation of {0} API response items using {1} mapping rules to convert "
+            "Catalyst Center format to Ansible playbook format".format(
+                len(data_list) if data_list else 0,
+                len(reverse_mapping_spec) if reverse_mapping_spec else 0
+            ),
+            "DEBUG"
+        )
+        if not reverse_mapping_spec:
+            self.log(
+                "Reverse mapping specification is empty or None, cannot perform transformation. "
+                "Returning empty list.",
+                "WARNING"
+            )
+            return []
+
+        if not isinstance(reverse_mapping_spec, (dict, OrderedDict)):
+            self.log(
+                "Invalid reverse mapping specification - expected dict or OrderedDict, got {0}. "
+                "Returning empty list.".format(type(reverse_mapping_spec).__name__),
+                "ERROR"
+            )
+            return []
+
+        if not data_list:
+            self.log(
+                "Data list is empty or None, no API response data to transform. "
+                "Returning empty list.",
+                "DEBUG"
+            )
+            return []
+
+        if not isinstance(data_list, list):
+            self.log(
+                "Invalid data_list - expected list, got {0}. Attempting to wrap in list.".format(
+                    type(data_list).__name__
+                ),
+                "WARNING"
+            )
+            data_list = [data_list]
+
+        self.log(
+            "Input validation successful - processing {0} data items with {1} mapping rules".format(
+                len(data_list), len(reverse_mapping_spec)
+            ),
+            "DEBUG"
+        )
+
+        transformed_data = []
+        items_processed = 0
+        items_failed = 0
+
+        for item_index, data_item in enumerate(data_list):
+            self.log(
+                "Processing data item {0}/{1}".format(item_index + 1, len(data_list)),
+                "DEBUG"
+            )
+
+            if not isinstance(data_item, dict):
+                self.log(
+                    "Skipping invalid data item at index {0} - expected dict, got {1}".format(
+                        item_index, type(data_item).__name__
+                    ),
+                    "WARNING"
+                )
+                items_failed += 1
+                continue
+
+            transformed_item = {}
+            fields_processed = 0
+            fields_failed = 0
+
+            # Apply each mapping rule from the specification
+            for target_key, mapping_rule in reverse_mapping_spec.items():
+                try:
+                    # Validate mapping rule structure
+                    if not isinstance(mapping_rule, dict):
+                        self.log(
+                            "Invalid mapping rule for field '{0}' - expected dict, got {1}. "
+                            "Skipping field.".format(target_key, type(mapping_rule).__name__),
+                            "WARNING"
+                        )
+                        fields_failed += 1
+                        continue
+
+                    source_key = mapping_rule.get("source_key")
+                    transform_func = mapping_rule.get("transform")
+                    is_optional = mapping_rule.get("optional", False)
+
+                    value = None
+
+                    # Case 1: Transform function without source_key (uses entire data_item)
+                    if source_key is None and transform_func and callable(transform_func):
+                        self.log(
+                            "Applying custom transformation for field '{0}' using transform function "
+                            "on entire data item".format(target_key),
+                            "DEBUG"
+                        )
+
+                        try:
+                            value = transform_func(data_item)
+                            self.log(
+                                "Transform function succeeded for field '{0}', result type: {1}".format(
+                                    target_key, type(value).__name__
+                                ),
+                                "DEBUG"
+                            )
+                        except Exception as transform_error:
+                            self.log(
+                                "Transform function failed for field '{0}': {1}. "
+                                "Setting value to None.".format(target_key, str(transform_error)),
+                                "WARNING"
+                            )
+                            value = None
+                            fields_failed += 1
+
+                    # Case 2: Extract value from source_key path
+                    elif source_key:
+                        self.log(
+                            "Extracting value for field '{0}' from source path '{1}'".format(
+                                target_key, source_key
+                            ),
+                            "DEBUG"
+                        )
+
+                        value = self._extract_nested_value(data_item, source_key)
+
+                        if value is None and not is_optional:
+                            self.log(
+                                "Required field '{0}' has no value at source path '{1}'".format(
+                                    target_key, source_key
+                                ),
+                                "DEBUG"
+                            )
+
+                        # Apply transformation function if specified and value exists
+                        if transform_func and callable(transform_func) and value is not None:
+                            self.log(
+                                "Applying custom transformation to extracted value for field '{0}'".format(
+                                    target_key
+                                ),
+                                "DEBUG"
+                            )
+
+                            try:
+                                original_value = value
+                                value = transform_func(value)
+                                self.log(
+                                    "Transform function succeeded for field '{0}': {1} -> {2}".format(
+                                        target_key, type(original_value).__name__, type(value).__name__
+                                    ),
+                                    "DEBUG"
+                                )
+                            except Exception as transform_error:
+                                self.log(
+                                    "Transform function failed for field '{0}': {1}. "
+                                    "Using original extracted value.".format(target_key, str(transform_error)),
+                                    "WARNING"
+                                )
+                                fields_failed += 1
+
+                    # Case 3: No source_key and no transform function
+                    else:
+                        self.log(
+                            "Skipping field '{0}' - no source_key or transform function provided "
+                            "in mapping rule".format(target_key),
+                            "DEBUG"
+                        )
+                        continue
+
+                    # Sanitize the value based on expected type
+                    expected_type = mapping_rule.get("type", "str")
+                    try:
+                        sanitized_value = self._sanitize_value(value, expected_type)
+
+                        # Only add non-None values or explicitly include None for optional fields
+                        if sanitized_value is not None or (is_optional and value is None):
+                            transformed_item[target_key] = sanitized_value
+                            fields_processed += 1
+
+                            self.log(
+                                "Successfully transformed field '{0}': type={1}, optional={2}".format(
+                                    target_key, expected_type, is_optional
+                                ),
+                                "DEBUG"
+                            )
+
+                    except Exception as sanitize_error:
+                        self.log(
+                            "Value sanitization failed for field '{0}' (expected type: {1}): {2}. "
+                            "Skipping field.".format(target_key, expected_type, str(sanitize_error)),
+                            "WARNING"
+                        )
+                        fields_failed += 1
+                        continue
+
+                except Exception as field_error:
+                    self.log(
+                        "Unexpected error transforming field '{0}': {1}. Skipping field.".format(
+                            target_key, str(field_error)
+                        ),
+                        "WARNING"
+                    )
+                    fields_failed += 1
+                    continue
+
+            # Add transformed item to result list
+            if transformed_item:
+                transformed_data.append(transformed_item)
+                items_processed += 1
+
+                self.log(
+                    "Completed transformation of data item {0}/{1}: {2} fields processed, "
+                    "{3} fields failed".format(
+                        item_index + 1, len(data_list), fields_processed, fields_failed
+                    ),
+                    "DEBUG"
+                )
+            else:
+                self.log(
+                    "Data item {0}/{1} resulted in empty transformation - all fields were skipped "
+                    "or failed".format(item_index + 1, len(data_list)),
+                    "WARNING"
+                )
+                items_failed += 1
+
+                # Sanitize the value
+                value = self._sanitize_value(value, mapping_rule.get("type", "str"))
+
+                transformed_item[target_key] = value
+
+            transformed_data.append(transformed_item)
+            self.log(
+                "Completed transformation of API response data to Ansible playbook format: "
+                "{0} items successfully transformed, {1} items failed, "
+                "total output: {2} configuration objects".format(
+                    items_processed, items_failed, len(transformed_data)
+                ),
+                "INFO"
+            )
+
+        return transformed_data
+
+    def _extract_nested_value(self, data_item, key_path):
+        """
+        Extract a value from nested dictionary structure using dot notation key path.
+
+        Safely navigates nested dictionary structures to extract values at arbitrary
+        depth levels using dot-separated key paths. Handles missing keys gracefully
+        with comprehensive logging for debugging brownfield configuration extraction.
+
+
+        Args:
+            data_item (dict or None): The source dictionary to extract values from.
+                                     Can be None or empty dict.
+            key_path (str): Dot-separated path to the target value.
+                           Examples: 'settings.dns.servers', 'ipV4AddressSpace.subnet'
+
+        Returns:
+            any or None: The value at the specified key path, or None if:
+                        - key_path is empty or None
+                        - data_item is None or not a dictionary
+                        - Any key in the path doesn't exist
+                        - Path traversal encounters non-dict value
+
+        """
+        self.log(
+            "Extracting nested value from dictionary structure using dot-notation "
+            "path traversal for brownfield configuration transformation",
+            "DEBUG"
+        )
+
+        self.log(
+            "Extraction parameters - Key path: '{0}', Data type: {1}".format(
+                key_path if key_path else "None",
+                type(data_item).__name__ if data_item is not None else "None"
+            ),
+            "DEBUG"
+        )
+
+        if not key_path:
+            self.log(
+                "Key path is empty or None, cannot extract value from nested structure. "
+                "Returning None.",
+                "DEBUG"
+            )
+            return None
+
+        if not isinstance(key_path, str):
+            self.log(
+                "Invalid key_path parameter type - expected str, got {0}. "
+                "Cannot perform dot-notation traversal. Returning None.".format(
+                    type(key_path).__name__
+                ),
+                "WARNING"
+            )
+            return None
+
+        # Validate data_item parameter
+        if not data_item:
+            self.log(
+                "Data item is empty or None for key path '{0}', cannot navigate "
+                "nested structure. Returning None.".format(key_path),
+                "DEBUG"
+            )
+            return None
+
+        if not isinstance(data_item, dict):
+            self.log(
+                "Data item is not a dict (type: {0}) for key path '{1}', cannot "
+                "navigate nested structure. Returning None.".format(
+                    type(data_item).__name__, key_path
+                ),
+                "WARNING"
+            )
+            return None
+
+        keys = key_path.split('.')
+        value = data_item
+
+        # Traverse the nested structure
+        for index, key in enumerate(keys, start=1):
+            # Log current traversal step
+            self.log(
+                "Traversal step {0}/{1}: Attempting to access key '{2}' in {3}".format(
+                    index, len(keys), key, type(value).__name__
+                ),
+                "DEBUG"
+            )
+
+            # Validate current value is a dictionary before accessing key
+            if not isinstance(value, dict):
+                self.log(
+                    "Cannot traverse further at step {0}/{1} - current value at key "
+                    "'{2}' is {3}, not dict. Path: '{4}'. Returning None.".format(
+                        index, len(keys), keys[index - 2] if index > 1 else "root",
+                        type(value).__name__, key_path
+                    ),
+                    "DEBUG"
+                )
+                return None
+
+            # Attempt to access the key
+            if key in value:
+                value = value[key]
+
+                self.log(
+                    "Traversal step {0}/{1}: Successfully accessed key '{2}', "
+                    "retrieved value type: {3}".format(
+                        index, len(keys), key, type(value).__name__
+                    ),
+                    "DEBUG"
+                )
+            else:
+                # Key not found - log available keys for debugging
+                available_keys = list(value.keys())
+
+                # Limit displayed keys to first 10 for readability
+                keys_display = (
+                    available_keys[:10] if len(available_keys) > 10
+                    else available_keys
+                )
+                more_indicator = (
+                    " (and {0} more)".format(len(available_keys) - 10)
+                    if len(available_keys) > 10 else ""
+                )
+
+                self.log(
+                    "Traversal failed at step {0}/{1} - key '{2}' not found in nested "
+                    "structure. Path: '{3}'. Available keys at this level: {4}{5}. "
+                    "Returning None.".format(
+                        index, len(keys), key, key_path, keys_display, more_indicator
+                    ),
+                    "DEBUG"
+                )
+                return None
+
+        self.log(
+            "Successfully completed nested value extraction for path '{0}': "
+            "traversed {1} level(s), retrieved value type: {2}".format(
+                key_path, len(keys), type(value).__name__
+            ),
+            "DEBUG"
+        )
+
+        return value
+
+    def _sanitize_value(self, value, value_type):
+        """
+        Sanitize and normalize a value based on its expected type for YAML output.
+
+        Performs type validation, conversion, and normalization to ensure values are
+        properly formatted for Ansible YAML configurations. Handles type coercion with
+        comprehensive logging and provides sensible defaults for missing or invalid values.
+
+        Args:
+            value: The raw value to sanitize from API response. Can be any type:
+                - None: Represents missing or unconfigured values
+                - str: String values (may need boolean/numeric conversion)
+                - list: Collections (may need singleton wrapping)
+                - dict: Nested configuration objects
+                - int/float: Numeric values requiring string conversion
+                - bool: Boolean flags requiring lowercase string conversion
+
+            value_type (str): Expected target type for validation and conversion:
+                - "str": String type with special handling for booleans/numbers
+                - "list": List type with singleton conversion support
+                - "dict": Dictionary/object type for nested configurations
+                - "int": Integer type for numeric values
+                - "bool": Boolean type for flags
+                - Other: Pass-through with minimal processing
+
+        Returns:
+            Sanitized value of the appropriate type:
+            - For None input: Returns appropriate empty value ([], {}, "")
+            - For type mismatches: Attempts conversion or wrapping
+            - For strings: Handles boolean/numeric conversion
+            - For primitives: Converts to target type with validation
+
+        Type Conversion Rules:
+            None handling:
+                - "list" → [] (empty list)
+                - "dict" → {} (empty dict)
+                - "int" → 0 (zero)
+                - "bool" → False
+                - Other → "" (empty string)
+
+            String conversions:
+                - bool True → "true" (lowercase)
+                - bool False → "false" (lowercase)
+                - int/float → string representation
+                - Other types → str() conversion
+
+            List handling:
+                - Non-list values wrapped in single-element list
+                - Empty/None values → []
+                - Preserves existing lists unchanged
+
+        Examples:
+            # None handling
+            _sanitize_value(None, "list") → []
+            _sanitize_value(None, "dict") → {}
+            _sanitize_value(None, "str") → ""
+
+            # String conversions
+            _sanitize_value(True, "str") → "true"
+            _sanitize_value(123, "str") → "123"
+            _sanitize_value("hello", "str") → "hello"
+
+            # List handling
+            _sanitize_value("single", "list") → ["single"]
+            _sanitize_value(["a", "b"], "list") → ["a", "b"]
+            _sanitize_value(None, "list") → []
+
+            # Type preservation
+            _sanitize_value({"key": "val"}, "dict") → {"key": "val"}
+            _sanitize_value(42, "int") → 42
+        """
+        self.log(
+            "Sanitizing value for YAML output compatibility: value_type='{0}', "
+            "input_type={1}".format(
+                value_type,
+                type(value).__name__ if value is not None else "None"
+            ),
+            "DEBUG"
+        )
+
+        # =====================================
+        # Handle None/Empty Values
+        # =====================================
+        if value is None:
+            self.log(
+                "Input value is None, returning type-appropriate empty value for type '{0}'".format(
+                    value_type
+                ),
+                "DEBUG"
+            )
+
+            # Return type-specific default values for None
+            if value_type == "list":
+                self.log("Returning empty list [] for None value", "DEBUG")
+                return []
+            elif value_type == "dict":
+                self.log("Returning empty dict {{}} for None value", "DEBUG")
+                return {}
+            elif value_type == "int":
+                self.log("Returning zero (0) for None integer value", "DEBUG")
+                return 0
+            elif value_type == "bool":
+                self.log("Returning False for None boolean value", "DEBUG")
+                return False
+            else:
+                self.log("Returning empty string for None value (default)", "DEBUG")
+                return ""
+
+        # =====================================
+        # List Type Handling
+        # =====================================
+        if value_type == "list":
+            self.log(
+                "Processing list type conversion for value type: {0}".format(
+                    type(value).__name__
+                ),
+                "DEBUG"
+            )
+
+            # Already a list - return as-is
+            if isinstance(value, list):
+                self.log(
+                    "Value is already a list with {0} element(s), returning unchanged".format(
+                        len(value)
+                    ),
+                    "DEBUG"
+                )
+                return value
+
+            # Non-list value - wrap in single-element list
+            if value:
+                self.log(
+                    "Wrapping non-list value (type: {0}) into single-element list".format(
+                        type(value).__name__
+                    ),
+                    "DEBUG"
+                )
+                return [value]
+            else:
+                # Empty/falsy value
+                self.log(
+                    "Value is falsy (type: {0}), returning empty list".format(
+                        type(value).__name__
+                    ),
+                    "DEBUG"
+                )
+                return []
+
+        # =====================================
+        # String Type Handling
+        # =====================================
+        if value_type == "str":
+            self.log(
+                "Processing string type conversion for value type: {0}".format(
+                    type(value).__name__
+                ),
+                "DEBUG"
+            )
+
+            # Boolean to lowercase string conversion
+            if isinstance(value, bool):
+                result = str(value).lower()
+                self.log(
+                    "Converted boolean {0} to lowercase string: '{1}'".format(
+                        value, result
+                    ),
+                    "DEBUG"
+                )
+                return result
+
+            # Numeric to string conversion
+            elif isinstance(value, (int, float)):
+                result = str(value)
+                self.log(
+                    "Converted numeric value {0} (type: {1}) to string: '{2}'".format(
+                        value, type(value).__name__, result
+                    ),
+                    "DEBUG"
+                )
+                return result
+
+            # Already a string
+            elif isinstance(value, str):
+                self.log(
+                    "Value is already a string (length: {0}), returning unchanged".format(
+                        len(value)
+                    ),
+                    "DEBUG"
+                )
+                return value
+
+            # Other types - attempt str() conversion
+            else:
+                try:
+                    result = str(value)
+                    self.log(
+                        "Converted value of type {0} to string using str() conversion".format(
+                            type(value).__name__
+                        ),
+                        "DEBUG"
+                    )
+                    return result
+                except Exception as e:
+                    self.log(
+                        "Failed to convert value of type {0} to string: {1}. "
+                        "Returning empty string as fallback.".format(
+                            type(value).__name__, str(e)
+                        ),
+                        "WARNING"
+                    )
+                    return ""
+
+        # =====================================
+        # Integer Type Handling
+        # =====================================
+        if value_type == "int":
+            self.log(
+                "Processing integer type conversion for value type: {0}".format(
+                    type(value).__name__
+                ),
+                "DEBUG"
+            )
+
+            # Already an integer
+            if isinstance(value, int) and not isinstance(value, bool):
+                self.log("Value is already an integer: {0}".format(value), "DEBUG")
+                return value
+
+            # Try converting to integer
+            try:
+                result = int(value)
+                self.log(
+                    "Successfully converted value from type {0} to integer: {1}".format(
+                        type(value).__name__, result
+                    ),
+                    "DEBUG"
+                )
+                return result
+            except (ValueError, TypeError) as e:
+                self.log(
+                    "Failed to convert value '{0}' (type: {1}) to integer: {2}. "
+                    "Returning 0 as fallback.".format(
+                        value, type(value).__name__, str(e)
+                    ),
+                    "WARNING"
+                )
+                return 0
+
+        # =====================================
+        # Boolean Type Handling
+        # =====================================
+        if value_type == "bool":
+            self.log(
+                "Processing boolean type conversion for value type: {0}".format(
+                    type(value).__name__
+                ),
+                "DEBUG"
+            )
+
+            # Already a boolean
+            if isinstance(value, bool):
+                self.log("Value is already a boolean: {0}".format(value), "DEBUG")
+                return value
+
+            # String to boolean conversion
+            if isinstance(value, str):
+                value_lower = value.lower().strip()
+
+                # True values
+                if value_lower in ('true', 'yes', 'on', '1', 'enabled'):
+                    self.log(
+                        "Converted string '{0}' to boolean: True".format(value),
+                        "DEBUG"
+                    )
+                    return True
+
+                # False values
+                elif value_lower in ('false', 'no', 'off', '0', 'disabled', ''):
+                    self.log(
+                        "Converted string '{0}' to boolean: False".format(value),
+                        "DEBUG"
+                    )
+                    return False
+
+                # Ambiguous string
+                else:
+                    self.log(
+                        "Ambiguous string value '{0}' for boolean conversion, "
+                        "using Python bool() evaluation".format(value),
+                        "WARNING"
+                    )
+                    result = bool(value)
+                    return result
+
+            # Numeric to boolean
+            elif isinstance(value, (int, float)):
+                result = bool(value)
+                self.log(
+                    "Converted numeric value {0} to boolean: {1}".format(
+                        value, result
+                    ),
+                    "DEBUG"
+                )
+                return result
+
+            # Other types - use Python's truthiness
+            else:
+                result = bool(value)
+                self.log(
+                    "Converted value of type {0} to boolean using Python bool(): {1}".format(
+                        type(value).__name__, result
+                    ),
+                    "DEBUG"
+                )
+                return result
+
+        # =====================================
+        # Dictionary Type Handling
+        # =====================================
+        if value_type == "dict":
+            self.log(
+                "Processing dictionary type validation for value type: {0}".format(
+                    type(value).__name__
+                ),
+                "DEBUG"
+            )
+
+            if isinstance(value, dict):
+                self.log(
+                    "Value is already a dict with {0} key(s), returning unchanged".format(
+                        len(value)
+                    ),
+                    "DEBUG"
+                )
+                return value
+            else:
+                self.log(
+                    "Value is not a dict (type: {0}), returning empty dict as fallback".format(
+                        type(value).__name__
+                    ),
+                    "WARNING"
+                )
+                return {}
+
+        # =====================================
+        # Unknown/Unhandled Type - Pass Through
+        # =====================================
+        self.log(
+            "Unknown or unhandled value_type '{0}', returning value unchanged (type: {1})".format(
+                value_type, type(value).__name__
+            ),
+            "DEBUG"
+        )
+
+        # Exit log with result summary
+        result_preview = str(value)[:100] if value is not None else "None"
+        if len(str(value)) > 100:
+            result_preview += "... (truncated)"
+
+        self.log(
+            "Sanitization completed: target_type='{0}', result_type={1}, "
+            "value_preview={2}".format(
+                value_type,
+                type(value).__name__,
+                result_preview
+            ),
+            "DEBUG"
+        )
+
+        return value
+
 
 def main():
     pass
