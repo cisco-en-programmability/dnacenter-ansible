@@ -1027,6 +1027,7 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
                         "No templates found for parameters: {0}".format(params),
                         "DEBUG"
                     )
+                params.clear()
 
             self.log(
                 "Completed Processing {0} filter(s) for templates retrieval".format(
