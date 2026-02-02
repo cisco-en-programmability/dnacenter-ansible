@@ -1646,8 +1646,8 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Retrieves and transforms user details from Catalyst Center based on filters.
 
-    Fetches user data via API, applies component-specific filters, and transforms
-    the data into playbook-compatible format using user_details_temp_spec.
+        Fetches user data via API, applies component-specific filters, and transforms
+        the data into playbook-compatible format using user_details_temp_spec.
 
         Args:
             network_element (dict): API configuration containing:
