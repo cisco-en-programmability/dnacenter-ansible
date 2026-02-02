@@ -456,7 +456,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "role": {
                         "type": "str",
                         "required": False,
-                        "choices": ["ACCESS", "CORE", "DISTRIBUTION", "BORDER_ROUTER", "UNKNOWN"]
+                        "choices": ["ACCESS", "CORE", "DISTRIBUTION", "BORDER ROUTER", "UNKNOWN"]
                     },
                     "snmp_version": {
                         "type": "str",
@@ -471,6 +471,45 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 }
             }
         }
+
+    def fetch_all_devices(self, reason=""):
+        """
+        Fetch all devices from Cisco Catalyst Center API.
+
+        Args:
+            reason (str): Optional reason for fetching all devices (for logging)
+
+        Returns:
+            list: List of all device dictionaries from API
+        """
+        self.log("Fetching all devices from Catalyst Center{0}".format(
+            " - {0}".format(reason) if reason else ""
+        ), "INFO")
+
+        try:
+            response = self.dnac._exec(
+                family="devices",
+                function="get_device_list",
+                op_modifies=False,
+                params={}
+            )
+
+            if response and "response" in response:
+                devices = response.get("response", [])
+                self.log("Retrieved {0} devices from get_device_list".format(len(devices)), "INFO")
+
+                if devices:
+                    self.log("Sample device fields from API: {0}".format(list(devices[0].keys())), "INFO")
+                    self.log("Sample device full data: {0}".format(devices[0]), "DEBUG")
+
+                return devices
+            else:
+                self.log("No devices returned from get_device_list", "WARNING")
+                return []
+
+        except Exception as e:
+            self.log("Error fetching all devices: {0}".format(str(e)), "ERROR")
+            return []
 
     def process_global_filters(self, global_filters):
         """
@@ -954,34 +993,11 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             # Step 1: Get devices from API with FULL details
             if generate_all:
-                self.log("Retrieving all devices from Catalyst Center with full details", "INFO")
-                try:
-                    # Use get_device_list to get ALL devices with complete response
-                    response = self.dnac._exec(
-                        family="devices",
-                        function="get_device_list",
-                        op_modifies=False,
-                        params={}
-                    )
-
-                    if response and "response" in response:
-                        devices = response.get("response", [])
-                        self.log("Retrieved {0} devices from get_device_list".format(len(devices)), "INFO")
-
-                        # Log the first device to see all available fields
-                        if devices:
-                            self.log("Sample device fields from API: {0}".format(list(devices[0].keys())), "INFO")
-                            self.log("Sample device full data: {0}".format(devices[0]), "DEBUG")
-
-                        device_response.extend(devices)
-                    else:
-                        self.log("No devices returned from get_device_list", "WARNING")
-
-                except Exception as e:
-                    self.log("Error fetching all devices: {0}".format(str(e)), "ERROR")
+                devices = self.fetch_all_devices(reason="generate_all_configurations enabled")
+                device_response.extend(devices)
 
             else:
-                self.log("Processing global filters", "DEBUG")
+                self.log("Processing global filters", "INFO")
                 result = self.process_global_filters(global_filters)
                 device_ip_to_id_mapping = result.get("device_ip_to_id_mapping", {})
 
@@ -996,6 +1012,11 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
                     for device_ip, device_info in device_ip_to_id_mapping.items():
                         device_response.append(device_info)
+
+                else:
+                    # Fallback: fetch all devices when no global filters provided
+                    devices = self.fetch_all_devices(reason="no global filters provided")
+                    device_response.extend(devices)
 
             self.log("Retrieved {0} devices before component filtering".format(len(device_response)), "INFO")
 
