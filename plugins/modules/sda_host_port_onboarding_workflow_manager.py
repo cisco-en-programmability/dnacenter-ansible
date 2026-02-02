@@ -194,6 +194,7 @@ options:
                 or updating port assignments.
               - For example - "GigabitEthernet2/1/1"
             type: str
+            required: true
           connected_device_type:
             description:
               - Specifies the type of access device
@@ -269,7 +270,7 @@ options:
               - Security/scalable groups are only supported
                 with the "No Authentication" profile.
             type: str
-            required: true
+            required: false
             choices: ["No Authentication", "Open Authentication", "Closed Authentication", "Low Impact"]
           interface_description:
             description:
@@ -371,6 +372,7 @@ options:
                 to the port channel.
             type: list
             elements: str
+            required: true
           connected_device_type:
             description:
               - Specifies the type of device connected
@@ -407,6 +409,12 @@ options:
             description:
               - A description of the port channel.
             type: str
+          port_channel_name:
+            description:
+              - Specifies the name of the port channel.
+              - This parameter is used only for delete operations.
+            type: str
+            required: false
           native_vlan_id:
             description:
               - Specifies the Native VLAN ID for the
@@ -478,6 +486,7 @@ options:
                 mapped to a VLAN can be removed by providing
                 the vlan_name.
             type: str
+            required: true
           ssid_details:
             description:
               - A list of Wireless SSID(s) details to
@@ -497,6 +506,7 @@ options:
                     can be deleted by specifying a list
                     of ssid_names that need to be removed.
                 type: str
+                required: true
               security_group_name:
                 description:
                   - Represents the name of the Security

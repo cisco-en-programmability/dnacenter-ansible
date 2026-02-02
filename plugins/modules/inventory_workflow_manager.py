@@ -593,6 +593,7 @@ options:
               - Maintenance purpose and details.
               - A brief description of the maintenance schedule, specifying its
                 purpose or any relevant details.
+              - Description can be created but cannot be updated later for maintenance schedules.
             type: str
           start_time:
             description:
