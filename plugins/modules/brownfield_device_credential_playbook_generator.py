@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2025, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to generate YAML configurations for Wired Campus Automation Module."""
+"""Ansible module to generate YAML configurations for Device Credential Module."""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -17,18 +17,13 @@ description:
 - Generates YAML configurations compatible with the 'device_credential_workflow_manager'
   module, reducing the effort required to manually create Ansible playbooks and
   enabling programmatic modifications.
-version_added: 6.17.0
+version_added: 6.44.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 author:
 - Vivek Raj (@vivekraj2000)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -58,8 +53,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  "device_credential_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "device_credential_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
+          a default file name  C(<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml).
+        - For example, C(device_credential_workflow_manager_playbook_2026-01-24_12-33-20.yml).
         type: str
       component_specific_filters:
         description:
@@ -78,6 +73,7 @@ options:
             - If not specified, all supported components will be included.
             - For example, [global_credential_details, assign_credentials_to_site]
             type: list
+            choices: ["global_credential_details", "assign_credentials_to_site"]
             elements: str
           global_credential_details:
             description: Global credentials to be included in the YAML configuration file.
@@ -151,7 +147,9 @@ notes:
   GET /dna/intent/api/v2/global-credential,
   GET /dna/intent/api/v1/sites,
   GET /dna/intent/api/v1/sites/${id}/deviceCredentials
-
+seealso:
+- module: cisco.dnac.device_credential_workflow_manager
+  description: Module for managing device credential workflows in Cisco Catalyst Center.
 """
 
 EXAMPLES = r"""
@@ -261,6 +259,47 @@ EXAMPLES = r"""
               - "Global/India/TamilNadu"
 """
 
+RETURN = r"""
+# Case_1: Success Scenario
+response_1:
+  description: A dictionary with  with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": {
+            "components_processed": 2,
+            "components_skipped": 0,
+            "configurations_count": 2,
+            "file_path": "device_credential_config.yml",
+            "message": "YAML configuration file generated successfully for module 'device_credential_workflow_manager'",
+            "status": "success"
+        },
+        "response": {
+            "components_processed": 2,
+            "components_skipped": 0,
+            "configurations_count": 2,
+            "file_path": "device_credential_config.yml",
+            "message": "YAML configuration file generated successfully for module 'device_credential_workflow_manager'",
+            "status": "success"
+        },
+        "status": "success"
+    }
+# Case_2: Error Scenario
+response_2:
+  description: A string with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg":
+            "Validation Error in entry 1: 'component_specific_filters' must be provided with 'components_list' key
+             when 'generate_all_configurations' is set to False.",
+        "response":
+            "Validation Error in entry 1: 'component_specific_filters' must be provided with 'components_list' key
+             when 'generate_all_configurations' is set to False."
+    }
+"""
 
 import time
 from collections import OrderedDict
@@ -351,6 +390,7 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
         }
 
         # Validate params
+        self.log("Validating configuration against schema.", "DEBUG")
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
         self.log(
             "Validation result - valid: {0}, invalid: {1}".format(
@@ -362,6 +402,9 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
+
+        self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
+        self.validate_minimum_requirements(self.config)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -631,7 +674,7 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
         })
         return assign_credentials_to_site
 
-    def get_global_credential_details_configuration(self, network_element, component_specific_filters=None):
+    def get_global_credential_details_configuration(self, network_element, filters):
         """Retrieve and map global credential details.
 
         Applies optional component-specific filters, then maps results using
@@ -639,12 +682,16 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Args:
             network_element (dict): Unused; reserved for consistency.
-            component_specific_filters (dict | None): Filter dict with lists keyed
-                by credential groups (e.g., `cli_credential`).
+            filters (dict): Dictionary containing global filters and component_specific_filters.
 
         Returns:
             dict: `{ "global_credential_details": <mapped dict> }`.
         """
+
+        component_specific_filters = None
+        if "component_specific_filters" in filters:
+            component_specific_filters = filters.get("component_specific_filters")
+
         self.log(
             (
                 "Starting to retrieve global credential details with "
@@ -717,7 +764,7 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
                 result[src_key] = matched
         return result
 
-    def get_assign_credentials_to_site_configuration(self, network_element, component_specific_filters=None):
+    def get_assign_credentials_to_site_configuration(self, network_element, filters):
         """Build assigned credential configuration per requested sites.
 
         Resolves site names to IDs, queries sync status, matches credential IDs
@@ -726,12 +773,17 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Args:
             network_element (dict): Contains API family and function names.
-            component_specific_filters (dict | None): Contains `site_name` list.
+            filters (dict): Dictionary containing global filters and component_specific_filters.
 
         Returns:
             list | dict: One item per site `{ "assign_credentials_to_site": <mapped> }`,
             or empty dict if no sites resolved.
         """
+
+        component_specific_filters = None
+        if "component_specific_filters" in filters:
+            component_specific_filters = filters.get("component_specific_filters")
+
         self.log(
             (
                 "Starting to retrieve assign_credentials_to_site with "
@@ -860,195 +912,6 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
             final_assignments.append({"assign_credentials_to_site": mapped})
         return final_assignments
 
-    def yaml_config_generator(self, yaml_config_generator):
-        """Generate the YAML configuration file for the module.
-
-        Retrieves data for selected components using provided filters, maps
-        them through temp specs, and writes the resulting structure to YAML.
-
-        Args:
-            yaml_config_generator (dict): Includes `file_path`, `global_filters`,
-                and `component_specific_filters` plus `generate_all_configurations`.
-
-        Returns:
-            DeviceCredentialPlaybookGenerator: self.
-        """
-
-        self.log(
-            "Starting YAML config generation with parameters: {0}".format(
-                yaml_config_generator
-            ),
-            "DEBUG",
-        )
-
-        # Check if generate_all_configurations mode is enabled
-        generate_all = yaml_config_generator.get("generate_all_configurations", False)
-        if generate_all:
-            self.log(
-                (
-                    "Auto-discovery mode enabled - will process all devices and "
-                    "all features"
-                ),
-                "INFO",
-            )
-
-        self.log(
-            "Determining output file path for YAML configuration", "DEBUG"
-        )
-        file_path = yaml_config_generator.get("file_path")
-        if not file_path:
-            self.log(
-                "No file_path provided by user, generating default filename",
-                "DEBUG",
-            )
-            file_path = self.generate_filename()
-        else:
-            self.log(
-                "Using user-provided file_path: {0}".format(file_path), "DEBUG"
-            )
-
-        self.log(
-            "YAML configuration file path determined: {0}".format(file_path),
-            "DEBUG",
-        )
-
-        self.log("Initializing filter dictionaries", "DEBUG")
-        if generate_all:
-            # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
-            self.log(
-                (
-                    "Auto-discovery mode: Overriding any provided filters to "
-                    "retrieve all devices and all features"
-                ),
-                "INFO",
-            )
-            if yaml_config_generator.get("global_filters"):
-                self.log(
-                    (
-                        "Warning: global_filters provided but will be ignored "
-                        "due to generate_all_configurations=True"
-                    ),
-                    "WARNING",
-                )
-            if yaml_config_generator.get("component_specific_filters"):
-                self.log(
-                    (
-                        "Warning: component_specific_filters provided but will "
-                        "be ignored due to generate_all_configurations=True"
-                    ),
-                    "WARNING",
-                )
-
-            # Set empty filters to retrieve everything
-            global_filters = {}
-            component_specific_filters = {}
-        else:
-            # Use provided filters or default to empty
-            global_filters = yaml_config_generator.get("global_filters") or {}
-            component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
-
-        # Retrieve the supported network elements for the module
-        module_supported_network_elements = self.module_schema.get(
-            "network_elements", {}
-        )
-        components_list = component_specific_filters.get(
-            "components_list", module_supported_network_elements.keys()
-        )
-        self.log("Components to process: {0}".format(components_list), "DEBUG")
-
-        final_list = []
-        for component in components_list:
-            network_element = module_supported_network_elements.get(component)
-            if not network_element:
-                self.log(
-                    "Skipping unsupported network element: {0}".format(component),
-                    "WARNING",
-                )
-                continue
-
-            filters = component_specific_filters.get(component, [])
-            operation_func = network_element.get("get_function_name")
-            if callable(operation_func):
-                details = operation_func(network_element, filters)
-                self.log(
-                    "Details retrieved for {0}: {1}".format(component, details),
-                    "DEBUG",
-                )
-                if isinstance(details, list):
-                    final_list.extend(details)
-                else:
-                    final_list.append(details)
-
-        if not final_list:
-            self.msg = (
-                "No configurations or components to process for module "
-                "'{0}'. Verify input filters or configuration."
-            ).format(self.module_name)
-            self.set_operation_result("ok", False, self.msg, "INFO")
-            return self
-
-        final_dict = {"config": final_list}
-        self.log("Final dictionary created: {0}".format(final_dict), "DEBUG")
-
-        if self.write_dict_to_yaml(final_dict, file_path):
-            self.msg = {
-                (
-                    "YAML config generation Task succeeded for module '{0}'."
-                ).format(self.module_name): {"file_path": file_path}
-            }
-            self.set_operation_result("success", True, self.msg, "INFO")
-        else:
-            self.msg = {
-                (
-                    "YAML config generation Task failed for module '{0}'."
-                ).format(self.module_name): {"file_path": file_path}
-            }
-            self.set_operation_result("failed", True, self.msg, "ERROR")
-
-        return self
-
-    def get_want(self, config, state):
-        """Collect and store desired operation parameters.
-
-        Validates input and prepares `self.want` for downstream operations.
-
-        Args:
-            config (dict): User-provided configuration.
-            state (str): Desired state; supported: "gathered".
-        """
-
-        self.log(
-            "Creating Parameters for API Calls with state: {0}".format(state),
-            "INFO",
-        )
-
-        self.validate_params(config)
-
-        self.generate_all_configurations = config.get("generate_all_configurations", False)
-        self.log(
-            "Set generate_all_configurations mode: {0}".format(
-                self.generate_all_configurations
-            ),
-            "DEBUG",
-        )
-
-        want = {}
-
-        # Add yaml_config_generator to want
-        want["yaml_config_generator"] = config
-        self.log(
-            "yaml_config_generator added to want: {0}".format(
-                want["yaml_config_generator"]
-            ),
-            "INFO",
-        )
-
-        self.want = want
-        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
-        self.msg = "Successfully collected all parameters from the playbook for Wireless Design operations."
-        self.status = "success"
-        return self
-
     def generate_custom_variable_name(
         self,
         network_component_details,
@@ -1098,50 +961,243 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         return custom_variable_name
 
-    def get_diff_gathered(self):
-        """Execute generation operations for the gathered state.
+    def yaml_config_generator(self, yaml_config_generator):
+        """
+        Generates a YAML configuration file based on the provided parameters.
+        This function retrieves network element details using global and component-specific filters, processes the data,
+        and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
 
-        Runs the YAML configuration generator and records timings and status.
+        Args:
+            yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
+
+        Returns:
+            self: The current instance with the operation result and message updated.
+        """
+
+        self.log(
+            "Starting YAML config generation with parameters: {0}".format(
+                yaml_config_generator
+            ),
+            "DEBUG",
+        )
+
+        # Check if generate_all_configurations mode is enabled
+        generate_all = yaml_config_generator.get("generate_all_configurations", False)
+        if generate_all:
+            self.log("Auto-discovery mode enabled - will process all devices and all features", "INFO")
+
+        self.log("Determining output file path for YAML configuration", "DEBUG")
+        file_path = yaml_config_generator.get("file_path")
+        if not file_path:
+            self.log("No file_path provided by user, generating default filename", "DEBUG")
+            file_path = self.generate_filename()
+        else:
+            self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
+
+        self.log("YAML configuration file path determined: {0}".format(file_path), "DEBUG")
+
+        self.log("Initializing filter dictionaries", "DEBUG")
+        if generate_all:
+            # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
+            self.log("Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features", "INFO")
+            if yaml_config_generator.get("global_filters"):
+                self.log("Warning: global_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
+            if yaml_config_generator.get("component_specific_filters"):
+                self.log("Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
+
+            # Set empty filters to retrieve everything
+            global_filters = {}
+            component_specific_filters = {}
+        else:
+            # Use provided filters or default to empty
+            global_filters = yaml_config_generator.get("global_filters") or {}
+            component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
+
+        self.log("Retrieving supported network elements schema for the module", "DEBUG")
+        module_supported_network_elements = self.module_schema.get("network_elements", {})
+
+        self.log("Determining components list for processing", "DEBUG")
+        components_list = component_specific_filters.get(
+            "components_list", list(module_supported_network_elements.keys())
+        )
+
+        # If components_list is empty, default to all supported components
+        if not components_list:
+            self.log("No components specified; processing all supported components.", "DEBUG")
+            components_list = list(module_supported_network_elements.keys())
+
+        self.log("Components to process: {0}".format(components_list), "DEBUG")
+
+        self.log("Initializing final configuration list and operation summary tracking", "DEBUG")
+        final_config_list = []
+        processed_count = 0
+        skipped_count = 0
+
+        for component in components_list:
+            self.log("Processing component: {0}".format(component), "DEBUG")
+            network_element = module_supported_network_elements.get(component)
+            if not network_element:
+                self.log(
+                    "Component {0} not supported by module, skipping processing".format(component),
+                    "WARNING",
+                )
+                skipped_count += 1
+                continue
+
+            filters = {
+                "global_filters": global_filters,
+                "component_specific_filters": component_specific_filters.get(component, [])
+            }
+            operation_func = network_element.get("get_function_name")
+            if not callable(operation_func):
+                self.log(
+                    "No retrieval function defined for component: {0}".format(component),
+                    "ERROR"
+                )
+                skipped_count += 1
+                continue
+
+            component_data = operation_func(network_element, filters)
+            # Validate retrieval success
+            if not component_data:
+                self.log(
+                    "No data retrieved for component: {0}".format(component),
+                    "DEBUG"
+                )
+                continue
+
+            self.log(
+                "Details retrieved for {0}: {1}".format(component, component_data), "DEBUG"
+            )
+            processed_count += 1
+
+            if isinstance(component_data, list):
+                final_config_list.extend(component_data)
+            else:
+                final_config_list.append(component_data)
+
+        if not final_config_list:
+            self.log(
+                "No configurations retrieved. Processed: {0}, Skipped: {1}, Components: {2}".format(
+                    processed_count, skipped_count, components_list
+                ),
+                "WARNING"
+            )
+            self.msg = {
+                "status": "ok",
+                "message": (
+                    "No configurations found for module '{0}'. Verify filters and component availability. "
+                    "Components attempted: {1}".format(self.module_name, components_list)
+                ),
+                "components_attempted": len(components_list),
+                "components_processed": processed_count,
+                "components_skipped": skipped_count
+            }
+            self.set_operation_result("ok", False, self.msg, "INFO")
+            return self
+
+        yaml_config_dict = {"config": final_config_list}
+        self.log(
+            "Final config dictionary created: {0}".format(self.pprint(yaml_config_dict)),
+            "DEBUG"
+        )
+
+        if self.write_dict_to_yaml(yaml_config_dict, file_path, OrderedDumper):
+            self.msg = {
+                "status": "success",
+                "message": "YAML configuration file generated successfully for module '{0}'".format(
+                    self.module_name
+                ),
+                "file_path": file_path,
+                "components_processed": processed_count,
+                "components_skipped": skipped_count,
+                "configurations_count": len(final_config_list)
+            }
+            self.set_operation_result("success", True, self.msg, "INFO")
+
+            self.log(
+                "YAML configuration generation completed. File: {0}, Components: {1}/{2}, Configs: {3}".format(
+                    file_path, processed_count, len(components_list), len(final_config_list)
+                ),
+                "INFO"
+            )
+        else:
+            self.msg = {
+                "YAML config generation Task failed for module '{0}'.".format(
+                    self.module_name
+                ): {"file_path": file_path}
+            }
+            self.set_operation_result("failed", True, self.msg, "ERROR")
+
+        return self
+
+    def get_diff_gathered(self):
+        """
+        Executes YAML configuration file generation for brownfield device credentials.
+
+        Processes the desired state parameters prepared by get_want() and generates a
+        YAML configuration file containing network element details from Catalyst Center.
+        This method orchestrates the yaml_config_generator operation and tracks execution
+        time for performance monitoring.
         """
 
         start_time = time.time()
         self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
-        operations = [
+        # Define workflow operations
+        workflow_operations = [
             (
                 "yaml_config_generator",
                 "YAML Config Generator",
                 self.yaml_config_generator,
             )
         ]
+        operations_executed = 0
+        operations_skipped = 0
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined operations for processing.", "DEBUG")
+        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
         for index, (param_key, operation_name, operation_func) in enumerate(
-            operations, start=1
+            workflow_operations, start=1
         ):
             self.log(
-                (
-                    "Iteration {0}: Checking parameters for {1} operation with "
-                    "param_key '{2}'."
-                ).format(index, operation_name, param_key),
+                "Iteration {0}: Checking parameters for {1} operation with param_key '{2}'.".format(
+                    index, operation_name, param_key
+                ),
                 "DEBUG",
             )
             params = self.want.get(param_key)
             if params:
                 self.log(
-                    (
-                        "Iteration {0}: Parameters found for {1}. Starting "
-                        "processing."
-                    ).format(index, operation_name),
+                    "Iteration {0}: Parameters found for {1}. Starting processing.".format(
+                        index, operation_name
+                    ),
                     "INFO",
                 )
-                operation_func(params).check_return_status()
+
+                try:
+                    operation_func(params).check_return_status()
+                    operations_executed += 1
+                    self.log(
+                        "{0} operation completed successfully".format(operation_name),
+                        "DEBUG"
+                    )
+                except Exception as e:
+                    self.log(
+                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
+                        "ERROR"
+                    )
+                    self.set_operation_result(
+                        "failed", True,
+                        "{0} operation failed: {1}".format(operation_name, str(e)),
+                        "ERROR"
+                    ).check_return_status()
+
             else:
+                operations_skipped += 1
                 self.log(
-                    (
-                        "Iteration {0}: No parameters found for {1}. Skipping "
-                        "operation."
-                    ).format(index, operation_name),
+                    "Iteration {0}: No parameters found for {1}. Skipping operation.".format(
+                        index, operation_name
+                    ),
                     "WARNING",
                 )
 
@@ -1176,7 +1232,6 @@ def main():
         "dnac_log_append": {"type": "bool", "default": True},
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
