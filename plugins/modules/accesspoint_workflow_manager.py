@@ -3639,9 +3639,9 @@ class Accesspoint(DnacBase):
                     self.log("Radio type set to: {0}".format(want_radio[dto_key]), "INFO")
                 elif dto_key == "radio_role_assignment":
                     if want_radio.get(dto_key) != current_radio.get(dto_key):
-                      temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]
-                      self.log("Radio Role Assignment set to: {0}".format(want_radio[dto_key]), "INFO")
-                      unmatch_count = unmatch_count + 1
+                        temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]
+                        self.log("Radio Role Assignment set to: {0}".format(want_radio[dto_key]), "INFO")
+                        unmatch_count = unmatch_count + 1
                 elif dto_key == "radio_band":
                     temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]
                     self.log("Radio band set to: {0}".format(want_radio[dto_key]), "INFO")
@@ -3701,7 +3701,7 @@ class Accesspoint(DnacBase):
                             update_config["apNameNew"] = self.want["ap_name"]
                             update_config["apName"] = current_ap_config.get("ap_name")
                     elif each_key == "is_assigned_site_as_location":
-                        if (self.want.get("is_assigned_site_as_location") == "Enabled" and \
+                        if (self.want.get("is_assigned_site_as_location") == "Enabled" and
                            current_ap_config.get("location") == "default location"):
                             continue
                         else:
@@ -3788,7 +3788,7 @@ class Accesspoint(DnacBase):
                             if "primaryControllerName" in update_config:
                                 del update_config["primaryControllerName"]
 
-                            self.log("Primary controller configuration matches the desired state. No update needed.", "INFO") 
+                            self.log("Primary controller configuration matches the desired state. No update needed.", "INFO")
                             continue
                         elif self.want.get(ctrl_name) == "Inherit from site / Clear":
                             update_config["primaryControllerName"] = self.want.get(ctrl_name)
