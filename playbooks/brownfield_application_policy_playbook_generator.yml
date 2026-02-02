@@ -21,3 +21,5 @@
         config:
           - component_specific_filters:
               components_list: ["application_policy", "queuing_profile"]
+              application_policy:
+                policy_names_list: ["wired_traffic_policy"]
