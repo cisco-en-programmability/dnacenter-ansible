@@ -4736,15 +4736,15 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Execute the network settings gathering workflow to collect brownfield configurations.
+        Execute the application policy gathering workflow to collect brownfield configurations.
 
-        This method orchestrates the complete brownfield network settings extraction workflow
+        This method orchestrates the complete brownfield application policy extraction workflow
         by coordinating YAML configuration generation operations based on user-provided
         parameters and filters. It serves as the main execution entry point for the 'gathered'
         state operation.
 
         Purpose:
-            Coordinates the execution of network settings extraction operations to generate
+            Coordinates the execution of application policy extraction operations to generate
             Ansible-compatible YAML playbook configurations from existing Cisco Catalyst
             Center deployments (brownfield environments).
 
@@ -4765,9 +4765,9 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             object: Self instance with updated status after YAML generation.
         """
         self.log(
-            "Starting brownfield network settings gathering workflow for state 'gathered' "
-            "to extract existing configurations from Cisco Catalyst Center and generate "
-            "Ansible-compatible YAML playbooks",
+            "Starting brownfield application policy gathering workflow for state 'gathered' "
+            "to extract existing application policies and queuing profiles from Cisco Catalyst "
+            "Center and generate Ansible-compatible YAML playbooks",
             "DEBUG"
         )
 
@@ -4960,7 +4960,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Log workflow completion summary
         self.log(
-            "Brownfield network settings gathering workflow completed. "
+            "Brownfield application policy gathering workflow completed. "
             "Execution summary: attempted={0}, executed={1}, skipped={2}, failed={3}, "
             "total_duration={4:.2f} seconds".format(
                 operations_attempted, operations_executed, operations_skipped,
@@ -5000,7 +5000,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.status = "ok"
 
         self.log(
-            "Brownfield network settings gathering workflow execution finished at "
+            "Brownfield application policy gathering workflow execution finished at "
             "timestamp {0}. Total execution time: {1:.2f} seconds. Final status: {2}".format(
                 time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(workflow_end_time)),
                 workflow_duration,
