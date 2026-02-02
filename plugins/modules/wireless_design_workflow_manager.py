@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2025, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to manage wireless design operations in Cisco Catalyst Center."""
@@ -92,12 +92,14 @@ options:
               - Required for creating, updating, or
                 deleting SSIDs.
             type: str
+            required: true
           ssid_type:
             description:
               - Specifies the type of WLAN.
               - Required in merged state for creating
                 or updating SSIDs.
             type: str
+            required: true
             choices: ["Enterprise", "Guest"]
           wlan_profile_name:
             description:
@@ -1298,12 +1300,14 @@ options:
               - Required for create, update, and delete
                 operations.
             type: str
+            required: true
           vlan_id:
             description:
               - Specifies the VLAN ID in range is 1
                 to 4094.
               - Required for create and update operations.
             type: int
+            required: true
       power_profiles:
         description:
           - This API allows the user to create a custom
@@ -1344,6 +1348,7 @@ options:
               - This parameter is required for add/create/update
                 power profile(s) operation.
             type: str
+            required: true
           power_profile_description:
             description:
               - Description of the Power Profile. Max
@@ -1430,6 +1435,7 @@ options:
               - This parameter required for create/update/delete
                 Access Point profile(s) operation.
             type: str
+            required: true
           access_point_profile_description:
             description:
               - Description of the AP profile. Max length
@@ -2005,6 +2011,7 @@ options:
               - Required for profile create/update/delete
                 radio frequency profile operations.
             type: str
+            required: true
           default_rf_profile:
             description:
               - Indicates if this is the default RF
@@ -2980,6 +2987,7 @@ options:
               - Required parameter for anchor groups
                 operations.
             type: str
+            required: true
           mobility_anchors:
             description:
               - List of Mobility Anchors associated
@@ -2997,6 +3005,7 @@ options:
                 "managed_device", "device_type"
             type: list
             elements: dict
+            required: true
             suboptions:
               device_name:
                 description: Peer Host Name.
@@ -8556,13 +8565,28 @@ class WirelessDesign(DnacBase):
                 }
             }
 
+            # Convert fra_sensitivity from Ansible format to API format
+            # API expects: "Low", "Medium", "High", "Higher", "Even Higher", "Super High"
+            # Ansible uses: "LOW", "MEDIUM", "HIGH", "HIGHER", "EVEN_HIGHER", "SUPER_HIGH"
+            api_fra_sensitivity = None
+            if fra_sensitivity is not None:
+                sensitivity_map = {
+                    "LOW": "Low",
+                    "MEDIUM": "Medium",
+                    "HIGH": "High",
+                    "HIGHER": "Higher",
+                    "EVEN_HIGHER": "Even Higher",
+                    "SUPER_HIGH": "Super High"
+                }
+                api_fra_sensitivity = sensitivity_map.get(fra_sensitivity, fra_sensitivity)
+
             # Use a mapping and loop to set optional attributes only when provided
             fa_attr_map = {
                 "fraFreeze": fra_freeze,
                 "fraStatus": fra_status,
                 # store fraInterval as int if provided (we validated above)
                 "fraInterval": int(fra_interval) if fra_interval is not None else None,
-                "fraSensitivity": fra_sensitivity,
+                "fraSensitivity": api_fra_sensitivity,
             }
             for key, value in fa_attr_map.items():
                 if value is not None:
@@ -8600,8 +8624,10 @@ class WirelessDesign(DnacBase):
             existing_interval = existing_fa.get("fraInterval")
             desired_interval = desired_fa.get("fraInterval")
 
-            existing_sens = str(existing_fa.get("fraSensitivity") or "").upper()
-            desired_sens = str(desired_fa.get("fraSensitivity") or "").upper()
+            # Normalize sensitivity for comparison: convert both to uppercase and remove spaces
+            # API returns "Even Higher" or "Super High", we need to compare against "EVEN_HIGHER", "SUPER_HIGH"
+            existing_sens = str(existing_fa.get("fraSensitivity") or "").upper().replace(" ", "_")
+            desired_sens = str(desired_fa.get("fraSensitivity") or "").upper().replace(" ", "_")
 
             needs_update = (
                 existing_fa.get("radioBand") != desired_fa.get("radioBand") or
@@ -10397,8 +10423,8 @@ class WirelessDesign(DnacBase):
             "jammer": "jammer",
             "microwave_oven": "microwaveOven",
             "motorola_canopy": "motorolaCanopy",
-            "si_fhss": "siFHSS",
-            "spectrum80211_fh": "spectrum80211FH",
+            "si_fhss": "siFhss",
+            "spectrum80211_fh": "spectrum80211Fh",
             "spectrum80211_non_standard_channel": "spectrum80211NonStandardChannel",
             "spectrum802154": "spectrum802154",
             "spectrum_inverted": "spectrumInverted",
