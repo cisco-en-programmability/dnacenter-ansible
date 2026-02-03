@@ -3,7 +3,10 @@
 # Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to generate YAML playbook for Backup and Restore NFS Configuration in Cisco Catalyst Center."""
+"""
+Ansible module for generating backup and restore configuration playbooks
+from Cisco Catalyst Center.
+"""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -331,6 +334,43 @@ response_1:
       returned: always
       type: str
       choices: ['success', 'failed']
+
+# Case_2: Idempotency Scenario
+response_2:
+  description: |
+    No configurations found scenario treated as successful idempotent
+    operation
+  returned: when_no_configs_found
+  type: dict
+  sample:
+    msg: |
+      No backup and restore configurations found to process for module
+      backup_and_restore_workflow_manager. Verify that NFS servers or
+      backup configurations are set up in Catalyst Center.
+    response:
+      components_processed: 0
+      components_skipped: 1
+      configurations_count: 0
+      message: |
+        No backup and restore configurations found to process for module
+        backup_and_restore_workflow_manager. Verify that NFS servers or
+        backup configurations are set up in Catalyst Center.
+      status: "success"
+    status: "success"
+
+# Case_3: Failure Scenario
+response_3:
+  description: |
+    Operation failed due to invalid parameters, API errors, or file
+    write issues
+  returned: on_failure
+  type: dict
+  sample:
+    msg: "Failed to write YAML configuration to file: /invalid/path"
+    response:
+      message: "Failed to write YAML configuration to file: /invalid/path"
+      status: "failed"
+    status: "failed"
 """
 
 from ansible.module_utils.basic import AnsibleModule
@@ -363,7 +403,67 @@ else:
 
 class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
     """
-    A class for generating playbook files for backup and restore NFS configurations in Cisco Catalyst Center using the GET APIs.
+    Class for generating brownfield YAML playbooks for backup and restore configurations
+    from Cisco Catalyst Center.
+
+    This class orchestrates the complete workflow for extracting backup and restore
+    configurations from Catalyst Center and generating YAML playbook files compatible
+    with the backup_and_restore_workflow_manager module. Handles NFS server configurations,
+    backup storage configurations, component filtering, API data retrieval, transformation,
+    and YAML file generation with comprehensive error handling and validation.
+
+    Purpose:
+        - Retrieves backup and restore configurations from Catalyst Center APIs
+        - Transforms API responses to user-friendly YAML format
+        - Generates playbook files for infrastructure as code workflows
+        - Supports component-specific filtering (NFS and backup storage)
+        - Validates parameters and handles errors gracefully
+        - Provides detailed logging and operation tracking
+
+    Inherits From:
+        - DnacBase: Provides Catalyst Center SDK connectivity and base operations
+        - BrownFieldHelper: Provides YAML generation and file handling utilities
+
+    Supported Components:
+        - nfs_configuration: NFS server details with paths, ports, and versions
+        - backup_storage_configuration: Backup storage with encryption and retention
+
+    Key Operations:
+        - Validate input parameters against schema requirements
+        - Retrieve configurations using Catalyst Center SDK methods
+        - Apply component-specific filters for targeted extraction
+        - Transform API responses to YAML-compatible structures
+        - Generate timestamped YAML files with complete configurations
+        - Track processing statistics and execution metrics
+
+    Integration:
+        - Uses backup.Backup.get_all_n_f_s_configurations API
+        - Uses backup.Backup.get_backup_configuration API
+        - Generates YAML compatible with backup_and_restore_workflow_manager module
+        - Supports Catalyst Center version 3.1.3.0 and higher
+
+    Workflow:
+        1. Initialize with module parameters and connection details
+        2. Validate input configuration and component selections
+        3. Retrieve configurations from Catalyst Center for specified components
+        4. Apply filters to extract specific configurations
+        5. Transform API responses using specification mappings
+        6. Generate YAML file with structured playbook content
+        7. Return execution results with statistics and file path
+
+    Attributes:
+        supported_states (list): Valid states for module operation (['gathered'])
+        module_schema (dict): Component mapping with API details and specifications
+        module_name (str): Reference module name for generated playbooks
+        validated_config (list): Validated input configuration parameters
+        want (dict): Desired state configuration for processing
+        result (dict): Execution results with status and response data
+
+    Example Usage:
+        generator = BackupRestorePlaybookGenerator(module)
+        generator.validate_input().check_return_status()
+        generator.get_want(config, 'gathered').check_return_status()
+        generator.get_diff_gathered().check_return_status()
     """
 
     def __init__(self, module):
