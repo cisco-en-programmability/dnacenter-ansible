@@ -842,7 +842,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "indicates either no switching network profiles are configured in "
                 "Catalyst Center, or API permissions may be insufficient to retrieve "
                 "profiles. Verify switching profiles exist in Catalyst Center before "
-                "running playbook generation.".format(),
+                "running playbook generation.",
                 "WARNING"
             )
             self.log(
@@ -891,14 +891,11 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
 
         # Filter profiles based on provided profile names
         self.log(
-                "Applying client-side filtering to collected switch profiles based on "
-                "provided profile_names parameter. Filter contains {0} profile name(s): "
-                "{1}. Validation will check that all requested profiles exist in "
-                "Catalyst Center profile catalog (exact case-sensitive match required).".format(
-                    len(profile_names), profile_names
-                ),
-                "INFO"
-            )
+            "Applying client-side filtering to collected switch profiles based on "
+            "provided profile_names parameter. Filter contains {0} profile name(s): "
+            "{1}. Validation will check that all requested profiles exist in "
+            "Catalyst Center profile catalog (exact case-sensitive match required).".format(
+                len(profile_names), profile_names), "INFO")
 
         filtered_profiles = []
         non_existing_profiles = []
@@ -1327,7 +1324,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 )
 
                 cli_template_details = self.have.get(
-                        "switch_profile_templates", {}).get(profile_id)
+                    "switch_profile_templates", {}).get(profile_id)
                 if cli_template_details and isinstance(cli_template_details, list):
                     each_profile_config["day_n_templates"] = cli_template_details
                     profiles_with_templates += 1
@@ -1351,7 +1348,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     )
 
                 site_details = self.have.get(
-                        "switch_profile_sites", {}).get(profile_id)
+                    "switch_profile_sites", {}).get(profile_id)
                 if site_details and isinstance(site_details, dict):
                     each_profile_config["site_names"] = list(site_details.values())
                     profiles_with_sites += 1
@@ -1585,7 +1582,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "No switch profiles matched the provided global filters after processing. "
                 "Filter criteria may be too restrictive or no profiles exist with the "
                 "specified attributes. Final result is empty. Returning None to indicate "
-                "no matching configurations found.".format(),
+                "no matching configurations found.",
                 "WARNING"
             )
             return None
@@ -1835,7 +1832,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 self.log(
                     "Global filters detected. Calling process_global_filters() to apply filter "
                     "criteria and extract matching switch profile configurations. Filter priority: "
-                    "profile_name_list (highest) > day_n_template_list > site_list (lowest).".format(),
+                    "profile_name_list (highest) > day_n_template_list > site_list (lowest).",
                     "INFO"
                 )
                 final_list = self.process_global_filters(global_filters)
@@ -1989,7 +1986,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
         self.log(
             "Initiating comprehensive input parameter validation using validate_params(). "
             "This validates parameter types, required fields, and schema compliance for "
-            "YAML generation workflow.".format(),
+            "YAML generation workflow.",
             "INFO"
         )
 
@@ -1997,7 +1994,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
         self.log(
             "Input parameter validation completed successfully. All configuration parameters "
             "conform to expected schema and type requirements. Proceeding with want dictionary "
-            "population.".format(),
+            "population.",
             "DEBUG"
         )
 
@@ -2071,12 +2068,10 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
 
         if config.get("generate_all_configurations", False):
             self.log("Generate all configurations mode ENABLED (generate_all_configurations=True). "
-                "Initiating complete switch profile catalog collection from Cisco Catalyst Center "
-                "without applying any filters. This mode retrieves ALL switch profiles including "
-                "complete CLI template and site assignment metadata for comprehensive brownfield "
-                "infrastructure discovery and documentation.",
-                "INFO"
-            )
+                     "Initiating complete switch profile catalog collection from Cisco Catalyst Center "
+                     "without applying any filters. This mode retrieves ALL switch profiles including "
+                     "complete CLI template and site assignment metadata for comprehensive brownfield "
+                     "infrastructure discovery and documentation.", "INFO")
 
             self.log(
                 "Calling collect_all_switch_profile_list() without profile name filters to "
@@ -2177,7 +2172,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 self.log(
                     "Calling collect_all_switch_profile_list() with profile_name_list filter to "
                     "retrieve and validate specified switch profiles exist in Catalyst Center. "
-                    "Function will fail if any requested profile is not found.".format(),
+                    "Function will fail if any requested profile is not found.",
                     "INFO"
                 )
 
@@ -2376,7 +2371,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "INFO"
                 )
 
-                self.log(
+                self.log("Iteration {0}/{1}:"
                     "Calling operation function '{2}' with extracted parameters. Function will "
                     "process parameters, execute YAML generation workflow, and return self instance "
                     "with updated result status. check_return_status() will validate operation "
