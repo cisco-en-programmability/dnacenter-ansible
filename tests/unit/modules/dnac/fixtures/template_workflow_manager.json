@@ -2566,5 +2566,21 @@
               ]
             }
         }
+    ],
+    "create_template_playbook_without_template_content": [
+        {
+            "configuration_templates": {
+              "project_name": "test_project_1",
+              "template_name": "UT template",
+              "version_description": "Adding and committing the new template",
+              "language": "velocity",
+              "software_type": "IOS-XE",
+              "device_types": [
+                {
+                  "product_family": "Switches and Hubs"
+                }
+              ]
+            }
+        }
     ]
 }
