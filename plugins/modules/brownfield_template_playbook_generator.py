@@ -459,6 +459,9 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
+        self.log("Validating invalid parameters against provided config", "DEBUG")
+        self.validate_invalid_params(self.config, temp_spec.keys())
+
         self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
         self.validate_minimum_requirements(self.config)
 
@@ -1027,6 +1030,7 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
                         "No templates found for parameters: {0}".format(params),
                         "DEBUG"
                     )
+                params.clear()
 
             self.log(
                 "Completed Processing {0} filter(s) for templates retrieval".format(
