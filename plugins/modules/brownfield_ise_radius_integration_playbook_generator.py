@@ -15,7 +15,7 @@ module: brownfield_ise_radius_integration_playbook_generator
 short_description: Generate YAML configurations playbook for 'ise_radius_integration_workflow_manager' module.
 description:
   - It generates playbook for Authentication and Policy Servers which can be use to manage operations on Authentication and Policy Servers.
-version_added: '6.44.0'
+version_added: '6.45'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
