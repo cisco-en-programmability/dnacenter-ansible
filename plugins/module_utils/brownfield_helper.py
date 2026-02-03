@@ -570,9 +570,14 @@ class BrownFieldHelper:
             has_generate_all_config_flag = "generate_all_configurations" in config
             generate_all_configurations = config.get("generate_all_configurations", False)
             component_specific_filters = config.get("component_specific_filters")
+            global_filters = config.get("global_filters", False)
 
             if has_generate_all_config_flag and generate_all_configurations:
                 self.log(f"Entry {idx}: generate_all_configurations=True, skipping filters check.", "DEBUG")
+                continue  # No further validation needed
+
+            if global_filters and isinstance(global_filters, dict) and len(global_filters) > 0:
+                self.log(f"Entry {idx}: global_filters provided, skipping filters check.", "DEBUG")
                 continue  # No further validation needed
 
             if component_specific_filters is None or "components_list" not in component_specific_filters:
