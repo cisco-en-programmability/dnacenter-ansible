@@ -1242,7 +1242,7 @@
 <h1>cisco.dnac.sda_host_port_onboarding_workflow_manager module -- Manage host port onboarding in SD-Access Fabric in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-sda-host-port-onboarding-workflow-manager-module-manage-host-port-onboarding-in-sd-access-fabric-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.44.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.45.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1381,7 +1381,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/port_assignments/authentication_template_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-assignments-authentication-template-name"><strong>authentication_template_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/port_assignments/authentication_template_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/port_assignments/authentication_template_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the authentication template applied to the port during the port assignment operation.</p>
 <p>The available options are &quot;No Authentication&quot;, &quot;Open Authentication&quot;, &quot;Closed Authentication&quot;, and &quot;Low Impact&quot;.</p>
@@ -1433,7 +1433,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/port_assignments/interface_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-assignments-interface-name"><strong>interface_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/port_assignments/interface_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/port_assignments/interface_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the name of the port or interface on the fabric device where port assignment operations need to be performed.</p>
 <p>This parameter is required for adding or updating port assignments.</p>
@@ -1513,7 +1513,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/port_channels/interface_names"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-channels-interface-names"><strong>interface_names</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/port_channels/interface_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/port_channels/interface_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list of ports/interfaces of the target device in the SD-Access Fabric on which port channel needs to be configured.</p>
 <p>A maximum of 8 ports are supported in interface_names for &quot;PAGP&quot; and &quot;ON&quot; protocols.</p>
@@ -1542,6 +1542,14 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/port_channels/port_channel_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-channels-port-channel-name"><strong>port_channel_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/port_channels/port_channel_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the name of the port channel.</p>
+<p>This parameter is used only for delete operations.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/port_channels/protocol"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-channels-protocol"><strong>protocol</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/port_channels/protocol" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1559,7 +1567,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/wireless_ssids"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-wireless-ssids"><strong>wireless_ssids</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/wireless_ssids" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
@@ -1568,14 +1576,14 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <p>Note - For the delete operation, all SSIDs mapped to a VLAN can be removed by providing the vlan_name. Alternatively, specific wireless SSIDs mapped to a VLAN can be deleted by specifying a list of ssid_names that need to be removed. The'security_group_name' must not be provided.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/wireless_ssids/ssid_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-wireless-ssids-ssid-details"><strong>ssid_details</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/wireless_ssids/ssid_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list of Wireless SSID(s) details to be added, updated, or removed for the specified VLAN or IP Address pool.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/wireless_ssids/ssid_details/security_group_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-wireless-ssids-ssid-details-security-group-name"><strong>security_group_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/wireless_ssids/ssid_details/security_group_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1583,24 +1591,24 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <p>Example - Auditors, BYOD, Developers, Guests, etc.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/wireless_ssids/ssid_details/ssid_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-wireless-ssids-ssid-details-ssid-name"><strong>ssid_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/wireless_ssids/ssid_details/ssid_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/wireless_ssids/ssid_details/ssid_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the Wireless SSID(s) to be mapped to the VLAN. Ensure that specified Wireless SSID is a Fabric SSID.</p>
 <p>For the delete operation, specific wireless SSIDs mapped to a VLAN can be deleted by specifying a list of ssid_names that need to be removed.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/wireless_ssids/vlan_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-wireless-ssids-vlan-name"><strong>vlan_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/wireless_ssids/vlan_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/wireless_ssids/vlan_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the name of the VLAN or IP pool reserved for the Wireless SSID.</p>
 <p>It must be a 'Fabric Wireless Enabled' VLAN and should be part of the Fabric Site representing 'fabric_site_name_hierarchy'.</p>
 <p>For the delete operation, all SSIDs mapped to a VLAN can be removed by providing the vlan_name.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-verify"><strong>config_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1612,7 +1620,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-dnac-api-task-timeout"><strong>dnac_api_task_timeout</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
@@ -1620,7 +1628,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id41"><span class="problematic" id="id42">:ansible-option-default:`1200`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1632,14 +1640,14 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-dnac-host"><strong>dnac_host</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The hostname of the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-dnac-log"><strong>dnac_log</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1656,7 +1664,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-dnac-log-append"><strong>dnac_log_append</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1668,7 +1676,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-dnac-log-file-path"><strong>dnac_log_file_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1678,7 +1686,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id55"><span class="problematic" id="id56">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-dnac-log-level"><strong>dnac_log_level</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1691,14 +1699,14 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id57"><span class="problematic" id="id58">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-dnac-password"><strong>dnac_password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The password for authentication at the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-dnac-port"><strong>dnac_port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1706,7 +1714,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id59"><span class="problematic" id="id60">:ansible-option-default:`&quot;443&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-dnac-task-poll-interval"><strong>dnac_task_poll_interval</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
@@ -1714,7 +1722,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id61"><span class="problematic" id="id62">:ansible-option-default:`2`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
 <div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-user"><span id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-dnac-username"></span><strong>dnac_username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: user</span></p>
@@ -1724,7 +1732,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id63"><span class="problematic" id="id64">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-dnac-verify"><strong>dnac_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1736,7 +1744,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-dnac-version"><strong>dnac_version</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1744,7 +1752,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id69"><span class="problematic" id="id70">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-sda_fabric_port_channel_limit"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-sda-fabric-port-channel-limit"><strong>sda_fabric_port_channel_limit</strong></p>
 <a class="ansibleOptionLink" href="#parameter-sda_fabric_port_channel_limit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
@@ -1771,7 +1779,7 @@ batch, enabling progress tracking and issue identification.</p></li>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id71"><span class="problematic" id="id72">:ansible-option-default:`20`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-state"><strong>state</strong></p>
 <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1783,7 +1791,7 @@ batch, enabling progress tracking and issue identification.</p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-validate-response-schema"><strong>validate_response_schema</strong></p>
 <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>

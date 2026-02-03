@@ -1242,7 +1242,7 @@
 <h1>cisco.dnac.swim_workflow_manager module -- Module to manage SWIM (Software Image Management) operations in Cisco Catalyst Center<a class="headerlink" href="#cisco-dnac-swim-workflow-manager-module-module-to-manage-swim-software-image-management-operations-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.44.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.45.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1719,7 +1719,7 @@ version_added: 3.1.3.0</p>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details/file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-workflow-manager-module-parameter-config-import-image-details-local-image-details-file-path"><strong>file_path</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details/file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details/file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Provide the absolute file path needed to import an image from your local system (Eg &quot;/path/to/your/file&quot;). Accepted files formats are - .gz,.bin,.img,.tar,.smu,.pie,.aes,.iso,.ova,.tar_gz,.qcow2,.nfvispkg,.zip,.spa,.rpm.</p>
 </div></td>
@@ -1806,7 +1806,7 @@ version_added: 3.1.3.0</p>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload/source_url"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-workflow-manager-module-parameter-config-import-image-details-url-details-payload-source-url"><strong>source_url</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/source_url" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/source_url" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A mandatory parameter for importing a SWIM image via a remote URL. This parameter is required when using a URL to import an image..(For example, <a class="reference external" href="http:/">http:/</a>/{host}/swim/cat9k_isoxe.16.12.10s.SPA.bin, <a class="reference external" href="ftp://user">ftp://user</a>:<a class="reference external" href="mailto:password&#37;&#52;&#48;{host}/swim/cat9k_isoxe&#46;16&#46;12&#46;10s&#46;SPA&#46;iso">password<span>&#64;</span>{host}/swim/cat9k_isoxe<span>&#46;</span>16<span>&#46;</span>12<span>&#46;</span>10s<span>&#46;</span>SPA<span>&#46;</span>iso</a>) source url can be either str or list</p>
 </div></td>
