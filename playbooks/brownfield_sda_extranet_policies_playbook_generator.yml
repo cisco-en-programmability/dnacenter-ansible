@@ -5,7 +5,7 @@
   gather_facts: false
   connection: local
   tasks:
-    - name: Generate all tag configurations from Cisco Catalyst Center
+    - name: Generate all configurations from Cisco Catalyst Center
       cisco.dnac.brownfield_sda_extranet_policies_playbook_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -17,8 +17,7 @@
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_log_append: false
-        state: merged
-        config_verify: true
+        state: gathered
         config:
           # ====================================================================================
           # Scenario 1: SDA Extranet Policies - Fetch All Configurations
@@ -34,7 +33,3 @@
               components_list: ["extranet_policies"]
               extranet_policies:
                 - extranet_policy_name: Test_3
-
-
-
-

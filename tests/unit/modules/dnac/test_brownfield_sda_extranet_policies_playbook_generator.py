@@ -99,7 +99,6 @@ class TestDnacBrownfieldSdaExtranetPoliciesPlaybookGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config_verify=True,
                 dnac_log_level="DEBUG",
                 config=self.playbook_config_generate_all_configurations,
             )
@@ -129,7 +128,6 @@ class TestDnacBrownfieldSdaExtranetPoliciesPlaybookGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config_verify=True,
                 dnac_log_level="DEBUG",
                 config=self.playbook_config_component_specific_filters,
             )
@@ -140,3 +138,4 @@ class TestDnacBrownfieldSdaExtranetPoliciesPlaybookGenerator(TestDnacModule):
             "YAML config generation Task succeeded for module 'sda_extranet_policies_workflow_manager'",
             str(result.get("msg")),
         )
+
