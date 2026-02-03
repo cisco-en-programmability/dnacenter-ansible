@@ -1829,3 +1829,20 @@ releases:
         - Changes in user_role_workflow_manager module
         - Changes in wireless_design_workflow_manager module
         - Added 'template_content_file_path'  attribute in template_workflow_manager module
+
+  6.45.0:
+    release_date: "2026-02-03"
+    changes:
+      release_summary: Enhancements in workflow manager modules
+      minor_changes:
+        - Changes in accesspoint_workflow_manager module
+        - Changes in inventory_workflow_manager module
+        - Changes in network_profile_wireless_workflow_manager module
+        - Changes in pnp_workflow_manager module
+        - Changes in provision_workflow_manager module
+        - Changes in sda_fabric_devices_workflow_manager module
+        - Changes in sda_host_port_onboarding_workflow_manager module
+        - Changes in swim_workflow_manager module
+        - Changes in template_workflow_manager module
+        - Changes in wireless_design_workflow_manager module
+        - Added '802_11_be_profiles'  attribute in wireless_design_workflow_manager module
