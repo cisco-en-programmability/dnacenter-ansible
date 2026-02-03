@@ -1242,7 +1242,7 @@
 <h1>cisco.dnac.sda_fabric_devices_workflow_manager module -- Manage SDA fabric devices in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-sda-fabric-devices-workflow-manager-module-manage-sda-fabric-devices-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.44.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.45.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabric-devices-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1444,7 +1444,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/transit_network_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-devices-workflow-manager-module-parameter-config-fabric-devices-device-config-borders-settings-layer3-handoff-ip-transit-transit-network-name"><strong>transit_network_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/transit_network_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_ip_transit/transit_network_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Network that connects multiple SDA fabrics or networks.</p>
 <p>Required for all operations in L3 Handoff with IP transit.</p>
@@ -1530,7 +1530,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit/transit_network_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-devices-workflow-manager-module-parameter-config-fabric-devices-device-config-borders-settings-layer3-handoff-sda-transit-transit-network-name"><strong>transit_network_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit/transit_network_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_handoff_sda_transit/transit_network_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Network that connects multiple SDA fabrics or networks.</p>
 <p>This parameter is required for all operations in L3 Handoff with SDA transit.</p>
@@ -1584,7 +1584,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/borders_settings/layer3_settings/local_autonomous_system_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-devices-workflow-manager-module-parameter-config-fabric-devices-device-config-borders-settings-layer3-settings-local-autonomous-system-number"><strong>local_autonomous_system_number</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_settings/local_autonomous_system_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer3_settings/local_autonomous_system_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Identifies the local autonomous system in BGP routing.</p>
 <p>This parameter is required when adding a device with the `BORDER_NODE` role.</p>
