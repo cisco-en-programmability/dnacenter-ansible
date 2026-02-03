@@ -2371,7 +2371,8 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "INFO"
                 )
 
-                self.log("Iteration {0}/{1}:"
+                self.log(
+                    "Iteration {0}/{1}:"
                     "Calling operation function '{2}' with extracted parameters. Function will "
                     "process parameters, execute YAML generation workflow, and return self instance "
                     "with updated result status. check_return_status() will validate operation "
