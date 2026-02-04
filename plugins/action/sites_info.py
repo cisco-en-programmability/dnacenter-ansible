@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -33,8 +32,9 @@ argument_spec.update(
         nameHierarchy=dict(type="str"),
         type=dict(type="str"),
         _unitsOfMeasure=dict(type="str"),
-        offset=dict(type="float"),
-        limit=dict(type="float"),
+        offset=dict(type="int"),
+        limit=dict(type="int"),
+        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -82,6 +82,7 @@ class ActionModule(ActionBase):
             units_of_measure=params.get("_unitsOfMeasure"),
             offset=params.get("offset"),
             limit=params.get("limit"),
+            id=params.get("id"),
             headers=params.get("headers"),
         )
         return new_object
@@ -96,11 +97,22 @@ class ActionModule(ActionBase):
 
         dnac = DNACSDK(params=self._task.args)
 
-        response = dnac.exec(
-            family="site_design",
-            function="get_sites",
-            params=self.get_object(self._task.args),
-        )
-        self._result.update(dict(dnac_response=response))
-        self._result.update(dnac.exit_json())
-        return self._result
+        id = self._task.args.get("id")
+        if id:
+            response = dnac.exec(
+                family="site_design",
+                function="get_a_site",
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(dnac_response=response))
+            self._result.update(dnac.exit_json())
+            return self._result
+        if not id:
+            response = dnac.exec(
+                family="site_design",
+                function="get_sites",
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(dnac_response=response))
+            self._result.update(dnac.exit_json())
+            return self._result

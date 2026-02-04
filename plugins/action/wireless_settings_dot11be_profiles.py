@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -41,14 +40,13 @@ argument_spec.update(
         muMimoDownLink=dict(type="bool"),
         muMimoUpLink=dict(type="bool"),
         ofdmaMultiRu=dict(type="bool"),
+        default=dict(type="bool"),
+        mloGroup=dict(type="dict"),
         id=dict(type="str"),
     )
 )
 
-required_if = [
-    ("state", "present", ["id"], True),
-    ("state", "absent", ["id"], True),
-]
+required_if = []
 required_one_of = []
 mutually_exclusive = []
 required_together = []
@@ -64,6 +62,8 @@ class WirelessSettingsDot11BeProfiles(object):
             muMimoDownLink=params.get("muMimoDownLink"),
             muMimoUpLink=params.get("muMimoUpLink"),
             ofdmaMultiRu=params.get("ofdmaMultiRu"),
+            default=params.get("default"),
+            mloGroup=params.get("mloGroup"),
             id=params.get("id"),
         )
 
@@ -99,6 +99,8 @@ class WirelessSettingsDot11BeProfiles(object):
         new_object_params["muMimoDownLink"] = self.new_object.get("muMimoDownLink")
         new_object_params["muMimoUpLink"] = self.new_object.get("muMimoUpLink")
         new_object_params["ofdmaMultiRu"] = self.new_object.get("ofdmaMultiRu")
+        new_object_params["default"] = self.new_object.get("default")
+        new_object_params["mloGroup"] = self.new_object.get("mloGroup")
         return new_object_params
 
     def delete_by_id_params(self):
@@ -114,6 +116,8 @@ class WirelessSettingsDot11BeProfiles(object):
         new_object_params["muMimoDownLink"] = self.new_object.get("muMimoDownLink")
         new_object_params["muMimoUpLink"] = self.new_object.get("muMimoUpLink")
         new_object_params["ofdmaMultiRu"] = self.new_object.get("ofdmaMultiRu")
+        new_object_params["default"] = self.new_object.get("default")
+        new_object_params["mloGroup"] = self.new_object.get("mloGroup")
         new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
@@ -185,6 +189,8 @@ class WirelessSettingsDot11BeProfiles(object):
             ("muMimoDownLink", "muMimoDownLink"),
             ("muMimoUpLink", "muMimoUpLink"),
             ("ofdmaMultiRu", "ofdmaMultiRu"),
+            ("default", "default"),
+            ("mloGroup", "mloGroup"),
             ("id", "id"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
@@ -286,7 +292,7 @@ class ActionModule(ActionBase):
         response = None
 
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = obj.update()
@@ -299,7 +305,7 @@ class ActionModule(ActionBase):
                 dnac.object_created()
 
         elif state == "absent":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 response = obj.delete()
                 dnac.object_deleted()

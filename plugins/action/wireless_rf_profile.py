@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -79,12 +78,16 @@ class WirelessRfProfile(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params["rf_profile_name"] = self.new_object.get("rf_profile_name")
+        new_object_params["rf_profile_name"] = self.new_object.get(
+            "rf_profile_name"
+        ) or self.new_object.get("name")
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params["name"] = self.new_object.get("name")
+        new_object_params["name"] = self.new_object.get(
+            "rf_profile_name"
+        ) or self.new_object.get("name")
         new_object_params["defaultRfProfile"] = self.new_object.get("defaultRfProfile")
         new_object_params["enableRadioTypeA"] = self.new_object.get("enableRadioTypeA")
         new_object_params["enableRadioTypeB"] = self.new_object.get("enableRadioTypeB")
@@ -105,7 +108,9 @@ class WirelessRfProfile(object):
 
     def delete_by_name_params(self):
         new_object_params = {}
-        new_object_params["rf_profile_name"] = self.new_object.get("rf_profile_name")
+        new_object_params["rf_profile_name"] = self.new_object.get(
+            "rf_profile_name"
+        ) or self.new_object.get("name")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -257,7 +262,7 @@ class ActionModule(ActionBase):
 
         response = None
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = prev_obj
@@ -269,7 +274,7 @@ class ActionModule(ActionBase):
                 response = obj.create()
                 dnac.object_created()
         elif state == "absent":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 response = obj.delete()
                 dnac.object_deleted()

@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -41,6 +40,7 @@ argument_spec.update(
         siteHierarchy=dict(type="str"),
         deviceSiteHierarchyId=dict(type="str"),
         siteId=dict(type="str"),
+        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -95,6 +95,7 @@ class ActionModule(ActionBase):
             device_site_hierarchy_id=params.get("deviceSiteHierarchyId"),
             site_id=params.get("siteId"),
             headers=params.get("headers"),
+            id=params.get("id"),
         )
         return new_object
 
@@ -108,11 +109,22 @@ class ActionModule(ActionBase):
 
         dnac = DNACSDK(params=self._task.args)
 
-        response = dnac.exec(
-            family="devices",
-            function="retrieves_the_list_of_aaa_services_for_given_parameters",
-            params=self.get_object(self._task.args),
-        )
-        self._result.update(dict(dnac_response=response))
-        self._result.update(dnac.exit_json())
-        return self._result
+        id = self._task.args.get("id")
+        if id:
+            response = dnac.exec(
+                family="devices",
+                function="retrieves_the_details_of_a_specific_aaa_service_matching_the_id_of_the_service",
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(dnac_response=response))
+            self._result.update(dnac.exit_json())
+            return self._result
+        if not id:
+            response = dnac.exec(
+                family="devices",
+                function="retrieves_the_list_of_aaa_services_for_given_parameters",
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(dnac_response=response))
+            self._result.update(dnac.exit_json())
+            return self._result
