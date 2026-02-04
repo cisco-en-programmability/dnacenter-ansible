@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: energy_network_devices_query_count
-short_description: Resource module for Energy Network
-  Devices Query Count
+short_description: Resource module for Energy Network Devices Query Count
 description:
-  - Manage operation create of the resource Energy Network
-    Devices Query Count. - > Retrieves the total count
-    of network devices based on the specified complex
-    filters. For detailed information about the usage
-    of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+  - Manage operation create of the resource Energy Network Devices Query Count. - > Retrieves the total count of network devices
+    based on the specified complex filters. For detailed information about the usage of the API, please refer to the Open
+    API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
     deviceEnergy_1.0-1.0.1-resolved.yaml.
 version_added: '6.18.0'
 extends_documentation_fragment:
@@ -23,8 +19,7 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   aggregateAttributes:
-    description: Energy Network Devices Query Count's
-      aggregateAttributes.
+    description: Energy Network Devices Query Count's aggregateAttributes.
     elements: dict
     suboptions:
       function:
@@ -42,13 +37,11 @@ options:
     description: End Time.
     type: int
   filters:
-    description: Energy Network Devices Query Count's
-      filters.
+    description: Energy Network Devices Query Count's filters.
     elements: dict
     suboptions:
       filters:
-        description: Energy Network Devices Query Count's
-          filters.
+        description: Energy Network Devices Query Count's filters.
         elements: dict
         suboptions:
           key:
@@ -70,8 +63,7 @@ options:
     description: Additional headers.
     type: dict
   page:
-    description: Energy Network Devices Query Count's
-      page.
+    description: Energy Network Devices Query Count's page.
     suboptions:
       limit:
         description: Limit.
@@ -80,8 +72,7 @@ options:
         description: Offset.
         type: int
       sortBy:
-        description: Energy Network Devices Query Count's
-          sortBy.
+        description: Energy Network Devices Query Count's sortBy.
         elements: dict
         suboptions:
           function:
@@ -103,13 +94,11 @@ options:
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      CountDevicesEnergyFromQuery
-    description: Complete reference of the CountDevicesEnergyFromQuery
-      API.
+  - name: Cisco DNA Center documentation for Devices CountDevicesEnergyFromQuery
+    description: Complete reference of the CountDevicesEnergyFromQuery API.
     link: https://developer.cisco.com/docs/dna-center/#!count-devices-energy-from-query
 notes:
   - SDK Method used are

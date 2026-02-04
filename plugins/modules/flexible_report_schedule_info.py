@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: flexible_report_schedule_info
-short_description: Information module for Flexible Report
-  Schedule
+short_description: Information module for Flexible Report Schedule
 description:
   - Get Flexible Report Schedule by id.
   - Get flexible report schedule by report id.
@@ -25,13 +24,11 @@ options:
       - ReportId path parameter. Id of the report.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Reports
-      GetFlexibleReportScheduleByReportId
-    description: Complete reference of the GetFlexibleReportScheduleByReportId
-      API.
+  - name: Cisco DNA Center documentation for Reports GetFlexibleReportScheduleByReportId
+    description: Complete reference of the GetFlexibleReportScheduleByReportId API.
     link: https://developer.cisco.com/docs/dna-center/#!get-flexible-report-schedule-by-report-id
 notes:
   - SDK Method used are

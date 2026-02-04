@@ -21,22 +21,18 @@ options:
     type: dict
   offset:
     description:
-      - Offset query parameter. Offset/starting row.
-        Indexed from 1. Default value of 1.
-    type: float
+      - Offset query parameter. Offset/starting row. Indexed from 1. Default value of 1.
+    type: int
   limit:
     description:
-      - Limit query parameter. Number of Global Pools
-        to be retrieved. Default is 25 if not specified.
-    type: float
+      - Limit query parameter. Number of Global Pools to be retrieved. Default is 25 if not specified.
+    type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings GetGlobalPool
-    description: Complete reference of the GetGlobalPool
-      API.
+  - name: Cisco DNA Center documentation for Network Settings GetGlobalPool
+    description: Complete reference of the GetGlobalPool API.
     link: https://developer.cisco.com/docs/dna-center/#!get-global-pool
 notes:
   - SDK Method used are

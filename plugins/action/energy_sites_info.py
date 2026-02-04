@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -44,6 +43,7 @@ argument_spec.update(
         views=dict(type="str"),
         attribute=dict(type="str"),
         taskId=dict(type="str"),
+        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -101,6 +101,7 @@ class ActionModule(ActionBase):
             attribute=params.get("attribute"),
             task_id=params.get("taskId"),
             headers=params.get("headers"),
+            id=params.get("id"),
         )
         return new_object
 
@@ -114,11 +115,22 @@ class ActionModule(ActionBase):
 
         dnac = DNACSDK(params=self._task.args)
 
-        response = dnac.exec(
-            family="sites",
-            function="get_sites_energy",
-            params=self.get_object(self._task.args),
-        )
-        self._result.update(dict(dnac_response=response))
-        self._result.update(dnac.exit_json())
-        return self._result
+        id = self._task.args.get("id")
+        if id:
+            response = dnac.exec(
+                family="sites",
+                function="get_site_energy_by_id",
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(dnac_response=response))
+            self._result.update(dnac.exit_json())
+            return self._result
+        if not id:
+            response = dnac.exec(
+                family="sites",
+                function="get_sites_energy",
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(dnac_response=response))
+            self._result.update(dnac.exit_json())
+            return self._result

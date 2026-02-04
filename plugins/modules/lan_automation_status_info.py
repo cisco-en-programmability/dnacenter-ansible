@@ -7,16 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: lan_automation_status_info
-short_description: Information module for Lan Automation
-  Status
+short_description: Information module for Lan Automation Status
 description:
   - Get all Lan Automation Status.
   - Get Lan Automation Status by id.
-  - Invoke this API to get the LAN Automation session
-    status based on the given Lan Automation session
-    id.
-  - Invoke this API to get the LAN Automation session
-    status.
+  - Invoke this API to get the LAN Automation session status based on the given Lan Automation session id.
+  - Invoke this API to get the LAN Automation session status.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,32 +23,25 @@ options:
     type: dict
   offset:
     description:
-      - Offset query parameter. Starting index of the
-        LAN Automation session. Minimum value is 1.
+      - Offset query parameter. Starting index of the LAN Automation session. Minimum value is 1.
     type: int
   limit:
     description:
-      - Limit query parameter. Number of LAN Automation
-        sessions to be retrieved. Limit value can range
-        between 1 to 10.
+      - Limit query parameter. Number of LAN Automation sessions to be retrieved. Limit value can range between 1 to 10.
     type: int
   id:
     description:
       - Id path parameter. LAN Automation session identifier.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for LAN Automation
-      LANAutomationStatus
-    description: Complete reference of the LANAutomationStatus
-      API.
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationStatus
+    description: Complete reference of the LANAutomationStatus API.
     link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-status
-  - name: Cisco DNA Center documentation for LAN Automation
-      LANAutomationStatusById
-    description: Complete reference of the LANAutomationStatusById
-      API.
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationStatusById
+    description: Complete reference of the LANAutomationStatusById API.
     link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-status-by-id
 notes:
   - SDK Method used are

@@ -7,45 +7,35 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_images_id_activate
-short_description: Resource module for Network Device
-  Images Id Activate
+short_description: Resource module for Network Device Images Id Activate
 description:
-  - Manage operation create of the resource Network
-    Device Images Id Activate. - > This API initiates
-    the process of updating the software image on the
-    network device. Providing value for the `installedImages`
-    in request payload will initiate both distribution
-    and activation of the images. At the end of this
-    process, only the images which are part of `installedImages`
-    will be running on the network device. To monitor
-    the progress and completion of the update task,
-    call the GET API `/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}`,
-    where `taskId` is from the response of the current
-    endpoint.
+  - Manage operation create of the resource Network Device Images Id Activate.
+  - This API initiates the process of updating the software image on the network device.
+  - Providing value for the `installedImages` in request payload will initiate both distribution and activation.
+  - At the end of this process, only the images which are part of `installedImages` will be running on the device.
+  - To monitor the progress and completion of the update task, call the GET API
+    `/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}`, where `taskId` is from the response.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   compatibleFeatures:
-    description: Network Device Images Id Activate's
-      compatibleFeatures.
+    description: Network Device Images Id Activate's compatibleFeatures.
     elements: dict
     suboptions:
       key:
         description: Name of the compatible feature.
         type: str
       value:
-        description: Feature that can be enabled or
-          disabled.
+        description: Feature that can be enabled or disabled.
         type: str
     type: list
   id:
     description: Id path parameter. Network device identifier.
     type: str
   installedImages:
-    description: Network Device Images Id Activate's
-      installedImages.
+    description: Network Device Images Id Activate's installedImages.
     elements: dict
     suboptions:
       id:
@@ -53,18 +43,15 @@ options:
         type: str
     type: list
   networkValidationIds:
-    description: List of unique identifiers of custom
-      network device validations.
+    description: List of unique identifiers of custom network device validations.
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) UpdateImagesOnTheNetworkDevice
-    description: Complete reference of the UpdateImagesOnTheNetworkDevice
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) UpdateImagesOnTheNetworkDevice
+    description: Complete reference of the UpdateImagesOnTheNetworkDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!update-images-on-the-network-device
 notes:
   - SDK Method used are

@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_config_write_memory
-short_description: Resource module for Network Device
-  Config Write Memory
+short_description: Resource module for Network Device Config Write Memory
 description:
-  - Manage operation create of the resource Network
-    Device Config Write Memory.
-  - This operation would commit device running configuration
-    to startup by issuing "write memory" to device.
+  - Manage operation create of the resource Network Device Config Write Memory.
+  - This operation would commit device running configuration to startup by issuing "write memory" to device.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,13 +21,11 @@ options:
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Archive CommitDeviceConfiguration
-    description: Complete reference of the CommitDeviceConfiguration
-      API.
+  - name: Cisco DNA Center documentation for Configuration Archive CommitDeviceConfiguration
+    description: Complete reference of the CommitDeviceConfiguration API.
     link: https://developer.cisco.com/docs/dna-center/#!commit-device-configuration
 notes:
   - SDK Method used are

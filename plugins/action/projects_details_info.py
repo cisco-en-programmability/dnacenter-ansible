@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -32,7 +31,7 @@ argument_spec.update(
         id=dict(type="str"),
         name=dict(type="str"),
         offset=dict(type="int"),
-        limit=dict(type="float"),
+        limit=dict(type="int"),
         sortOrder=dict(type="str"),
         headers=dict(type="dict"),
     )

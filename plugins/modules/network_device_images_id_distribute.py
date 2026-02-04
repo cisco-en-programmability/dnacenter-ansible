@@ -7,26 +7,20 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_images_id_distribute
-short_description: Resource module for Network Device
-  Images Id Distribute
+short_description: Resource module for Network Device Images Id Distribute
 description:
-  - Manage operation create of the resource Network
-    Device Images Id Distribute. - > This API initiates
-    the process of distributing the software image on
-    the network device. Providing value for the `distributedImages`
-    will only trigger the distribution process. To monitor
-    the progress and completion of the update task,
-    please call the GET API `/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}`,
-    where `taskId` is from the response of the current
-    endpoint.
+  - Manage operation create of the resource Network Device Images Id Distribute.
+  - This API initiates the process of distributing the software image on the network device.
+  - Providing value for the `distributedImages` will only trigger the distribution process.
+  - To monitor the progress and completion of the update task, call the GET API
+    `/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}`, where `taskId` is from the response.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   distributedImages:
-    description: Network Device Images Id Distribute's
-      distributedImages.
+    description: Network Device Images Id Distribute's distributedImages.
     elements: dict
     suboptions:
       id:
@@ -37,18 +31,15 @@ options:
     description: Id path parameter. Network device identifier.
     type: str
   networkValidationIds:
-    description: List of unique identifiers of custom
-      network device validations.
+    description: List of unique identifiers of custom network device validations.
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) DistributeImagesOnTheNetworkDevice
-    description: Complete reference of the DistributeImagesOnTheNetworkDevice
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) DistributeImagesOnTheNetworkDevice
+    description: Complete reference of the DistributeImagesOnTheNetworkDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!distribute-images-on-the-network-device
 notes:
   - SDK Method used are

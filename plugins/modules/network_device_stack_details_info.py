@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_stack_details_info
-short_description: Information module for Network Device
-  Stack Details
+short_description: Information module for Network Device Stack Details
 description:
   - Get all Network Device Stack Details.
-  - Retrieves complete stack details for given device
-    ID.
+  - Retrieves complete stack details for given device ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,13 +24,11 @@ options:
       - DeviceId path parameter. Device ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetStackDetailsForDevice
-    description: Complete reference of the GetStackDetailsForDevice
-      API.
+  - name: Cisco DNA Center documentation for Devices GetStackDetailsForDevice
+    description: Complete reference of the GetStackDetailsForDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!get-stack-details-for-device
 notes:
   - SDK Method used are

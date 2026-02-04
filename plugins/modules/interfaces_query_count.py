@@ -7,16 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: interfaces_query_count
-short_description: Resource module for Interfaces Query
-  Count
+short_description: Resource module for Interfaces Query Count
 description:
-  - Manage operation create of the resource Interfaces
-    Query Count. - > Gets the total number of interfaces
-    across the Network devices based on the provided
-    complex filters and aggregation functions. For detailed
-    information about the usage of the API, please refer
-    to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-    specs/blob/main/Assurance/CE_Cat_Center_Org-interfaces-2.0.0-resolved.yaml.
+  - Manage operation create of the resource Interfaces Query Count.
+  - Gets the total number of interfaces across the Network devices based on the provided complex filters and aggregation functions.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-interfaces-2.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -58,7 +54,7 @@ options:
         description: Operator.
         type: str
       value:
-        description: Value.
+        description: Interfaces Query Count's value.
         type: dict
     type: list
   page:
@@ -90,13 +86,11 @@ options:
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      TheTotalInterfacesCountAcrossTheNetworkDevices
-    description: Complete reference of the TheTotalInterfacesCountAcrossTheNetworkDevices
-      API.
+  - name: Cisco DNA Center documentation for Devices TheTotalInterfacesCountAcrossTheNetworkDevices
+    description: Complete reference of the TheTotalInterfacesCountAcrossTheNetworkDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!the-total-interfaces-count-across-the-network-devices
 notes:
   - SDK Method used are

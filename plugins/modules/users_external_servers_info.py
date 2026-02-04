@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: users_external_servers_info
-short_description: Information module for Users External
-  Servers
+short_description: Information module for Users External Servers
 description:
   - Get all Users External Servers.
   - Get external users authentication servers.
@@ -23,22 +22,19 @@ options:
   invokeSource:
     description:
       - >
-        InvokeSource query parameter. The source that
-        invokes this API. The value of this query parameter
-        must be set to "external".
+        InvokeSource query parameter. The source that invokes this API. The value of this query parameter must
+        be set to "external".
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for User and
-      Roles GetExternalAuthenticationServersAPI
-    description: Complete reference of the GetExternalAuthenticationServersAPI
-      API.
+  - name: Cisco DNA Center documentation for User and Roles GetExternalAuthenticationServersAPI
+    description: Complete reference of the GetExternalAuthenticationServersAPI API.
     link: https://developer.cisco.com/docs/dna-center/#!get-external-authentication-servers-api
 notes:
   - SDK Method used are
-    user_and_roles.UserandRoles.get_external_authentication_servers_api,
+    userand_roles.UserandRoles.get_external_authentication_servers_api,
   - Paths used are
     get /dna/system/api/v1/users/external-servers,
 """

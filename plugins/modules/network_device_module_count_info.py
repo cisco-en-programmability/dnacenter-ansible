@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_module_count_info
-short_description: Information module for Network Device
-  Module Count
+short_description: Information module for Network Device Module Count
 description:
   - Get all Network Device Module Count.
   - Returns Module Count.
@@ -45,13 +44,11 @@ options:
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetModuleCount
-    description: Complete reference of the GetModuleCount
-      API.
+  - name: Cisco DNA Center documentation for Devices GetModuleCount
+    description: Complete reference of the GetModuleCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-module-count
 notes:
   - SDK Method used are

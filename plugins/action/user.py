@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -41,6 +40,7 @@ argument_spec.update(
         password=dict(type="str", no_log=True),
         email=dict(type="str"),
         roleList=dict(type="list"),
+        accessGroups=dict(type="list"),
         userId=dict(type="str"),
     )
 )
@@ -64,15 +64,13 @@ class User(object):
             password=params.get("password"),
             email=params.get("email"),
             roleList=params.get("roleList"),
+            accessGroups=params.get("accessGroups"),
             userId=params.get("userId"),
             user_id=params.get("userId"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params["invoke_source"] = self.new_object.get(
-            "invokeSource"
-        ) or self.new_object.get("invoke_source")
         new_object_params["auth_source"] = self.new_object.get(
             "authSource"
         ) or self.new_object.get("auth_source")
@@ -86,6 +84,7 @@ class User(object):
         new_object_params["password"] = self.new_object.get("password")
         new_object_params["email"] = self.new_object.get("email")
         new_object_params["roleList"] = self.new_object.get("roleList")
+        new_object_params["accessGroups"] = self.new_object.get("accessGroups")
         return new_object_params
 
     def delete_by_id_params(self):
@@ -98,9 +97,9 @@ class User(object):
         new_object_params["firstName"] = self.new_object.get("firstName")
         new_object_params["lastName"] = self.new_object.get("lastName")
         new_object_params["email"] = self.new_object.get("email")
-        new_object_params["username"] = self.new_object.get("username")
         new_object_params["userId"] = self.new_object.get("userId")
         new_object_params["roleList"] = self.new_object.get("roleList")
+        new_object_params["accessGroups"] = self.new_object.get("accessGroups")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -109,7 +108,7 @@ class User(object):
         try:
             items = self.dnac.exec(
                 family="user_and_roles",
-                function="get_users_api",
+                function="get_users",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -126,7 +125,7 @@ class User(object):
         try:
             items = self.dnac.exec(
                 family="user_and_roles",
-                function="get_users_api",
+                function="get_users",
                 params=self.get_all_params(id=id),
             )
             if isinstance(items, dict):
@@ -172,6 +171,7 @@ class User(object):
             ("username", "username"),
             ("email", "email"),
             ("roleList", "roleList"),
+            ("accessGroups", "accessGroups"),
             ("userId", "userId"),
             ("userId", "user_id"),
         ]
@@ -187,7 +187,7 @@ class User(object):
     def create(self):
         result = self.dnac.exec(
             family="user_and_roles",
-            function="add_user_api",
+            function="add_user",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -199,7 +199,7 @@ class User(object):
         result = None
         result = self.dnac.exec(
             family="user_and_roles",
-            function="update_user_api",
+            function="update_user",
             params=self.update_all_params(),
             op_modifies=True,
         )
@@ -269,7 +269,7 @@ class ActionModule(ActionBase):
         response = None
 
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = obj.update()
@@ -282,7 +282,7 @@ class ActionModule(ActionBase):
                 dnac.object_created()
 
         elif state == "absent":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 response = obj.delete()
                 dnac.object_deleted()

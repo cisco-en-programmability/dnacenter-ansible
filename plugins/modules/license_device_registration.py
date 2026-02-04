@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: license_device_registration
-short_description: Resource module for License Device
-  Registration
+short_description: Resource module for License Device Registration
 description:
-  - Manage operation update of the resource License
-    Device Registration.
-  - Register devices in CSSM Cisco Smart Software Manager
-    .
+  - Manage operation update of the resource License Device Registration.
+  - Register devices in CSSM Cisco Smart Software Manager .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,17 +21,14 @@ options:
     elements: str
     type: list
   virtual_account_name:
-    description: Virtual_account_name path parameter.
-      Name of virtual account.
+    description: Virtual_account_name path parameter. Name of virtual account.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Licenses
-      DeviceRegistration
-    description: Complete reference of the DeviceRegistration
-      API.
+  - name: Cisco DNA Center documentation for Licenses DeviceRegistration
+    description: Complete reference of the DeviceRegistration API.
     link: https://developer.cisco.com/docs/dna-center/#!device-registration
 notes:
   - SDK Method used are

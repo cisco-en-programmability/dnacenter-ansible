@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_profiles_for_sites_site_assignments_info
-short_description: Information module for Network Profiles
-  For Sites Site Assignments
+short_description: Information module for Network Profiles For Sites Site Assignments
 description:
   - Get all Network Profiles For Sites Site Assignments.
-  - Retrieves the list of sites that the given network
-    profile for sites is assigned to.
+  - Retrieves the list of sites that the given network profile for sites is assigned to.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,29 +22,23 @@ options:
   profileId:
     description:
       - >
-        ProfileId path parameter. The `id` of the network
-        profile, retrievable from `GET /intent/api/v1/networkProfilesForSites`.
+        ProfileId path parameter. The `id` of the network profile, retrievable from `GET
+        /intent/api/v1/networkProfilesForSites`.
     type: str
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1.
-    type: float
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+    type: int
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page;The minimum is 1, and
-        the maximum is 500.
-    type: float
+      - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+    type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      RetrievesTheListOfSitesThatTheGivenNetworkProfileForSitesIsAssignedTo
-    description: Complete reference of the RetrievesTheListOfSitesThatTheGivenNetworkProfileForSitesIsAssignedTo
-      API.
+  - name: Cisco DNA Center documentation for Site Design RetrievesTheListOfSitesThatTheGivenNetworkProfileForSitesIsAssignedTo
+    description: Complete reference of the RetrievesTheListOfSitesThatTheGivenNetworkProfileForSitesIsAssignedTo API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-sites-that-the-given-network-profile-for-sites-is-assigned-to
 notes:
   - SDK Method used are

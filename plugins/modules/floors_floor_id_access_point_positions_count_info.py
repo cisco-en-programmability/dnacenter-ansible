@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: floors_floor_id_access_point_positions_count_info
-short_description: Information module for Floors Floor
-  Id Access Point Positions Count
+short_description: Information module for Floors Floor Id Access Point Positions Count
 description:
   - Get all Floors Floor Id Access Point Positions Count.
-  - Retrieve Access Points positions count assigned
-    for a specific floor.
+  - Retrieve Access Points positions count assigned for a specific floor.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -31,8 +29,7 @@ options:
     type: str
   macAddress:
     description:
-      - MacAddress query parameter. Access Point mac
-        address.
+      - MacAddress query parameter. Access Point mac address.
     type: str
   type:
     description:
@@ -43,13 +40,11 @@ options:
       - Model query parameter. Access Point model.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      GetAccessPointsPositionsCountV2
-    description: Complete reference of the GetAccessPointsPositionsCountV2
-      API.
+  - name: Cisco DNA Center documentation for Site Design GetAccessPointsPositionsCountV2
+    description: Complete reference of the GetAccessPointsPositionsCountV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!get-access-points-positions-count-v-2
 notes:
   - SDK Method used are
@@ -60,8 +55,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Floors Floor Id Access Point Positions
-    Count
+- name: Get all Floors Floor Id Access Point Positions Count
   cisco.dnac.floors_floor_id_access_point_positions_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

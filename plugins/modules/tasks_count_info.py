@@ -10,8 +10,7 @@ module: tasks_count_info
 short_description: Information module for Tasks Count
 description:
   - Get all Tasks Count.
-  - Returns the number of tasks that meet the filter
-    criteria.
+  - Returns the number of tasks that meet the filter criteria.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,39 +21,30 @@ options:
     type: dict
   startTime:
     description:
-      - StartTime query parameter. This is the epoch
-        millisecond start time from which tasks need
-        to be fetched.
+      - StartTime query parameter. This is the epoch millisecond start time from which tasks need to be fetched.
     type: int
   endTime:
     description:
-      - EndTime query parameter. This is the epoch millisecond
-        end time upto which task records need to be
-        fetched.
+      - EndTime query parameter. This is the epoch millisecond end time upto which task records need to be fetched.
     type: int
   parentId:
     description:
-      - ParentId query parameter. Fetch tasks that have
-        this parent Id.
+      - ParentId query parameter. Fetch tasks that have this parent Id.
     type: str
   rootId:
     description:
-      - RootId query parameter. Fetch tasks that have
-        this root Id.
+      - RootId query parameter. Fetch tasks that have this root Id.
     type: str
   status:
     description:
-      - Status query parameter. Fetch tasks that have
-        this status. Available values PENDING, FAILURE,
-        SUCCESS.
+      - Status query parameter. Fetch tasks that have this status. Available values PENDING, FAILURE, SUCCESS.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Task GetTasksCount
-    description: Complete reference of the GetTasksCount
-      API.
+    description: Complete reference of the GetTasksCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-tasks-count
 notes:
   - SDK Method used are

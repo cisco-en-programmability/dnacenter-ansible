@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: field_notices_results_notices_count_info
-short_description: Information module for Field Notices
-  Results Notices Count
+short_description: Information module for Field Notices Results Notices Count
 description:
   - Get all Field Notices Results Notices Count.
   - Get count of field notices.
@@ -26,22 +25,18 @@ options:
     type: str
   deviceCount:
     description:
-      - DeviceCount query parameter. Return field notices
-        with deviceCount greater than this deviceCount.
+      - DeviceCount query parameter. Return field notices with deviceCount greater than this deviceCount.
     type: float
   type:
     description:
-      - Type query parameter. Return field notices with
-        this type. Available values SOFTWARE, HARDWARE.
+      - Type query parameter. Return field notices with this type. Available values SOFTWARE, HARDWARE.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetCountOfFieldNotices
-    description: Complete reference of the GetCountOfFieldNotices
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetCountOfFieldNotices
+    description: Complete reference of the GetCountOfFieldNotices API.
     link: https://developer.cisco.com/docs/dna-center/#!get-count-of-field-notices
 notes:
   - SDK Method used are

@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: applications
 short_description: Resource module for Applications
 description:
-  - Manage operations create, update and delete of the
-    resource Applications.
+  - Manage operations create, update and delete of the resource Applications.
   - Create new Custom application.
   - Delete existing application by its id.
   - Edit the attributes of an existing application.
@@ -111,23 +110,17 @@ options:
         type: list
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy CreateApplication
-    description: Complete reference of the CreateApplication
-      API.
+  - name: Cisco DNA Center documentation for Application Policy CreateApplication
+    description: Complete reference of the CreateApplication API.
     link: https://developer.cisco.com/docs/dna-center/#!create-application
-  - name: Cisco DNA Center documentation for Application
-      Policy DeleteApplication
-    description: Complete reference of the DeleteApplication
-      API.
+  - name: Cisco DNA Center documentation for Application Policy DeleteApplication
+    description: Complete reference of the DeleteApplication API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-application
-  - name: Cisco DNA Center documentation for Application
-      Policy EditApplication
-    description: Complete reference of the EditApplication
-      API.
+  - name: Cisco DNA Center documentation for Application Policy EditApplication
+    description: Complete reference of the EditApplication API.
     link: https://developer.cisco.com/docs/dna-center/#!edit-application
 notes:
   - SDK Method used are
@@ -142,6 +135,17 @@ notes:
 
 EXAMPLES = r"""
 ---
+- name: Delete all
+  cisco.dnac.applications:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    id: string
 - name: Create
   cisco.dnac.applications:
     dnac_host: "{{dnac_host}}"
@@ -219,17 +223,6 @@ EXAMPLES = r"""
             ports: string
             protocol: string
             upperPort: string
-- name: Delete all
-  cisco.dnac.applications:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: absent
-    id: string
 """
 RETURN = r"""
 dnac_response:

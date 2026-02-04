@@ -7,16 +7,13 @@
 DOCUMENTATION = r"""
 ---
 module: energy_network_devices_count_info
-short_description: Information module for Energy Network
-  Devices Count
+short_description: Information module for Energy Network Devices Count
 description:
-  - Get all Energy Network Devices Count. - > Retrieves
-    the total count of network devices that provide
-    energy data, filtered according to the specified
-    query parameters. For detailed information about
-    the usage of the API, please refer to the Open API
-    specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-    specs/blob/main/Assurance/CE_Cat_Center_Org-deviceEnergy_1.0-1.0.1-resolved.yaml.
+  - Get all Energy Network Devices Count.
+  - Retrieves the total count of network devices that provide energy data, filtered according to query parameters.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
+    CE_Cat_Center_Org-deviceEnergy_1.0-1.0.1-resolved.yaml.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -28,93 +25,72 @@ options:
   startTime:
     description:
       - >
-        StartTime query parameter. Start time from which
-        API queries the data set related to the resource.
-        It must be specified in UNIX epochtime in milliseconds.
-        Value is inclusive. If `startTime` is not provided,
+        StartTime query parameter. Start time from which API queries the data set related to the resource. It
+        must be specified in UNIX epochtime in milliseconds. Value is inclusive. If `startTime` is not provided,
         API will default to one day before `endTime`.
     type: float
   endTime:
     description:
       - >
-        EndTime query parameter. End time to which API
-        queries the data set related to the resource.
-        It must be specified in UNIX epochtime in milliseconds.
-        Value is inclusive. If `endTime` is not provided,
-        API will default to one day after `startTime`.
-        If `startTime` is not provided either, API will
-        default to current time.
+        EndTime query parameter. End time to which API queries the data set related to the resource. It must be
+        specified in UNIX epochtime in milliseconds. Value is inclusive. If `endTime` is not provided, API will
+        default to one day after `startTime`. If `startTime` is not provided either, API will default to current
+        time.
     type: float
   id:
     description:
       - >
-        Id query parameter. The list of Device Uuids
-        (e.g., `6bef213c-19ca-4170-8375-b694e251101c`).
-        Examples `id=6bef213c-19ca-4170-8375-b694e251101c`
-        (single device requested) `id=6bef213c-19ca-4170-8375-b694e251101c&id=32219612-819e-4b5e-a96b-cf22aca13dd9`.
+        Id query parameter. The list of Device Uuids (e.g., `6bef213c-19ca-4170-8375-b694e251101c`). Examples
+        `id=6bef213c-19ca-4170-8375-b694e251101c` (single device requested)
+        `id=6bef213c-19ca-4170-8375-b694e251101c&id=32219612-819e-4b5e-a96b-cf22aca13dd9`.
     type: str
   siteId:
     description:
       - >
-        SiteId query parameter. The UUID of the site.
-        (Ex. `flooruuid`) Examples `?siteId=id1` (single
-        id requested) `?siteId=id1&siteId=id2&siteId=id3`
-        (multiple ids requested).
+        SiteId query parameter. The UUID of the site. (Ex. `flooruuid`) Examples `?siteId=id1` (single id
+        requested) `?siteId=id1&siteId=id2&siteId=id3` (multiple ids requested).
     type: str
   siteHierarchy:
     description:
       - >
-        SiteHierarchy query parameter. The full hierarchical
-        breakdown of the site tree starting from Global
-        site name and ending with the specific site
-        name. The Root site is named "Global" (Ex. `Global/AreaName/BuildingName/FloorName`)
-        This field supports wildcard asterisk (`*`)
-        character search support. E.g. `*/San*, */San,
-        /San*` Examples `?siteHierarchy=Global/AreaName/BuildingName/FloorName`
+        SiteHierarchy query parameter. The full hierarchical breakdown of the site tree starting from Global
+        site name and ending with the specific site name. The Root site is named "Global" (Ex.
+        `Global/AreaName/BuildingName/FloorName`) This field supports wildcard asterisk (`*`) character search
+        support. E.g. `*/San*, */San, /San*` Examples `?siteHierarchy=Global/AreaName/BuildingName/FloorName`
         (single siteHierarchy requested) `?siteHierarchy=Global/AreaName/BuildingName/FloorName&siteHierarchy=Gl
-        obal/AreaName2/BuildingName2/FloorName2` (multiple
-        siteHierarchies requested).
+        obal/AreaName2/BuildingName2/FloorName2` (multiple siteHierarchies requested).
     type: str
   siteHierarchyId:
     description:
       - >
-        SiteHierarchyId query parameter. The full hierarchy
-        breakdown of the site tree in id form starting
-        from Global site UUID and ending with the specific
-        site UUID. (Ex. `globalUuid/areaUuid/buildingUuid/floorUuid`)
-        This field supports wildcard asterisk (`*`)
-        character search support. E.g. `*uuid*, *uuid,
-        uuid*` Examples `?siteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid
-        `(single siteHierarchyId requested) `?siteH
+        SiteHierarchyId query parameter. The full hierarchy breakdown of the site tree in id form starting from
+        Global site UUID and ending with the specific site UUID. (Ex.
+        `globalUuid/areaUuid/buildingUuid/floorUuid`) This field supports wildcard asterisk (`*`) character
+        search support. E.g. `*uuid*, *uuid, uuid*` Examples
+        `?siteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid `(single siteHierarchyId requested) `?siteH
         ierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid&siteHierarchyId=globalUuid/areaUuid2/buildingUuid2
         /floorUuid2` (multiple siteHierarchyIds requested).
     type: str
   deviceCategory:
     description:
       - >
-        DeviceCategory query parameter. The list of
-        device deviceCategories. Examples `deviceCategory=Switch`
-        (single device family requested) `deviceCategory=Switch&deviceCategory=Router`
-        (multiple device categories with comma separator).
+        DeviceCategory query parameter. The list of device deviceCategories. Examples `deviceCategory=Switch`
+        (single device family requested) `deviceCategory=Switch&deviceCategory=Router` (multiple device
+        categories with comma separator).
     type: str
   deviceSubCategory:
     description:
       - >
-        DeviceSubCategory query parameter. The list
-        of device sub categories. Examples `deviceSubCategory=Cisco
-        Catalyst 9300 Series Switches` (single device
-        family requested) `deviceSubCategory=Cisco Catalyst
-        9300 Series Switches&deviceSubCategory=Cisco
-        Catalyst 9400 Series Switches`.
+        DeviceSubCategory query parameter. The list of device sub categories. Examples `deviceSubCategory=Cisco
+        Catalyst 9300 Series Switches` (single device family requested) `deviceSubCategory=Cisco Catalyst 9300
+        Series Switches&deviceSubCategory=Cisco Catalyst 9400 Series Switches`.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      CountDevicesEnergy
-    description: Complete reference of the CountDevicesEnergy
-      API.
+  - name: Cisco DNA Center documentation for Devices CountDevicesEnergy
+    description: Complete reference of the CountDevicesEnergy API.
     link: https://developer.cisco.com/docs/dna-center/#!count-devices-energy
 notes:
   - SDK Method used are

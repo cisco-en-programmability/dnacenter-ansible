@@ -7,16 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: system_settings_ap_pnp_location_info
-short_description: Information module for System Settings
-  Ap Pnp Location
+short_description: Information module for System Settings Ap Pnp Location
 description:
-  - Get all System Settings Ap Pnp Location. - > Retrieve
-    the current AP PnP Location setting from the system.Once
-    the AP PnP Location Setting is enabled, the Access
-    Point's assigned Site name will be configured as
-    the AP Location during the PnP Claim process. This
-    applies only during the PnP onboarding process and
-    not during any subsequent provisioning dayN .
+  - Get all System Settings Ap Pnp Location. - > Retrieve the current AP PnP Location setting from the system.Once the AP
+    PnP Location Setting is enabled, the Access Point's assigned Site name will be configured as the AP Location during the
+    PnP Claim process. This applies only during the PnP onboarding process and not during any subsequent provisioning dayN
+    .
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,13 +22,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetAPPnPLocationSetting
-    description: Complete reference of the GetAPPnPLocationSetting
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetAPPnPLocationSetting
+    description: Complete reference of the GetAPPnPLocationSetting API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ap-pn-p-location-setting
 notes:
   - SDK Method used are

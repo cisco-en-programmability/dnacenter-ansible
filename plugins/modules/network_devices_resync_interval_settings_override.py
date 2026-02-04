@@ -7,27 +7,21 @@
 DOCUMENTATION = r"""
 ---
 module: network_devices_resync_interval_settings_override
-short_description: Resource module for Network Devices
-  Resync Interval Settings Override
+short_description: Resource module for Network Devices Resync Interval Settings Override
 description:
-  - Manage operation create of the resource Network
-    Devices Resync Interval Settings Override. - > Overrides
-    the global resync interval on all network devices.
-    This essentially removes device specific intervals
-    if set.
+  - Manage operation create of the resource Network Devices Resync Interval Settings Override. - > Overrides the global resync
+    interval on all network devices. This essentially removes device specific intervals if set.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options: {}
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      OverrideResyncInterval
-    description: Complete reference of the OverrideResyncInterval
-      API.
+  - name: Cisco DNA Center documentation for Devices OverrideResyncInterval
+    description: Complete reference of the OverrideResyncInterval API.
     link: https://developer.cisco.com/docs/dna-center/#!override-resync-interval
 notes:
   - SDK Method used are

@@ -7,36 +7,27 @@
 DOCUMENTATION = r"""
 ---
 module: network_devices_delete_without_cleanup
-short_description: Resource module for Network Devices
-  Delete Without Cleanup
+short_description: Resource module for Network Devices Delete Without Cleanup
 description:
-  - Manage operation create of the resource Network
-    Devices Delete Without Cleanup. - > This API endpoint
-    facilitates the deletion of a network device without
-    performing configuration cleanup on the device.
-    To delete a device via API, you must have permission
-    to provision the network device. Although the API
-    operation does not change the device configuration,
-    removing a device without cleaning up its configuration
-    could lead to a network behaviour that is not consistent
-    with the configurations that are known to the system.
+  - Manage operation create of the resource Network Devices Delete Without Cleanup. - > This API endpoint facilitates the
+    deletion of a network device without performing configuration cleanup on the device. To delete a device via API, you must
+    have permission to provision the network device. Although the API operation does not change the device configuration,
+    removing a device without cleaning up its configuration could lead to a network behaviour that is not consistent with
+    the configurations that are known to the system.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: The unique identifier of the network
-      device to be deleted.
+    description: The unique identifier of the network device to be deleted.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      DeleteANetworkDeviceWithoutConfigurationCleanup
-    description: Complete reference of the DeleteANetworkDeviceWithoutConfigurationCleanup
-      API.
+  - name: Cisco DNA Center documentation for Devices DeleteANetworkDeviceWithoutConfigurationCleanup
+    description: Complete reference of the DeleteANetworkDeviceWithoutConfigurationCleanup API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-a-network-device-without-configuration-cleanup
 notes:
   - SDK Method used are

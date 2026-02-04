@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: event_subscription_email_info
-short_description: Information module for Event Subscription
-  Email
+short_description: Information module for Event Subscription Email
 description:
   - Get all Event Subscription Email.
-  - Gets the list of email Subscriptions's based on
-    provided query params.
+  - Gets the list of email Subscriptions's based on provided query params.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,21 +22,16 @@ options:
   eventIds:
     description:
       - >
-        EventIds query parameter. List of email subscriptions
-        related to the respective eventIds (Comma separated
-        event ids).
+        EventIds query parameter. List of email subscriptions related to the respective eventIds (Comma
+        separated event ids).
     type: str
   offset:
     description:
-      - Offset query parameter. The number of Subscriptions's
-        to offset in the resultset whose default value
-        0.
+      - Offset query parameter. The number of Subscriptions's to offset in the resultset whose default value 0.
     type: int
   limit:
     description:
-      - Limit query parameter. The number of Subscriptions's
-        to limit in the resultset whose default value
-        10.
+      - Limit query parameter. The number of Subscriptions's to limit in the resultset whose default value 10.
     type: int
   sortBy:
     description:
@@ -50,37 +43,30 @@ options:
     type: str
   domain:
     description:
-      - Domain query parameter. List of email subscriptions
-        related to the respective domain.
+      - Domain query parameter. List of email subscriptions related to the respective domain.
     type: str
   subDomain:
     description:
-      - SubDomain query parameter. List of email subscriptions
-        related to the respective sub-domain.
+      - SubDomain query parameter. List of email subscriptions related to the respective sub-domain.
     type: str
   category:
     description:
-      - Category query parameter. List of email subscriptions
-        related to the respective category.
+      - Category query parameter. List of email subscriptions related to the respective category.
     type: str
   type:
     description:
-      - Type query parameter. List of email subscriptions
-        related to the respective type.
+      - Type query parameter. List of email subscriptions related to the respective type.
     type: str
   name:
     description:
-      - Name query parameter. List of email subscriptions
-        related to the respective name.
+      - Name query parameter. List of email subscriptions related to the respective name.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      GetEmailEventSubscriptions
-    description: Complete reference of the GetEmailEventSubscriptions
-      API.
+  - name: Cisco DNA Center documentation for Event Management GetEmailEventSubscriptions
+    description: Complete reference of the GetEmailEventSubscriptions API.
     link: https://developer.cisco.com/docs/dna-center/#!get-email-event-subscriptions
 notes:
   - SDK Method used are

@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: applications_count_v2_info
-short_description: Information module for Applications
-  Count V2
+short_description: Information module for Applications Count V2
 description:
   - Get all Applications Count V2.
   - Get the number of all existing applications.
@@ -22,17 +21,14 @@ options:
     type: dict
   scalableGroupType:
     description:
-      - ScalableGroupType query parameter. Scalable
-        group type to retrieve, valid value APPLICATION.
+      - ScalableGroupType query parameter. Scalable group type to retrieve, valid value APPLICATION.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy GetApplicationCountV2
-    description: Complete reference of the GetApplicationCountV2
-      API.
+  - name: Cisco DNA Center documentation for Application Policy GetApplicationCountV2
+    description: Complete reference of the GetApplicationCountV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!get-application-count-v-2
 notes:
   - SDK Method used are

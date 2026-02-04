@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: roles
 short_description: Resource module for Roles
 description:
-  - Manage operations create, update and delete of the
-    resource Roles.
+  - Manage operations create, update and delete of the resource Roles.
   - Add a new role in the system.
   - Delete a role in the system.
   - Update a role in the system.
@@ -27,15 +26,12 @@ options:
     elements: dict
     suboptions:
       operations:
-        description: List of operations allowed for
-          the application. Possible values are "gRead",
-          "gCreate", "gUpdate", "gRemove", or some combination
-          of these.
+        description: List of operations allowed for the application. Possible values are "gRead", "gCreate", "gUpdate", "gRemove",
+          or some combination of these.
         elements: str
         type: list
       type:
-        description: Name of the application in the
-          System.
+        description: Name of the application in the System.
         type: str
     type: list
   role:
@@ -45,33 +41,26 @@ options:
     description: Id of the role.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for User and
-      Roles AddRoleAPI
-    description: Complete reference of the AddRoleAPI
-      API.
+  - name: Cisco DNA Center documentation for User and Roles AddRoleAPI
+    description: Complete reference of the AddRoleAPI API.
     link: https://developer.cisco.com/docs/dna-center/#!add-role-api
-  - name: Cisco DNA Center documentation for User and
-      Roles DeleteRoleAPI
-    description: Complete reference of the DeleteRoleAPI
-      API.
+  - name: Cisco DNA Center documentation for User and Roles DeleteRoleAPI
+    description: Complete reference of the DeleteRoleAPI API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-role-api
-  - name: Cisco DNA Center documentation for User and
-      Roles UpdateRoleAPI
-    description: Complete reference of the UpdateRoleAPI
-      API.
+  - name: Cisco DNA Center documentation for User and Roles UpdateRoleAPI
+    description: Complete reference of the UpdateRoleAPI API.
     link: https://developer.cisco.com/docs/dna-center/#!update-role-api
 notes:
   - SDK Method used are
-    user_and_roles.UserandRoles.add_role_api,
-    user_and_roles.UserandRoles.delete_role_api,
-    user_and_roles.UserandRoles.update_role_api,
+    userand_roles.UserandRoles.add_role_api,
+    userand_roles.UserandRoles.delete_role_api,
+    userand_roles.UserandRoles.update_role_api,
   - Paths used are
     post /dna/system/api/v1/role,
-    delete
-    /dna/system/api/v1/role/{roleId},
+    delete /dna/system/api/v1/role/{roleId},
     put /dna/system/api/v1/role,
 """
 

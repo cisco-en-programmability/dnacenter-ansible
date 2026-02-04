@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: health_score_definitions_bulk_update
-short_description: Resource module for Health Score
-  Definitions Bulk Update
+short_description: Resource module for Health Score Definitions Bulk Update
 description:
-  - Manage operation create of the resource Health Score
-    Definitions Bulk Update.
-  - Update health thresholds, include status of overall
-    health status for each metric.
+  - Manage operation create of the resource Health Score Definitions Bulk Update.
+  - Update health thresholds, include status of overall health status for each metric.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,8 +20,7 @@ options:
     description: Additional headers.
     type: dict
   payload:
-    description: Health Score Definitions Bulk Update's
-      payload.
+    description: Health Score Definitions Bulk Update's payload.
     elements: dict
     suboptions:
       id:
@@ -41,13 +37,11 @@ options:
         type: float
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      UpdateHealthScoreDefinitions
-    description: Complete reference of the UpdateHealthScoreDefinitions
-      API.
+  - name: Cisco DNA Center documentation for Devices UpdateHealthScoreDefinitions
+    description: Complete reference of the UpdateHealthScoreDefinitions API.
     link: https://developer.cisco.com/docs/dna-center/#!update-health-score-definitions
 notes:
   - SDK Method used are

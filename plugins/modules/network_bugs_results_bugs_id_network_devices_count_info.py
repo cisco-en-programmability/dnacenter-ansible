@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: network_bugs_results_bugs_id_network_devices_count_info
-short_description: Information module for Network Bugs
-  Results Bugs Id Network Devices Count
+short_description: Information module for Network Bugs Results Bugs Id Network Devices Count
 description:
-  - Get all Network Bugs Results Bugs Id Network Devices
-    Count.
+  - Get all Network Bugs Results Bugs Id Network Devices Count.
   - Get count of network bug devices for the bug.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -27,32 +25,26 @@ options:
     type: str
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Id of the network
-        device.
+      - NetworkDeviceId query parameter. Id of the network device.
     type: str
   scanMode:
     description:
       - >
-        ScanMode query parameter. Mode or the criteria
-        using which the network device was scanned.
-        Available values ESSENTIALS, ADVANTAGE, CX_CLOUD,
-        NOT_AVAILABLE.
+        ScanMode query parameter. Mode or the criteria using which the network device was scanned. Available
+        values ESSENTIALS, ADVANTAGE, CX_CLOUD, NOT_AVAILABLE.
     type: str
   scanStatus:
     description:
       - >
-        ScanStatus query parameter. Status of the scan
-        on the network device. Available values NOT_SCANNED,
+        ScanStatus query parameter. Status of the scan on the network device. Available values NOT_SCANNED,
         IN_PROGRESS, SUCCESS, FAILED, FALL_BACK.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetCountOfNetworkBugDevicesForTheBug
-    description: Complete reference of the GetCountOfNetworkBugDevicesForTheBug
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetCountOfNetworkBugDevicesForTheBug
+    description: Complete reference of the GetCountOfNetworkBugDevicesForTheBug API.
     link: https://developer.cisco.com/docs/dna-center/#!get-count-of-network-bug-devices-for-the-bug
 notes:
   - SDK Method used are
@@ -63,8 +55,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Network Bugs Results Bugs Id Network
-    Devices Count
+- name: Get all Network Bugs Results Bugs Id Network Devices Count
   cisco.dnac.network_bugs_results_bugs_id_network_devices_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

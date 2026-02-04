@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: service_provider_v2_info
-short_description: Information module for Service Provider
-  V2
+short_description: Information module for Service Provider V2
 description:
   - Get all Service Provider V2.
   - API to get Service Provider details QoS .
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings GetServiceProviderDetailsV2
-    description: Complete reference of the GetServiceProviderDetailsV2
-      API.
+  - name: Cisco DNA Center documentation for Network Settings GetServiceProviderDetailsV2
+    description: Complete reference of the GetServiceProviderDetailsV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!get-service-provider-details-v-2
 notes:
   - SDK Method used are

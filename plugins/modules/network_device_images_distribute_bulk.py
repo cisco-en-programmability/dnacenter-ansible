@@ -7,31 +7,24 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_images_distribute_bulk
-short_description: Resource module for Network Device
-  Images Distribute Bulk
+short_description: Resource module for Network Device Images Distribute Bulk
 description:
-  - Manage operation create of the resource Network
-    Device Images Distribute Bulk. - > This API initiates
-    the process of distributing the software image on
-    the given network devices. Providing value for the
-    `distributedImages` will only trigger the distribution
-    process. To monitor the progress and completion
-    of the update task, please call the GET API `/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}`,
-    where `taskId` is from the response of the current
-    endpoint.
+  - Manage operation create of the resource Network Device Images Distribute Bulk.
+  - This API initiates the process of distributing the software image on the given network devices.
+  - Providing value for the `distributedImages` will only trigger the distribution process.
+  - To monitor the progress and completion of the update task, call the GET API
+    `/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}`, where `taskId` is from the response.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   payload:
-    description: Network Device Images Distribute Bulk's
-      payload.
+    description: Network Device Images Distribute Bulk's payload.
     elements: dict
     suboptions:
       distributedImages:
-        description: Network Device Images Distribute
-          Bulk's distributedImages.
+        description: Network Device Images Distribute Bulk's distributedImages.
         elements: dict
         suboptions:
           id:
@@ -42,19 +35,16 @@ options:
         description: Network device identifier.
         type: str
       networkValidationIds:
-        description: List of unique identifier of custom
-          network device validations.
+        description: List of unique identifier of custom network device validations.
         elements: str
         type: list
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) BulkDistributeImagesOnNetworkDevices
-    description: Complete reference of the BulkDistributeImagesOnNetworkDevices
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) BulkDistributeImagesOnNetworkDevices
+    description: Complete reference of the BulkDistributeImagesOnNetworkDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!bulk-distribute-images-on-network-devices
 notes:
   - SDK Method used are

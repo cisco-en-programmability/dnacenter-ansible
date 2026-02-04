@@ -7,22 +7,17 @@
 DOCUMENTATION = r"""
 ---
 module: assurance_issues_ignore
-short_description: Resource module for Assurance Issues
-  Ignore
+short_description: Resource module for Assurance Issues Ignore
 description:
-  - Manage operation create of the resource Assurance
-    Issues Ignore. - > Ignores the given list of issues.
-    The response contains the list of issues which were
-    successfully ignored as well as the issues which
-    are failed to ignore. After this API returns success
-    response, it may take few seconds for the issue
-    status to be updated if the system is heavily loaded.
-    Please use `GET /dna/data/api/v1/assuranceIssues/{id}`
-    API to fetch the details of a particular issue and
-    verify `updatedTime`. For detailed information about
-    the usage of the API, please refer to the Open API
-    specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-    specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesLifecycle-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Assurance Issues Ignore.
+  - Ignores the given list of issues. The response contains the list of issues which were successfully ignored
+    as well as the issues which are failed to ignore.
+  - After this API returns success response, it may take few seconds for the issue status to be updated
+    if the system is heavily loaded.
+  - Please use `GET /dna/data/api/v1/assuranceIssues/{id}` API to fetch the details of a particular issue
+    and verify `updatedTime`.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesLifecycle-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -39,13 +34,11 @@ options:
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Issues
-      IgnoreTheGivenListOfIssues
-    description: Complete reference of the IgnoreTheGivenListOfIssues
-      API.
+  - name: Cisco DNA Center documentation for Issues IgnoreTheGivenListOfIssues
+    description: Complete reference of the IgnoreTheGivenListOfIssues API.
     link: https://developer.cisco.com/docs/dna-center/#!ignore-the-given-list-of-issues
 notes:
   - SDK Method used are

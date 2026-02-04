@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_devices_layer2_handoffs_sda_transits_count_info
-short_description: Information module for Sda Fabricdevices
-  Layer2handoffs Sdatransits Count
+short_description: Information module for Sda Fabric Devices Layer2 Handoffs Sda Transits Count
 description:
-  - Get all Sda Fabricdevices Layer2handoffs Sdatransits
-    Count.
-  - Returns the count of layer 3 handoffs with sda transit
-    of fabric devices that match the provided query
-    parameters.
+  - Get all Sda Fabric Devices Layer2 Handoffs Sda Transits Count.
+  - Returns the count of layer 3 handoffs with sda transit of fabric devices that match the provided query parameters.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,21 +21,18 @@ options:
     type: dict
   fabricId:
     description:
-      - FabricId query parameter. ID of the fabric this
-        device belongs to.
+      - FabricId query parameter. ID of the fabric this device belongs to.
     type: str
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Network device
-        ID of the fabric device.
+      - NetworkDeviceId query parameter. Network device ID of the fabric device.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetFabricDevicesLayer3HandoffsWithSdaTransitCount
-    description: Complete reference of the GetFabricDevicesLayer3HandoffsWithSdaTransitCount
-      API.
+    description: Complete reference of the GetFabricDevicesLayer3HandoffsWithSdaTransitCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-layer-3-handoffs-with-sda-transit-count
 notes:
   - SDK Method used are
@@ -50,9 +43,8 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Sda Fabricdevices Layer2handoffs Sdatransits
-    Count
-  cisco.dnac.sda_fabricDevices_layer2Handoffs_sdaTransits_count_info:
+- name: Get all Sda Fabric Devices Layer2 Handoffs Sda Transits Count
+  cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

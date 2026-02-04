@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: event_subscription_count_info
-short_description: Information module for Event Subscription
-  Count
+short_description: Information module for Event Subscription Count
 description:
   - Get all Event Subscription Count.
   - Returns the Count of EventSubscriptions.
@@ -22,17 +21,14 @@ options:
     type: dict
   eventIds:
     description:
-      - EventIds query parameter. List of subscriptions
-        related to the respective eventIds.
+      - EventIds query parameter. List of subscriptions related to the respective eventIds.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      CountOfEventSubscriptions
-    description: Complete reference of the CountOfEventSubscriptions
-      API.
+  - name: Cisco DNA Center documentation for Event Management CountOfEventSubscriptions
+    description: Complete reference of the CountOfEventSubscriptions API.
     link: https://developer.cisco.com/docs/dna-center/#!count-of-event-subscriptions
 notes:
   - SDK Method used are

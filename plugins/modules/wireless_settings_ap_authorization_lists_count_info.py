@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_ap_authorization_lists_count_info
-short_description: Information module for Wireless Settings
-  Ap Authorization Lists Count
+short_description: Information module for Wireless Settings Ap Authorization Lists Count
 description:
-  - Get all Wireless Settings Ap Authorization Lists
-    Count.
-  - This API allows the user to get count of all AP
-    Authorization lists.
+  - Get all Wireless Settings Ap Authorization Lists Count.
+  - This API allows the user to get count of all AP Authorization lists.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetAPAuthorizationListCount
-    description: Complete reference of the GetAPAuthorizationListCount
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetAPAuthorizationListCount
+    description: Complete reference of the GetAPAuthorizationListCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ap-authorization-list-count
 notes:
   - SDK Method used are
@@ -40,8 +35,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Wireless Settings Ap Authorization Lists
-    Count
+- name: Get all Wireless Settings Ap Authorization Lists Count
   cisco.dnac.wireless_settings_ap_authorization_lists_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

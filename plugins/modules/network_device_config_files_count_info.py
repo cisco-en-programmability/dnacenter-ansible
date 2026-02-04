@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_config_files_count_info
-short_description: Information module for Network Device
-  Config Files Count
+short_description: Information module for Network Device Config Files Count
 description:
   - Get all Network Device Config Files Count.
-  - Retrieves count the details of the network device
-    configuration files.
+  - Retrieves count the details of the network device configuration files.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,31 +21,26 @@ options:
     type: dict
   id:
     description:
-      - Id query parameter. Unique identifier (UUID)
-        of the configuration file.
+      - Id query parameter. Unique identifier (UUID) of the configuration file.
     type: str
   networkDeviceId:
     description:
       - >
-        NetworkDeviceId query parameter. Unique identifier
-        (UUID) of the network devices. The number of
+        NetworkDeviceId query parameter. Unique identifier (UUID) of the network devices. The number of
         networkDeviceId(s) must not exceed 5.
     type: str
   fileType:
     description:
       - >
-        FileType query parameter. Type of device configuration
-        file. Available values 'RUNNINGCONFIG', 'STARTUPCONFIG',
-        'VLAN'.
+        FileType query parameter. Type of device configuration file. Available values 'RUNNINGCONFIG',
+        'STARTUPCONFIG', 'VLAN'.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Archive CountOfNetworkDeviceConfigurationFiles
-    description: Complete reference of the CountOfNetworkDeviceConfigurationFiles
-      API.
+  - name: Cisco DNA Center documentation for Configuration Archive CountOfNetworkDeviceConfigurationFiles
+    description: Complete reference of the CountOfNetworkDeviceConfigurationFiles API.
     link: https://developer.cisco.com/docs/dna-center/#!count-of-network-device-configuration-files
 notes:
   - SDK Method used are

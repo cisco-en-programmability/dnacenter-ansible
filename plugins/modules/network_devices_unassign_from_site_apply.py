@@ -7,33 +7,26 @@
 DOCUMENTATION = r"""
 ---
 module: network_devices_unassign_from_site_apply
-short_description: Resource module for Network Devices
-  Unassign From Site Apply
+short_description: Resource module for Network Devices Unassign From Site Apply
 description:
-  - Manage operation create of the resource Network
-    Devices Unassign From Site Apply. - > Unassign unprovisioned
-    network devices from their site. If device controllability
-    is enabled, it will be triggered once device unassigned
-    from site successfully. Device Controllability can
-    be enabled/disabled using `/dna/intent/api/v1/networkDevices/deviceControllability/settings`.
+  - Manage operation create of the resource Network Devices Unassign From Site Apply. - > Unassign unprovisioned network devices
+    from their site. If device controllability is enabled, it will be triggered once device unassigned from site successfully.
+    Device Controllability can be enabled/disabled using `/dna/intent/api/v1/networkDevices/deviceControllability/settings`.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   deviceIds:
-    description: Network device Ids, ranging from a
-      minimum of 1 to a maximum of 100.
+    description: Network device Ids, ranging from a minimum of 1 to a maximum of 100.
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      UnassignNetworkDevicesFromSites
-    description: Complete reference of the UnassignNetworkDevicesFromSites
-      API.
+  - name: Cisco DNA Center documentation for Site Design UnassignNetworkDevicesFromSites
+    description: Complete reference of the UnassignNetworkDevicesFromSites API.
     link: https://developer.cisco.com/docs/dna-center/#!unassign-network-devices-from-sites
 notes:
   - SDK Method used are
@@ -65,8 +58,7 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

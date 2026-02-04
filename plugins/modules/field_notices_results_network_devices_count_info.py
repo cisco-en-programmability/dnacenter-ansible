@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: field_notices_results_network_devices_count_info
-short_description: Information module for Field Notices
-  Results Network Devices Count
+short_description: Information module for Field Notices Results Network Devices Count
 description:
   - Get all Field Notices Results Network Devices Count.
   - Get count of field notice network devices.
@@ -22,29 +21,24 @@ options:
     type: dict
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Id of the network
-        device.
+      - NetworkDeviceId query parameter. Id of the network device.
     type: str
   scanStatus:
     description:
       - >
-        ScanStatus query parameter. Status of the scan
-        on the network device. Available values NOT_SCANNED,
+        ScanStatus query parameter. Status of the scan on the network device. Available values NOT_SCANNED,
         IN_PROGRESS, SUCCESS, FAILED.
     type: str
   noticeCount:
     description:
-      - NoticeCount query parameter. Return network
-        devices with noticeCount greater than this noticeCount.
+      - NoticeCount query parameter. Return network devices with noticeCount greater than this noticeCount.
     type: float
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetCountOfFieldNoticeNetworkDevices
-    description: Complete reference of the GetCountOfFieldNoticeNetworkDevices
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetCountOfFieldNoticeNetworkDevices
+    description: Complete reference of the GetCountOfFieldNoticeNetworkDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!get-count-of-field-notice-network-devices
 notes:
   - SDK Method used are
@@ -55,8 +49,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Field Notices Results Network Devices
-    Count
+- name: Get all Field Notices Results Network Devices Count
   cisco.dnac.field_notices_results_network_devices_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

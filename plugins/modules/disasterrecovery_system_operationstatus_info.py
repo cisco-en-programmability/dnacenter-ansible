@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: disasterrecovery_system_operationstatus_info
-short_description: Information module for Disasterrecovery
-  System Operationstatus
+short_description: Information module for Disasterrecovery System Operationstatus
 description:
   - Get all Disasterrecovery System Operationstatus.
-  - Returns the status of Disaster Recovery operation
-    performed on the system.
+  - Returns the status of Disaster Recovery operation performed on the system.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,8 +20,8 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 notes:
   - SDK Method used are
     disaster_recovery.DisasterRecovery.disaster_recovery_operational_status,

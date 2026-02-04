@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: topology_layer_3_info
-short_description: Information module for Topology Layer
-  3
+short_description: Information module for Topology Layer 3
 description:
   - Get Topology Layer 3 by id.
-  - Returns the Layer 3 network topology by routing
-    protocol.
+  - Returns the Layer 3 network topology by routing protocol.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,13 +24,11 @@ options:
       - TopologyType path parameter. Type of topology(OSPF,ISIS,etc).
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Topology
-      GetL3TopologyDetails
-    description: Complete reference of the GetL3TopologyDetails
-      API.
+  - name: Cisco DNA Center documentation for Topology GetL3TopologyDetails
+    description: Complete reference of the GetL3TopologyDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!get-l-3-topology-details
 notes:
   - SDK Method used are

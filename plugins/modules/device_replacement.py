@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: device_replacement
 short_description: Resource module for Device Replacement
 description:
-  - Manage operations create and update of the resource
-    Device Replacement.
+  - Manage operations create and update of the resource Device Replacement.
   - Marks device for replacement.
   - UnMarks device for replacement.
 version_added: '3.1.0'
@@ -23,15 +22,13 @@ options:
     elements: dict
     suboptions:
       creationTime:
-        description: Date and time of marking the device
-          for replacement.
+        description: Date and time of marking the device for replacement.
         type: int
       family:
         description: Faulty device family.
         type: str
       faultyDeviceId:
-        description: Unique identifier of the faulty
-          device.
+        description: Unique identifier of the faulty device.
         type: str
       faultyDeviceName:
         description: Faulty device name.
@@ -43,16 +40,13 @@ options:
         description: Faulty device serial number.
         type: str
       id:
-        description: Unique identifier of the device
-          replacement resource.
+        description: Unique identifier of the device replacement resource.
         type: str
       neighbourDeviceId:
-        description: Unique identifier of the neighbor
-          device to create the DHCP server.
+        description: Unique identifier of the neighbor device to create the DHCP server.
         type: str
       networkReadinessTaskId:
-        description: Unique identifier of network readiness
-          task.
+        description: Unique identifier of network readiness task.
         type: str
       replacementDevicePlatform:
         description: Replacement device platform.
@@ -61,30 +55,24 @@ options:
         description: Replacement device serial number.
         type: str
       replacementStatus:
-        description: Device replacement status. Use
-          NON-FAULTY to unmark the device for replacement.
+        description: Device replacement status. Use MARKED-FOR-REPLACEMENT to mark the device for replacement.
         type: str
       replacementTime:
         description: Date and time of device replacement.
         type: int
       workflowId:
-        description: Unique identifier of the device
-          replacement workflow.
+        description: Unique identifier of the device replacement workflow.
         type: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Replacement MarkDeviceForReplacement
-    description: Complete reference of the MarkDeviceForReplacement
-      API.
+  - name: Cisco DNA Center documentation for Device Replacement MarkDeviceForReplacement
+    description: Complete reference of the MarkDeviceForReplacement API.
     link: https://developer.cisco.com/docs/dna-center/#!mark-device-for-replacement
-  - name: Cisco DNA Center documentation for Device
-      Replacement UnMarkDeviceForReplacement
-    description: Complete reference of the UnMarkDeviceForReplacement
-      API.
+  - name: Cisco DNA Center documentation for Device Replacement UnMarkDeviceForReplacement
+    description: Complete reference of the UnMarkDeviceForReplacement API.
     link: https://developer.cisco.com/docs/dna-center/#!un-mark-device-for-replacement
 notes:
   - SDK Method used are
@@ -97,7 +85,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Update all
+- name: Create
   cisco.dnac.device_replacement:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -122,7 +110,7 @@ EXAMPLES = r"""
         replacementStatus: string
         replacementTime: 0
         workflowId: string
-- name: Create
+- name: Update all
   cisco.dnac.device_replacement:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

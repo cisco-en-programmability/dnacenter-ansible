@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: security_threats_details
-short_description: Resource module for Security Threats
-  Details
+short_description: Resource module for Security Threats Details
 description:
-  - Manage operation create of the resource Security
-    Threats Details.
+  - Manage operation create of the resource Security Threats Details.
   - The details for the Rogue and aWIPS threats.
 version_added: '6.16.0'
 extends_documentation_fragment:
@@ -46,8 +44,8 @@ options:
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 notes:
   - SDK Method used are
     devices.Devices.threat_details,

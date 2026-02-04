@@ -7,21 +7,20 @@
 DOCUMENTATION = r"""
 ---
 module: health_score_definitions
-short_description: Resource module for Health Score
-  Definitions
+short_description: Resource module for Health Score Definitions
 description:
-  - Manage operation update of the resource Health Score
-    Definitions.
-  - Update health threshold, include status of overall
-    health status.
+  - Manage operation update of the resource Health Score Definitions.
+  - Update health threshold, include status of overall health status.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   id:
-    description: Id path parameter. Health score definition
-      id.
+    description: Id path parameter. Health score definition id.
     type: str
   includeForOverallHealth:
     description: Include For Overall Health.
@@ -33,13 +32,11 @@ options:
     description: Thresehold Value.
     type: float
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      UpdateHealthScoreDefinitionForTheGivenId
-    description: Complete reference of the UpdateHealthScoreDefinitionForTheGivenId
-      API.
+  - name: Cisco DNA Center documentation for Devices UpdateHealthScoreDefinitionForTheGivenId
+    description: Complete reference of the UpdateHealthScoreDefinitionForTheGivenId API.
     link: https://developer.cisco.com/docs/dna-center/#!update-health-score-definition-for-the-given-id
 notes:
   - SDK Method used are
@@ -60,6 +57,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    headers: '{{my_headers | from_json}}'
     id: string
     includeForOverallHealth: true
     synchronizeToIssueThreshold: true

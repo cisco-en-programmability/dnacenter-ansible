@@ -7,16 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: transit_network_health_summaries_id_trend_analytics_info
-short_description: Information module for Transit Network
-  Health Summaries Id Trend Analytics
+short_description: Information module for Transit Network Health Summaries Id Trend Analytics
 description:
-  - Get all Transit Network Health Summaries Id Trend
-    Analytics. - > Get health time series for a specific
-    Transit Network by providing the unique Transit
-    Network id in the url path. The data will be grouped
-    based on the specified trend time interval. If startTime
-    and endTime are not provided, the API defaults to
-    the last 24 hours.
+  - Get all Transit Network Health Summaries Id Trend Analytics.
+  - Get health time series for a specific Transit Network by providing the unique Transit Network id in the url path.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,64 +21,50 @@ options:
     type: dict
   id:
     description:
-      - Id path parameter. The unique transit network
-        id, Ex "1551156a-bc97-3c63-aeda-8a6d3765b5b9"
+      - Id path parameter. The unique transit network id, Ex "1551156a-bc97-3c63-aeda-8a6d3765b5b9".
     type: str
   startTime:
     description:
       - >
-        StartTime query parameter. Start time from which
-        API queries the data set related to the resource.
-        It must be specified in UNIX epochtime in milliseconds.
-        Value is inclusive.
+        StartTime query parameter. Start time from which API queries the data set related to the resource. It
+        must be specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   endTime:
     description:
       - >
-        EndTime query parameter. End time to which API
-        queries the data set related to the resource.
-        It must be specified in UNIX epochtime in milliseconds.
-        Value is inclusive.
+        EndTime query parameter. End time to which API queries the data set related to the resource. It must be
+        specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   trendInterval:
     description:
       - >
-        TrendInterval query parameter. The time window
-        to aggregate the metrics. Interval can be 5
-        minutes or 10 minutes or 1 hour or 1 day or
-        7 days.
+        TrendInterval query parameter. The time window to aggregate the metrics. Interval can be 5 minutes or 10
+        minutes or 1 hour or 1 day or 7 days.
     type: str
   limit:
     description:
-      - Limit query parameter. Maximum number of records
-        to return.
-    type: float
+      - Limit query parameter. Maximum number of records to return.
+    type: int
   offset:
     description:
       - >
-        Offset query parameter. Specifies the starting
-        point within all records returned by the API.
-        It's one based offset. The starting value is
-        1.
-    type: float
+        Offset query parameter. Specifies the starting point within all records returned by the API. It's one
+        based offset. The starting value is 1.
+    type: int
   order:
     description:
-      - Order query parameter. The sort order of the
-        field ascending or descending.
+      - Order query parameter. The sort order of the field ascending or descending.
     type: str
   attribute:
     description:
-      - Attribute query parameter. The interested fields
-        in the request. For valid attributes, verify
-        the documentation.
+      - Attribute query parameter. The interested fields in the request. For valid attributes, verify the documentation.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA TheTrendAnalyticsDataForATransitNetworkInTheSpecifiedTimeRange
-    description: Complete reference of the TheTrendAnalyticsDataForATransitNetworkInTheSpecifiedTimeRange
-      API.
+    description: Complete reference of the TheTrendAnalyticsDataForATransitNetworkInTheSpecifiedTimeRange API.
     link: https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-a-transit-network-in-the-specified-time-range
 notes:
   - SDK Method used are
@@ -95,8 +75,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Transit Network Health Summaries Id
-    Trend Analytics
+- name: Get all Transit Network Health Summaries Id Trend Analytics
   cisco.dnac.transit_network_health_summaries_id_trend_analytics_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

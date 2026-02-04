@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: provisioning_settings_info
-short_description: Information module for Provisioning
-  Settings
+short_description: Information module for Provisioning Settings
 description:
   - Get all Provisioning Settings.
   - Returns provisioning settings.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for System
-      Settings GetProvisioningSettings
-    description: Complete reference of the GetProvisioningSettings
-      API.
+  - name: Cisco DNA Center documentation for System Settings GetProvisioningSettings
+    description: Complete reference of the GetProvisioningSettings API.
     link: https://developer.cisco.com/docs/dna-center/#!get-provisioning-settings
 notes:
   - SDK Method used are

@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: floors_floor_id_planned_access_point_positions_info
-short_description: Information module for Floors Floor
-  Id Planned Access Point Positions
+short_description: Information module for Floors Floor Id Planned Access Point Positions
 description:
   - Get all Floors Floor Id Planned Access Point Positions.
-  - Retrieve all Planned Access Points Positions designated
-    for a specific floor.
+  - Retrieve all Planned Access Points Positions designated for a specific floor.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -31,8 +29,7 @@ options:
     type: str
   macAddress:
     description:
-      - MacAddress query parameter. Planned Access Point
-        mac address.
+      - MacAddress query parameter. Planned Access Point mac address.
     type: str
   type:
     description:
@@ -40,24 +37,18 @@ options:
     type: str
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1. Minimum 1.
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1. Minimum 1.
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page;The minimum is 1, and
-        the maximum is 500.
+      - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      GetPlannedAccessPointsPositionsV2
-    description: Complete reference of the GetPlannedAccessPointsPositionsV2
-      API.
+  - name: Cisco DNA Center documentation for Site Design GetPlannedAccessPointsPositionsV2
+    description: Complete reference of the GetPlannedAccessPointsPositionsV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-positions-v-2
 notes:
   - SDK Method used are
@@ -68,8 +59,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Floors Floor Id Planned Access Point
-    Positions
+- name: Get all Floors Floor Id Planned Access Point Positions
   cisco.dnac.floors_floor_id_planned_access_point_positions_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

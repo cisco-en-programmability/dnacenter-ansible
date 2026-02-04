@@ -9,11 +9,8 @@ DOCUMENTATION = r"""
 module: sensor
 short_description: Resource module for Sensor
 description:
-  - Manage operations create and delete of the resource
-    Sensor.
-  - Intent API to create a SENSOR test template with
-    a new SSID, existing SSID, or both new and existing
-    SSID.
+  - Manage operations create and delete of the resource Sensor.
+  - Intent API to create a SENSOR test template with a new SSID, existing SSID, or both new and existing SSID.
   - Intent API to delete an existing SENSOR test template.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -35,8 +32,7 @@ options:
         type: int
     type: list
   connection:
-    description: Connection type of test WIRED, WIRELESS,
-      BOTH.
+    description: Connection type of test WIRED, WIRELESS, BOTH.
     type: str
   encryptionMode:
     description: Encryption mode.
@@ -46,8 +42,7 @@ options:
     elements: dict
     suboptions:
       allSensors:
-        description: Use all sensors in the site for
-          test.
+        description: Use all sensors in the site for test.
         type: bool
       customManagementVlan:
         description: Custom Management VLAN.
@@ -70,8 +65,7 @@ options:
         type: str
     type: list
   modelVersion:
-    description: Test template object model version
-      (must be 2).
+    description: Test template object model version (must be 2).
     type: int
   name:
     description: The sensor test template name.
@@ -84,8 +78,7 @@ options:
         description: Auth protocol.
         type: str
       authType:
-        description: Authentication type OPEN, WPA2_PSK,
-          WPA2_EaP, WEB_AUTH, MAB, DOT1X, OTHER.
+        description: Authentication type OPEN, WPA2_PSK, WPA2_EaP, WEB_AUTH, MAB, DOT1X, OTHER.
         type: str
       certdownloadurl:
         description: Certificate download URL.
@@ -97,24 +90,20 @@ options:
         description: Certificate password phrase.
         type: str
       certstatus:
-        description: Certificate status INACTIVE or
-          ACTIVE.
+        description: Certificate status INACTIVE or ACTIVE.
         type: str
       certxferprotocol:
-        description: Certificate transfering protocol
-          HTTP or HTTPS.
+        description: Certificate transfering protocol HTTP or HTTPS.
         type: str
       deviceType:
         description: Device Type.
         type: str
       eapMethod:
-        description: WPA2_EAP methods EAP-FAST, PEAP-MSCHAPv2,
-          EAP-TLS, PEAP-TLS, EAP-TTLS-MSCHAPv2, EAP-TTLS-PAP,
-          EAP-TTLS-CHAP, EAP-FAST-GTC, EAP-PEAP-GTC.
+        description: WPA2_EAP methods EAP-FAST, PEAP-MSCHAPv2, EAP-TLS, PEAP-TLS, EAP-TTLS-MSCHAPv2, EAP-TTLS-PAP, EAP-TTLS-CHAP,
+          EAP-FAST-GTC, EAP-PEAP-GTC.
         type: str
       extWebAuth:
-        description: Indication of using external WEB
-          Auth.
+        description: Indication of using external WEB Auth.
         type: bool
       extWebAuthAccessUrl:
         description: External WEB Auth access URL.
@@ -152,8 +141,7 @@ options:
             type: list
         type: list
       password:
-        description: Password string for onboarding
-          SSID.
+        description: Password string for onboarding SSID.
         type: str
       passwordType:
         description: SSID password type ASCII or HEX.
@@ -162,16 +150,13 @@ options:
         description: Profile name.
         type: str
       psk:
-        description: Password of SSID when passwordType
-          is ASCII.
+        description: Password of SSID when passwordType is ASCII.
         type: str
       qosPolicy:
-        description: QoS policy PlATINUM, GOLD, SILVER,
-          BRONZE.
+        description: QoS policy PlATINUM, GOLD, SILVER, BRONZE.
         type: str
       scep:
-        description: Secure certificate enrollment protocol
-          true or false or null for not applicable.
+        description: Secure certificate enrollment protocol true or false or null for not applicable.
         type: bool
       tests:
         description: Sensor's tests.
@@ -182,8 +167,7 @@ options:
             elements: dict
             suboptions:
               direction:
-                description: IPerf direction (UPLOAD,
-                  DOWNLOAD, BOTH).
+                description: IPerf direction (UPLOAD, DOWNLOAD, BOTH).
                 type: str
               domains:
                 description: DNS domain name.
@@ -212,7 +196,7 @@ options:
                 type: str
               numPackets:
                 description: Number of packets.
-                type: int
+                type: str
               password:
                 description: Password.
                 type: str
@@ -229,9 +213,8 @@ options:
                 description: Probe type.
                 type: str
               protocol:
-                description: Protocol used by file transfer,
-                  IPerf, mail server, and radius (TCP,
-                  UDP, FTP, POP3, IMAP, CHAP, PAP).
+                description: Protocol used by file transfer, IPerf, mail server, and radius (TCP, UDP, FTP, POP3, IMAP, CHAP,
+                  PAP).
                 type: str
               proxyPassword:
                 description: Proxy password.
@@ -246,8 +229,7 @@ options:
                 description: Proxy user name.
                 type: str
               server:
-                description: Ping, file transfer, mail,
-                  radius, ssh, or telnet server.
+                description: Ping, file transfer, mail, radius, ssh, or telnet server.
                 type: str
               servers:
                 description: IPerf server list.
@@ -260,8 +242,7 @@ options:
                 description: IPerf start port.
                 type: int
               transferType:
-                description: File transfer type (UPLOAD,
-                  DOWNLOAD, BOTH).
+                description: File transfer type (UPLOAD, DOWNLOAD, BOTH).
                 type: str
               udpBandwidth:
                 description: IPerf UDP bandwidth.
@@ -284,15 +265,13 @@ options:
             type: str
         type: list
       username:
-        description: User name string for onboarding
-          SSID.
+        description: User name string for onboarding SSID.
         type: str
       vlan:
         description: VLAN.
         type: str
       whiteList:
-        description: Indication of being on allowed
-          list.
+        description: Indication of being on allowed list.
         type: bool
     type: list
   runNow:
@@ -315,7 +294,7 @@ options:
         description: Host name.
         type: str
       iPerfInfo:
-        description: A string-stringList iPerf information.
+        description: Sensor's iPerfInfo.
         type: dict
       id:
         description: Sensor ID.
@@ -345,8 +324,7 @@ options:
         description: Service policy.
         type: str
       status:
-        description: Sensor device status UP, DOWN,
-          REBOOT.
+        description: Sensor device status UP, DOWN, REBOOT.
         type: str
       switchMac:
         description: Switch MAC address.
@@ -362,7 +340,7 @@ options:
         elements: str
         type: list
       testMacAddresses:
-        description: A string-string test MAC address.
+        description: Sensor's testMacAddresses.
         type: dict
       wiredApplicationMessage:
         description: Wired application message.
@@ -382,8 +360,7 @@ options:
         description: Auth protocol.
         type: str
       authType:
-        description: Authentication type OPEN, WPA2_PSK,
-          WPA2_EaP, WEB_AUTH, MAB, DOT1X, OTHER.
+        description: Authentication type OPEN, WPA2_PSK, WPA2_EaP, WEB_AUTH, MAB, DOT1X, OTHER.
         type: str
       bands:
         description: WIFI bands 2.4GHz or 5GHz.
@@ -398,21 +375,17 @@ options:
         description: Certificate password phrase.
         type: str
       certstatus:
-        description: Certificate status INACTIVE or
-          ACTIVE.
+        description: Certificate status INACTIVE or ACTIVE.
         type: str
       certxferprotocol:
-        description: Certificate transfering protocol
-          HTTP or HTTPS.
+        description: Certificate transfering protocol HTTP or HTTPS.
         type: str
       eapMethod:
-        description: WPA2_EAP methods EAP-FAST, PEAP-MSCHAPv2,
-          EAP-TLS, PEAP-TLS, EAP-TTLS-MSCHAPv2, EAP-TTLS-PAP,
-          EAP-TTLS-CHAP, EAP-FAST-GTC, EAP-PEAP-GTC.
+        description: WPA2_EAP methods EAP-FAST, PEAP-MSCHAPv2, EAP-TLS, PEAP-TLS, EAP-TTLS-MSCHAPv2, EAP-TTLS-PAP, EAP-TTLS-CHAP,
+          EAP-FAST-GTC, EAP-PEAP-GTC.
         type: str
       extWebAuth:
-        description: Indication of using external WEB
-          Auth.
+        description: Indication of using external WEB Auth.
         type: bool
       extWebAuthAccessUrl:
         description: External WEB Auth access URL.
@@ -437,6 +410,9 @@ options:
       extWebAuthVirtualIp:
         description: External WEB Auth virtual IP.
         type: str
+      id:
+        description: Identification number.
+        type: int
       layer3webAuthEmailAddress:
         description: Layer 3 WEB Auth email address.
         type: str
@@ -449,9 +425,14 @@ options:
       layer3webAuthuserName:
         description: Layer 3 WEB Auth user name.
         type: str
+      numAps:
+        description: Number of APs in the test.
+        type: int
+      numSensors:
+        description: Number of Sensors in the test.
+        type: int
       password:
-        description: Password string for onboarding
-          SSID.
+        description: Password string for onboarding SSID.
         type: str
       passwordType:
         description: SSID password type ASCII or HEX.
@@ -472,19 +453,19 @@ options:
         description: Proxy server user name.
         type: str
       psk:
-        description: Password of SSID when passwordType
-          is ASCII.
+        description: Password of SSID when passwordType is ASCII.
         type: str
       qosPolicy:
-        description: QoS policy PlATINUM, GOLD, SILVER,
-          BRONZE.
+        description: QoS policy PlATINUM, GOLD, SILVER, BRONZE.
         type: str
       scep:
-        description: Secure certificate enrollment protocol
-          true or false or null for not applicable.
+        description: Secure certificate enrollment protocol true or false or null for not applicable.
         type: bool
       ssid:
         description: The SSID string.
+        type: str
+      status:
+        description: WLAN status ENABLED or DISABLED.
         type: str
       tests:
         description: Sensor's tests.
@@ -495,8 +476,7 @@ options:
             elements: dict
             suboptions:
               direction:
-                description: IPerf direction (UPLOAD,
-                  DOWNLOAD, BOTH).
+                description: IPerf direction (UPLOAD, DOWNLOAD, BOTH).
                 type: str
               domains:
                 description: DNS domain name.
@@ -525,7 +505,7 @@ options:
                 type: str
               numPackets:
                 description: Number of packets.
-                type: int
+                type: str
               password:
                 description: Password.
                 type: str
@@ -542,9 +522,8 @@ options:
                 description: Probe type.
                 type: str
               protocol:
-                description: Protocol used by file transfer,
-                  IPerf, mail server, and radius (TCP,
-                  UDP, FTP, POP3, IMAP, CHAP, PAP).
+                description: Protocol used by file transfer, IPerf, mail server, and radius (TCP, UDP, FTP, POP3, IMAP, CHAP,
+                  PAP).
                 type: str
               proxyPassword:
                 description: Proxy password.
@@ -559,8 +538,7 @@ options:
                 description: Proxy user name.
                 type: str
               server:
-                description: Ping, file transfer, mail,
-                  radius, ssh, or telnet server.
+                description: Ping, file transfer, mail, radius, ssh, or telnet server.
                 type: str
               servers:
                 description: IPerf server list.
@@ -573,8 +551,7 @@ options:
                 description: IPerf start port.
                 type: int
               transferType:
-                description: File transfer type (UPLOAD,
-                  DOWNLOAD, BOTH).
+                description: File transfer type (UPLOAD, DOWNLOAD, BOTH).
                 type: str
               udpBandwidth:
                 description: IPerf UDP bandwidth.
@@ -600,16 +577,20 @@ options:
         description: Sensor's thirdParty.
         suboptions:
           selected:
-            description: True the SSID is third party.
+            description: true the SSID is third party.
             type: bool
         type: dict
       username:
-        description: User name string for onboarding
-          SSID.
+        description: User name string for onboarding SSID.
         type: str
+      validFrom:
+        description: Valid From UTC timestamp.
+        type: int
+      validTo:
+        description: Valid To UTC timestamp.
+        type: int
       whiteList:
-        description: Indication of being on allowed
-          list.
+        description: Indication of being on allowed list.
         type: bool
       wlanId:
         description: WLAN ID.
@@ -622,22 +603,17 @@ options:
     description: TemplateName query parameter.
     type: str
   version:
-    description: The sensor test template version (must
-      be 2).
+    description: The sensor test template version (must be 2).
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Sensors
-      CreateSensorTestTemplate
-    description: Complete reference of the CreateSensorTestTemplate
-      API.
+  - name: Cisco DNA Center documentation for Sensors CreateSensorTestTemplate
+    description: Complete reference of the CreateSensorTestTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!create-sensor-test-template
-  - name: Cisco DNA Center documentation for Sensors
-      DeleteSensorTest
-    description: Complete reference of the DeleteSensorTest
-      API.
+  - name: Cisco DNA Center documentation for Sensors DeleteSensorTest
+    description: Complete reference of the DeleteSensorTest API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-sensor-test
 notes:
   - SDK Method used are
@@ -645,12 +621,22 @@ notes:
     sensors.Sensors.delete_sensor_test,
   - Paths used are
     post /dna/intent/api/v1/sensor,
-    delete
-    /dna/intent/api/v1/sensor,
+    delete /dna/intent/api/v1/sensor,
 """
 
 EXAMPLES = r"""
 ---
+- name: Delete all
+  cisco.dnac.sensor:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    templateName: string
 - name: Create
   cisco.dnac.sensor:
     dnac_host: "{{dnac_host}}"
@@ -718,7 +704,7 @@ EXAMPLES = r"""
                 ndtServer: string
                 ndtServerPath: string
                 ndtServerPort: string
-                numPackets: 0
+                numPackets: string
                 password: string
                 passwordPrompt: string
                 pathToDownload: string
@@ -788,10 +774,13 @@ EXAMPLES = r"""
             value: string
         extWebAuthPortal: string
         extWebAuthVirtualIp: string
+        id: 0
         layer3webAuthEmailAddress: string
         layer3webAuthpassword: string
         layer3webAuthsecurity: string
         layer3webAuthuserName: string
+        numAps: 0
+        numSensors: 0
         password: string
         passwordType: string
         profileName: string
@@ -803,6 +792,7 @@ EXAMPLES = r"""
         qosPolicy: string
         scep: true
         ssid: string
+        status: string
         tests:
           - config:
               - direction: string
@@ -815,7 +805,7 @@ EXAMPLES = r"""
                 ndtServer: string
                 ndtServerPath: string
                 ndtServerPort: string
-                numPackets: 0
+                numPackets: string
                 password: string
                 passwordPrompt: string
                 pathToDownload: string
@@ -841,21 +831,12 @@ EXAMPLES = r"""
         thirdParty:
           selected: true
         username: string
+        validFrom: 0
+        validTo: 0
         whiteList: true
         wlanId: 0
         wlc: string
     version: 0
-- name: Delete all
-  cisco.dnac.sensor:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: absent
-    templateName: string
 """
 RETURN = r"""
 dnac_response:
@@ -866,261 +847,8 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "name": "string",
-        "_id": "string",
-        "version": 0,
-        "modelVersion": 0,
-        "startTime": 0,
-        "lastModifiedTime": 0,
-        "numAssociatedSensor": 0,
-        "location": "string",
-        "siteHierarchy": "string",
-        "status": "string",
-        "connection": "string",
-        "actionInProgress": "string",
-        "frequency": {
-          "value": 0,
-          "unit": "string"
-        },
-        "rssiThreshold": 0,
-        "numNeighborAPThreshold": 0,
-        "scheduleInDays": 0,
-        "wlans": [
-          "string"
-        ],
-        "ssids": [
-          {
-            "bands": "string",
-            "ssid": "string",
-            "profileName": "string",
-            "numAps": 0,
-            "numSensors": 0,
-            "layer3webAuthsecurity": "string",
-            "layer3webAuthuserName": "string",
-            "layer3webAuthpassword": "string",
-            "layer3webAuthEmailAddress": "string",
-            "thirdParty": {
-              "selected": true
-            },
-            "id": 0,
-            "wlanId": 0,
-            "wlc": "string",
-            "validFrom": 0,
-            "validTo": 0,
-            "status": "string",
-            "proxyServer": "string",
-            "proxyPort": "string",
-            "proxyUserName": "string",
-            "proxyPassword": "string",
-            "authType": "string",
-            "psk": "string",
-            "username": "string",
-            "password": "string",
-            "passwordType": "string",
-            "eapMethod": "string",
-            "scep": true,
-            "authProtocol": "string",
-            "certfilename": "string",
-            "certxferprotocol": "string",
-            "certstatus": "string",
-            "certpassphrase": "string",
-            "certdownloadurl": "string",
-            "extWebAuthVirtualIp": "string",
-            "extWebAuth": true,
-            "whiteList": true,
-            "extWebAuthPortal": "string",
-            "extWebAuthAccessUrl": "string",
-            "extWebAuthHtmlTag": [
-              {
-                "label": "string",
-                "tag": "string",
-                "value": "string"
-              }
-            ],
-            "qosPolicy": "string",
-            "tests": [
-              {
-                "name": "string",
-                "config": [
-                  {
-                    "domains": [
-                      "string"
-                    ],
-                    "server": "string",
-                    "userName": "string",
-                    "password": "string",
-                    "url": "string",
-                    "port": 0,
-                    "protocol": "string",
-                    "servers": [
-                      "string"
-                    ],
-                    "direction": "string",
-                    "startPort": 0,
-                    "endPort": 0,
-                    "udpBandwidth": 0,
-                    "probeType": "string",
-                    "numPackets": 0,
-                    "pathToDownload": "string",
-                    "transferType": "string",
-                    "sharedSecret": "string",
-                    "ndtServer": "string",
-                    "ndtServerPort": "string",
-                    "ndtServerPath": "string",
-                    "uplinkTest": true,
-                    "downlinkTest": true,
-                    "proxyServer": "string",
-                    "proxyPort": "string",
-                    "proxyUserName": "string",
-                    "proxyPassword": "string",
-                    "userNamePrompt": "string",
-                    "passwordPrompt": "string",
-                    "exitCommand": "string",
-                    "finalPrompt": "string"
-                  }
-                ]
-              }
-            ]
-          }
-        ],
-        "profiles": [
-          {
-            "authType": "string",
-            "psk": "string",
-            "username": "string",
-            "password": "string",
-            "passwordType": "string",
-            "eapMethod": "string",
-            "scep": true,
-            "authProtocol": "string",
-            "certfilename": "string",
-            "certxferprotocol": "string",
-            "certstatus": "string",
-            "certpassphrase": "string",
-            "certdownloadurl": "string",
-            "extWebAuthVirtualIp": "string",
-            "extWebAuth": true,
-            "whiteList": true,
-            "extWebAuthPortal": "string",
-            "extWebAuthAccessUrl": "string",
-            "extWebAuthHtmlTag": [
-              {
-                "label": "string",
-                "tag": "string",
-                "value": "string"
-              }
-            ],
-            "qosPolicy": "string",
-            "tests": [
-              {
-                "name": "string",
-                "config": [
-                  {
-                    "domains": [
-                      "string"
-                    ],
-                    "server": "string",
-                    "userName": "string",
-                    "password": "string",
-                    "url": "string",
-                    "port": 0,
-                    "protocol": "string",
-                    "servers": [
-                      "string"
-                    ],
-                    "direction": "string",
-                    "startPort": 0,
-                    "endPort": 0,
-                    "udpBandwidth": 0,
-                    "probeType": "string",
-                    "numPackets": 0,
-                    "pathToDownload": "string",
-                    "transferType": "string",
-                    "sharedSecret": "string",
-                    "ndtServer": "string",
-                    "ndtServerPort": "string",
-                    "ndtServerPath": "string",
-                    "uplinkTest": true,
-                    "downlinkTest": true,
-                    "proxyServer": "string",
-                    "proxyPort": "string",
-                    "proxyUserName": "string",
-                    "proxyPassword": "string",
-                    "userNamePrompt": "string",
-                    "passwordPrompt": "string",
-                    "exitCommand": "string",
-                    "finalPrompt": "string"
-                  }
-                ]
-              }
-            ],
-            "profileName": "string",
-            "deviceType": "string",
-            "vlan": "string",
-            "locationVlanList": [
-              {
-                "locationId": "string",
-                "vlans": [
-                  "string"
-                ]
-              }
-            ]
-          }
-        ],
-        "testScheduleMode": "string",
-        "showWlcUpgradeBanner": true,
-        "radioAsSensorRemoved": true,
-        "encryptionMode": "string",
-        "runNow": "string",
-        "locationInfoList": [
-          {
-            "locationId": "string",
-            "locationType": "string",
-            "allSensors": true,
-            "siteHierarchy": "string",
-            "macAddressList": [
-              "string"
-            ],
-            "managementVlan": "string",
-            "customManagementVlan": true
-          }
-        ],
-        "sensors": [
-          {
-            "name": "string",
-            "macAddress": "string",
-            "switchMac": "string",
-            "switchUuid": "string",
-            "switchSerialNumber": "string",
-            "markedForUninstall": true,
-            "ipAddress": "string",
-            "hostName": "string",
-            "wiredApplicationStatus": "string",
-            "wiredApplicationMessage": "string",
-            "assigned": true,
-            "status": "string",
-            "xorSensor": true,
-            "targetAPs": [
-              "string"
-            ],
-            "runNow": "string",
-            "locationId": "string",
-            "allSensorAddition": true,
-            "configUpdated": "string",
-            "sensorType": "string",
-            "testMacAddresses": {},
-            "id": "string",
-            "servicePolicy": "string",
-            "iPerfInfo": {}
-          }
-        ],
-        "apCoverage": [
-          {
-            "bands": "string",
-            "numberOfApsToTest": 0,
-            "rssiThreshold": 0
-          }
-        ]
+        "templateName": "string",
+        "status": "string"
       }
     }
 """

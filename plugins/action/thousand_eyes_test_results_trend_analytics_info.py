@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -38,8 +37,8 @@ argument_spec.update(
         testType=dict(type="str"),
         agentId=dict(type="str"),
         networkDeviceName=dict(type="str"),
-        limit=dict(type="float"),
-        offset=dict(type="float"),
+        limit=dict(type="int"),
+        offset=dict(type="int"),
         order=dict(type="str"),
         headers=dict(type="dict"),
     )
@@ -110,7 +109,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="applications",
-            function="the_trend_analytics_data_for_thousand_eyes_test_results_in_the_specified_time_range",
+            function="get_trend_analytics_data_for_thousand_eyes_test_results_in_the_specified_time_range",
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

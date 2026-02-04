@@ -10,8 +10,7 @@ module: sda_port_assignments_info
 short_description: Information module for Sda Port Assignments
 description:
   - Get all Sda Port Assignments.
-  - Returns a list of port assignments that match the
-    provided query parameters.
+  - Returns a list of port assignments that match the provided query parameters.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,58 +21,47 @@ options:
     type: dict
   fabricId:
     description:
-      - FabricId query parameter. ID of the fabric the
-        device is assigned to.
+      - FabricId query parameter. ID of the fabric the device is assigned to.
     type: str
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Network device
-        ID of the port assignment.
+      - NetworkDeviceId query parameter. Network device ID of the port assignment.
     type: str
   interfaceName:
     description:
-      - InterfaceName query parameter. Interface name
-        of the port assignment.
+      - InterfaceName query parameter. Interface name of the port assignment.
     type: str
   dataVlanName:
     description:
-      - DataVlanName query parameter. Data VLAN name
-        of the port assignment.
+      - DataVlanName query parameter. Data VLAN name of the port assignment.
     type: str
   voiceVlanName:
     description:
-      - VoiceVlanName query parameter. Voice VLAN name
-        of the port assignment.
+      - VoiceVlanName query parameter. Voice VLAN name of the port assignment.
     type: str
   nativeVlanId:
     description:
       - >
-        NativeVlanId query parameter. Native VLAN of
-        the port assignment, this option is only applicable
-        to TRUNKING_DEVICE connectedDeviceType.(VLAN
-        must be between 1 and 4094. In cases value not
-        set when connectedDeviceType is TRUNKING_DEVICE,
-        default value will be '1').
+        NativeVlanId query parameter. Native VLAN of the port assignment, this option is only applicable to
+        TRUNKING_DEVICE connectedDeviceType.(VLAN must be between 1 and 4094. In cases value not set when
+        connectedDeviceType is TRUNKING_DEVICE, default value will be '1').
     type: float
   offset:
     description:
-      - Offset query parameter. Starting record for
-        pagination.
+      - Offset query parameter. Starting record for pagination.
     type: int
   limit:
     description:
       - >
-        Limit query parameter. Maximum number of records
-        to return. The maximum number of objects supported
-        in a single request is 500.
+        Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a
+        single request is 500.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetPortAssignments
-    description: Complete reference of the GetPortAssignments
-      API.
+    description: Complete reference of the GetPortAssignments API.
     link: https://developer.cisco.com/docs/dna-center/#!get-port-assignments
 notes:
   - SDK Method used are
@@ -114,17 +102,8 @@ dnac_response:
       "response": [
         {
           "id": "string",
-          "fabricId": "string",
-          "networkDeviceId": "string",
-          "interfaceName": "string",
-          "connectedDeviceType": "string",
-          "dataVlanName": "string",
-          "voiceVlanName": "string",
-          "authenticateTemplateName": "string",
-          "securityGroupName": "string",
-          "interfaceDescription": "string",
-          "nativeVlanId": 0,
-          "allowedVlanRanges": "string"
+          "siteId": "string",
+          "networkDeviceId": "string"
         }
       ],
       "version": "string"

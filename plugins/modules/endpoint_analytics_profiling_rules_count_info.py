@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_profiling_rules_count_info
-short_description: Information module for Endpoint Analytics
-  Profiling-Rules Count
+short_description: Information module for Endpoint Analytics Profiling-Rules Count
 description:
-  - Get all Endpoint Analytics Profiling-Rules Count.
-    - > This API fetches the count of profiling rules
-    based on the filter values provided in the query
-    parameters. The filter parameters are same as that
-    of 'GET /profiling-rules' API, excluding the pagination
-    and sort parameters.
+  - Get all Endpoint Analytics Profiling-Rules Count. - > This API fetches the count of profiling rules based on the filter
+    values provided in the query parameters. The filter parameters are same as that of 'GET /profiling-rules' API, excluding
+    the pagination and sort parameters.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,19 +22,15 @@ options:
     type: dict
   ruleType:
     description:
-      - RuleType query parameter. Use comma-separated
-        list of rule types to filter the data. Defaults
-        to 'Custom Rule'.
+      - RuleType query parameter. Use comma-separated list of rule types to filter the data. Defaults to 'Custom Rule'.
     type: str
   includeDeleted:
     description:
-      - IncludeDeleted query parameter. Flag to indicate
-        whether deleted rules should be part of the
-        records fetched.
+      - IncludeDeleted query parameter. Flag to indicate whether deleted rules should be part of the records fetched.
     type: bool
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 notes:
   - SDK Method used are
     ai_endpoint_analytics.AiEndpointAnalytics.get_count_of_profiling_rules,
@@ -49,7 +41,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Get all Endpoint Analytics Profiling-Rules Count
-  cisco.dnac.endpoint_analytics_profiling-rules_count_info:
+  cisco.dnac.endpoint_analytics_profiling_rules_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: event_subscription_details_rest_info
-short_description: Information module for Event Subscription
-  Details Rest
+short_description: Information module for Event Subscription Details Rest
 description:
   - Get all Event Subscription Details Rest.
-  - Gets the list of subscription details for specified
-    connectorType.
+  - Gets the list of subscription details for specified connectorType.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,22 +25,19 @@ options:
     type: str
   instanceId:
     description:
-      - InstanceId query parameter. Instance Id of the
-        specific configuration.
+      - InstanceId query parameter. Instance Id of the specific configuration.
     type: str
   offset:
     description:
       - >
-        Offset query parameter. The number of Rest/Webhook
-        Subscription detail's to offset in the resultset
+        Offset query parameter. The number of Rest/Webhook Subscription detail's to offset in the resultset
         whose default value 0.
     type: int
   limit:
     description:
       - >
-        Limit query parameter. The number of Rest/Webhook
-        Subscription detail's to limit in the resultset
-        whose default value 10.
+        Limit query parameter. The number of Rest/Webhook Subscription detail's to limit in the resultset whose
+        default value 10.
     type: int
   sortBy:
     description:
@@ -53,13 +48,11 @@ options:
       - Order query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      GetRestWebhookSubscriptionDetails
-    description: Complete reference of the GetRestWebhookSubscriptionDetails
-      API.
+  - name: Cisco DNA Center documentation for Event Management GetRestWebhookSubscriptionDetails
+    description: Complete reference of the GetRestWebhookSubscriptionDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!get-rest-webhook-subscription-details
 notes:
   - SDK Method used are

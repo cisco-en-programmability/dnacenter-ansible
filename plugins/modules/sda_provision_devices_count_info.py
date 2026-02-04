@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_provision_devices_count_info
-short_description: Information module for Sda Provision
-  Devices Count
+short_description: Information module for Sda Provision Devices Count
 description:
   - Get all Sda Provision Devices Count.
-  - Returns the count of provisioned devices based on
-    query parameters.
+  - Returns the count of provisioned devices based on query parameters.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,15 +21,14 @@ options:
     type: dict
   siteId:
     description:
-      - SiteId query parameter. ID of the site hierarchy.
+      - SiteId query parameter. ID of the site. This will fetch all the devices in this site hierarchy.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetProvisionedDevicesCount
-    description: Complete reference of the GetProvisionedDevicesCount
-      API.
+    description: Complete reference of the GetProvisionedDevicesCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-provisioned-devices-count
 notes:
   - SDK Method used are

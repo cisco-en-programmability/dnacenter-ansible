@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: swim_image_details_info
-short_description: Information module for Swim Image
-  Details
+short_description: Information module for Swim Image Details
 description:
   - Get all Swim Image Details.
-  - Returns software image list based on a filter criteria.
-    For example "filterbyName = cat3k%".
+  - Returns software image list based on a filter criteria. For example "filterbyName = cat3k%".
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -39,8 +37,7 @@ options:
     type: str
   imageIntegrityStatus:
     description:
-      - ImageIntegrityStatus query parameter. ImageIntegrityStatus
-        - FAILURE, UNKNOWN, VERIFIED.
+      - ImageIntegrityStatus query parameter. ImageIntegrityStatus - FAILURE, UNKNOWN, VERIFIED.
     type: str
   version:
     description:
@@ -60,38 +57,31 @@ options:
     type: bool
   isCCORecommended:
     description:
-      - IsCCORecommended query parameter. Is recommended
-        from cisco.com.
+      - IsCCORecommended query parameter. Is recommended from cisco.com.
     type: bool
   isCCOLatest:
     description:
-      - IsCCOLatest query parameter. Is latest from
-        cisco.com.
+      - IsCCOLatest query parameter. Is latest from cisco.com.
     type: bool
   createdTime:
     description:
-      - CreatedTime query parameter. Time in milliseconds
-        (epoch format).
+      - CreatedTime query parameter. Time in milliseconds (epoch format).
     type: int
   imageSizeGreaterThan:
     description:
-      - ImageSizeGreaterThan query parameter. Size in
-        bytes.
+      - ImageSizeGreaterThan query parameter. Size in bytes.
     type: int
   imageSizeLesserThan:
     description:
-      - ImageSizeLesserThan query parameter. Size in
-        bytes.
+      - ImageSizeLesserThan query parameter. Size in bytes.
     type: int
   sortBy:
     description:
-      - SortBy query parameter. Sort results by this
-        field.
+      - SortBy query parameter. Sort results by this field.
     type: str
   sortOrder:
     description:
-      - SortOrder query parameter. Sort order - 'asc'
-        or 'des'. Default is asc.
+      - SortOrder query parameter. Sort order - 'asc' or 'des'. Default is asc.
     type: str
   limit:
     description:
@@ -102,13 +92,11 @@ options:
       - Offset query parameter.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) GetSoftwareImageDetails
-    description: Complete reference of the GetSoftwareImageDetails
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) GetSoftwareImageDetails
+    description: Complete reference of the GetSoftwareImageDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!get-software-image-details
 notes:
   - SDK Method used are

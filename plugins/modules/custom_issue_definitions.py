@@ -7,33 +7,19 @@
 DOCUMENTATION = r"""
 ---
 module: custom_issue_definitions
-short_description: Resource module for Custom Issue
-  Definitions
+short_description: Resource module for Custom Issue Definitions
 description:
-  - Manage operations create, update and delete of the
-    resource Custom Issue Definitions. - > Create a
-    new custom issue definition using the provided input
-    request data. The unique identifier for this issue
-    definition is id. Please note that the issue names
-    cannot be duplicated. The definition is based on
-    the syslog. For detailed information about the usage
-    of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en-programmability/catalyst-center-api-
-    specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
-    - > Deletes an existing custom issue definition
-    based on the Id. Only the Global profile issue has
-    the access to delete the issue definition, so no
-    profile id is required. For detailed information
-    about the usage of the API, please refer to the
-    Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
-    - > Updates an existing custom issue definition
-    based on the provided Id. For detailed information
-    about the usage of the API, please refer to the
-    Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
+  - Manage operations create, update and delete of the resource Custom Issue Definitions. - > Create a new custom issue definition
+    using the provided input request data. The unique identifier for this issue definition is id. Please note that the issue
+    names cannot be duplicated. The definition is based on the syslog. For detailed information about the usage of the API,
+    please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
+    specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml. - > Deletes an existing
+    custom issue definition based on the Id. Only the Global profile issue has the access to delete the issue definition,
+    so no profile id is required. For detailed information about the usage of the API, please refer to the Open API specification
+    document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml. - > Updates an existing custom issue definition based on the provided
+    Id. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
+    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -46,8 +32,7 @@ options:
     description: Additional headers.
     type: dict
   id:
-    description: Id path parameter. The custom issue
-      definition Identifier.
+    description: Id path parameter. The custom issue definition unique identifier.
     type: str
   isEnabled:
     description: Is Enabled.
@@ -85,23 +70,17 @@ options:
         type: int
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Issues
-      CreatesANewUserDefinedIssueDefinitions
-    description: Complete reference of the CreatesANewUserDefinedIssueDefinitions
-      API.
+  - name: Cisco DNA Center documentation for Issues CreatesANewUserDefinedIssueDefinitions
+    description: Complete reference of the CreatesANewUserDefinedIssueDefinitions API.
     link: https://developer.cisco.com/docs/dna-center/#!creates-a-new-user-defined-issue-definitions
-  - name: Cisco DNA Center documentation for Issues
-      DeletesAnExistingCustomIssueDefinition
-    description: Complete reference of the DeletesAnExistingCustomIssueDefinition
-      API.
+  - name: Cisco DNA Center documentation for Issues DeletesAnExistingCustomIssueDefinition
+    description: Complete reference of the DeletesAnExistingCustomIssueDefinition API.
     link: https://developer.cisco.com/docs/dna-center/#!deletes-an-existing-custom-issue-definition
-  - name: Cisco DNA Center documentation for Issues
-      UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedId
-    description: Complete reference of the UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedId
-      API.
+  - name: Cisco DNA Center documentation for Issues UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedId
+    description: Complete reference of the UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedId API.
     link: https://developer.cisco.com/docs/dna-center/#!updates-an-existing-custom-issue-definition-based-on-the-provided-id
 notes:
   - SDK Method used are
@@ -139,6 +118,18 @@ EXAMPLES = r"""
         occurrences: 0
         pattern: string
         severity: 0
+- name: Delete by id
+  cisco.dnac.custom_issue_definitions:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    headers: '{{my_headers | from_json}}'
+    id: string
 - name: Update by id
   cisco.dnac.custom_issue_definitions:
     dnac_host: "{{dnac_host}}"
@@ -150,6 +141,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     description: string
+    headers: '{{my_headers | from_json}}'
     id: string
     isEnabled: true
     isNotificationEnabled: true
@@ -162,17 +154,6 @@ EXAMPLES = r"""
         occurrences: 0
         pattern: string
         severity: 0
-- name: Delete by id
-  cisco.dnac.custom_issue_definitions:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: absent
-    id: string
 """
 RETURN = r"""
 dnac_response:

@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_enterprise_ssid
-short_description: Resource module for Wireless Enterprise
-  Ssid
+short_description: Resource module for Wireless Enterprise Ssid
 description:
-  - Manage operations create, update and delete of the
-    resource Wireless Enterprise Ssid.
+  - Manage operations create, update and delete of the resource Wireless Enterprise Ssid.
   - Creates enterprise SSID.
   - Deletes given enterprise SSID.
   - Update enterprise SSID.
@@ -24,9 +22,8 @@ options:
     description: Aaa Override.
     type: bool
   authKeyMgmt:
-    description: Takes string inputs for the AKMs that
-      should be set true. Possible AKM values dot1x,dot1x_ft,
-      dot1x_sha, psk, psk_ft, psk_sha, owe, sae, sae_ft.
+    description: Takes string inputs for the AKMs that should be set true. Possible AKM values dot1x,dot1x_ft, dot1x_sha,
+      psk, psk_ft, psk_sha, owe, sae, sae_ft.
     elements: str
     type: list
   basicServiceSetClientIdleTimeout:
@@ -82,10 +79,10 @@ options:
     elements: dict
     suboptions:
       passphrase:
-        description: Passphrase.
+        description: Passphrase needs to be between 8 and 63 characters for ASCII type. HEX passphrase needs to be 64 characters.
         type: str
       passphraseType:
-        description: Passphrase Type.
+        description: Passphrase Type(default ASCII).
         type: str
       priority:
         description: Priority.
@@ -108,10 +105,8 @@ options:
     description: Profile Name.
     type: str
   protectedManagementFrame:
-    description: (Required applicable for Security Type
-      WPA3_PERSONAL, WPA3_ENTERPRISE, OPEN_SECURED)
-      and (Optional, Required Applicable for Security
-      Type WPA2_WPA3_PERSONAL and WPA2_WPA3_ENTERPRISE).
+    description: (Required applicable for Security Type WPA3_PERSONAL, WPA3_ENTERPRISE, OPEN_SECURED) and (Optional, Required
+      Applicable for Security Type WPA2_WPA3_PERSONAL and WPA2_WPA3_ENTERPRISE).
     type: str
   radioPolicy:
     description: Radio Policy Enum.
@@ -132,31 +127,23 @@ options:
     description: Session Time Out.
     type: int
   ssidName:
-    description: SsidName path parameter. Enter the
-      SSID name to be deleted.
+    description: SsidName path parameter. Enter the SSID name to be deleted.
     type: str
   trafficType:
-    description: Traffic Type Enum (voicedata or data
-      ).
+    description: Traffic Type Enum (voicedata or data ).
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      CreateEnterpriseSSID
-    description: Complete reference of the CreateEnterpriseSSID
-      API.
+  - name: Cisco DNA Center documentation for Wireless CreateEnterpriseSSID
+    description: Complete reference of the CreateEnterpriseSSID API.
     link: https://developer.cisco.com/docs/dna-center/#!create-enterprise-ssid
-  - name: Cisco DNA Center documentation for Wireless
-      DeleteEnterpriseSSID
-    description: Complete reference of the DeleteEnterpriseSSID
-      API.
+  - name: Cisco DNA Center documentation for Wireless DeleteEnterpriseSSID
+    description: Complete reference of the DeleteEnterpriseSSID API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-enterprise-ssid
-  - name: Cisco DNA Center documentation for Wireless
-      UpdateEnterpriseSSID
-    description: Complete reference of the UpdateEnterpriseSSID
-      API.
+  - name: Cisco DNA Center documentation for Wireless UpdateEnterpriseSSID
+    description: Complete reference of the UpdateEnterpriseSSID API.
     link: https://developer.cisco.com/docs/dna-center/#!update-enterprise-ssid
 notes:
   - SDK Method used are

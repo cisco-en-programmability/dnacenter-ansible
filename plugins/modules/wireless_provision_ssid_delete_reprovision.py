@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_provision_ssid_delete_reprovision
-short_description: Resource module for Wireless Provision
-  Ssid Delete Reprovision
+short_description: Resource module for Wireless Provision Ssid Delete Reprovision
 description:
-  - Manage operation delete of the resource Wireless
-    Provision Ssid Delete Reprovision.
-  - Removes SSID or WLAN from the network profile, reprovision
-    the devices and deletes the SSID or WLAN from DNA
-    Center.
+  - Manage operation delete of the resource Wireless Provision Ssid Delete Reprovision.
+  - Removes SSID or WLAN from the network profile, reprovision the devices and deletes the SSID or WLAN from DNA Center.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,24 +20,18 @@ options:
     description: Additional headers.
     type: dict
   managedAPLocations:
-    description: ManagedAPLocations path parameter.
-      List of managed AP locations (Site Hierarchies).
-      This parameter needs to be encoded as per UTF-8
-      encoding.
+    description: ManagedAPLocations path parameter. List of managed AP locations (Site Hierarchies). This parameter needs
+      to be encoded as per UTF-8 encoding.
     type: str
   ssidName:
-    description: SsidName path parameter. SSID Name.
-      This parameter needs to be encoded as per UTF-8
-      encoding.
+    description: SsidName path parameter. SSID Name. This parameter needs to be encoded as per UTF-8 encoding.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      DeleteSSIDAndProvisionItToDevices
-    description: Complete reference of the DeleteSSIDAndProvisionItToDevices
-      API.
+  - name: Cisco DNA Center documentation for Wireless DeleteSSIDAndProvisionItToDevices
+    description: Complete reference of the DeleteSSIDAndProvisionItToDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-ssid-and-provision-it-to-devices
 notes:
   - SDK Method used are

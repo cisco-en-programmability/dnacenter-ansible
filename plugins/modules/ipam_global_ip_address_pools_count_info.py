@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: ipam_global_ip_address_pools_count_info
-short_description: Information module for Ipam Global
-  Ip Address Pools Count
+short_description: Information module for Ipam Global Ip Address Pools Count
 description:
-  - Get all Ipam Global Ip Address Pools Count. - >
-    Counts global IP address pools. Global pools are
-    not associated with any particular site, but may
-    have portions of their address space reserved by
-    site-specific subpools.
+  - Get all Ipam Global Ip Address Pools Count. - > Counts global IP address pools. Global pools are not associated with any
+    particular site, but may have portions of their address space reserved by site-specific subpools.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings CountsGlobalIPAddressPools
-    description: Complete reference of the CountsGlobalIPAddressPools
-      API.
+  - name: Cisco DNA Center documentation for Network Settings CountsGlobalIPAddressPools
+    description: Complete reference of the CountsGlobalIPAddressPools API.
     link: https://developer.cisco.com/docs/dna-center/#!counts-global-ip-address-pools
 notes:
   - SDK Method used are

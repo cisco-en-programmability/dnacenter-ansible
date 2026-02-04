@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: activities_id_info
-short_description: Information module for Activities
-  Id
+short_description: Information module for Activities Id
 description:
   - Get Activities Id by id.
   - Returns the activity with the given ID.
@@ -22,22 +21,20 @@ options:
     type: dict
   id:
     description:
-      - Id path parameter. The id of the activity to
-        retrieve.
+      - Id path parameter. The id of the activity to retrieve.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Task GetActivityByID
-    description: Complete reference of the GetActivityByID
-      API.
+    description: Complete reference of the GetActivityByID API.
     link: https://developer.cisco.com/docs/dna-center/#!get-activity-by-id
 notes:
   - SDK Method used are
     task.Task.get_activity_by_id,
   - Paths used are
-    get /intent/api/v1/activities/{id},
+    get /dna/intent/api/v1/intent/api/v1/activities/{id},
 """
 
 EXAMPLES = r"""

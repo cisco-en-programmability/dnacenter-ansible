@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_provision
-short_description: Resource module for Wireless Controllers
-  Provision
+short_description: Resource module for Wireless Controllers Provision
 description:
-  - Manage operation create of the resource Wireless
-    Controllers Provision.
+  - Manage operation create of the resource Wireless Controllers Provision.
   - This API is used to provision wireless controller.
 version_added: '6.15.0'
 extends_documentation_fragment:
@@ -19,60 +17,44 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   apAuthorizationListName:
-    description: AP Authorization List name. 'Obtain
-      the AP Authorization List names by using the API
-      call GET /intent/api/v1/wirelessSettings/apAuthorizationLists.
-      During re-provision, obtain the AP Authorization
-      List configured for the given provisioned network
-      device Id using the API call GET /intent/api/v1/wireless/apAuthorizationLists/{networkDev...
+    description:
+      - AP Authorization List name.
+      - Obtain the names using API call GET /intent/api/v1/wirelessSettings/apAuthorizationLists.
+      - During re-provision, obtain the AP Authorization List configured for the given provisioned network device Id.
     type: str
   authorizeMeshAndNonMeshAccessPoints:
-    description: True if AP Authorization List should
-      authorize against All Mesh/Non-Mesh APs, else
-      false if AP Authorization List should only authorize
-      against Mesh APs (Applicable only when Mesh is
-      enabled on sites).
+    description: true if AP Authorization List should authorize against All Mesh/Non-Mesh APs, else false if AP Authorization
+      List should only authorize against Mesh APs (Applicable only when Mesh is enabled on sites).
     type: bool
   deviceId:
-    description: DeviceId path parameter. Network Device
-      ID. This value can be obtained by using the API
-      call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+    description:
+      - DeviceId path parameter. Network Device ID.
+      - This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
   featureTemplatesOverridenAttributes:
     description: Wireless Controllers Provision's featureTemplatesOverridenAttributes.
     suboptions:
       editFeatureTemplates:
-        description: Wireless Controllers Provision's
-          editFeatureTemplates.
+        description: Wireless Controllers Provision's editFeatureTemplates.
         elements: dict
         suboptions:
           additionalIdentifiers:
-            description: Wireless Controllers Provision's
-              additionalIdentifiers.
+            description: Wireless Controllers Provision's additionalIdentifiers.
             suboptions:
               siteUuid:
-                description: Site UUID. This must be
-                  provided if `featureTemplateId` belongs
-                  to `Flex Configuration` feature template.
+                description: Site UUID. This must be provided if `featureTemplateId` belongs to `Flex Configuration` feature
+                  template.
                 type: str
               wlanProfileName:
-                description: WLAN Profile Name. This
-                  must be passed if `featureTemplateId`
-                  belongs to `Advanced SSID Configuration`
+                description: WLAN Profile Name. This must be passed if `featureTemplateId` belongs to `Advanced SSID Configuration`
                   Feature Template.
                 type: str
             type: dict
           attributes:
-            description: This dynamic map should contain
-              attribute name and overridden value of
-              respective Feature Template whose `featureTemplateId`.
-              List of attributes applicable to given
-              `featureTemplateId` can be retrieved from
-              its GET API call /dna/intent/api/v1/featureTemplates/wireless/<featureTemplateName>/featureTemplateId.
+            description: Wireless Controllers Provision's attributes.
             type: dict
           excludedAttributes:
-            description: List of attributes which will
-              NOT be provisioned.
+            description: List of attributes which will NOT be provisioned.
             elements: str
             type: list
           featureTemplateId:
@@ -94,8 +76,7 @@ options:
         description: Interface Name.
         type: str
       interfaceNetmaskInCIDR:
-        description: Interface Netmask In CIDR, range
-          is 1-30.
+        description: Interface Netmask In CIDR, range is 1-30.
         type: int
       lagOrPortNumber:
         description: Lag Or Port Number.
@@ -104,30 +85,33 @@ options:
         description: VLAN ID range is 1 - 4094.
         type: int
     type: list
+  lscPercentage:
+    description: Permissible values are 5, 15, and 25. This represents the percentage of access points that can be affected
+      due to certificate renewal execution in the current iteration. This field is applicable only when the selected LSC profile
+      is of staggered execution type.
+    type: int
+  lscProfileName:
+    description: Obtain the LSC profile names by using the API call GET /dna/intent/api/v1/wirelessSettings/lscRene...
+    type: str
   rollingApUpgrade:
     description: Wireless Controllers Provision's rollingApUpgrade.
     suboptions:
       apRebootPercentage:
-        description: AP Reboot Percentage. Permissible
-          values - 5, 15, 25.
+        description: AP Reboot Percentage. Permissible values - 5, 15, 25.
         type: int
       enableRollingApUpgrade:
-        description: True if Rolling AP Upgrade is enabled,
-          else False.
+        description: true if Rolling AP Upgrade is enabled, else False.
         type: bool
     type: dict
   skipApProvision:
-    description: True if Skip AP Provision is enabled,
-      else False.
+    description: true if Skip AP Provision is enabled, else False.
     type: bool
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      WirelessControllerProvision
-    description: Complete reference of the WirelessControllerProvision
-      API.
+  - name: Cisco DNA Center documentation for Wireless WirelessControllerProvision
+    description: Complete reference of the WirelessControllerProvision API.
     link: https://developer.cisco.com/docs/dna-center/#!wireless-controller-provision
 notes:
   - SDK Method used are
@@ -166,6 +150,8 @@ EXAMPLES = r"""
         interfaceNetmaskInCIDR: 0
         lagOrPortNumber: 0
         vlanId: 0
+    lscPercentage: 0
+    lscProfileName: string
     rollingApUpgrade:
       apRebootPercentage: 0
       enableRollingApUpgrade: true

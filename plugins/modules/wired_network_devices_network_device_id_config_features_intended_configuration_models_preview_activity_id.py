@@ -7,39 +7,31 @@
 DOCUMENTATION = r"""
 ---
 module: wired_network_devices_network_device_id_config_features_intended_configuration_models_preview_activity_id
-short_description: Resource module for Wired Network
-  Devices Network Device Id Config Features Intended
-  Configuration Models Preview Activity Id
+short_description: Resource module for Wired Network Devices Network Device Id Config Features Intended Configuration Models
+  Preview Activity Id
 description:
-  - Manage operation delete of the resource Wired Network
-    Devices Network Device Id Config Features Intended
-    Configuration Models Preview Activity Id. - > Deletes
-    the configuration model. The API can be used at
-    any step to discard/cancel the provision of intended
-    features.
+  - Manage operation delete of the resource Wired Network Devices Network Device Id Config Features Intended Configuration
+    Models Preview Activity Id. - > Deletes the configuration model. The API can be used at any step to discard/cancel the
+    provision of intended features.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   networkDeviceId:
-    description: NetworkDeviceId path parameter. Network
-      device ID of the wired device to provision. The
-      API /intent/api/v1/network-device can be used
-      to get the network device ID.
+    description: NetworkDeviceId path parameter. Network device ID of the wired device to provision. The API /intent/api/v1/network-device
+      can be used to get the network device ID.
     type: str
   previewActivityId:
-    description: PreviewActivityId path parameter. Activity
-      id from POST /intent/api/v1/wired/networkDevices/{netwo...
-      or /intent/api/v1/wired/networkDevices/{networkDeviceId}/configFeatures/intended/configurationModels/{preview...
+    description: PreviewActivityId path parameter. Activity id from POST /intent/api/v1/wired/networkDevices/{netwo... or
+      /intent/api/v1/wired/networkDevices/{networkDeviceId}/configFeatures/intended/configurationModels/{preview...
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Wired DeleteTheConfigurationModel
-    description: Complete reference of the DeleteTheConfigurationModel
-      API.
+    description: Complete reference of the DeleteTheConfigurationModel API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-the-configuration-model
 notes:
   - SDK Method used are
