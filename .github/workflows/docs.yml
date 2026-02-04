@@ -44,11 +44,10 @@ jobs:
           # Checkout gh-pages branch (create orphan if doesn't exist)
           git checkout gh-pages || git checkout --orphan gh-pages
 
-          # Only remove version folder if it's a valid version tag
-          if [[ "$VERSION" =~ ^v[0-9]+ ]]; then
+          # Remove existing version/branch folder to ensure clean state
+          if [ -d "$VERSION" ]; then
+            echo "Removing existing '$VERSION' folder..."
             rm -rf "$VERSION"
-          else
-            echo "Not a version tag ($VERSION), skipping version folder removal"
           fi
 
           # Move new docs
