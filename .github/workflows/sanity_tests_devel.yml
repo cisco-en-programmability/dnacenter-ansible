@@ -46,34 +46,20 @@ jobs:
           git diff --name-only origin/main HEAD > changed_files.txt
           echo "Changed files:"
           cat changed_files.txt
-          echo "file_count=$(wc -l < changed_files.txt | tr -d ' ')" >> $GITHUB_OUTPUT
 
       - name: Run sanity tests
         run: |
           if [ -s changed_files.txt ]; then
-            # Filter only existing files into a temp file
-            > existing_files.txt
-            while IFS= read -r file; do
+            changed_files=$(cat changed_files.txt)
+            for file in $changed_files; do
+              # Ensure file paths are relative to the working directory
               if [ -f "$file" ]; then
-                echo "$file" >> existing_files.txt
+                echo "Running ansible sanity test for file: $file"
+                ansible-test sanity --docker -v --color yes $file
               else
-                echo "File not found (skipping): $file"
+                echo "File not found: $file"
               fi
-            done < changed_files.txt
-
-            file_count=$(wc -l < existing_files.txt | tr -d ' ')
-
-            if [ "$file_count" -eq 0 ]; then
-              echo "No existing files to test."
-              exit 0
-            fi
-
-            echo "Total files to test: $file_count"
-
-            # Always run in batch mode for efficiency
-            echo "Running ansible sanity tests in batch mode..."
-            xargs ansible-test sanity --docker -v --color yes < existing_files.txt
-
+            done
             echo "Ansible sanity tests completed successfully."
           else
             echo "No changed files to test."
@@ -86,18 +72,19 @@ jobs:
       - name: Run yamllint
         run: |
           if [ -s changed_files.txt ]; then
+            changed_files=$(cat changed_files.txt)
             lintable_files=""
-            while IFS= read -r file; do
-              if [[ $file == playbooks/* ]] && [ -f "$file" ]; then
+            for file in $changed_files; do
+              # Check if the file belongs to the plugins/modules or playbooks directory
+              if [[ $file == playbooks/* ]]; then
                 lintable_files="$lintable_files $file"
               fi
-            done < changed_files.txt
+            done
 
-            lintable_files=$(echo "$lintable_files" | xargs)
             echo "Lintable Files: $lintable_files"
 
             if [ -n "$lintable_files" ]; then
-              echo "Running yamllint test for files..."
+              echo "Running yamllint test for files: $lintable_files"
               yamllint -c .yamllint.yml $lintable_files
               echo "Yamllint tests completed successfully."
             else
