@@ -42,7 +42,7 @@ cisco.dnac.site_health_summaries_summary_analytics_info module -- Information mo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Site Health Summaries Summary Analytics. - \> Get an aggregated summary of all site health or use the query params to get an aggregated summary of health for a subset of sites. This API provides the latest health data from a given \`endTime\` If data is not ready for the provided endTime, the request will fail, and the error message will indicate the recommended endTime to use to retrieve a complete data set. This behavior may occur if the provided endTime=currentTime, since we are not a real time system. When \`endTime\` is not provided, the API returns the latest data. This API also provides issue data. The \`startTime\` query param can be used to specify the beginning point of time range to retrieve the active issue counts in. When this param is not provided, the default \`startTime\` will be 24 hours before endTime. Aggregated response data will NOT have unique identifier data populated. List of unique identifier data \`id\`, \`siteHierarchy\`, \`siteHierarchyId\`, \`siteType\`, \`latitude\`, \`longitude\`. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- siteHealthSummaries-1.0.3-resolved.yaml.
+- Get all Site Health Summaries Summary Analytics. - \> Get an aggregated summary of all site health or use the query params to get an aggregated summary of health for a subset of sites.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -408,7 +408,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 

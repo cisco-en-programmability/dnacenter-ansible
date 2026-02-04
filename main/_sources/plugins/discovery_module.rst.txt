@@ -42,7 +42,7 @@ cisco.dnac.discovery module -- Resource module for Discovery
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -87,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -137,7 +137,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Deprecated.
+      Discovery's attributeInfo.
 
 
       .. raw:: html
@@ -171,7 +171,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      CDP level to which neighbor devices to be discovered.
+      CDP level to which neighbor devices are to be discovered.
 
 
       .. raw:: html
@@ -580,7 +580,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -603,7 +603,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -647,7 +647,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      List of global credential ids to be used.
+      Global Credential Ids to be used for discovery.
 
 
       .. raw:: html
@@ -688,210 +688,6 @@ Parameters
 
         </div>
     
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/comments"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpreadcredential/comments:
-
-      .. rst-class:: ansible-option-title
-
-      **comments**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-httpReadCredential/comments" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Comments to identify the credential.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/credentialType"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpreadcredential/credentialtype:
-
-      .. rst-class:: ansible-option-title
-
-      **credentialType**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-httpReadCredential/credentialType" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Credential type to identify the application that uses the credential.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/description"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpreadcredential/description:
-
-      .. rst-class:: ansible-option-title
-
-      **description**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-httpReadCredential/description" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Description of the credential.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/id"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpreadcredential/id:
-
-      .. rst-class:: ansible-option-title
-
-      **id**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-httpReadCredential/id" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Credential Id.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/instanceTenantId"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpreadcredential/instancetenantid:
-
-      .. rst-class:: ansible-option-title
-
-      **instanceTenantId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-httpReadCredential/instanceTenantId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Credential Tenant Id.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/instanceUuid"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpreadcredential/instanceuuid:
-
-      .. rst-class:: ansible-option-title
-
-      **instanceUuid**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-httpReadCredential/instanceUuid" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Credential Id.
-
-
-      .. raw:: html
-
-        </div>
-
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1071,210 +867,6 @@ Parameters
 
         </div>
     
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/comments"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpwritecredential/comments:
-
-      .. rst-class:: ansible-option-title
-
-      **comments**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-httpWriteCredential/comments" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Comments to identify the credential.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/credentialType"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpwritecredential/credentialtype:
-
-      .. rst-class:: ansible-option-title
-
-      **credentialType**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-httpWriteCredential/credentialType" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Credential type to identify the application that uses the credential.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/description"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpwritecredential/description:
-
-      .. rst-class:: ansible-option-title
-
-      **description**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-httpWriteCredential/description" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Description of the credential.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/id"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpwritecredential/id:
-
-      .. rst-class:: ansible-option-title
-
-      **id**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-httpWriteCredential/id" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Credential Id.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/instanceTenantId"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpwritecredential/instancetenantid:
-
-      .. rst-class:: ansible-option-title
-
-      **instanceTenantId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-httpWriteCredential/instanceTenantId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Credential Tenant Id.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/instanceUuid"></div>
-
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpwritecredential/instanceuuid:
-
-      .. rst-class:: ansible-option-title
-
-      **instanceUuid**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-httpWriteCredential/instanceUuid" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Credential Id.
-
-
-      .. raw:: html
-
-        </div>
-
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1481,7 +1073,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      List of IP address of the devices to be discovered.
+      IP Address of devices to be discovered. Ex '172.30.0.1' for SINGLE, CDP and LLDP; '72.30.0.1-172.30.0.4' for RANGE; '72.30.0.1-172.30.0.4,172.31.0.1-172.31.0.4' for MULTI RANGE; '172.30.0.1/20' for CIDR.
 
 
       .. raw:: html
@@ -1505,7 +1097,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -1515,7 +1107,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      IP addresses of the devices to be filtered.
+      IP Addresses of the devices to be filtered out during discovery.
 
 
       .. raw:: html
@@ -1625,7 +1217,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Name for the discovery.
+      Name of the discovery.
 
 
       .. raw:: html
@@ -1659,7 +1251,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Netconf port on the device. Netconf will need valid sshv2 credentials for it to work.
+      Netconf Port. It will need valid SSH credentials to work.
 
 
       .. raw:: html
@@ -1751,7 +1343,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -1795,7 +1387,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Preferred management IP method. Available options are 'None' and 'UseLoopBack'.
+      Preferred Management IP Method.'None' or 'UseLoopBack'. Default is 'None'.
 
 
       .. raw:: html
@@ -2033,7 +1625,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Passphrase for SNMP privacy.
+      Pass phrase for SNMP privacy.
 
 
       .. raw:: html
@@ -2305,7 +1897,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Time to wait for device response.
+      Time to wait for device response in seconds.
 
 
       .. raw:: html
@@ -2371,7 +1963,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -2481,6 +2073,57 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: absent
+    - name: Create
+      cisco.dnac.discovery:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        cdpLevel: 0
+        discoveryType: string
+        enablePasswordList:
+          - string
+        globalCredentialIdList:
+          - string
+        httpReadCredential:
+          password: string
+          port: 0
+          secure: true
+          username: string
+        httpWriteCredential:
+          password: string
+          port: 0
+          secure: true
+          username: string
+        ipAddressList: string
+        ipFilterList:
+          - string
+        lldpLevel: 0
+        name: string
+        netconfPort: string
+        passwordList:
+          - string
+        preferredMgmtIPMethod: string
+        protocolOrder: string
+        retry: 0
+        snmpAuthPassphrase: string
+        snmpAuthProtocol: string
+        snmpMode: string
+        snmpPrivPassphrase: string
+        snmpPrivProtocol: string
+        snmpRoCommunity: string
+        snmpRoCommunityDesc: string
+        snmpRwCommunity: string
+        snmpRwCommunityDesc: string
+        snmpUserName: string
+        snmpVersion: string
+        timeout: 0
+        userNameList:
+          - string
     - name: Update all
       cisco.dnac.discovery:
         dnac_host: "{{dnac_host}}"
@@ -2548,57 +2191,6 @@ Examples
         timeout: 0
         updateMgmtIp: true
         userNameList: string
-    - name: Create
-      cisco.dnac.discovery:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: present
-        cdpLevel: 0
-        discoveryType: string
-        enablePasswordList:
-          - string
-        globalCredentialIdList:
-          - string
-        httpReadCredential:
-          password: string
-          port: 0
-          secure: true
-          username: string
-        httpWriteCredential:
-          password: string
-          port: 0
-          secure: true
-          username: string
-        ipAddressList: string
-        ipFilterList:
-          - string
-        lldpLevel: 0
-        name: string
-        netconfPort: string
-        passwordList:
-          - string
-        preferredMgmtIPMethod: string
-        protocolOrder: string
-        retry: 0
-        snmpAuthPassphrase: string
-        snmpAuthProtocol: string
-        snmpMode: string
-        snmpPrivPassphrase: string
-        snmpPrivProtocol: string
-        snmpRoCommunity: string
-        snmpRoCommunityDesc: string
-        snmpRwCommunity: string
-        snmpRwCommunityDesc: string
-        snmpUserName: string
-        snmpVersion: string
-        timeout: 0
-        userNameList:
-          - string
     - name: Delete by id
       cisco.dnac.discovery:
         dnac_host: "{{dnac_host}}"

@@ -42,7 +42,7 @@ cisco.dnac.network_device_licenses_network_device_id_port_channels_info module -
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,6 +69,7 @@ Synopsis
 .. Description
 
 - Get all Network Device Licenses Network Device Id Port Channels.
+- Get Network Device Licenses Network Device Id Port Channels by id. - \> This API endpoint retrieves detailed information for a specified port channel using its unique identifier within a given network device.
 - This API endpoint retrieves the list of port channels for the given network device.
 
 .. note::
@@ -85,8 +86,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -374,7 +375,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -569,8 +570,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.retrieves\_the\_list\_of\_port\_channels\_for\_the\_network\_device,
-   - Paths used are get /dna/intent/api/v1/networkDevices/{networkDeviceId}/portChannels,
+   - SDK Method used are devices.Devices.retrieves\_information\_for\_the\_given\_port\_channel\_on\_a\_specific\_network\_device, devices.Devices.retrieves\_the\_list\_of\_port\_channels\_for\_the\_network\_device,
+   - Paths used are get /dna/intent/api/v1/networkDevices/{networkDeviceId}/portChannels, get /dna/intent/api/v1/networkDevices/{networkDeviceId}/portChannels/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -582,6 +583,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Devices RetrievesInformationForTheGivenPortChannelOnASpecificNetworkDevice <https://developer.cisco.com/docs/dna-center/#!retrieves-information-for-the-given-port-channel-on-a-specific-network-device>`_
+       Complete reference of the RetrievesInformationForTheGivenPortChannelOnASpecificNetworkDevice API.
    `Cisco DNA Center documentation for Devices RetrievesTheListOfPortChannelsForTheNetworkDevice <https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-port-channels-for-the-network-device>`_
        Complete reference of the RetrievesTheListOfPortChannelsForTheNetworkDevice API.
 
@@ -594,8 +597,7 @@ Examples
 
     
     ---
-    - name: Get all Network Device Licenses Network Device
-        Id Port Channels
+    - name: Get all Network Device Licenses Network Device Id Port Channels
       cisco.dnac.network_device_licenses_network_device_id_port_channels_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -608,6 +610,19 @@ Examples
         id: string
         name: string
         networkDeviceId: string
+      register: result
+    - name: Get Network Device Licenses Network Device Id Port Channels by id
+      cisco.dnac.network_device_licenses_network_device_id_port_channels_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        networkDeviceId: string
+        id: string
       register: result
 
 
@@ -669,7 +684,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"aggregationProtocol": "string", "id": "string", "interfaces": {"channelMode": "string", "name": "string"}, "logicalSlotPort": "string", "name": "string", "networkDeviceId": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"aggregationProtocol": "string", "id": "string", "interfaces": {"channelMode": "string", "name": "string"}, "logicalSlotPort": "string", "name": "string", "networkDeviceId": "string"}, "version": "string"}`
 
 
       .. raw:: html

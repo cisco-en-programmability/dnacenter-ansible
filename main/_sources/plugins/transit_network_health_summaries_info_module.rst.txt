@@ -42,7 +42,7 @@ cisco.dnac.transit_network_health_summaries_info module -- Information module fo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,9 @@ Synopsis
 .. Description
 
 - Get all Transit Network Health Summaries.
+- Get Transit Network Health Summaries by id.
 - Get a paginated list of Transit Networks with health summary.
+- Get health summary for a specific transit Network by providing the unique transit networks id in the url path.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -408,7 +410,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -535,7 +537,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -569,7 +571,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -777,8 +779,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.read\_list\_of\_transit\_networks\_with\_their\_health\_summary,
-   - Paths used are get /dna/data/api/v1/transitNetworkHealthSummaries,
+   - SDK Method used are sda.Sda.read\_list\_of\_transit\_networks\_with\_their\_health\_summary, sda.Sda.read\_transit\_network\_with\_its\_health\_summary\_from\_id,
+   - Paths used are get /dna/data/api/v1/transitNetworkHealthSummaries, get /dna/data/api/v1/transitNetworkHealthSummaries/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -792,6 +794,8 @@ See Also
 
    `Cisco DNA Center documentation for SDA ReadListOfTransitNetworksWithTheirHealthSummary <https://developer.cisco.com/docs/dna-center/#!read-list-of-transit-networks-with-their-health-summary>`_
        Complete reference of the ReadListOfTransitNetworksWithTheirHealthSummary API.
+   `Cisco DNA Center documentation for SDA ReadTransitNetworkWithItsHealthSummaryFromId <https://developer.cisco.com/docs/dna-center/#!read-transit-network-with-its-health-summary-from-id>`_
+       Complete reference of the ReadTransitNetworkWithItsHealthSummaryFromId API.
 
 .. Examples
 
@@ -821,6 +825,22 @@ Examples
         id: string
         attribute: string
         view: string
+      register: result
+    - name: Get Transit Network Health Summaries by id
+      cisco.dnac.transit_network_health_summaries_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        endTime: 0
+        startTime: 0
+        attribute: string
+        view: string
+        id: string
       register: result
 
 
@@ -882,7 +902,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"page": {"count": 0, "limit": 0, "offset": 0, "sortBy": [{"name": "string", "order": "string"}]}, "response": [{"bgpTcpFairHealthDeviceCount": 0, "bgpTcpGoodHealthDeviceCount": 0, "bgpTcpHealthPercentage": 0, "bgpTcpPoorHealthDeviceCount": 0, "bgpTcpTotalDeviceCount": 0, "controlPlaneCount": 0, "fabricSitesCount": 0, "fairHealthDeviceCount": 0, "goodHealthDeviceCount": 0, "goodHealthPercentage": 0, "id": "string", "internetAvailTransitFairHealthDeviceCount": 0, "internetAvailTransitGoodHealthDeviceCount": 0, "internetAvailTransitHealthPercentage": 0, "internetAvailTransitPoorHealthDeviceCount": 0, "internetAvailTransitTotalDeviceCount": 0, "lispTransitFairHealthDeviceCount": 0, "lispTransitGoodHealthDeviceCount": 0, "lispTransitHealthPercentage": 0, "lispTransitPoorHealthDeviceCount": 0, "lispTransitTotalDeviceCount": 0, "name": "string", "networkProtocol": "string", "poorHealthDeviceCount": 0, "pubsubTransitFairHealthDeviceCount": 0, "pubsubTransitGoodHealthDeviceCount": 0, "pubsubTransitHealthPercentage": 0, "pubsubTransitPoorHealthDeviceCount": 0, "pubsubTransitTotalDeviceCount": 0, "siteHierarchy": "string", "siteHierarchyId": "string", "totalHealthDeviceCount": 0, "transitControlPlaneFairHealthDeviceCount": 0, "transitControlPlaneGoodHealthDeviceCount": 0, "transitControlPlaneHealthPercentage": 0, "transitControlPlanePoorHealthDeviceCount": 0, "transitControlPlaneTotalDeviceCount": 0, "transitServicesFairHealthDeviceCount": 0, "transitServicesGoodHealthDeviceCount": 0, "transitServicesHealthPercentage": 0, "transitServicesPoorHealthDeviceCount": 0, "transitServicesTotalDeviceCount": 0, "transitType": ["string"]}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"bgpTcpFairHealthDeviceCount": 0, "bgpTcpGoodHealthDeviceCount": 0, "bgpTcpHealthPercentage": 0, "bgpTcpPoorHealthDeviceCount": 0, "bgpTcpTotalDeviceCount": 0, "controlPlaneCount": 0, "fabricSitesCount": 0, "fairHealthDeviceCount": 0, "goodHealthDeviceCount": 0, "goodHealthPercentage": 0, "id": "string", "internetAvailTransitFairHealthDeviceCount": 0, "internetAvailTransitGoodHealthDeviceCount": 0, "internetAvailTransitHealthPercentage": 0, "internetAvailTransitPoorHealthDeviceCount": 0, "internetAvailTransitTotalDeviceCount": 0, "lispTransitFairHealthDeviceCount": 0, "lispTransitGoodHealthDeviceCount": 0, "lispTransitHealthPercentage": 0, "lispTransitPoorHealthDeviceCount": 0, "lispTransitTotalDeviceCount": 0, "name": "string", "networkProtocol": "string", "poorHealthDeviceCount": 0, "pubsubTransitFairHealthDeviceCount": 0, "pubsubTransitGoodHealthDeviceCount": 0, "pubsubTransitHealthPercentage": 0, "pubsubTransitPoorHealthDeviceCount": 0, "pubsubTransitTotalDeviceCount": 0, "siteHierarchy": "string", "siteHierarchyId": "string", "totalHealthDeviceCount": 0, "transitControlPlaneFairHealthDeviceCount": 0, "transitControlPlaneGoodHealthDeviceCount": 0, "transitControlPlaneHealthPercentage": 0, "transitControlPlanePoorHealthDeviceCount": 0, "transitControlPlaneTotalDeviceCount": 0, "transitServicesFairHealthDeviceCount": 0, "transitServicesGoodHealthDeviceCount": 0, "transitServicesHealthPercentage": 0, "transitServicesPoorHealthDeviceCount": 0, "transitServicesTotalDeviceCount": 0, "transitType": ["string"]}, "version": "string"}`
 
 
       .. raw:: html

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits_info module -- Information module for Sda Fabricdevices Layer2handoffs Iptransits
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits_info module -- Information module for Sda Fabric Devices Layer2 Handoffs Ip Transits
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Sda Fabricdevices Layer2handoffs Iptransits.
+- Get all Sda Fabric Devices Layer2 Handoffs Ip Transits.
 - Returns a list of layer 3 handoffs with ip transit of fabric devices that match the provided query parameters.
 
 .. note::
@@ -85,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -374,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -628,8 +628,8 @@ Examples
 
     
     ---
-    - name: Get all Sda Fabricdevices Layer2handoffs Iptransits
-      cisco.dnac.sda_fabricDevices_layer2Handoffs_ipTransits_info:
+    - name: Get all Sda Fabric Devices Layer2 Handoffs Ip Transits
+      cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -703,7 +703,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"externalConnectivityIpPoolName": "string", "fabricId": "string", "id": "string", "interfaceName": "string", "localIpAddress": "string", "localIpv6Address": "string", "networkDeviceId": "string", "remoteIpAddress": "string", "remoteIpv6Address": "string", "tcpMssAdjustment": 0, "transitNetworkId": "string", "virtualNetworkName": "string", "vlanId": 0}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"id": "string", "ipTransitSettings": {"autonomousSystemNumber": "string", "routingProtocolName": "string"}, "name": "string", "sdaTransitSettings": {"controlPlaneNetworkDeviceIds": ["string"], "isMulticastOverTransitEnabled": true}, "siteId": "string", "type": "string"}], "version": "string"}`
 
 
       .. raw:: html

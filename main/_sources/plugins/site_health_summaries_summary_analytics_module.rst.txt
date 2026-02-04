@@ -42,7 +42,7 @@ cisco.dnac.site_health_summaries_summary_analytics module -- Resource module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Site Health Summaries Summary Analytics. - \> Query an aggregated summary of all site health This API provides the latest health data from a given \`endTime\` If data is not ready for the provided endTime, the request will fail, and the error message will indicate the recommended endTime to use to retrieve a complete data set. This behavior may occur if the provided endTime=currentTime, since we are not a real time system. When \`endTime\` is not provided, the API returns the latest data. This API also provides issue data. The \`startTime\` query param can be used to specify the beginning point of time range to retrieve the active issue counts in. When this param is not provided, the default \`startTime\` will be 24 hours before endTime.
+- Manage operation create of the resource Site Health Summaries Summary Analytics.
+- Query an aggregated summary of all site health.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -407,7 +408,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -450,6 +451,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+
+      .. _ansible_collections.cisco.dnac.site_health_summaries_summary_analytics_module__parameter-headers:
+
+      .. rst-class:: ansible-option-title
+
+      **headers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-id"></div>
 
       .. _ansible_collections.cisco.dnac.site_health_summaries_summary_analytics_module__parameter-id:
@@ -474,7 +509,11 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id query parameter. The list of entity Uuids. (Ex."6bef213c-19ca-4170-8375-b694e251101c") Examples id=6bef213c-19ca-4170-8375-b694e251101c (single entity uuid requested) id=6bef213c-19ca-4170-8375-b694e251101c&id=32219612-819e-4b5e-a96b-cf22aca13dd9&id=2541e9a7-b80d-4955-8aa2-79... (multiple entity uuid with '&' separator).
+      Id query parameter. The list of entity Uuids.
+
+      Example "6bef213c-19ca-4170-8375-b694e251101c".
+
+      Multiple entity uuids can be provided with '&' separator.
 
 
       .. raw:: html
@@ -508,7 +547,13 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SiteHierarchy query parameter. The full hierarchical breakdown of the site tree starting from Global site name and ending with the specific site name. The Root site is named "Global" (Ex. \`Global/AreaName/BuildingName/FloorName\`) This field supports wildcard asterisk (\`\*\`) character search support. E.g. \`\*/San\*, \*/San, /San\*\` Examples \`?siteHierarchy=Global/AreaName/BuildingName/FloorName\` (single siteHierarchy requested) \`?siteHierarchy=Global/AreaName/BuildingName/FloorName&siteHierarchy=Global/... (multiple siteHierarchies requested).
+      SiteHierarchy query parameter. The full hierarchical breakdown of the site tree.
+
+      Starting from Global site name and ending with the specific site name.
+
+      The Root site is named "Global" (Ex. \`Global/AreaName/BuildingName/FloorName\`).
+
+      This field supports wildcard asterisk (\`\*\`) character search support.
 
 
       .. raw:: html
@@ -741,6 +786,7 @@ Examples
         attributes:
           - string
         endTime: 0
+        headers: '{{my_headers | from_json}}'
         id: string
         siteHierarchy: string
         siteHierarchyId: string

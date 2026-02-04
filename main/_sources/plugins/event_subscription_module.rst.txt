@@ -42,7 +42,7 @@ cisco.dnac.event_subscription module -- Resource module for Event Subscription
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,10 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Event Subscription. - \> Subscribe SubscriptionEndpoint to list of registered events. Deprecated since Guardian release. Alternative POST /intent/api/v1/event/subscription/rest.
-- Delete EventSubscriptions. - \> Update SubscriptionEndpoint to list of registered events. Deprecated since Guardian release. Alternative PUT /intent/api/v1/event/subscription/rest.
+- Manage operations create, update and delete of the resource Event Subscription.
+- Subscribe SubscriptionEndpoint to list of registered events.
+- Delete EventSubscriptions.
+- Update SubscriptionEndpoint to list of registered events.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -374,7 +376,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -1157,7 +1159,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         subscriptions: string
-    - name: Update all
+    - name: Create
       cisco.dnac.event_subscription:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1193,7 +1195,7 @@ Examples
                   connectorType: string
             subscriptionId: string
             version: string
-    - name: Create
+    - name: Update all
       cisco.dnac.event_subscription:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

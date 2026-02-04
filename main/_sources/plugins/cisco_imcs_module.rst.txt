@@ -42,7 +42,7 @@ cisco.dnac.cisco_imcs module -- Resource module for Cisco Imcs
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Cisco Imcs. - \> This API adds a Cisco Integrated Management Controller IMC configuration to a Cisco Catalyst Center node, identified by its \`nodeId\`. Obtain the \`nodeId\` from the \`id\` attribute in the response of the \`/dna/intent/api/v1/nodes-config\` API.
+- Manage operations create, update and delete of the resource Cisco Imcs. - \> This API adds a Cisco Integrated Management Controller IMC configuration to a Cisco Catalyst Center node, identified by its \`nodeId\`. Obtain the \`nodeId\` from the \`id\` attribute in the response of the \`/dna/intent/api/v1/nodes-config\` API. - \> This API removes a specific Cisco Integrated Management Controller IMC configuration from a Catalyst Center node using the provided identifier. - \> This API updates the Cisco Integrated Management Controller IMC configuration for a Catalyst Center node, identified by the specified ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -373,7 +373,41 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.cisco_imcs_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. The unique identifier for this Cisco IMC configuration.
+
 
       .. raw:: html
 
@@ -567,8 +601,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are cisco\_i\_m\_c.CiscoIMC.adds\_cisco\_i\_m\_c\_configuration\_to\_a\_catalyst\_center\_node,
-   - Paths used are post /dna/system/api/v1/ciscoImcs,
+   - SDK Method used are cisco\_i\_m\_c.CiscoIMC.adds\_cisco\_i\_m\_c\_configuration\_to\_a\_catalyst\_center\_node, cisco\_i\_m\_c.CiscoIMC.deletes\_the\_cisco\_i\_m\_c\_configuration\_for\_a\_catalyst\_center\_node, cisco\_i\_m\_c.CiscoIMC.updates\_the\_cisco\_i\_m\_c\_configuration\_for\_a\_catalyst\_center\_node,
+   - Paths used are post /dna/system/api/v1/ciscoImcs, delete /dna/system/api/v1/ciscoImcs/{id}, put /dna/system/api/v1/ciscoImcs/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -582,6 +616,10 @@ See Also
 
    `Cisco DNA Center documentation for Cisco IMC AddsCiscoIMCConfigurationToACatalystCenterNode <https://developer.cisco.com/docs/dna-center/#!adds-cisco-imc-configuration-to-a-catalyst-center-node>`_
        Complete reference of the AddsCiscoIMCConfigurationToACatalystCenterNode API.
+   `Cisco DNA Center documentation for Cisco IMC DeletesTheCiscoIMCConfigurationForACatalystCenterNode <https://developer.cisco.com/docs/dna-center/#!deletes-the-cisco-imc-configuration-for-a-catalyst-center-node>`_
+       Complete reference of the DeletesTheCiscoIMCConfigurationForACatalystCenterNode API.
+   `Cisco DNA Center documentation for Cisco IMC UpdatesTheCiscoIMCConfigurationForACatalystCenterNode <https://developer.cisco.com/docs/dna-center/#!updates-the-cisco-imc-configuration-for-a-catalyst-center-node>`_
+       Complete reference of the UpdatesTheCiscoIMCConfigurationForACatalystCenterNode API.
 
 .. Examples
 
@@ -604,6 +642,31 @@ Examples
         state: present
         ipAddress: string
         nodeId: string
+        password: string
+        username: string
+    - name: Delete by id
+      cisco.dnac.cisco_imcs:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
+    - name: Update by id
+      cisco.dnac.cisco_imcs:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        id: string
+        ipAddress: string
         password: string
         username: string
 

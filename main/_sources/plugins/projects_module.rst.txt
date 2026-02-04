@@ -42,7 +42,7 @@ cisco.dnac.projects module -- Resource module for Projects
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,10 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Projects.
+- Manage operations create, update and delete of the resource Projects.
 - Create a template project.
+- Delete a template project by the project's ID.
+- Update a template project by the project's ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -408,7 +410,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -442,6 +444,40 @@ Parameters
         <div class="ansible-option-cell">
 
       Name of the project.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-projectId"></div>
+
+      .. _ansible_collections.cisco.dnac.projects_module__parameter-projectid:
+
+      .. rst-class:: ansible-option-title
+
+      **projectId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-projectId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      ProjectId path parameter. The id of the project to delete, retrieveable from \`GET /dna/intent/api/v1/projects\`.
 
 
       .. raw:: html
@@ -500,8 +536,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are configuration\_templates.ConfigurationTemplates.create\_template\_project,
-   - Paths used are post /dna/intent/api/v1/projects,
+   - SDK Method used are configuration\_templates.ConfigurationTemplates.create\_template\_project, configuration\_templates.ConfigurationTemplates.delete\_template\_project, configuration\_templates.ConfigurationTemplates.update\_template\_project,
+   - Paths used are post /dna/intent/api/v1/projects, delete /dna/intent/api/v1/projects/{projectId}, put /dna/intent/api/v1/projects/{projectId},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -515,6 +551,10 @@ See Also
 
    `Cisco DNA Center documentation for Configuration Templates CreateTemplateProject <https://developer.cisco.com/docs/dna-center/#!create-template-project>`_
        Complete reference of the CreateTemplateProject API.
+   `Cisco DNA Center documentation for Configuration Templates DeleteTemplateProject <https://developer.cisco.com/docs/dna-center/#!delete-template-project>`_
+       Complete reference of the DeleteTemplateProject API.
+   `Cisco DNA Center documentation for Configuration Templates UpdateTemplateProject <https://developer.cisco.com/docs/dna-center/#!update-template-project>`_
+       Complete reference of the UpdateTemplateProject API.
 
 .. Examples
 
@@ -537,6 +577,30 @@ Examples
         state: present
         description: string
         name: string
+    - name: Delete by id
+      cisco.dnac.projects:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        projectId: string
+    - name: Update by id
+      cisco.dnac.projects:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        description: string
+        name: string
+        projectId: string
 
 
 
@@ -597,7 +661,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"count": 0}, "version": "string"}`
 
 
       .. raw:: html

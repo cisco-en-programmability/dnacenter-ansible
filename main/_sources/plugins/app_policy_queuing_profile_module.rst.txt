@@ -42,7 +42,7 @@ cisco.dnac.app_policy_queuing_profile module -- Resource module for App Policy Q
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -87,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -376,7 +376,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -487,40 +487,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/clause/instanceId"></div>
-
-      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/instanceid:
-
-      .. rst-class:: ansible-option-title
-
-      **instanceId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/clause/instanceId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Instance id.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/clause/interfaceSpeedBandwidthClauses"></div>
 
       .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/interfacespeedbandwidthclauses:
@@ -552,40 +518,6 @@ Parameters
 
         </div>
     
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/clause/interfaceSpeedBandwidthClauses/instanceId"></div>
-
-      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/interfacespeedbandwidthclauses/instanceid:
-
-      .. rst-class:: ansible-option-title
-
-      **instanceId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/clause/interfaceSpeedBandwidthClauses/instanceId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Instance id.
-
-
-      .. raw:: html
-
-        </div>
-
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -682,40 +614,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Bandwidth percentage.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/clause/interfaceSpeedBandwidthClauses/tcBandwidthSettings/instanceId"></div>
-
-      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/interfacespeedbandwidthclauses/tcbandwidthsettings/instanceid:
-
-      .. rst-class:: ansible-option-title
-
-      **instanceId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/clause/interfaceSpeedBandwidthClauses/tcBandwidthSettings/instanceId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Instance id.
 
 
       .. raw:: html
@@ -871,40 +769,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/clause/tcDscpSettings/instanceId"></div>
-
-      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/tcdscpsettings/instanceid:
-
-      .. rst-class:: ansible-option-title
-
-      **instanceId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/clause/tcDscpSettings/instanceId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Instance id.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/clause/tcDscpSettings/trafficClass"></div>
 
       .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/tcdscpsettings/trafficclass:
@@ -1000,40 +864,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Free test description.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/id"></div>
-
-      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/id:
-
-      .. rst-class:: ansible-option-title
-
-      **id**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/id" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Id of Queueing profile.
 
 
       .. raw:: html
@@ -1156,6 +986,30 @@ Examples
 
     
     ---
+    - name: Create
+      cisco.dnac.app_policy_queuing_profile:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        payload:
+          - clause:
+              - interfaceSpeedBandwidthClauses:
+                  - interfaceSpeed: string
+                    tcBandwidthSettings:
+                      - bandwidthPercentage: 0
+                        trafficClass: string
+                isCommonBetweenAllInterfaceSpeeds: true
+                tcDscpSettings:
+                  - dscp: string
+                    trafficClass: string
+                type: string
+            description: string
+            name: string
     - name: Update all
       cisco.dnac.app_policy_queuing_profile:
         dnac_host: "{{dnac_host}}"
@@ -1184,30 +1038,6 @@ Examples
                 type: string
             description: string
             id: string
-            name: string
-    - name: Create
-      cisco.dnac.app_policy_queuing_profile:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: present
-        payload:
-          - clause:
-              - interfaceSpeedBandwidthClauses:
-                  - interfaceSpeed: string
-                    tcBandwidthSettings:
-                      - bandwidthPercentage: 0
-                        trafficClass: string
-                isCommonBetweenAllInterfaceSpeeds: true
-                tcDscpSettings:
-                  - dscp: string
-                    trafficClass: string
-                type: string
-            description: string
             name: string
     - name: Delete by id
       cisco.dnac.app_policy_queuing_profile:

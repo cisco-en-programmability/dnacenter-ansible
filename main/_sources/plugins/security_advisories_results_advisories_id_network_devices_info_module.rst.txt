@@ -42,7 +42,7 @@ cisco.dnac.security_advisories_results_advisories_id_network_devices_info module
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,6 +69,8 @@ Synopsis
 .. Description
 
 - Get all Security Advisories Results Advisories Id Network Devices.
+- Get Security Advisories Results Advisories Id Network Devices by id.
+- Get security advisory network device for the security advisory by network device id.
 - Get security advisory network devices for the security advisory.
 
 .. note::
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -374,7 +376,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -465,7 +467,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -534,7 +536,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -743,8 +745,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are compliance.Compliance.get\_security\_advisory\_network\_devices\_for\_the\_security\_advisory,
-   - Paths used are get /dna/intent/api/v1/securityAdvisories/results/advisories/{id}/networkDevices,
+   - SDK Method used are compliance.Compliance.get\_security\_advisory\_network\_device\_for\_the\_security\_advisory\_by\_network\_device\_id, compliance.Compliance.get\_security\_advisory\_network\_devices\_for\_the\_security\_advisory,
+   - Paths used are get /dna/intent/api/v1/securityAdvisories/results/advisories/{id}/networkDevices, get /dna/intent/api/v1/securityAdvisories/results/advisories/{id}/networkDevices/{networkDeviceId},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -756,6 +758,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Compliance GetSecurityAdvisoryNetworkDeviceForTheSecurityAdvisoryByNetworkDeviceId <https://developer.cisco.com/docs/dna-center/#!get-security-advisory-network-device-for-the-security-advisory-by-network-device-id>`_
+       Complete reference of the GetSecurityAdvisoryNetworkDeviceForTheSecurityAdvisoryByNetworkDeviceId API.
    `Cisco DNA Center documentation for Compliance GetSecurityAdvisoryNetworkDevicesForTheSecurityAdvisory <https://developer.cisco.com/docs/dna-center/#!get-security-advisory-network-devices-for-the-security-advisory>`_
        Complete reference of the GetSecurityAdvisoryNetworkDevicesForTheSecurityAdvisory API.
 
@@ -768,8 +772,7 @@ Examples
 
     
     ---
-    - name: Get all Security Advisories Results Advisories
-        Id Network Devices
+    - name: Get all Security Advisories Results Advisories Id Network Devices
       cisco.dnac.security_advisories_results_advisories_id_network_devices_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -787,6 +790,19 @@ Examples
         sortBy: string
         order: string
         id: string
+      register: result
+    - name: Get Security Advisories Results Advisories Id Network Devices by id
+      cisco.dnac.security_advisories_results_advisories_id_network_devices_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        id: string
+        networkDeviceId: string
       register: result
 
 
@@ -848,7 +864,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"advisoryCount": 0, "comments": "string", "lastScanTime": 0, "networkDeviceId": "string", "scanMode": "string", "scanStatus": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"advisoryCount": 0, "comments": "string", "lastScanTime": 0, "networkDeviceId": "string", "scanMode": "string", "scanStatus": "string"}, "version": "string"}`
 
 
       .. raw:: html

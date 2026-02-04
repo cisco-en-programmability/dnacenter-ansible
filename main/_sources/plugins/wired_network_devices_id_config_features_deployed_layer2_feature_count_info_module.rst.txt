@@ -42,7 +42,7 @@ cisco.dnac.wired_network_devices_id_config_features_deployed_layer2_feature_coun
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -374,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -560,8 +560,7 @@ Examples
 
     
     ---
-    - name: Get Wired Network Devices Id Config Features
-        Deployed Layer2 Feature Count by id
+    - name: Get Wired Network Devices Id Config Features Deployed Layer2 Feature Count by id
       cisco.dnac.wired_network_devices_id_config_features_deployed_layer2_feature_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

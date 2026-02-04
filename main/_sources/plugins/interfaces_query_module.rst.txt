@@ -42,7 +42,7 @@ cisco.dnac.interfaces_query module -- Resource module for Interfaces Query
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Interfaces Query. - \> Gets the list of interfaces across the Network Devices based on the provided complex filters and aggregation functions.
+- Manage operation create of the resource Interfaces Query.
+- Gets the list of interfaces across the Network Devices based on the provided complex filters and aggregation functions.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -510,7 +511,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -781,7 +782,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Value.
+      Interfaces Query's value.
 
 
       .. raw:: html
@@ -918,7 +919,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Value.
+      Interfaces Query's value.
 
 
       .. raw:: html
@@ -1252,7 +1253,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.gets\_the\_list\_of\_interfaces\_across\_the\_network\_devices\_based\_on\_the\_provided\_complex\_filters\_and\_aggregation\_functions,
+   - SDK Method used are devices.Devices.get\_interfaces\_query,
    - Paths used are post /dna/data/api/v1/interfaces/query,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -1265,9 +1266,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetsTheListOfInterfacesAcrossTheNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions <https://developer.cisco.com/docs/dna-center/#!gets-the-list- of-interfaces-across-the-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions>`_
-       Complete reference of the GetsTheListOfInterfacesAcrossThe NetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions API.
-
+   `Cisco DNA Center documentation for Devices GetInterfacesQuery <https://developer.cisco.com/docs/dna-center/#!get-interfaces-query>`_
+       Complete reference of the GetInterfacesQuery API.
 
 .. Examples
 

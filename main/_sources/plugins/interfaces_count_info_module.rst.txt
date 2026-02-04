@@ -42,7 +42,7 @@ cisco.dnac.interfaces_count_info module -- Information module for Interfaces Cou
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -84,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -373,7 +373,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -815,7 +815,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.gets\_the\_total\_network\_device\_interface\_counts,
+   - SDK Method used are devices.Devices.get\_interfaces\_total\_count,
    - Paths used are get /dna/data/api/v1/interfaces/count,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -828,9 +828,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetsTheTotalNetworkDeviceInterfaceCountsInTheSpecified TimeRangeWhenThereIsNoStartAndEndTimeSpecifiedReturnsTheLatestInterfacesTotalCount <https://developer.cisco.com/docs/dna-center/#!gets-the-total-network-device-interface-counts-in-the-specified-time-range- when-there-is-no-start-and-end-time-specified-returns-the-latest-interfaces-total-count>`_
-       Complete reference of the GetsTheTotalNetworkDeviceInterfaceCountsInTheSpecified TimeRangeWhenThereIsNoStartAndEndTimeSpecifiedReturnsTheLatestInterfacesTotalCount API.
-
+   `Cisco DNA Center documentation for Devices GetInterfacesTotalCount <https://developer.cisco.com/docs/dna-center/#!get-interfaces-total-count>`_
+       Complete reference of the GetInterfacesTotalCount API.
 
 .. Examples
 

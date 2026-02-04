@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_devices_top_n_analytics module -- Resource module for Networkdevices Topnanalytics
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_devices_top_n_analytics module -- Resource module for Network Devices Top N Analytics
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Networkdevices Topnanalytics. - \> Gets the Top N analytics data related to network devices based on the provided input data. This endpoint is valuable to obtain the top-performing or most impacted network devices. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- AssuranceNetworkDevices-2.0.1-resolved.yaml.
+- Manage operation create of the resource Network Devices Top N Analytics.
+- Gets the Top N analytics data related to network devices based on the provided input data.
+- This endpoint is valuable to obtain the top-performing or most impacted network devices.
+- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -227,7 +230,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -510,7 +513,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -1107,7 +1110,7 @@ Examples
     
     ---
     - name: Create
-      cisco.dnac.networkDevices_topNAnalytics:
+      cisco.dnac.network_devices_top_n_analytics:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -1119,7 +1122,7 @@ Examples
           - function: string
             name: string
         attributes:
-          - {}
+          - string
         endTime: 0
         filters:
           - key: string

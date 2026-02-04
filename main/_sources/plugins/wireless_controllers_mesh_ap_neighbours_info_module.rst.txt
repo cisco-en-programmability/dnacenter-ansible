@@ -42,7 +42,7 @@ cisco.dnac.wireless_controllers_mesh_ap_neighbours_info module -- Information mo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Wireless Controllers Mesh Ap Neighbours.
-- Retrieves all Mesh accesspoint Neighbours details whether child, parent, etc.
+- Get all Wireless Controllers Mesh Ap Neighbours. - \> Retrieves all mesh access point neighbour details, including Child, Parent, Neighbour, Tentative Parent, and Blocklisted statuses.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -135,7 +134,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      ApName query parameter. Employ this query parameter to obtain the details of the Access points corresponding to the provided ap name.
+      ApName query parameter. Employ this query parameter to obtain the details of the access points corresponding to the provided access point name.
           
 
 
@@ -409,7 +408,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -442,7 +441,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      EthernetMacAddress query parameter. Employ this query parameter to obtain the details of the Access points corresponding to the provided EthernetMacAddress.
+      EthernetMacAddress query parameter. Employ this query parameter to obtain the details of the access points corresponding to the provided ethernet MAC address.
           
 
 
@@ -478,6 +477,76 @@ Parameters
         <div class="ansible-option-cell">
 
       Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-meshRole"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_controllers_mesh_ap_neighbours_info_module__parameter-meshrole:
+
+      .. rst-class:: ansible-option-title
+
+      **meshRole**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-meshRole" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      MeshRole query parameter. Employ this query parameter to obtain the details of the access points corresponding to the provided mesh role. Allowed values are RAP or MAP.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-neighbourType"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_controllers_mesh_ap_neighbours_info_module__parameter-neighbourtype:
+
+      .. rst-class:: ansible-option-title
+
+      **neighbourType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-neighbourType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      NeighbourType query parameter. Employ this query parameter to obtain the details of the access points corresponding to the provided mesh neighbour type. Allowed values are Child, Parent, Neigh, Tentative Parent, Blocklisted.
+          
 
 
       .. raw:: html
@@ -553,7 +622,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      WlcIpAddress query parameter. Employ this query parameter to obtain the details of the Access points corresponding to the provided WLC IP address.
+      WlcIpAddress query parameter. Employ this query parameter to obtain the details of the access points corresponding to the provided WLC IP address.
           
 
 
@@ -609,6 +678,8 @@ Examples
         wlcIpAddress: string
         apName: string
         ethernetMacAddress: string
+        meshRole: string
+        neighbourType: string
       register: result
 
 

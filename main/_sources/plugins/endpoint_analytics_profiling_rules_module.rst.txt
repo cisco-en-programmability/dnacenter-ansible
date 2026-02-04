@@ -42,7 +42,7 @@ cisco.dnac.endpoint_analytics_profiling_rules module -- Resource module for Endp
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -87,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -366,7 +366,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -718,7 +718,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -1390,7 +1390,7 @@ Examples
     
     ---
     - name: Create
-      cisco.dnac.endpoint_analytics_profiling-rules:
+      cisco.dnac.endpoint_analytics_profiling_rules:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -1407,50 +1407,7 @@ Examples
             operator: string
             value: string
           conditionGroup:
-            - {}
-          operator: string
-          type: string
-        isDeleted: true
-        lastModifiedBy: string
-        lastModifiedOn: 0
-        pluginId: string
-        rejected: true
-        result:
-          deviceType:
             - string
-          hardwareManufacturer:
-            - string
-          hardwareModel:
-            - string
-          operatingSystem:
-            - string
-        ruleId: string
-        ruleName: string
-        rulePriority: 0
-        ruleType: string
-        ruleVersion: 0
-        sourcePriority: 0
-        usedAttributes:
-          - string
-    - name: Update by id
-      cisco.dnac.endpoint_analytics_profiling-rules:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: present
-        clusterId: string
-        conditionGroups:
-          condition:
-            attribute: string
-            attributeDictionary: string
-            operator: string
-            value: string
-          conditionGroup:
-            - {}
           operator: string
           type: string
         isDeleted: true
@@ -1476,7 +1433,7 @@ Examples
         usedAttributes:
           - string
     - name: Delete by id
-      cisco.dnac.endpoint_analytics_profiling-rules:
+      cisco.dnac.endpoint_analytics_profiling_rules:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -1486,6 +1443,49 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         ruleId: string
+    - name: Update by id
+      cisco.dnac.endpoint_analytics_profiling_rules:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        clusterId: string
+        conditionGroups:
+          condition:
+            attribute: string
+            attributeDictionary: string
+            operator: string
+            value: string
+          conditionGroup:
+            - string
+          operator: string
+          type: string
+        isDeleted: true
+        lastModifiedBy: string
+        lastModifiedOn: 0
+        pluginId: string
+        rejected: true
+        result:
+          deviceType:
+            - string
+          hardwareManufacturer:
+            - string
+          hardwareModel:
+            - string
+          operatingSystem:
+            - string
+        ruleId: string
+        ruleName: string
+        rulePriority: 0
+        ruleType: string
+        ruleVersion: 0
+        sourcePriority: 0
+        usedAttributes:
+          - string
 
 
 

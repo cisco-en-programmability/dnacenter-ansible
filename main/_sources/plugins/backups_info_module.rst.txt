@@ -42,7 +42,7 @@ cisco.dnac.backups_info module -- Information module for Backups
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,6 +69,8 @@ Synopsis
 .. Description
 
 - Get all Backups.
+- Get Backups by id.
+- This api is used to get a specific backup based on the provided \`backup id\`.
 - This api is used to get all the backup available in the configured storage.
 
 .. note::
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -374,7 +376,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -408,6 +410,40 @@ Parameters
         <div class="ansible-option-cell">
 
       Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.backups_info_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. The \`id\` of the backup to be retrieved.
 
 
       .. raw:: html
@@ -509,7 +545,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Order query parameter. Whether ascending or descending order should be used to sort the response.
+      Order query parameter. Whether ascending or descending order should be used to sort the response.Use \`asc\` for ascending and \`desc\` for descending order .
+          
 
 
       .. raw:: html
@@ -636,8 +673,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are backup.Backup.get\_all\_backup,
-   - Paths used are get /dna/system/api/v1/backups,
+   - SDK Method used are backup.Backup.get\_all\_backup, backup.Backup.get\_backup\_by\_id,
+   - Paths used are get /dna/system/api/v1/backups, get /dna/system/api/v1/backups/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -651,6 +688,8 @@ See Also
 
    `Cisco DNA Center documentation for Backup GetAllBackup <https://developer.cisco.com/docs/dna-center/#!get-all-backup>`_
        Complete reference of the GetAllBackup API.
+   `Cisco DNA Center documentation for Backup GetBackupById <https://developer.cisco.com/docs/dna-center/#!get-backup-by-id>`_
+       Complete reference of the GetBackupById API.
 
 .. Examples
 
@@ -676,6 +715,18 @@ Examples
         limit: 0
         sortBy: string
         order: string
+      register: result
+    - name: Get Backups by id
+      cisco.dnac.backups_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        id: string
       register: result
 
 
@@ -737,7 +788,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"filter": {}, "page": {}, "response": [{"compatibilityError": [{"endDate": "string", "namespace": "string", "response": {}, "serviceName": "string", "startDate": "string"}], "context": {}, "createdBy": "string", "createdDate": "string", "duration": 0, "endDate": "string", "fipsEnabled": true, "id": "string", "installedPackages": [{"displayName": "string", "name": "string", "version": "string"}], "internetProtocolVersion": "string", "isBackupAvailable": true, "isCompatible": true, "name": "string", "numberOfNodes": 0, "productType": "string", "productVersion": "string", "releaseDisplayName": "string", "releaseDisplayVersion": "string", "releaseName": "string", "releaseVersion": "string", "scope": "string", "size": 0, "status": "string", "storage": {}, "versions": ["string"]}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"compatibilityError": [{"endDate": "string", "namespace": "string", "response": {}, "serviceName": "string", "startDate": "string"}], "context": {"schedule": "string", "type": "string"}, "createdBy": "string", "createdDate": "string", "duration": 0, "endDate": "string", "fipsEnabled": true, "id": "string", "installedPackages": [{"displayName": "string", "name": "string", "version": "string"}], "internetProtocolVersion": "string", "isBackupAvailable": true, "isCompatible": true, "name": "string", "numberOfNodes": 0, "productType": "string", "productVersion": "string", "releaseDisplayName": "string", "releaseDisplayVersion": "string", "releaseName": "string", "releaseVersion": "string", "scope": "string", "size": 0, "status": "string", "storage": {"host": "string", "id": "string", "mountPath": "string", "name": "string", "serverPath": "string", "type": "string"}, "versions": ["string"]}, "version": "string"}`
 
 
       .. raw:: html

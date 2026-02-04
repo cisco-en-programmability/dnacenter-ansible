@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.site_kpi_summaries_top_n_analytics module -- Resource module for Sitekpisummaries Topnanalytics
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.site_kpi_summaries_top_n_analytics module -- Resource module for Site Kpi Summaries Top N Analytics
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Sitekpisummaries Topnanalytics. - \> Gets the Top N entites related based on site analytics for a given kpi type. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- SiteKpiSummaries-1.0.0-resolved.yaml.
+- Manage operation create of the resource Site Kpi Summaries Top N Analytics. - \> Gets the Top N entites related based on site analytics for a given kpi type. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- SiteKpiSummaries-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -373,7 +373,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -587,6 +587,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_top_n_analytics_module__parameter-headers:
+
+      .. rst-class:: ansible-option-title
+
+      **headers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-startTime"></div>
 
       .. _ansible_collections.cisco.dnac.site_kpi_summaries_top_n_analytics_module__parameter-starttime:
@@ -730,7 +764,7 @@ Examples
     
     ---
     - name: Create
-      cisco.dnac.siteKpiSummaries_topNAnalytics:
+      cisco.dnac.site_kpi_summaries_top_n_analytics:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -746,6 +780,7 @@ Examples
             value: string
         groupBy:
           - string
+        headers: '{{my_headers | from_json}}'
         startTime: 0
         topN: 0
 

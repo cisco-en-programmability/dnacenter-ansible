@@ -42,7 +42,7 @@ cisco.dnac.assurance_issues_count_info module -- Information module for Assuranc
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -84,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -485,7 +485,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -1488,7 +1488,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are issues.Issues.get\_the\_total\_number\_of\_issues\_for\_given\_set\_of\_filters\_know\_your\_network,
+   - SDK Method used are issues.Issues.get\_the\_total\_number\_of\_issues\_for\_given\_set\_of\_filters,
    - Paths used are get /dna/data/api/v1/assuranceIssues/count,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -1501,8 +1501,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Issues GetTheTotalNumberOfIssuesForGivenSetOfFiltersKnowYourNetwork <https://developer.cisco.com/docs/dna-center/#!get-the-total-number-of-issues-for-given-set-of-filters-know-your-network>`_
-       Complete reference of the GetTheTotalNumberOfIssuesForGivenSetOfFiltersKnowYourNetwork API.
+   `Cisco DNA Center documentation for Issues GetTheTotalNumberOfIssuesForGivenSetOfFilters <https://developer.cisco.com/docs/dna-center/#!get-the-total-number-of-issues-for-given-set-of-filters>`_
+       Complete reference of the GetTheTotalNumberOfIssuesForGivenSetOfFilters API.
 
 .. Examples
 

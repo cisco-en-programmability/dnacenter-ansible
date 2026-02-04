@@ -42,7 +42,7 @@ cisco.dnac.app_policy_default_info module -- Information module for App Policy D
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -374,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -562,7 +562,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"cfsChangeInfo": [{}], "contractList": [{}], "createTime": 0, "customProvisions": [{}], "deletePolicyStatus": "string", "deployed": true, "displayName": "string", "exclusiveContract": {"clause": [{"displayName": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "priority": 0, "relevanceLevel": "string", "type": "string"}], "displayName": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0}, "id": "string", "identitySource": {"displayName": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "state": "string", "type": "string"}, "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "internal": true, "isDeleted": true, "isEnabled": true, "isScopeStale": true, "isSeeded": true, "isStale": true, "iseReserved": true, "lastUpdateTime": 0, "name": "string", "namespace": "string", "policyStatus": "string", "priority": 0, "producer": {"displayName": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "scalableGroup": [{"idRef": "string"}]}, "provisioningState": "string", "pushed": true, "qualifier": "string", "resourceVersion": 0, "targetIdList": [{}], "type": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"cfsChangeInfo": ["string"], "contractList": ["string"], "createTime": 0, "customProvisions": ["string"], "deletePolicyStatus": "string", "deployed": true, "displayName": "string", "exclusiveContract": {"clause": [{"displayName": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "priority": 0, "relevanceLevel": "string", "type": "string"}], "displayName": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0}, "id": "string", "identitySource": {"displayName": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "state": "string", "type": "string"}, "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "internal": true, "isDeleted": true, "isEnabled": true, "isScopeStale": true, "isSeeded": true, "isStale": true, "iseReserved": true, "lastUpdateTime": 0, "name": "string", "namespace": "string", "policyStatus": "string", "priority": 0, "producer": {"displayName": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "scalableGroup": [{"idRef": "string"}]}, "provisioningState": "string", "pushed": true, "qualifier": "string", "resourceVersion": 0, "targetIdList": ["string"], "type": "string"}], "version": "string"}`
 
 
       .. raw:: html

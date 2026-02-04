@@ -42,7 +42,7 @@ cisco.dnac.assurance_issues_query module -- Resource module for Assurance Issues
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -84,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -373,7 +373,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -947,7 +947,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"page": {"count": 0, "limit": 0, "offset": 0, "sortBy": [{"name": "string", "order": "string"}]}, "response": [{"additionalAttributes": [{"key": "string", "value": "string"}], "category": "string", "description": "string", "deviceType": "string", "entityId": "string", "entityType": "string", "firstOccurredTime": 0, "isGlobal": true, "issueId": "string", "mostRecentOccurredTime": 0, "name": "string", "notes": {}, "priority": "string", "severity": "string", "siteHierarchy": {}, "siteHierarchyId": {}, "siteId": {}, "siteName": {}, "status": "string", "suggestedActions": [{"message": "string", "steps": [{}]}], "summary": "string", "updatedBy": {}, "updatedTime": {}}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"page": {"count": 0, "limit": 0, "offset": 0, "sortBy": [{"name": "string", "order": "string"}]}, "response": [{"additionalAttributes": [{"key": "string", "value": "string"}], "category": "string", "description": "string", "deviceType": "string", "entityId": "string", "entityType": "string", "firstOccurredTime": 0, "isGlobal": true, "issueId": "string", "mostRecentOccurredTime": 0, "name": "string", "notes": {}, "priority": "string", "severity": "string", "siteHierarchy": {}, "siteHierarchyId": {}, "siteId": {}, "siteName": {}, "status": "string", "suggestedActions": [{"message": "string", "steps": ["string"]}], "summary": "string", "updatedBy": {}, "updatedTime": {}}], "version": "string"}`
 
 
       .. raw:: html

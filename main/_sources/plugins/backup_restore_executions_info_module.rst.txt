@@ -42,7 +42,7 @@ cisco.dnac.backup_restore_executions_info module -- Information module for Backu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,9 @@ Synopsis
 .. Description
 
 - Get all Backup Restore Executions.
+- Get Backup Restore Executions by id.
 - This api is used to get all the backup and restore executions.
+- This api is used to get the execution detail of a specific backup or restore worflow process.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -409,7 +411,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -452,6 +454,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_restore_executions_info_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. The \`id\` of the backup execution to be retrieved.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-jobType"></div>
 
       .. _ansible_collections.cisco.dnac.backup_restore_executions_info_module__parameter-jobtype:
@@ -476,7 +512,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      JobType query parameter. The \`jobType\` of the backup execution to be retrieved.
+      JobType query parameter. Execution type of the backup workflow. If the workflow is \`Create Backup\` The jobType is \`CREATE\_BACKUP\`. If the workflow is \`Delete Backup\` The jobType is \`DELETE\_BACKUP\`. If the workflow is \`Restore Backup\` The jobType is \`RESTORE\_BACKUP\`.
+          
 
 
       .. raw:: html
@@ -578,7 +615,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Order query parameter. Whether ascending or descending order should be used to sort the response.
+      Order query parameter. Whether ascending or descending order should be used to sort the response.Use \`asc\` for ascending and \`desc\` for descending order .
+          
 
 
       .. raw:: html
@@ -646,7 +684,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Status query parameter. The \`status\` of the backup execution to be retrieved.
+      Status query parameter. Execution status of the workflow.If the workflow execution has started, the status is \`IN\_PROGRESS\`.If the workflow execution has completed, the status is \`SUCCESS\`.If the workflow execution has failed, the status is \`FAILED\`.
+          
 
 
       .. raw:: html
@@ -705,8 +744,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are backup.Backup.get\_backup\_and\_restore\_executions,
-   - Paths used are get /dna/system/api/v1/backupRestoreExecutions,
+   - SDK Method used are backup.Backup.get\_backup\_and\_restore\_execution, backup.Backup.get\_backup\_and\_restore\_executions,
+   - Paths used are get /dna/system/api/v1/backupRestoreExecutions, get /dna/system/api/v1/backupRestoreExecutions/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -718,6 +757,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Backup GetBackupAndRestoreExecution <https://developer.cisco.com/docs/dna-center/#!get-backup-and-restore-execution>`_
+       Complete reference of the GetBackupAndRestoreExecution API.
    `Cisco DNA Center documentation for Backup GetBackupAndRestoreExecutions <https://developer.cisco.com/docs/dna-center/#!get-backup-and-restore-executions>`_
        Complete reference of the GetBackupAndRestoreExecutions API.
 
@@ -747,6 +788,18 @@ Examples
         limit: 0
         sortBy: string
         order: string
+      register: result
+    - name: Get Backup Restore Executions by id
+      cisco.dnac.backup_restore_executions_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        id: string
       register: result
 
 
@@ -808,7 +861,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"filter": {}, "page": {}, "response": [{"\_metadata": {}, "backupId": "string", "completedPercentage": 0, "createdBy": "string", "duration": 0, "endDate": "string", "errorCode": "string", "errorMessage": "string", "failedTaskDetail": {}, "id": "string", "isForceUpdate": true, "jobType": "string", "scope": "string", "startDate": "string", "status": "string", "systemErrorMessage": "string", "updateMessage": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"\_metadata": {}, "backupId": "string", "completedPercentage": 0, "createdBy": "string", "duration": 0, "endDate": "string", "errorCode": "string", "errorMessage": "string", "failedTaskDetail": {}, "id": "string", "isForceUpdate": true, "jobType": "string", "scope": "string", "startDate": "string", "status": "string", "systemErrorMessage": "string", "tasks": [{"endDate": "string", "errorCode": "string", "failedTaskDetail": {}, "id": "string", "message": "string", "startDate": "string", "status": "string", "systemErrorMessage": "string", "taskName": "string"}], "updateMessage": "string"}, "version": "string"}`
 
 
       .. raw:: html

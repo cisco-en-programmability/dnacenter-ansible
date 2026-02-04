@@ -42,7 +42,7 @@ cisco.dnac.network_devices_intent_info module -- Information module for Network 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Get all Network Devices Intent. - \> API to fetch the list of network devices using basic filters. Use the \`/dna/intent/api/v1/networkDevices/query\` API for advanced filtering. Refer features for more details. The API returns a paginated response based on 'limit' and 'offset' parameters, allowing up to 500 records per page. 'limit' specifies the number of records, and 'offset' sets the starting point using 1-based indexing. Use /dna/intent/api/v1/networkDevices/count API to get the total record count. For data sets over 500 records, make multiple calls, adjusting 'limit' and 'offset' to retrieve all records incrementally.
+- Get all Network Devices Intent.
+- Get Network Devices Intent by id. - \> API to fetch the details of network device using the \`id\`. Use the \`/dna/intent/api/v1/networkDevices/query\` API for advanced filtering. The API supports views to fetch only the required fields. Refer features for more details. - \> API to fetch the list of network devices using basic filters. Use the \`/dna/intent/api/v1/networkDevices/query\` API for advanced filtering. Refer features for more details. The API returns a paginated response based on 'limit' and 'offset' parameters, allowing up to 500 records per page. 'limit' specifies the number of records, and 'offset' sets the starting point using 1-based indexing. Use /dna/intent/api/v1/networkDevices/count API to get the total record count. For data sets over 500 records, make multiple calls, adjusting 'limit' and 'offset' to retrieve all records incrementally.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -373,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -498,7 +499,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -601,7 +602,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -947,8 +948,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.retrieve\_network\_devices,
-   - Paths used are get /dna/intent/api/v1/networkDevices,
+   - SDK Method used are devices.Devices.get\_details\_of\_a\_single\_network\_device, devices.Devices.retrieve\_network\_devices,
+   - Paths used are get /dna/intent/api/v1/networkDevices, get /dna/intent/api/v1/networkDevices/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -960,6 +961,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Devices GetDetailsOfASingleNetworkDevice <https://developer.cisco.com/docs/dna-center/#!get-details-of-a-single-network-device>`_
+       Complete reference of the GetDetailsOfASingleNetworkDevice API.
    `Cisco DNA Center documentation for Devices RetrieveNetworkDevices <https://developer.cisco.com/docs/dna-center/#!retrieve-network-devices>`_
        Complete reference of the RetrieveNetworkDevices API.
 
@@ -992,10 +995,23 @@ Examples
         reachabilityStatus: string
         managementState: string
         views: string
-        limit: string
-        offset: string
+        limit: 0
+        offset: 0
         sortBy: string
         order: string
+      register: result
+    - name: Get Network Devices Intent by id
+      cisco.dnac.network_devices_intent_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        views: string
+        id: string
       register: result
 
 

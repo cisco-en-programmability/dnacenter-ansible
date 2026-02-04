@@ -42,7 +42,7 @@ cisco.dnac.energy_network_devices_info module -- Information module for Energy N
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,12 @@ Synopsis
 
 .. Description
 
-- Get all Energy Network Devices. - \> Retrieves a list of network devices with energy data based on the specified query parameters. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- deviceEnergy\_1.0-1.0.1-resolved.yaml.
+- Get all Energy Network Devices.
+- Get Energy Network Devices by id.
+- Retrieves a list of network devices with energy data based on the specified query parameters.
+- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-deviceEnergy\_1.0-1.0.1-resolved.yaml.
+- Retrieves network device energy data for a specified time range based on the device ID.
+- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-deviceEnergy\_1.0-1.0.1-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +89,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -513,7 +518,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -952,8 +957,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_devices\_energy,
-   - Paths used are get /dna/data/api/v1/energy/networkDevices,
+   - SDK Method used are devices.Devices.get\_device\_energy\_by\_id, devices.Devices.get\_devices\_energy,
+   - Paths used are get /dna/data/api/v1/energy/networkDevices, get /dna/data/api/v1/energy/networkDevices/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -965,6 +970,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Devices GetDeviceEnergyByID <https://developer.cisco.com/docs/dna-center/#!get-device-energy-by-id>`_
+       Complete reference of the GetDeviceEnergyByID API.
    `Cisco DNA Center documentation for Devices GetDevicesEnergy <https://developer.cisco.com/docs/dna-center/#!get-devices-energy>`_
        Complete reference of the GetDevicesEnergy API.
 
@@ -1001,6 +1008,22 @@ Examples
         deviceSubCategory: string
         view: string
         attribute: string
+      register: result
+    - name: Get Energy Network Devices by id
+      cisco.dnac.energy_network_devices_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        startTime: 0
+        endTime: 0
+        view: string
+        attribute: string
+        id: string
       register: result
 
 
@@ -1062,7 +1085,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"page": {"count": 0, "cursor": "string", "limit": 0, "sortBy": [{"name": "string", "order": "string"}]}, "response": [{"carbonIntensity": 0, "deviceCategory": "string", "deviceName": "string", "deviceSubCategory": "string", "energyConsumed": 0, "estimatedCost": 0, "estimatedEmission": 0, "id": "string", "siteHierarchy": "string", "siteHierarchyId": "string", "siteId": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"carbonIntensity": 0, "deviceCategory": "string", "deviceName": "string", "deviceSubCategory": "string", "energyConsumed": 0, "estimatedCost": 0, "estimatedEmission": 0, "id": "string", "siteHierarchy": "string", "siteHierarchyId": "string", "siteId": "string"}, "version": "string"}`
 
 
       .. raw:: html

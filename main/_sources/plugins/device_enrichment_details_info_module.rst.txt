@@ -42,7 +42,7 @@ cisco.dnac.device_enrichment_details_info module -- Information module for Devic
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -84,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -373,7 +373,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -561,7 +561,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"deviceDetails\\": {\\n      \\"family\\": \\"string\\",\\n      \\"type\\": \\"string\\",\\n      \\"location\\": {},\\n      \\"errorCode\\": \\"string\\",\\n      \\"macAddress\\": \\"string\\",\\n      \\"role\\": \\"string\\",\\n      \\"apManagerInterfaceIp\\": \\"string\\",\\n      \\"associatedWlcIp\\": \\"string\\",\\n      \\"bootDateTime\\": \\"string\\",\\n      \\"collectionStatus\\": \\"string\\",\\n      \\"interfaceCount\\": \\"string\\",\\n      \\"lineCardCount\\": \\"string\\",\\n      \\"lineCardId\\": \\"string\\",\\n      \\"managementIpAddress\\": \\"string\\",\\n      \\"memorySize\\": \\"string\\",\\n      \\"platformId\\": \\"string\\",\\n      \\"reachabilityFailureReason\\": \\"string\\",\\n      \\"reachabilityStatus\\": \\"string\\",\\n      \\"snmpContact\\": \\"string\\",\\n      \\"snmpLocation\\": \\"string\\",\\n      \\"tunnelUdpPort\\": {},\\n      \\"waasDeviceMode\\": {},\\n      \\"series\\": \\"string\\",\\n      \\"inventoryStatusDetail\\": \\"string\\",\\n      \\"collectionInterval\\": \\"string\\",\\n      \\"serialNumber\\": \\"string\\",\\n      \\"softwareVersion\\": \\"string\\",\\n      \\"roleSource\\": \\"string\\",\\n      \\"hostname\\": \\"string\\",\\n      \\"upTime\\": \\"string\\",\\n      \\"lastUpdateTime\\": 0,\\n      \\"errorDescription\\": \\"string\\",\\n      \\"locationName\\": {},\\n      \\"tagCount\\": \\"string\\",\\n      \\"lastUpdated\\": \\"string\\",\\n      \\"instanceUuid\\": \\"string\\",\\n      \\"id\\": \\"string\\",\\n      \\"neighborTopology\\": [\\n        {\\n          \\"nodes\\": [\\n            {\\n              \\"role\\": \\"string\\",\\n              \\"name\\": \\"string\\",\\n              \\"id\\": \\"string\\",\\n              \\"description\\": \\"string\\",\\n              \\"deviceType\\": \\"string\\",\\n              \\"platformId\\": \\"string\\",\\n              \\"family\\": \\"string\\",\\n              \\"ip\\": \\"string\\",\\n              \\"softwareVersion\\": \\"string\\",\\n              \\"userId\\": {},\\n              \\"nodeType\\": \\"string\\",\\n              \\"radioFrequency\\": {},\\n              \\"clients\\": {},\\n              \\"count\\": {},\\n              \\"healthScore\\": 0,\\n              \\"level\\": 0,\\n              \\"fabricGroup\\": {},\\n              \\"connectedDevice\\": {}\\n            }\\n          ],\\n          \\"links\\": [\\n            {\\n              \\"source\\": \\"string\\",\\n              \\"linkStatus\\": \\"string\\",\\n              \\"label\\": [\\n                {}\\n              ],\\n              \\"target\\": \\"string\\",\\n              \\"id\\": {},\\n              \\"portUtilization\\": {}\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"deviceDetails\\": {\\n      \\"family\\": \\"string\\",\\n      \\"type\\": \\"string\\",\\n      \\"location\\": {},\\n      \\"errorCode\\": \\"string\\",\\n      \\"macAddress\\": \\"string\\",\\n      \\"role\\": \\"string\\",\\n      \\"apManagerInterfaceIp\\": \\"string\\",\\n      \\"associatedWlcIp\\": \\"string\\",\\n      \\"bootDateTime\\": \\"string\\",\\n      \\"collectionStatus\\": \\"string\\",\\n      \\"interfaceCount\\": \\"string\\",\\n      \\"lineCardCount\\": \\"string\\",\\n      \\"lineCardId\\": \\"string\\",\\n      \\"managementIpAddress\\": \\"string\\",\\n      \\"memorySize\\": \\"string\\",\\n      \\"platformId\\": \\"string\\",\\n      \\"reachabilityFailureReason\\": \\"string\\",\\n      \\"reachabilityStatus\\": \\"string\\",\\n      \\"snmpContact\\": \\"string\\",\\n      \\"snmpLocation\\": \\"string\\",\\n      \\"tunnelUdpPort\\": {},\\n      \\"waasDeviceMode\\": {},\\n      \\"series\\": \\"string\\",\\n      \\"inventoryStatusDetail\\": \\"string\\",\\n      \\"collectionInterval\\": \\"string\\",\\n      \\"serialNumber\\": \\"string\\",\\n      \\"softwareVersion\\": \\"string\\",\\n      \\"roleSource\\": \\"string\\",\\n      \\"hostname\\": \\"string\\",\\n      \\"upTime\\": \\"string\\",\\n      \\"lastUpdateTime\\": 0,\\n      \\"errorDescription\\": \\"string\\",\\n      \\"locationName\\": {},\\n      \\"tagCount\\": \\"string\\",\\n      \\"lastUpdated\\": \\"string\\",\\n      \\"instanceUuid\\": \\"string\\",\\n      \\"id\\": \\"string\\",\\n      \\"neighborTopology\\": [\\n        {\\n          \\"nodes\\": [\\n            {\\n              \\"role\\": \\"string\\",\\n              \\"name\\": \\"string\\",\\n              \\"id\\": \\"string\\",\\n              \\"description\\": \\"string\\",\\n              \\"deviceType\\": \\"string\\",\\n              \\"platformId\\": \\"string\\",\\n              \\"family\\": \\"string\\",\\n              \\"ip\\": \\"string\\",\\n              \\"softwareVersion\\": \\"string\\",\\n              \\"userId\\": {},\\n              \\"nodeType\\": \\"string\\",\\n              \\"radioFrequency\\": {},\\n              \\"clients\\": {},\\n              \\"count\\": {},\\n              \\"healthScore\\": 0,\\n              \\"level\\": 0,\\n              \\"fabricGroup\\": {},\\n              \\"connectedDevice\\": {}\\n            }\\n          ],\\n          \\"links\\": [\\n            {\\n              \\"source\\": \\"string\\",\\n              \\"linkStatus\\": \\"string\\",\\n              \\"label\\": [\\n                \\"string\\"\\n              ],\\n              \\"target\\": \\"string\\",\\n              \\"id\\": {},\\n              \\"portUtilization\\": {}\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  }\\n]\\n"`
 
 
       .. raw:: html

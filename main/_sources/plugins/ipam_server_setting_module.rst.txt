@@ -42,7 +42,7 @@ cisco.dnac.ipam_server_setting module -- Resource module for Ipam Server Setting
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Ipam Server Setting. - \> Creates configuration details of the external IPAM server. You should only create one external IPAM server; delete any existing external server before creating a new one.
+- Manage operations create, update and delete of the resource Ipam Server Setting. - \> Creates configuration details of the external IPAM server. You should only create one external IPAM server; delete any existing external server before creating a new one. Please note, the certificate of the external IPAM server must be trusted by the Catalyst Center server before using this API. Trusted certificates can be uploaded using 'Import Trusted Certificate' intent API.
 - Deletes configuration details of the external IPAM server.
 - Updates configuration details of the external IPAM server.
 
@@ -86,8 +86,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -375,7 +375,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -708,6 +708,16 @@ Examples
 
     
     ---
+    - name: Delete all
+      cisco.dnac.ipam_server_setting:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
     - name: Create
       cisco.dnac.ipam_server_setting:
         dnac_host: "{{dnac_host}}"
@@ -725,16 +735,6 @@ Examples
         syncView: true
         userName: string
         view: string
-    - name: Delete all
-      cisco.dnac.ipam_server_setting:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: absent
     - name: Update all
       cisco.dnac.ipam_server_setting:
         dnac_host: "{{dnac_host}}"

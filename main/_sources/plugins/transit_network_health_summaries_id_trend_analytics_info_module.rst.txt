@@ -42,7 +42,7 @@ cisco.dnac.transit_network_health_summaries_id_trend_analytics_info module -- In
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Get all Transit Network Health Summaries Id Trend Analytics. - \> Get health time series for a specific Transit Network by providing the unique Transit Network id in the url path. The data will be grouped based on the specified trend time interval. If startTime and endTime are not provided, the API defaults to the last 24 hours.
+- Get all Transit Network Health Summaries Id Trend Analytics.
+- Get health time series for a specific Transit Network by providing the unique Transit Network id in the url path.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -407,7 +408,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -509,7 +510,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. The unique transit network id, Ex "1551156a-bc97-3c63-aeda-8a6d3765b5b9"
+      Id path parameter. The unique transit network id, Ex "1551156a-bc97-3c63-aeda-8a6d3765b5b9".
 
 
       .. raw:: html
@@ -533,7 +534,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -567,7 +568,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -766,8 +767,7 @@ Examples
 
     
     ---
-    - name: Get all Transit Network Health Summaries Id
-        Trend Analytics
+    - name: Get all Transit Network Health Summaries Id Trend Analytics
       cisco.dnac.transit_network_health_summaries_id_trend_analytics_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

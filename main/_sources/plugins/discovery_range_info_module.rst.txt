@@ -42,7 +42,7 @@ cisco.dnac.discovery_range_info module -- Information module for Discovery Range
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -374,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -632,7 +632,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"attributeInfo": {}, "cdpLevel": 0, "deviceIds": "string", "discoveryCondition": "string", "discoveryStatus": "string", "discoveryType": "string", "enablePasswordList": "string", "globalCredentialIdList": ["string"], "httpReadCredential": {"comments": "string", "credentialType": "string", "description": "string", "id": "string", "instanceTenantId": "string", "instanceUuid": "string", "password": "string", "port": 0, "secure": true, "username": "string"}, "httpWriteCredential": {"comments": "string", "credentialType": "string", "description": "string", "id": "string", "instanceTenantId": "string", "instanceUuid": "string", "password": "string", "port": 0, "secure": true, "username": "string"}, "id": "string", "ipAddressList": "string", "ipFilterList": "string", "isAutoCdp": true, "lldpLevel": 0, "name": "string", "netconfPort": "string", "numDevices": 0, "parentDiscoveryId": "string", "passwordList": "string", "preferredMgmtIPMethod": "string", "protocolOrder": "string", "retryCount": 0, "snmpAuthPassphrase": "string", "snmpAuthProtocol": "string", "snmpMode": "string", "snmpPrivPassphrase": "string", "snmpPrivProtocol": "string", "snmpRoCommunity": "string", "snmpRoCommunityDesc": "string", "snmpRwCommunity": "string", "snmpRwCommunityDesc": "string", "snmpUserName": "string", "timeout": 0, "updateMgmtIp": true, "userNameList": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"attributeInfo": {}, "cdpLevel": 0, "deviceIds": "string", "discoveryCondition": "string", "discoveryStatus": "string", "discoveryType": "string", "enablePasswordList": "string", "globalCredentialIdList": ["string"], "httpReadCredential": {"comments": "string", "credentialType": "string", "description": "string", "id": "string", "instanceTenantId": "string", "instanceUuid": "string", "password": "string", "port": 0, "secure": true, "username": "string"}, "httpWriteCredential": {"comments": "string", "credentialType": "string", "description": "string", "id": "string", "instanceTenantId": "string", "instanceUuid": "string", "password": "string", "port": 0, "secure": true, "username": "string"}, "id": "string", "ipAddressList": "string", "ipFilterList": "string", "isAutoCdp": true, "lldpLevel": 0, "name": "string", "netconfPort": "string", "numDevices": 0, "parentDiscoveryId": "string", "passwordList": "string", "preferredMgmtIPMethod": "string", "protocolOrder": "string", "retryCount": 0, "snmpAuthPassphrase": "string", "snmpAuthProtocol": "string", "snmpMode": "string", "snmpPrivPassphrase": "string", "snmpPrivProtocol": "string", "snmpRoCommunity": "string", "snmpRoCommunityDesc": "string", "snmpRwCommunity": "string", "snmpRwCommunityDesc": "string", "snmpUserName": "string", "timeOut": 0, "updateMgmtIp": true, "userNameList": "string"}], "version": "string"}`
 
 
       .. raw:: html

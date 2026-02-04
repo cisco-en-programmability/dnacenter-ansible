@@ -42,7 +42,7 @@ cisco.dnac.custom_issue_definitions module -- Resource module for Custom Issue D
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -84,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -407,7 +407,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -474,7 +474,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. The custom issue definition Identifier.
+      Id path parameter. The custom issue definition unique identifier.
 
 
       .. raw:: html
@@ -976,6 +976,18 @@ Examples
             occurrences: 0
             pattern: string
             severity: 0
+    - name: Delete by id
+      cisco.dnac.custom_issue_definitions:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        headers: '{{my_headers | from_json}}'
+        id: string
     - name: Update by id
       cisco.dnac.custom_issue_definitions:
         dnac_host: "{{dnac_host}}"
@@ -987,6 +999,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         description: string
+        headers: '{{my_headers | from_json}}'
         id: string
         isEnabled: true
         isNotificationEnabled: true
@@ -999,17 +1012,6 @@ Examples
             occurrences: 0
             pattern: string
             severity: 0
-    - name: Delete by id
-      cisco.dnac.custom_issue_definitions:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: absent
-        id: string
 
 
 

@@ -42,7 +42,7 @@ cisco.dnac.wireless_settings_ap_authorization_lists module -- Resource module fo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,10 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Wireless Settings Ap Authorization Lists.
+- Manage operations create, update and delete of the resource Wireless Settings Ap Authorization Lists.
 - This API allows the user to create an AP Authorization List.
+- This API allows the user to delete an AP Authorization List.
+- This API allows the user to update an AP Authorization List.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -408,7 +410,41 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_authorization_lists_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. AP Authorization List ID.
+
 
       .. raw:: html
 
@@ -578,7 +614,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of Authorization server IpAddresses. Obtain the AAA servers by using the API GET call '/dna/intent/api/v1/authentication-policy-servers'.
+      List of Authorization server IpAddresses.
+
+      Obtain the AAA servers by using the API GET call '/dna/intent/api/v1/authentication-policy-servers'.
 
 
       .. raw:: html
@@ -612,7 +650,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      True if AP Authorization List should authorise APs With MAC addresses, else False. (For Non-Mesh Access Points, either of Authorize AP With MAC Address or Serial Number is required to be set to true).
+      true if AP Authorization List should authorise APs With MAC addresses, else False. (For Non-Mesh Access Points, either of Authorize AP With MAC Address or Serial Number is required to be set to true).
 
 
       .. rst-class:: ansible-option-line
@@ -654,7 +692,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      True if server IpAddresses are added and AP Authorization List should authorise APs With Serial Numbers, else False (For Non-Mesh Access Points, either of Authorize AP With MAC Address or Serial Number is required to be set to true).
+      true if server IpAddresses are added and AP Authorization List should authorise APs With Serial Numbers, else False (For Non-Mesh Access Points, either of Authorize AP With MAC Address or Serial Number is required to be set to true).
 
 
       .. rst-class:: ansible-option-line
@@ -722,8 +760,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_ap\_authorization\_list,
-   - Paths used are post /dna/intent/api/v1/wirelessSettings/apAuthorizationLists,
+   - SDK Method used are wireless.Wireless.create\_ap\_authorization\_list, wireless.Wireless.delete\_ap\_authorization\_list, wireless.Wireless.update\_ap\_authorization\_list,
+   - Paths used are post /dna/intent/api/v1/wirelessSettings/apAuthorizationLists, delete /dna/intent/api/v1/wirelessSettings/apAuthorizationLists/{id}, put /dna/intent/api/v1/wirelessSettings/apAuthorizationLists/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -737,6 +775,10 @@ See Also
 
    `Cisco DNA Center documentation for Wireless CreateAPAuthorizationList <https://developer.cisco.com/docs/dna-center/#!create-ap-authorization-list>`_
        Complete reference of the CreateAPAuthorizationList API.
+   `Cisco DNA Center documentation for Wireless DeleteAPAuthorizationList <https://developer.cisco.com/docs/dna-center/#!delete-ap-authorization-list>`_
+       Complete reference of the DeleteAPAuthorizationList API.
+   `Cisco DNA Center documentation for Wireless UpdateAPAuthorizationList <https://developer.cisco.com/docs/dna-center/#!update-ap-authorization-list>`_
+       Complete reference of the UpdateAPAuthorizationList API.
 
 .. Examples
 
@@ -758,6 +800,39 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         apAuthorizationListName: string
+        localAuthorization:
+          apMacEntries:
+            - string
+          apSerialNumberEntries:
+            - string
+        remoteAuthorization:
+          aaaServers:
+            - string
+          authorizeApWithMac: true
+          authorizeApWithSerialNumber: true
+    - name: Delete by id
+      cisco.dnac.wireless_settings_ap_authorization_lists:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
+    - name: Update by id
+      cisco.dnac.wireless_settings_ap_authorization_lists:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        apAuthorizationListName: string
+        id: string
         localAuthorization:
           apMacEntries:
             - string

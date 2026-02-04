@@ -42,7 +42,7 @@ cisco.dnac.event_subscription_email module -- Resource module for Event Subscrip
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -86,8 +86,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -375,7 +375,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -647,7 +647,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Event Ids.
+      Event Ids (Comma separated event ids).
 
 
       .. raw:: html
@@ -671,7 +671,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=integer`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -886,7 +886,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      (From Get Email Subscription Details --\> pick InstanceId if available).
+      (From Get Rest/Webhook Subscription Details --\> pick instanceId).
 
 
       .. raw:: html
@@ -954,177 +954,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Connector Type (Must be EMAIL).
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/subscriptionEndpoints/subscriptionDetails/description"></div>
-
-      .. _ansible_collections.cisco.dnac.event_subscription_email_module__parameter-payload/subscriptionendpoints/subscriptiondetails/description:
-
-      .. rst-class:: ansible-option-title
-
-      **description**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/subscriptionEndpoints/subscriptionDetails/description" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Description.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/subscriptionEndpoints/subscriptionDetails/fromEmailAddress"></div>
-
-      .. _ansible_collections.cisco.dnac.event_subscription_email_module__parameter-payload/subscriptionendpoints/subscriptiondetails/fromemailaddress:
-
-      .. rst-class:: ansible-option-title
-
-      **fromEmailAddress**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/subscriptionEndpoints/subscriptionDetails/fromEmailAddress" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Senders Email Address.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/subscriptionEndpoints/subscriptionDetails/name"></div>
-
-      .. _ansible_collections.cisco.dnac.event_subscription_email_module__parameter-payload/subscriptionendpoints/subscriptiondetails/name:
-
-      .. rst-class:: ansible-option-title
-
-      **name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/subscriptionEndpoints/subscriptionDetails/name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Name.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/subscriptionEndpoints/subscriptionDetails/subject"></div>
-
-      .. _ansible_collections.cisco.dnac.event_subscription_email_module__parameter-payload/subscriptionendpoints/subscriptiondetails/subject:
-
-      .. rst-class:: ansible-option-title
-
-      **subject**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/subscriptionEndpoints/subscriptionDetails/subject" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Email Subject.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/subscriptionEndpoints/subscriptionDetails/toEmailAddresses"></div>
-
-      .. _ansible_collections.cisco.dnac.event_subscription_email_module__parameter-payload/subscriptionendpoints/subscriptiondetails/toemailaddresses:
-
-      .. rst-class:: ansible-option-title
-
-      **toEmailAddresses**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/subscriptionEndpoints/subscriptionDetails/toEmailAddresses" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Recipient's Email Addresses (Comma separated).
+      Connector Type (Must be REST).
 
 
       .. raw:: html
@@ -1303,7 +1133,7 @@ Examples
               eventIds:
                 - string
               severities:
-                - 0
+                - string
               siteIds:
                 - string
               sources:
@@ -1315,12 +1145,6 @@ Examples
               - instanceId: string
                 subscriptionDetails:
                   connectorType: string
-                  description: string
-                  fromEmailAddress: string
-                  name: string
-                  subject: string
-                  toEmailAddresses:
-                    - string
             subscriptionId: string
             version: string
     - name: Update all
@@ -1345,7 +1169,7 @@ Examples
               eventIds:
                 - string
               severities:
-                - 0
+                - string
               siteIds:
                 - string
               sources:
@@ -1357,12 +1181,6 @@ Examples
               - instanceId: string
                 subscriptionDetails:
                   connectorType: string
-                  description: string
-                  fromEmailAddress: string
-                  name: string
-                  subject: string
-                  toEmailAddresses:
-                    - string
             subscriptionId: string
             version: string
 

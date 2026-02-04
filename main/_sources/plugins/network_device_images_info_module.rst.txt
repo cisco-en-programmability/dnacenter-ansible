@@ -42,7 +42,7 @@ cisco.dnac.network_device_images_info module -- Information module for Network D
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Get all Network Device Images. - \> This API retrieves information about running images and golden image bundle, if they are available for network devices. It also provides network device update status and image update status related to the golden image bundle and the compatible features supported by the network devices.
+- Get all Network Device Images.
+- Get Network Device Images by id. - \> The API retrieves information about running images and golden image bundle, if they are available for the network device. It also provides network device update status and image update status related to the golden image bundle and the compatible features supported by the network device. Network device with \`networkDeviceImageStatus\` set as \`OUTDATED\` is considered ready for update based on the golden image bundle. - \> This API retrieves information about running images and golden image bundle, if they are available for network devices. It also provides network device update status and image update status related to the golden image bundle and the compatible features supported by the network devices.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -373,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -407,6 +408,40 @@ Parameters
         <div class="ansible-option-cell">
 
       Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.network_device_images_info_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. Network device identifier.
 
 
       .. raw:: html
@@ -709,8 +744,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.get\_the\_list\_of\_network\_devices\_with\_image\_details,
-   - Paths used are get /dna/intent/api/v1/networkDeviceImages,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.fetch\_network\_device\_with\_image\_details, software\_image\_management\_swim.SoftwareImageManagementSwim.get\_the\_list\_of\_network\_devices\_with\_image\_details,
+   - Paths used are get /dna/intent/api/v1/networkDeviceImages, get /dna/intent/api/v1/networkDeviceImages/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -722,6 +757,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Software Image Management (SWIM) FetchNetworkDeviceWithImageDetails <https://developer.cisco.com/docs/dna-center/#!fetch-network-device-with-image-details>`_
+       Complete reference of the FetchNetworkDeviceWithImageDetails API.
    `Cisco DNA Center documentation for Software Image Management (SWIM) GetTheListOfNetworkDevicesWithImageDetails <https://developer.cisco.com/docs/dna-center/#!get-the-list-of-network-devices-with-image-details>`_
        Complete reference of the GetTheListOfNetworkDevicesWithImageDetails API.
 
@@ -751,6 +788,18 @@ Examples
         order: string
         offset: 0
         limit: 0
+      register: result
+    - name: Get Network Device Images by id
+      cisco.dnac.network_device_images_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        id: string
       register: result
 
 

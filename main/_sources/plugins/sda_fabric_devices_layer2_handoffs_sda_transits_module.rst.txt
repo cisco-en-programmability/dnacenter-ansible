@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits module -- Resource module for Sda Fabricdevices Layer2handoffs Sdatransits
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits module -- Resource module for Sda Fabric Devices Layer2 Handoffs Sda Transits
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Sda Fabricdevices Layer2handoffs Sdatransits.
+- Manage operations create, update and delete of the resource Sda Fabric Devices Layer2 Handoffs Sda Transits.
 - Adds layer 3 handoffs with sda transit in fabric devices based on user input.
 - Deletes layer 3 handoffs with sda transit of a fabric device based on user input.
 - Updates layer 3 handoffs with sda transit of fabric devices based on user input.
@@ -87,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -376,7 +376,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -621,7 +621,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ID of the fabric this device is assigned to. (updating this field is not allowed).
+      ID of the fabric this device is assigned to.
 
 
       .. raw:: html
@@ -697,7 +697,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network device ID of the fabric device. (updating this field is not allowed).
+      Network device ID of the fabric device.
 
 
       .. raw:: html
@@ -731,7 +731,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ID of the transit network of the layer 3 handoff sda transit. (updating this field is not allowed).
+      ID of the transit network of the layer 3 handoff sda transit.
 
 
       .. raw:: html
@@ -820,8 +820,20 @@ Examples
 
     
     ---
-    - name: Update all
-      cisco.dnac.sda_fabricDevices_layer2Handoffs_sdaTransits:
+    - name: Delete all
+      cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        fabricId: string
+        networkDeviceId: string
+    - name: Create
+      cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -838,20 +850,8 @@ Examples
             isMulticastOverTransitEnabled: true
             networkDeviceId: string
             transitNetworkId: string
-    - name: Delete all
-      cisco.dnac.sda_fabricDevices_layer2Handoffs_sdaTransits:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: absent
-        fabricId: string
-        networkDeviceId: string
-    - name: Create
-      cisco.dnac.sda_fabricDevices_layer2Handoffs_sdaTransits:
+    - name: Update all
+      cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

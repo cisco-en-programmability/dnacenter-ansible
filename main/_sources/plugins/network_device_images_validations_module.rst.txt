@@ -42,7 +42,7 @@ cisco.dnac.network_device_images_validations module -- Resource module for Netwo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Network Device Images Validations. - \> Custom network device validation refers to the tailored process of verifying and assessing the configurations of network devices based on specific organizational requirements and unique network environments. Unlike standard validations, custom network device validations are designed to address the distinctive needs and challenges of a particular network infrastructure, ensuring that devices operate optimally within the defined parameters. Upon task completion, the task API response's \`resultLocation\` attribute will provide the URL to retrieve the validation id.
+- Manage operations create, update and delete of the resource Network Device Images Validations. - \> Custom network device validation refers to the tailored process of verifying and assessing the configurations of network devices based on specific organizational requirements and unique network environments. Unlike standard validations, custom network device validations are designed to address the distinctive needs and challenges of a particular network infrastructure, ensuring that devices operate optimally within the defined parameters. Upon task completion, the task API response's \`resultLocation\` attribute will provide the URL to retrieve the validation id.
+- Delete the custom network device validation.
+- Update the custom network device validation details.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +86,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -134,7 +136,9 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Show commands that will be executed. Validate the CLI - Cisco DevNet https //developer.cisco.com/docs/dna-center/2-3-7/run-read-only-commands-on-devices-to-get-their-real-time-co...
+      Show commands that will be executed.
+
+      Validate the CLI - Cisco DevNet https //developer.cisco.com/docs/dna-center/2-3-7/run-read-only-commands...
 
 
       .. raw:: html
@@ -441,7 +445,41 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.network_device_images_validations_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. Unique identifier of network device validation.
+
 
       .. raw:: html
 
@@ -635,8 +673,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.create\_custom\_network\_device\_validation,
-   - Paths used are post /dna/intent/api/v1/networkDeviceImages/validations,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.create\_custom\_network\_device\_validation, software\_image\_management\_swim.SoftwareImageManagementSwim.delete\_custom\_network\_device\_validation, software\_image\_management\_swim.SoftwareImageManagementSwim.update\_custom\_network\_device\_validation,
+   - Paths used are post /dna/intent/api/v1/networkDeviceImages/validations, delete /dna/intent/api/v1/networkDeviceImages/validations/{id}, put /dna/intent/api/v1/networkDeviceImages/validations/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -650,6 +688,10 @@ See Also
 
    `Cisco DNA Center documentation for Software Image Management (SWIM) CreateCustomNetworkDeviceValidation <https://developer.cisco.com/docs/dna-center/#!create-custom-network-device-validation>`_
        Complete reference of the CreateCustomNetworkDeviceValidation API.
+   `Cisco DNA Center documentation for Software Image Management (SWIM) DeleteCustomNetworkDeviceValidation <https://developer.cisco.com/docs/dna-center/#!delete-custom-network-device-validation>`_
+       Complete reference of the DeleteCustomNetworkDeviceValidation API.
+   `Cisco DNA Center documentation for Software Image Management (SWIM) UpdateCustomNetworkDeviceValidation <https://developer.cisco.com/docs/dna-center/#!update-custom-network-device-validation>`_
+       Complete reference of the UpdateCustomNetworkDeviceValidation API.
 
 .. Examples
 
@@ -677,6 +719,32 @@ Examples
         productSeriesOrdinals:
           - 0
         type: string
+    - name: Delete by id
+      cisco.dnac.network_device_images_validations:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
+    - name: Update by id
+      cisco.dnac.network_device_images_validations:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        cli: string
+        description: string
+        id: string
+        productSeriesOrdinals:
+          - 0
 
 
 

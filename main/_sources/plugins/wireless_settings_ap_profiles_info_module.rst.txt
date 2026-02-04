@@ -42,7 +42,7 @@ cisco.dnac.wireless_settings_ap_profiles_info module -- Information module for W
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,9 @@ Synopsis
 .. Description
 
 - Get all Wireless Settings Ap Profiles.
+- Get Wireless Settings Ap Profiles by id.
 - This API allows the user to get AP Profiles that captured in wireless settings design.
+- This API allows the user to get a AP Profile by AP Profile ID that captured in wireless settings design.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -409,7 +411,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -452,6 +454,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_info_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. Ap Profile ID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-limit"></div>
 
       .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_info_module__parameter-limit:
@@ -466,7 +502,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -501,7 +537,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -570,8 +606,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get\_ap\_profiles,
-   - Paths used are get /dna/intent/api/v1/wirelessSettings/apProfiles,
+   - SDK Method used are wireless.Wireless.get\_ap\_profile\_by\_id, wireless.Wireless.get\_ap\_profiles,
+   - Paths used are get /dna/intent/api/v1/wirelessSettings/apProfiles, get /dna/intent/api/v1/wirelessSettings/apProfiles/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -583,6 +619,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Wireless GetAPProfileByID <https://developer.cisco.com/docs/dna-center/#!get-ap-profile-by-id>`_
+       Complete reference of the GetAPProfileByID API.
    `Cisco DNA Center documentation for Wireless GetAPProfiles <https://developer.cisco.com/docs/dna-center/#!get-ap-profiles>`_
        Complete reference of the GetAPProfiles API.
 
@@ -605,9 +643,21 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
-        limit: string
-        offset: string
+        limit: 0
+        offset: 0
         apProfileName: string
+      register: result
+    - name: Get Wireless Settings Ap Profiles by id
+      cisco.dnac.wireless_settings_ap_profiles_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        id: string
       register: result
 
 

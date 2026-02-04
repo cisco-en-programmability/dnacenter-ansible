@@ -42,7 +42,7 @@ cisco.dnac.wireless_profiles_id_site_tags_info module -- Information module for 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Get all Wireless Profiles Id Site Tags. - \> This endpoint retrieves a list of all \`Site Tags\` associated with a specific \`Wireless Profile\`. This API requires the \`id\` of the \`Wireless Profile\` to be provided as a path parameter.
+- Get all Wireless Profiles Id Site Tags.
+- Get Wireless Profiles Id Site Tags by id. - \> This endpoint retrieves a list of all \`Site Tags\` associated with a specific \`Wireless Profile\`. This API requires the \`id\` of the \`Wireless Profile\` to be provided as a path parameter. - \> This endpoint retrieves the details of a specific \`Site Tag\` associated with a given \`Wireless Profile\`. This API requires the \`id\` of the \`Wireless Profile\` and the \`siteTagId\` of the \`Site Tag\`.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -373,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -464,7 +465,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -499,7 +500,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -510,6 +511,40 @@ Parameters
         <div class="ansible-option-cell">
 
       Offset query parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-siteTagId"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_profiles_id_site_tags_info_module__parameter-sitetagid:
+
+      .. rst-class:: ansible-option-title
+
+      **siteTagId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-siteTagId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SiteTagId path parameter. Site Tag Id.
 
 
       .. raw:: html
@@ -602,8 +637,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.retrieve\_all\_site\_tags\_for\_a\_wireless\_profile,
-   - Paths used are get /dna/intent/api/v1/wirelessProfiles/{id}/siteTags,
+   - SDK Method used are wireless.Wireless.retrieve\_a\_specific\_site\_tag\_for\_a\_wireless\_profile, wireless.Wireless.retrieve\_all\_site\_tags\_for\_a\_wireless\_profile,
+   - Paths used are get /dna/intent/api/v1/wirelessProfiles/{id}/siteTags, get /dna/intent/api/v1/wirelessProfiles/{id}/siteTags/{siteTagId},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -615,6 +650,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Wireless RetrieveASpecificSiteTagForAWirelessProfile <https://developer.cisco.com/docs/dna-center/#!retrieve-a-specific-site-tag-for-a-wireless-profile>`_
+       Complete reference of the RetrieveASpecificSiteTagForAWirelessProfile API.
    `Cisco DNA Center documentation for Wireless RetrieveAllSiteTagsForAWirelessProfile <https://developer.cisco.com/docs/dna-center/#!retrieve-all-site-tags-for-a-wireless-profile>`_
        Complete reference of the RetrieveAllSiteTagsForAWirelessProfile API.
 
@@ -641,6 +678,19 @@ Examples
         offset: 0
         siteTagName: string
         id: string
+      register: result
+    - name: Get Wireless Profiles Id Site Tags by id
+      cisco.dnac.wireless_profiles_id_site_tags_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        id: string
+        siteTagId: string
       register: result
 
 
@@ -702,7 +752,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"apProfileName": "string", "flexProfileName": "string", "siteIds": ["string"], "siteTagId": "string", "siteTagName": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"apProfileName": "string", "flexProfileName": "string", "siteIds": ["string"], "siteTagId": "string", "siteTagName": "string"}, "version": "string"}`
 
 
       .. raw:: html

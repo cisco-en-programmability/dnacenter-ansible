@@ -42,7 +42,7 @@ cisco.dnac.icap_settings_configuration_models_preview_activity_id_network_device
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- Get Icap Settings Configuration Models Preview Activity Id Network Devices Network Device Id Config by id. - \> Returns the device's CLIs of the ICAP intent. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center- api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-ICAP\_APIs-1.0.0-resolved.yaml.
+- Get Icap Settings Configuration Models Preview Activity Id Network Devices Network Device Id Config by id.
+- Returns the device's CLIs of the ICAP intent.
+- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-ICAP\_APIs-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +86,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -373,7 +375,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -558,9 +560,7 @@ Examples
 
     
     ---
-    - name: Get Icap Settings Configuration Models Preview
-        Activity Id Network Devices Network Device Id Config
-        by id
+    - name: Get Icap Settings Configuration Models Preview Activity Id Network Devices Network Device Id Config by id
       cisco.dnac.icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

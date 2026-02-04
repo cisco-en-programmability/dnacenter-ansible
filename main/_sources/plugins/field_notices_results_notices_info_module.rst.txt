@@ -42,7 +42,7 @@ cisco.dnac.field_notices_results_notices_info module -- Information module for F
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,6 +69,8 @@ Synopsis
 .. Description
 
 - Get all Field Notices Results Notices.
+- Get Field Notices Results Notices by id.
+- Get field notice by Id.
 - Get field notices.
 
 .. note::
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -408,7 +410,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -707,8 +709,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are compliance.Compliance.get\_field\_notices,
-   - Paths used are get /dna/intent/api/v1/fieldNotices/results/notices,
+   - SDK Method used are compliance.Compliance.get\_field\_notice\_by\_id, compliance.Compliance.get\_field\_notices,
+   - Paths used are get /dna/intent/api/v1/fieldNotices/results/notices, get /dna/intent/api/v1/fieldNotices/results/notices/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -720,6 +722,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Compliance GetFieldNoticeById <https://developer.cisco.com/docs/dna-center/#!get-field-notice-by-id>`_
+       Complete reference of the GetFieldNoticeById API.
    `Cisco DNA Center documentation for Compliance GetFieldNotices <https://developer.cisco.com/docs/dna-center/#!get-field-notices>`_
        Complete reference of the GetFieldNotices API.
 
@@ -749,6 +753,18 @@ Examples
         limit: 0
         sortBy: string
         order: string
+      register: result
+    - name: Get Field Notices Results Notices by id
+      cisco.dnac.field_notices_results_notices_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        id: string
       register: result
 
 
@@ -810,7 +826,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"deviceCount": 0, "firstPublishDate": 0, "id": "string", "lastUpdatedDate": 0, "name": "string", "potentialDeviceCount": 0, "publicationUrl": "string", "type": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"deviceCount": 0, "firstPublishDate": 0, "id": "string", "lastUpdatedDate": 0, "name": "string", "potentialDeviceCount": 0, "publicationUrl": "string", "type": "string"}, "version": "string"}`
 
 
       .. raw:: html

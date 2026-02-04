@@ -42,7 +42,7 @@ cisco.dnac.app_policy_queuing_profile_info module -- Information module for App 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -374,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -597,7 +597,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"cfsChangeInfo": [{}], "clause": [{"displayName": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "interfaceSpeedBandwidthClauses": [{"displayName": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "interfaceSpeed": "string", "tcBandwidthSettings": [{"bandwidthPercentage": 0, "displayName": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "trafficClass": "string"}]}], "isCommonBetweenAllInterfaceSpeeds": true, "priority": 0, "tcDscpSettings": [{"displayName": "string", "dscp": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "trafficClass": "string"}], "type": "string"}], "contractClassifier": [{}], "createTime": 0, "customProvisions": [{}], "deployed": true, "description": "string", "displayName": "string", "genId": 0, "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "internal": true, "isDeleted": true, "isSeeded": true, "isStale": true, "iseReserved": true, "lastUpdateTime": 0, "name": "string", "namespace": "string", "provisioningState": "string", "pushed": true, "qualifier": "string", "resourceVersion": 0, "targetIdList": [{}], "type": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"cfsChangeInfo": ["string"], "clause": [{"displayName": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "interfaceSpeedBandwidthClauses": [{"displayName": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "interfaceSpeed": "string", "tcBandwidthSettings": [{"bandwidthPercentage": 0, "displayName": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "trafficClass": "string"}]}], "isCommonBetweenAllInterfaceSpeeds": true, "priority": 0, "tcDscpSettings": [{"displayName": "string", "dscp": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "trafficClass": "string"}], "type": "string"}], "contractClassifier": ["string"], "createTime": 0, "customProvisions": ["string"], "deployed": true, "description": "string", "displayName": "string", "genId": 0, "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "internal": true, "isDeleted": true, "isSeeded": true, "isStale": true, "iseReserved": true, "lastUpdateTime": 0, "name": "string", "namespace": "string", "provisioningState": "string", "pushed": true, "qualifier": "string", "resourceVersion": 0, "targetIdList": ["string"], "type": "string"}], "version": "string"}`
 
 
       .. raw:: html

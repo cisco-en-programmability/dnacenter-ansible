@@ -42,7 +42,7 @@ cisco.dnac.sda_virtual_network_v2 module -- Resource module for Sda Virtual Netw
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -87,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -376,7 +376,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -527,7 +527,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Virtual Network Name to be assigned at global level.
+      VirtualNetworkName query parameter.
 
 
       .. raw:: html
@@ -607,6 +607,17 @@ Examples
 
     
     ---
+    - name: Delete all
+      cisco.dnac.sda_virtual_network_v2:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        virtualNetworkName: string
     - name: Create
       cisco.dnac.sda_virtual_network_v2:
         dnac_host: "{{dnac_host}}"
@@ -621,17 +632,6 @@ Examples
         scalableGroupNames:
           - string
         vManageVpnId: string
-        virtualNetworkName: string
-    - name: Delete all
-      cisco.dnac.sda_virtual_network_v2:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: absent
         virtualNetworkName: string
     - name: Update all
       cisco.dnac.sda_virtual_network_v2:
