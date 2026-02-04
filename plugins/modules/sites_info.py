@@ -13,7 +13,7 @@ description:
   - Get Sites by id.
   - Get a site.
   - Get sites.
-version_added: '6.15.0,6.46.0'
+version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
