@@ -9,11 +9,14 @@ DOCUMENTATION = r"""
 module: icap_settings_configuration_models
 short_description: Resource module for Icap Settings Configuration Models
 description:
-  - Manage operation create of the resource Icap Settings Configuration Models. - > This creates an ICAP configuration intent
-    for preview approval. The intent is not deployed to the device until further preview-approve APIs are applied. This API
-    is the first step in the preview-approve workflow, which consists of several APIs. Skipping any API in the process is
-    not recommended for a complete preview-approve use case. For detailed information about the usage of the API, please refer
-    to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Icap Settings Configuration Models.
+  - This creates an ICAP configuration intent for preview approval.
+  - The intent is not deployed to the device until further preview-approve APIs are applied.
+  - This API is the first step in the preview-approve workflow, which consists of several APIs.
+  - Skipping any API in the process is not recommended for a complete preview-approve use case.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
+    CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module

@@ -9,9 +9,12 @@ DOCUMENTATION = r"""
 module: health_score_definitions_count_info
 short_description: Information module for Health Score Definitions Count
 description:
-  - Get all Health Score Definitions Count. - > Get the count of health score definitions based on provided filters. Supported
-    filters are id, name and overall health include status. For detailed information about the usage of the API, please refer
-    to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE_Cat_Center_Org-issueAndHealthDefinitions-1.0.0-resolved.yaml.
+  - Get all Health Score Definitions Count.
+  - Get the count of health score definitions based on provided filters.
+  - Supported filters are id, name and overall health include status.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
+    CE_Cat_Center_Org-issueAndHealthDefinitions-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

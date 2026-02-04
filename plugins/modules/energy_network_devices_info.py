@@ -10,12 +10,15 @@ module: energy_network_devices_info
 short_description: Information module for Energy Network Devices
 description:
   - Get all Energy Network Devices.
-  - Get Energy Network Devices by id. - > Retrieves a list of network devices with energy data based on the specified query
-    parameters. For detailed information about the usage of the API, please refer to the Open API specification document - https
-    //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- deviceEnergy_1.0-1.0.1-resolved.yaml.
-    - > Retrieves network device energy data for a specified time range based on the device ID. For detailed information about
-    the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    deviceEnergy_1.0-1.0.1-resolved.yaml.
+  - Get Energy Network Devices by id.
+  - Retrieves a list of network devices with energy data based on the specified query parameters.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
+    CE_Cat_Center_Org-deviceEnergy_1.0-1.0.1-resolved.yaml.
+  - Retrieves network device energy data for a specified time range based on the device ID.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
+    CE_Cat_Center_Org-deviceEnergy_1.0-1.0.1-resolved.yaml.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

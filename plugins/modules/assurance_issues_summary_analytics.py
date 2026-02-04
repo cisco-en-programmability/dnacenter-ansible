@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: assurance_issues_summary_analytics
 short_description: Resource module for Assurance Issues Summary Analytics
 description:
-  - Manage operation create of the resource Assurance Issues Summary Analytics. - > Gets the summary analytics data related
-    to issues based on given filters and group by field. This data can be used to find issue counts grouped by different keys.
-    For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-
-    center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.1-resolved.yaml.
+  - Manage operation create of the resource Assurance Issues Summary Analytics.
+  - Gets the summary analytics data related to issues based on given filters and group by field.
+  - This data can be used to find issue counts grouped by different keys.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.1-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module

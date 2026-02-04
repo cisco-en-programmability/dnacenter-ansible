@@ -10,13 +10,19 @@ module: assurance_issues_info
 short_description: Information module for Assurance Issues
 description:
   - Get all Assurance Issues.
-  - Get Assurance Issues by id. - > Returns all details of each issue along with suggested actions for given set of filters
-    specified in query parameters. If there is no start and/or end time, then end time will be defaulted to current time and
-    start time will be defaulted to 24-hours ago from end time. All string type query parameters support wildcard search using
-    *. For example siteHierarchy=Global/San Jose/* returns issues under all sites whole siteHierarchy starts with "Global/San
-    Jose/". Https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.0-resolved.yaml.
-    - > Returns all the details and suggested actions of an issue for the given issue id. Https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    IssuesList-1.0.0-resolved.yaml.
+  - Get Assurance Issues by id.
+  - Returns all details of each issue along with suggested actions for given set of filters specified in query
+    parameters.
+  - If there is no start and/or end time, then end time will be defaulted to current time and start time will
+    be defaulted to 24-hours ago from end time.
+  - All string type query parameters support wildcard search using *.
+  - For example siteHierarchy=Global/San Jose/* returns issues under all sites whose siteHierarchy starts with
+    "Global/San Jose/".
+  - For detailed information, refer to
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.0-resolved.yaml.
+  - Returns all the details and suggested actions of an issue for the given issue id.
+  - For detailed information, refer to
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

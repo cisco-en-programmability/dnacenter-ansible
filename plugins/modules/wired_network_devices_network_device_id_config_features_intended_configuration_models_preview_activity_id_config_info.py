@@ -10,20 +10,12 @@ module: wired_network_devices_network_device_id_config_features_intended_configu
 short_description: Information module for Wired Network Devices Network Device Id Config Features Intended Configuration Models
   Preview Activity Id Config
 description:
-  - Get Wired Network Devices Network Device Id Config Features Intended Configuration Models Preview Activity Id Config by
-    id. - > Gets the device config for the configuration model. This API is 'Step 3' in the following workflow. Step 1- Use
-    'POST /intent/api/v1/wired/networkDevices/{networkDeviceId}/configFeatures/intended/configurationModels' to start the
-    provision of intended features. The response has a taskId which is the previewActivityId in all subsequent APIs. The task
-    must be successfully complete before proceeding to the next step. It is not recommended to proceed when there is any task
-    failure in this step. The API 'DELETE /intent/api/v1/wired/netwo rkDevices/{networkDeviceId}/configFeatures/intended/configurationModels/{previewActivityId}'
-    can be used at any step to discard/cancel the provision of intended features. Step 2- Use 'POST /intent/api/v1/wired/networkD
-    evices/{networkDeviceId}/configFeatures/intended/configurationModels/{previewActivityId}/networkDevices/{netwo rkDeviceId}/config'
-    to generate device CLIs for preview. The response has a task ID. The task must be successfully complete before using the
-    GET API to view CLIs. It is not recommended to proceed when there is any task failures in this step. The API 'DELETE /intent/api/v1/wired/networkDevices/{networkDeviceId}/configFe
-    atures/intended/configurationModels/{previewActivityId}' can be used at any step to discard/cancel the provision of intended
-    features. Step 3- Use 'GET /intent/api/v1/wired/networkDevices/{networkDeviceId}/configF eatures/intended/configurationModels/{previewActivityId}/networkDevices/{networkDeviceId}/config'
-    to view the CLIs that will be applied to the device. Step 4- Use 'POST /intent/api/v1/wired/networkDevices/{networkDeviceI
-    d}/configFeatures/intended/configurationModels/{previewActivityId}/deploy' to deploy the intent to the device.
+  - Get Wired Network Devices Network Device Id Config Features Intended Configuration Models Preview Config by id.
+  - Gets the device config for the configuration model. This API is 'Step 3' in the workflow.
+  - Step 1 Use POST configurationModels to start provision, response has taskId as previewActivityId.
+  - Step 2 Use POST config to generate device CLIs for preview.
+  - Step 3 Use GET config to view the CLIs that will be applied to the device.
+  - Step 4 Use POST deploy to deploy the intent to the device.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

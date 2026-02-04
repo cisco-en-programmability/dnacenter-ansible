@@ -9,14 +9,19 @@ DOCUMENTATION = r"""
 module: filter_groups
 short_description: Resource module for Filter Groups
 description:
-  - Manage operations create, update and delete of the resource Filter Groups. - > Creates filter group with given filters.
-    For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-    specs/blob/main/Assurance/CE_Cat_Center_Org-FilterGroups-1.0.0-resolved.yaml. - > Deletes the given filter group. For
-    detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-    specs/blob/main/Assurance/CE_Cat_Center_Org-FilterGroups-1.0.0-resolved.yaml. - > Updates the filter group for given id.
-    The request payload should contain complete definition of the Filter Group. For detailed information about the usage of
-    the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-    specs/blob/main/Assurance/CE_Cat_Center_Org-FilterGroups-1.0.0-resolved.yaml.
+  - Manage operations create, update and delete of the resource Filter Groups.
+  - Creates filter group with given filters.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
+    CE_Cat_Center_Org-FilterGroups-1.0.0-resolved.yaml.
+  - Deletes the given filter group.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
+    CE_Cat_Center_Org-FilterGroups-1.0.0-resolved.yaml.
+  - Updates the filter group for given id. The request payload should contain complete definition of the Filter Group.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
+    CE_Cat_Center_Org-FilterGroups-1.0.0-resolved.yaml.
 version_added: '6.46.0'
 extends_documentation_fragment:
   - cisco.dnac.module
