@@ -65,7 +65,7 @@ options:
     description: Name of the tag.
     type: str
   systemTag:
-    description: True for system created tags, false for user defined tags.
+    description: true for system created tags, false for user defined tags.
     type: bool
 requirements:
   - dnacentersdk >= 2.11.0

@@ -68,7 +68,7 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     deviceType: string
     id: string
-    includeForOverallHealth: True
+    includeForOverallHealth: true
   register: result
 """
 RETURN = r"""

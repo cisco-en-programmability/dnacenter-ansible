@@ -123,12 +123,12 @@ EXAMPLES = r"""
     productFamily: string
     productSeries: string
     productType: string
-    filterConflictingTemplates: True
+    filterConflictingTemplates: true
     tags: []
-    unCommitted: True
+    unCommitted: true
     sortOrder: string
-    allTemplateAttributes: True
-    includeVersionDetails: True
+    allTemplateAttributes: true
+    includeVersionDetails: true
     offset: 0
     limit: 0
   register: result

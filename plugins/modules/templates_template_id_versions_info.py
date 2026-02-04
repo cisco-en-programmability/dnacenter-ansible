@@ -85,7 +85,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     versionNumber: 0
-    latestVersion: True
+    latestVersion: true
     order: string
     limit: 0
     offset: 0

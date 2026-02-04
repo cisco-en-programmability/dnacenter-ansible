@@ -74,7 +74,7 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     fabricId: string
     authenticationProfileName: string
-    isGlobalAuthenticationProfile: True
+    isGlobalAuthenticationProfile: true
     offset: 0
     limit: 0
   register: result

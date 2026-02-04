@@ -68,14 +68,14 @@ options:
         description: 802.11be Profile ID. Applicable to IOS controllers with version 17.15 and higher.
         type: str
       enableFabric:
-        description: True if fabric is enabled, else False. Flex and fabric cannot be enabled simultaneously and a profile
+        description: true if fabric is enabled, else False. Flex and fabric cannot be enabled simultaneously and a profile
           can only contain either flex SSIDs or fabric SSIDs and not both at the same time.
         type: bool
       flexConnect:
         description: Wireless Profiles's flexConnect.
         suboptions:
           enableFlexConnect:
-            description: True if flex connect is enabled, else False. Flex and fabric cannot be enabled simultaneously and
+            description: true if flex connect is enabled, else False. Flex and fabric cannot be enabled simultaneously and
               a profile can only contain either flex SSIDs or fabric SSIDs and not both at the same time.
             type: bool
           localToVlan:

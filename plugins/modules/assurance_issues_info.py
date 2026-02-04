@@ -297,7 +297,7 @@ EXAMPLES = r"""
     offset: 0
     sortBy: string
     order: string
-    isGlobal: True
+    isGlobal: true
     priority: string
     severity: string
     status: string
@@ -320,11 +320,11 @@ EXAMPLES = r"""
     macAddress: string
     view: string
     attribute: string
-    aiDriven: True
-    fabricDriven: True
-    fabricSiteDriven: True
-    fabricVnDriven: True
-    fabricTransitDriven: True
+    aiDriven: true
+    fabricDriven: true
+    fabricSiteDriven: true
+    fabricVnDriven: true
+    fabricTransitDriven: true
   register: result
 - name: Get Assurance Issues by id
   cisco.dnac.assurance_issues_info:

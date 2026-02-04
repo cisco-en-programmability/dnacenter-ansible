@@ -124,13 +124,13 @@ EXAMPLES = r"""
     siteId: string
     productNameOrdinal: 0
     supervisorProductNameOrdinal: 0
-    imported: True
+    imported: true
     name: string
     version: string
-    golden: True
+    golden: true
     integrity: string
-    hasAddonImages: True
-    isAddonImages: True
+    hasAddonImages: true
+    isAddonImages: true
     offset: 0
     limit: 0
   register: result

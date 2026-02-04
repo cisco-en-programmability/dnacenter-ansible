@@ -22,7 +22,7 @@ options:
       API call GET /intent/api/v1/wireless/apAuthorizationLists/{networkDev...
     type: str
   authorizeMeshAndNonMeshAccessPoints:
-    description: True if AP Authorization List should authorize against All Mesh/Non-Mesh APs, else false if AP Authorization
+    description: true if AP Authorization List should authorize against All Mesh/Non-Mesh APs, else false if AP Authorization
       List should only authorize against Mesh APs (Applicable only when Mesh is enabled on sites).
     type: bool
   deviceId:
@@ -97,11 +97,11 @@ options:
         description: AP Reboot Percentage. Permissible values - 5, 15, 25.
         type: int
       enableRollingApUpgrade:
-        description: True if Rolling AP Upgrade is enabled, else False.
+        description: true if Rolling AP Upgrade is enabled, else False.
         type: bool
     type: dict
   skipApProvision:
-    description: True if Skip AP Provision is enabled, else False.
+    description: true if Skip AP Provision is enabled, else False.
     type: bool
 requirements:
   - dnacentersdk >= 2.11.0
