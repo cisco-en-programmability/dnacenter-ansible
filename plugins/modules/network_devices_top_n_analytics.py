@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: network_devices_top_n_analytics
 short_description: Resource module for Network Devices Top N Analytics
 description:
-  - Manage operation create of the resource Network Devices Top N Analytics. - > Gets the Top N analytics data related to
-    network devices based on the provided input data. This endpoint is valuable to obtain the top-performing or most impacted
-    network devices. For detailed information about the usage of the API, please refer to the Open API specification document
-    - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- AssuranceNetworkDevices-2.0.1-resolved.yaml.
+  - Manage operation create of the resource Network Devices Top N Analytics.
+  - Gets the Top N analytics data related to network devices based on the provided input data.
+  - This endpoint is valuable to obtain the top-performing or most impacted network devices.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module

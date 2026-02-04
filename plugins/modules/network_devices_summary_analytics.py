@@ -9,11 +9,11 @@ DOCUMENTATION = r"""
 module: network_devices_summary_analytics
 short_description: Resource module for Network Devices Summary Analytics
 description:
-  - Manage operation create of the resource Network Devices Summary Analytics. - > Gets the summary analytics data related
-    to network devices based on the provided input data. This endpoint helps to obtain the consolidated insights into the
-    performance and status of the monitored network devices. For detailed information about the usage of the API, please refer
-    to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    AssuranceNetworkDevices-2.0.1-resolved.yaml.
+  - Manage operation create of the resource Network Devices Summary Analytics.
+  - Gets the summary analytics data related to network devices based on the provided input data.
+  - This endpoint helps to obtain the consolidated insights into the performance and status of the monitored network devices.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module

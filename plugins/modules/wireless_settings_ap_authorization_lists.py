@@ -42,7 +42,9 @@ options:
     description: Wireless Settings Ap Authorization Lists's remoteAuthorization.
     suboptions:
       aaaServers:
-        description: List of Authorization server IpAddresses. Obtain the AAA servers by using the API GET call '/dna/intent/api/v1/authentication-policy-servers'.
+        description:
+          - List of Authorization server IpAddresses.
+          - Obtain the AAA servers by using the API GET call '/dna/intent/api/v1/authentication-policy-servers'.
         elements: str
         type: list
       authorizeApWithMac:

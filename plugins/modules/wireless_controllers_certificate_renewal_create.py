@@ -21,7 +21,9 @@ options:
     elements: str
     type: list
   deviceId:
-    description: DeviceId path parameter. Network Device ID. This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+    description:
+      - DeviceId path parameter. Network Device ID.
+      - This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
   expiryTime:
     description: Expiry time with in which access points certificates are set to expire.

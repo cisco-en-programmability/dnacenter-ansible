@@ -9,13 +9,16 @@ DOCUMENTATION = r"""
 module: icap_settings_deploy_id_delete_deploy
 short_description: Resource module for Icap Settings Deploy Id Delete Deploy
 description:
-  - Manage operation create of the resource Icap Settings Deploy Id Delete Deploy. - > Remove the ICAP configuration from
-    the device by *id* without preview-deploy. The path parameter *id* can be retrieved from the **GET /dna/intent/api/v1/icapSettings**
-    API. The response body contains a task object with a taskId and a URL. Use the URL to check the task status. ICAP FULL,
-    ONBOARDING, OTA, and SPECTRUM configurations have a durationInMins field. A disable task is scheduled to remove the configuration
-    from the device. Removing the ICAP intent should be done after the pre-scheduled disable task has been deployed. For detailed
-    information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    ICAP_APIs-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Icap Settings Deploy Id Delete Deploy.
+  - Remove the ICAP configuration from the device by *id* without preview-deploy.
+  - The path parameter *id* can be retrieved from the **GET /dna/intent/api/v1/icapSettings** API.
+  - The response body contains a task object with a taskId and a URL. Use the URL to check the task status.
+  - ICAP FULL, ONBOARDING, OTA, and SPECTRUM configurations have a durationInMins field.
+  - A disable task is scheduled to remove the configuration from the device.
+  - Removing the ICAP intent should be done after the pre-scheduled disable task has been deployed.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
+    CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module

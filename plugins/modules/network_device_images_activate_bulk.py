@@ -9,11 +9,12 @@ DOCUMENTATION = r"""
 module: network_device_images_activate_bulk
 short_description: Resource module for Network Device Images Activate Bulk
 description:
-  - Manage operation create of the resource Network Device Images Activate Bulk. - > This API initiates the process of updating
-    the software image on the given network devices. Providing value for the `installedImages` in request payload will initiate
-    both distribution and activation of the images. At the end of this process, only the images which are part of `installedImages`
-    will be running on the network devices. To monitor the progress and completion of the update task, call the GET API `/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}`,
-    where `taskId` is from the response of the current endpoint.
+  - Manage operation create of the resource Network Device Images Activate Bulk.
+  - This API initiates the process of updating the software image on the given network devices.
+  - Providing value for the `installedImages` in request payload will initiate both distribution and activation.
+  - At the end of this process, only the images which are part of `installedImages` will be running on the devices.
+  - To monitor the progress and completion of the update task, call the GET API
+    `/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}`, where `taskId` is from the response.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module

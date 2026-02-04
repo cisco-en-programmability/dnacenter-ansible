@@ -91,13 +91,12 @@ requirements:
   - dnacentersdk >= 2.11.0
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device Replacement RetrieveTheStatusOfAllTheDeviceReplacementWorkflows
-    description: Complete reference of the RetrieveTheStatusOfAllTheDeviceReplacementWorkflows API.
-    link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-status-of-all-the-device-replacement-workflows
-  - name: Cisco DNA Center documentation for Device Replacement RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDevice
-    description: Complete reference of the RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDevice
-      API.
-    link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-status-of-device-replacement-workflow-that-replaces-a-faulty-device-with-a-replacement-device
+  - name: Cisco DNA Center documentation for Device Replacement RetrieveAllDeviceReplacementWorkflows
+    description: Complete reference of the RetrieveAllDeviceReplacementWorkflows API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieve-all-device-replacement-workflows
+  - name: Cisco DNA Center documentation for Device Replacement RetrieveDeviceReplacementWorkflow
+    description: Complete reference of the RetrieveDeviceReplacementWorkflow API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieve-device-replacement-workflow
 notes:
   - SDK Method used are
     device_replacement.DeviceReplacement.retrieve_the_status_of_all_the_device_replacement_workflows,

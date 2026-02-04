@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: network_device_images_distribute_bulk
 short_description: Resource module for Network Device Images Distribute Bulk
 description:
-  - Manage operation create of the resource Network Device Images Distribute Bulk. - > This API initiates the process of distributing
-    the software image on the given network devices. Providing value for the `distributedImages` will only trigger the distribution
-    process. To monitor the progress and completion of the update task, please call the GET API `/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}`,
-    where `taskId` is from the response of the current endpoint.
+  - Manage operation create of the resource Network Device Images Distribute Bulk.
+  - This API initiates the process of distributing the software image on the given network devices.
+  - Providing value for the `distributedImages` will only trigger the distribution process.
+  - To monitor the progress and completion of the update task, call the GET API
+    `/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}`, where `taskId` is from the response.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module

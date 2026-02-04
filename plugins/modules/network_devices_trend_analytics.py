@@ -9,11 +9,12 @@ DOCUMENTATION = r"""
 module: network_devices_trend_analytics
 short_description: Resource module for Network Devices Trend Analytics
 description:
-  - Manage operation create of the resource Network Devices Trend Analytics. - > Gets the Trend analytics Network device data
-    for the given time range. The data will be grouped based on the given trend time Interval. The required property for this
-    API is `trendInterval`. For detailed information about the usage of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    AssuranceNetworkDevices-2.0.1-resolved.yaml.
+  - Manage operation create of the resource Network Devices Trend Analytics.
+  - Gets the Trend analytics Network device data for the given time range.
+  - The data will be grouped based on the given trend time Interval.
+  - The required property for this API is `trendInterval`.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module

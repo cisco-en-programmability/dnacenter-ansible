@@ -9,16 +9,19 @@ DOCUMENTATION = r"""
 module: wireless_controllers_assign_managed_ap_locations
 short_description: Resource module for Wireless Controllers Assign Managed Ap Locations
 description:
-  - Manage operation create of the resource Wireless Controllers Assign Managed Ap Locations. - > This API allows user to
-    assign Managed AP Locations for IOS-XE Wireless supported devices by device ID. The payload should always be a complete
-    list. The Managed AP Locations included in the payload will be fully processed for both addition and deletion.
+  - Manage operation create of the resource Wireless Controllers Assign Managed Ap Locations.
+  - This API allows user to assign Managed AP Locations for IOS-XE Wireless supported devices by device ID.
+  - The payload should always be a complete list.
+  - The Managed AP Locations included in the payload will be fully processed for both addition and deletion.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   deviceId:
-    description: DeviceId path parameter. Network Device ID. This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+    description:
+      - DeviceId path parameter. Network Device ID.
+      - This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
   primaryManagedAPLocationsSiteIds:
     description: Site IDs of Primary Managed AP Locations. These values can be obtained by using the API call GET /dna/intent/api/v1/site.

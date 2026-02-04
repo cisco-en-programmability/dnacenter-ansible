@@ -11,11 +11,12 @@ short_description: Information module for Interfaces
 description:
   - Get all Interfaces.
   - Get Interfaces by id.
-  - Retrieves the list of the interfaces from all network devices based on. - > Returns the interface data for the given interface
-    instance Uuid along with the statistics data. The latest interface data in the specified start and end time range will
-    be returned. When there is no start and end time specified returns the latest available data for the given interface Id.
-    For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- interfaces-2.0.0-resolved.yaml.
+  - Retrieves the list of the interfaces from all network devices based on provided filters.
+  - Returns the interface data for the given interface instance Uuid along with the statistics data.
+  - The latest interface data in the specified start and end time range will be returned.
+  - When there is no start and end time specified returns the latest available data for the given interface Id.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-interfaces-2.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

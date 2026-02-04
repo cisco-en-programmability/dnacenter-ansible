@@ -9,8 +9,9 @@ DOCUMENTATION = r"""
 module: network_devices_intent_count_info
 short_description: Information module for Network Devices Intent Count
 description:
-  - Get all Network Devices Intent Count. - > API to fetch the count of network devices using basic filters. Use the `/dna/intent/api/v1/networkDevices/query/count`
-    API if you need advanced filtering.
+  - Get all Network Devices Intent Count.
+  - API to fetch the count of network devices using basic filters.
+  - Use the `/dna/intent/api/v1/networkDevices/query/count` API if you need advanced filtering.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

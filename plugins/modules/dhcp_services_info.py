@@ -10,11 +10,13 @@ module: dhcp_services_info
 short_description: Information module for Dhcp Services
 description:
   - Get all Dhcp Services.
-  - Get Dhcp Services by id. - > Retrieves the details of the DHCP Service matching the given id. For detailed information
-    about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    DHCPServices-1.0.0-resolved.yaml. - > Retrieves the list of DHCP Services and offers basic filtering and sorting capabilities.
-    For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    DHCPServices-1.0.0-resolved.yaml.
+  - Get Dhcp Services by id.
+  - Retrieves the details of the DHCP Service matching the given id.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-DHCPServices-1.0.0-resolved.yaml.
+  - Retrieves the list of DHCP Services and offers basic filtering and sorting capabilities.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-DHCPServices-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

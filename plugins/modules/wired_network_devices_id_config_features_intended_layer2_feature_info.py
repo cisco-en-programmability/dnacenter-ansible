@@ -9,8 +9,9 @@ DOCUMENTATION = r"""
 module: wired_network_devices_id_config_features_intended_layer2_feature_info
 short_description: Information module for Wired Network Devices Id Config Features Intended Layer2 Feature
 description:
-  - Get Wired Network Devices Id Config Features Intended Layer2 Feature by id. - > This API returns the configurations for
-    an intended layer 2 feature on a wired device. Even after the intended configurations are deployed using the API /dna/intent/api/v1/networkDevices/{id}/configFeatures/intended/deploy,
+  - Get Wired Network Devices Id Config Features Intended Layer2 Feature by id.
+  - This API returns the configurations for an intended layer 2 feature on a wired device.
+  - Even after the intended configurations are deployed using the deploy API,
     they continue to be a part of the intended features on the device.
 version_added: '6.18.0'
 extends_documentation_fragment:

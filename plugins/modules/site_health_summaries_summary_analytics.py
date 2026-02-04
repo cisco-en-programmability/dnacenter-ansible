@@ -27,16 +27,17 @@ options:
     description: Additional headers.
     type: dict
   id:
-    description: Id query parameter. The list of entity Uuids. (Ex."6bef213c-19ca-4170-8375-b694e251101c") Examples id=6bef213c-19ca-4170-8375-b694e251101c
-      (single entity uuid requested) id=6bef213c-19ca-4170-8375-b694e251101c&id=32219612-819e-4b5e-a96b-cf22aca13dd9&id=2541e9a7-b80d-4955-8aa2-79...
-      (multiple entity uuid with '&' separator).
+    description:
+      - Id query parameter. The list of entity Uuids.
+      - Example "6bef213c-19ca-4170-8375-b694e251101c".
+      - Multiple entity uuids can be provided with '&' separator.
     type: str
   siteHierarchy:
-    description: SiteHierarchy query parameter. The full hierarchical breakdown of the site tree starting from Global site
-      name and ending with the specific site name. The Root site is named "Global" (Ex. `Global/AreaName/BuildingName/FloorName`)
-      This field supports wildcard asterisk (`*`) character search support. E.g. `*/San*, */San, /San*` Examples `?siteHierarchy=Global/AreaName/BuildingName/FloorName`
-      (single siteHierarchy requested) `?siteHierarchy=Global/AreaName/BuildingName/FloorName&siteHierarchy=Global/... (multiple
-      siteHierarchies requested).
+    description:
+      - SiteHierarchy query parameter. The full hierarchical breakdown of the site tree.
+      - Starting from Global site name and ending with the specific site name.
+      - The Root site is named "Global" (Ex. `Global/AreaName/BuildingName/FloorName`).
+      - This field supports wildcard asterisk (`*`) character search support.
     type: str
   siteHierarchyId:
     description: SiteHierarchyId query parameter. The full hierarchy breakdown of the site tree in id form starting from Global

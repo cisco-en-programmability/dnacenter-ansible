@@ -18,13 +18,17 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   anchorManagedAPLocationsSiteIds:
-    description: This API allows user to assign Anchor Managed AP Locations for WLC by device ID. The payload should always
-      be a complete list. The Managed AP Locations included in the payload will be fully processed for both addition and deletion.
+    description:
+      - This API allows user to assign Anchor Managed AP Locations for WLC by device ID.
+      - The payload should always be a complete list.
+      - The Managed AP Locations included in the payload will be fully processed for both addition and deletion.
       - When anchor managed location array present then it will add the anchor managed locations.
     elements: str
     type: list
   networkDeviceId:
-    description: NetworkDeviceId path parameter. Network Device ID. This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+    description:
+      - NetworkDeviceId path parameter. Network Device ID.
+      - This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
 requirements:
   - dnacentersdk >= 2.11.0

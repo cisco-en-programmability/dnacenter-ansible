@@ -10,13 +10,19 @@ module: system_issue_definitions_info
 short_description: Information module for System Issue Definitions
 description:
   - Get all System Issue Definitions.
-  - Get System Issue Definitions by id. - > Get all system issue defintions. The supported filters are id, name, profileId
-    and definition enable status. An issue trigger definition can be different across the profile and device type. So, `profileId`
-    and `deviceType` in the query param is important and default is global profile and all device type. For detailed information
-    about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    issueAndHealthDefinitions-1.0.0-resolved.yaml. - > Get system issue defintion for the given id. Definition includes all
-    properties from IssueTriggerDefinition schema by default. For detailed information about the usage of the API, please
-    refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE_Cat_Center_Org-issueAndHealthDefinitions-1.0.0-resolved.yaml.
+  - Get System Issue Definitions by id.
+  - Get all system issue defintions.
+  - The supported filters are id, name, profileId and definition enable status.
+  - An issue trigger definition can be different across the profile and device type.
+  - So, `profileId` and `deviceType` in the query param is important and default is global profile and all device type.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
+    CE_Cat_Center_Org-issueAndHealthDefinitions-1.0.0-resolved.yaml.
+  - Get system issue defintion for the given id.
+  - Definition includes all properties from IssueTriggerDefinition schema by default.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
+    CE_Cat_Center_Org-issueAndHealthDefinitions-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

@@ -9,10 +9,13 @@ DOCUMENTATION = r"""
 module: icap_settings_deploy
 short_description: Resource module for Icap Settings Deploy
 description:
-  - Manage operation create of the resource Icap Settings Deploy. - > Deploys the given ICAP intent without preview and approval.
-    The response body contains a task object with a taskId and a URL for more information about the task. The deployment status
-    of this ICAP intent can be found in the output of the URL. For detailed information about the usage of the API, please
-    refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Icap Settings Deploy.
+  - Deploys the given ICAP intent without preview and approval.
+  - The response body contains a task object with a taskId and a URL for more information about the task.
+  - The deployment status of this ICAP intent can be found in the output of the URL.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
+    CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module

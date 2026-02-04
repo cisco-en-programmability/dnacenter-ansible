@@ -9,10 +9,12 @@ DOCUMENTATION = r"""
 module: icap_settings_configuration_models_preview_activity_id_network_device_status_details_info
 short_description: Information module for Icap Settings Configuration Models Preview Activity Id Network Device Status Details
 description:
-  - Get all Icap Settings Configuration Models Preview Activity Id Network Device Status Details. - > Get ICAP configuration
-    status per network device using the activity ID, which was returned in property "taskId" of the TaskResponse of the POST.
-    For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-    specs/blob/main/Assurance/CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
+  - Get all Icap Settings Configuration Models Preview Activity Id Network Device Status Details.
+  - Get ICAP configuration status per network device using the activity ID.
+  - The activity ID was returned in property "taskId" of the TaskResponse of the POST.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
+    CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
