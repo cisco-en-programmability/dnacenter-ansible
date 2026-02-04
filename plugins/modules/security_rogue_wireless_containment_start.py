@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: security_rogue_wireless-containment_start
+module: security_rogue_wireless_containment_start
 short_description: Resource module for Security Rogue Wireless-Containment Start
 description:
   - Manage operation create of the resource Security Rogue Wireless-Containment Start. - > Intent API to start the wireless
@@ -41,7 +41,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Create
-  cisco.dnac.security_rogue_wireless-containment_start:
+  cisco.dnac.security_rogue_wireless_containment_start:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

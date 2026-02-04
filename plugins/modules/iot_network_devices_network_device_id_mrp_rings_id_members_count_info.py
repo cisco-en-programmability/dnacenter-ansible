@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: iot_network_devices__network_device_id_mrp_rings_id_members_count_info
+module: iot_network_devices_network_device_id_mrp_rings_id_members_count_info
 short_description: Information module for Iot Network Devices  Network Device Id Mrp Rings Id Members Count
 description:
   - Get all Iot Network Devices  Network Device Id Mrp Rings Id Members Count. - > This API returns the count of MRP ring
@@ -46,7 +46,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Get all Iot Network Devices  Network Device Id Mrp Rings Id Members Count
-  cisco.dnac.iot_network_devices__network_device_id_mrp_rings_id_members_count_info:
+  cisco.dnac.iot_network_devices_network_device_id_mrp_rings_id_members_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: security_threats_rogue_allowed-list_info
+module: security_threats_rogue_allowed_list_info
 short_description: Information module for Security Threats Rogue Allowed-List
 description:
   - Get all Security Threats Rogue Allowed-List.
@@ -46,7 +46,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Get all Security Threats Rogue Allowed-List
-  cisco.dnac.security_threats_rogue_allowed-list_info:
+  cisco.dnac.security_threats_rogue_allowed_list_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

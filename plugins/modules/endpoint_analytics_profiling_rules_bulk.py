@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: endpoint_analytics_profiling-rules_bulk
+module: endpoint_analytics_profiling_rules_bulk
 short_description: Resource module for Endpoint Analytics Profiling-Rules Bulk
 description:
   - Manage operation create of the resource Endpoint Analytics Profiling-Rules Bulk.
@@ -126,7 +126,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Create
-  cisco.dnac.endpoint_analytics_profiling-rules_bulk:
+  cisco.dnac.endpoint_analytics_profiling_rules_bulk:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

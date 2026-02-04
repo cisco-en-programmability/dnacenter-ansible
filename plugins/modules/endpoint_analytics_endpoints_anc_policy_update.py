@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: endpoint_analytics_endpoints_anc-policy_update
+module: endpoint_analytics_endpoints_anc_policy_update
 short_description: Resource module for Endpoint Analytics Endpoints Anc-Policy Update
 description:
   - Manage operation update of the resource Endpoint Analytics Endpoints Anc-Policy Update.
@@ -50,7 +50,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Update all
-  cisco.dnac.endpoint_analytics_endpoints_anc-policy_update:
+  cisco.dnac.endpoint_analytics_endpoints_anc_policy_update:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

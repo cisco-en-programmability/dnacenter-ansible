@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: floors_floor_id_planned_access_point_positions
+module: floors_floor_id_planned_access_point_positions_id
 short_description: Resource module for Floors Floor Id Planned Access Point Positions
 description:
   - Manage operation delete of the resource Floors Floor Id Planned Access Point Positions.
@@ -39,7 +39,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Delete by id
-  cisco.dnac.floors_floor_id_planned_access_point_positions:
+  cisco.dnac.floors_floor_id_planned_access_point_positions_id:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

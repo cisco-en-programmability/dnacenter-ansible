@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: endpoint_analytics_profiling-rules
+module: endpoint_analytics_profiling_rules
 short_description: Resource module for Endpoint Analytics Profiling-Rules
 description:
   - Manage operations create, update and delete of the resource Endpoint Analytics Profiling-Rules.
@@ -127,7 +127,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Create
-  cisco.dnac.endpoint_analytics_profiling-rules:
+  cisco.dnac.endpoint_analytics_profiling_rules:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -170,7 +170,7 @@ EXAMPLES = r"""
     usedAttributes:
       - string
 - name: Delete by id
-  cisco.dnac.endpoint_analytics_profiling-rules:
+  cisco.dnac.endpoint_analytics_profiling_rules:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -181,7 +181,7 @@ EXAMPLES = r"""
     state: absent
     ruleId: string
 - name: Update by id
-  cisco.dnac.endpoint_analytics_profiling-rules:
+  cisco.dnac.endpoint_analytics_profiling_rules:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: endpoint_analytics_profiling-rules_count_info
+module: endpoint_analytics_profiling_rules_count_info
 short_description: Information module for Endpoint Analytics Profiling-Rules Count
 description:
   - Get all Endpoint Analytics Profiling-Rules Count. - > This API fetches the count of profiling rules based on the filter
@@ -41,7 +41,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Get all Endpoint Analytics Profiling-Rules Count
-  cisco.dnac.endpoint_analytics_profiling-rules_count_info:
+  cisco.dnac.endpoint_analytics_profiling_rules_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
