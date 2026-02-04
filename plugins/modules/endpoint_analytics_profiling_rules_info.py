@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: endpoint_analytics_profiling-rules_info
+module: endpoint_analytics_profiling_rules_info
 short_description: Information module for Endpoint Analytics Profiling-Rules
 description:
   - Get all Endpoint Analytics Profiling-Rules.
@@ -69,7 +69,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Get all Endpoint Analytics Profiling-Rules
-  cisco.dnac.endpoint_analytics_profiling-rules_info:
+  cisco.dnac.endpoint_analytics_profiling_rules_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -86,7 +86,7 @@ EXAMPLES = r"""
     order: string
   register: result
 - name: Get Endpoint Analytics Profiling-Rules by id
-  cisco.dnac.endpoint_analytics_profiling-rules_info:
+  cisco.dnac.endpoint_analytics_profiling_rules_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

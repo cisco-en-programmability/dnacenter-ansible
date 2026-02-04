@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: security_rogue_wireless-containment_status_info
+module: security_rogue_wireless_containment_status_info
 short_description: Information module for Security Rogue Wireless-Containment Status
 description:
   - Get Security Rogue Wireless-Containment Status by id. - > Intent API to check the wireless rogue access point containment
@@ -41,7 +41,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Get Security Rogue Wireless-Containment Status by id
-  cisco.dnac.security_rogue_wireless-containment_status_info:
+  cisco.dnac.security_rogue_wireless_containment_status_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

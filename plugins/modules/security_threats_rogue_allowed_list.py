@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: security_threats_rogue_allowed-list
+module: security_threats_rogue_allowed_list
 short_description: Resource module for Security Threats Rogue Allowed-List
 description:
   - Manage operations create and delete of the resource Security Threats Rogue Allowed-List.
@@ -55,7 +55,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Create
-  cisco.dnac.security_threats_rogue_allowed-list:
+  cisco.dnac.security_threats_rogue_allowed_list:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -68,7 +68,7 @@ EXAMPLES = r"""
       - category: 0
         macAddress: string
 - name: Delete by id
-  cisco.dnac.security_threats_rogue_allowed-list:
+  cisco.dnac.security_threats_rogue_allowed_list:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: security_rogue_wireless-containment_stop
+module: security_rogue_wireless_containment_stop
 short_description: Resource module for Security Rogue Wireless-Containment Stop
 description:
   - Manage operation create of the resource Security Rogue Wireless-Containment Stop. - > Intent API to stop the wireless
@@ -43,7 +43,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Create
-  cisco.dnac.security_rogue_wireless-containment_stop:
+  cisco.dnac.security_rogue_wireless_containment_stop:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

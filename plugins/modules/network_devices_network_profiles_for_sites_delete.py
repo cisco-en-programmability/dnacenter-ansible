@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: network_devices_network_profiles_for_sites
+module: network_devices_network_profiles_for_sites_delete
 short_description: Resource module for Network Devices Network Profiles For Sites
 description:
   - Manage operation delete of the resource Network Devices Network Profiles For Sites.
@@ -36,7 +36,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Delete by id
-  cisco.dnac.network_devices_network_profiles_for_sites:
+  cisco.dnac.network_devices_network_profiles_for_sites_delete:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
