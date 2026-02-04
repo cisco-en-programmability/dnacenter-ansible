@@ -83,7 +83,7 @@ options:
     description: 2.4 Ghz Band Policy value. Allowed only when 2.4 Radio Band is enabled in ssidRadioType.
     type: str
   ghz6PolicyClientSteering:
-    description: True if 6 GHz Policy Client Steering is enabled, else False.
+    description: true if 6 GHz Policy Client Steering is enabled, else False.
     type: bool
   id:
     description: Id path parameter. SSID ID.
@@ -148,16 +148,16 @@ options:
       devices searching for available networks.
     type: bool
   isCckmEnabled:
-    description: True if CCKM is enabled, else False.
+    description: true if CCKM is enabled, else False.
     type: bool
   isEnabled:
     description: Set SSID's admin status as 'Enabled' when set to true.
     type: bool
   isFastLaneEnabled:
-    description: True if FastLane is enabled, else False.
+    description: true if FastLane is enabled, else False.
     type: bool
   isHex:
-    description: True if passphrase is in Hex format, else False.
+    description: true if passphrase is in Hex format, else False.
     type: bool
   isMacFilteringEnabled:
     description: When set to true, MAC Filtering will be activated, allowing control over network access based on the MAC

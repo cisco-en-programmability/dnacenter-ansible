@@ -577,7 +577,7 @@ options:
         description: Sensor's thirdParty.
         suboptions:
           selected:
-            description: True the SSID is third party.
+            description: true the SSID is third party.
             type: bool
         type: dict
       username:

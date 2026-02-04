@@ -78,7 +78,7 @@ EXAMPLES = r"""
     siteId: string
     offset: 0
     limit: 0
-    ignoreInheritedGroups: True
+    ignoreInheritedGroups: true
     poolUsage: string
     groupName: string
   register: result

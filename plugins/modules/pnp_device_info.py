@@ -157,7 +157,7 @@ EXAMPLES = r"""
     workflowName: []
     smartAccountId: []
     virtualAccountId: []
-    lastContact: True
+    lastContact: true
     macAddress: string
     hostname: string
     siteName: string

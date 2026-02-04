@@ -19,17 +19,17 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   defaultRfProfile:
-    description: True if RF Profile is default, else False. Maximum of only 1 RF Profile can be marked as default at any given
+    description: true if RF Profile is default, else False. Maximum of only 1 RF Profile can be marked as default at any given
       time.
     type: bool
   enableRadioType6GHz:
-    description: True if 6 GHz radio band is enabled in the RF Profile, else False.
+    description: true if 6 GHz radio band is enabled in the RF Profile, else False.
     type: bool
   enableRadioTypeA:
-    description: True if 5 GHz radio band is enabled in the RF Profile, else False.
+    description: true if 5 GHz radio band is enabled in the RF Profile, else False.
     type: bool
   enableRadioTypeB:
-    description: True if 2.4 GHz radio band is enabled in the RF Profile, else False.
+    description: true if 2.4 GHz radio band is enabled in the RF Profile, else False.
     type: bool
   id:
     description: Id path parameter. RF Profile ID.
@@ -67,7 +67,7 @@ options:
         description: Discovery Frames of 6 GHz radio band.
         type: str
       enableStandardPowerService:
-        description: True if Standard Power Service is enabled, else False.
+        description: true if Standard Power Service is enabled, else False.
         type: bool
       fraPropertiesC:
         description: Wireless Settings Rf Profiles's fraPropertiesC.

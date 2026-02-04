@@ -116,7 +116,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    periodicRefresh: True
+    periodicRefresh: true
     sourceIP: string
     destIP: string
     sourcePort: 0

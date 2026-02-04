@@ -33,13 +33,13 @@ options:
         elements: dict
         suboptions:
           enableFabric:
-            description: True if ssid is fabric else false.
+            description: true if ssid is fabric else false.
             type: bool
           flexConnect:
             description: Wireless Profile's flexConnect.
             suboptions:
               enableFlexConnect:
-                description: True if flex connect is enabled else false.
+                description: true if flex connect is enabled else false.
                 type: bool
               localToVlan:
                 description: Local to VLAN ID. Required if enableFlexConnect is true.

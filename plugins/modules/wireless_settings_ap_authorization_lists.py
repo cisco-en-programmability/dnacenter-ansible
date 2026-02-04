@@ -46,11 +46,11 @@ options:
         elements: str
         type: list
       authorizeApWithMac:
-        description: True if AP Authorization List should authorise APs With MAC addresses, else False. (For Non-Mesh Access
+        description: true if AP Authorization List should authorise APs With MAC addresses, else False. (For Non-Mesh Access
           Points, either of Authorize AP With MAC Address or Serial Number is required to be set to true).
         type: bool
       authorizeApWithSerialNumber:
-        description: True if server IpAddresses are added and AP Authorization List should authorise APs With Serial Numbers,
+        description: true if server IpAddresses are added and AP Authorization List should authorise APs With Serial Numbers,
           else False (For Non-Mesh Access Points, either of Authorize AP With MAC Address or Serial Number is required to
           be set to true).
         type: bool

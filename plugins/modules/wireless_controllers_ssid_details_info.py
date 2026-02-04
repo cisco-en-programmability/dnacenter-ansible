@@ -81,8 +81,8 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     ssidName: string
-    adminStatus: True
-    managed: True
+    adminStatus: true
+    managed: true
     limit: 0
     offset: 0
     networkDeviceId: string

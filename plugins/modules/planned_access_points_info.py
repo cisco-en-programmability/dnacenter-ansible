@@ -65,7 +65,7 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     limit: 0
     offset: 0
-    radios: True
+    radios: true
     floorId: string
   register: result
 """

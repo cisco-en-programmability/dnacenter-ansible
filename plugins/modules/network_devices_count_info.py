@@ -186,7 +186,7 @@ EXAMPLES = r"""
     type: string
     role: string
     serialNumber: string
-    maintenanceMode: True
+    maintenanceMode: true
     softwareVersion: string
     healthScore: string
     view: string

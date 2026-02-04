@@ -242,7 +242,7 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     startTime: 0
     endTime: 0
-    isGlobal: True
+    isGlobal: true
     priority: string
     severity: string
     status: string
@@ -263,11 +263,11 @@ EXAMPLES = r"""
     networkDeviceId: string
     networkDeviceIpAddress: string
     macAddress: string
-    aiDriven: True
-    fabricDriven: True
-    fabricSiteDriven: True
-    fabricVnDriven: True
-    fabricTransitDriven: True
+    aiDriven: true
+    fabricDriven: true
+    fabricSiteDriven: true
+    fabricVnDriven: true
+    fabricTransitDriven: true
   register: result
 """
 RETURN = r"""

@@ -132,7 +132,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     parentInstanceId: string
-    isParentOnly: True
+    isParentOnly: true
     instanceId: string
     name: string
     eventId: string
@@ -146,7 +146,7 @@ EXAMPLES = r"""
     eventHierarchy: string
     siteId: string
     deviceId: string
-    isSystemEvents: True
+    isSystemEvents: true
     description: string
     startTime: 0
     endTime: 0
