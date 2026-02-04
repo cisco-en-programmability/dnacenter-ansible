@@ -1,0 +1,8285 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.accesspoint_workflow_manager module -- Manage Cisco Catalyst Center access points
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.accesspoint_workflow_manager_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.accesspoint_workflow_manager`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.17.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage access point configurations in Cisco Catalyst Center.
+- Configure individual AP settings including radio interfaces, controller assignments, and location parameters.
+- Perform bulk configuration updates across multiple access points of the same series.
+- Execute lifecycle operations including AP reboot and factory reset for up to 100 devices.
+- Provision access points to sites and assign RF profiles (HIGH, LOW, TYPICAL, or custom).
+- Support advanced radio configurations for 2.4GHz, 5GHz, 6GHz, XOR, and TRI radio interfaces.
+- Compare current configurations with desired state to apply only necessary changes.
+- Identify access points using MAC address, hostname, or management IP address.
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.7.2
+- python \>= 3.8
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config:
+
+      .. rst-class:: ansible-option-title
+
+      **config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      List of details of AP being managed.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/2.4ghz_radio:
+
+      .. rst-class:: ansible-option-title
+
+      **2.4ghz_radio**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration options for the 2.4GHz radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/admin_status"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/2.4ghz_radio/admin_status:
+
+      .. rst-class:: ansible-option-title
+
+      **admin_status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/admin_status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Administrative status for the 2.4GHz radio interface. For example, "Enabled".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/antenna_cable_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/2.4ghz_radio/antenna_cable_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_cable_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/antenna_cable_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna cable used for the 2.4GHz radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/antenna_gain"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/2.4ghz_radio/antenna_gain:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_gain**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/antenna_gain" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface,
+          and antenna gain must be greater than cable loss.
+          Valid values range from 0 to 20. For example, 10.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/antenna_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/2.4ghz_radio/antenna_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/antenna_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna used for the 2.4GHz radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/cable_loss"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/2.4ghz_radio/cable_loss:
+
+      .. rst-class:: ansible-option-title
+
+      **cable_loss**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/cable_loss" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 20.
+          This value must be less than the antenna gain. For example, 2.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/channel_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/2.4ghz_radio/channel_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/channel_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the channel assignment for the 2.4GHz radio interface. If the channel assignment is set to "Global", the channel\_number is not required. When a channel\_number is provided, the channel assignment defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/channel_number"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/2.4ghz_radio/channel_number:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/channel_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the custom channel number for the 2.4GHz radio interface. When a channel number is provided, the channel assignment defaults to "Custom". Valid values range from 1 to 14. For example: 3.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/power_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/2.4ghz_radio/power_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **power_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/power_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the power assignment mode for the 2.4GHz radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/power_level"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/2.4ghz_radio/power_level:
+
+      .. rst-class:: ansible-option-title
+
+      **power_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/power_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the custom power level for the 2.4GHz radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/radio_role_assignment"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/2.4ghz_radio/radio_role_assignment:
+
+      .. rst-class:: ansible-option-title
+
+      **radio_role_assignment**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/radio_role_assignment" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the operational role for the 2.4GHz radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/5ghz_radio:
+
+      .. rst-class:: ansible-option-title
+
+      **5ghz_radio**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration options for the 5GHz radio interface. Note: Updating access point radio configuration varies based on each model. Refer to the respective access point documentation before updating the radio configuration.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/admin_status"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/5ghz_radio/admin_status:
+
+      .. rst-class:: ansible-option-title
+
+      **admin_status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/admin_status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Administrative status for the 5GHz radio interface. For example, "Enabled".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/antenna_cable_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/5ghz_radio/antenna_cable_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_cable_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/antenna_cable_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna cable used for the 5GHz radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/antenna_gain"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/5ghz_radio/antenna_gain:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_gain**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/antenna_gain" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Antenna gain value in decibels (dB) for the 5GHz radio interface,
+          and antenna gain must be greater than cable loss.
+          Valid values range from 0 to 20. For example, 5.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/antenna_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/5ghz_radio/antenna_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/antenna_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna used for the 5GHz radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/cable_loss"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/5ghz_radio/cable_loss:
+
+      .. rst-class:: ansible-option-title
+
+      **cable_loss**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/cable_loss" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 20.
+          This value must be less than the antenna gain. For example, 3.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/channel_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/5ghz_radio/channel_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/channel_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the channel assignment for the 5GHz radio interface. If the channel assignment is set to "Global", the channel\_number is not required. When a channel\_number is provided, the channel assignment defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/channel_number"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/5ghz_radio/channel_number:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/channel_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the custom channel number for the 5GHz radio interface. When a channel number is provided, the channel assignment defaults to "Custom". Valid values range from 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. For example: 36.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/channel_width"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/5ghz_radio/channel_width:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_width**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/channel_width" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Width of the channel configured for the 5GHz radio interface. Accepts values
+          "20 MHz", "40 MHz", "80 MHz" or "160 MHz". For example, 20 MHz.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/power_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/5ghz_radio/power_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **power_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/power_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the power assignment mode for the 5 GHz radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/power_level"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/5ghz_radio/power_level:
+
+      .. rst-class:: ansible-option-title
+
+      **power_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/power_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the custom power level for the 5 GHz radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/radio_role_assignment"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/5ghz_radio/radio_role_assignment:
+
+      .. rst-class:: ansible-option-title
+
+      **radio_role_assignment**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/radio_role_assignment" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the operational role for the 5GHz radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/6ghz_radio:
+
+      .. rst-class:: ansible-option-title
+
+      **6ghz_radio**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration options for the 6GHz radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/admin_status"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/6ghz_radio/admin_status:
+
+      .. rst-class:: ansible-option-title
+
+      **admin_status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/admin_status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Administrative status for the 6GHz radio interface. For example, "Enabled".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/antenna_cable_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/6ghz_radio/antenna_cable_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_cable_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/antenna_cable_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna cable used for the 6GHz radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/antenna_gain"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/6ghz_radio/antenna_gain:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_gain**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/antenna_gain" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Antenna gain value in decibels (dB) for the 6GHz radio interface,
+          and antenna gain must be greater than cable loss. Valid values range
+          from 0 to 40. For example, 10.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/antenna_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/6ghz_radio/antenna_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/antenna_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna used for the 6GHz radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/cable_loss"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/6ghz_radio/cable_loss:
+
+      .. rst-class:: ansible-option-title
+
+      **cable_loss**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/cable_loss" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Cable loss in dB for the 6GHz radio interface. Valid values are from 0 to 40.
+          This value must be less than the antenna gain. For example, 10.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/channel_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/6ghz_radio/channel_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/channel_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the channel assignment for the 6GHz radio interface. If the channel assignment is set to "Global", the channel\_number is not required. When a channel\_number is provided, the channel assignment defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/channel_number"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/6ghz_radio/channel_number:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/channel_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the custom channel number for the 6GHz radio interface. When a channel number is provided, the channel assignment defaults to "Custom". Valid values range from 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233. For example: 53.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/channel_width"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/6ghz_radio/channel_width:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_width**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/channel_width" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Width of the channel configured for the 6GHz radio interface. Accepts values
+          "20 MHz", "40 MHz", "80 MHz", "160 MHz" or "320 MHz". For example, 20 MHz.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/power_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/6ghz_radio/power_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **power_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/power_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the power assignment mode for the 6GHz radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/power_level"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/6ghz_radio/power_level:
+
+      .. rst-class:: ansible-option-title
+
+      **power_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/power_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the custom power level for the 6GHz radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/radio_role_assignment"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/6ghz_radio/radio_role_assignment:
+
+      .. rst-class:: ansible-option-title
+
+      **radio_role_assignment**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/radio_role_assignment" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the operational role for the 6GHz radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/admin_status"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/admin_status:
+
+      .. rst-class:: ansible-option-title
+
+      **admin_status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/admin_status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Status of the AP configuration. Accepts "Enabled" or "Disabled". For example, "Enabled".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/ap_config_selected_fields"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/ap_config_selected_fields:
+
+      .. rst-class:: ansible-option-title
+
+      **ap_config_selected_fields**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/ap_config_selected_fields" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      When enabling the verify flag "config\_verify" to see only the filter field of the AP configuration in the output.
+          (eg. "mac\_address,eth\_mac,ap\_name,led\_brightness\_level,led\_status,location,radioDTOs")
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/ap_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/ap_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **ap_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/ap_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the operational mode of the Access Point (AP), which determines its primary function.
+          - \ :literal:`Local`\ : The default mode where the AP serves wireless clients by tunneling
+          all client traffic to the controller. Radio parameters (For example, \ :literal:`2.4ghz\_radio`\ ,
+          \ :literal:`5ghz\_radio`\ ) can only be modified when the AP is in this mode.
+          - \ :literal:`Monitor`\ : The AP does not serve clients but actively monitors the RF environment
+          for rogue devices, interference, and supports features like Radio Resource Management (RRM)
+          and Intrusion Detection System (IDS).
+          - \ :literal:`Sniffer`\ : The AP is dedicated to capturing all 802.11 packets on a specific channel
+          and forwarding them to a remote machine for analysis with tools like Wireshark.
+          - \ :literal:`Bridge`\ : The AP acts as a dedicated point-to-point or point-to-multipoint bridge to
+          connect different network segments wirelessly. Clients cannot connect to the AP in this mode.
+          Note: Changing the AP mode may cause the AP to reboot. Not all AP models support all modes.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/ap_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/ap_name:
+
+      .. rst-class:: ansible-option-title
+
+      **ap_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/ap_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Current AP name that needs to be changed along with the new AP name. For example, "Test2".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/ap_selected_fields"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/ap_selected_fields:
+
+      .. rst-class:: ansible-option-title
+
+      **ap_selected_fields**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/ap_selected_fields" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      When enabling the verify flag "config\_verify" to see only the filter field of the AP details in the output. (eg. "id,hostname,family,type,mac\_address,management\_ip\_address,ap\_ethernet\_mac\_address")
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps:
+
+      .. rst-class:: ansible-option-title
+
+      **bulk_update_aps**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Perform a bulk update on multiple access points (APs) of the same series,
+          identified by one or more of the following parameters:
+          - mac\_address
+          - hostname
+          - management\_ip\_address
+          At least one of these parameters must be specified to identify the APs for updating.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/ap_identifier"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/ap_identifier:
+
+      .. rst-class:: ansible-option-title
+
+      **ap_identifier**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/ap_identifier" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      AP identifier is a list of dict which contains MAC address, hostname, or management IP address
+          which is used to identify the access points for bulk updated with AP Name to update the access point.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/ap_identifier/ap_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/ap_identifier/ap_name:
+
+      .. rst-class:: ansible-option-title
+
+      **ap_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/ap_identifier/ap_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Current AP name that needs to be changed along with the new AP name. For example, "Test2".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/ap_identifier/hostname"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/ap_identifier/hostname:
+
+      .. rst-class:: ansible-option-title
+
+      **hostname**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/ap_identifier/hostname" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The Host Name used to identify the device. If provided, it cannot be modified.
+          To identify the specific access point, at least one of the following parameters is required.
+          - mac\_address
+          - hostname
+          - management\_ip\_address
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/ap_identifier/mac_address"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/ap_identifier/mac_address:
+
+      .. rst-class:: ansible-option-title
+
+      **mac_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/ap_identifier/mac_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The MAC address used to identify the device. If provided, it cannot be modified.
+          To identify the specific access point, at least one of the following parameters is required.
+          - mac\_address
+          - hostname
+          - management\_ip\_address
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/ap_identifier/management_ip_address"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/ap_identifier/management_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **management_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/ap_identifier/management_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The Management IP Address used to identify the device. If provided, it cannot be modified.
+          To identify the specific access point, at least one of the following parameters is required.
+          - mac\_address
+          - hostname
+          - management\_ip\_address
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change:
+
+      .. rst-class:: ansible-option-title
+
+      **common_fields_to_change**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Common fields to change AP is a dict which contains below data which is needed to update all listed access points.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio:
+
+      .. rst-class:: ansible-option-title
+
+      **2.4ghz_radio**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration options for the 2.4GHz radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/admin_status"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/admin_status:
+
+      .. rst-class:: ansible-option-title
+
+      **admin_status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/admin_status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Administrative status for the 2.4GHz radio interface. For example, "Enabled".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/antenna_cable_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/antenna_cable_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_cable_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/antenna_cable_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna cable used for the 2.4GHz radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/antenna_gain"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/antenna_gain:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_gain**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/antenna_gain" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface,
+          and antenna gain must be greater than cable loss. Valid values range
+          from 0 to 20. For example, 10.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/antenna_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/antenna_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/antenna_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna used for the 2.4GHz radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/cable_loss"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/cable_loss:
+
+      .. rst-class:: ansible-option-title
+
+      **cable_loss**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/cable_loss" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 20.
+          This value must be less than the antenna gain. For example, 2.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/channel_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/channel_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/channel_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the channel assignment for the 2.4GHz radio interface. If the channel assignment is set to "Global", the channel\_number is not required. When a channel\_number is provided, the channel assignment defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/channel_number"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/channel_number:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/channel_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the custom channel number for the 2.4GHz radio interface. When a channel number is provided, the channel assignment defaults to "Custom". Valid values range from 1 to 14. For example: 3.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/power_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/power_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **power_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/power_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the power assignment mode for the 2.4GHz radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/power_level"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/power_level:
+
+      .. rst-class:: ansible-option-title
+
+      **power_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/power_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the custom power level for the 2.4GHz radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/radio_role_assignment"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/radio_role_assignment:
+
+      .. rst-class:: ansible-option-title
+
+      **radio_role_assignment**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/radio_role_assignment" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the operational role for the 2.4GHz radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio:
+
+      .. rst-class:: ansible-option-title
+
+      **5ghz_radio**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration options for the 5GHz radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/admin_status"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/admin_status:
+
+      .. rst-class:: ansible-option-title
+
+      **admin_status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/admin_status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Administrative status for the 5GHz radio interface. For example, "Enabled".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/antenna_cable_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/antenna_cable_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_cable_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/antenna_cable_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna cable used for the 5GHz radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/antenna_gain"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/antenna_gain:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_gain**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/antenna_gain" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Antenna gain value in decibels (dB) for the 5GHz radio interface,
+          and antenna gain must be greater than cable loss. Valid values range
+          from 0 to 20. For example, 5.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/antenna_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/antenna_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/antenna_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna used for the 5GHz radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/cable_loss"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/cable_loss:
+
+      .. rst-class:: ansible-option-title
+
+      **cable_loss**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/cable_loss" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 20.
+          This value must be less than the antenna gain. For example, 3.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/channel_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/channel_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/channel_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the channel assignment for the 5GHz radio interface. If the channel assignment is set to "Global", the channel\_number is not required. When a channel\_number is provided, the channel assignment defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/channel_number"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/channel_number:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/channel_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the custom channel number for the 5GHz radio interface. When a channel number is provided, the channel assignment defaults to "Custom". Valid values range from 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. For example: 36.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/power_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/power_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **power_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/power_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the power assignment mode for the 5GHz radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/power_level"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/power_level:
+
+      .. rst-class:: ansible-option-title
+
+      **power_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/power_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the custom power level for the 5GHz radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/radio_role_assignment"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/radio_role_assignment:
+
+      .. rst-class:: ansible-option-title
+
+      **radio_role_assignment**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/radio_role_assignment" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the operational role for the 5GHz radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
+          This field is not required for xor series access point slot 1.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio:
+
+      .. rst-class:: ansible-option-title
+
+      **6ghz_radio**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration options for the 6GHz radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/admin_status"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/admin_status:
+
+      .. rst-class:: ansible-option-title
+
+      **admin_status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/admin_status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Administrative status for the 6GHz radio interface. For example, "Enabled".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/antenna_cable_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/antenna_cable_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_cable_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/antenna_cable_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna cable used for the 6GHz radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/antenna_gain"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/antenna_gain:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_gain**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/antenna_gain" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Antenna gain value in decibels (dB) for the 6GHz radio interface,
+          and antenna gain must be greater than cable loss. Valid values range
+          from 0 to 40. For example, 10.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/antenna_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/antenna_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/antenna_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna used for the 6GHz radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/cable_loss"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/cable_loss:
+
+      .. rst-class:: ansible-option-title
+
+      **cable_loss**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/cable_loss" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Cable loss in dB for the 6GHz radio interface. Valid values are from 0 to 40.
+          This value must be less than the antenna gain. For example, 10.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/channel_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/channel_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/channel_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the channel assignment for the 6GHz radio interface. If the channel assignment is set to "Global", the channel\_number is not required. When a channel\_number is provided, the channel assignment defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/channel_number"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/channel_number:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/channel_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the custom channel number for the 6GHz radio interface. When a channel number is provided, the channel assignment defaults to "Custom". Valid values range from 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233. For example: 53.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/power_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/power_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **power_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/power_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the power assignment mode for the 6GHz radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/power_level"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/power_level:
+
+      .. rst-class:: ansible-option-title
+
+      **power_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/power_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the custom power level for the 6GHz radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/radio_role_assignment"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/radio_role_assignment:
+
+      .. rst-class:: ansible-option-title
+
+      **radio_role_assignment**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/radio_role_assignment" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the operational role for the 6GHz radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/admin_status"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/admin_status:
+
+      .. rst-class:: ansible-option-title
+
+      **admin_status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/admin_status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Status of the AP configuration. Accepts "Enabled" or "Disabled". For example, "Enabled".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/ap_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/ap_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **ap_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/ap_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the mode of operation for the Access Point (AP). Possible values include "Local",
+          "Monitor", "Sniffer", or "Bridge". For example, "Local".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/clean_air_si_2.4ghz"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/clean_air_si_2.4ghz:
+
+      .. rst-class:: ansible-option-title
+
+      **clean_air_si_2.4ghz**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/clean_air_si_2.4ghz" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/clean_air_si_5ghz"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/clean_air_si_5ghz:
+
+      .. rst-class:: ansible-option-title
+
+      **clean_air_si_5ghz**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/clean_air_si_5ghz" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/clean_air_si_6ghz"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/clean_air_si_6ghz:
+
+      .. rst-class:: ansible-option-title
+
+      **clean_air_si_6ghz**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/clean_air_si_6ghz" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/failover_priority"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/failover_priority:
+
+      .. rst-class:: ansible-option-title
+
+      **failover_priority**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/failover_priority" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Priority order for failover in AP configuration. Accepts "Low", "Medium", "High", or "Critical".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/is_assigned_site_as_location"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/is_assigned_site_as_location:
+
+      .. rst-class:: ansible-option-title
+
+      **is_assigned_site_as_location**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/is_assigned_site_as_location" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configures whether the access point location is automatically set to the site assigned to the access point.
+          Accepts "Enabled" or "Disabled". If set to "Enabled", no additional location configuration is required.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/led_brightness_level"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/led_brightness_level:
+
+      .. rst-class:: ansible-option-title
+
+      **led_brightness_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/led_brightness_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Brightness level of the AP's LED. Accepts values from 1 to 8. For example, 3.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/led_status"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/led_status:
+
+      .. rst-class:: ansible-option-title
+
+      **led_status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/led_status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies led status for the access point accepts "Enabled" or "Disabled". When a led brightness level is provided, the led status defaults to "Enabled". For example, "Enabled".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/location"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/location:
+
+      .. rst-class:: ansible-option-title
+
+      **location**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/location" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Location name of the AP. Provide this data if a change is required. For example, "Bangalore".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/primary_controller_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/primary_controller_name:
+
+      .. rst-class:: ansible-option-title
+
+      **primary_controller_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/primary_controller_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP).
+          For example, "SJ-EWLC-1".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/primary_ip_address"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/primary_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **primary_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/primary_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of the primary wireless LAN controller (WLC) managing the Access Point (AP).
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/primary_ip_address/address"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/primary_ip_address/address:
+
+      .. rst-class:: ansible-option-title
+
+      **address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/primary_ip_address/address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of the primary wireless LAN controller. For example, "10.0.0.3".
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/secondary_controller_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/secondary_controller_name:
+
+      .. rst-class:: ansible-option-title
+
+      **secondary_controller_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/secondary_controller_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
+          To modify only the primary controller, set the secondary and tertiary controller names
+          to "Inherit from site / Clear".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/secondary_ip_address"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/secondary_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **secondary_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/secondary_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/secondary_ip_address/address"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/secondary_ip_address/address:
+
+      .. rst-class:: ansible-option-title
+
+      **address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/secondary_ip_address/address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of the primary wireless LAN controller. For example, "10.0.0.3".
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/tertiary_controller_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/tertiary_controller_name:
+
+      .. rst-class:: ansible-option-title
+
+      **tertiary_controller_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tertiary_controller_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
+          To modify only the primary controller, set the secondary and tertiary controller names
+          to "Inherit from site / Clear".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/tertiary_ip_address"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/tertiary_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **tertiary_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tertiary_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/tertiary_ip_address/address"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/tertiary_ip_address/address:
+
+      .. rst-class:: ansible-option-title
+
+      **address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tertiary_ip_address/address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of the primary wireless LAN controller. For example, "10.0.0.2".
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/tri_radio"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/tri_radio:
+
+      .. rst-class:: ansible-option-title
+
+      **tri_radio**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tri_radio" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration options for the TRI radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/admin_status"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/admin_status:
+
+      .. rst-class:: ansible-option-title
+
+      **admin_status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/admin_status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Administrative status for the TRI radio interface. For example, "Enabled".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/antenna_cable_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/antenna_cable_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_cable_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/antenna_cable_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna cable used for the TRI radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/antenna_gain"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/antenna_gain:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_gain**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/antenna_gain" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Antenna gain value in decibels (dB) for the TRI radio interface,
+          and antenna gain must be greater than cable loss. Valid values range
+          from 0 to 40. For example, 16.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/antenna_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/antenna_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/antenna_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna used for the TRI radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/cable_loss"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/cable_loss:
+
+      .. rst-class:: ansible-option-title
+
+      **cable_loss**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/cable_loss" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Cable loss in dB for the TRI radio interface. Valid values are from 0 to 40.
+          This value must be less than the antenna gain. For example, 6.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/channel_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/channel_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/channel_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the channel assignment mode for the TRI radio interface.
+          If the channel assignment mode is set to "Global", the channel number is not required.
+          When a channel number is provided, the channel assignment mode automatically defaults to "Custom".
+          Accepts "Global" or "Custom". For example: "Global".
+          For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
+          132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/channel_number"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/channel_number:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/channel_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Custom channel number configured for the TRI radio interface. For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom) For example, 36.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/channel_width"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/channel_width:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_width**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/channel_width" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Width of the channel configured for the TRI radio interface. Accepts values
+          "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". For example, 20 MHz.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/dual_radio_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/dual_radio_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **dual_radio_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/dual_radio_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Mode of operation configured for the TRI radio interface. Specifies how the
+          access point (AP) manages its dual radio functionality. For example, Auto.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/power_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/power_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **power_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/power_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the power assignment mode for the TRI radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/power_level"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/power_level:
+
+      .. rst-class:: ansible-option-title
+
+      **power_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/power_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the custom power level for the TRI radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/radio_role_assignment"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/radio_role_assignment:
+
+      .. rst-class:: ansible-option-title
+
+      **radio_role_assignment**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/radio_role_assignment" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the operational role for the TRI radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/xor_radio"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/xor_radio:
+
+      .. rst-class:: ansible-option-title
+
+      **xor_radio**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/xor_radio" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration options for the XOR radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/admin_status"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/admin_status:
+
+      .. rst-class:: ansible-option-title
+
+      **admin_status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/admin_status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Administrative status for the XOR radio interface. For example, "Enabled".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/antenna_cable_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/antenna_cable_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_cable_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/antenna_cable_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna cable used for the XOR radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/antenna_gain"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/antenna_gain:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_gain**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/antenna_gain" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Antenna gain value in decibels (dB) for the XOR radio interface,
+          and antenna gain must be greater than cable loss. Valid values range
+          from 0 to 40. For example, 14.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/antenna_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/antenna_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/antenna_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna used for the XOR radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/cable_loss"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/cable_loss:
+
+      .. rst-class:: ansible-option-title
+
+      **cable_loss**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/cable_loss" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Cable loss in dB for the XOR radio interface. Valid values are from 0 to 40.
+          This value must be less than the antenna gain. For example, 5.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/channel_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/channel_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/channel_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      If the channel assignment mode is set to "Global", the channel number is not required.
+          When a channel number is provided, the channel assignment mode defaults to "Custom".
+          Accepts "Global" or "Custom". For example: "Global".
+          - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14.
+          - For "Custom" mode and a radio band of "5 GHz", valid values are
+            36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
+            112, 116, 120, 124, 128, 132, 136, 140, 144,
+            149, 153, 157, 161, 165, 169, 173.
+          - For "Custom" mode and a radio band of "6 GHz", valid values are
+            1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49,
+            53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97,
+            101, 105, 109, 113, 117, 121, 125, 129, 133, 137,
+            141, 145, 149, 153, 157, 161, 165, 169, 173, 177,
+            181, 185, 189, 193, 197, 201, 205, 209, 213, 217,
+            221, 225, 229, 233.
+          For example, "Custom".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/channel_number"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/channel_number:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/channel_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Custom channel number configured for the XOR radio interface. - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14. - For "Custom" mode and a radio band of "5 GHz", valid values are 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. - For "Custom" mode and a radio band of "6 GHz", valid values are 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233. For example, 6.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/channel_width"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/channel_width:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_width**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/channel_width" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Width of the channel configured for the XOR radio interface. Accepts values
+          "20 MHz", "40 MHz", "80 MHz", "160 MHz" or "320 MHz". For example, 20 MHz.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/power_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/power_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **power_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/power_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the power assignment mode for the XOR radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/power_level"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/power_level:
+
+      .. rst-class:: ansible-option-title
+
+      **power_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/power_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the custom power level for the XOR radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/radio_band"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/radio_band:
+
+      .. rst-class:: ansible-option-title
+
+      **radio_band**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/radio_band" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Radio band should be enabled if the radio role assignment is set to "Client-serving" mode.
+          Accepts "2.4 GHz" or "5 GHz" or "6 GHz".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/radio_role_assignment"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/radio_role_assignment:
+
+      .. rst-class:: ansible-option-title
+
+      **radio_role_assignment**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/radio_role_assignment" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the operational role for the xor radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
+          If "radio\_role\_assignment" is set to "Client-serving" only the power level and channel number can be changed.
+          Additionally, if the 5 GHz band is selected in the radio band, the power level cannot be modified.
+          For example, "Auto".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/clean_air_si_2.4ghz"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/clean_air_si_2.4ghz:
+
+      .. rst-class:: ansible-option-title
+
+      **clean_air_si_2.4ghz**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/clean_air_si_2.4ghz" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/clean_air_si_5ghz"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/clean_air_si_5ghz:
+
+      .. rst-class:: ansible-option-title
+
+      **clean_air_si_5ghz**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/clean_air_si_5ghz" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/clean_air_si_6ghz"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/clean_air_si_6ghz:
+
+      .. rst-class:: ansible-option-title
+
+      **clean_air_si_6ghz**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/clean_air_si_6ghz" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/factory_reset_aps"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/factory_reset_aps:
+
+      .. rst-class:: ansible-option-title
+
+      **factory_reset_aps**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/factory_reset_aps" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Factory reset one or more access points (APs) identified by their MAC addresses, hostnames, or management IP addresses.
+          At least one of the following parameters is required:
+          - mac\_addresses
+          - hostnames
+          - management\_ip\_addresses
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/factory_reset_aps/hostnames"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/factory_reset_aps/hostnames:
+
+      .. rst-class:: ansible-option-title
+
+      **hostnames**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/factory_reset_aps/hostnames" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of hostnames used to identify the access points for factory reset.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/factory_reset_aps/mac_addresses"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/factory_reset_aps/mac_addresses:
+
+      .. rst-class:: ansible-option-title
+
+      **mac_addresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/factory_reset_aps/mac_addresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of MAC addresses used to identify the access points for factory reset.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/factory_reset_aps/management_ip_addresses"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/factory_reset_aps/management_ip_addresses:
+
+      .. rst-class:: ansible-option-title
+
+      **management_ip_addresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/factory_reset_aps/management_ip_addresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of management IP addresses used to identify the access points for factory reset.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/failover_priority"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/failover_priority:
+
+      .. rst-class:: ansible-option-title
+
+      **failover_priority**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/failover_priority" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Priority order for failover in AP configuration. Accepts "Low", "Medium", "High", or "Critical".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/hostname"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/hostname:
+
+      .. rst-class:: ansible-option-title
+
+      **hostname**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/hostname" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The Host Name used to identify the device. If provided, it cannot be modified.
+          To identify the specific access point, at least one of the following parameters is required.
+          - mac\_address
+          - hostname
+          - management\_ip\_address
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/is_assigned_site_as_location"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/is_assigned_site_as_location:
+
+      .. rst-class:: ansible-option-title
+
+      **is_assigned_site_as_location**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/is_assigned_site_as_location" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - Determines whether the access point's location is automatically set to its assigned site.
+          - When set to \ :literal:`Enabled`\ , the assigned site is used as the location and no manual location configuration is needed.
+          - When set to \ :literal:`Disabled`\ , the location must be specified manually.
+          - Accepted values are \ :literal:`Enabled`\  and \ :literal:`Disabled`\ .
+          - Note: Idempotent behavior is not supported for this field; repeated runs may not guarantee consistent results.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"Enabled"`
+      - :ansible-option-choices-entry:`"Disabled"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/led_brightness_level"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/led_brightness_level:
+
+      .. rst-class:: ansible-option-title
+
+      **led_brightness_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/led_brightness_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Brightness level of the AP's LED. Accepts values from 1 to 8. For example, 3.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/led_status"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/led_status:
+
+      .. rst-class:: ansible-option-title
+
+      **led_status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/led_status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies led status for the access point accepts "Enabled" or "Disabled". When a led brightness level is provided, the led status defaults to "Enabled". For example, "Enabled".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/location"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/location:
+
+      .. rst-class:: ansible-option-title
+
+      **location**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/location" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Location name of the AP. Provide this data if a change is required. For example, "Bangalore".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/mac_address"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/mac_address:
+
+      .. rst-class:: ansible-option-title
+
+      **mac_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/mac_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The MAC address used to identify the device. If provided, it cannot be modified.
+          To identify the specific access point, at least one of the following parameters is required.
+          - mac\_address
+          - hostname
+          - management\_ip\_address
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/management_ip_address"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/management_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **management_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/management_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The Management IP Address used to identify the device. If provided, it cannot be modified.
+          To identify the specific access point, at least one of the following parameters is required.
+          - mac\_address
+          - hostname
+          - management\_ip\_address
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/primary_controller_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/primary_controller_name:
+
+      .. rst-class:: ansible-option-title
+
+      **primary_controller_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/primary_controller_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or identifier of the primary wireless LAN controller (WLC) managing the Access Point (AP).
+          For example, "SJ-EWLC-1".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/primary_ip_address"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/primary_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **primary_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/primary_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of the primary wireless LAN controller (WLC) managing the Access Point (AP).
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/primary_ip_address/address"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/primary_ip_address/address:
+
+      .. rst-class:: ansible-option-title
+
+      **address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/primary_ip_address/address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of the primary wireless LAN controller. For example, "10.0.0.3".
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reboot_aps"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/reboot_aps:
+
+      .. rst-class:: ansible-option-title
+
+      **reboot_aps**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reboot_aps" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Reboot one or more access points (APs) identified by their MAC addresses, hostnames, or management IP addresses.
+          At least one of the following parameters is required:
+          - mac\_addresses
+          - hostnames
+          - management\_ip\_addresses
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reboot_aps/hostnames"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/reboot_aps/hostnames:
+
+      .. rst-class:: ansible-option-title
+
+      **hostnames**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reboot_aps/hostnames" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of hostnames used to identify the access points for rebooting.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reboot_aps/mac_addresses"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/reboot_aps/mac_addresses:
+
+      .. rst-class:: ansible-option-title
+
+      **mac_addresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reboot_aps/mac_addresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of MAC addresses used to identify the access points for rebooting.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reboot_aps/management_ip_addresses"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/reboot_aps/management_ip_addresses:
+
+      .. rst-class:: ansible-option-title
+
+      **management_ip_addresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reboot_aps/management_ip_addresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of management IP addresses used to identify the access points for rebooting.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/rf_profile"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/rf_profile:
+
+      .. rst-class:: ansible-option-title
+
+      **rf_profile**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/rf_profile" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the Radio Frequency (RF) profile name for the Access Point. It can be one of the standard profiles
+          "HIGH", "LOW", "TYPICAL", or a custom profile that has been created. For example, "HIGH".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/secondary_controller_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/secondary_controller_name:
+
+      .. rst-class:: ansible-option-title
+
+      **secondary_controller_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/secondary_controller_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or identifier of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
+          To modify only the primary controller, set the secondary and tertiary controller names
+          to "Inherit from site / Clear".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/secondary_ip_address"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/secondary_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **secondary_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/secondary_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of the secondary wireless LAN controller (WLC) managing the Access Point (AP).
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/secondary_ip_address/address"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/secondary_ip_address/address:
+
+      .. rst-class:: ansible-option-title
+
+      **address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/secondary_ip_address/address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of the primary wireless LAN controller. For example, "10.0.0.3".
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/site"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/site:
+
+      .. rst-class:: ansible-option-title
+
+      **site**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/site" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Current site details where the Access Point is located.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/site/floor"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/site/floor:
+
+      .. rst-class:: ansible-option-title
+
+      **floor**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/site/floor" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Floor details of the current site.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/site/floor/name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/site/floor/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/site/floor/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the floor. For example, "FLOOR1".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/site/floor/parent_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/site/floor/parent_name:
+
+      .. rst-class:: ansible-option-title
+
+      **parent_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/site/floor/parent_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Parent name of the floor in the site hierarchy. For example, "Global/USA/New York/BLDNYC".
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tertiary_controller_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/tertiary_controller_name:
+
+      .. rst-class:: ansible-option-title
+
+      **tertiary_controller_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tertiary_controller_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or identifier of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
+          To modify only the primary controller, set the secondary and tertiary controller names
+          to "Inherit from site / Clear".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tertiary_ip_address"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/tertiary_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **tertiary_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tertiary_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of the tertiary wireless LAN controller (WLC) managing the Access Point (AP).
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tertiary_ip_address/address"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/tertiary_ip_address/address:
+
+      .. rst-class:: ansible-option-title
+
+      **address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tertiary_ip_address/address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of the primary wireless LAN controller. For example, "10.0.0.2".
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tri_radio"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/tri_radio:
+
+      .. rst-class:: ansible-option-title
+
+      **tri_radio**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tri_radio" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration options for the TRI radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/admin_status"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/tri_radio/admin_status:
+
+      .. rst-class:: ansible-option-title
+
+      **admin_status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tri_radio/admin_status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Administrative status for the TRI radio interface. For example, "Enabled".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/antenna_cable_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/tri_radio/antenna_cable_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_cable_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tri_radio/antenna_cable_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna cable used for the TRI radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/antenna_gain"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/tri_radio/antenna_gain:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_gain**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tri_radio/antenna_gain" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Antenna gain value in decibels (dB) for the TRI radio interface,
+          and antenna gain must be greater than cable loss. Valid values range
+          from 0 to 40. For example, 16.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/antenna_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/tri_radio/antenna_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tri_radio/antenna_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna used for the TRI radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/cable_loss"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/tri_radio/cable_loss:
+
+      .. rst-class:: ansible-option-title
+
+      **cable_loss**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tri_radio/cable_loss" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Cable loss in dB for the TRI radio interface. Valid values are from 0 to 40.
+          This value must be less than the antenna gain. For example, 6.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/channel_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/tri_radio/channel_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tri_radio/channel_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the channel assignment mode for the TRI radio interface.
+          If the channel assignment mode is set to "Global", the channel number is not required.
+          When a channel number is provided, the channel assignment mode automatically defaults to "Custom".
+          Accepts "Global" or "Custom". For example: "Global".
+          For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
+          132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/channel_number"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/tri_radio/channel_number:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tri_radio/channel_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Custom channel number configured for the TRI radio interface. For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom) For example, 36.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/channel_width"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/tri_radio/channel_width:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_width**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tri_radio/channel_width" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Width of the channel configured for the TRI radio interface. Accepts values
+          "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". For example, 20 MHz.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/dual_radio_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/tri_radio/dual_radio_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **dual_radio_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tri_radio/dual_radio_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Mode of operation configured for the TRI radio interface. Specifies how the
+          access point (AP) manages its dual radio functionality. For example, Auto.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/power_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/tri_radio/power_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **power_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tri_radio/power_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the power assignment mode for the TRI radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/power_level"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/tri_radio/power_level:
+
+      .. rst-class:: ansible-option-title
+
+      **power_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tri_radio/power_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the custom power level for the TRI radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/radio_role_assignment"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/tri_radio/radio_role_assignment:
+
+      .. rst-class:: ansible-option-title
+
+      **radio_role_assignment**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tri_radio/radio_role_assignment" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the operational role for the TRI radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/xor_radio"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/xor_radio:
+
+      .. rst-class:: ansible-option-title
+
+      **xor_radio**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/xor_radio" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration options for the XOR radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/admin_status"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/xor_radio/admin_status:
+
+      .. rst-class:: ansible-option-title
+
+      **admin_status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/xor_radio/admin_status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Administrative status for the XOR radio interface. For example, "Enabled".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/antenna_cable_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/xor_radio/antenna_cable_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_cable_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/xor_radio/antenna_cable_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna cable used for the XOR radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/antenna_gain"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/xor_radio/antenna_gain:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_gain**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/xor_radio/antenna_gain" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Antenna gain value in decibels (dB) for the XOR radio interface,
+          and antenna gain must be greater than cable loss. Valid values range
+          from 0 to 40. For example, 14.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/antenna_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/xor_radio/antenna_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/xor_radio/antenna_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name or type of antenna used for the XOR radio interface. For example, "other".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/cable_loss"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/xor_radio/cable_loss:
+
+      .. rst-class:: ansible-option-title
+
+      **cable_loss**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/xor_radio/cable_loss" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Cable loss in dB for the XOR radio interface. Valid values are from 0 to 40.
+          This value must be less than the antenna gain. For example, 5.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/channel_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/xor_radio/channel_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/xor_radio/channel_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      If the channel assignment mode is set to "Global", the channel number is not required.
+          When a channel number is provided, the channel assignment mode defaults to "Custom".
+          Accepts "Global" or "Custom". For example: "Global".
+          - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14.
+          - For "Custom" mode and a radio band of "5 GHz", valid values are
+            36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
+            112, 116, 120, 124, 128, 132, 136, 140, 144,
+            149, 153, 157, 161, 165, 169, 173.
+          - For "Custom" mode and a radio band of "6 GHz", valid values are
+            1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49,
+            53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97,
+            101, 105, 109, 113, 117, 121, 125, 129, 133, 137,
+            141, 145, 149, 153, 157, 161, 165, 169, 173, 177,
+            181, 185, 189, 193, 197, 201, 205, 209, 213, 217,
+            221, 225, 229, 233.
+          For example, "Custom".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/channel_number"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/xor_radio/channel_number:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/xor_radio/channel_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Custom channel number configured for the XOR radio interface. - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14. - For "Custom" mode and a radio band of "5 GHz", valid values are 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. - For "Custom" mode and a radio band of "6 GHz", valid values are 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233. For example, 6.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/channel_width"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/xor_radio/channel_width:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_width**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/xor_radio/channel_width" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Width of the channel configured for the XOR radio interface. Accepts values
+          "20 MHz", "40 MHz", "80 MHz", "160 MHz" or "320 MHz". For example, 20 MHz.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/power_assignment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/xor_radio/power_assignment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **power_assignment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/xor_radio/power_assignment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the power assignment mode for the XOR radio interface. If the power assignment mode is set to "Global", the power level is not required. When a power level is provided, the power assignment mode automatically defaults to "Custom". Accepts "Global" or "Custom". For example: "Global".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/power_level"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/xor_radio/power_level:
+
+      .. rst-class:: ansible-option-title
+
+      **power_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/xor_radio/power_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the custom power level for the XOR radio interface. When a power level is provided, the power assignment mode automatically defaults to "Custom". Valid values range from 1 to 8. For example: 3.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/radio_band"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/xor_radio/radio_band:
+
+      .. rst-class:: ansible-option-title
+
+      **radio_band**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/xor_radio/radio_band" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Radio band should be enabled if the radio role assignment is set to "Client-serving" mode.
+          Accepts "2.4 GHz" or "5 GHz" or "6 GHz".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/radio_role_assignment"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/xor_radio/radio_role_assignment:
+
+      .. rst-class:: ansible-option-title
+
+      **radio_role_assignment**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/xor_radio/radio_role_assignment" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the operational role for the xor radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
+          If "radio\_role\_assignment" is set to "Client-serving" only the power level and channel number can be changed.
+          Additionally, if the 5 GHz band is selected in the radio band, the power level cannot be modified.
+          For example, "Auto".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **config_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether configuration verification is enabled. This flag is always set to false. As a result, some field changes may not exhibit idempotent behavior due to Access Point reboots.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The number of times to retry resynchronization.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-dnac_log:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable/disable playbook execution logging.
+
+      When true and dnac\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and dnac\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'dnac.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "dnac\_log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "dnac\_log\_append" flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-dnac_log_append:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_append**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-dnac_log_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Governs logging. Logs are recorded if dnac\_log is True.
+
+      If path is not specified, - When 'dnac\_log\_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac\_log\_append' is False, 'dnac.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'dnac\_log\_append' is True, the file opens in append mode. - When 'dnac\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"dnac.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-dnac_log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The interval, in seconds, for polling Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-next_task_after_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-next_task_after_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **next_task_after_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-next_task_after_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Time in seconds between Provision and AP updated execution
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`5`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The desired state of the device replacement workflow.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"merged"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"deleted"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - Make sure to install the required Python dependencies by executing pip install dnacentersdk.
+   - SDK Method used are
+   - devices.get\_device\_list
+   - wireless.get\_access\_point\_configuration
+   - sites.get\_site
+   - sda.get\_device\_info
+   - sites.assign\_devices\_to\_site
+   - wireless.ap\_provision
+   - wireless.configure\_access\_points
+   - sites.get\_membership
+   - Paths used are
+   - GET  /dna/intent/api/v1/network-device
+   - GET  /dna/intent/api/v1/site
+   - GET  /dna/intent/api/v1/business/sda/device
+   - POST /dna/intent/api/v1/wireless/ap-provision
+   - GET  /dna/intent/api/v1/membership/{siteId}
+   - GET  /dna/intent/api/v1/wireless/accesspoint-configuration/details/{task\_id}
+   - POST /dna/intent/api/v2/wireless/accesspoint-configuration
+   - POST /dna/intent/api/v1/assign-device-to-site/{siteId}/device
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNAC Ansible Collection Documentation <https://docs.ansible.com/ansible/latest/collections/cisco/dnac/index.html>`_
+       Complete guide to using the Cisco DNAC Ansible collection.
+   `Cisco DNAC API Documentation <https://developer.cisco.com/docs/dna-center/>`_
+       Official API documentation for Cisco DNAC.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Provision/Move/Update Wireless Access Point Configuration
+      hosts: dnac_servers
+      connection: local
+      gather_facts: false  # This space must be "no." It was set to false due to formatting errors.
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Updating Access Point Site / Configuration details
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: false
+            state: merged
+            config:
+              - mac_address: 90:e9:5e:03:f3:40
+                2.4ghz_radio:
+                  admin_status: "Enabled"
+                  antenna_name: "AIR-ANT2513P4M-N-2.4GHz"
+                  radio_role_assignment: "Client-Serving"
+                  power_level: 5
+                  channel_number: 7
+          register: output_list
+        - name: Updating Access Point Site / Configuration details
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: false
+            state: merged
+            config:
+              - mac_address: 90:e9:5e:03:f3:40
+                2.4ghz_radio:
+                  admin_status: "Enabled"
+                  power_assignment_mode: "Global"
+          register: output_list
+        - name: Updating Access Point Site / Configuration details
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: false
+            state: merged
+            config:
+              - mac_address: 90:e9:5e:03:f3:40
+                2.4ghz_radio:
+                  admin_status: "Enabled"
+                  channel_assignment_mode: "Global"
+          register: output_list
+        - name: Updating Access Point Site / Configuration details
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: false
+            state: merged
+            config:
+              - mac_address: 90:e9:5e:03:f3:40
+                5ghz_radio:
+                  admin_status: "Enabled"
+                  antenna_name: "AIR-ANT2513P4M-N-5GHz"
+          register: output_list
+        - name: Updating Access Point Site / Configuration details
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: false
+            state: merged
+            config:
+              - mac_address: 90:e9:5e:03:f3:40
+                5ghz_radio:
+                  admin_status: "Enabled"
+                  antenna_name: "AIR-ANT2513P4M-N-5GHz"
+                  radio_role_assignment: "Client-Serving"
+                  channel_number: 44
+          register: output_list
+        - name: Updating Access Point Site / Configuration details
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: false
+            state: merged
+            config:
+              - mac_address: 90:e9:5e:03:f3:40
+                5ghz_radio:
+                  admin_status: "Enabled"
+                  antenna_name: "C-ANT9104-Single-D0-5GHz"
+                  channel_number: 52
+                  power_level: 5
+                  channel_width: "40 MHz"
+          register: output_list
+        - name: Updating Access Point Site / Configuration details
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: false
+            state: merged
+            config:
+              - mac_address: 90:e9:5e:03:f3:40
+                2.4ghz_radio:
+                  admin_status: "Enabled"
+                  antenna_name: "C-ANT9103-2.4GHz"
+                  channel_number: 9
+                  power_level: 4
+                5ghz_radio:
+                  admin_status: "Enabled"
+                  antenna_name: "C-ANT9103-5GHz"
+                  channel_number: 40
+                  power_level: 3
+                  channel_width: "20 MHz"
+          register: output_list
+        - name: Provisioning and Re-provisiong Access Point Site details
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            state: merged
+            config:
+              - mac_address: 90:e9:5e:03:f3:40
+                rf_profile: "HIGH"
+                site:
+                  floor:
+                    name: "FLOOR1"
+                    parent_name: "Global/USA/New York/BLDNYC"
+          register: output_list
+        - name: Updating Access Point Update / Controller Name
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            state: merged
+            config:
+              - mac_address: a4:88:73:d4:d6:60
+                ap_name: "Cisco_Test_AP_T003"
+                admin_status: "Enabled"
+                led_status: "Enabled"
+                led_brightness_level: 1
+                ap_mode: "Local"
+                is_assigned_site_as_location: "Enabled"
+                failover_priority: "Low"
+                primary_controller_name: "NY-EWLC-1"
+                primary_ip_address:
+                  address: "204.192.6.200"
+                secondary_controller_name: "NY-EWLC-20"
+                secondary_ip_address:
+                  address: "fe80::202:b3ff:fe1e:8324"
+                tertiary_controller_name: "SJ-EWLC-20"
+                tertiary_ip_address:
+                  address: "fe80::202:b3ff:fe1e:8325"
+          register: output_list
+        - name: Updating Access Point Update / remove tertiary_controller_name
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            state: merged
+            config:
+              - mac_address: a4:88:73:d4:d6:60
+                ap_name: "Cisco_Test_AP_T003"
+                admin_status: "Enabled"
+                led_status: "Enabled"
+                led_brightness_level: 1
+                ap_mode: "Local"
+                is_assigned_site_as_location: "Enabled"
+                failover_priority: "Low"
+                primary_controller_name: "NY-EWLC-10"
+                primary_ip_address:
+                  address: "fe80::202:b3ff:fe1e:8329"
+                secondary_controller_name: "NY-EWLC-20"
+                secondary_ip_address:
+                  address: "fe80::202:b3ff:fe1e:8324"
+                tertiary_controller_name: "Inherit from site / Clear"
+          register: output_list
+        - name: Updating Access Point Site / Configuration details
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: false
+            state: merged
+            config:
+              - mac_address: 90:e9:5e:03:f3:40
+                rf_profile: "HIGH"
+                site:
+                  floor:
+                    name: "FLOOR1"
+                    parent_name: "Global/USA/New York/BLDNYC"
+                ap_name: "LTTS-test2"
+                admin_status: "Enabled"
+                led_status: "Enabled"
+                led_brightness_level: 5
+                ap_mode: "Local"
+                is_assigned_site_as_location: "Enabled"
+                failover_priority: "Low"
+                2.4ghz_radio:
+                  admin_status: "Enabled"
+                  antenna_name: "C-ANT9104-2.4GHz"
+                  radio_role_assignment: "Client-Serving"
+                  channel_number: 5
+                  power_level: 2
+                5ghz_radio:
+                  admin_status: "Enabled"
+                  antenna_name: "AIR-ANT2513P4M-N-5GHz"
+                  radio_role_assignment: "Client-Serving"
+                  channel_number: 36
+                  power_level: 2
+                  channel_width: "40 MHz"
+          register: output_list
+        - name: Updating Access Point Site / Configuration details
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            state: merged
+            config:
+              - mac_address: 6c:d6:e3:75:5a:e0
+                ap_name: "LTTS_Test_9120_T2"
+                admin_status: "Enabled"
+                led_status: "Enabled"
+                led_brightness_level: 2
+                ap_mode: "Local"
+                is_assigned_site_as_location: "Enabled"
+                failover_priority: "Low"
+                primary_controller_name: "NY-IAC-EWLC.cisco.local"
+                primary_ip_address:
+                  address: "204.192.6.200"
+                secondary_controller_name: "Inherit from site / Clear"
+                tertiary_controller_name: "Inherit from site / Clear"
+                xor_radio:
+                  admin_status: "Enabled"
+                  radio_role_assignment: "Client-Serving"
+                  channel_number: 4
+                  radio_band: "2.4 GHz"
+                  channel_width: "40 MHz"
+                5ghz_radio:
+                  admin_status: "Enabled"
+                  antenna_name: "AIR-ANT2513P4M-N-5GHz"
+                  radio_role_assignment: "Client-Serving"
+                  channel_number: 40
+                  power_level: 2
+                  channel_width: "80 MHz"
+          register: output_list
+        - name: Updating Access Point Configuration
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            state: merged
+            config:
+              - mac_address: e4:38:7e:42:bc:00
+                ap_name: "LTTS_Test_9166_T3"
+                admin_status: "Enabled"
+                led_status: "Enabled"
+                led_brightness_level: 3
+                ap_mode: "Local"
+                is_assigned_site_as_location: "Enabled"
+                failover_priority: "Low"
+                primary_controller_name: "NY-IAC-EWLC"
+                primary_ip_address:
+                  address: "204.192.6.200"
+                secondary_controller_name: "Inherit from site / Clear"
+                tertiary_controller_name: "Inherit from site / Clear"
+                2.4ghz_radio:
+                  admin_status: "Enabled"
+                  radio_role_assignment: "Client-Serving"
+                  channel_number: 3
+                  power_level: 3
+                5ghz_radio:
+                  admin_status: "Enabled"
+                  radio_role_assignment: "Client-Serving"
+                  channel_number: 44
+                  power_level: 3
+                  channel_width: "20 MHz"
+                xor_radio:
+                  admin_status: "Enabled"
+                  radio_role_assignment: "Client-Serving"
+                  channel_number: 1
+                  power_level: 3
+                  radio_band: "6 GHz"
+                  channel_width: "40 MHz"
+          register: output_list
+        - name: Reboot single or multiple access point
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            state: merged
+            config:
+              - reboot_aps:
+                  mac_addresses:
+                    - "6c:d6:e3:75:5a:e0"
+                    - "e4:38:7e:42:bc:00"
+          register: output_list
+        - name: Reboot single or multiple access point by hostname
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            state: merged
+            config:
+              - reboot_aps:
+                  hostnames:
+                    - "cisco_Test_9166_T3"
+                    - "cisco_Test_9120_T1"
+          register: output_list
+        - name: Factory reset single or multiple access point
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            state: merged
+            config:
+              - factory_reset_aps:
+                  mac_addresses:
+                    - "6c:d6:e3:75:5a:e0"
+                    - "e4:38:7e:42:bc:00"
+          register: output_list
+        - name: Bulk update Access Point Configurations
+          cisco.dnac.accesspoint_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            state: merged
+            config:
+              - bulk_update_aps:
+                  ap_identifier:
+                    - mac_address: e4:38:7e:42:bc:40
+                      ap_name: "Cisco_9166_T2"
+                    - mac_address: a4:88:73:d0:53:60
+                      ap_name: "Cisco_9120_T2"
+                  common_fields_to_change:
+                    admin_status: "Disabled"
+                    led_status: "Enabled"
+                    led_brightness_level: 1
+                    ap_mode: "Local"
+                    is_assigned_site_as_location: "Enabled"
+                    failover_priority: "Low"
+                    clean_air_si_2.4ghz: "Enabled"
+                    clean_air_si_5ghz: "Enabled"
+                    clean_air_si_6ghz: "Disabled"
+                    primary_controller_name: "SJ-EWLC-1"
+                    primary_ip_address:
+                      address: "204.192.4.200"
+                    secondary_controller_name: "Inherit from site / Clear"
+                    tertiary_controller_name: "Inherit from site / Clear"
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_1"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__return-response_1:
+
+      .. rst-class:: ansible-option-title
+
+      **response_1**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_1" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A list of dictionaries containing details about the AP updates and verification results, as returned by the Catalyst Center Python SDK
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"changed": true, "response": {"ap\_config\_update\_status": "The update for AP Config Cisco\_Test\_9120\_T1 has been successfully verified."}}]}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_2"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__return-response_2:
+
+      .. rst-class:: ansible-option-title
+
+      **response_2**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_2" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with provision status returned by the Catalyst Center Python SDK
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"changed": true, "response": {"ap\_provision\_update\_status": "AP provision for the site 'Global/Chennai/LTTS/FLOOR1' has been successfully verified."}}]}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_3"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__return-response_3:
+
+      .. rst-class:: ansible-option-title
+
+      **response_3**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_3" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with reboot status of AP returned by the Catalyst Center Python SDK
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"accesspoints\_updates": {"ap\_reboot\_status": "AP ['6c:d6:e3:69:49:b4', '68:49:92:75:0f:d0'] Rebooted Successfully", "ap\_reboot\_task\_details": {"reboot\_api\_response": {"apList": [{"apName": "LTTS\_Test\_9120\_T2", "failureReason": null, "rebootStatus": "Success"}, {"apName": "LTTS\_Test\_9166\_T3", "failureReason": null, "rebootStatus": "Success"}], "wlcIP": "204.192.6.200"}}}}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_4"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__return-response_4:
+
+      .. rst-class:: ansible-option-title
+
+      **response_4**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_4" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with bulk update status of AP returned by the Catalyst Center Python SDK
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"response\\": {\\n    \\"accesspoints\_updates\\": {\\n        \\"ap\_config\_update\_status\\": \\"\\"List of AP Configuration ['Cisco\_9120\_T2', 'Cisco\_9166\_T2'] updated Successfully\\"\\",\\n        \\"ap\_update\_config\_task\_details\\": {\\n            \\"data\\": \\"workflow\_id=76da6b66-ebf8-4697-bf78-5bd1b45b6367;cfs\_id=2fca9272-0209-4fd8-9c54-4e1e690b39ff,a6595513-d395-4a99-bd53-a42b722e9aee;\\n                    rollback\_status=not\_supported;rollback\_taskid=0;failure\_task=NA;processcfs\_complete=true\\",\\n            \\"progress\\": \\"TASK\_INTENT\\"\\n        }\\n    }\\n  }\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_5"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__return-response_5:
+
+      .. rst-class:: ansible-option-title
+
+      **response_5**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_5" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with factory reset status of AP returned by the Catalyst Center Python SDK
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"accesspoints\_updates": {"ap\_reset\_status": "APs ['a4:88:73:ce:0a:6c'] reset successfully", "ap\_reset\_task\_details": {"reset\_api\_response": [{"apFactoryResetStatus": "Success", "apName": "Cisco\_9120\_T1", "ethernetMacAddress": "a4:88:73:ce:0a:6c", "failureReason": null, "radioMacAddress": "a4:88:73:d0:53:60"}]}}}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- A Mohamed Rafeek (@mabdulk2)
+- Sonali Deepthi Kesali (@skesali)
+- Megha Kandari (@mekandar)
+- Natarajan (@natarajan)
+- Madhan Sankaranarayanan (@madhansansel)
+- Abhishek Maheshwari (@abmahesh)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

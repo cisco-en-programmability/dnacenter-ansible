@@ -1,0 +1,2226 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.accesspoint_location_workflow_manager module -- Resource module for managing Access Point planned positions and real positions in Cisco Catalyst Center
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.accesspoint_location_workflow_manager`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.40.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- This module facilitates the creation, update, assignment and deletion of planned and real Access Point positions in Cisco Catalyst Center. - Supports creating, assigning and deleting planned and real Access Point positions. - Enables assignment of the access point to the planned positions.
+
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.8.6
+- python \>= 3.9
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config:
+
+      .. rst-class:: ansible-option-title
+
+      **config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A list containing the details required for creating, updating or removing the Access Point planned and real positions.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/access_points"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config/access_points:
+
+      .. rst-class:: ansible-option-title
+
+      **access_points**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/access_points" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of access points to be configured at the specified position.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/access_points/accesspoint_model"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config/access_points/accesspoint_model:
+
+      .. rst-class:: ansible-option-title
+
+      **accesspoint_model**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/access_points/accesspoint_model" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Model of the access point. Model is required when creating planned access point position.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/access_points/accesspoint_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config/access_points/accesspoint_name:
+
+      .. rst-class:: ansible-option-title
+
+      **accesspoint_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/access_points/accesspoint_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the access point to be assigned to the position.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/access_points/action"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config/access_points/action:
+
+      .. rst-class:: ansible-option-title
+
+      **action**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/access_points/action" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The action to be performed on the access point. Determines how the access point will be managed within the specified position. This field is only required when assigning or deleting real access point to/from an existing planned position. It is not required when creating, updating, or deleting a planned access point position itself. Use \ :literal:`assign\_planned\_ap`\  to assign a planned access point to an actual access point. Use \ :literal:`manage\_real\_ap`\  to udpate or delete the real access point from the position.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"C(assign\_planned\_ap)"`
+      - :ansible-option-choices-entry:`"C(manage\_real\_ap)"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/access_points/mac_address"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config/access_points/mac_address:
+
+      .. rst-class:: ansible-option-title
+
+      **mac_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/access_points/mac_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The MAC address used to identify the real access point.
+          This field is required when mapping a planned access point to an actual access point.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/access_points/position"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config/access_points/position:
+
+      .. rst-class:: ansible-option-title
+
+      **position**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/access_points/position" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The X,Y and Z coordinates representing the access point's position on the floor plan.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/access_points/position/x_position"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config/access_points/position/x_position:
+
+      .. rst-class:: ansible-option-title
+
+      **x_position**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/access_points/position/x_position" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The X coordinate of the access point's position. allows from 0.0 to 100.0
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/access_points/position/y_position"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config/access_points/position/y_position:
+
+      .. rst-class:: ansible-option-title
+
+      **y_position**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/access_points/position/y_position" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The Y coordinate of the access point's position. allows from 0.0 to 100.0
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/access_points/position/z_position"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config/access_points/position/z_position:
+
+      .. rst-class:: ansible-option-title
+
+      **z_position**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/access_points/position/z_position" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The Z coordinate of the access point's position. allows from 3.0 to 10.0
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/access_points/radios"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config/access_points/radios:
+
+      .. rst-class:: ansible-option-title
+
+      **radios**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/access_points/radios" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of radio details for the access point.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/access_points/radios/antenna"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config/access_points/radios/antenna:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/access_points/radios/antenna" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Antenna configuration details of the access point.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/access_points/radios/antenna/antenna_name"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config/access_points/radios/antenna/antenna_name:
+
+      .. rst-class:: ansible-option-title
+
+      **antenna_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/access_points/radios/antenna/antenna_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Model name of the antenna.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/access_points/radios/antenna/azimuth"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config/access_points/radios/antenna/azimuth:
+
+      .. rst-class:: ansible-option-title
+
+      **azimuth**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/access_points/radios/antenna/azimuth" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The azimuth angle of the antenna, ranging from 1 to 360.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/access_points/radios/antenna/elevation"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config/access_points/radios/antenna/elevation:
+
+      .. rst-class:: ansible-option-title
+
+      **elevation**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/access_points/radios/antenna/elevation" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The elevation angle of the antenna, ranging from -90 to 90.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/access_points/radios/bands"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config/access_points/radios/bands:
+
+      .. rst-class:: ansible-option-title
+
+      **bands**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/access_points/radios/bands" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Radio band supported by the access point.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"C(2.4)"`
+      - :ansible-option-choices-entry:`"C(5)"`
+      - :ansible-option-choices-entry:`"C(6)"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/access_points/radios/channel"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config/access_points/radios/channel:
+
+      .. rst-class:: ansible-option-title
+
+      **channel**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/access_points/radios/channel" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The channel number for the radio interface.
+          in case of dual bands, channel should be the maximum band channel.
+          - For \ :literal:`2.4GHz`\ : valid values are 1, 6 and 11.
+          - For \ :literal:`5GHz`\ : valid values are
+            36, 40, 44, 48, 52, 56, 60, 64,
+            100, 104, 108, 112, 116, 120, 124,
+            128, 132, 136, 140, 144, 149, 153,
+            157, 161, 165, 169, 173.
+          - For \ :literal:`6GHz`\ : valid values are
+            1, 5, 9, 13, 17, 21, 25, 29, 33, 37,
+            41, 45, 49, 53, 57, 61, 65, 69, 73,
+            77, 81, 85, 89, 93, 97, 101, 105,
+            109, 113, 117, 121, 125, 129, 133,
+            137, 141, 145, 149, 153, 157, 161,
+            165, 169, 173, 177, 181, 185, 189,
+            193, 197, 201, 205, 209, 213, 217,
+            221, 225, 229, 233.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/access_points/radios/tx_power"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config/access_points/radios/tx_power:
+
+      .. rst-class:: ansible-option-title
+
+      **tx_power**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/access_points/radios/tx_power" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The transmit power level of the access point.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/floor_site_hierarchy"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config/floor_site_hierarchy:
+
+      .. rst-class:: ansible-option-title
+
+      **floor_site_hierarchy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/floor_site_hierarchy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Complete floor site hierarchy for the access point position.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-config_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **config_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Set to \`True\` to enable configuration verification on Cisco Catalyst Center after applying the playbook configuration. This ensures that the system validates the configuration state after the changes are applied.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-dnac_log:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable/disable playbook execution logging.
+
+      When true and dnac\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and dnac\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'dnac.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "dnac\_log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "dnac\_log\_append" flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-dnac_log_append:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_append**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-dnac_log_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Governs logging. Logs are recorded if dnac\_log is True.
+
+      If path is not specified, - When 'dnac\_log\_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac\_log\_append' is False, 'dnac.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'dnac\_log\_append' is True, the file opens in append mode. - When 'dnac\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"dnac.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-dnac_log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the desired state for the configuration. If set to \`merged\`, the module will create or update the configuration by adding new settings or modifying existing ones. If set to \`deleted\`, the module will remove the specified settings.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"merged"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"deleted"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - Minimum Catalyst Center version 3.1.3.0 required for accesspoint location workflow features.
+   - This module utilizes the following SDK methods site\_design.SiteDesign.get\_planned\_access\_points\_positions site\_design.SiteDesign.add\_planned\_access\_points\_positions site\_design.SiteDesign.edit\_planned\_access\_points\_positions site\_design.SiteDesign.delete\_planned\_access\_points\_position site\_design.SiteDesign.assign\_planned\_access\_points\_to\_operations\_ones site\_design.SiteDesign.edit\_the\_access\_points\_positions site\_design.SiteDesign.get\_access\_points\_positions site\_design.SiteDesign.get\_sites
+   - The following API paths are used GET /dna/intent/api/v2/floors/${floorId}/plannedAccessPointPositions GET /dna/intent/api/v1/sites GET /dna/intent/api/v2/floors/${floorId}/accessPointPositions POST /dna/intent/api/v2/floors/${floorId}/plannedAccessPointPositions/${id} POST /dna/intent/api/v2/floors/${floorId}/plannedAccessPointPositions/bulk POST /dna/intent/api/v2/floors/${floorId}/accessPointPositions/bulkChange POST /dna/intent/api/v2/floors/${floorId}/plannedAccessPointPositions/bulkChange POST /dna/intent/api/v2/floors/${floorId}/plannedAccessPointPositions/assignAccessPointPositions
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco Catalyst Center API Documentation <https://developer.cisco.com/docs/dna-center/>`_
+       Complete API reference for device management.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    - hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Create planned access point positions for the access points
+          cisco.dnac.accesspoint_location_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:  # Minimum 1; Maximum 100 config hierarchy
+              - floor_site_hierarchy: "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1"
+                access_points:
+                  - accesspoint_name: AP687D.B402.1614-AP-location_Test6
+                    accesspoint_model: AP9120E
+                    position:
+                      x_position: 30  # x-axis: from 0.0 to 100.0
+                      y_position: 30  # y-axis: from 0.0 to 100.0
+                      z_position: 8  # height: from 3.0 to 10
+                    radios:  # Minimum Items: 1; Maximum Items: 4
+                      - bands: ["2.4"]  # can be 2.4, 5 and 6
+                        channel: 11
+                        tx_power: 5  # Decibel milliwatts (dBm)
+                        antenna:
+                          antenna_name: AIR-ANT2524DB-R-2.4GHz
+                          azimuth: 30  # support upto 360
+                          elevation: 30  # support -90 upto 90
+                      - bands: ["5"]  # can be 2.4, 5 and 6
+                        channel: 44
+                        tx_power: 6  # Decibel milliwatts (dBm)
+                        antenna:
+                          antenna_name: AIR-ANT2524DB-R-5GHz
+                          azimuth: 30  # support upto 360
+                          elevation: 30  # support -90 upto 90
+                      - bands: ["2.4", "5"]  # can be 2.4, 5 and 6
+                        channel: 48
+                        tx_power: 6  # Decibel milliwatts (dBm)
+                        antenna:
+                          antenna_name: AIR-ANT2524DB-R
+                          azimuth: 30  # support upto 360
+                          elevation: 30  # support -90 upto 90
+
+        # Assign planned access point position and assign the real access points
+        - name: Assign planned access point position and assign the real access points
+          cisco.dnac.accesspoint_location_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:  # Minimum 1; Maximum 100 config hierarchy
+              - floor_site_hierarchy: "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1"
+                access_points:
+                  - accesspoint_name: AP687D.B402.1614-AP-location_Test6
+                    action: assign_planned_ap  # Optional assign_planned_ap, manage_real_ap
+                    mac_address: a4:88:73:d4:dd:80  # Required while assigning planned access point
+
+        # Update planned access point position to the access points
+        - name: Update planned access point position to the access points
+          cisco.dnac.accesspoint_location_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:  # Minimum 1; Maximum 100 config hierarchy
+              - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
+                access_points:
+                  - accesspoint_name: IAC-TB4-SJ-AP1
+                    accesspoint_model: AP9120E
+                    position:
+                      x_position: 30  # x-axis: from 0.0 to 100.0
+                      y_position: 30  # y-axis: from 0.0 to 100.0
+                      z_position: 8  # height: from 3.0 to 10
+                    radios:  # Minimum Items: 1; Maximum Items: 4
+                      - bands: ["2.4"]  # can be 2.4, 5 and 6
+                        channel: 11
+                        tx_power: 5  # Decibel milliwatts (dBm)
+                        antenna:
+                          antenna_name: AIR-ANT2524DB-R-2.4GHz
+                          azimuth: 20  # support upto 360
+                          elevation: 20  # support -90 upto 90
+                      - bands: ["5"]  # can be 2.4, 5 and 6
+                        channel: 44
+                        tx_power: 6  # Decibel milliwatts (dBm)
+                        antenna:
+                          antenna_name: AIR-ANT2524DB-R-5GHz
+                          azimuth: 30  # support upto 360
+                          elevation: 30  # support -90 upto 90
+                      - bands: ["2.4", "5"]  # can be 2.4, 5 and 6
+                        channel: 48
+                        tx_power: 6  # Decibel milliwatts (dBm)
+                        antenna:
+                          antenna_name: AIR-ANT2524DB-R
+                          azimuth: 30  # support upto 360
+                          elevation: 30  # support -90 upto 90
+
+        # Delete Planned Access Point from maps
+        - name: Delete Planned Access Point from maps
+          cisco.dnac.accesspoint_location_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: deleted
+            config:  # Minimum 1; Maximum 100 config hierarchy
+              - floor_site_hierarchy: "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1"
+                access_points:
+                  - accesspoint_name: AP687D.B402.1614-AP-location_Test6
+
+        # Create the real AP position with real access point.
+        - name: Create the real AP position with real access point
+          cisco.dnac.accesspoint_location_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:  # Minimum 1; Maximum 100 config hierarchy
+              - floor_site_hierarchy: "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1"
+                access_points:
+                  - accesspoint_name: AP687D.B402.1614-AP-location_Test6
+                    mac_address: a4:88:73:d4:dd:80  # Required for real access point creation
+                    accesspoint_model: AP9120E
+                    position:
+                      x_position: 30  # x-axis: from 0.0 to 100.0
+                      y_position: 30  # y-axis: from 0.0 to 100.0
+                      z_position: 8  # height: from 3.0 to 10
+                    radios:  # Minimum Items: 1; Maximum Items: 4
+                      - bands: ["2.4"]  # can be 2.4, 5 and 6
+                        channel: 11
+                        tx_power: 5  # Decibel milliwatts (dBm)
+                        antenna:
+                          antenna_name: AIR-ANT2524DB-R-2.4GHz
+                          azimuth: 20  # support upto 360
+                          elevation: 30  # support -90 upto 90
+                      - bands: ["5"]  # can be 2.4, 5 and 6
+                        channel: 44
+                        tx_power: 6  # Decibel milliwatts (dBm)
+                        antenna:
+                          antenna_name: AIR-ANT2524DB-R-5GHz
+                          azimuth: 20  # support upto 360
+                          elevation: 30  # support -90 upto 90
+                      - bands: ["2.4", "5"]  # can be 2.4, 5 and 6
+                        channel: 48
+                        tx_power: 6  # Decibel milliwatts (dBm)
+                        antenna:
+                          antenna_name: AIR-ANT2524DB-R
+                          azimuth: 30  # support upto 360
+                          elevation: 30  # support -90 upto 90
+
+        # Update the real AP position with real access point.
+        - name: Update the real AP position with real access point.
+          cisco.dnac.accesspoint_location_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:  # Minimum 1; Maximum 100 config hierarchy
+              - floor_site_hierarchy: "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1"
+                access_points:
+                  - accesspoint_name: AP687D.B402.1614  # Accesspoint hostname
+                    action: assign_planned_ap  # Required for real access point update
+                    mac_address: a4:88:73:d4:dd:80  # Required for real access point creation
+                    accesspoint_model: AP9120E
+                    position:
+                      x_position: 30  # x-axis: from 0.0 to 100.0
+                      y_position: 30  # y-axis: from 0.0 to 100.0
+                      z_position: 8  # height: from 3.0 to 10
+                    radios:  # Minimum Items: 1; Maximum Items: 4
+                      - bands: ["2.4"]  # can be 2.4, 5 and 6
+                        antenna:
+                          antenna_name: AIR-ANT2524DB-R-2.4GHz
+                          azimuth: 20  # support upto 360
+                          elevation: 30  # support -90 upto 90
+                      - bands: ["5"]  # can be 2.4, 5 and 6
+                        antenna:
+                          antenna_name: AIR-ANT2524DB-R-5GHz
+                          azimuth: 20  # support upto 360
+                          elevation: 30  # support -90 upto 90
+
+        # Delete assigned access point from the real floor position
+        - name: Delete assigned access point from the real floor position
+          cisco.dnac.accesspoint_location_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: deleted
+            config:  # Minimum 1; Maximum 100 config hierarchy
+              - floor_site_hierarchy: "Global/USA/California/SAN JOSE/BLD24/Floor3"
+                access_points:
+                  - accesspoint_name: IAC-TB4-SJ-AP1
+                    action: manage_real_ap  # Delete the access point from the real position
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_assign_planned_position"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__return-response_assign_planned_position:
+
+      .. rst-class:: ansible-option-title
+
+      **response_assign_planned_position**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_assign_planned_position" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK when a access point planned position is successfully assigned. The response confirms the successful assignment of the planned position and provides details about the status, including its access point name and status.
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Planned Access Point position assigned successfully for '[['AP687D.B402.1614-AP-location\_Test6']]'.\\n            Following real Access Point(s) assigned to planned position(s): '['AP687D.B402.1614-AP-location\_Test6']'.\\",\\n    \\"response\\": [\\n        [\\n            \\"AP687D.B402.1614-AP-location\_Test6\\"\\n        ]\\n    ],\\n    \\"status\\": \\"success\\"\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_create"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__return-response_create:
+
+      .. rst-class:: ansible-option-title
+
+      **response_create**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_create" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK when a access point planned position is successfully created. The response confirms the successful creation of the planned position and provides details about the status, including its access point name and status.
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Planned/Real Access Point position created successfully for 'Global/USA/SAN JOSE/SJ\_BLD23/FLOOR1'.", "response": [["AP687D.B402.1614-AP-location\_Test6"]], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_create_assign_idempotent"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__return-response_create_assign_idempotent:
+
+      .. rst-class:: ansible-option-title
+
+      **response_create_assign_idempotent**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_create_assign_idempotent" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK when a access point planned position is successfully created and assigned. The response confirms the successful creation of the planned position and provides details about the status, including its access point name and status.
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"No Changes required, planned Access Point position(s) already exist.\\n            Following real Access Point(s) assigned to planned position(s): '['IAC-TB4-SJ-AP1']'.\\n            Following Access Point position(s): 'None' already exist.\\",\\n    \\"response\\": [],\\n    \\"status\\": \\"success\\"\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_create_idempotent"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__return-response_create_idempotent:
+
+      .. rst-class:: ansible-option-title
+
+      **response_create_idempotent**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_create_idempotent" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK. This response is provided when attempting to create planned access point positions in an idempotent manner. If the positions are already created, the response indicates that no changes were required.
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "No Changes required, Planned/Real Access Point position(s) already exist.", "response": [], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_delete_planned_position"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__return-response_delete_planned_position:
+
+      .. rst-class:: ansible-option-title
+
+      **response_delete_planned_position**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_delete_planned_position" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK when a planned access point position is successfully deleted. The response confirms the deletion and provides details about the position and access point(s) affected.
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Planned/Real Access Point position(s) deleted and verified successfully for '['AP687D.B402.1614-AP-location\_Test6']'.", "response": ["AP687D.B402.1614-AP-location\_Test6"], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_unassign_idempotent"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__return-response_unassign_idempotent:
+
+      .. rst-class:: ansible-option-title
+
+      **response_unassign_idempotent**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_unassign_idempotent" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK when a planned access point position is successfully unassigned. The response confirms the unassignment and provides details about the position and the access point(s) affected.
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"No Changes required, planned/real Access Point position(s) already deleted\\n            and verified successfully for '['AP687D.B402.1614-AP-location\_Test6']'.\\",\\n    \\"response\\": [],\\n    \\"status\\": \\"success\\"\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_unassign_real_position"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__return-response_unassign_real_position:
+
+      .. rst-class:: ansible-option-title
+
+      **response_unassign_real_position**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_unassign_real_position" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK when a access point real position is successfully unassigned. The response confirms the successful unassignment of the real position and provides details about the status, including its access point name and status.
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Real Access Point position(s) deleted and verified successfully for '['IAC-TB4-SJ-AP1']'.", "response": ["IAC-TB4-SJ-AP1"], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_update_position"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__return-response_update_position:
+
+      .. rst-class:: ansible-option-title
+
+      **response_update_position**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_update_position" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK when a planned access point position is successfully updated. The response confirms the update and provides details about the updated position.
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Planned/Real Access Point position updated successfully for 'Global/USA/SAN JOSE/SJ\_BLD23/FLOOR1'.", "response": [["AP687D.B402.1614-AP-location\_Test6"]], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_update_real_position"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module__return-response_update_real_position:
+
+      .. rst-class:: ansible-option-title
+
+      **response_update_real_position**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_update_real_position" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK when a real access point position is successfully updated. The response confirms the successful update of the real position and provides details about the status, including its access point name and status.
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Planned/Real Access Point position updated successfully for 'Global/USA/SAN JOSE/SJ\_BLD23/FLOOR1'.", "response": [["AP687D.B402.1614-AP-Test6"]], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- A Mohamed Rafeek (@mabdulk2)
+- Madhan Sankaranarayanan (@madhansansel)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

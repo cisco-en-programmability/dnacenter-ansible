@@ -1,0 +1,2758 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.backup_and_restore_workflow_manager module -- Resource module for comprehensive backup and restore workflow management with NFS server configuration in Cisco Catalyst Center.
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.backup_and_restore_workflow_manager`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.31.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Automates comprehensive backup and restore workflow management in Cisco Catalyst Center including NFS server configuration, backup target setup, create backup, and restoration operations.
+- Enables NFS server configuration for secure backup storage with customizable port settings, protocol versions, and source path management.
+- Supports backup configuration with encryption, retention policies, and server type specification for enterprise data protection.
+- Facilitates backup restoration with encryption passphrase validation for secure data recovery operations.
+- Supports deletion operations for NFS configurations and backup to maintain clean backup infrastructure.
+- Integrates with Cisco Catalyst Center's backup framework for centralized network infrastructure data protection and disaster recovery.
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.9.3
+- python \>= 3.9.19
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config:
+
+      .. rst-class:: ansible-option-title
+
+      **config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      List of comprehensive backup and restore configuration specifications including NFS server setup, backup target configuration, creating backup parameters, and restoration details.
+
+      Each configuration supports NFS server management, backup policy definition, backup creation, and restore operation parameters for enterprise backup infrastructure automation.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/backup"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/backup:
+
+      .. rst-class:: ansible-option-title
+
+      **backup**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/backup" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration for creating and executing backup jobs.
+
+      Creates backup jobs with specified name and data scope.
+
+      This CREATES and EXECUTES backup immediately (not scheduling).
+
+      Requires backup storage configuration to be set up first.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/backup/backup_retention_days"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/backup/backup_retention_days:
+
+      .. rst-class:: ansible-option-title
+
+      **backup_retention_days**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/backup/backup_retention_days" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Duration-based backup retention policy for automated cleanup operations.
+
+      Retains backups created within the specified number of days and deletes older backups.
+
+      When used with name parameter, applies retention policy only to backups matching the name prefix.
+
+      When used alone, applies retention policy to all backups in the system.
+
+      Must be a positive integer representing number of days (e.g., 7 for one week, 30 for one month).
+
+      Only valid when state=deleted is specified.
+
+      Example backup\_retention\_days=7 with name="DAILY\_BACKUP" retains backups with "DAILY\_BACKUP" prefix created in last 7 days, deletes older ones.
+
+      Example backup\_retention\_days=30 without name parameter retains all backups created in last 30 days, deletes all older backups regardless of name.
+
+      Ignored when delete\_all\_backup=true is specified.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/backup/backup_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/backup/backup_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **backup_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/backup/backup_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Maximum time in seconds to wait for backup creation task to complete.
+
+      Controls timeout duration for monitoring backup operation progress and completion.
+
+      If timeout is exceeded, the operation may still continue on Catalyst Center backend.
+
+      Recommended values are 1200-3600 seconds depending on backup scope and data size.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/backup/delete_all_backup"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/backup/delete_all_backup:
+
+      .. rst-class:: ansible-option-title
+
+      **delete_all_backup**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/backup/delete_all_backup" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set to \ :literal:`true`\  to delete all existing backups from Cisco Catalyst Center.
+
+      Only valid when \ :literal:`state=deleted`\  is specified.
+
+      When enabled, removes all backup regardless of name or creation date.
+
+      Use with extreme caution as this operation is irreversible and will permanently remove all backup data.
+
+      Takes precedence over individual backup name deletion when both are specified.
+
+      Useful for complete backup infrastructure cleanup or maintenance operations.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/backup/generate_new_backup"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/backup/generate_new_backup:
+
+      .. rst-class:: ansible-option-title
+
+      **generate_new_backup**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/backup/generate_new_backup" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Controls backup naming strategy and creation behavior.
+
+      When true, always creates new backup using name as prefix with timestamp suffix.
+
+      When false or not specified, uses exact name and follows idempotent behavior.
+
+      Only applicable when state=merged for backup creation operations.
+
+      Ignored during deletion operations (state=deleted).
+
+      Timestamp format is "YYYYMMDD\_HHMMSS" using Indian Standard Time (IST).
+
+      Useful for automated backup schedules where unique names are required.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/backup/name"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/backup/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/backup/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name parameter for backup identification and management operations.
+
+      Serves dual purpose based on operation context and additional parameters.
+
+      For backup creation (state=merged), when generate\_new\_backup=false or not specified, creates backup with this exact name.
+
+      Follows standard Ansible idempotency - if backup exists with same name, no new backup is created.
+
+      When generate\_new\_backup=true, uses this name as prefix and appends timestamp.
+
+      Timestamp format is "YYYYMMDD\_HHMMSS" using Indian Standard Time (IST) (e.g., 20241230\_143052).
+
+      Example with generate\_new\_backup=true and name="DAILY\_BACKUP" creates "DAILY\_BACKUP\_20241230\_143052".
+
+      For backup deletion (state=deleted), when used alone, deletes backup with this exact name.
+
+      When used with backup\_retention\_days, treats this as prefix to filter backups by name and retention period.
+
+      Example with name="DAILY\_BACKUP" and backup\_retention\_days=7 deletes all backups starting with "DAILY\_BACKUP" created more than 7 days ago.
+
+      Backup name must begin with an alphabet and can contain letters, digits, and the following special characters @, \_, -, space, and
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/backup/scope"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/backup/scope:
+
+      .. rst-class:: ansible-option-title
+
+      **scope**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/backup/scope" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines backup scope including assurance data specifications.
+
+      Determines what data types are included in backup operations.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"CISCO\_DNA\_DATA\_WITH\_ASSURANCE"`
+      - :ansible-option-choices-entry:`"CISCO\_DNA\_DATA\_WITHOUT\_ASSURANCE"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/backup_storage_configuration"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/backup_storage_configuration:
+
+      .. rst-class:: ansible-option-title
+
+      **backup_storage_configuration**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/backup_storage_configuration" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration for backup storage infrastructure and data management policies.
+
+      Sets up NFS storage targets, encryption, and data retention settings.
+
+      This configures WHERE and HOW backup data will be stored.
+
+      Does not create or execute backup, only prepares storage infrastructure.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/backup_storage_configuration/data_retention_period"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/backup_storage_configuration/data_retention_period:
+
+      .. rst-class:: ansible-option-title
+
+      **data_retention_period**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/backup_storage_configuration/data_retention_period" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Number of backup copies to retain before cleanup.
+
+      Range must be between 3 and 60 backup copies.
+
+      When the number of backups exceeds this retention setting, the oldest backups are automatically removed to free up storage space.
+
+      Defines how many past backup versions the system will store before triggering automatic cleanup of older backup copies.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/backup_storage_configuration/encryption_passphrase"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/backup_storage_configuration/encryption_passphrase:
+
+      .. rst-class:: ansible-option-title
+
+      **encryption_passphrase**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/backup_storage_configuration/encryption_passphrase" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Passphrase for encrypting backup data during storage operations.
+
+      Strongly recommended for secure data protection and compliance.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/backup_storage_configuration/nfs_details"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/backup_storage_configuration/nfs_details:
+
+      .. rst-class:: ansible-option-title
+
+      **nfs_details**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/backup_storage_configuration/nfs_details" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Connection details for NFS backup targets including server information and storage path specifications.
+
+      Used to retrieve mount path for backup storage operations.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/backup_storage_configuration/nfs_details/nfs_port"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/backup_storage_configuration/nfs_details/nfs_port:
+
+      .. rst-class:: ansible-option-title
+
+      **nfs_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/backup_storage_configuration/nfs_details/nfs_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Port number used to access NFS services.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/backup_storage_configuration/nfs_details/nfs_portmapper_port"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/backup_storage_configuration/nfs_details/nfs_portmapper_port:
+
+      .. rst-class:: ansible-option-title
+
+      **nfs_portmapper_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/backup_storage_configuration/nfs_details/nfs_portmapper_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Port number for the NFS portmapper service.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`111`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/backup_storage_configuration/nfs_details/nfs_version"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/backup_storage_configuration/nfs_details/nfs_version:
+
+      .. rst-class:: ansible-option-title
+
+      **nfs_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/backup_storage_configuration/nfs_details/nfs_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      NFS protocol version for backup communication.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"nfs3"`
+      - :ansible-option-choices-entry-default:`"nfs4"` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/backup_storage_configuration/nfs_details/server_ip"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/backup_storage_configuration/nfs_details/server_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **server_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/backup_storage_configuration/nfs_details/server_ip" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of the NFS server for backup operations.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/backup_storage_configuration/nfs_details/source_path"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/backup_storage_configuration/nfs_details/source_path:
+
+      .. rst-class:: ansible-option-title
+
+      **source_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/backup_storage_configuration/nfs_details/source_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Directory path on the NFS server for backup storage.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/backup_storage_configuration/server_type"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/backup_storage_configuration/server_type:
+
+      .. rst-class:: ansible-option-title
+
+      **server_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/backup_storage_configuration/server_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of backup storage server for data preservation.
+
+      Only NFS storage type is supported in Catalyst Center version 3.1.3.0.
+
+      PHYSICAL\_DISK type is not supported in Catalyst Center version 3.1.3.0.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"NFS"`
+      - :ansible-option-choices-entry:`"PHYSICAL\_DISK"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/nfs_configuration"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/nfs_configuration:
+
+      .. rst-class:: ansible-option-title
+
+      **nfs_configuration**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/nfs_configuration" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration details for NFS backup server setup and management.
+
+      Defines NFS server connection parameters including IP address, source paths, port configurations, and protocol version settings for secure backup storage infrastructure.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/nfs_configuration/nfs_port"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/nfs_configuration/nfs_port:
+
+      .. rst-class:: ansible-option-title
+
+      **nfs_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/nfs_configuration/nfs_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Port number used for NFS service communication and data transfer operations.
+
+      Must be accessible and not blocked by firewalls between Catalyst Center and NFS server.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2049`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/nfs_configuration/nfs_portmapper_port"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/nfs_configuration/nfs_portmapper_port:
+
+      .. rst-class:: ansible-option-title
+
+      **nfs_portmapper_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/nfs_configuration/nfs_portmapper_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Port number for the NFS portmapper service on target server.
+
+      Used for dynamic port allocation and service discovery.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`111`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/nfs_configuration/nfs_version"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/nfs_configuration/nfs_version:
+
+      .. rst-class:: ansible-option-title
+
+      **nfs_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/nfs_configuration/nfs_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      NFS protocol version for backup storage communication.
+
+      Determines compatibility and security features available for backup operations.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"nfs3"`
+      - :ansible-option-choices-entry-default:`"nfs4"` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/nfs_configuration/server_ip"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/nfs_configuration/server_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **server_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/nfs_configuration/server_ip" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of the NFS server for backup storage connectivity.
+
+      Must be a valid IPv4 address accessible from Cisco Catalyst Center for backup operations.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/nfs_configuration/source_path"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/nfs_configuration/source_path:
+
+      .. rst-class:: ansible-option-title
+
+      **source_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/nfs_configuration/source_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Directory path on the NFS server designated for storing backup files and data.
+
+      Path must exist on the NFS server and have appropriate permissions for backup operations.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/restore_operations"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/restore_operations:
+
+      .. rst-class:: ansible-option-title
+
+      **restore_operations**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/restore_operations" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Parameters for restoring data from previously created backups including authentication and validation requirements.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/restore_operations/encryption_passphrase"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/restore_operations/encryption_passphrase:
+
+      .. rst-class:: ansible-option-title
+
+      **encryption_passphrase**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/restore_operations/encryption_passphrase" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Passphrase for decrypting backup data during restore operations.
+
+      Must match the passphrase used during backup creation.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/restore_operations/name"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/restore_operations/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/restore_operations/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the backup to restore from available backup list.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/restore_operations/restore_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config/restore_operations/restore_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **restore_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/restore_operations/restore_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Maximum time in seconds to wait for restore operation task to complete.
+
+      Controls timeout duration for monitoring backup restoration progress and completion.
+
+      Restore operations typically require more time than backup creation due to data validation and system recovery processes.
+
+      If timeout is exceeded, the operation may still continue on Catalyst Center backend.
+
+      Recommended values are 3600-7200 seconds (1-2 hours) depending on backup size and system performance.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`3600`
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-config_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **config_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Set to True to verify the Cisco Catalyst Center after applying changes.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-dnac_log:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable/disable playbook execution logging.
+
+      When true and dnac\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and dnac\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'dnac.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "dnac\_log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "dnac\_log\_append" flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-dnac_log_append:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_append**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-dnac_log_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Governs logging. Logs are recorded if dnac\_log is True.
+
+      If path is not specified, - When 'dnac\_log\_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac\_log\_append' is False, 'dnac.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'dnac\_log\_append' is True, the file opens in append mode. - When 'dnac\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"dnac.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-dnac_log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the desired operational state for backup and restore configuration management.
+
+      Use \ :literal:`merged`\  to create new backup configurations or update existing NFS settings, backups, and restoration parameters.
+
+      Use \ :literal:`deleted`\  to remove NFS configurations, backups, or cleanup backup infrastructure components based on configuration provided.
+
+      Supports selective deletion for backup lifecycle management and infrastructure cleanup operations.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"merged"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"deleted"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - Backup and restore functionality is available in Cisco Catalyst Center version 3.1.3.0 and later for comprehensive data protection workflow
+   - NFS server configuration must be completed and healthy before backup target configuration to ensure proper mount path availability
+   - Backup and restore functionality requires encryption passphrases for secure data protection. Never hardcode these values in playbooks.
+   - Use Ansible Vault to encrypt sensitive backup configuration parameters including encryption passphrases and NFS server credentials.
+   - Store backup encryption passphrases in separate encrypted variable files (e.g., backup\_secrets.yml) and decrypt during playbook execution.
+   - Consider using environment variables for backup credentials in CI/CD pipelines to avoid exposing sensitive data in version control.
+   - The same encryption passphrase used during backup creation must be provided during restore operations for successful data recovery.
+   - Encryption passphrases are automatically masked in logs when using no\_log parameter specifications in the module documentation.
+   - Encryption passphrases used during backup creation must be identical to those provided during restore operations for successful data recovery
+   - Data retention periods are enforced automatically with cleanup occurring after the specified retention period expires (3-60 days)
+   - Backup and restore operations are asynchronous with task monitoring to track completion status and provide operational feedback
+   - NFS configurations require proper network connectivity and permissions between Catalyst Center and the target NFS server infrastructure
+   - Only NFS storage type is supported for backup targets in version 3.1.3.0 with additional storage types planned for future releases.
+   - SDK Methods used are - backup.Backup.get\_backup\_and\_restore\_execution - backup.Backup.get\_backup\_by\_id - backup.Backup.get\_backup\_and\_restore\_executions - backup.Backup.get\_backup\_configuration - backup.Backup.create\_n\_f\_s\_configuration - backup.Backup.get\_all\_backup - backup.Backup.delete\_n\_f\_s\_configuration - backup.Backup.create\_backup - backup.Backup.delete\_backup - backup.Backup.get\_backup\_storages - backup.Backup.get\_all\_n\_f\_s\_configurations - backup.Backup.create\_backup\_configuration - restore.Restore.restore\_backup
+   - Paths used are - GET/dna/system/api/v1/backupRestoreExecutions/${id} - GET/dna/system/api/v1/backups/${id} - GET/dna/system/api/v1/backupRestoreExecutions - GET/dna/system/api/v1/backupConfiguration - POST/dna/system/api/v1/backupNfsConfigurations - GET/dna/system/api/v1/backups - DELETE/dna/system/api/v1/backupNfsConfigurations/${id} - POST/dna/system/api/v1/backups - DELETE/dna/system/api/v1/backups/${id} - GET/dna/system/api/v1/backupStorages - GET/dna/system/api/v1/backupNfsConfigurations - POST/dna/system/api/v1/backupConfiguration - POST/dna/system/api/v1/backups/${id}/restore
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+
+    # Example 1: Configure NFS server for backup storage infrastructure
+    - name: Configure NFS backup server for enterprise data protection
+      hosts: localhost
+      vars_files:
+        - "credentials.yml"
+        - "backup_secrets.yml"
+      connection: local
+      gather_facts: false
+      tasks:
+        - name: Configure NFS server for secure backup storage connectivity
+          cisco.dnac.backup_and_restore_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - nfs_configuration:
+                  - server_ip: "{{ nfs_configuration.server_ip }}"
+                    source_path: "{{ nfs_configuration.source_path }}"
+                    nfs_port: 2049
+                    nfs_version: nfs4
+                    nfs_portmapper_port: 111
+
+    # Example 2: Configure backup target with encryption and retention policies
+    - name: Configure backup target for automated data protection workflow
+      hosts: localhost
+      vars_files:
+        - "credentials.yml"
+        - "backup_secrets.yml"
+      connection: local
+      gather_facts: false
+      tasks:
+        - name: Configure backup target with encryption and data retention policies
+          cisco.dnac.backup_and_restore_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - backup_storage_configuration:
+                  - server_type: NFS
+                    nfs_details:
+                      server_ip: "{{ nfs_configuration.server_ip }}"
+                      source_path: "{{ nfs_configuration.source_path }}"
+                      nfs_port: 2049
+                      nfs_version: nfs4
+                      nfs_portmapper_port: 111
+                    data_retention_period: 51
+                    encryption_passphrase: "{{ backup_storage_configuration.encryption_passphrase }}"
+
+    # Example 3: Create backup for systematic data preservation
+    - name: Create backup for automated network infrastructure backup
+      hosts: localhost
+      vars_files:
+        - "credentials.yml"
+      connection: local
+      gather_facts: false
+      tasks:
+        - name: Create backup with name and scope specifications
+          cisco.dnac.backup_and_restore_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - backup:
+                  - name: BACKUP24_07
+                    scope: CISCO_DNA_DATA_WITHOUT_ASSURANCE
+
+    # Example 4: Restore backup for disaster recovery operations
+    - name: Restore backup for disaster recovery and data restoration
+      hosts: localhost
+      vars_files:
+        - "credentials.yml"
+        - "backup_secrets.yml"
+      connection: local
+      gather_facts: false
+      tasks:
+        - name: Restore backup
+          cisco.dnac.backup_and_restore_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - restore_operations:
+                  - name: "BACKUP17_09"
+                    encryption_passphrase: "{{ restore_operations.encryption_passphrase }}"
+
+    # Example 5: Delete NFS configuration for infrastructure cleanup
+    - name: Remove NFS configuration from backup infrastructure
+      hosts: localhost
+      vars_files:
+        - "credentials.yml"
+      connection: local
+      gather_facts: false
+      tasks:
+        - name: Delete NFS configuration from backup infrastructure
+          cisco.dnac.backup_and_restore_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: deleted
+            config:
+              - nfs_configuration:
+                  - server_ip: "{{ nfs_configuration.server_ip }}"
+                    source_path: "{{ nfs_configuration.source_path }}"
+
+    # Example 6: Delete backup for lifecycle management
+    - name: Remove backup from automated backup operations
+      hosts: localhost
+      vars_files:
+        - "credentials.yml"
+      connection: local
+      gather_facts: false
+      tasks:
+        - name: Delete backup for backup lifecycle management
+          cisco.dnac.backup_and_restore_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: deleted
+            config:
+              - backup:
+                  - name: BACKUP24_07
+
+    # Example 7: Delete backups using retention policy with name prefix filtering
+    - name: Remove old backups using retention-based cleanup with name filtering
+      hosts: localhost
+      vars_files:
+        - "credentials.yml"
+      connection: local
+      gather_facts: false
+      tasks:
+        - name: Delete backups with prefix 'BACKUP03_10' older than 7 days using retention policy
+          cisco.dnac.backup_and_restore_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: deleted
+            config:
+              - backup:
+                  - name: BACKUP03_10
+                    backup_retention_days: 7
+
+    # Example 8: Delete backups with prefix 'BACKUP03_10' older than 7 days using retention policy
+    - name: Remove all old backups using retention policy
+      hosts: localhost
+      vars_files:
+        - "credentials.yml"
+      connection: local
+      gather_facts: false
+      tasks:
+        - name: Delete all backups older than 7 days retention policy
+          cisco.dnac.backup_and_restore_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: deleted
+            config:
+              - backup:
+                  - backup_retention_days: 7
+
+    # Example 9: Delete all backups for complete infrastructure cleanup
+    - name: Remove all backups from Cisco Catalyst Center
+      hosts: localhost
+      vars_files:
+        - "credentials.yml"
+      connection: local
+      gather_facts: false
+      tasks:
+        - name: Delete all existing backups for infrastructure cleanup
+          cisco.dnac.backup_and_restore_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: deleted
+            config:
+              - backup:
+                  - delete_all_backup: true
+
+    # Example 10: Comprehensive backup workflow for enterprise deployment
+    - name: Complete backup and restore workflow for enterprise infrastructure
+      hosts: localhost
+      vars_files:
+        - "credentials.yml"
+      connection: local
+      gather_facts: false
+      tasks:
+        - name: Configure comprehensive backup infrastructure with NFS and scheduling
+          cisco.dnac.backup_and_restore_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - nfs_configuration:
+                  - server_ip: "{{ nfs_configuration.server_ip }}"
+                    source_path: "{{ nfs_configuration.source_path }}"
+                    nfs_port: 2049
+                    nfs_version: nfs4
+                    nfs_portmapper_port: 111
+                backup_configuration:
+                  - server_type: NFS
+                    nfs_details:
+                      server_ip: "{{ backup_storage_configuration.server_ip }}"
+                      source_path: "{{ backup_storage_configuration.source_path }}"
+                      nfs_port: 2049
+                      nfs_version: nfs4
+                      nfs_portmapper_port: 111
+                    data_retention_period: 30
+                    encryption_passphrase: Enterprise@Backup2024
+                backup:
+                  - name: ENTERPRISE_DAILY_BACKUP
+                    scope: CISCO_DNA_DATA_WITH_ASSURANCE
+
+    # Example 11: Multiple NFS server configuration for redundant backup storage
+    - name: Configure multiple NFS servers for backup redundancy
+      hosts: localhost
+      vars_files:
+        - "credentials.yml"
+      connection: local
+      gather_facts: false
+      tasks:
+        - name: Configure primary and secondary NFS servers for backup redundancy
+          cisco.dnac.backup_and_restore_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - nfs_configuration:
+                  - server_ip: "{{ nfs_configuration.server_ip }}"
+                    source_path: "{{ nfs_configuration.source_path }}"
+                    nfs_port: 2049
+                    nfs_version: nfs4
+                    nfs_portmapper_port: 111
+                  - server_ip: "{{ nfs_configuration.server_ip }}"
+                    source_path: "{{ nfs_configuration.source_path }}"
+                    nfs_port: 2049
+                    nfs_version: nfs4
+                    nfs_portmapper_port: 111
+
+    # Example 12: Create backup with timestamp prefix for automated backup workflows
+    - name: Create automated backup with timestamp for unique identification
+      hosts: localhost
+      vars_files:
+        - "credentials.yml"
+      connection: local
+      gather_facts: false
+      tasks:
+        - name: Generate timestamped backup for automated data protection workflows
+          cisco.dnac.backup_and_restore_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - backup:
+                  - name: "DAILY_AUTO_BACKUP"
+                    scope: "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
+                    generate_new_backup: true
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_backup_created"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__return-response_backup_created:
+
+      .. rst-class:: ansible-option-title
+
+      **response_backup_created**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_backup_created" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Confirms successful creation of backups for systematic data preservation with scope-based inclusion specifications.
+
+      Provides verification of backup operations for network infrastructure data protection and disaster recovery preparedness.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` when backups is successfully created
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"changed": true, "msg": "Backup(s) 'ENTERPRISE\_BACKUP\_2024' created successfully in Cisco Catalyst Center.", "response": "Backup(s) 'ENTERPRISE\_BACKUP\_2024' created successfully in Cisco Catalyst Center."}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_backup_deleted"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__return-response_backup_deleted:
+
+      .. rst-class:: ansible-option-title
+
+      **response_backup_deleted**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_backup_deleted" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Confirms successful deletion of backups from automated backup operations for schedule lifecycle management.
+
+      Provides verification of backups cleanup for operational efficiency and resource management in backup infrastructure.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` when backups is successfully deleted
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"changed": true, "msg": "Backup(s) 'LEGACY\_BACKUP\_2023' deleted successfully from Cisco Catalyst Center.", "response": "Backup(s) 'LEGACY\_BACKUP\_2023' deleted successfully from Cisco Catalyst Center."}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_backup_restored"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__return-response_backup_restored:
+
+      .. rst-class:: ansible-option-title
+
+      **response_backup_restored**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_backup_restored" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Confirms successful restoration of network infrastructure data from encrypted backup for disaster recovery operations.
+
+      Validates data recovery completion with encryption passphrase authentication for secure backup restoration workflows.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` when backup restoration is successfully completed
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"changed": true, "msg": "Backup(s) 'enterprise\_backup\_20240315' restored successfully in Cisco Catalyst Center.", "response": "Backup(s) 'enterprise\_backup\_20240315' restored successfully in Cisco Catalyst Center."}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_backup_storage_configuration_created"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__return-response_backup_storage_configuration_created:
+
+      .. rst-class:: ansible-option-title
+
+      **response_backup_storage_configuration_created**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_backup_storage_configuration_created" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Confirms successful creation or update of backup target configuration including storage type, retention policies, and encryption settings.
+
+      Validates backup infrastructure readiness for automated data protection workflows in enterprise environments.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` when backup configuration is successfully created or updated
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"changed": true, "msg": "Backup Configuration(s) '/home/nfsshare/backups/enterprise' created successfully in Cisco Catalyst Center.", "response": "Backup Configuration(s) '/home/nfsshare/backups/enterprise' created successfully in Cisco Catalyst Center."}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_nfs_configuration_created"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__return-response_nfs_configuration_created:
+
+      .. rst-class:: ansible-option-title
+
+      **response_nfs_configuration_created**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_nfs_configuration_created" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Confirms successful creation of NFS server configuration for backup storage infrastructure in Cisco Catalyst Center.
+
+      Provides details about the configured NFS server path and connectivity status for backup operations.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` when NFS configuration is successfully created
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"changed": true, "msg": "NFS Configuration(s) '/home/nfsshare/backups/enterprise' created successfully in Cisco Catalyst Center.", "response": "NFS Configuration(s) '/home/nfsshare/backups/enterprise' created successfully in Cisco Catalyst Center."}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_nfs_configuration_deleted"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__return-response_nfs_configuration_deleted:
+
+      .. rst-class:: ansible-option-title
+
+      **response_nfs_configuration_deleted**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_nfs_configuration_deleted" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Confirms successful deletion of NFS server configuration from backup infrastructure for decommissioning or reconfiguration purposes.
+
+      Validates cleanup of backup storage connectivity for infrastructure lifecycle management and resource optimization.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` when NFS configuration is successfully deleted
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"changed": true, "msg": "NFS Configuration(s) '/home/nfsshare/backups/legacy' deleted successfully from Cisco Catalyst Center.", "response": "NFS Configuration(s) '/home/nfsshare/backups/legacy' deleted successfully from Cisco Catalyst Center."}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_no_changes_required"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__return-response_no_changes_required:
+
+      .. rst-class:: ansible-option-title
+
+      **response_no_changes_required**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_no_changes_required" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates that the requested backup and restore configuration already exists in the desired state, requiring no modifications.
+
+      Confirms idempotent operation completion with existing configuration validation for backup infrastructure consistency.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` when configuration already exists in desired state
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"changed": false, "msg": "NFS Configuration(s) '/home/nfsshare/backups/existing' already exist in Cisco Catalyst Center.", "response": "NFS Configuration(s) '/home/nfsshare/backups/existing' already exist in Cisco Catalyst Center."}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_operation_failed"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module__return-response_operation_failed:
+
+      .. rst-class:: ansible-option-title
+
+      **response_operation_failed**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_operation_failed" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Provides detailed error information when backup and restore operations fail due to validation, connectivity, or configuration issues.
+
+      Includes specific failure reasons for troubleshooting backup infrastructure problems and operational recovery guidance.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` when operations fail due to errors or validation issues
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"changed": false, "failed": true, "msg": "Mount path not retrievable as NFS node is unhealthy for server IP '172.27.17.90', source path '/home/nfsshare/backups/TB19'.", "response": "Mount path not retrievable as NFS node is unhealthy for server IP '172.27.17.90', source path '/home/nfsshare/backups/TB19'."}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Priyadharshini B (@pbalaku2)
+- Karthick S N (@kasn)
+- Madhan Sankaranarayanan (@madhansansel)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+
