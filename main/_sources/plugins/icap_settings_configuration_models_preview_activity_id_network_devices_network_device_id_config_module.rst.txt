@@ -42,7 +42,7 @@ cisco.dnac.icap_settings_configuration_models_preview_activity_id_network_device
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -84,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -373,7 +373,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -407,40 +407,6 @@ Parameters
         <div class="ansible-option-cell">
 
       NetworkDeviceId path parameter. Device id from intent/api/v1/network-device.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-object"></div>
-
-      .. _ansible_collections.cisco.dnac.icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config_module__parameter-object:
-
-      .. rst-class:: ansible-option-title
-
-      **object**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-object" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Object.
 
 
       .. raw:: html
@@ -569,7 +535,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         networkDeviceId: string
-        object: string
         previewActivityId: string
 
 

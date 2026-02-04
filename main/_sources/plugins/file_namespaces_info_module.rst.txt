@@ -42,7 +42,7 @@ cisco.dnac.file_namespaces_info module -- Information module for File Namespaces
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,9 @@ Synopsis
 .. Description
 
 - Get all File Namespaces.
+- Get File Namespaces by name.
 - Returns list of available namespaces.
+- Returns list of files under a specific namespace.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -374,7 +376,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -408,6 +410,40 @@ Parameters
         <div class="ansible-option-cell">
 
       Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-nameSpace"></div>
+
+      .. _ansible_collections.cisco.dnac.file_namespaces_info_module__parameter-namespace:
+
+      .. rst-class:: ansible-option-title
+
+      **nameSpace**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-nameSpace" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      NameSpace path parameter. A listing of fileId's.
 
 
       .. raw:: html
@@ -466,8 +502,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are file.File.get\_list\_of\_available\_namespaces,
-   - Paths used are get /dna/intent/api/v1/file/namespace,
+   - SDK Method used are file.File.get\_list\_of\_available\_namespaces, file.File.get\_list\_of\_files,
+   - Paths used are get /dna/intent/api/v1/file/namespace, get /dna/intent/api/v1/file/namespace/{nameSpace},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -481,6 +517,8 @@ See Also
 
    `Cisco DNA Center documentation for File GetListOfAvailableNamespaces <https://developer.cisco.com/docs/dna-center/#!get-list-of-available-namespaces>`_
        Complete reference of the GetListOfAvailableNamespaces API.
+   `Cisco DNA Center documentation for File GetListOfFiles <https://developer.cisco.com/docs/dna-center/#!get-list-of-files>`_
+       Complete reference of the GetListOfFiles API.
 
 .. Examples
 
@@ -501,6 +539,18 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
+      register: result
+    - name: Get File Namespaces by name
+      cisco.dnac.file_namespaces_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        nameSpace: string
       register: result
 
 
@@ -562,7 +612,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": ["string"], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"attributeInfo": {}, "downloadPath": "string", "encrypted": true, "fileFormat": "string", "fileSize": "string", "id": "string", "md5Checksum": "string", "name": "string", "nameSpace": "string", "sftpServerList": ["string"], "sha1Checksum": "string", "taskId": "string"}], "version": "string"}`
 
 
       .. raw:: html

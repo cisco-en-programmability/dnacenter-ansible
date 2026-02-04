@@ -42,7 +42,7 @@ cisco.dnac.wireless_settings_rf_profiles module -- Resource module for Wireless 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -87,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -137,7 +137,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      True if RF Profile is default, else False. Maximum of only 1 RF Profile can be marked as default at any given time.
+      true if RF Profile is default, else False. Maximum of only 1 RF Profile can be marked as default at any given time.
 
 
       .. rst-class:: ansible-option-line
@@ -418,7 +418,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -451,7 +451,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      True if 6 GHz radio band is enabled in the RF Profile, else False.
+      true if 6 GHz radio band is enabled in the RF Profile, else False.
 
 
       .. rst-class:: ansible-option-line
@@ -493,7 +493,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      True if 5 GHz radio band is enabled in the RF Profile, else False.
+      true if 5 GHz radio band is enabled in the RF Profile, else False.
 
 
       .. rst-class:: ansible-option-line
@@ -535,7 +535,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      True if 2.4 GHz radio band is enabled in the RF Profile, else False.
+      true if 2.4 GHz radio band is enabled in the RF Profile, else False.
 
 
       .. rst-class:: ansible-option-line
@@ -952,7 +952,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      True if Standard Power Service is enabled, else False.
+      true if Standard Power Service is enabled, else False.
 
 
       .. rst-class:: ansible-option-line

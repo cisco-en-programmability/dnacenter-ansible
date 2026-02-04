@@ -42,7 +42,7 @@ cisco.dnac.ipam_site_ip_address_pools module -- Resource module for Ipam Site Ip
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Ipam Site Ip Address Pools. - \> Reserves creates an IP address subpool, which reserves address space from a global pool or global pools for a particular site and it's child sites. A subpool must be either an IPv4 or dual-stack pool, with \`ipV4AddressSpace\` and optionally \`ipV6AddressSpace\` properties specified.
+- Manage operations create, update and delete of the resource Ipam Site Ip Address Pools. - \> Reserves creates an IP address subpool, which reserves address space from a global pool or global pools for a particular site and it's child sites. A subpool must be either an IPv4 or dual-stack pool, with \`ipV4AddressSpace\` and optionally \`ipV6AddressSpace\` properties specified.
+- Releases an IP address subpool.
+- Updates an IP address subpool, which reserves address space from a global pool or global pools for a particular site.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +86,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -373,7 +375,41 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. The \`id\` of the IP address subpool to delete.
+
 
       .. raw:: html
 
@@ -413,6 +449,40 @@ Parameters
 
         </div>
     
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/addressSpaceId"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_module__parameter-ipv4addressspace/addressspaceid:
+
+      .. rst-class:: ansible-option-title
+
+      **addressSpaceId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/addressSpaceId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the address space containing this pool. Leave it as null to place the pool in the default address space. Pools with the same addressSpaceId may not overlap, regardless of the value of overlapping. This value cannot be changed once the pool is created.
+
+
+      .. raw:: html
+
+        </div>
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -611,6 +681,48 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The non-tunnel global pool for this reserve pool (which matches this IP address type). Once added this value cannot be changed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/overlapping"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_module__parameter-ipv4addressspace/overlapping:
+
+      .. rst-class:: ansible-option-title
+
+      **overlapping**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/overlapping" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      If false, no other pool may have a CIDR that overlaps with this pool's CIDR. Defaults to false.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -833,6 +945,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/addressSpaceId"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_module__parameter-ipv6addressspace/addressspaceid:
+
+      .. rst-class:: ansible-option-title
+
+      **addressSpaceId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/addressSpaceId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the address space containing this pool. Leave it as null to place the pool in the default address space. Pools with the same addressSpaceId may not overlap, regardless of the value of overlapping. This value cannot be changed once the pool is created.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/assignedAddresses"></div>
 
       .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_module__parameter-ipv6addressspace/assignedaddresses:
@@ -1028,6 +1174,48 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The non-tunnel global pool for this reserve pool (which matches this IP address type). Once added this value cannot be changed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/overlapping"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_module__parameter-ipv6addressspace/overlapping:
+
+      .. rst-class:: ansible-option-title
+
+      **overlapping**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/overlapping" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      If false, no other pool may have a CIDR that overlaps with this pool's CIDR. Defaults to false.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -1401,8 +1589,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.reservecreate\_ip\_address\_subpools,
-   - Paths used are post /dna/intent/api/v1/ipam/siteIpAddressPools,
+   - SDK Method used are network\_settings.NetworkSettings.release\_an\_ip\_address\_subpool, network\_settings.NetworkSettings.reservecreate\_ip\_address\_subpools, network\_settings.NetworkSettings.updates\_an\_ip\_address\_subpool,
+   - Paths used are post /dna/intent/api/v1/ipam/siteIpAddressPools, delete /dna/intent/api/v1/ipam/siteIpAddressPools/{id}, put /dna/intent/api/v1/ipam/siteIpAddressPools/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1416,6 +1604,10 @@ See Also
 
    `Cisco DNA Center documentation for Network Settings ReservecreateIPAddressSubpools <https://developer.cisco.com/docs/dna-center/#!reservecreate-ip-address-subpools>`_
        Complete reference of the ReservecreateIPAddressSubpools API.
+   `Cisco DNA Center documentation for Network Settings ReleaseAnIPAddressSubpool <https://developer.cisco.com/docs/dna-center/#!release-an-ip-address-subpool>`_
+       Complete reference of the ReleaseAnIPAddressSubpool API.
+   `Cisco DNA Center documentation for Network Settings UpdatesAnIPAddressSubpool <https://developer.cisco.com/docs/dna-center/#!updates-an-ip-address-subpool>`_
+       Complete reference of the UpdatesAnIPAddressSubpool API.
 
 .. Examples
 
@@ -1437,6 +1629,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         ipV4AddressSpace:
+          addressSpaceId: string
           assignedAddresses: string
           defaultAssignedAddresses: string
           dhcpServers:
@@ -1445,12 +1638,14 @@ Examples
             - string
           gatewayIpAddress: string
           globalPoolId: string
+          overlapping: true
           prefixLength: 0
           slaacSupport: true
           subnet: string
           totalAddresses: string
           unassignableAddresses: string
         ipV6AddressSpace:
+          addressSpaceId: string
           assignedAddresses: string
           defaultAssignedAddresses: string
           dhcpServers:
@@ -1459,6 +1654,7 @@ Examples
             - string
           gatewayIpAddress: string
           globalPoolId: string
+          overlapping: true
           prefixLength: 0
           slaacSupport: true
           subnet: string
@@ -1468,6 +1664,55 @@ Examples
         poolType: string
         siteId: string
         siteName: string
+    - name: Delete by id
+      cisco.dnac.ipam_site_ip_address_pools:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
+    - name: Update by id
+      cisco.dnac.ipam_site_ip_address_pools:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        id: string
+        ipV4AddressSpace:
+          addressSpaceId: string
+          dhcpServers:
+            - string
+          dnsServers:
+            - string
+          gatewayIpAddress: string
+          globalPoolId: string
+          overlapping: true
+          prefixLength: 0
+          slaacSupport: true
+          subnet: string
+        ipV6AddressSpace:
+          addressSpaceId: string
+          dhcpServers:
+            - string
+          dnsServers:
+            - string
+          gatewayIpAddress: string
+          globalPoolId: string
+          overlapping: true
+          prefixLength: 0
+          slaacSupport: true
+          subnet: string
+        name: string
+        poolType: string
+        siteId: string
 
 
 
@@ -1528,7 +1773,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"count": 0}, "version": "string"}`
 
 
       .. raw:: html

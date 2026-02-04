@@ -42,7 +42,7 @@ cisco.dnac.backups_id_restore module -- Resource module for Backups Id Restore
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Backups Id Restore. - \> This api is used to trigger restore workflow of a specific backup. Obtain the \`id\` from the id attribute in the response of the \`/dna/system/api/v1/backups\` API. To monitor the progress and completion of the backup deletion , please call \`/dna/system/api/v1/backupRestoreExecutions/{id}\` api , where id is the taskId attribute from the response of the curent endpoint.
+- Manage operation create of the resource Backups Id Restore.
+- This api is used to trigger restore workflow of a specific backup.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -373,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -595,7 +596,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
 
 
       .. raw:: html

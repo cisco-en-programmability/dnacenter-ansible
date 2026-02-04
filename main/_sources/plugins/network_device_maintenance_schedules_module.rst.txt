@@ -42,7 +42,7 @@ cisco.dnac.network_device_maintenance_schedules module -- Resource module for Ne
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Network Device Maintenance Schedules. - \> API to create maintenance schedule for network devices. The state of network device can be queried using API \`GET /dna/intent/api/v1/networkDevices\`. The \`managementState\` attribute of the network device will be updated to \`UNDER\_MAINTENANCE\` when the maintenance window starts.
+- Manage operations create, update and delete of the resource Network Device Maintenance Schedules. - \> API to create maintenance schedule for network devices. The state of network device can be queried using API \`GET /dna/intent/api/v1/networkDevices\`. The \`managementState\` attribute of the network device will be updated to \`UNDER\_MAINTENANCE\` when the maintenance window starts. - \> API to delete maintenance schedule by id. Deletion is allowed if the maintenance window is in the \`UPCOMING\`, \`COMPLETED\`, or \`FAILED\` state. Deletion of maintenance schedule is not allowed if the maintenance window is currently \`IN\_PROGRESS\`. To delete the maintenance schedule while it is \`IN\_PROGRESS\`, first exit the current maintenance window using \`PUT /dna/intent/api/v1/networkDeviceMaintenanceSchedules/{id}\` API, and then proceed to delete the maintenance schedule.
+- API to update the maintenance schedule for the network devices.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -407,7 +408,41 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.network_device_maintenance_schedules_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. Unique identifier for the maintenance schedule.
+
 
       .. raw:: html
 
@@ -705,8 +740,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.create\_maintenance\_schedule\_for\_network\_devices,
-   - Paths used are post /dna/intent/api/v1/networkDeviceMaintenanceSchedules,
+   - SDK Method used are devices.Devices.create\_maintenance\_schedule\_for\_network\_devices, devices.Devices.delete\_maintenance\_schedule, devices.Devices.updates\_the\_maintenance\_schedule\_information,
+   - Paths used are post /dna/intent/api/v1/networkDeviceMaintenanceSchedules, delete /dna/intent/api/v1/networkDeviceMaintenanceSchedules/{id}, put /dna/intent/api/v1/networkDeviceMaintenanceSchedules/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -720,6 +755,10 @@ See Also
 
    `Cisco DNA Center documentation for Devices CreateMaintenanceScheduleForNetworkDevices <https://developer.cisco.com/docs/dna-center/#!create-maintenance-schedule-for-network-devices>`_
        Complete reference of the CreateMaintenanceScheduleForNetworkDevices API.
+   `Cisco DNA Center documentation for Devices DeleteMaintenanceSchedule <https://developer.cisco.com/docs/dna-center/#!delete-maintenance-schedule>`_
+       Complete reference of the DeleteMaintenanceSchedule API.
+   `Cisco DNA Center documentation for Devices UpdatesTheMaintenanceScheduleInformation <https://developer.cisco.com/docs/dna-center/#!updates-the-maintenance-schedule-information>`_
+       Complete reference of the UpdatesTheMaintenanceScheduleInformation API.
 
 .. Examples
 
@@ -741,6 +780,37 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         description: string
+        maintenanceSchedule:
+          endTime: 0
+          recurrence:
+            interval: 0
+            recurrenceEndTime: 0
+          startTime: 0
+        networkDeviceIds:
+          - string
+    - name: Delete by id
+      cisco.dnac.network_device_maintenance_schedules:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
+    - name: Update by id
+      cisco.dnac.network_device_maintenance_schedules:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        description: string
+        id: string
         maintenanceSchedule:
           endTime: 0
           recurrence:

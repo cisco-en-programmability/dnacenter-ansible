@@ -42,7 +42,7 @@ cisco.dnac.sda_anycast_gateways module -- Resource module for Sda Anycast Gatewa
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -87,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -376,7 +376,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -453,6 +453,48 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/autoGenerateVlanName"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_anycast_gateways_module__parameter-payload/autogeneratevlanname:
+
+      .. rst-class:: ansible-option-title
+
+      **autoGenerateVlanName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/autoGenerateVlanName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This field cannot be true when vlanName is provided. The vlanName will be generated as "{ipPoolGroupV4Cidr}-{virtualNetworkName}" for non-critical VLANs. For critical VLANs with DATA trafficType, vlanName will be "CRITICAL\_VLAN". For critical VLANs with VOICE trafficType, vlanName will be "VOICE\_VLAN".
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/fabricId"></div>
 
       .. _ansible_collections.cisco.dnac.sda_anycast_gateways_module__parameter-payload/fabricid:
@@ -477,41 +519,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ID of the fabric this anycast gateway is assigned to. Updating anycast gateways on fabric zones is not allowed--instead, update the corresponding anycast gateway on the fabric site and the updates will be applied on all applicable fabric zones (updating this field is not allowed).
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/id"></div>
-
-      .. _ansible_collections.cisco.dnac.sda_anycast_gateways_module__parameter-payload/id:
-
-      .. rst-class:: ansible-option-title
-
-      **id**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/id" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      ID of the anycast gateway (updating this field is not allowed).
+      ID of the fabric this anycast gateway is to be assigned to.
 
 
       .. raw:: html
@@ -545,7 +553,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the IP pool associated with the anycast gateway (updating this field is not allowed).
+      Name of the IP pool associated with the anycast gateway.
 
 
       .. raw:: html
@@ -579,7 +587,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Enable/disable critical VLAN (not applicable to INFRA\_VN; updating this field is not allowed).
+      Enable/disable critical VLAN. If true, autoGenerateVlanName must also be true. (isCriticalPool is not applicable to INFRA\_VN).
 
 
       .. rst-class:: ansible-option-line
@@ -621,7 +629,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Enable/disable Group-Based Policy Enforcement (defaults to false when using INFRA\_VN; defaults to true for other VNs; can only be modified when using INFRA\_VN).
+      Enable/disable Group-Based Policy Enforcement (defaults to false when using INFRA\_VN; defaults to true for other VNs).
 
 
       .. rst-class:: ansible-option-line
@@ -663,7 +671,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Enable/disable Intra-Subnet Routing (not applicable to INFRA\_VN; updating this field is not allowed).
+      Enable/disable Intra-Subnet Routing (not applicable to INFRA\_VN).
 
 
       .. rst-class:: ansible-option-line
@@ -873,7 +881,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Enable/disable Supplicant-Based Extended Node Onboarding (applicable only to INFRA\_VN requests; must not be null when poolType is EXTENDED\_NODE).
+      Enable/disable Supplicant-Based Extended Node Onboarding (applicable only to INFRA\_VN).
 
 
       .. rst-class:: ansible-option-line
@@ -1067,7 +1075,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The pool type of the anycast gateway (required for & applicable only to INFRA\_VN; updating this field is not allowed).
+      The pool type of the anycast gateway (required for & applicable only to INFRA\_VN).
 
 
       .. raw:: html
@@ -1203,7 +1211,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the layer 3 virtual network associated with the anycast gateway (updating this field is not allowed).
+      Name of the layer 3 virtual network associated with the anycast gateway. The virtual network must have already been added to the site before creating an anycast gateway with it.
 
 
       .. raw:: html
@@ -1237,7 +1245,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ID of the VLAN of the anycast gateway (updating this field is not allowed).
+      ID of the VLAN of the anycast gateway. Allowed VLAN range is 2-4093 except for reserved VLANs 1002-1005, 2046, and 4094. If deploying an anycast gateway on a fabric zone, this vlanId must match the vlanId of the corresponding anycast gateway on the fabric site.
 
 
       .. raw:: html
@@ -1271,7 +1279,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the VLAN of the anycast gateway (updating this field is not allowed).
+      Name of the VLAN of the anycast gateway.
 
 
       .. raw:: html
@@ -1360,7 +1368,7 @@ Examples
 
     
     ---
-    - name: Update all
+    - name: Create
       cisco.dnac.sda_anycast_gateways:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1371,8 +1379,8 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-          - fabricId: string
-            id: string
+          - autoGenerateVlanName: true
+            fabricId: string
             ipPoolName: string
             isCriticalPool: true
             isGroupBasedPolicyEnforcementEnabled: true
@@ -1393,7 +1401,7 @@ Examples
             virtualNetworkName: string
             vlanId: 0
             vlanName: string
-    - name: Create
+    - name: Update all
       cisco.dnac.sda_anycast_gateways:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1404,8 +1412,8 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-          - autoGenerateVlanName: true
-            fabricId: string
+          - fabricId: string
+            id: string
             ipPoolName: string
             isCriticalPool: true
             isGroupBasedPolicyEnforcementEnabled: true

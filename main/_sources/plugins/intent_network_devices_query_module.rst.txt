@@ -42,7 +42,7 @@ cisco.dnac.intent_network_devices_query module -- Resource module for Intent Net
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Intent Network Devices Query. - \> Returns the list of network devices, determined by the filters. It is possible to filter the network devices based on various parameters, such as device type, device role, software version, etc. The API returns a paginated response based on 'limit' and 'offset' parameters, allowing up to 500 records per page. 'limit' specifies the number of records, and 'offset' sets the starting point using 1-based indexing. Use '/dna/intent/api/v1/networkDevices/query/count' API to get the total record count. For data sets over 500 records, make multiple calls, adjusting 'limit' and 'offset' to retrieve all records incrementally.
+- Manage operation create of the resource Intent Network Devices Query.
+- Returns the list of network devices, determined by the filters.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -373,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 

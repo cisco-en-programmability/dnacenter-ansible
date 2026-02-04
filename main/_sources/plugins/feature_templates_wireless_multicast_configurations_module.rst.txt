@@ -42,7 +42,7 @@ cisco.dnac.feature_templates_wireless_multicast_configurations module -- Resourc
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,10 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Feature Templates Wireless Multicast Configurations.
+- Manage operations create, update and delete of the resource Feature Templates Wireless Multicast Configurations.
 - This API allows users to create a Multicast configuration feature template.
+- This API allows users to delete a specific Multicast configuration feature template by ID.
+- This API allows users to update the details of a specific Multicast configuration feature template by ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -408,7 +410,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -630,6 +632,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_multicast_configurations_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. Multicast Configuration Feature Template Id.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-unlockedAttributes"></div>
 
       .. _ansible_collections.cisco.dnac.feature_templates_wireless_multicast_configurations_module__parameter-unlockedattributes:
@@ -713,8 +749,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_multicast\_configuration\_feature\_template,
-   - Paths used are post /dna/intent/api/v1/featureTemplates/wireless/multicastConfigurations,
+   - SDK Method used are wireless.Wireless.create\_multicast\_configuration\_feature\_template, wireless.Wireless.delete\_multicast\_configuration\_feature\_template, wireless.Wireless.update\_multicast\_configuration\_feature\_template,
+   - Paths used are post /dna/intent/api/v1/featureTemplates/wireless/multicastConfigurations, delete /dna/intent/api/v1/featureTemplates/wireless/multicastConfigurations/{id}, put /dna/intent/api/v1/featureTemplates/wireless/multicastConfigurations/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -728,6 +764,10 @@ See Also
 
    `Cisco DNA Center documentation for Wireless CreateMulticastConfigurationFeatureTemplate <https://developer.cisco.com/docs/dna-center/#!create-multicast-configuration-feature-template>`_
        Complete reference of the CreateMulticastConfigurationFeatureTemplate API.
+   `Cisco DNA Center documentation for Wireless DeleteMulticastConfigurationFeatureTemplate <https://developer.cisco.com/docs/dna-center/#!delete-multicast-configuration-feature-template>`_
+       Complete reference of the DeleteMulticastConfigurationFeatureTemplate API.
+   `Cisco DNA Center documentation for Wireless UpdateMulticastConfigurationFeatureTemplate <https://developer.cisco.com/docs/dna-center/#!update-multicast-configuration-feature-template>`_
+       Complete reference of the UpdateMulticastConfigurationFeatureTemplate API.
 
 .. Examples
 
@@ -747,6 +787,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
+        state: present
         designName: string
         featureAttributes:
           globalMulticastEnabled: true
@@ -754,6 +795,37 @@ Examples
           multicastIpv4Mode: string
           multicastIpv6Address: string
           multicastIpv6Mode: string
+        unlockedAttributes:
+          - string
+    - name: Delete by id
+      cisco.dnac.feature_templates_wireless_multicast_configurations:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
+    - name: Update by id
+      cisco.dnac.feature_templates_wireless_multicast_configurations:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        designName: string
+        featureAttributes:
+          globalMulticastEnabled: true
+          multicastIpv4Address: string
+          multicastIpv4Mode: string
+          multicastIpv6Address: string
+          multicastIpv6Mode: string
+        id: string
         unlockedAttributes:
           - string
 

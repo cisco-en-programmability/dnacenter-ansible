@@ -42,7 +42,7 @@ cisco.dnac.wireless_profiles_id_policy_tags_bulk module -- Resource module for W
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Wireless Profiles Id Policy Tags Bulk. - \> This endpoint allows the creation of multiple \`Policy Tags\` associated with a specific \`Wireless Profile\` in a single request. The \`id\` of the Wireless Profile must be provided as a path parameter, and a list of \`Policy Tags\` should be included in the request body. Note Multiple Policy Tags policyTag can be configured for the same siteId only if they have different sets of AP Zones apZones. If multiple Policy Tags are created with the same apZones for the same site or a parent site, only the last one will be saved, overriding the previous ones.
+- Manage operation create of the resource Wireless Profiles Id Policy Tags Bulk. - \> This endpoint allows the creation of multiple \`Policy Tags\` associated with a specific \`Wireless Profile\` in a single request. The \`id\` of the Wireless Profile must be provided as a path parameter, and a list of \`Policy Tags\` should be included in the request body.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -373,7 +373,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -430,7 +430,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=list`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -638,11 +638,11 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         id: string
         items:
-          - - apZones:
-                - string
-              policyTagName: string
-              siteIds:
-                - string
+          - apZones:
+              - string
+            policyTagName: string
+            siteIds:
+              - string
 
 
 

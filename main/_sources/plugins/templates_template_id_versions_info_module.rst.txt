@@ -42,7 +42,7 @@ cisco.dnac.templates_template_id_versions_info module -- Information module for 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,6 +69,8 @@ Synopsis
 .. Description
 
 - Get all Templates Template Id Versions.
+- Get Templates Template Id Versions by id.
+- Get a template's version by the version ID.
 - Get a template's version information.
 
 .. note::
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -374,7 +376,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -473,7 +475,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -638,6 +640,41 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-versionId"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_template_id_versions_info_module__parameter-versionid:
+
+      .. rst-class:: ansible-option-title
+
+      **versionId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-versionId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      VersionId path parameter. The id of the versioned template to get versions of, retrieveable from \`GET /dna/intent/api/v1/templates/{id}/versions\`.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-versionNumber"></div>
 
       .. _ansible_collections.cisco.dnac.templates_template_id_versions_info_module__parameter-versionnumber:
@@ -679,8 +716,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are configuration\_templates.ConfigurationTemplates.get\_template\_versions,
-   - Paths used are get /dna/intent/api/v1/templates/{templateId}/versions,
+   - SDK Method used are configuration\_templates.ConfigurationTemplates.get\_template\_version, configuration\_templates.ConfigurationTemplates.get\_template\_versions,
+   - Paths used are get /dna/intent/api/v1/templates/{templateId}/versions, get /dna/intent/api/v1/templates/{templateId}/versions/{versionId},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -692,6 +729,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Configuration Templates GetTemplateVersion <https://developer.cisco.com/docs/dna-center/#!get-template-version>`_
+       Complete reference of the GetTemplateVersion API.
    `Cisco DNA Center documentation for Configuration Templates GetTemplateVersions <https://developer.cisco.com/docs/dna-center/#!get-template-versions>`_
        Complete reference of the GetTemplateVersions API.
 
@@ -720,6 +759,19 @@ Examples
         limit: 0
         offset: 0
         templateId: string
+      register: result
+    - name: Get Templates Template Id Versions by id
+      cisco.dnac.templates_template_id_versions_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        templateId: string
+        versionId: string
       register: result
 
 
@@ -781,7 +833,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"CompositeTemplate": {"author": "string", "description": "string", "failurePolicy": "string", "lastUpdateTime": 0, "name": "string", "products": [{"productFamily": "string", "productName": "string", "productSeries": "string"}], "projectId": "string", "softwareFamily": "string", "templateId": "string", "type": "string"}, "RegularTemplate": {"author": "string", "description": "string", "language": "string", "lastUpdateTime": 0, "name": "string", "products": [{"productFamily": "string", "productName": "string", "productSeries": "string"}], "projectId": "string", "softwareFamily": "string", "templateContent": "string", "templateId": "string", "type": "string"}, "version": 0, "versionId": "string", "versionTime": 0}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"CompositeTemplate": {"author": "string", "description": "string", "failurePolicy": "string", "lastUpdateTime": 0, "name": "string", "products": [{"productFamily": "string", "productName": "string", "productSeries": "string"}], "projectId": "string", "softwareFamily": "string", "templateId": "string", "type": "string"}, "RegularTemplate": {"author": "string", "description": "string", "language": "string", "lastUpdateTime": 0, "name": "string", "products": [{"productFamily": "string", "productName": "string", "productSeries": "string"}], "projectId": "string", "softwareFamily": "string", "templateContent": "string", "templateId": "string", "type": "string"}, "version": 0, "versionId": "string", "versionTime": 0}, "version": "string"}`
 
 
       .. raw:: html

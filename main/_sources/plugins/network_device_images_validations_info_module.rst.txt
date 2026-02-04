@@ -42,7 +42,7 @@ cisco.dnac.network_device_images_validations_info module -- Information module f
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- Get all Network Device Images Validations. - \> Fetches custom network device validations that run on the network device as part of the update workflow. This process verifies and assesses the configuration of the network devices.
+- Get all Network Device Images Validations.
+- Get Network Device Images Validations by id. - \> Fetches custom network device validations that run on the network device as part of the update workflow. This process verifies and assesses the configuration of the network devices.
+- This API fetches the details for the given network device validation.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +86,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -373,7 +375,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -407,6 +409,40 @@ Parameters
         <div class="ansible-option-cell">
 
       Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.network_device_images_validations_info_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. Unique identifier of network device validation.
 
 
       .. raw:: html
@@ -673,8 +709,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.get\_the\_list\_of\_custom\_network\_device\_validations,
-   - Paths used are get /dna/intent/api/v1/networkDeviceImages/validations,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.get\_custom\_network\_device\_validation\_details, software\_image\_management\_swim.SoftwareImageManagementSwim.get\_the\_list\_of\_custom\_network\_device\_validations,
+   - Paths used are get /dna/intent/api/v1/networkDeviceImages/validations, get /dna/intent/api/v1/networkDeviceImages/validations/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -686,6 +722,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Software Image Management (SWIM) GetCustomNetworkDeviceValidationDetails <https://developer.cisco.com/docs/dna-center/#!get-custom-network-device-validation-details>`_
+       Complete reference of the GetCustomNetworkDeviceValidationDetails API.
    `Cisco DNA Center documentation for Software Image Management (SWIM) GetTheListOfCustomNetworkDeviceValidations <https://developer.cisco.com/docs/dna-center/#!get-the-list-of-custom-network-device-validations>`_
        Complete reference of the GetTheListOfCustomNetworkDeviceValidations API.
 
@@ -714,6 +752,18 @@ Examples
         order: string
         offset: 0
         limit: 0
+      register: result
+    - name: Get Network Device Images Validations by id
+      cisco.dnac.network_device_images_validations_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        id: string
       register: result
 
 
@@ -775,7 +825,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"category": "string", "cli": "string", "description": "string", "id": "string", "name": "string", "operationType": "string", "productSeriesOrdinals": [0], "type": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"category": "string", "cli": "string", "description": "string", "id": "string", "name": "string", "operationType": "string", "productSeriesOrdinals": [0], "type": "string"}, "version": "string"}`
 
 
       .. raw:: html

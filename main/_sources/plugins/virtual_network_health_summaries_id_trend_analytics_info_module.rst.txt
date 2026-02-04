@@ -42,7 +42,7 @@ cisco.dnac.virtual_network_health_summaries_id_trend_analytics_info module -- In
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Virtual Network Health Summaries Id Trend Analytics. - \> Get health time series for a specific Virtual Network by providing the unique Virtual Network id in the url path. Layer 2 Virtual Networks are only included in health reporting for EVPN protocol deployments. The special Layer 3 VN called "INFRA\_VN" is also not included for user access through Assurance virtualNetworkHealthSummaries APIS.
+- Get all Virtual Network Health Summaries Id Trend Analytics. - \> Get health time series for a specific Virtual Network by providing the unique Virtual Network id in the url path. Layer 2 Virtual Networks are only included in health reporting for EVPN protocol deployments. The special Layer 3 VN called 'INFRA\_VN' is also not included for user access through Assurance virtualNetworkHealthSummaries APIS.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -407,7 +407,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -533,7 +533,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -567,7 +567,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -766,8 +766,7 @@ Examples
 
     
     ---
-    - name: Get all Virtual Network Health Summaries Id
-        Trend Analytics
+    - name: Get all Virtual Network Health Summaries Id Trend Analytics
       cisco.dnac.virtual_network_health_summaries_id_trend_analytics_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

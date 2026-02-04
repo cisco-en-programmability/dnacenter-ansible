@@ -42,7 +42,7 @@ cisco.dnac.system_issue_definitions_info module -- Information module for System
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,16 @@ Synopsis
 
 .. Description
 
-- Get all System Issue Definitions. - \> Get all system issue defintions. The supported filters are id, name, profileId and definition enable status. An issue trigger definition can be different across the profile and device type. So, \`profileId\` and \`deviceType\` in the query param is important and default is global profile and all device type. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- issueAndHealthDefinitions-1.0.0-resolved.yaml.
+- Get all System Issue Definitions.
+- Get System Issue Definitions by id.
+- Get all system issue defintions.
+- The supported filters are id, name, profileId and definition enable status.
+- An issue trigger definition can be different across the profile and device type.
+- So, \`profileId\` and \`deviceType\` in the query param is important and default is global profile and all device type.
+- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-issueAndHealthDefinitions-1.0.0-resolved.yaml.
+- Get system issue defintion for the given id.
+- Definition includes all properties from IssueTriggerDefinition schema by default.
+- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-issueAndHealthDefinitions-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +93,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -443,7 +452,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -577,7 +586,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -646,7 +655,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -854,8 +863,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are issues.Issues.returns\_all\_issue\_trigger\_definitions\_for\_given\_filters,
-   - Paths used are get /dna/intent/api/v1/systemIssueDefinitions,
+   - SDK Method used are issues.Issues.get\_issue\_trigger\_definition\_for\_given\_id, issues.Issues.returns\_all\_issue\_trigger\_definitions\_for\_given\_filters,
+   - Paths used are get /dna/intent/api/v1/systemIssueDefinitions, get /dna/intent/api/v1/systemIssueDefinitions/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -867,6 +876,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Issues GetIssueTriggerDefinitionForGivenId <https://developer.cisco.com/docs/dna-center/#!get-issue-trigger-definition-for-given-id>`_
+       Complete reference of the GetIssueTriggerDefinitionForGivenId API.
    `Cisco DNA Center documentation for Issues ReturnsAllIssueTriggerDefinitionsForGivenFilters <https://developer.cisco.com/docs/dna-center/#!returns-all-issue-trigger-definitions-for-given-filters>`_
        Complete reference of the ReturnsAllIssueTriggerDefinitionsForGivenFilters API.
 
@@ -900,6 +911,18 @@ Examples
         limit: 0
         sortBy: string
         order: string
+      register: result
+    - name: Get System Issue Definitions by id
+      cisco.dnac.system_issue_definitions_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        id: string
       register: result
 
 
@@ -941,7 +964,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -961,7 +984,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"id\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"displayName\\": \\"string\\",\\n    \\"description\\": \\"string\\",\\n    \\"priority\\": \\"string\\",\\n    \\"defaultPriority\\": \\"string\\",\\n    \\"deviceType\\": \\"string\\",\\n    \\"issueEnabled\\": true,\\n    \\"profileId\\": \\"string\\",\\n    \\"definitionStatus\\": \\"string\\",\\n    \\"categoryName\\": \\"string\\",\\n    \\"synchronizeToHealthThreshold\\": true,\\n    \\"thresholdValue\\": 0,\\n    \\"lastModified\\": \\"string\\"\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"categoryName": "string", "defaultPriority": "string", "definitionStatus": "string", "description": "string", "deviceType": "string", "displayName": "string", "id": "string", "issueEnabled": true, "lastModified": "string", "name": "string", "priority": "string", "profileId": "string", "synchronizeToHealthThreshold": true, "thresholdValue": 0}, "version": "string"}`
 
 
       .. raw:: html

@@ -42,7 +42,7 @@ cisco.dnac.product_series_info module -- Information module for Product Series
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,9 @@ Synopsis
 .. Description
 
 - Get all Product Series.
+- Get Product Series by id.
 - Get the list of network device product series and their ordinal on filter criteria.
+- Get the network device product series, its ordinal.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -374,7 +376,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -431,7 +433,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -501,7 +503,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -513,6 +515,40 @@ Parameters
 
       Offset query parameter. The first record to show for this page; the first record is numbered 1. The minimum value is 1.
           
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-productSeriesOrdinal"></div>
+
+      .. _ansible_collections.cisco.dnac.product_series_info_module__parameter-productseriesordinal:
+
+      .. rst-class:: ansible-option-title
+
+      **productSeriesOrdinal**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-productSeriesOrdinal" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      ProductSeriesOrdinal path parameter. Unique identifier of product series.
 
 
       .. raw:: html
@@ -571,8 +607,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.retrieves\_the\_list\_of\_network\_device\_product\_series,
-   - Paths used are get /dna/intent/api/v1/productSeries,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.retrieve\_network\_device\_product\_series, software\_image\_management\_swim.SoftwareImageManagementSwim.retrieves\_the\_list\_of\_network\_device\_product\_series,
+   - Paths used are get /dna/intent/api/v1/productSeries, get /dna/intent/api/v1/productSeries/{productSeriesOrdinal},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -584,6 +620,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveNetworkDeviceProductSeries <https://developer.cisco.com/docs/dna-center/#!retrieve-network-device-product-series>`_
+       Complete reference of the RetrieveNetworkDeviceProductSeries API.
    `Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesTheListOfNetworkDeviceProductSeries <https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-device-product-series>`_
        Complete reference of the RetrievesTheListOfNetworkDeviceProductSeries API.
 
@@ -609,6 +647,18 @@ Examples
         name: string
         offset: 0
         limit: 0
+      register: result
+    - name: Get Product Series by id
+      cisco.dnac.product_series_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        productSeriesOrdinal: 0
       register: result
 
 
@@ -670,7 +720,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"id": "string", "productNameOrdinal": 0, "productSeries": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
 
 
       .. raw:: html

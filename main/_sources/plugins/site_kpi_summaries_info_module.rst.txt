@@ -42,7 +42,7 @@ cisco.dnac.site_kpi_summaries_info module -- Information module for Site Kpi Sum
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,12 @@ Synopsis
 
 .. Description
 
-- Get all Site Kpi Summaries. - \> Returns site analytics for all child sites of given parent site. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- SiteKpiSummaries-1.0.0-resolved.yaml.
+- Get all Site Kpi Summaries.
+- Get Site Kpi Summaries by id.
+- Returns site analytics for all child sites of given parent site.
+- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-SiteKpiSummaries-1.0.0-resolved.yaml.
+- Returns site analytics for the given site.
+- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-SiteKpiSummaries-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +89,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -443,7 +448,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -591,6 +596,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_info_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. The Site UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-limit"></div>
 
       .. _ansible_collections.cisco.dnac.site_kpi_summaries_info_module__parameter-limit:
@@ -605,7 +644,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -639,7 +678,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -1057,8 +1096,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sites.Sites.get\_site\_analytics\_for\_the\_child\_sites\_of\_given\_parent\_site\_and\_other\_query\_parameters,
-   - Paths used are get /dna/data/api/v1/siteKpiSummaries,
+   - SDK Method used are sites.Sites.get\_site\_analytics\_for\_one\_site, sites.Sites.get\_site\_analytics\_for\_the\_child\_sites\_of\_given\_parent\_site\_and\_other\_query\_parameters,
+   - Paths used are get /dna/data/api/v1/siteKpiSummaries, get /dna/data/api/v1/siteKpiSummaries/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1070,6 +1109,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Sites GetSiteAnalyticsForOneSite <https://developer.cisco.com/docs/dna-center/#!get-site-analytics-for-one-site>`_
+       Complete reference of the GetSiteAnalyticsForOneSite API.
    `Cisco DNA Center documentation for Sites GetSiteAnalyticsForTheChildSitesOfGivenParentSiteAndOtherQueryParameters <https://developer.cisco.com/docs/dna-center/#!get-site-analytics-for-the-child-sites-of-given-parent-site-and-other-query-parameters>`_
        Complete reference of the GetSiteAnalyticsForTheChildSitesOfGivenParentSiteAndOtherQueryParameters API.
 
@@ -1109,6 +1150,27 @@ Examples
         offset: 0
         sortBy: string
         order: string
+      register: result
+    - name: Get Site Kpi Summaries by id
+      cisco.dnac.site_kpi_summaries_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        taskId: string
+        startTime: 0
+        endTime: 0
+        ssid: string
+        band: string
+        failureCategory: string
+        failureReason: string
+        view: string
+        attribute: string
+        id: string
       register: result
 
 
@@ -1170,7 +1232,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"page": {"count": 0, "limit": 0, "offset": 0, "sortBy": {"name": "string", "order": "string"}}, "response": [{"apCount": 0, "connectionSpeedAverage": 0, "connectionSpeedClientCount": 0, "connectionSpeedFailureCount": 0, "connectionSpeedFailureImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "connectionSpeedFailureMetrics": {"failureApCount": 0, "failureClientCount": 0, "failurePercentage": 0}, "connectionSpeedImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "connectionSpeedSuccessCount": 0, "connectionSpeedSuccessPercentage": 0, "connectionSpeedTotalCount": 0, "coverageAverage": 0, "coverageClientCount": 0, "coverageFailureCount": 0, "coverageFailureImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "coverageFailureMetrics": {"failureApCount": 0, "failureClientCount": 0, "failurePercentage": 0}, "coverageImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "coverageSuccessCount": 0, "coverageSuccessPercentage": 0, "coverageTotalCount": 0, "id": "string", "onboardingAttemptsClientCount": 0, "onboardingAttemptsFailureCount": 0, "onboardingAttemptsFailureImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "onboardingAttemptsFailureMetrics": {"failureApCount": 0, "failureClientCount": 0, "failurePercentage": 0}, "onboardingAttemptsImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "onboardingAttemptsSuccessCount": 0, "onboardingAttemptsSuccessPercentage": 0, "onboardingAttemptsTotalCount": 0, "onboardingDurationAverage": 0, "onboardingDurationClientCount": 0, "onboardingDurationFailureCount": 0, "onboardingDurationFailureImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "onboardingDurationFailureMetrics": {"failureApCount": 0, "failureClientCount": 0, "failurePercentage": 0}, "onboardingDurationImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "onboardingDurationSuccessCount": 0, "onboardingDurationSuccessPercentage": 0, "onboardingDurationTotalCount": 0, "roamingAttemptsClientCount": 0, "roamingAttemptsFailureCount": 0, "roamingAttemptsFailureImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "roamingAttemptsFailureMetrics": {"failureApCount": 0, "failureClientCount": 0, "failurePercentage": 0}, "roamingAttemptsImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "roamingAttemptsSuccessCount": 0, "roamingAttemptsSuccessPercentage": 0, "roamingAttemptsTotalCount": 0, "roamingDurationAverage": 0, "roamingDurationClientCount": 0, "roamingDurationFailureCount": 0, "roamingDurationFailureImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "roamingDurationFailureMetrics": {"failureApCount": 0, "failureClientCount": 0, "failurePercentage": 0}, "roamingDurationImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "roamingDurationSuccessCount": 0, "roamingDurationSuccessPercentage": 0, "roamingDurationTotalCount": 0, "siteHierarchy": "string", "siteHierarchyId": "string", "siteId": "string", "siteType": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"apCount": 0, "connectionSpeedAverage": 0, "connectionSpeedClientCount": 0, "connectionSpeedFailureCount": 0, "connectionSpeedFailureImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "connectionSpeedFailureMetrics": {"failureApCount": 0, "failureClientCount": 0, "failurePercentage": 0}, "connectionSpeedImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "connectionSpeedSuccessCount": 0, "connectionSpeedSuccessPercentage": 0, "connectionSpeedTotalCount": 0, "coverageAverage": 0, "coverageClientCount": 0, "coverageFailureCount": 0, "coverageFailureImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "coverageFailureMetrics": {"failureApCount": 0, "failureClientCount": 0, "failurePercentage": 0}, "coverageImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "coverageSuccessCount": 0, "coverageSuccessPercentage": 0, "coverageTotalCount": 0, "id": "string", "onboardingAttemptsClientCount": 0, "onboardingAttemptsFailureCount": 0, "onboardingAttemptsFailureImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "onboardingAttemptsFailureMetrics": {"failureApCount": 0, "failureClientCount": 0, "failurePercentage": 0}, "onboardingAttemptsImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "onboardingAttemptsSuccessCount": 0, "onboardingAttemptsSuccessPercentage": 0, "onboardingAttemptsTotalCount": 0, "onboardingDurationAverage": 0, "onboardingDurationClientCount": 0, "onboardingDurationFailureCount": 0, "onboardingDurationFailureImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "onboardingDurationFailureMetrics": {"failureApCount": 0, "failureClientCount": 0, "failurePercentage": 0}, "onboardingDurationImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "onboardingDurationSuccessCount": 0, "onboardingDurationSuccessPercentage": 0, "onboardingDurationTotalCount": 0, "roamingAttemptsClientCount": 0, "roamingAttemptsFailureCount": 0, "roamingAttemptsFailureImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "roamingAttemptsFailureMetrics": {"failureApCount": 0, "failureClientCount": 0, "failurePercentage": 0}, "roamingAttemptsImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "roamingAttemptsSuccessCount": 0, "roamingAttemptsSuccessPercentage": 0, "roamingAttemptsTotalCount": 0, "roamingDurationAverage": 0, "roamingDurationClientCount": 0, "roamingDurationFailureCount": 0, "roamingDurationFailureImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "roamingDurationFailureMetrics": {"failureApCount": 0, "failureClientCount": 0, "failurePercentage": 0}, "roamingDurationImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "roamingDurationSuccessCount": 0, "roamingDurationSuccessPercentage": 0, "roamingDurationTotalCount": 0, "siteHierarchy": "string", "siteHierarchyId": "string", "siteId": "string", "siteType": "string"}, "version": "string"}`
 
 
       .. raw:: html

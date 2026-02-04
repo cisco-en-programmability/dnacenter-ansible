@@ -42,7 +42,7 @@ cisco.dnac.reports module -- Resource module for Reports
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- Manage operations create and delete of the resource Reports. - \> Create/Schedule a report configuration. Use "Get view details for a given view group & view" API to get the metadata required to configure a report.
+- Manage operations create and delete of the resource Reports.
+- Create/Schedule a report configuration.
+- Use "Get view details for a given view group & view" API to get the metadata required to configure a report.
 - Delete a scheduled report configuration. Deletes the report executions also.
 
 .. note::
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -159,7 +161,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -442,7 +444,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -1326,7 +1328,7 @@ Examples
         state: present
         dataCategory: string
         deliveries:
-          - {}
+          - string
         name: string
         schedule: {}
         tags:
@@ -1421,7 +1423,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"dataCategory": "string", "deliveries": [{}], "executionCount": 0, "executions": [{"endTime": 0, "errors": ["string"], "executionId": "string", "processStatus": "string", "requestStatus": "string", "startTime": 0, "warnings": ["string"]}], "name": "string", "reportId": "string", "reportWasExecuted": true, "schedule": {}, "tags": ["string"], "view": {"description": "string", "fieldGroups": [{"fieldGroupDisplayName": "string", "fieldGroupName": "string", "fields": [{"displayName": "string", "name": "string"}]}], "filters": [{"displayName": "string", "name": "string", "type": "string", "value": {}}], "format": {"formatType": "string", "name": "string"}, "name": "string", "viewId": "string", "viewInfo": "string"}, "viewGroupId": "string", "viewGroupVersion": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"dataCategory": "string", "deliveries": ["string"], "executionCount": 0, "executions": [{"endTime": 0, "errors": ["string"], "executionId": "string", "processStatus": "string", "requestStatus": "string", "startTime": 0, "warnings": ["string"]}], "name": "string", "reportId": "string", "reportWasExecuted": true, "schedule": {}, "tags": ["string"], "view": {"description": "string", "fieldGroups": [{"fieldGroupDisplayName": "string", "fieldGroupName": "string", "fields": [{"displayName": "string", "name": "string"}]}], "filters": [{"displayName": "string", "name": "string", "type": "string", "value": {}}], "format": {"formatType": "string", "name": "string"}, "name": "string", "viewId": "string", "viewInfo": "string"}, "viewGroupId": "string", "viewGroupVersion": "string"}`
 
 
       .. raw:: html

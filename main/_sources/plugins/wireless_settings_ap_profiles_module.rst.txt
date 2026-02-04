@@ -42,7 +42,7 @@ cisco.dnac.wireless_settings_ap_profiles module -- Resource module for Wireless 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,10 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Wireless Settings Ap Profiles.
+- Manage operations create, update and delete of the resource Wireless Settings Ap Profiles.
 - This API allows the user to create a custom AP Profile.
+- This API allows the user to delete an AP Profile by specifying the AP Profile ID.
+- This API allows the user to update a custom AP Profile.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -902,7 +904,41 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. AP Profile ID.
+
 
       .. raw:: html
 
@@ -1979,8 +2015,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_ap\_profile,
-   - Paths used are post /dna/intent/api/v1/wirelessSettings/apProfiles,
+   - SDK Method used are wireless.Wireless.create\_ap\_profile, wireless.Wireless.delete\_ap\_profile\_by\_id, wireless.Wireless.update\_ap\_profile\_by\_id,
+   - Paths used are post /dna/intent/api/v1/wirelessSettings/apProfiles, delete /dna/intent/api/v1/wirelessSettings/apProfiles/{id}, put /dna/intent/api/v1/wirelessSettings/apProfiles/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1994,6 +2030,10 @@ See Also
 
    `Cisco DNA Center documentation for Wireless CreateAPProfile <https://developer.cisco.com/docs/dna-center/#!create-ap-profile>`_
        Complete reference of the CreateAPProfile API.
+   `Cisco DNA Center documentation for Wireless DeleteAPProfileByID <https://developer.cisco.com/docs/dna-center/#!delete-ap-profile-by-id>`_
+       Complete reference of the DeleteAPProfileByID API.
+   `Cisco DNA Center documentation for Wireless UpdateAPProfileByID <https://developer.cisco.com/docs/dna-center/#!update-ap-profile-by-id>`_
+       Complete reference of the UpdateAPProfileByID API.
 
 .. Examples
 
@@ -2031,6 +2071,73 @@ Examples
         clientLimit: 0
         countryCode: string
         description: string
+        managementSetting:
+          authType: string
+          cdpState: true
+          dot1xPassword: string
+          dot1xUsername: string
+          managementEnablePassword: string
+          managementPassword: string
+          managementUserName: string
+          sshEnabled: true
+          telnetEnabled: true
+        meshEnabled: true
+        meshSetting:
+          backhaulClientAccess: true
+          bridgeGroupName: string
+          ghz24BackhaulDataRates: string
+          ghz5BackhaulDataRates: string
+          range: 0
+          rapDownlinkBackhaul: string
+        pmfDenialEnabled: true
+        remoteWorkerEnabled: true
+        rogueDetectionSetting:
+          rogueDetection: true
+          rogueDetectionMinRssi: 0
+          rogueDetectionReportInterval: 0
+          rogueDetectionTransientInterval: 0
+        timeZone: string
+        timeZoneOffsetHour: 0
+        timeZoneOffsetMinutes: 0
+    - name: Delete by id
+      cisco.dnac.wireless_settings_ap_profiles:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
+    - name: Update by id
+      cisco.dnac.wireless_settings_ap_profiles:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        apPowerProfileName: string
+        apProfileName: string
+        awipsEnabled: true
+        awipsForensicEnabled: true
+        calendarPowerProfiles:
+          duration:
+            schedulerDate:
+              - string
+            schedulerDay:
+              - string
+            schedulerEndTime: string
+            schedulerStartTime: string
+          powerProfileName: string
+          schedulerType: string
+        clientLimit: 0
+        countryCode: string
+        description: string
+        id: string
         managementSetting:
           authType: string
           cdpState: true

@@ -42,7 +42,7 @@ cisco.dnac.network_device_replacements_info module -- Information module for Net
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Get all Network Device Replacements. - \> Retrieve the list of device replacements with replacement details. Filters can be applied based on faulty device name, faulty device platform, faulty device serial number, replacement device platform, replacement device serial number, device replacement status, device family.
+- Get all Network Device Replacements.
+- Get Network Device Replacements by id. - \> Fetches the status of the device replacement workflow for a given device replacement \`id\`. Invoke the API \`/dna/intent/api/v1/networkDeviceReplacements\` to \`GET\` the list of all device replacements and use the \`id\` field data as input to this API. - \> Retrieve the list of device replacements with replacement details. Filters can be applied based on faulty device name, faulty device platform, faulty device serial number, replacement device platform, replacement device serial number, device replacement status, device family.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -373,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -543,6 +544,40 @@ Parameters
         <div class="ansible-option-cell">
 
       Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.network_device_replacements_info_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. Instance UUID of the device replacement.
 
 
       .. raw:: html
@@ -842,8 +877,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_replacement.DeviceReplacement.retrieve\_the\_status\_of\_all\_the\_device\_replacement\_workflows,
-   - Paths used are get /dna/intent/api/v1/networkDeviceReplacements,
+   - SDK Method used are device\_replacement.DeviceReplacement.retrieve\_the\_status\_of\_all\_the\_device\_replacement\_workflows, device\_replacement.DeviceReplacement.retrieve\_the\_status\_of\_device\_replacement\_workflow\_that\_replaces\_a\_faulty\_device\_with\_a\_replacement\_device,
+   - Paths used are get /dna/intent/api/v1/networkDeviceReplacements, get /dna/intent/api/v1/networkDeviceReplacements/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -855,8 +890,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Replacement RetrieveTheStatusOfAllTheDeviceReplacementWorkflows <https://developer.cisco.com/docs/dna-center/#!retrieve-the-status-of-all-the-device-replacement-workflows>`_
-       Complete reference of the RetrieveTheStatusOfAllTheDeviceReplacementWorkflows API.
+   `Cisco DNA Center documentation for Device Replacement RetrieveAllDeviceReplacementWorkflows <https://developer.cisco.com/docs/dna-center/#!retrieve-all-device-replacement-workflows>`_
+       Complete reference of the RetrieveAllDeviceReplacementWorkflows API.
+   `Cisco DNA Center documentation for Device Replacement RetrieveDeviceReplacementWorkflow <https://developer.cisco.com/docs/dna-center/#!retrieve-device-replacement-workflow>`_
+       Complete reference of the RetrieveDeviceReplacementWorkflow API.
 
 .. Examples
 
@@ -888,6 +925,18 @@ Examples
         limit: 0
         sortBy: string
         sortOrder: string
+      register: result
+    - name: Get Network Device Replacements by id
+      cisco.dnac.network_device_replacements_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        id: string
       register: result
 
 

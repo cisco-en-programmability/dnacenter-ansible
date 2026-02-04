@@ -42,7 +42,7 @@ cisco.dnac.wireless_settings_dot11be_profiles module -- Resource module for Wire
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -85,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -107,6 +107,48 @@ Parameters
 
   * - Parameter
     - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-default"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_dot11be_profiles_module__parameter-default:
+
+      .. rst-class:: ansible-option-title
+
+      **default**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-default" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies whether this 802.11be profile's properties should be set to system default profile on device(default-dot11be-profile) or not.When a profile is marked with default as true ,configuration is pushed to device's 'default-dot11be-profile'. Note Setting a profile as custom (default=false) on devices with IOS-XE versions below 17.18.1 will result in a provisioning failure.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -374,7 +416,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -417,6 +459,209 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mloGroup"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_dot11be_profiles_module__parameter-mlogroup:
+
+      .. rst-class:: ansible-option-title
+
+      **mloGroup**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mloGroup" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Settings Dot11be Profiles's mloGroup.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mloGroup/primary24GhzEnable"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_dot11be_profiles_module__parameter-mlogroup/primary24ghzenable:
+
+      .. rst-class:: ansible-option-title
+
+      **primary24GhzEnable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mloGroup/primary24GhzEnable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates if primary 2.4GHz MLO link is enabled.(Default true).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mloGroup/primary5GhzEnable"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_dot11be_profiles_module__parameter-mlogroup/primary5ghzenable:
+
+      .. rst-class:: ansible-option-title
+
+      **primary5GhzEnable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mloGroup/primary5GhzEnable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates if primary 5GHz MLO link is enabled.(Default true).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mloGroup/primary6GhzEnable"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_dot11be_profiles_module__parameter-mlogroup/primary6ghzenable:
+
+      .. rst-class:: ansible-option-title
+
+      **primary6GhzEnable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mloGroup/primary6GhzEnable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates if primary 6GHz MLO link is enabled.(Default true).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mloGroup/secondary5GhzEnable"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_dot11be_profiles_module__parameter-mlogroup/secondary5ghzenable:
+
+      .. rst-class:: ansible-option-title
+
+      **secondary5GhzEnable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mloGroup/secondary5GhzEnable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates if secondary 5GHz MLO link is enabled.(Default true).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-muMimoDownLink"></div>
 
       .. _ansible_collections.cisco.dnac.wireless_settings_dot11be_profiles_module__parameter-mumimodownlink:
@@ -441,7 +686,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      MU-MIMO Downlink (Default false).
+      MU-MIMO Downlink (Default false). This parameter is deprecated in IOS-XE versions 17.18.2 and above and will be ignored during provisioning. For IOS-XE version above 17.18.2, use the 802.11ax properties in Advanced SSID Feature Template.
 
 
       .. rst-class:: ansible-option-line
@@ -483,7 +728,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      MU-MIMO Uplink (Default false).
+      MU-MIMO Uplink (Default false). This parameter is deprecated in IOS-XE versions 17.18.2 and above and will be ignored during provisioning. For IOS-XE version above 17.18.2, use the 802.11ax properties in Advanced SSID Feature Template.
 
 
       .. rst-class:: ansible-option-line
@@ -525,7 +770,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      OFDMA Downlink (Default true).
+      OFDMA Downlink (Default true). This parameter is deprecated in IOS-XE versions 17.18.2 and above and will be ignored during provisioning. For IOS-XE version above 17.18.2, use the 802.11ax properties in Advanced SSID Feature Template.
 
 
       .. rst-class:: ansible-option-line
@@ -609,7 +854,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      OFDMA Uplink (Default true).
+      OFDMA Uplink (Default true). This parameter is deprecated in IOS-XE versions 17.18.2 and above and will be ignored during provisioning. For IOS-XE version above 17.18.2, use the 802.11ax properties in Advanced SSID Feature Template.
 
 
       .. rst-class:: ansible-option-line
@@ -749,6 +994,12 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        default: true
+        mloGroup:
+          primary24GhzEnable: true
+          primary5GhzEnable: true
+          primary6GhzEnable: true
+          secondary5GhzEnable: true
         muMimoDownLink: true
         muMimoUpLink: true
         ofdmaDownLink: true
@@ -776,7 +1027,13 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        default: true
         id: string
+        mloGroup:
+          primary24GhzEnable: true
+          primary5GhzEnable: true
+          primary6GhzEnable: true
+          secondary5GhzEnable: true
         muMimoDownLink: true
         muMimoUpLink: true
         ofdmaDownLink: true

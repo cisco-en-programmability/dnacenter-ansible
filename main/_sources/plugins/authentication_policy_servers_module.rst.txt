@@ -42,7 +42,7 @@ cisco.dnac.authentication_policy_servers module -- Resource module for Authentic
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Authentication Policy Servers. - \> API to add AAA/ISE server access configuration. Protocol can be configured as either RADIUS OR TACACS OR RADIUS\_TACACS. If configuring Cisco ISE server, after configuration, use "Cisco ISE Server Integration Status" Intent API to check the integration status. Based on integration status, if require use 'Accept Cisco ISE Server Certificate for Cisco ISE Server Integration' Intent API to accept the Cisco ISE certificate for Cisco ISE server integration, then use again "Cisco ISE Server Integration Status" Intent API to check the integration status.
-- API to delete AAA/ISE server access configuration. - \> API to edit AAA/ISE server access configuration. After edit, use "Cisco ISE Server Integration Status" Intent API to check the integration status.
+- Manage operations create, update and delete of the resource Authentication Policy Servers. - \> API to add AAA/ISE server access configuration. Protocol can be configured as either RADIUS OR TACACS OR RADIUS\_TACACS. If configuring Cisco ISE server, after configuration, use 'Cisco ISE Server Integration Status' Intent API to check the integration status. Based on integration status, if require use 'Accept Cisco ISE Server Certificate for Cisco ISE Server Integration' Intent API to accept the Cisco ISE certificate for Cisco ISE server integration, then use again 'Cisco ISE Server Integration Status' Intent API to check the integration status.
+- API to delete AAA/ISE server access configuration. - \> API to edit AAA/ISE server access configuration. After edit, use 'Cisco ISE Server Integration Status' Intent API to check the integration status.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -715,7 +715,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -1501,9 +1501,12 @@ Examples
         accountingPort: 0
         authenticationPort: 0
         ciscoIseDtos:
-          - fqdn: string
+          - description: string
+            fqdn: string
+            ipAddress: string
             password: string
             sshkey: string
+            subscriberName: string
             userName: string
         externalCiscoIseIpAddrDtos:
           - externalCiscoIseIpAddresses:

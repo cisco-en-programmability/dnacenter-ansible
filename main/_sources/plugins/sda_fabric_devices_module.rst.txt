@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_devices module -- Resource module for Sda Fabric Devices
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -88,8 +88,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -411,7 +411,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -716,7 +716,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Set this to import external routes from other routing protocols (such as BGP) to the fabric control plane. (updating this field is not allowed).
+      Set this to import external routes from other routing protocols (such as BGP) to the fabric control plane.
 
 
       .. rst-class:: ansible-option-line
@@ -758,7 +758,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Set this to make the fabric border device the gateway of last resort for this site. Any unknown traffic will be sent to this fabric border device from edge nodes. (updating this field is not allowed).
+      Set this to make the fabric border device the gateway of last resort for this site. Any unknown traffic will be sent to this fabric border device from edge nodes.
 
 
       .. rst-class:: ansible-option-line
@@ -800,7 +800,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      BGP Local autonomous system number of the fabric border device. Allowed range is 1 to 4294967295. (updating this field is not allowed).
+      BGP Local autonomous system number of the fabric border device. Allowed range is 1 to 4294967295.
 
 
       .. raw:: html
@@ -870,7 +870,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of the roles of the fabric device. Allowed values are CONTROL\_PLANE\_NODE, EDGE\_NODE, BORDER\_NODE, WIRELESS\_CONTROLLER\_NODE. (updating this field is not allowed).
+      List of the roles of the fabric device. Allowed values are CONTROL\_PLANE\_NODE, EDGE\_NODE, BORDER\_NODE, WIRELESS\_CONTROLLER\_NODE.
 
 
       .. raw:: html
@@ -904,41 +904,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ID of the fabric of this fabric device. (updating this field is not allowed).
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/id"></div>
-
-      .. _ansible_collections.cisco.dnac.sda_fabric_devices_module__parameter-payload/id:
-
-      .. rst-class:: ansible-option-title
-
-      **id**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/id" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      ID of the fabric device. (updating this field is not allowed).
+      ID of the fabric of this fabric device.
 
 
       .. raw:: html
@@ -972,7 +938,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network device ID of the fabric device. (updating this field is not allowed).
+      Network device ID of the fabric device.
 
 
       .. raw:: html
@@ -1063,31 +1029,6 @@ Examples
 
     
     ---
-    - name: Update all
-      cisco.dnac.sda_fabric_devices:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: present
-        payload:
-          - borderDeviceSettings:
-              borderTypes:
-                - string
-              layer3Settings:
-                borderPriority: 0
-                importExternalRoutes: true
-                isDefaultExit: true
-                localAutonomousSystemNumber: string
-                prependAutonomousSystemCount: 0
-            deviceRoles:
-              - string
-            fabricId: string
-            id: string
-            networkDeviceId: string
     - name: Delete all
       cisco.dnac.sda_fabric_devices:
         dnac_host: "{{dnac_host}}"
@@ -1124,6 +1065,31 @@ Examples
             deviceRoles:
               - string
             fabricId: string
+            networkDeviceId: string
+    - name: Update all
+      cisco.dnac.sda_fabric_devices:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        payload:
+          - borderDeviceSettings:
+              borderTypes:
+                - string
+              layer3Settings:
+                borderPriority: 0
+                importExternalRoutes: true
+                isDefaultExit: true
+                localAutonomousSystemNumber: string
+                prependAutonomousSystemCount: 0
+            deviceRoles:
+              - string
+            fabricId: string
+            id: string
             networkDeviceId: string
     - name: Delete by id
       cisco.dnac.sda_fabric_devices:

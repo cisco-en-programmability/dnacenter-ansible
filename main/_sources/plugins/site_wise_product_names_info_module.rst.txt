@@ -42,7 +42,7 @@ cisco.dnac.site_wise_product_names_info module -- Information module for Site Wi
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -84,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -373,7 +373,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -430,7 +430,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -465,7 +465,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -705,7 +705,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"id": "string", "imageSummary": {"goldenImageCount": 0, "installedImageAdvisorCount": 0, "installedImageCount": 0}, "networkDeviceCount": 0, "productName": "string", "productNameOrdinal": 0, "supervisorProductName": "string", "supervisorProductNameOrdinal": 0}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"id": "string", "imageSummary": {"goldenImageCount": 0, "installedImageAdvisorCount": 0, "installedImageCount": 0}, "networkDeviceCount": 0, "productName": "string", "productNameOrdinal": 0, "supervisorProductName": "string", "supervisorProductNameOrdinal": 0}], "version": "string"}`
 
 
       .. raw:: html

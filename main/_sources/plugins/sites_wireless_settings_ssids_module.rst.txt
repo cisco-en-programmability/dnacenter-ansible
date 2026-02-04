@@ -42,7 +42,7 @@ cisco.dnac.sites_wireless_settings_ssids module -- Resource module for Sites Wir
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -86,8 +86,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -891,7 +891,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -1102,7 +1102,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      True if 6 GHz Policy Client Steering is enabled, else False.
+      true if 6 GHz Policy Client Steering is enabled, else False.
 
 
       .. rst-class:: ansible-option-line
@@ -1884,7 +1884,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      True if CCKM is enabled, else False.
+      true if CCKM is enabled, else False.
 
 
       .. rst-class:: ansible-option-line
@@ -1968,7 +1968,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      True if FastLane is enabled, else False.
+      true if FastLane is enabled, else False.
 
 
       .. rst-class:: ansible-option-line
@@ -2010,7 +2010,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      True if passphrase is in Hex format, else False.
+      true if passphrase is in Hex format, else False.
 
 
       .. rst-class:: ansible-option-line
@@ -2220,7 +2220,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      L3 Authentication Type. When \*wlanType\* is \*Enterprise\*, \*l3AuthType\* is optional and defaults to \*open\* if not specified. If \*wlanType\* is \*Guest\* then \*l3AuthType\* is mandatory.
+      L3 Authentication Type. When 'wlanType' is 'Enterprise', 'l3AuthType' is optional and defaults to 'open' if not specified. If 'wlanType' is 'Guest' then 'l3AuthType' is mandatory.
 
 
       .. raw:: html
@@ -3392,6 +3392,19 @@ Examples
         webPassthrough: true
         wlanBandSelectEnable: true
         wlanType: string
+    - name: Delete by id
+      cisco.dnac.sites_wireless_settings_ssids:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
+        removeOverrideInHierarchy: true
+        siteId: string
     - name: Update by id
       cisco.dnac.sites_wireless_settings_ssids:
         dnac_host: "{{dnac_host}}"
@@ -3478,19 +3491,6 @@ Examples
         webPassthrough: true
         wlanBandSelectEnable: true
         wlanType: string
-    - name: Delete by id
-      cisco.dnac.sites_wireless_settings_ssids:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: absent
-        id: string
-        removeOverrideInHierarchy: true
-        siteId: string
 
 
 

@@ -42,7 +42,7 @@ cisco.dnac.wireless_settings_power_profiles module -- Resource module for Wirele
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,10 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Wireless Settings Power Profiles.
+- Manage operations create, update and delete of the resource Wireless Settings Power Profiles.
 - This API allows the user to create a custom Power Profile.
+- This API allows the user to delete an Power Profile by specifying the Power Profile ID.
+- This API allows the user to update a custom power Profile.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -408,7 +410,41 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_power_profiles_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. Power Profile ID.
+
 
       .. raw:: html
 
@@ -671,8 +707,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_power\_profile,
-   - Paths used are post /dna/intent/api/v1/wirelessSettings/powerProfiles,
+   - SDK Method used are wireless.Wireless.create\_power\_profile, wireless.Wireless.delete\_power\_profile\_by\_id, wireless.Wireless.update\_power\_profile\_by\_id,
+   - Paths used are post /dna/intent/api/v1/wirelessSettings/powerProfiles, delete /dna/intent/api/v1/wirelessSettings/powerProfiles/{id}, put /dna/intent/api/v1/wirelessSettings/powerProfiles/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -686,6 +722,10 @@ See Also
 
    `Cisco DNA Center documentation for Wireless CreatePowerProfile <https://developer.cisco.com/docs/dna-center/#!create-power-profile>`_
        Complete reference of the CreatePowerProfile API.
+   `Cisco DNA Center documentation for Wireless DeletePowerProfileByID <https://developer.cisco.com/docs/dna-center/#!delete-power-profile-by-id>`_
+       Complete reference of the DeletePowerProfileByID API.
+   `Cisco DNA Center documentation for Wireless UpdatePowerProfileByID <https://developer.cisco.com/docs/dna-center/#!update-power-profile-by-id>`_
+       Complete reference of the UpdatePowerProfileByID API.
 
 .. Examples
 
@@ -710,6 +750,35 @@ Examples
         profileName: string
         rules:
           - interfaceId: string
+            interfaceType: string
+            parameterType: string
+            parameterValue: string
+    - name: Delete by id
+      cisco.dnac.wireless_settings_power_profiles:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
+    - name: Update by id
+      cisco.dnac.wireless_settings_power_profiles:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        description: string
+        id: string
+        profileName: string
+        rules:
+          - interfaceID: string
             interfaceType: string
             parameterType: string
             parameterValue: string

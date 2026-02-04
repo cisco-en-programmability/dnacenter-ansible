@@ -42,7 +42,7 @@ cisco.dnac.lan_automation_port_channels module -- Resource module for Lan Automa
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Lan Automation Port Channels. - \> This API creates a Port Channel between two LAN Automation associated devices using the PAgP protocol, with a minimum of 2 and a maximum of 8 LAN Automated interfaces in UP status.
+- Manage operations create and delete of the resource Lan Automation Port Channels. - \> This API creates a Port Channel between two LAN Automation associated devices using the PAgP protocol, with a minimum of 2 and a maximum of 8 LAN Automated interfaces in UP status.
+- This API deletes a Port Channel between LAN Automation associated devices using a valid Port Channel ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -509,7 +510,41 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.lan_automation_port_channels_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. ID of the port channel.
+
 
       .. raw:: html
 
@@ -738,8 +773,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are lan\_automation.LanAutomation.create\_a\_new\_port\_channel\_between\_devices,
-   - Paths used are post /dna/intent/api/v1/lanAutomation/portChannels,
+   - SDK Method used are lan\_automation.LanAutomation.create\_a\_new\_port\_channel\_between\_devices, lan\_automation.LanAutomation.delete\_port\_channel,
+   - Paths used are post /dna/intent/api/v1/lanAutomation/portChannels, delete /dna/intent/api/v1/lanAutomation/portChannels/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -753,6 +788,8 @@ See Also
 
    `Cisco DNA Center documentation for LAN Automation CreateANewPortChannelBetweenDevices <https://developer.cisco.com/docs/dna-center/#!create-a-new-port-channel-between-devices>`_
        Complete reference of the CreateANewPortChannelBetweenDevices API.
+   `Cisco DNA Center documentation for LAN Automation DeletePortChannel <https://developer.cisco.com/docs/dna-center/#!delete-port-channel>`_
+       Complete reference of the DeletePortChannel API.
 
 .. Examples
 
@@ -782,6 +819,17 @@ Examples
             device1InterfaceUuid: string
             device2Interface: string
             device2InterfaceUuid: string
+    - name: Delete by id
+      cisco.dnac.lan_automation_port_channels:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
 
 
 

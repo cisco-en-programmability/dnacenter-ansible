@@ -42,7 +42,7 @@ cisco.dnac.assurance_issues_info module -- Information module for Assurance Issu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,14 @@ Synopsis
 .. Description
 
 - Get all Assurance Issues.
-- Get Assurance Issues by id. - \> Returns all details of each issue along with suggested actions for given set of filters specified in query parameters. If there is no start and/or end time, then end time will be defaulted to current time and start time will be defaulted to 24-hours ago from end time. All string type query parameters support wildcard search using \*. For example siteHierarchy=Global/San Jose/\* returns issues under all sites whole siteHierarchy starts with "Global/San Jose/". Https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE\_Cat\_Center\_Org-IssuesList-1.0.0-resolved.yaml. - \> Returns all the details and suggested actions of an issue for the given issue id. Https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- IssuesList-1.0.0-resolved.yaml.
+- Get Assurance Issues by id.
+- Returns all details of each issue along with suggested actions for given set of filters specified in query parameters.
+- If there is no start and/or end time, then end time will be defaulted to current time and start time will be defaulted to 24-hours ago from end time.
+- All string type query parameters support wildcard search using \*.
+- For example siteHierarchy=Global/San Jose/\* returns issues under all sites whose siteHierarchy starts with "Global/San Jose/".
+- For detailed information, refer to https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-IssuesList-1.0.0-resolved.yaml.
+- Returns all the details and suggested actions of an issue for the given issue id.
+- For detailed information, refer to https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-IssuesList-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +92,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -521,7 +528,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -1876,7 +1883,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"additionalAttributes": [{"key": "string", "value": "string"}], "category": "string", "description": "string", "deviceType": "string", "entityId": "string", "entityType": "string", "firstOccurredTime": 0, "isGlobal": true, "issueId": "string", "mostRecentOccurredTime": 0, "name": "string", "notes": {}, "priority": "string", "severity": "string", "siteHierarchy": {}, "siteHierarchyId": {}, "siteId": {}, "siteName": {}, "status": "string", "suggestedActions": [{"message": "string", "steps": [{}]}], "summary": "string", "updatedBy": "string", "updatedTime": 0}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"additionalAttributes": [{"key": "string", "value": "string"}], "category": "string", "description": "string", "deviceType": "string", "entityId": "string", "entityType": "string", "firstOccurredTime": 0, "isGlobal": true, "issueId": "string", "mostRecentOccurredTime": 0, "name": "string", "notes": {}, "priority": "string", "severity": "string", "siteHierarchy": {}, "siteHierarchyId": {}, "siteId": {}, "siteName": {}, "status": "string", "suggestedActions": [{"message": "string", "steps": ["string"]}], "summary": "string", "updatedBy": "string", "updatedTime": 0}, "version": "string"}`
 
 
       .. raw:: html

@@ -42,7 +42,7 @@ cisco.dnac.icap_capture_files_info module -- Information module for Icap Capture
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,12 @@ Synopsis
 
 .. Description
 
-- Get all Icap Capture Files. - \> Lists the ICAP packet capture pcap files matching the specified criteria. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-icap-1.0.0-resolved.yaml.
+- Get all Icap Capture Files.
+- Get Icap Capture Files by id.
+- Lists the ICAP packet capture pcap files matching the specified criteria.
+- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-icap-1.0.0-resolved.yaml.
+- Retrieves details of a specific ICAP packet capture file.
+- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-icap-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +89,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -441,7 +446,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -510,6 +515,40 @@ Parameters
         <div class="ansible-option-cell">
 
       Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.icap_capture_files_info_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. The name of the packet capture file, as given by the GET /captureFiles API response.
 
 
       .. raw:: html
@@ -774,8 +813,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sensors.Sensors.lists\_i\_cap\_packet\_capture\_files\_matching\_specified\_criteria,
-   - Paths used are get /dna/data/api/v1/icap/captureFiles,
+   - SDK Method used are sensors.Sensors.lists\_i\_cap\_packet\_capture\_files\_matching\_specified\_criteria, sensors.Sensors.retrieves\_details\_of\_a\_specific\_i\_cap\_packet\_capture\_file,
+   - Paths used are get /dna/data/api/v1/icap/captureFiles, get /dna/data/api/v1/icap/captureFiles/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -789,6 +828,8 @@ See Also
 
    `Cisco DNA Center documentation for Sensors ListsICAPPacketCaptureFilesMatchingSpecifiedCriteria <https://developer.cisco.com/docs/dna-center/#!lists-icap-packet-capture-files-matching-specified-criteria>`_
        Complete reference of the ListsICAPPacketCaptureFilesMatchingSpecifiedCriteria API.
+   `Cisco DNA Center documentation for Sensors RetrievesDetailsOfASpecificICAPPacketCaptureFile <https://developer.cisco.com/docs/dna-center/#!retrieves-details-of-a-specific-icap-packet-capture-file>`_
+       Complete reference of the RetrievesDetailsOfASpecificICAPPacketCaptureFile API.
 
 .. Examples
 
@@ -818,6 +859,18 @@ Examples
         offset: 0
         sortBy: string
         order: string
+      register: result
+    - name: Get Icap Capture Files by id
+      cisco.dnac.icap_capture_files_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        id: string
       register: result
 
 
@@ -879,7 +932,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"page": {"count": 0, "limit": 0, "offset": 0, "order": "string", "sortBy": "string"}, "response": [{"apMac": "string", "clientMac": "string", "fileCreationTimestamp": 0, "fileName": "string", "fileSize": 0, "id": "string", "lastUpdatedTimestamp": 0, "type": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"apMac": "string", "clientMac": "string", "fileCreationTimestamp": 0, "fileName": "string", "fileSize": 0, "id": "string", "lastUpdatedTimestamp": 0, "type": "string"}, "version": "string"}`
 
 
       .. raw:: html

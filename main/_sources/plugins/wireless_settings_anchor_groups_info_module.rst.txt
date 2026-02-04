@@ -42,7 +42,7 @@ cisco.dnac.wireless_settings_anchor_groups_info module -- Information module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,9 @@ Synopsis
 .. Description
 
 - Get all Wireless Settings Anchor Groups.
+- Get Wireless Settings Anchor Groups by id.
 - This API allows the user to get AnchorGroups that captured in wireless settings design.
+- This API allows the user to get an AnchorGroup by AnchorGroup ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -374,7 +376,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -417,17 +419,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-limit"></div>
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_info_module__parameter-limit:
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_info_module__parameter-id:
 
       .. rst-class:: ansible-option-title
 
-      **limit**
+      **id**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -441,42 +443,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum allowed limit is 500.
-          
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-offset"></div>
-
-      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_info_module__parameter-offset:
-
-      .. rst-class:: ansible-option-title
-
-      **offset**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Offset query parameter. The first record to show for this page, the first record is numbered 1.
+      Id path parameter. AnchorGroup ID.
 
 
       .. raw:: html
@@ -535,8 +502,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get\_anchor\_groups,
-   - Paths used are get /dna/intent/api/v1/wirelessSettings/anchorGroups,
+   - SDK Method used are wireless.Wireless.get\_anchor\_group\_by\_id, wireless.Wireless.get\_anchor\_groups,
+   - Paths used are get /dna/intent/api/v1/wirelessSettings/anchorGroups, get /dna/intent/api/v1/wirelessSettings/anchorGroups/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -548,6 +515,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Wireless GetAnchorGroupByID <https://developer.cisco.com/docs/dna-center/#!get-anchor-group-by-id>`_
+       Complete reference of the GetAnchorGroupByID API.
    `Cisco DNA Center documentation for Wireless GetAnchorGroups <https://developer.cisco.com/docs/dna-center/#!get-anchor-groups>`_
        Complete reference of the GetAnchorGroups API.
 
@@ -570,8 +539,18 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
-        limit: string
-        offset: string
+      register: result
+    - name: Get Wireless Settings Anchor Groups by id
+      cisco.dnac.wireless_settings_anchor_groups_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        id: string
       register: result
 
 

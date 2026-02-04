@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.site_kpi_summaries_top_n_analytics_info module -- Information module for Sitekpisummaries Topnanalytics
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.site_kpi_summaries_top_n_analytics_info module -- Information module for Site Kpi Summaries Top N Analytics
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Sitekpisummaries Topnanalytics. - \> Gets the topN analytics data for a given taskId. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center- api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-SiteKpiSummaries-1.0.0-resolved.yaml.
+- Get all Site Kpi Summaries Top N Analytics. - \> Gets the topN analytics data for a given taskId. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center- api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-SiteKpiSummaries-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -373,7 +373,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -525,8 +525,8 @@ Examples
 
     
     ---
-    - name: Get all Sitekpisummaries Topnanalytics
-      cisco.dnac.siteKpiSummaries_topNAnalytics_info:
+    - name: Get all Site Kpi Summaries Top N Analytics
+      cisco.dnac.site_kpi_summaries_top_n_analytics_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

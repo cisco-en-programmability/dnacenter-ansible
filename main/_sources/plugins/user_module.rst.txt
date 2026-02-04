@@ -42,7 +42,7 @@ cisco.dnac.user module -- Resource module for User
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -87,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -109,6 +109,40 @@ Parameters
 
   * - Parameter
     - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-accessGroups"></div>
+
+      .. _ansible_collections.cisco.dnac.user_module__parameter-accessgroups:
+
+      .. rst-class:: ansible-option-title
+
+      **accessGroups**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-accessGroups" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      List of access groups that will be assigned to the user. The first access group in the list will be the default access group activated when the user authenticates.
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -376,7 +410,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -409,7 +443,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Email.
+      The email address of the user.
 
 
       .. raw:: html
@@ -443,7 +477,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      First Name.
+      The first name of the user.
 
 
       .. raw:: html
@@ -477,7 +511,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Last Name.
+      The last name of the user.
 
 
       .. raw:: html
@@ -511,7 +545,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Password.
+      The password of the user.
 
 
       .. raw:: html
@@ -613,7 +647,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Username.
+      The username of the user.
 
 
       .. raw:: html
@@ -672,7 +706,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are user\_and\_roles.UserandRoles.add\_user\_api, user\_and\_roles.UserandRoles.delete\_user\_api, user\_and\_roles.UserandRoles.update\_user\_api,
+   - SDK Method used are userand\_roles.UserandRoles.add\_user, userand\_roles.UserandRoles.delete\_user\_api, userand\_roles.UserandRoles.update\_user,
    - Paths used are post /dna/system/api/v1/user, delete /dna/system/api/v1/user/{userId}, put /dna/system/api/v1/user,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -685,12 +719,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for User and Roles AddUserAPI <https://developer.cisco.com/docs/dna-center/#!add-user-api>`_
-       Complete reference of the AddUserAPI API.
+   `Cisco DNA Center documentation for User and Roles AddUser <https://developer.cisco.com/docs/dna-center/#!add-user>`_
+       Complete reference of the AddUser API.
    `Cisco DNA Center documentation for User and Roles DeleteUserAPI <https://developer.cisco.com/docs/dna-center/#!delete-user-api>`_
        Complete reference of the DeleteUserAPI API.
-   `Cisco DNA Center documentation for User and Roles UpdateUserAPI <https://developer.cisco.com/docs/dna-center/#!update-user-api>`_
-       Complete reference of the UpdateUserAPI API.
+   `Cisco DNA Center documentation for User and Roles UpdateUser <https://developer.cisco.com/docs/dna-center/#!update-user>`_
+       Complete reference of the UpdateUser API.
 
 .. Examples
 
@@ -711,6 +745,8 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        accessGroups:
+          - string
         email: string
         firstName: string
         lastName: string
@@ -728,13 +764,14 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        accessGroups:
+          - string
         email: string
         firstName: string
         lastName: string
         roleList:
           - string
         userId: string
-        username: string
     - name: Delete by id
       cisco.dnac.user:
         dnac_host: "{{dnac_host}}"

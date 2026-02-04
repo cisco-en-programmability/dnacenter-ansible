@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.feature_templates_wireless_advanced_ssid_configurations module -- Resource module for Featuretemplates Wireless Advancedssidconfigurations
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.feature_templates_wireless_advanced_ssid_configurations module -- Resource module for Feature Templates Wireless Advanced Ssid Configurations
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.45.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,10 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Featuretemplates Wireless Advancedssidconfigurations.
+- Manage operations create, update and delete of the resource Feature Templates Wireless Advanced Ssid Configurations.
 - This API allows users to create a Advanced SSID configuration feature template.
+- This API allows users to delete a specific Advanced SSID configuration feature template by Id.
+- This API allows users to update the details of a specific Advanced SSID configuration feature template by ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.1
-- python \>= 3.5
+- dnacentersdk \>= 2.11.0
+- python \>= 3.12
 
 
 
@@ -408,7 +410,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -441,7 +443,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Feature Templates Wireless Advanced S S I D Configurations's featureAttributes.
+      Feature Templates Wireless Advanced Ssid Configurations's featureAttributes.
 
 
       .. raw:: html
@@ -2700,6 +2702,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssid_configurations_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. Advanced SSID Configuration Feature Template Id.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-unlockedAttributes"></div>
 
       .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssid_configurations_module__parameter-unlockedattributes:
@@ -2783,8 +2819,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_advanced\_ssid\_configuration\_feature\_template,
-   - Paths used are post /dna/intent/api/v1/featureTemplates/wireless/advancedSSIDConfigurations,
+   - SDK Method used are wireless.Wireless.create\_advanced\_ssid\_configuration\_feature\_template, wireless.Wireless.delete\_advanced\_ssid\_configuration\_feature\_template, wireless.Wireless.update\_advanced\_ssid\_configuration\_feature\_template,
+   - Paths used are post /dna/intent/api/v1/featureTemplates/wireless/advancedSSIDConfigurations, delete /dna/intent/api/v1/featureTemplates/wireless/advancedSSIDConfigurations/{id}, put /dna/intent/api/v1/featureTemplates/wireless/advancedSSIDConfigurations/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -2798,6 +2834,10 @@ See Also
 
    `Cisco DNA Center documentation for Wireless CreateAdvancedSSIDConfigurationFeatureTemplate <https://developer.cisco.com/docs/dna-center/#!create-advanced-ssid-configuration-feature-template>`_
        Complete reference of the CreateAdvancedSSIDConfigurationFeatureTemplate API.
+   `Cisco DNA Center documentation for Wireless DeleteAdvancedSSIDConfigurationFeatureTemplate <https://developer.cisco.com/docs/dna-center/#!delete-advanced-ssid-configuration-feature-template>`_
+       Complete reference of the DeleteAdvancedSSIDConfigurationFeatureTemplate API.
+   `Cisco DNA Center documentation for Wireless UpdateAdvancedSSIDConfigurationFeatureTemplate <https://developer.cisco.com/docs/dna-center/#!update-advanced-ssid-configuration-feature-template>`_
+       Complete reference of the UpdateAdvancedSSIDConfigurationFeatureTemplate API.
 
 .. Examples
 
@@ -2809,7 +2849,7 @@ Examples
     
     ---
     - name: Create
-      cisco.dnac.featureTemplates_wireless_advancedSSIDConfigurations:
+      cisco.dnac.feature_templates_wireless_advanced_ssid_configurations:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -2817,6 +2857,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
+        state: present
         designName: string
         featureAttributes:
           advertisePCAnalyticsSupport: true
@@ -2875,6 +2916,88 @@ Examples
           wifiAllianceAgileMultiband: true
           wifiToCellularSteering: true
           wmmPolicy: string
+        unlockedAttributes:
+          - string
+    - name: Delete by id
+      cisco.dnac.feature_templates_wireless_advanced_ssid_configurations:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
+    - name: Update by id
+      cisco.dnac.feature_templates_wireless_advanced_ssid_configurations:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        designName: string
+        featureAttributes:
+          advertisePCAnalyticsSupport: true
+          advertiseSupport: true
+          aironetIESupport: true
+          callSnooping: true
+          deferPriority0: true
+          deferPriority1: true
+          deferPriority2: true
+          deferPriority3: true
+          deferPriority4: true
+          deferPriority5: true
+          deferPriority6: true
+          deferPriority7: true
+          dhcpOpt82RemoteIDSubOption: true
+          dhcpRequired: true
+          dhcpServer: string
+          dot11ax: true
+          dot11vBSSMaxIdleProtected: true
+          downlinkMuMimo: true
+          downlinkOfdma: true
+          dtimPeriod24GHz: 0
+          dtimPeriod5GHz: 0
+          dualBandNeighborList: true
+          fastTransitionReassociationTimeout: 0
+          fastlaneASR: true
+          flexLocalAuth: true
+          idleThreshold: 0
+          ipMacBinding: true
+          ipSourceGuard: true
+          loadBalancing: true
+          mDNSMode: string
+          maxClients: 0
+          maxClientsPerAp: 0
+          maxClientsPerRadio: 0
+          mediaStreamMulticastDirect: true
+          muMimo11ac: true
+          multicastBuffer: true
+          multicastBufferValue: 0
+          opportunisticKeyCaching: true
+          passiveClient: true
+          peer2peerblocking: string
+          predictionOptimization: true
+          radiusNacState: true
+          scanDeferTime: 0
+          sendBeaconOnAssociation: true
+          sendBeaconOnRoam: true
+          sendDisassociate: true
+          sent486Busy: true
+          shareDataWithClient: true
+          targetWakeupTime: true
+          universalAPAdmin: true
+          uplinkMuMimo: true
+          uplinkOfdma: true
+          vlanCentralSwitching: true
+          wifiAllianceAgileMultiband: true
+          wifiToCellularSteering: true
+          wmmPolicy: string
+        id: string
         unlockedAttributes:
           - string
 
