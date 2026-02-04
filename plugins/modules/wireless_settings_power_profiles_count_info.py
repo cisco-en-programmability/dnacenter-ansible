@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_power_profiles_count_info
-short_description: Information module for Wireless Settings
-  Power Profiles Count
+short_description: Information module for Wireless Settings Power Profiles Count
 description:
   - Get all Wireless Settings Power Profiles Count.
-  - This API returns the total number of Power Profiles
-    available.
+  - This API returns the total number of Power Profiles available.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetPowerProfilesCount
-    description: Complete reference of the GetPowerProfilesCount
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetPowerProfilesCount
+    description: Complete reference of the GetPowerProfilesCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-power-profiles-count
 notes:
   - SDK Method used are

@@ -6,13 +6,11 @@
 
 DOCUMENTATION = r"""
 ---
-module: connection_modesetting_info
-short_description: Information module for Connection
-  Mode Setting
+module: connection_mode_setting_info
+short_description: Information module for Connection Mode Setting
 description:
   - Get all Connection Mode Setting.
-  - Retrieves Cisco Smart Software Manager CSSM connection
-    mode setting.
+  - Retrieves Cisco Smart Software Manager CSSM connection mode setting.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Licenses
-      RetrievesCSSMConnectionMode
-    description: Complete reference of the RetrievesCSSMConnectionMode
-      API.
+  - name: Cisco DNA Center documentation for Licenses RetrievesCSSMConnectionMode
+    description: Complete reference of the RetrievesCSSMConnectionMode API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-cssm-connection-mode
 notes:
   - SDK Method used are

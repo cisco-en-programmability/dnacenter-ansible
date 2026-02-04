@@ -6,19 +6,13 @@
 
 DOCUMENTATION = r"""
 ---
-module: security_rogue_wireless_containment_start
-short_description: Resource module for Security Rogue
-  Wireless-Containment Start
+module: security_rogue_wireless-containment_start
+short_description: Resource module for Security Rogue Wireless-Containment Start
 description:
-  - Manage operation create of the resource Security
-    Rogue Wireless-Containment Start. - > Intent API
-    to start the wireless rogue access point containment.
-    This API will initiate the containment operation
-    on the strongest detecting WLC for the given Rogue
-    AP. This is a resource intensive operation which
-    has legal implications since the rogue access point
-    on whom it is triggered, might be a valid neighbor
-    access point.
+  - Manage operation create of the resource Security Rogue Wireless-Containment Start. - > Intent API to start the wireless
+    rogue access point containment. This API will initiate the containment operation on the strongest detecting WLC for the
+    given Rogue AP. This is a resource intensive operation which has legal implications since the rogue access point on whom
+    it is triggered, might be a valid neighbor access point.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,13 +25,11 @@ options:
     description: Type.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      StartWirelessRogueAPContainment
-    description: Complete reference of the StartWirelessRogueAPContainment
-      API.
+  - name: Cisco DNA Center documentation for Devices StartWirelessRogueAPContainment
+    description: Complete reference of the StartWirelessRogueAPContainment API.
     link: https://developer.cisco.com/docs/dna-center/#!start-wireless-rogue-ap-containment
 notes:
   - SDK Method used are

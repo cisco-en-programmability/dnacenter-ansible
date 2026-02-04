@@ -6,22 +6,18 @@
 
 DOCUMENTATION = r"""
 ---
-module: connection_modesetting
-short_description: Resource module for Connection Mode
-  Setting
+module: connection_mode_setting
+short_description: Resource module for Connection Mode Setting
 description:
-  - Manage operation update of the resource Connection
-    Mode Setting.
-  - Update Cisco Smart Software Manager CSSM connection
-    mode for the system.
+  - Manage operation update of the resource Connection Mode Setting.
+  - Update Cisco Smart Software Manager CSSM connection mode for the system.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   connectionMode:
-    description: The CSSM connection modes of Catalyst
-      Center are DIRECT, ON_PREMISE and SMART_PROXY.
+    description: The CSSM connection modes of Catalyst Center are DIRECT, ON_PREMISE and SMART_PROXY.
     type: str
   parameters:
     description: Connection Mode Setting's parameters.
@@ -33,22 +29,18 @@ options:
         description: On-premise CSSM client secret.
         type: str
       onPremiseHost:
-        description: On-premise CSSM hostname or IP
-          address.
+        description: On-premise CSSM hostname or IP address.
         type: str
       smartAccountName:
-        description: On-premise CSSM local smart account
-          name.
+        description: On-premise CSSM local smart account name.
         type: str
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Licenses
-      UpdateCSSMConnectionMode
-    description: Complete reference of the UpdateCSSMConnectionMode
-      API.
+  - name: Cisco DNA Center documentation for Licenses UpdateCSSMConnectionMode
+    description: Complete reference of the UpdateCSSMConnectionMode API.
     link: https://developer.cisco.com/docs/dna-center/#!update-cssm-connection-mode
 notes:
   - SDK Method used are
@@ -85,8 +77,7 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

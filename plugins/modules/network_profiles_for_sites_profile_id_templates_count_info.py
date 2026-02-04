@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_profiles_for_sites_profile_id_templates_count_info
-short_description: Information module for Network Profiles
-  For Sites Profile Id Templates Count
+short_description: Information module for Network Profiles For Sites Profile Id Templates Count
 description:
-  - Get all Network Profiles For Sites Profile Id Templates
-    Count.
-  - Retrieves the count of all CLI templates attached
-    to a network profile by the profile ID.
+  - Get all Network Profiles For Sites Profile Id Templates Count.
+  - Retrieves the count of all CLI templates attached to a network profile by the profile ID.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,17 +22,15 @@ options:
   profileId:
     description:
       - >
-        ProfileId path parameter. The `id` of the network
-        profile, retrievable from `GET /intent/api/v1/networkProfilesForSites`.
+        ProfileId path parameter. The `id` of the network profile, retrievable from `GET
+        /intent/api/v1/networkProfilesForSites`.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings RetrieveCountOfCLITemplatesAttachedToANetworkProfile
-    description: Complete reference of the RetrieveCountOfCLITemplatesAttachedToANetworkProfile
-      API.
+  - name: Cisco DNA Center documentation for Network Settings RetrieveCountOfCLITemplatesAttachedToANetworkProfile
+    description: Complete reference of the RetrieveCountOfCLITemplatesAttachedToANetworkProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-count-of-cli-templates-attached-to-a-network-profile
 notes:
   - SDK Method used are
@@ -46,8 +41,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Network Profiles For Sites Profile Id
-    Templates Count
+- name: Get all Network Profiles For Sites Profile Id Templates Count
   cisco.dnac.network_profiles_for_sites_profile_id_templates_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

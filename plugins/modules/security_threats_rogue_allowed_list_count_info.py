@@ -6,13 +6,11 @@
 
 DOCUMENTATION = r"""
 ---
-module: security_threats_rogue_allowed_list_count_info
-short_description: Information module for Security Threats
-  Rogue Allowed-List Count
+module: security_threats_rogue_allowed-list_count_info
+short_description: Information module for Security Threats Rogue Allowed-List Count
 description:
   - Get all Security Threats Rogue Allowed-List Count.
-  - Intent API to fetch the count of allowed mac addresses
-    in the system.
+  - Intent API to fetch the count of allowed mac addresses in the system.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetAllowedMacAddressCount
-    description: Complete reference of the GetAllowedMacAddressCount
-      API.
+  - name: Cisco DNA Center documentation for Devices GetAllowedMacAddressCount
+    description: Complete reference of the GetAllowedMacAddressCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-allowed-mac-address-count
 notes:
   - SDK Method used are
@@ -39,8 +35,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Security Threats Rogue Allowed-List
-    Count
+- name: Get all Security Threats Rogue Allowed-List Count
   cisco.dnac.security_threats_rogue_allowed-list_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

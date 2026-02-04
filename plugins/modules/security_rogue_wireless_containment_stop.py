@@ -6,17 +6,12 @@
 
 DOCUMENTATION = r"""
 ---
-module: security_rogue_wireless_containment_stop
-short_description: Resource module for Security Rogue
-  Wireless-Containment Stop
+module: security_rogue_wireless-containment_stop
+short_description: Resource module for Security Rogue Wireless-Containment Stop
 description:
-  - Manage operation create of the resource Security
-    Rogue Wireless-Containment Stop. - > Intent API
-    to stop the wireless rogue access point containment.
-    This API will stop the containment through single
-    WLC. The response includes the details like WLC
-    and BSSID on which the stop containment has been
-    initiated.
+  - Manage operation create of the resource Security Rogue Wireless-Containment Stop. - > Intent API to stop the wireless
+    rogue access point containment. This API will stop the containment through single WLC. The response includes the details
+    like WLC and BSSID on which the stop containment has been initiated.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -32,13 +27,11 @@ options:
     description: Wlc Ip.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      StopWirelessRogueAPContainment
-    description: Complete reference of the StopWirelessRogueAPContainment
-      API.
+  - name: Cisco DNA Center documentation for Devices StopWirelessRogueAPContainment
+    description: Complete reference of the StopWirelessRogueAPContainment API.
     link: https://developer.cisco.com/docs/dna-center/#!stop-wireless-rogue-ap-containment
 notes:
   - SDK Method used are
