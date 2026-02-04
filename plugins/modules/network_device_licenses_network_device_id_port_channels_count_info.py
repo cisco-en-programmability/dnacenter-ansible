@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_licenses_network_device_id_port_channels_count_info
-short_description: Information module for Network Device
-  Licenses Network Device Id Port Channels Count
+short_description: Information module for Network Device Licenses Network Device Id Port Channels Count
 description:
-  - Get all Network Device Licenses Network Device Id
-    Port Channels Count.
-  - This API endpoint retrieves the count of port channels
-    for the given network device.
+  - Get all Network Device Licenses Network Device Id Port Channels Count.
+  - This API endpoint retrieves the count of port channels for the given network device.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,30 +21,24 @@ options:
     type: dict
   networkDeviceId:
     description:
-      - NetworkDeviceId path parameter. Unique identifier
-        for the network device.
+      - NetworkDeviceId path parameter. Unique identifier for the network device.
     type: str
   id:
     description:
-      - Id query parameter. Optional list of the port
-        channel ids to filter by.
+      - Id query parameter. Optional list of the port channel ids to filter by.
     type: str
   name:
     description:
       - >
-        Name query parameter. Optional name of the port
-        channel to filter by. This supports partial
-        search. For example, searching for "Port" will
-        match "Port-channel1", "Port-channel2", etc.
+        Name query parameter. Optional name of the port channel to filter by. This supports partial search. For
+        example, searching for "Port" will match "Port-channel1", "Port-channel2", etc.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      RetrievePortChannelsCountForANetworkDevice
-    description: Complete reference of the RetrievePortChannelsCountForANetworkDevice
-      API.
+  - name: Cisco DNA Center documentation for Devices RetrievePortChannelsCountForANetworkDevice
+    description: Complete reference of the RetrievePortChannelsCountForANetworkDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-port-channels-count-for-a-network-device
 notes:
   - SDK Method used are
@@ -58,8 +49,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Network Device Licenses Network Device
-    Id Port Channels Count
+- name: Get all Network Device Licenses Network Device Id Port Channels Count
   cisco.dnac.network_device_licenses_network_device_id_port_channels_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

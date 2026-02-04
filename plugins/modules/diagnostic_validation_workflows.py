@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: diagnostic_validation_workflows
-short_description: Resource module for Diagnostic Validation
-  Workflows
+short_description: Resource module for Diagnostic Validation Workflows
 description:
-  - Manage operations create and delete of the resource
-    Diagnostic Validation Workflows.
-  - Submits the workflow for executing the validations
-    for the given validation specifications.
+  - Manage operations create and delete of the resource Diagnostic Validation Workflows.
+  - Submits the workflow for executing the validations for the given validation specifications.
   - Deletes the workflow for the given id.
 version_added: '6.15.0'
 extends_documentation_fragment:
@@ -27,26 +24,21 @@ options:
     description: Id path parameter. Workflow id.
     type: str
   name:
-    description: Name of the workflow to run. It must
-      be unique.
+    description: Name of the workflow to run. It must be unique.
     type: str
   validationSetIds:
     description: List of validation set ids.
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Health
-      and Performance SubmitsTheWorkflowForExecutingValidations
-    description: Complete reference of the SubmitsTheWorkflowForExecutingValidations
-      API.
+  - name: Cisco DNA Center documentation for Health and Performance SubmitsTheWorkflowForExecutingValidations
+    description: Complete reference of the SubmitsTheWorkflowForExecutingValidations API.
     link: https://developer.cisco.com/docs/dna-center/#!submits-the-workflow-for-executing-validations
-  - name: Cisco DNA Center documentation for Health
-      and Performance DeletesAValidationWorkflow
-    description: Complete reference of the DeletesAValidationWorkflow
-      API.
+  - name: Cisco DNA Center documentation for Health and Performance DeletesAValidationWorkflow
+    description: Complete reference of the DeletesAValidationWorkflow API.
     link: https://developer.cisco.com/docs/dna-center/#!deletes-a-validation-workflow
 notes:
   - SDK Method used are

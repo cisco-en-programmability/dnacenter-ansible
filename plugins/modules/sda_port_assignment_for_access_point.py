@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: sda_port_assignment_for_access_point
-short_description: Resource module for Sda Port Assignment
-  For Access Point
+short_description: Resource module for Sda Port Assignment For Access Point
 description:
-  - Manage operations create and delete of the resource
-    Sda Port Assignment For Access Point.
+  - Manage operations create and delete of the resource Sda Port Assignment For Access Point.
   - Add Port assignment for access point in SDA Fabric.
   - Delete Port assignment for access point in SDA Fabric.
 version_added: '3.1.0'
@@ -20,8 +18,7 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   authenticateTemplateName:
-    description: Authenticate TemplateName associated
-      to Fabric Site.
+    description: Authenticate TemplateName associated to Fabric Site.
     type: str
     version_added: 4.0.0
   dataIpAddressPoolName:
@@ -29,7 +26,7 @@ options:
     type: str
     version_added: 4.0.0
   deviceManagementIpAddress:
-    description: Management Ip Address of the edge device.
+    description: DeviceManagementIpAddress query parameter.
     type: str
     version_added: 4.0.0
   interfaceDescription:
@@ -37,23 +34,21 @@ options:
     type: str
     version_added: 4.0.0
   interfaceName:
-    description: Interface Name of the edge device.
+    description: InterfaceName query parameter.
     type: str
   siteNameHierarchy:
     description: Path of sda Fabric Site.
     type: str
     version_added: 4.0.0
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA AddPortAssignmentForAccessPointInSDAFabric
-    description: Complete reference of the AddPortAssignmentForAccessPointInSDAFabric
-      API.
+    description: Complete reference of the AddPortAssignmentForAccessPointInSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!add-port-assignment-for-access-point-in-sda-fabric
   - name: Cisco DNA Center documentation for SDA DeletePortAssignmentForAccessPointInSDAFabric
-    description: Complete reference of the DeletePortAssignmentForAccessPointInSDAFabric
-      API.
+    description: Complete reference of the DeletePortAssignmentForAccessPointInSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-for-access-point-in-sda-fabric
 notes:
   - SDK Method used are
@@ -66,6 +61,18 @@ notes:
 
 EXAMPLES = r"""
 ---
+- name: Delete all
+  cisco.dnac.sda_port_assignment_for_access_point:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    deviceManagementIpAddress: string
+    interfaceName: string
 - name: Create
   cisco.dnac.sda_port_assignment_for_access_point:
     dnac_host: "{{dnac_host}}"
@@ -82,18 +89,6 @@ EXAMPLES = r"""
     interfaceDescription: string
     interfaceName: string
     siteNameHierarchy: string
-- name: Delete all
-  cisco.dnac.sda_port_assignment_for_access_point:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: absent
-    deviceManagementIpAddress: string
-    interfaceName: string
 """
 RETURN = r"""
 dnac_response:

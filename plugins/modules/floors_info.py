@@ -25,17 +25,14 @@ options:
     type: str
   _unitsOfMeasure:
     description:
-      - _unitsOfMeasure query parameter. Floor units
-        of measure.
+      - _unitsOfMeasure query parameter. Floor units of measure.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      GetsAFloorV2
-    description: Complete reference of the GetsAFloorV2
-      API.
+  - name: Cisco DNA Center documentation for Site Design GetsAFloorV2
+    description: Complete reference of the GetsAFloorV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!gets-a-floor-v-2
 notes:
   - SDK Method used are

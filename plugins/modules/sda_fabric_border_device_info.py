@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_border_device_info
-short_description: Information module for Sda Fabric
-  Border Device
+short_description: Information module for Sda Fabric Border Device
 description:
   - Get all Sda Fabric Border Device.
   - Get border device detail from SDA Fabric.
@@ -26,12 +25,11 @@ options:
       - DeviceManagementIpAddress query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetBorderDeviceDetailFromSDAFabric
-    description: Complete reference of the GetBorderDeviceDetailFromSDAFabric
-      API.
+    description: Complete reference of the GetBorderDeviceDetailFromSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!get-border-device-detail-from-sda-fabric
 notes:
   - SDK Method used are
@@ -83,20 +81,20 @@ dnac_response:
         "provisioningState": "string",
         "resourceVersion": 0,
         "targetIdList": [
-          {}
+          "string"
         ],
         "type": "string",
         "cfsChangeInfo": [
-          {}
+          "string"
         ],
         "customProvisions": [
-          {}
+          "string"
         ],
         "configs": [
-          {}
+          "string"
         ],
         "managedSites": [
-          {}
+          "string"
         ],
         "networkDeviceId": "string",
         "roles": [
@@ -105,10 +103,10 @@ dnac_response:
         "saveWanConnectivityDetailsOnly": true,
         "siteId": "string",
         "akcSettingsCfs": [
-          {}
+          "string"
         ],
         "deviceInterfaceInfo": [
-          {}
+          "string"
         ],
         "deviceSettings": {
           "id": "string",
@@ -118,7 +116,7 @@ dnac_response:
           "deployPending": "string",
           "instanceVersion": 0,
           "connectedTo": [
-            {}
+            "string"
           ],
           "cpu": 0,
           "dhcpEnabled": true,
@@ -143,7 +141,7 @@ dnac_response:
               "policyPropagationEnabled": true,
               "policySgtTag": 0,
               "l2Handoff": [
-                {}
+                "string"
               ],
               "l3Handoff": [
                 {
@@ -172,10 +170,10 @@ dnac_response:
           "deployPending": "string",
           "instanceVersion": 0,
           "aaa": [
-            {}
+            "string"
           ],
           "cmx": [
-            {}
+            "string"
           ],
           "dhcp": [
             {
@@ -201,26 +199,26 @@ dnac_response:
             }
           ],
           "ldap": [
-            {}
+            "string"
           ],
           "nativeVlan": [
-            {}
+            "string"
           ],
           "netflow": [
-            {}
+            "string"
           ],
           "ntp": [
-            {}
+            "string"
           ],
           "snmp": [
-            {}
+            "string"
           ],
           "syslogs": [
-            {}
+            "string"
           ]
         },
         "otherDevice": [
-          {}
+          "string"
         ],
         "transitNetworks": [
           {
@@ -228,10 +226,10 @@ dnac_response:
           }
         ],
         "virtualNetwork": [
-          {}
+          "string"
         ],
         "wlan": [
-          {}
+          "string"
         ]
       }
     }

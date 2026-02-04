@@ -7,14 +7,13 @@
 DOCUMENTATION = r"""
 ---
 module: ipam_global_ip_address_pools_info
-short_description: Information module for Ipam Global
-  Ip Address Pools
+short_description: Information module for Ipam Global Ip Address Pools
 description:
-  - Get all Ipam Global Ip Address Pools. - > Retrieves
-    global IP address pools. Global pools are not associated
-    with any particular site, but may have portions
-    of their address space reserved by site-specific
-    subpools.
+  - Get all Ipam Global Ip Address Pools.
+  - Get Ipam Global Ip Address Pools by id. - > Retrieves a global IP address pool. Global pools are not associated with any
+    particular site, but may have portions of their address space reserved by site-specific subpools. - > Retrieves global
+    IP address pools. Global pools are not associated with any particular site, but may have portions of their address space
+    reserved by site-specific subpools.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,41 +24,41 @@ options:
     type: dict
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1.
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page; the minimum is 1, and
-        the maximum is 500.
+      - Limit query parameter. The number of records to show for this page; the minimum is 1, and the maximum is 500.
     type: int
   sortBy:
     description:
-      - SortBy query parameter. A property within the
-        response to sort by.
+      - SortBy query parameter. A property within the response to sort by.
     type: str
   order:
     description:
-      - Order query parameter. Whether ascending or
-        descending order should be used to sort the
-        response.
+      - Order query parameter. Whether ascending or descending order should be used to sort the response.
+    type: str
+  id:
+    description:
+      - Id path parameter. The `id` of the global IP address pool to retrieve.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings RetrievesGlobalIPAddressPools
-    description: Complete reference of the RetrievesGlobalIPAddressPools
-      API.
+  - name: Cisco DNA Center documentation for Network Settings RetrievesAGlobalIPAddressPool
+    description: Complete reference of the RetrievesAGlobalIPAddressPool API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-a-global-ip-address-pool
+  - name: Cisco DNA Center documentation for Network Settings RetrievesGlobalIPAddressPools
+    description: Complete reference of the RetrievesGlobalIPAddressPools API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-global-ip-address-pools
 notes:
   - SDK Method used are
+    network_settings.NetworkSettings.retrieves_a_global_ip_address_pool,
     network_settings.NetworkSettings.retrieves_global_ip_address_pools,
   - Paths used are
     get /dna/intent/api/v1/ipam/globalIpAddressPools,
+    get /dna/intent/api/v1/ipam/globalIpAddressPools/{id},
 """
 
 EXAMPLES = r"""
@@ -79,6 +78,18 @@ EXAMPLES = r"""
     sortBy: string
     order: string
   register: result
+- name: Get Ipam Global Ip Address Pools by id
+  cisco.dnac.ipam_global_ip_address_pools_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    headers: "{{my_headers | from_json}}"
+    id: string
+  register: result
 """
 RETURN = r"""
 dnac_response:
@@ -87,28 +98,26 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "addressSpace": {
-            "subnet": "string",
-            "prefixLength": 0,
-            "gatewayIpAddress": "string",
-            "dhcpServers": [
-              "string"
-            ],
-            "dnsServers": [
-              "string"
-            ],
-            "totalAddresses": "string",
-            "unassignableAddresses": "string",
-            "assignedAddresses": "string",
-            "defaultAssignedAddresses": "string"
-          },
-          "id": "string",
-          "name": "string",
-          "poolType": "string"
-        }
-      ],
+      "response": {
+        "addressSpace": {
+          "subnet": "string",
+          "prefixLength": 0,
+          "gatewayIpAddress": "string",
+          "dhcpServers": [
+            "string"
+          ],
+          "dnsServers": [
+            "string"
+          ],
+          "totalAddresses": "string",
+          "unassignableAddresses": "string",
+          "assignedAddresses": "string",
+          "defaultAssignedAddresses": "string"
+        },
+        "id": "string",
+        "name": "string",
+        "poolType": "string"
+      },
       "version": "string"
     }
 """

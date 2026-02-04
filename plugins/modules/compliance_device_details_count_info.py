@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: compliance_device_details_count_info
-short_description: Information module for Compliance
-  Device Details Count
+short_description: Information module for Compliance Device Details Count
 description:
   - Get all Compliance Device Details Count.
   - Return Compliance Count Detail.
@@ -23,29 +22,22 @@ options:
   complianceType:
     description:
       - >
-        ComplianceType query parameter. Specify "Compliance
-        type(s)" separated by commas. The Compliance
-        type can be 'APPLICATION_VISIBILITY', 'EOX',
-        'FABRIC', 'IMAGE', 'NETWORK_PROFILE', 'NETWORK_SETTINGS',
+        ComplianceType query parameter. Specify "Compliance type(s)" separated by commas. The Compliance type
+        can be 'APPLICATION_VISIBILITY', 'EOX', 'FABRIC', 'IMAGE', 'NETWORK_PROFILE', 'NETWORK_SETTINGS',
         'PSIRT', 'RUNNING_CONFIG', 'WORKFLOW'.
     type: str
   complianceStatus:
     description:
       - >
-        ComplianceStatus query parameter. Specify "Compliance
-        status(es)" separated by commas. The Compliance
-        status can be 'COMPLIANT', 'NON_COMPLIANT',
-        'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE',
-        'ERROR'.
+        ComplianceStatus query parameter. Specify "Compliance status(es)" separated by commas. The Compliance
+        status can be 'COMPLIANT', 'NON_COMPLIANT', 'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetComplianceDetailCount
-    description: Complete reference of the GetComplianceDetailCount
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetComplianceDetailCount
+    description: Complete reference of the GetComplianceDetailCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-compliance-detail-count
 notes:
   - SDK Method used are

@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: lan_automation_sessions_info
-short_description: Information module for Lan Automation
-  Sessions
+short_description: Information module for Lan Automation Sessions
 description:
   - Get all Lan Automation Sessions.
-  - Invoke this API to get the LAN Automation active
-    session information.
+  - Invoke this API to get the LAN Automation active session information.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for LAN Automation
-      LANAutomationActiveSessions
-    description: Complete reference of the LANAutomationActiveSessions
-      API.
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationActiveSessions
+    description: Complete reference of the LANAutomationActiveSessions API.
     link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-active-sessions
 notes:
   - SDK Method used are

@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_accesspoint_configuration_count_info
-short_description: Information module for Wireless Accesspoint
-  Configuration Count
+short_description: Information module for Wireless Accesspoint Configuration Count
 description:
   - Get all Wireless Accesspoint Configuration Count.
   - Get Access Point Configuration Count.
@@ -27,9 +26,8 @@ options:
   apMode:
     description:
       - >
-        ApMode query parameter. AP Mode. Allowed values
-        are Local, Bridge, Monitor, FlexConnect, Sniffer,
-        Rogue Detector, SE-Connect, Flex+Bridge, Sensor.
+        ApMode query parameter. AP Mode. Allowed values are Local, Bridge, Monitor, FlexConnect, Sniffer, Rogue
+        Detector, SE-Connect, Flex+Bridge, Sensor.
     type: str
   apModel:
     description:
@@ -37,23 +35,18 @@ options:
     type: str
   meshRole:
     description:
-      - MeshRole query parameter. Mesh Role. Allowed
-        values are RAP or MAP.
+      - MeshRole query parameter. Mesh Role. Allowed values are RAP or MAP.
     type: str
   provisioned:
     description:
-      - Provisioned query parameter. Indicate whether
-        AP provisioned or not. Allowed values are True
-        or False.
+      - Provisioned query parameter. Indicate whether AP provisioned or not. Allowed values are True or False.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetAccessPointConfigurationCount
-    description: Complete reference of the GetAccessPointConfigurationCount
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetAccessPointConfigurationCount
+    description: Complete reference of the GetAccessPointConfigurationCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration-count
 notes:
   - SDK Method used are

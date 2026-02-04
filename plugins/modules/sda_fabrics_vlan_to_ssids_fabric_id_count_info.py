@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_fabrics_vlan_to_ssids_fabric_id_count_info
-short_description: Information module for Sda Fabrics
-  Vlan To Ssids Fabric Id Count
+short_description: Information module for Sda Fabrics Vlan To Ssids Fabric Id Count
 description:
-  - Get all Sda Fabrics Vlan To Ssids Fabric Id Count.
-    - > Returns the count of VLANs mapped to SSIDs in
-    a Fabric Site. The 'fabricId' represents the Fabric
-    ID of a particular Fabric Site.
+  - Get all Sda Fabrics Vlan To Ssids Fabric Id Count. - > Returns the count of VLANs mapped to SSIDs in a Fabric Site. The
+    'fabricId' represents the Fabric ID of a particular Fabric Site.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,17 +21,14 @@ options:
     type: dict
   fabricId:
     description:
-      - FabricId path parameter. The 'fabricId' represents
-        the Fabric ID of a particular Fabric Site.
+      - FabricId path parameter. The 'fabricId' represents the Fabric ID of a particular Fabric Site.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Fabric
-      Wireless ReturnsTheCountOfVLANsMappedToSSIDsInAFabricSite
-    description: Complete reference of the ReturnsTheCountOfVLANsMappedToSSIDsInAFabricSite
-      API.
+  - name: Cisco DNA Center documentation for Fabric Wireless ReturnsTheCountOfVLANsMappedToSSIDsInAFabricSite
+    description: Complete reference of the ReturnsTheCountOfVLANsMappedToSSIDsInAFabricSite API.
     link: https://developer.cisco.com/docs/dna-center/#!returns-the-count-of-vla-ns-mapped-to-ssi-ds-in-a-fabric-site
 notes:
   - SDK Method used are
@@ -45,8 +39,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Sda Fabrics Vlan To Ssids Fabric Id
-    Count
+- name: Get all Sda Fabrics Vlan To Ssids Fabric Id Count
   cisco.dnac.sda_fabrics_vlan_to_ssids_fabric_id_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

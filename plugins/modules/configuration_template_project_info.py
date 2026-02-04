@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: configuration_template_project_info
-short_description: Information module for Configuration
-  Template Project
+short_description: Information module for Configuration Template Project
 description:
   - Get all Configuration Template Project.
   - Get Configuration Template Project by id.
@@ -24,32 +23,25 @@ options:
     type: dict
   name:
     description:
-      - Name query parameter. Name of project to be
-        searched.
+      - Name query parameter. Name of project to be searched.
     type: str
   sortOrder:
     description:
-      - SortOrder query parameter. Sort Order Ascending
-        (asc) or Descending (des).
+      - SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).
     type: str
   projectId:
     description:
-      - ProjectId path parameter. ProjectId(UUID) of
-        project to get project details.
+      - ProjectId path parameter. ProjectId(UUID) of project to get project details.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates GetsAListOfProjects
-    description: Complete reference of the GetsAListOfProjects
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates GetsAListOfProjects
+    description: Complete reference of the GetsAListOfProjects API.
     link: https://developer.cisco.com/docs/dna-center/#!gets-a-list-of-projects
-  - name: Cisco DNA Center documentation for Configuration
-      Templates GetsTheDetailsOfAGivenProject
-    description: Complete reference of the GetsTheDetailsOfAGivenProject
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates GetsTheDetailsOfAGivenProject
+    description: Complete reference of the GetsTheDetailsOfAGivenProject API.
     link: https://developer.cisco.com/docs/dna-center/#!gets-the-details-of-a-given-project
 notes:
   - SDK Method used are

@@ -21,16 +21,14 @@ options:
     type: dict
   id:
     description:
-      - Id path parameter. The `id` of the task to retrieve
-        details for.
+      - Id path parameter. The `id` of the task to retrieve details for.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Task GetTaskDetailsByID
-    description: Complete reference of the GetTaskDetailsByID
-      API.
+    description: Complete reference of the GetTaskDetailsByID API.
     link: https://developer.cisco.com/docs/dna-center/#!get-task-details-by-id
 notes:
   - SDK Method used are

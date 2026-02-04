@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: ipam_site_ip_address_pools_count_info
-short_description: Information module for Ipam Site
-  Ip Address Pools Count
+short_description: Information module for Ipam Site Ip Address Pools Count
 description:
   - Get all Ipam Site Ip Address Pools Count.
-  - Counts IP address subpools, which reserve address
-    space from a global pool or global pools .
+  - Counts IP address subpools, which reserve address space from a global pool or global pools .
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,18 +22,15 @@ options:
   siteId:
     description:
       - >
-        SiteId query parameter. The `id` of the site
-        for which to retrieve IP address subpools. Only
-        subpools whose `siteId` matches will be counted.
+        SiteId query parameter. The `id` of the site for which to retrieve IP address subpools. Only subpools
+        whose `siteId` matches will be counted.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings CountsIPAddressSubpools
-    description: Complete reference of the CountsIPAddressSubpools
-      API.
+  - name: Cisco DNA Center documentation for Network Settings CountsIPAddressSubpools
+    description: Complete reference of the CountsIPAddressSubpools API.
     link: https://developer.cisco.com/docs/dna-center/#!counts-ip-address-subpools
 notes:
   - SDK Method used are

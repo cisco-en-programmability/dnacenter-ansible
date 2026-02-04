@@ -10,8 +10,7 @@ module: topology_physical_info
 short_description: Information module for Topology Physical
 description:
   - Get all Topology Physical.
-  - Returns the raw physical topology by specified criteria
-    of nodeType.
+  - Returns the raw physical topology by specified criteria of nodeType.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,13 +24,11 @@ options:
       - NodeType query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Topology
-      GetPhysicalTopology
-    description: Complete reference of the GetPhysicalTopology
-      API.
+  - name: Cisco DNA Center documentation for Topology GetPhysicalTopology
+    description: Complete reference of the GetPhysicalTopology API.
     link: https://developer.cisco.com/docs/dna-center/#!get-physical-topology
 notes:
   - SDK Method used are

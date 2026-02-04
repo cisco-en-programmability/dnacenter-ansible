@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: golden_tag_image_delete
-short_description: Resource module for Golden Tag Image
-  Delete
+short_description: Resource module for Golden Tag Image Delete
 description:
-  - Manage operation delete of the resource Golden Tag
-    Image Delete.
+  - Manage operation delete of the resource Golden Tag Image Delete.
   - Remove golden tag. Set siteId as -1 for Global site.
 version_added: '4.0.0'
 extends_documentation_fragment:
@@ -19,31 +17,24 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   deviceFamilyIdentifier:
-    description: DeviceFamilyIdentifier path parameter.
-      Device family identifier e.g. 277696480-283933147,
-      e.g. 277696480.
+    description: DeviceFamilyIdentifier path parameter. Device family identifier e.g. 277696480-283933147, e.g. 277696480.
     type: str
   deviceRole:
-    description: DeviceRole path parameter. Device Role.
-      Permissible Values ALL, UNKNOWN, ACCESS, BORDER
-      ROUTER, DISTRIBUTION and CORE.
+    description: DeviceRole path parameter. Device Role. Permissible Values ALL, UNKNOWN, ACCESS, BORDER ROUTER, DISTRIBUTION
+      and CORE.
     type: str
   imageId:
-    description: ImageId path parameter. Image Id in
-      uuid format.
+    description: ImageId path parameter. Image Id in uuid format.
     type: str
   siteId:
-    description: SiteId path parameter. Site Id in uuid
-      format. Set siteId as -1 for Global site.
+    description: SiteId path parameter. Site Id in uuid format. Set siteId as -1 for Global site.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) RemoveGoldenTagForImage
-    description: Complete reference of the RemoveGoldenTagForImage
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) RemoveGoldenTagForImage
+    description: Complete reference of the RemoveGoldenTagForImage API.
     link: https://developer.cisco.com/docs/dna-center/#!remove-golden-tag-for-image
 notes:
   - SDK Method used are
@@ -77,8 +68,7 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

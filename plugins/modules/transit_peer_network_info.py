@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: transit_peer_network_info
-short_description: Information module for Transit Peer
-  Network
+short_description: Information module for Transit Peer Network
 description:
   - Get all Transit Peer Network.
   - Get Transit Peer Network Info from SD-Access.
@@ -22,16 +21,14 @@ options:
     type: dict
   transitPeerNetworkName:
     description:
-      - TransitPeerNetworkName query parameter. Transit
-        or Peer Network Name.
+      - TransitPeerNetworkName query parameter. Transit or Peer Network Name.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetTransitPeerNetworkInfo
-    description: Complete reference of the GetTransitPeerNetworkInfo
-      API.
+    description: Complete reference of the GetTransitPeerNetworkInfo API.
     link: https://developer.cisco.com/docs/dna-center/#!get-transit-peer-network-info
 notes:
   - SDK Method used are

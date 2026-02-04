@@ -9,9 +9,8 @@ DOCUMENTATION = r"""
 module: device_details_info
 short_description: Information module for Device Details
 description:
-  - Get all Device Details. - > Returns detailed Network
-    Device information retrieved by Mac Address, Device
-    Name or UUID for any given point of time.
+  - Get all Device Details. - > Returns detailed Network Device information retrieved by Mac Address, Device Name or UUID
+    for any given point of time.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,27 +21,22 @@ options:
     type: dict
   timestamp:
     description:
-      - Timestamp query parameter. UTC timestamp of
-        device data in milliseconds.
+      - Timestamp query parameter. UTC timestamp of device data in milliseconds.
     type: float
   identifier:
     description:
-      - Identifier query parameter. One of "macAddress",
-        "nwDeviceName", "uuid" (case insensitive).
+      - Identifier query parameter. One of "macAddress", "nwDeviceName", "uuid" (case insensitive).
     type: str
   searchBy:
     description:
-      - SearchBy query parameter. MAC Address, device
-        name, or UUID of the network device.
+      - SearchBy query parameter. MAC Address, device name, or UUID of the network device.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetDeviceDetail
-    description: Complete reference of the GetDeviceDetail
-      API.
+  - name: Cisco DNA Center documentation for Devices GetDeviceDetail
+    description: Complete reference of the GetDeviceDetail API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-detail
 notes:
   - SDK Method used are
@@ -108,7 +102,7 @@ dnac_response:
       "interference": "string",
       "softwareVersion": "string",
       "tagIdList": [
-        {}
+        "string"
       ],
       "powerType": "string",
       "overallHealth": 0,

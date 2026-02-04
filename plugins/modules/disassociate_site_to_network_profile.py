@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: disassociate_site_to_network_profile
-short_description: Resource module for Disassociate
-  Site To Network Profile
+short_description: Resource module for Disassociate Site To Network Profile
 description:
-  - Manage operation delete of the resource Disassociate
-    Site To Network Profile.
+  - Manage operation delete of the resource Disassociate Site To Network Profile.
   - Disassociate a Site from a Network Profile.
 version_added: '4.0.0'
 extends_documentation_fragment:
@@ -19,21 +17,17 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   networkProfileId:
-    description: NetworkProfileId path parameter. Network-Profile
-      Id to be associated.
+    description: NetworkProfileId path parameter. Network-Profile Id to be associated.
     type: str
   siteId:
-    description: SiteId path parameter. Site Id to be
-      associated.
+    description: SiteId path parameter. Site Id to be associated.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      Disassociate
-    description: Complete reference of the Disassociate
-      API.
+  - name: Cisco DNA Center documentation for Site Design Disassociate
+    description: Complete reference of the Disassociate API.
     link: https://developer.cisco.com/docs/dna-center/#!disassociate
 notes:
   - SDK Method used are
@@ -65,7 +59,7 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       }
     }

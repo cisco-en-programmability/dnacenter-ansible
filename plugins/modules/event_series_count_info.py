@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: event_series_count_info
-short_description: Information module for Event Series
-  Count
+short_description: Information module for Event Series Count
 description:
   - Get all Event Series Count.
   - Get the Count of Published Notifications.
@@ -22,8 +21,7 @@ options:
     type: dict
   eventIds:
     description:
-      - EventIds query parameter. The registered EventId
-        should be provided.
+      - EventIds query parameter. The registered EventId should be provided.
     type: str
   startTime:
     description:
@@ -58,13 +56,11 @@ options:
       - Source query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      CountOfNotifications
-    description: Complete reference of the CountOfNotifications
-      API.
+  - name: Cisco DNA Center documentation for Event Management CountOfNotifications
+    description: Complete reference of the CountOfNotifications API.
     link: https://developer.cisco.com/docs/dna-center/#!count-of-notifications
 notes:
   - SDK Method used are

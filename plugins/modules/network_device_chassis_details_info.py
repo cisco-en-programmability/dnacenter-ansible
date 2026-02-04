@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_chassis_details_info
-short_description: Information module for Network Device
-  Chassis Details
+short_description: Information module for Network Device Chassis Details
 description:
   - Get all Network Device Chassis Details.
   - Returns chassis details for given device ID.
@@ -25,13 +24,11 @@ options:
       - DeviceId path parameter. Device ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetChassisDetailsForDevice
-    description: Complete reference of the GetChassisDetailsForDevice
-      API.
+  - name: Cisco DNA Center documentation for Devices GetChassisDetailsForDevice
+    description: Complete reference of the GetChassisDetailsForDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!get-chassis-details-for-device
 notes:
   - SDK Method used are

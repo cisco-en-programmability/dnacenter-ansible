@@ -7,17 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: itsm_integration_events_failed
-short_description: Resource module for Itsm Integration
-  Events Failed
+short_description: Resource module for Itsm Integration Events Failed
 description:
-  - Manage operation create of the resource Itsm Integration
-    Events Failed. - > Allows retry of multiple failed
-    ITSM event instances. The retry request payload
-    can be given as a list of strings "instance1","instance2","instance3",..
-    A minimum of one instance Id is mandatory. The list
-    of failed event instance Ids can be retrieved using
-    the 'Get Failed ITSM Events' API in the 'instanceId'
-    attribute.
+  - Manage operation create of the resource Itsm Integration Events Failed. - > Allows retry of multiple failed ITSM event
+    instances. The retry request payload can be given as a list of strings "instance1","instance2","instance3",.. A minimum
+    of one instance Id is mandatory. The list of failed event instance Ids can be retrieved using the 'Get Failed ITSM Events'
+    API in the 'instanceId' attribute.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -28,12 +23,11 @@ options:
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for ITSM RetryIntegrationEvents
-    description: Complete reference of the RetryIntegrationEvents
-      API.
+    description: Complete reference of the RetryIntegrationEvents API.
     link: https://developer.cisco.com/docs/dna-center/#!retry-integration-events
 notes:
   - SDK Method used are

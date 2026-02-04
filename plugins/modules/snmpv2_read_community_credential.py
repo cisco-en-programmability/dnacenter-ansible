@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: snmpv2_read_community_credential
-short_description: Resource module for Snmpv2 Read Community
-  Credential
+short_description: Resource module for Snmpv2 Read Community Credential
 description:
-  - Manage operations create and update of the resource
-    Snmpv2 Read Community Credential.
+  - Manage operations create and update of the resource Snmpv2 Read Community Credential.
   - Adds global SNMP read community.
   - Updates global SNMP read community.
 version_added: '3.1.0'
@@ -23,8 +21,7 @@ options:
     description: Comments to identify the credential.
     type: str
   credentialType:
-    description: Credential type to identify the application
-      that uses the credential.
+    description: Credential type to identify the application that uses the credential.
     type: str
   description:
     description: Name/Description of the credential.
@@ -33,22 +30,17 @@ options:
     description: Credential UUID.
     type: str
   readCommunity:
-    description: SNMP read community. NO!$DATA!$ for
-      no value change.
+    description: SNMP read community. NO!$DATA!$ for no value change.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Discovery
-      CreateSNMPReadCommunity
-    description: Complete reference of the CreateSNMPReadCommunity
-      API.
+  - name: Cisco DNA Center documentation for Discovery CreateSNMPReadCommunity
+    description: Complete reference of the CreateSNMPReadCommunity API.
     link: https://developer.cisco.com/docs/dna-center/#!create-snmp-read-community
-  - name: Cisco DNA Center documentation for Discovery
-      UpdateSNMPReadCommunity
-    description: Complete reference of the UpdateSNMPReadCommunity
-      API.
+  - name: Cisco DNA Center documentation for Discovery UpdateSNMPReadCommunity
+    description: Complete reference of the UpdateSNMPReadCommunity API.
     link: https://developer.cisco.com/docs/dna-center/#!update-snmp-read-community
 notes:
   - SDK Method used are
@@ -61,6 +53,20 @@ notes:
 
 EXAMPLES = r"""
 ---
+- name: Create
+  cisco.dnac.snmpv2_read_community_credential:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    comments: string
+    credentialType: string
+    description: string
+    readCommunity: string
 - name: Update all
   cisco.dnac.snmpv2_read_community_credential:
     dnac_host: "{{dnac_host}}"
@@ -75,20 +81,6 @@ EXAMPLES = r"""
     credentialType: string
     description: string
     instanceUuid: string
-    readCommunity: string
-- name: Create
-  cisco.dnac.snmpv2_read_community_credential:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: present
-    comments: string
-    credentialType: string
-    description: string
     readCommunity: string
 """
 RETURN = r"""

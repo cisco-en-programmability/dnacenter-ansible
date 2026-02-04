@@ -9,13 +9,9 @@ DOCUMENTATION = r"""
 module: network_v2
 short_description: Resource module for Network V2
 description:
-  - Manage operations create and update of the resource
-    Network V2. - > API to create network settings for
-    DHCP, Syslog, SNMP, NTP, Network AAA, Client and
-    Endpoint AAA, and/or DNS center server settings.
-    - > API to update network settings for DHCP, Syslog,
-    SNMP, NTP, Network AAA, Client and Endpoint AAA,
-    and/or DNS center server settings.
+  - Manage operations create and update of the resource Network V2. - > API to create network settings for DHCP, Syslog, SNMP,
+    NTP, Network AAA, Client and Endpoint AAA, and/or DNS center server settings. - > API to update network settings for DHCP,
+    Syslog, SNMP, NTP, Network AAA, Client and Endpoint AAA, and/or DNS center server settings.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -28,20 +24,16 @@ options:
         description: Network V2's clientAndEndpoint_aaa.
         suboptions:
           ipAddress:
-            description: IP address for ISE serve (eg
-              1.1.1.4).
+            description: IP address for ISE serve (eg 1.1.1.4).
             type: str
           network:
-            description: IP address for AAA or ISE server
-              (eg 2.2.2.1).
+            description: IP address for AAA or ISE server (eg 2.2.2.1).
             type: str
           protocol:
-            description: Protocol for AAA or ISE serve
-              (eg RADIUS).
+            description: Protocol for AAA or ISE serve (eg RADIUS).
             type: str
           servers:
-            description: Server type AAA or ISE server
-              (eg AAA).
+            description: Server type AAA or ISE server (eg AAA).
             type: str
           sharedSecret:
             description: Shared secret for ISE server.
@@ -58,56 +50,46 @@ options:
             description: Domain Name of DHCP (eg; cisco).
             type: str
           primaryIpAddress:
-            description: Primary IP Address for DHCP
-              (eg 2.2.2.2).
+            description: Primary IP Address for DHCP (eg 2.2.2.2).
             type: str
           secondaryIpAddress:
-            description: Secondary IP Address for DHCP
-              (eg 3.3.3.3).
+            description: Secondary IP Address for DHCP (eg 3.3.3.3).
             type: str
         type: dict
       messageOfTheday:
         description: Network V2's messageOfTheday.
         suboptions:
           bannerMessage:
-            description: Massage for Banner message
-              (eg; Good day).
+            description: Massage for Banner message (eg; Good day).
             type: str
           retainExistingBanner:
-            description: Retain existing Banner Message
-              (eg "true" or "false").
+            description: Retain existing Banner Message (eg "true" or "false").
             type: str
         type: dict
       netflowcollector:
         description: Network V2's netflowcollector.
         suboptions:
           ipAddress:
-            description: IP Address for NetFlow collector
-              (eg 3.3.3.1).
+            description: IP Address for NetFlow collector (eg 3.3.3.1).
             type: str
           port:
-            description: Port for NetFlow Collector
-              (eg; 443).
+            description: Port for NetFlow Collector (eg; 443).
             type: float
         type: dict
       network_aaa:
         description: Network V2's network_aaa.
         suboptions:
           ipAddress:
-            description: IP address for AAA and ISE
-              server (eg 1.1.1.1).
+            description: IP address for AAA and ISE server (eg 1.1.1.1).
             type: str
           network:
-            description: IP Address for AAA or ISE server
-              (eg 2.2.2.2).
+            description: IP Address for AAA or ISE server (eg 2.2.2.2).
             type: str
           protocol:
-            description: Protocol for AAA or ISE serve
-              (eg RADIUS).
+            description: Protocol for AAA or ISE serve (eg RADIUS).
             type: str
           servers:
-            description: Server type for AAA Network
-              (eg AAA).
+            description: Server type for AAA Network (eg AAA).
             type: str
           sharedSecret:
             description: Shared secret for ISE Server.
@@ -121,12 +103,10 @@ options:
         description: Network V2's snmpServer.
         suboptions:
           configureDnacIP:
-            description: Configuration DNAC IP for SNMP
-              Server (eg true).
+            description: Configuration DNAC IP for SNMP Server (eg true).
             type: bool
           ipAddresses:
-            description: IP Address for SNMP Server
-              (eg 4.4.4.1).
+            description: IP Address for SNMP Server (eg 4.4.4.1).
             elements: str
             type: list
         type: dict
@@ -134,12 +114,10 @@ options:
         description: Network V2's syslogServer.
         suboptions:
           configureDnacIP:
-            description: Configuration DNAC IP for syslog
-              server (eg true).
+            description: Configuration DNAC IP for syslog server (eg true).
             type: bool
           ipAddresses:
-            description: IP Address for syslog server
-              (eg 4.4.4.4).
+            description: IP Address for syslog server (eg 4.4.4.4).
             elements: str
             type: list
         type: dict
@@ -148,22 +126,17 @@ options:
         type: str
     type: dict
   siteId:
-    description: SiteId path parameter. Site Id to which
-      site details to associate with the network settings.
+    description: SiteId path parameter. Site Id to which site details to associate with the network settings.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings CreateNetworkV2
-    description: Complete reference of the CreateNetworkV2
-      API.
+  - name: Cisco DNA Center documentation for Network Settings CreateNetworkV2
+    description: Complete reference of the CreateNetworkV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!create-network-v-2
-  - name: Cisco DNA Center documentation for Network
-      Settings UpdateNetworkV2
-    description: Complete reference of the UpdateNetworkV2
-      API.
+  - name: Cisco DNA Center documentation for Network Settings UpdateNetworkV2
+    description: Complete reference of the UpdateNetworkV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!update-network-v-2
 notes:
   - SDK Method used are

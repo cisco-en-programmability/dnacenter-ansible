@@ -7,15 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: diagnostic_validation_sets_info
-short_description: Information module for Diagnostic
-  Validation Sets
+short_description: Information module for Diagnostic Validation Sets
 description:
   - Get all Diagnostic Validation Sets.
   - Get Diagnostic Validation Sets by id.
-  - Retrieves all the validation sets and optionally
-    the contained validations.
-  - Retrieves validation details for the given validation
-    set id.
+  - Retrieves all the validation sets and optionally the contained validations.
+  - Retrieves validation details for the given validation set id.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,29 +24,23 @@ options:
   view:
     description:
       - >
-        View query parameter. When the query parameter
-        `view=DETAIL` is passed, all validation sets
-        and associated validations will be returned.
-        When the query parameter `view=DEFAULT` is passed,
-        only validation sets metadata will be returned.
+        View query parameter. When the query parameter `view=DETAIL` is passed, all validation sets and
+        associated validations will be returned. When the query parameter `view=DEFAULT` is passed, only
+        validation sets metadata will be returned.
     type: str
   id:
     description:
       - Id path parameter. Validation set id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Health
-      and Performance RetrievesAllTheValidationSets
-    description: Complete reference of the RetrievesAllTheValidationSets
-      API.
+  - name: Cisco DNA Center documentation for Health and Performance RetrievesAllTheValidationSets
+    description: Complete reference of the RetrievesAllTheValidationSets API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-all-the-validation-sets
-  - name: Cisco DNA Center documentation for Health
-      and Performance RetrievesValidationDetailsForAValidationSet
-    description: Complete reference of the RetrievesValidationDetailsForAValidationSet
-      API.
+  - name: Cisco DNA Center documentation for Health and Performance RetrievesValidationDetailsForAValidationSet
+    description: Complete reference of the RetrievesValidationDetailsForAValidationSet API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-validation-details-for-a-validation-set
 notes:
   - SDK Method used are
@@ -94,25 +85,21 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": {
-        "id": "string",
-        "name": "string",
-        "description": "string",
-        "version": "string",
-        "validationGroups": [
-          {
-            "name": "string",
-            "id": "string",
-            "description": "string",
-            "validations": [
-              {
-                "id": "string",
-                "name": "string"
-              }
-            ]
-          }
-        ]
-      },
+      "response": [
+        {
+          "id": "string",
+          "name": "string",
+          "description": "string",
+          "runStatus": "string",
+          "submitTime": 0,
+          "startTime": 0,
+          "endTime": 0,
+          "validationStatus": "string",
+          "validationSetIds": [
+            "string"
+          ]
+        }
+      ],
       "version": "string"
     }
 """

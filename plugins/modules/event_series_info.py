@@ -21,8 +21,7 @@ options:
     type: dict
   eventIds:
     description:
-      - EventIds query parameter. The registered EventId
-        should be provided.
+      - EventIds query parameter. The registered EventId should be provided.
     type: str
   startTime:
     description:
@@ -70,8 +69,7 @@ options:
     type: str
   order:
     description:
-      - Order query parameter. Ascending/Descending
-        order asc/desc.
+      - Order query parameter. Ascending/Descending order asc/desc.
     type: str
   tags:
     description:
@@ -86,13 +84,11 @@ options:
       - SiteId query parameter. Site Id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      GetNotifications
-    description: Complete reference of the GetNotifications
-      API.
+  - name: Cisco DNA Center documentation for Event Management GetNotifications
+    description: Complete reference of the GetNotifications API.
     link: https://developer.cisco.com/docs/dna-center/#!get-notifications
 notes:
   - SDK Method used are

@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: business_sda_hostonboarding_ssid_ippool
-short_description: Resource module for Business Sda
-  Hostonboarding Ssid Ippool
+short_description: Resource module for Business Sda Hostonboarding Ssid Ippool
 description:
-  - Manage operations create and update of the resource
-    Business Sda Hostonboarding Ssid Ippool.
+  - Manage operations create and update of the resource Business Sda Hostonboarding Ssid Ippool.
   - Add SSID to IP Pool Mapping.
   - Update SSID to IP Pool Mapping.
 version_added: '4.0.0'
@@ -33,18 +31,14 @@ options:
     description: VLAN Name.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Fabric
-      Wireless AddSSIDToIPPoolMapping
-    description: Complete reference of the AddSSIDToIPPoolMapping
-      API.
+  - name: Cisco DNA Center documentation for Fabric Wireless AddSSIDToIPPoolMapping
+    description: Complete reference of the AddSSIDToIPPoolMapping API.
     link: https://developer.cisco.com/docs/dna-center/#!add-ssid-to-ip-pool-mapping
-  - name: Cisco DNA Center documentation for Fabric
-      Wireless UpdateSSIDToIPPoolMapping
-    description: Complete reference of the UpdateSSIDToIPPoolMapping
-      API.
+  - name: Cisco DNA Center documentation for Fabric Wireless UpdateSSIDToIPPoolMapping
+    description: Complete reference of the UpdateSSIDToIPPoolMapping API.
     link: https://developer.cisco.com/docs/dna-center/#!update-ssid-to-ip-pool-mapping
 notes:
   - SDK Method used are

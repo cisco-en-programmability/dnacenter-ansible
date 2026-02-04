@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_mesh_ap_neighbours_count_info
-short_description: Information module for Wireless Controllers
-  Mesh Ap Neighbours Count
+short_description: Information module for Wireless Controllers Mesh Ap Neighbours Count
 description:
-  - Get all Wireless Controllers Mesh Ap Neighbours
-    Count.
-  - This API returns the total number of mesh Ap Neighbours
-    available.
+  - Get all Wireless Controllers Mesh Ap Neighbours Count.
+  - This API returns the total number of mesh Ap Neighbours available.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetMeshApNeighboursCount
-    description: Complete reference of the GetMeshApNeighboursCount
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetMeshApNeighboursCount
+    description: Complete reference of the GetMeshApNeighboursCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-mesh-ap-neighbours-count
 notes:
   - SDK Method used are
@@ -40,8 +35,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Wireless Controllers Mesh Ap Neighbours
-    Count
+- name: Get all Wireless Controllers Mesh Ap Neighbours Count
   cisco.dnac.wireless_controllers_mesh_ap_neighbours_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: floors_floor_id_planned_access_point_positions_bulk_change
-short_description: Resource module for Floors Floor
-  Id Planned Access Point Positions Bulk Change
+short_description: Resource module for Floors Floor Id Planned Access Point Positions Bulk Change
 description:
-  - Manage operation create of the resource Floors Floor
-    Id Planned Access Point Positions Bulk Change.
+  - Manage operation create of the resource Floors Floor Id Planned Access Point Positions Bulk Change.
   - Edit Planned Access Points Positions on the map.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -22,8 +20,7 @@ options:
     description: FloorId path parameter. Floor Id.
     type: str
   payload:
-    description: Floors Floor Id Planned Access Point
-      Positions Bulk Change's payload.
+    description: Floors Floor Id Planned Access Point Positions Bulk Change's payload.
     elements: dict
     suboptions:
       id:
@@ -36,83 +33,64 @@ options:
         description: Planned Access Point Name.
         type: str
       position:
-        description: Floors Floor Id Planned Access
-          Point Positions Bulk Change's position.
+        description: Floors Floor Id Planned Access Point Positions Bulk Change's position.
         suboptions:
           x:
-            description: Planned Access Point X coordinate
-              in feet.
+            description: Planned Access Point X coordinate in feet.
             type: float
           y:
-            description: Planned Access Point Y coordinate
-              in feet.
+            description: Planned Access Point Y coordinate in feet.
             type: float
           z:
-            description: Planned Access Point Z coordinate
-              in feet.
+            description: Planned Access Point Z coordinate in feet.
             type: float
         type: dict
       radios:
-        description: Floors Floor Id Planned Access
-          Point Positions Bulk Change's radios.
+        description: Floors Floor Id Planned Access Point Positions Bulk Change's radios.
         elements: dict
         suboptions:
           antenna:
-            description: Floors Floor Id Planned Access
-              Point Positions Bulk Change's antenna.
+            description: Floors Floor Id Planned Access Point Positions Bulk Change's antenna.
             suboptions:
               azimuth:
-                description: Angle of the antenna, measured
-                  relative to the x axis, clockwise.
-                  The azimuth range is from 0 through
-                  360.
+                description: Angle of the antenna, measured relative to the x axis, clockwise. The azimuth range is from 0
+                  through 360.
                 type: int
               elevation:
-                description: Elevation of the antenna.
-                  The elevation range is from -90 through
-                  90.
+                description: Elevation of the antenna. The elevation range is from -90 through 90.
                 type: int
               name:
-                description: Antenna type for this Planned
-                  Access Point. Use `/dna/intent/api/v1/maps/supported-acc...
-                  to find supported Antennas for a particualr
-                  Planned Access Point type.
+                description: Antenna type for this Planned Access Point. Use `/dna/intent/api/v1/maps/supported-acc... to
+                  find supported Antennas for a particualr Planned Access Point type.
                 type: str
             type: dict
+          bands:
+            description: Radio frequencies in GHz. Radio frequencies are expected to be 2.4, 5, and 6. MinItems 1; MaxItems
+              3.
+            elements: float
+            type: list
           channel:
-            description: Channel to be used by the Planned
-              Access Point. In the context of a Planned
-              Access Point, the channel have no bearing
-              on what the real Access Point will actually
-              be, they are just used for Maps visualization
-              feature set.
+            description: Channel to be used by the Planned Access Point. In the context of a Planned Access Point, the channel
+              have no bearing on what the real Access Point will actually be, they are just used for Maps visualization feature
+              set.
             type: int
-          id:
-            description: Radio Id.
-            type: str
           txPower:
-            description: Transmit power for the channel
-              in Decibel milliwatts (dBm). In the context
-              of a Planned Access Point, the txPower
-              have no bearing on what the real Access
-              Point will actually be, they are just
-              used for Maps visualization feature set.
+            description: Transmit power for the channel in Decibel milliwatts (dBm). In the context of a Planned Access Point,
+              the txPower have no bearing on what the real Access Point will actually be, they are just used for Maps visualization
+              feature set.
             type: int
         type: list
       type:
-        description: Planned Access Point type. Use
-          `dna/intent/api/v1/maps/supported-access-points`
-          to find the supported models.
+        description: Planned Access Point type. Use `dna/intent/api/v1/maps/supported-access-points` to find the supported
+          models.
         type: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      EditPlannedAccessPointsPositionsV2
-    description: Complete reference of the EditPlannedAccessPointsPositionsV2
-      API.
+  - name: Cisco DNA Center documentation for Site Design EditPlannedAccessPointsPositionsV2
+    description: Complete reference of the EditPlannedAccessPointsPositionsV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!edit-planned-access-points-positions-v-2
 notes:
   - SDK Method used are
@@ -146,8 +124,9 @@ EXAMPLES = r"""
               azimuth: 0
               elevation: 0
               name: string
+            bands:
+              - 0
             channel: 0
-            id: string
             txPower: 0
         type: string
 """
@@ -160,8 +139,7 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

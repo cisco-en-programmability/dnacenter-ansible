@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: qos_device_interface_info
-short_description: Information module for Qos Device
-  Interface
+short_description: Information module for Qos Device Interface
 description:
   - Get all Qos Device Interface.
-  - Get all or by network device id, existing qos device
-    interface infos.
+  - Get all or by network device id, existing qos device interface infos.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,17 +21,14 @@ options:
     type: dict
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Network device
-        id.
+      - NetworkDeviceId query parameter. Network device id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy GetQosDeviceInterfaceInfo
-    description: Complete reference of the GetQosDeviceInterfaceInfo
-      API.
+  - name: Cisco DNA Center documentation for Application Policy GetQosDeviceInterfaceInfo
+    description: Complete reference of the GetQosDeviceInterfaceInfo API.
     link: https://developer.cisco.com/docs/dna-center/#!get-qos-device-interface-info
 notes:
   - SDK Method used are
@@ -83,14 +78,14 @@ dnac_response:
           "qualifier": "string",
           "resourceVersion": 0,
           "targetIdList": [
-            {}
+            "string"
           ],
           "type": "string",
           "cfsChangeInfo": [
-            {}
+            "string"
           ],
           "customProvisions": [
-            {}
+            "string"
           ],
           "excludedInterfaces": [
             "string"

@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: security_threats_type_info
-short_description: Information module for Security Threats
-  Type
+short_description: Information module for Security Threats Type
 description:
   - Get all Security Threats Type.
   - Intent API to fetch all threat types defined.
@@ -21,8 +20,8 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 notes:
   - SDK Method used are
     devices.Devices.get_threat_types,

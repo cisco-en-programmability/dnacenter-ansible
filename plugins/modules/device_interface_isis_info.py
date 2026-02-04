@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: device_interface_isis_info
-short_description: Information module for Device Interface
-  Isis
+short_description: Information module for Device Interface Isis
 description:
   - Get all Device Interface Isis.
   - Returns the interfaces that has ISIS enabled.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetISISInterfaces
-    description: Complete reference of the GetISISInterfaces
-      API.
+  - name: Cisco DNA Center documentation for Devices GetISISInterfaces
+    description: Complete reference of the GetISISInterfaces API.
     link: https://developer.cisco.com/docs/dna-center/#!get-isis-interfaces
 notes:
   - SDK Method used are

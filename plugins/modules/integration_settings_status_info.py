@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: integration_settings_status_info
-short_description: Information module for Integration
-  Settings Status
+short_description: Information module for Integration Settings Status
 description:
   - Get all Integration Settings Status.
   - Fetches ITSM Integration status.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for ITSM Integration
-      GetITSMIntegrationStatus
-    description: Complete reference of the GetITSMIntegrationStatus
-      API.
+  - name: Cisco DNA Center documentation for ITSM Integration GetITSMIntegrationStatus
+    description: Complete reference of the GetITSMIntegrationStatus API.
     link: https://developer.cisco.com/docs/dna-center/#!get-itsm-integration-status
 notes:
   - SDK Method used are

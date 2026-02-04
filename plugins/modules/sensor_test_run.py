@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: sensor_test_run
 short_description: Resource module for Sensor Test Run
 description:
-  - Manage operation update of the resource Sensor Test
-    Run.
+  - Manage operation update of the resource Sensor Test Run.
   - Intent API to run a deployed SENSOR test.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -21,13 +20,11 @@ options:
     description: Template Name.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Sensors
-      RunNowSensorTest
-    description: Complete reference of the RunNowSensorTest
-      API.
+  - name: Cisco DNA Center documentation for Sensors RunNowSensorTest
+    description: Complete reference of the RunNowSensorTest API.
     link: https://developer.cisco.com/docs/dna-center/#!run-now-sensor-test
 notes:
   - SDK Method used are

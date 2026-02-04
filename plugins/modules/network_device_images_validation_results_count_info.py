@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_images_validation_results_count_info
-short_description: Information module for Network Device
-  Images Validation Results Count
+short_description: Information module for Network Device Images Validation Results Count
 description:
-  - Get all Network Device Images Validation Results
-    Count.
+  - Get all Network Device Images Validation Results Count.
   - The count of network device validation results.
 version_added: '6.18.0'
 extends_documentation_fragment:
@@ -23,36 +21,28 @@ options:
     type: dict
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Network device
-        identifier.
+      - NetworkDeviceId query parameter. Network device identifier.
     type: str
   operationType:
     description:
       - >
-        OperationType query parameter. The operation
-        type, as part of which this validation will
-        get triggered. Available values DISTRIBUTION,
-        ACTIVATION, READINESS_CHECK.
+        OperationType query parameter. The operation type, as part of which this validation will get triggered.
+        Available values DISTRIBUTION, ACTIVATION, READINESS_CHECK.
     type: str
   status:
     description:
-      - Status query parameter. Status of the validation
-        result. Available values SUCCESS, FAILED, IN_PROGRESS,
-        WARNING.
+      - Status query parameter. Status of the validation result. Available values SUCCESS, FAILED, IN_PROGRESS, WARNING.
     type: str
   type:
     description:
-      - Type query parameter. Type of the validation.
-        Available values PRE_VALIDATION, POST_VALIDATION.
+      - Type query parameter. Type of the validation. Available values PRE_VALIDATION, POST_VALIDATION.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) CountOfNetworkDeviceImageUpdateValidationResults
-    description: Complete reference of the CountOfNetworkDeviceImageUpdateValidationResults
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) CountOfNetworkDeviceImageUpdateValidationResults
+    description: Complete reference of the CountOfNetworkDeviceImageUpdateValidationResults API.
     link: https://developer.cisco.com/docs/dna-center/#!count-of-network-device-image-update-validation-results
 notes:
   - SDK Method used are
@@ -63,8 +53,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Network Device Images Validation Results
-    Count
+- name: Get all Network Device Images Validation Results Count
   cisco.dnac.network_device_images_validation_results_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -88,7 +77,8 @@ dnac_response:
   sample: >
     {
       "response": {
-        "count": 0
+        "taskId": "string",
+        "url": "string"
       },
       "version": "string"
     }

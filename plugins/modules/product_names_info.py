@@ -11,10 +11,8 @@ short_description: Information module for Product Names
 description:
   - Get all Product Names.
   - Get Product Names by name.
-  - Get the list of network device product names, their
-    ordinal, and the support PIDs based on filter criteria.
-  - Get the network device product name, its ordinal,
-    and supported PIDs.
+  - Get the list of network device product names, their ordinal, and the support PIDs based on filter criteria.
+  - Get the network device product name, its ordinal, and supported PIDs.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,49 +24,38 @@ options:
   productName:
     description:
       - >
-        ProductName query parameter. Filter with network
-        device product name. Supports partial case-insensitive
-        search. A minimum of 3 characters are required
-        for search.
+        ProductName query parameter. Filter with network device product name. Supports partial case-insensitive
+        search. A minimum of 3 characters are required for search.
     type: str
   productId:
     description:
-      - ProductId query parameter. Filter with product
-        ID (PID).
+      - ProductId query parameter. Filter with product ID (PID).
     type: str
   offset:
     description:
       - >
-        Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1. The minimum value is 1.
-    type: float
+        Offset query parameter. The first record to show for this page; the first record is numbered 1. The
+        minimum value is 1.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. The minimum and maximum
-        values are 1 and 500, respectively.
-    type: float
+        Limit query parameter. The number of records to show for this page. The minimum and maximum values are 1
+        and 500, respectively.
+    type: int
   productNameOrdinal:
     description:
-      - ProductNameOrdinal path parameter. Product name
-        ordinal is unique value for each network device
-        product.
+      - ProductNameOrdinal path parameter. Product name ordinal is unique value for each network device product.
     type: float
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) RetrieveNetworkDeviceProductName
-    description: Complete reference of the RetrieveNetworkDeviceProductName
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveNetworkDeviceProductName
+    description: Complete reference of the RetrieveNetworkDeviceProductName API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-network-device-product-name
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) RetrievesTheListOfNetworkDeviceProductNames
-    description: Complete reference of the RetrievesTheListOfNetworkDeviceProductNames
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesTheListOfNetworkDeviceProductNames
+    description: Complete reference of the RetrievesTheListOfNetworkDeviceProductNames API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-device-product-names
 notes:
   - SDK Method used are
@@ -117,12 +104,8 @@ dnac_response:
   sample: >
     {
       "response": {
-        "id": "string",
-        "productName": "string",
-        "productNameOrdinal": 0,
-        "productIds": [
-          "string"
-        ]
+        "taskId": "string",
+        "url": "string"
       },
       "version": "string"
     }

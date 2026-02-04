@@ -9,11 +9,8 @@ DOCUMENTATION = r"""
 module: floors_settings
 short_description: Resource module for Floors Settings
 description:
-  - Manage operations create, update and delete of the
-    resource Floors Settings.
-  - Updates UI user preference for floor unit system.
-    Unit sytem change will effect for all floors across
-    all sites.
+  - Manage operation update of the resource Floors Settings.
+  - Updates UI user preference for floor unit system. Unit sytem change will effect for all floors across all sites.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,13 +20,11 @@ options:
     description: Floor units of measure.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      UpdatesFloorSettingsV2
-    description: Complete reference of the UpdatesFloorSettingsV2
-      API.
+  - name: Cisco DNA Center documentation for Site Design UpdatesFloorSettingsV2
+    description: Complete reference of the UpdatesFloorSettingsV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!updates-floor-settings-v-2
 notes:
   - SDK Method used are
@@ -61,8 +56,7 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_supervisor_card_details_info
-short_description: Information module for Network Device
-  Supervisor Card Details
+short_description: Information module for Network Device Supervisor Card Details
 description:
   - Get all Network Device Supervisor Card Details.
-  - Get supervisor card detail for a given deviceuuid.
-    Response will contain serial no, part no, switch
-    no and slot no.
+  - Get supervisor card detail for a given deviceuuid. Response will contain serial no, part no, switch no and slot no.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,13 +24,11 @@ options:
       - DeviceUuid path parameter. Instanceuuid of device.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetSupervisorCardDetail
-    description: Complete reference of the GetSupervisorCardDetail
-      API.
+  - name: Cisco DNA Center documentation for Devices GetSupervisorCardDetail
+    description: Complete reference of the GetSupervisorCardDetail API.
     link: https://developer.cisco.com/docs/dna-center/#!get-supervisor-card-detail
 notes:
   - SDK Method used are

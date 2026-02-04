@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_enterprise_ssid_info
-short_description: Information module for Wireless Enterprise
-  Ssid
+short_description: Information module for Wireless Enterprise Ssid
 description:
   - Get all Wireless Enterprise Ssid.
   - Get Enterprise SSID.
@@ -23,18 +22,15 @@ options:
   ssidName:
     description:
       - >
-        SsidName query parameter. Enter the enterprise
-        SSID name that needs to be retrieved. If not
-        entered, all the enterprise SSIDs will be retrieved.
+        SsidName query parameter. Enter the enterprise SSID name that needs to be retrieved. If not entered, all
+        the enterprise SSIDs will be retrieved.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetEnterpriseSSID
-    description: Complete reference of the GetEnterpriseSSID
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetEnterpriseSSID
+    description: Complete reference of the GetEnterpriseSSID API.
     link: https://developer.cisco.com/docs/dna-center/#!get-enterprise-ssid
 notes:
   - SDK Method used are

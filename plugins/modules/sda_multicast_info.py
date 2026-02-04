@@ -21,16 +21,14 @@ options:
     type: dict
   siteNameHierarchy:
     description:
-      - SiteNameHierarchy query parameter. Fabric site
-        name hierarchy.
+      - SiteNameHierarchy query parameter. Fabric site name hierarchy.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetMulticastDetailsFromSDAFabric
-    description: Complete reference of the GetMulticastDetailsFromSDAFabric
-      API.
+    description: Complete reference of the GetMulticastDetailsFromSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!get-multicast-details-from-sda-fabric
 notes:
   - SDK Method used are

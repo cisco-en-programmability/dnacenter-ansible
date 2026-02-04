@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: sda_fabric_site
 short_description: Resource module for Sda Fabric Site
 description:
-  - Manage operations create and delete of the resource
-    Sda Fabric Site.
+  - Manage operations create and delete of the resource Sda Fabric Site.
   - Add Site in SDA Fabric.
   - Delete Site from SDA Fabric.
 version_added: '3.1.0'
@@ -19,32 +18,25 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   fabricName:
-    description: Warning - Starting DNA Center 2.2.3.5
-      release, this field has been deprecated. SD-Access
-      Fabric does not need it anymore. It will be removed
-      in future DNA Center releases.
+    description: Warning - Starting DNA Center 2.2.3.5 release, this field has been deprecated. SD-Access Fabric does not
+      need it anymore. It will be removed in future DNA Center releases.
     type: str
     version_added: 4.0.0
   fabricType:
-    description: Type of SD-Access Fabric. Allowed values
-      are "FABRIC_SITE" or "FABRIC_ZONE". Default value
-      is "FABRIC_SITE".
+    description: Type of SD-Access Fabric. Allowed values are "FABRIC_SITE" or "FABRIC_ZONE". Default value is "FABRIC_SITE".
     type: str
   siteNameHierarchy:
-    description: SiteNameHierarchy query parameter.
-      Site Name Hierarchy.
+    description: SiteNameHierarchy query parameter. Site Name Hierarchy.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA AddSiteInSDAFabric
-    description: Complete reference of the AddSiteInSDAFabric
-      API.
+    description: Complete reference of the AddSiteInSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!add-site-in-sda-fabric
   - name: Cisco DNA Center documentation for SDA DeleteSiteFromSDAFabric
-    description: Complete reference of the DeleteSiteFromSDAFabric
-      API.
+    description: Complete reference of the DeleteSiteFromSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-site-from-sda-fabric
 notes:
   - SDK Method used are

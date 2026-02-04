@@ -7,14 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: site_wise_images_summary_info
-short_description: Information module for Site Wise
-  Images Summary
+short_description: Information module for Site Wise Images Summary
 description:
-  - Get all Site Wise Images Summary. - > Returns aggregate
-    counts of network device product names, golden and
-    non-golden tagged products, imported images, golden
-    images tagged, and advisor for a specific site provide,
-    the default value of `siteId` is set to global.
+  - Get all Site Wise Images Summary. - > Returns aggregate counts of network device product names, golden and non-golden
+    tagged products, imported images, golden images tagged, and advisor for a specific site provide, the default value of
+    `siteId` is set to global.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,20 +23,15 @@ options:
   siteId:
     description:
       - >
-        SiteId query parameter. Site identifier to get
-        the aggreagte counts products under the site.
-        The default value is global site id. See https
-        //developer.cisco.com/docs/dna-center(#!get-site)
-        for `siteId`.
+        SiteId query parameter. Site identifier to get the aggreagte counts products under the site. The default
+        value is global site id. See https //developer.cisco.com/docs/dna-center(#!get-site) for `siteId`.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) ReturnsTheImageSummaryForTheGivenSite
-    description: Complete reference of the ReturnsTheImageSummaryForTheGivenSite
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsTheImageSummaryForTheGivenSite
+    description: Complete reference of the ReturnsTheImageSummaryForTheGivenSite API.
     link: https://developer.cisco.com/docs/dna-center/#!returns-the-image-summary-for-the-given-site
 notes:
   - SDK Method used are

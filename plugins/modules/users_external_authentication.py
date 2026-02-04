@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: users_external_authentication
-short_description: Resource module for Users External
-  Authentication
+short_description: Resource module for Users External Authentication
 description:
-  - Manage operation create of the resource Users External
-    Authentication.
-  - Enable or disable external authentication in the
-    System.
+  - Manage operation create of the resource Users External Authentication.
+  - Enable or disable external authentication in the System.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,17 +20,15 @@ options:
     description: Enable/disable External Authentication.
     type: bool
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for User and
-      Roles ManageExternalAuthenticationSettingAPI
-    description: Complete reference of the ManageExternalAuthenticationSettingAPI
-      API.
+  - name: Cisco DNA Center documentation for User and Roles ManageExternalAuthenticationSettingAPI
+    description: Complete reference of the ManageExternalAuthenticationSettingAPI API.
     link: https://developer.cisco.com/docs/dna-center/#!manage-external-authentication-setting-api
 notes:
   - SDK Method used are
-    user_and_roles.UserandRoles.manage_external_authentication_setting_api,
+    userand_roles.UserandRoles.manage_external_authentication_setting_api,
   - Paths used are
     post /dna/system/api/v1/users/external-authentication,
 """

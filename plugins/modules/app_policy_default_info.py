@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: app_policy_default_info
-short_description: Information module for App Policy
-  Default
+short_description: Information module for App Policy Default
 description:
   - Get all App Policy Default.
   - Get default application policy.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy GetApplicationPolicyDefault
-    description: Complete reference of the GetApplicationPolicyDefault
-      API.
+  - name: Cisco DNA Center documentation for Application Policy GetApplicationPolicyDefault
+    description: Complete reference of the GetApplicationPolicyDefault API.
     link: https://developer.cisco.com/docs/dna-center/#!get-application-policy-default
 notes:
   - SDK Method used are
@@ -76,14 +73,14 @@ dnac_response:
           "qualifier": "string",
           "resourceVersion": 0,
           "targetIdList": [
-            {}
+            "string"
           ],
           "type": "string",
           "cfsChangeInfo": [
-            {}
+            "string"
           ],
           "customProvisions": [
-            {}
+            "string"
           ],
           "deletePolicyStatus": "string",
           "internal": true,
@@ -95,7 +92,7 @@ dnac_response:
           "priority": 0,
           "pushed": true,
           "contractList": [
-            {}
+            "string"
           ],
           "exclusiveContract": {
             "id": "string",

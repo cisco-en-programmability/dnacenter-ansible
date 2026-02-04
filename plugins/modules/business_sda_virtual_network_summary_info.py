@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: business_sda_virtual_network_summary_info
-short_description: Information module for Business Sda
-  Virtual Network Summary
+short_description: Information module for Business Sda Virtual Network Summary
 description:
   - Get all Business Sda Virtual Network Summary.
   - Get Virtual Network Summary.
@@ -22,16 +21,14 @@ options:
     type: dict
   siteNameHierarchy:
     description:
-      - SiteNameHierarchy query parameter. Complete
-        fabric siteNameHierarchy Path.
+      - SiteNameHierarchy query parameter. Complete fabric siteNameHierarchy Path.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetVirtualNetworkSummary
-    description: Complete reference of the GetVirtualNetworkSummary
-      API.
+    description: Complete reference of the GetVirtualNetworkSummary API.
     link: https://developer.cisco.com/docs/dna-center/#!get-virtual-network-summary
 notes:
   - SDK Method used are

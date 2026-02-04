@@ -9,9 +9,8 @@ DOCUMENTATION = r"""
 module: site_v2_info
 short_description: Information module for Site V2
 description:
-  - Get all Site V2. - > API to get sites by site-name-hierarchy
-    or siteId or type. List all sites if these parameters
-    are not given as an input.
+  - Get all Site V2. - > API to get sites by site-name-hierarchy or siteId or type. List all sites if these parameters are
+    not given as an input.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,8 +21,7 @@ options:
     type: dict
   groupNameHierarchy:
     description:
-      - GroupNameHierarchy query parameter. Site name
-        hierarchy (E.g. Global/USA/CA).
+      - GroupNameHierarchy query parameter. Site name hierarchy (E.g. Global/USA/CA).
     type: str
   id:
     description:
@@ -31,26 +29,22 @@ options:
     type: str
   type:
     description:
-      - Type query parameter. Site type (Acceptable
-        values area, building, floor).
+      - Type query parameter. Site type (Acceptable values area, building, floor).
     type: str
   offset:
     description:
-      - Offset query parameter. Offset/starting index
-        for pagination.
-    type: str
+      - Offset query parameter. Offset/starting index for pagination.
+    type: int
   limit:
     description:
-      - Limit query parameter. Number of sites to be
-        listed. Default and max supported value is 500.
-    type: str
+      - Limit query parameter. Number of sites to be listed. Default and max supported value is 500.
+    type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites GetSiteV2
-    description: Complete reference of the GetSiteV2
-      API.
+    description: Complete reference of the GetSiteV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!get-site-v-2
 notes:
   - SDK Method used are
@@ -74,8 +68,8 @@ EXAMPLES = r"""
     groupNameHierarchy: string
     id: string
     type: string
-    offset: string
-    limit: string
+    offset: 0
+    limit: 0
   register: result
 """
 RETURN = r"""

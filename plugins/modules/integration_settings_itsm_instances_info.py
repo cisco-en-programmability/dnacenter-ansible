@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: integration_settings_itsm_instances_info
-short_description: Information module for Integration
-  Settings Itsm Instances
+short_description: Information module for Integration Settings Itsm Instances
 description:
   - Get all Integration Settings Itsm Instances.
   - Fetches all ITSM Integration settings.
@@ -22,32 +21,26 @@ options:
     type: dict
   page_size:
     description:
-      - Page_size query parameter. Specifies the number
-        of records to display per page.
+      - Page_size query parameter. Specifies the number of records to display per page.
     type: float
   page:
     description:
-      - Page query parameter. Indicates the current
-        page number to display.
+      - Page query parameter. Indicates the current page number to display.
     type: float
   sortBy:
     description:
-      - SortBy query parameter. The field name used
-        to sort the records.
+      - SortBy query parameter. The field name used to sort the records.
     type: str
   order:
     description:
-      - Order query parameter. Specify the sorting order
-        - asc for ascending or desc for descending.
+      - Order query parameter. Specify the sorting order - asc for ascending or desc for descending.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for ITSM Integration
-      GetAllITSMIntegrationSettings
-    description: Complete reference of the GetAllITSMIntegrationSettings
-      API.
+  - name: Cisco DNA Center documentation for ITSM Integration GetAllITSMIntegrationSettings
+    description: Complete reference of the GetAllITSMIntegrationSettings API.
     link: https://developer.cisco.com/docs/dna-center/#!get-all-itsm-integration-settings
 notes:
   - SDK Method used are
@@ -96,7 +89,7 @@ dnac_response:
           "name": "string",
           "schemaVersion": 0,
           "softwareVersionLog": [
-            {}
+            "string"
           ],
           "uniqueKey": "string",
           "updatedBy": "string",

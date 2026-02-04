@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: global_credential_v2_info
-short_description: Information module for Global Credential
-  V2
+short_description: Information module for Global Credential V2
 description:
-  - Get all Global Credential V2. - > API to get device
-    credentials' details. It fetches all global credentials
-    of all types at once, without the need to pass any
-    input parameters.
+  - Get all Global Credential V2. - > API to get device credentials' details. It fetches all global credentials of all types
+    at once, without the need to pass any input parameters.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Discovery
-      GetAllGlobalCredentialsV2
-    description: Complete reference of the GetAllGlobalCredentialsV2
-      API.
+  - name: Cisco DNA Center documentation for Discovery GetAllGlobalCredentialsV2
+    description: Complete reference of the GetAllGlobalCredentialsV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!get-all-global-credentials-v-2
 notes:
   - SDK Method used are

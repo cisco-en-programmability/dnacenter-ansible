@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_access_points_factory_reset_request_status_info
-short_description: Information module for Wireless Access
-  Points Factory Reset Request Status
+short_description: Information module for Wireless Access Points Factory Reset Request Status
 description:
-  - Get all Wireless Access Points Factory Reset Request
-    Status.
-  - This API returns each AP Factory Reset initiation
-    status.
+  - Get all Wireless Access Points Factory Reset Request Status.
+  - This API returns each AP Factory Reset initiation status.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,18 +21,14 @@ options:
     type: dict
   taskId:
     description:
-      - TaskId query parameter. Provide the task id
-        which is returned in the response of ap factory
-        reset post api.
+      - TaskId query parameter. Provide the task id which is returned in the response of ap factory reset post api.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetAccessPointsFactoryResetStatus
-    description: Complete reference of the GetAccessPointsFactoryResetStatus
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetAccessPointsFactoryResetStatus
+    description: Complete reference of the GetAccessPointsFactoryResetStatus API.
     link: https://developer.cisco.com/docs/dna-center/#!get-access-points-factory-reset-status
 notes:
   - SDK Method used are
@@ -46,8 +39,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Wireless Access Points Factory Reset
-    Request Status
+- name: Get all Wireless Access Points Factory Reset Request Status
   cisco.dnac.wireless_access_points_factory_reset_request_status_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

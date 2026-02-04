@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: sda_port_assignment_for_user_device_info
-short_description: Information module for Sda Port Assignment
-  For User Device
+short_description: Information module for Sda Port Assignment For User Device
 description:
   - Get all Sda Port Assignment For User Device.
   - Get Port assignment for user device in SDA Fabric.
@@ -29,12 +28,11 @@ options:
       - InterfaceName query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetPortAssignmentForUserDeviceInSDAFabric
-    description: Complete reference of the GetPortAssignmentForUserDeviceInSDAFabric
-      API.
+    description: Complete reference of the GetPortAssignmentForUserDeviceInSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!get-port-assignment-for-user-device-in-sda-fabric
 notes:
   - SDK Method used are

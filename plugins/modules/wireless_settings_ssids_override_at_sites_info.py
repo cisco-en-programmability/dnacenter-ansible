@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_ssids_override_at_sites_info
-short_description: Information module for Wireless Settings
-  Ssids Override At Sites
+short_description: Information module for Wireless Settings Ssids Override At Sites
 description:
   - Get all Wireless Settings Ssids Override At Sites.
-  - Retrieve list of siteIds with information of SSIDs
-    which are overridden.
+  - Retrieve list of siteIds with information of SSIDs which are overridden.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,25 +25,20 @@ options:
     type: str
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1.
-    type: float
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. Default is 500 if not
-        specified. Maximum allowed limit is 500.
-    type: float
+        Limit query parameter. The number of records to show for this page. Default is 500 if not specified.
+        Maximum allowed limit is 500.
+    type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      RetrieveSitesWithOverriddenSSIDs
-    description: Complete reference of the RetrieveSitesWithOverriddenSSIDs
-      API.
+  - name: Cisco DNA Center documentation for Wireless RetrieveSitesWithOverriddenSSIDs
+    description: Complete reference of the RetrieveSitesWithOverriddenSSIDs API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-sites-with-overridden-ssi-ds
 notes:
   - SDK Method used are
@@ -56,8 +49,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Wireless Settings Ssids Override At
-    Sites
+- name: Get all Wireless Settings Ssids Override At Sites
   cisco.dnac.wireless_settings_ssids_override_at_sites_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

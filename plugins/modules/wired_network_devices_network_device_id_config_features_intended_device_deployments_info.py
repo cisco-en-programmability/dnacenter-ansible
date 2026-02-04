@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: wired_network_devices_network_device_id_config_features_intended_device_deployments_info
-short_description: Information module for Wired Network
-  Devices Network Device Id Config Features Intended
-  Device Deployments
+short_description: Information module for Wired Network Devices Network Device Id Config Features Intended Device Deployments
 description:
-  - Get all Wired Network Devices Network Device Id
-    Config Features Intended Device Deployments.
-  - The API returns device deployment status based on
-    filter criteria.
+  - Get all Wired Network Devices Network Device Id Config Features Intended Device Deployments.
+  - The API returns device deployment status based on filter criteria.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,18 +22,15 @@ options:
   networkDeviceId:
     description:
       - >
-        NetworkDeviceId path parameter. Network device
-        ID of the wired device to provision. The API
-        /intent/api/v1/network-device can be used to
-        get the network device ID.
+        NetworkDeviceId path parameter. Network device ID of the wired device to provision. The API
+        /intent/api/v1/network-device can be used to get the network device ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Wired GetDeviceDeploymentStatusConnectivity
-    description: Complete reference of the GetDeviceDeploymentStatusConnectivity
-      API.
+    description: Complete reference of the GetDeviceDeploymentStatusConnectivity API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-deployment-status-connectivity
 notes:
   - SDK Method used are
@@ -48,8 +41,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Wired Network Devices Network Device
-    Id Config Features Intended Device Deployments
+- name: Get all Wired Network Devices Network Device Id Config Features Intended Device Deployments
   cisco.dnac.wired_network_devices_network_device_id_config_features_intended_device_deployments_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

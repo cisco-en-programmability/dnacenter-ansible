@@ -9,10 +9,8 @@ DOCUMENTATION = r"""
 module: license_status_info
 short_description: Information module for License Status
 description:
-  - Get all License Status. - > Fetches registration
-    status, authorization status and entitlements of
-    the system with Cisco Smart Software Manage CSSM
-    .
+  - Get all License Status. - > Fetches registration status, authorization status and entitlements of the system with Cisco
+    Smart Software Manage CSSM .
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Licenses
-      SystemLicensingStatus
-    description: Complete reference of the SystemLicensingStatus
-      API.
+  - name: Cisco DNA Center documentation for Licenses SystemLicensingStatus
+    description: Complete reference of the SystemLicensingStatus API.
     link: https://developer.cisco.com/docs/dna-center/#!system-licensing-status
 notes:
   - SDK Method used are
@@ -76,12 +72,14 @@ dnac_response:
           "lastAttemptStatus": "string",
           "lastAttemptFailReason": "string"
         },
-        "entitlements": {
-          "tag": "string",
-          "description": "string",
-          "usageCount": 0,
-          "status": "string"
-        },
+        "entitlements": [
+          {
+            "tag": "string",
+            "description": "string",
+            "usageCount": 0,
+            "status": "string"
+          }
+        ],
         "smartAccountId": "string",
         "virtualAccountId": "string",
         "exportControl": "string"

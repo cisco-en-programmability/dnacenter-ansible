@@ -21,26 +21,22 @@ options:
     type: dict
   offset:
     description:
-      - Offset query parameter. The offset of the first
-        application to be returned.
+      - Offset query parameter. The offset of the first application to be returned.
     type: int
   limit:
     description:
-      - Limit query parameter. The maximum number of
-        applications to be returned.
+      - Limit query parameter. The maximum number of applications to be returned.
     type: int
   name:
     description:
       - Name query parameter. Application's name.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy GetApplications
-    description: Complete reference of the GetApplications
-      API.
+  - name: Cisco DNA Center documentation for Application Policy GetApplications
+    description: Complete reference of the GetApplications API.
     link: https://developer.cisco.com/docs/dna-center/#!get-applications
 notes:
   - SDK Method used are

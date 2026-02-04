@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: flexible_report_executions_info
-short_description: Information module for Flexible Report
-  Executions
+short_description: Information module for Flexible Report Executions
 description:
   - Get all Flexible Report Executions.
   - Get Execution Id by Report Id.
@@ -25,13 +24,11 @@ options:
       - ReportId path parameter. Id of the report.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Reports
-      GetExecutionIdByReportId
-    description: Complete reference of the GetExecutionIdByReportId
-      API.
+  - name: Cisco DNA Center documentation for Reports GetExecutionIdByReportId
+    description: Complete reference of the GetExecutionIdByReportId API.
     link: https://developer.cisco.com/docs/dna-center/#!get-execution-id-by-report-id
 notes:
   - SDK Method used are
@@ -75,7 +72,7 @@ dnac_response:
             "string"
           ],
           "warnings": [
-            {}
+            "string"
           ]
         }
       ],

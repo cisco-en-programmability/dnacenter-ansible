@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_profiles_id_policy_tags_policy_tag_id_info
-short_description: Information module for Wireless Profiles
-  Id Policy Tags Policy Tag Id
+short_description: Information module for Wireless Profiles Id Policy Tags Policy Tag Id
 description:
-  - Get Wireless Profiles Id Policy Tags Policy Tag
-    Id by id. - > This endpoint retrieves the details
-    of a specific `Policy Tag` associated with a given
-    `Wireless Profile`. This API requires the `id` of
-    the `Wireless Profile` and the `policyTagId` of
-    the `Policy Tag`.
+  - Get Wireless Profiles Id Policy Tags Policy Tag Id by id. - > This endpoint retrieves the details of a specific `Policy
+    Tag` associated with a given `Wireless Profile`. This API requires the `id` of the `Wireless Profile` and the `policyTagId`
+    of the `Policy Tag`.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -33,13 +29,11 @@ options:
       - PolicyTagId path parameter. Policy Tag Id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      RetrieveASpecificPolicyTagForAWirelessProfile
-    description: Complete reference of the RetrieveASpecificPolicyTagForAWirelessProfile
-      API.
+  - name: Cisco DNA Center documentation for Wireless RetrieveASpecificPolicyTagForAWirelessProfile
+    description: Complete reference of the RetrieveASpecificPolicyTagForAWirelessProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-a-specific-policy-tag-for-a-wireless-profile
 notes:
   - SDK Method used are
@@ -50,8 +44,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get Wireless Profiles Id Policy Tags Policy
-    Tag Id by id
+- name: Get Wireless Profiles Id Policy Tags Policy Tag Id by id
   cisco.dnac.wireless_profiles_id_policy_tags_policy_tag_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
