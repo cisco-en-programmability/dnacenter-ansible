@@ -41,12 +41,16 @@ jobs:
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
-      - name: Add swap space (2 GB)
+      - name: Ensure swap space (2 GB)
         run: |
-          sudo fallocate -l 2G /swapfile
-          sudo chmod 600 /swapfile
-          sudo mkswap /swapfile
-          sudo swapon /swapfile
+          if swapon --show | grep -q '^/mnt/swapfile'; then
+            echo "/mnt/swapfile already active, skipping"
+          else
+            sudo fallocate -l 2G /mnt/swapfile
+            sudo chmod 600 /mnt/swapfile
+            sudo mkswap /mnt/swapfile
+            sudo swapon /mnt/swapfile
+          fi
 
       - name: Run sanity tests
         run: |

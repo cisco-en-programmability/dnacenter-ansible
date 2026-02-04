@@ -25,23 +25,20 @@ options:
     type: str
   offset:
     description:
-      - Offset path parameter. Index, minimum value
-        is 0.
+      - Offset path parameter. Index, minimum value is 0.
     type: int
   limit:
     description:
       - >
-        Limit path parameter. The maximum value of {limit}
-        supported is 500. Base 1 indexing for {limit},
+        Limit path parameter. The maximum value of {limit} supported is 500. Base 1 indexing for {limit},
         minimum value is 1.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Task GetTaskByOperationId
-    description: Complete reference of the GetTaskByOperationId
-      API.
+    description: Complete reference of the GetTaskByOperationId API.
     link: https://developer.cisco.com/docs/dna-center/#!get-task-by-operation-id
 notes:
   - SDK Method used are
