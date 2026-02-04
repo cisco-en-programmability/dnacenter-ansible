@@ -1569,10 +1569,9 @@ class SDAHostPortOnboarding(DnacBase):
             "connected_device_type",
             "authentication_template_name",
             "interface_description",
+            "native_vlan_id",
+            "allowed_vlan_ranges",
         }
-        if self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0:
-            valid_params.add("allowed_vlan_ranges")
-            valid_params.add("native_vlan_id")
 
         provided_params = set(port_assignment.keys())
         invalid_params = provided_params - valid_params
